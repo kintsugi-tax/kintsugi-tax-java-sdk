@@ -1,0 +1,50 @@
+configVersion: 2.0.0
+generation:
+  sdkClassName: SDK
+  maintainOpenAPIOrder: true
+  usageSnippets:
+    optionalPropertyRendering: withExample
+    sdkInitStyle: constructor
+  useClassNamesForArrayFields: true
+  fixes:
+    nameResolutionDec2023: true
+    nameResolutionFeb2025: true
+    parameterOrderingFeb2024: true
+    requestResponseComponentNamesFeb2024: true
+    securityFeb2025: true
+    sharedErrorComponentsApr2025: true
+  auth:
+    oAuth2ClientCredentialsEnabled: false
+    oAuth2PasswordEnabled: false
+  sdkHooksConfigAccess: true
+  tests:
+    generateTests: false
+    generateNewTests: true
+    skipResponseBodyAssertions: false
+java:
+  version: 0.5.1
+  additionalDependencies: {}
+  author: Kintsugi Tax
+  baseErrorName: SDKError
+  clientServerStatusCodesAsErrors: true
+  companyEmail: support@kintsugi.com
+  companyName: Kintsugi Tax
+  companyURL: https://kintsugi.com
+  defaultErrorName: SDKError
+  flattenGlobalSecurity: true
+  githubURL: https://github.com/kintsugi-tax/kintsugi-tax-java-sdk
+  groupID: com.kintsugi.taxplatform
+  imports:
+    option: openapi
+    paths:
+      callbacks: models/callbacks
+      errors: models/errors
+      operations: models/operations
+      shared: models/components
+      webhooks: models/webhooks
+  inputModelSuffix: input
+  maxMethodParams: 4
+  methodArguments: infer-optional-args
+  ossrhURL: https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/
+  outputModelSuffix: output
+  packageName: tax-platform-sdk 

@@ -453,7 +453,7 @@ CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest (custo
 CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostResponse (ContentType: string, StatusCode: int32, RawResponse: response ...)
 CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostSecurity (APIKeyHeader: string, HTTPBearer: string)
 Exemptions (SDK empty)
-GetExemptionsV1ExemptionsGetRequest (status__in: string, country_code: array, jurisdiction: string ...)
+GetExemptionsV1ExemptionsGetRequest (search_query: string, status__in: string, country_code: array ...)
   CountryCode (union)
 GetExemptionsV1ExemptionsGetResponse (ContentType: string, StatusCode: int32, RawResponse: response ...)
  FastapiPaginationDefaultPageExemptionRead2 (items: array, total: integer, page: integer ...)

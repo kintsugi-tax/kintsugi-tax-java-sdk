@@ -21,6 +21,12 @@ import org.openapitools.jackson.nullable.JsonNullable;
 
 public class GetExemptionsV1ExemptionsGetRequest {
     /**
+     * Search term to filter exemptions by exemption ID, customer name, or customer email
+     */
+    @SpeakeasyMetadata("queryParam:style=form,explode=true,name=search_query")
+    private JsonNullable<String> searchQuery;
+
+    /**
      * Filter exemptions by their status
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=status__in")
@@ -88,6 +94,7 @@ public class GetExemptionsV1ExemptionsGetRequest {
 
     @JsonCreator
     public GetExemptionsV1ExemptionsGetRequest(
+            JsonNullable<String> searchQuery,
             JsonNullable<String> statusIn,
             JsonNullable<? extends List<CountryCode>> countryCode,
             JsonNullable<String> jurisdiction,
@@ -99,6 +106,7 @@ public class GetExemptionsV1ExemptionsGetRequest {
             Optional<Long> page,
             Optional<Long> size,
             Optional<String> xOrganizationId) {
+        Utils.checkNotNull(searchQuery, "searchQuery");
         Utils.checkNotNull(statusIn, "statusIn");
         Utils.checkNotNull(countryCode, "countryCode");
         Utils.checkNotNull(jurisdiction, "jurisdiction");
@@ -110,6 +118,7 @@ public class GetExemptionsV1ExemptionsGetRequest {
         Utils.checkNotNull(page, "page");
         Utils.checkNotNull(size, "size");
         Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.searchQuery = searchQuery;
         this.statusIn = statusIn;
         this.countryCode = countryCode;
         this.jurisdiction = jurisdiction;
@@ -126,8 +135,16 @@ public class GetExemptionsV1ExemptionsGetRequest {
     public GetExemptionsV1ExemptionsGetRequest() {
         this(JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
-            JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty(),
-            Optional.empty(), Optional.empty());
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            Optional.empty(), Optional.empty(), Optional.empty());
+    }
+
+    /**
+     * Search term to filter exemptions by exemption ID, customer name, or customer email
+     */
+    @JsonIgnore
+    public JsonNullable<String> searchQuery() {
+        return searchQuery;
     }
 
     /**
@@ -223,6 +240,24 @@ public class GetExemptionsV1ExemptionsGetRequest {
         return new Builder();
     }
 
+
+    /**
+     * Search term to filter exemptions by exemption ID, customer name, or customer email
+     */
+    public GetExemptionsV1ExemptionsGetRequest withSearchQuery(String searchQuery) {
+        Utils.checkNotNull(searchQuery, "searchQuery");
+        this.searchQuery = JsonNullable.of(searchQuery);
+        return this;
+    }
+
+    /**
+     * Search term to filter exemptions by exemption ID, customer name, or customer email
+     */
+    public GetExemptionsV1ExemptionsGetRequest withSearchQuery(JsonNullable<String> searchQuery) {
+        Utils.checkNotNull(searchQuery, "searchQuery");
+        this.searchQuery = searchQuery;
+        return this;
+    }
 
     /**
      * Filter exemptions by their status
@@ -435,6 +470,7 @@ public class GetExemptionsV1ExemptionsGetRequest {
         }
         GetExemptionsV1ExemptionsGetRequest other = (GetExemptionsV1ExemptionsGetRequest) o;
         return 
+            Utils.enhancedDeepEquals(this.searchQuery, other.searchQuery) &&
             Utils.enhancedDeepEquals(this.statusIn, other.statusIn) &&
             Utils.enhancedDeepEquals(this.countryCode, other.countryCode) &&
             Utils.enhancedDeepEquals(this.jurisdiction, other.jurisdiction) &&
@@ -451,15 +487,16 @@ public class GetExemptionsV1ExemptionsGetRequest {
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-            statusIn, countryCode, jurisdiction,
-            startDate, endDate, customerId,
-            transactionId, orderBy, page,
-            size, xOrganizationId);
+            searchQuery, statusIn, countryCode,
+            jurisdiction, startDate, endDate,
+            customerId, transactionId, orderBy,
+            page, size, xOrganizationId);
     }
     
     @Override
     public String toString() {
         return Utils.toString(GetExemptionsV1ExemptionsGetRequest.class,
+                "searchQuery", searchQuery,
                 "statusIn", statusIn,
                 "countryCode", countryCode,
                 "jurisdiction", jurisdiction,
@@ -475,6 +512,8 @@ public class GetExemptionsV1ExemptionsGetRequest {
 
     @SuppressWarnings("UnusedReturnValue")
     public final static class Builder {
+
+        private JsonNullable<String> searchQuery = JsonNullable.undefined();
 
         private JsonNullable<String> statusIn = JsonNullable.undefined();
 
@@ -500,6 +539,25 @@ public class GetExemptionsV1ExemptionsGetRequest {
 
         private Builder() {
           // force use of static builder() method
+        }
+
+
+        /**
+         * Search term to filter exemptions by exemption ID, customer name, or customer email
+         */
+        public Builder searchQuery(String searchQuery) {
+            Utils.checkNotNull(searchQuery, "searchQuery");
+            this.searchQuery = JsonNullable.of(searchQuery);
+            return this;
+        }
+
+        /**
+         * Search term to filter exemptions by exemption ID, customer name, or customer email
+         */
+        public Builder searchQuery(JsonNullable<String> searchQuery) {
+            Utils.checkNotNull(searchQuery, "searchQuery");
+            this.searchQuery = searchQuery;
+            return this;
         }
 
 
@@ -720,10 +778,10 @@ public class GetExemptionsV1ExemptionsGetRequest {
             }
 
             return new GetExemptionsV1ExemptionsGetRequest(
-                statusIn, countryCode, jurisdiction,
-                startDate, endDate, customerId,
-                transactionId, orderBy, page,
-                size, xOrganizationId);
+                searchQuery, statusIn, countryCode,
+                jurisdiction, startDate, endDate,
+                customerId, transactionId, orderBy,
+                page, size, xOrganizationId);
         }
 
 

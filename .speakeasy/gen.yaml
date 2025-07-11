@@ -23,16 +23,18 @@ generation:
     skipResponseBodyAssertions: false
 java:
   version: 0.5.1
-  additionalDependencies: {}
-  author: Kintsugi Tax
+  additionalDependencies: []
+  additionalPlugins: []
+  artifactID: tax-platform-sdk
   baseErrorName: SDKError
   clientServerStatusCodesAsErrors: true
-  companyEmail: support@kintsugi.com
+  companyEmail: support@trykintsugi.com
   companyName: Kintsugi Tax
-  companyURL: https://kintsugi.com
-  defaultErrorName: SDKError
+  companyURL: https://trykintsugi.com
+  defaultErrorName: APIException
+  enableCustomCodeRegions: false
   flattenGlobalSecurity: true
-  githubURL: https://github.com/kintsugi-tax/kintsugi-tax-java-sdk
+  githubURL: https://github.com/kintsugi-ai/tax-platform-sdk-java
   groupID: com.kintsugi.taxplatform
   imports:
     option: openapi
@@ -43,8 +45,14 @@ java:
       shared: models/components
       webhooks: models/webhooks
   inputModelSuffix: input
+  languageVersion: 11
+  license:
+    name: The MIT License (MIT)
+    shortName: MIT
+    url: https://mit-license.org/
   maxMethodParams: 4
-  methodArguments: infer-optional-args
-  ossrhURL: https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/
+  nullFriendlyParameters: false
   outputModelSuffix: output
-  packageName: tax-platform-sdk 
+  packageName: com.kintsugi.taxplatform
+  projectName: tax-platform-sdk
+  templateVersion: v2

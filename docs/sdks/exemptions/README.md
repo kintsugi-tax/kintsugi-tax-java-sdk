@@ -37,6 +37,7 @@ public class Application {
 
         GetExemptionsV1ExemptionsGetRequest req = GetExemptionsV1ExemptionsGetRequest.builder()
                 .xOrganizationId("org_12345")
+                .searchQuery("John")
                 .countryCode(List.of(
                     CountryCode.of("U"),
                     CountryCode.of("S")))

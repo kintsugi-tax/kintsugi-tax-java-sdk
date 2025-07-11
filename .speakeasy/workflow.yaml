@@ -19,4 +19,4 @@ targets:
                 location: registry.speakeasyapi.dev/kintsugi-ai/tax-platform/kintsugi-overlay-java-code-samples
             labelOverride:
                 fixedValue: Java (SDK)
-            blocking: false 
+            blocking: false

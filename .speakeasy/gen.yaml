@@ -44,7 +44,7 @@ java:
       operations: models/operations
       shared: models/components
       webhooks: models/webhooks
-  inputModelSuffix: ""
+  inputModelSuffix: Input
   languageVersion: 11
   license:
     name: The MIT License (MIT)
@@ -52,7 +52,7 @@ java:
     url: https://mit-license.org/
   maxMethodParams: 4
   nullFriendlyParameters: false
-  outputModelSuffix: ""
+  outputModelSuffix: Output
   packageName: com.kintsugi.taxplatform
   projectName: tax-platform-sdk
   templateVersion: v2

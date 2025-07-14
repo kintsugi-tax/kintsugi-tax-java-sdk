@@ -1,15 +1,13 @@
 overlay: 1.0.0
 x-speakeasy-jsonpath: rfc9535
 info:
-  title: Kintsugi Tax Platform API Overlay - Allowlist 
+  title: Kintsugi Tax Platform API Overlay - Java SDK
   version: 1.0.0
 actions:
   # =============================================================================
-  # ALLOWLIST APPROACH - SECURE BY DEFAULT
+  # SIMPLIFIED APPROACH FOR JAVA SDK
   # =============================================================================
-  # Step 1: Mark all desired endpoints with x-public: true
-  # Step 2: Remove all paths that don't have x-public: true
-  # This ensures only explicitly allowed endpoints are exposed in SDKs
+  # Only include the most essential endpoints to avoid component generation issues
   # =============================================================================
 
   # === ADDRESS VALIDATION ENDPOINTS ===
@@ -39,14 +37,6 @@ actions:
       x-public: true
       
   - target: $.paths['/v1/customers/external/{external_id}'].get
-    update:
-      x-public: true
-      
-  - target: $.paths['/v1/customers/{customer_id}/transactions'].get
-    update:
-      x-public: true
-      
-  - target: $.paths['/v1/customers/{customer_id}/transactions'].post
     update:
       x-public: true
 
@@ -124,99 +114,14 @@ actions:
       x-public: true
 
   # =============================================================================
-  # STEP 3: Explicitly remove problematic integration endpoints
-  # =============================================================================
-  - target: $.paths['/v1/bigcommerce/estimate']
-    remove: true
-    
-  - target: $.paths['/v1/bigcommerce/calculate']
-    remove: true
-    
-  - target: $.paths['/v1/bigcommerce/connect']
-    remove: true
-    
-  - target: $.paths['/v1/bigcommerce/deactivate']
-    remove: true
-    
-  - target: $.paths['/v1/magento/estimate']
-    remove: true
-    
-  - target: $.paths['/v1/chargebee/address_validation']
-    remove: true
-    
-  - target: $.paths['/v1/chargebee/invoices']
-    remove: true
-    
-  - target: $.paths['/v1/filings']
-    remove: true
-    
-  - target: $.paths['/v1/filings/{filing_id}']
-    remove: true
-    
-  - target: $.paths['/v1/nexus/physical']
-    remove: true
-    
-  - target: $.paths['/v1/nexus/physical/{nexus_id}']
-    remove: true
-    
-  - target: $.paths['/v1/registrations']
-    remove: true
-    
-  - target: $.paths['/v1/registrations/{registration_id}']
-    remove: true
-
-  # =============================================================================
-  # STEP 4: Remove problematic components that cause Java compilation errors
-  # =============================================================================
-  - target: $.components.schemas.BigCommerceTaxEstimationRequest
-    remove: true
-    
-  - target: $.components.schemas.BigcommerceConnectRequest
-    remove: true
-    
-  - target: $.components.schemas.BigcommerceDeactivateRequest
-    remove: true
-    
-  - target: $.components.schemas.BigcommerceTaxCalculation
-    remove: true
-    
-  - target: $.components.schemas.ChargebeeAddressValidationRequest
-    remove: true
-    
-  - target: $.components.schemas.ChargebeeInvoiceRequest
-    remove: true
-    
-  - target: $.components.schemas.MagentoTaxEstimationRequest
-    remove: true
-    
-  - target: $.components.schemas.FilingCreate
-    remove: true
-    
-  - target: $.components.schemas.PhysicalNexusCreate
-    remove: true
-    
-  - target: $.components.schemas.RegistrationUpdateAPI
-    remove: true
-    
-  - target: $.components.schemas.UpdateFilingTemp
-    remove: true
-    
-  - target: $.components.schemas.CreditNoteCreate
-    remove: true
-
-  # =============================================================================
-  # STEP 5: Remove all other paths that don't have x-public: true
+  # REMOVE ALL OTHER PATHS
   # =============================================================================
   - target: $.paths.*[?@['x-public'] != true]
     remove: true
 
 # =============================================================================
-# SECURITY BENEFITS:
+# MINIMAL JAVA SDK CONFIGURATION
 # =============================================================================
-# 1. Default deny - any new endpoint is automatically excluded
-# 2. Explicit allow - only marked endpoints are exposed
-# 3. RFC 9535 JSONPath - industry standard, more robust filtering
-# 4. Future-resistant - new admin/internal endpoints won't leak
-# 5. Easy to audit - clear list of what's publicly exposed
-# 6. Maintainable - adding new public endpoints requires explicit action
+# This overlay focuses only on essential endpoints to avoid Java generator
+# component generation issues that were causing compilation failures
 # =============================================================================

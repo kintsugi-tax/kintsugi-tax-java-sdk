@@ -1,39 +1,39 @@
 configVersion: 2.0.0
 generation:
   sdkClassName: SDK
-  maintainOpenAPIOrder: false
+  maintainOpenAPIOrder: true
   usageSnippets:
     optionalPropertyRendering: withExample
     sdkInitStyle: constructor
-  useClassNamesForArrayFields: false
+  useClassNamesForArrayFields: true
   fixes:
-    nameResolutionDec2023: false
-    nameResolutionFeb2025: false
-    parameterOrderingFeb2024: false
-    requestResponseComponentNamesFeb2024: false
-    securityFeb2025: false
-    sharedErrorComponentsApr2025: false
+    nameResolutionDec2023: true
+    nameResolutionFeb2025: true
+    parameterOrderingFeb2024: true
+    requestResponseComponentNamesFeb2024: true
+    securityFeb2025: true
+    sharedErrorComponentsApr2025: true
   auth:
     oAuth2ClientCredentialsEnabled: false
     oAuth2PasswordEnabled: false
-  sdkHooksConfigAccess: false
+  sdkHooksConfigAccess: true
   tests:
     generateTests: false
-    generateNewTests: false
-    skipResponseBodyAssertions: true
+    generateNewTests: true
+    skipResponseBodyAssertions: false
 java:
   version: 0.5.1
   additionalDependencies: []
   additionalPlugins: []
   artifactID: kintsugi-tax-java-sdk
   baseErrorName: SDKError
-  clientServerStatusCodesAsErrors: false
+  clientServerStatusCodesAsErrors: true
   companyEmail: support@trykintsugi.com
   companyName: Kintsugi
   companyURL: https://trykintsugi.com
   defaultErrorName: APIException
   enableCustomCodeRegions: false
-  flattenGlobalSecurity: false
+  flattenGlobalSecurity: true
   githubURL: https://github.com/kintsugi-tax/kintsugi-tax-java-sdk
   groupID: com.trykintsugi
   imports:
@@ -44,7 +44,7 @@ java:
       operations: models/operations
       shared: models/components
       webhooks: models/webhooks
-  inputModelSuffix: Input
+  inputModelSuffix: input
   languageVersion: 11
   license:
     name: The MIT License (MIT)
@@ -52,7 +52,7 @@ java:
     url: https://mit-license.org/
   maxMethodParams: 4
   nullFriendlyParameters: false
-  outputModelSuffix: Output
+  outputModelSuffix: output
   packageName: com.kintsugi.taxplatform
   projectName: tax-platform-sdk
   templateVersion: v2

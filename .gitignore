@@ -10,3 +10,4 @@ bin/
 **/.speakeasy/temp/
 **/.speakeasy/logs/
 .speakeasy/reports
+java_gen_fail.log

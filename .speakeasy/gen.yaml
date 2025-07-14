@@ -25,17 +25,17 @@ java:
   version: 0.5.1
   additionalDependencies: []
   additionalPlugins: []
-  artifactID: tax-platform-sdk
+  artifactID: kintsugi-tax-java-sdk
   baseErrorName: SDKError
   clientServerStatusCodesAsErrors: true
   companyEmail: support@trykintsugi.com
-  companyName: Kintsugi Tax
+  companyName: Kintsugi
   companyURL: https://trykintsugi.com
   defaultErrorName: APIException
   enableCustomCodeRegions: false
   flattenGlobalSecurity: true
-  githubURL: https://github.com/kintsugi-ai/tax-platform-sdk-java
-  groupID: com.kintsugi.taxplatform
+  githubURL: https://github.com/kintsugi-tax/kintsugi-tax-java-sdk
+  groupID: com.trykintsugi
   imports:
     option: openapi
     paths:

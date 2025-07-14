@@ -148,7 +148,55 @@ actions:
     remove: true
 
   # =============================================================================
-  # STEP 3: Remove all other paths that don't have x-public: true
+  # STEP 3: Explicitly remove integration endpoints that cause Java SDK issues
+  # =============================================================================
+  - target: $.paths['/v1/integrations/bigcommerce/tax/estimate']
+    remove: true
+    
+  - target: $.paths['/v1/integrations/bigcommerce/connect']
+    remove: true
+    
+  - target: $.paths['/v1/integrations/bigcommerce/deactivate']
+    remove: true
+    
+  - target: $.paths['/v1/integrations/bigcommerce/tax/calculation']
+    remove: true
+    
+  - target: $.paths['/v1/integrations/chargebee/address_validation']
+    remove: true
+    
+  - target: $.paths['/v1/integrations/chargebee/invoice']
+    remove: true
+    
+  - target: $.paths['/v1/integrations/chargebee/tax/estimate']
+    remove: true
+    
+  - target: $.paths['/v1/integrations/chargebee/taxability/address']
+    remove: true
+    
+  - target: $.paths['/v1/integrations/magento/tax/estimate']
+    remove: true
+    
+  - target: $.paths['/v1/filings']
+    remove: true
+    
+  - target: $.paths['/v1/filings/{filing_id}']
+    remove: true
+    
+  - target: $.paths['/v1/nexus/physical']
+    remove: true
+    
+  - target: $.paths['/v1/nexus/physical/{nexus_id}']
+    remove: true
+    
+  - target: $.paths['/v1/registrations']
+    remove: true
+    
+  - target: $.paths['/v1/registrations/{registration_id}']
+    remove: true
+
+  # =============================================================================
+  # STEP 4: Remove all other paths that don't have x-public: true
   # =============================================================================
   - target: $.paths.*[?@['x-public'] != true]
     remove: true

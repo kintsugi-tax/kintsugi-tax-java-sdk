@@ -63,11 +63,11 @@ actions:
     update:
       x-public: true
       
-  - target: $.paths['/v1/exemptions/{exemption_id}/attachments'].post
+  - target: $.paths['/v1/exemptions/{exemption_id}'].put
     update:
       x-public: true
       
-  - target: $.paths['/v1/exemptions/{exemption_id}/attachments'].get
+  - target: $.paths['/v1/exemptions/{exemption_id}'].delete
     update:
       x-public: true
 
@@ -77,11 +77,11 @@ actions:
       x-public: true
 
   # === PRODUCTS ENDPOINTS ===
-  - target: $.paths['/v1/products/'].get
+  - target: $.paths['/v1/products'].get
     update:
       x-public: true
       
-  - target: $.paths['/v1/products/'].post
+  - target: $.paths['/v1/products'].post
     update:
       x-public: true
       
@@ -93,7 +93,12 @@ actions:
     update:
       x-public: true
       
-  - target: $.paths['/v1/products/categories/'].get
+  - target: $.paths['/v1/products/{product_id}'].delete
+    update:
+      x-public: true
+
+  # === TAX ESTIMATION ENDPOINTS ===
+  - target: $.paths['/v1/tax_estimation'].post
     update:
       x-public: true
 
@@ -106,7 +111,7 @@ actions:
     update:
       x-public: true
       
-  - target: $.paths['/v1/transactions/external/{external_id}'].get
+  - target: $.paths['/v1/transactions/{transaction_id}'].get
     update:
       x-public: true
       
@@ -114,67 +119,32 @@ actions:
     update:
       x-public: true
       
-  - target: $.paths['/v1/transactions/{transaction_id}'].get
-    update:
-      x-public: true
-      
-  - target: $.paths['/v1/transactions/filings/{filing_id}'].get
-    update:
-      x-public: true
-      
-  - target: $.paths['/v1/transactions/{original_transaction_id}/credit_notes'].post
-    update:
-      x-public: true
-      
-  - target: $.paths['/v1/transactions/{original_transaction_id}/credit_notes/{credit_note_id}'].put
-    update:
-      x-public: true
-
-  # === TAX ESTIMATION ENDPOINTS ===
-  - target: $.paths['/v1/tax/estimate'].post
+  - target: $.paths['/v1/transactions/{transaction_id}'].delete
     update:
       x-public: true
 
   # =============================================================================
-  # STEP 2: Explicitly remove problematic marketplace endpoints
+  # STEP 3: Explicitly remove problematic integration endpoints
   # =============================================================================
-  - target: $.paths['/v1/marketplaces/{source_type}']
+  - target: $.paths['/v1/bigcommerce/estimate']
     remove: true
     
-  - target: $.paths['/v1/marketplaces/{marketplace_id}']
+  - target: $.paths['/v1/bigcommerce/calculate']
     remove: true
     
-  - target: $.paths['/v1/marketplaces/{marketplace_id}/transactions']
-    remove: true
-
-  # =============================================================================
-  # STEP 3: Explicitly remove integration endpoints that cause Java SDK issues
-  # =============================================================================
-  - target: $.paths['/v1/integrations/bigcommerce/tax/estimate']
+  - target: $.paths['/v1/bigcommerce/connect']
     remove: true
     
-  - target: $.paths['/v1/integrations/bigcommerce/connect']
+  - target: $.paths['/v1/bigcommerce/deactivate']
     remove: true
     
-  - target: $.paths['/v1/integrations/bigcommerce/deactivate']
+  - target: $.paths['/v1/magento/estimate']
     remove: true
     
-  - target: $.paths['/v1/integrations/bigcommerce/tax/calculation']
+  - target: $.paths['/v1/chargebee/address_validation']
     remove: true
     
-  - target: $.paths['/v1/integrations/chargebee/address_validation']
-    remove: true
-    
-  - target: $.paths['/v1/integrations/chargebee/invoice']
-    remove: true
-    
-  - target: $.paths['/v1/integrations/chargebee/tax/estimate']
-    remove: true
-    
-  - target: $.paths['/v1/integrations/chargebee/taxability/address']
-    remove: true
-    
-  - target: $.paths['/v1/integrations/magento/tax/estimate']
+  - target: $.paths['/v1/chargebee/invoices']
     remove: true
     
   - target: $.paths['/v1/filings']
@@ -196,7 +166,46 @@ actions:
     remove: true
 
   # =============================================================================
-  # STEP 4: Remove all other paths that don't have x-public: true
+  # STEP 4: Remove problematic components that cause Java compilation errors
+  # =============================================================================
+  - target: $.components.schemas.BigCommerceTaxEstimationRequest
+    remove: true
+    
+  - target: $.components.schemas.BigcommerceConnectRequest
+    remove: true
+    
+  - target: $.components.schemas.BigcommerceDeactivateRequest
+    remove: true
+    
+  - target: $.components.schemas.BigcommerceTaxCalculation
+    remove: true
+    
+  - target: $.components.schemas.ChargebeeAddressValidationRequest
+    remove: true
+    
+  - target: $.components.schemas.ChargebeeInvoiceRequest
+    remove: true
+    
+  - target: $.components.schemas.MagentoTaxEstimationRequest
+    remove: true
+    
+  - target: $.components.schemas.FilingCreate
+    remove: true
+    
+  - target: $.components.schemas.PhysicalNexusCreate
+    remove: true
+    
+  - target: $.components.schemas.RegistrationUpdateAPI
+    remove: true
+    
+  - target: $.components.schemas.UpdateFilingTemp
+    remove: true
+    
+  - target: $.components.schemas.CreditNoteCreate
+    remove: true
+
+  # =============================================================================
+  # STEP 5: Remove all other paths that don't have x-public: true
   # =============================================================================
   - target: $.paths.*[?@['x-public'] != true]
     remove: true

@@ -1,18 +1,18 @@
 configVersion: 2.0.0
 generation:
   sdkClassName: SDK
-  maintainOpenAPIOrder: true
+  maintainOpenAPIOrder: false
   usageSnippets:
     optionalPropertyRendering: withExample
     sdkInitStyle: constructor
-  useClassNamesForArrayFields: true
+  useClassNamesForArrayFields: false
   fixes:
-    nameResolutionDec2023: true
-    nameResolutionFeb2025: true
-    parameterOrderingFeb2024: true
-    requestResponseComponentNamesFeb2024: true
-    securityFeb2025: true
-    sharedErrorComponentsApr2025: true
+    nameResolutionDec2023: false
+    nameResolutionFeb2025: false
+    parameterOrderingFeb2024: false
+    requestResponseComponentNamesFeb2024: false
+    securityFeb2025: false
+    sharedErrorComponentsApr2025: false
   auth:
     oAuth2ClientCredentialsEnabled: false
     oAuth2PasswordEnabled: false
@@ -20,20 +20,20 @@ generation:
   tests:
     generateTests: false
     generateNewTests: false
-    skipResponseBodyAssertions: false
+    skipResponseBodyAssertions: true
 java:
   version: 0.5.1
   additionalDependencies: []
   additionalPlugins: []
   artifactID: kintsugi-tax-java-sdk
   baseErrorName: SDKError
-  clientServerStatusCodesAsErrors: true
+  clientServerStatusCodesAsErrors: false
   companyEmail: support@trykintsugi.com
   companyName: Kintsugi
   companyURL: https://trykintsugi.com
   defaultErrorName: APIException
   enableCustomCodeRegions: false
-  flattenGlobalSecurity: true
+  flattenGlobalSecurity: false
   githubURL: https://github.com/kintsugi-tax/kintsugi-tax-java-sdk
   groupID: com.trykintsugi
   imports:

@@ -1,342 +1,909 @@
+Pull down action image 'ghcr.io/speakeasy-api/sdk-generation-action:v15'
+  /usr/bin/docker pull ghcr.io/speakeasy-api/sdk-generation-action:v15
+  v15: Pulling from speakeasy-api/sdk-generation-action
+  f18232174bc9: Already exists
+  0a2e1e6a4873: Pulling fs layer
+  8037d4fff50b: Pulling fs layer
+  056c59815f33: Pulling fs layer
+  4f4fb700ef54: Pulling fs layer
+  96e95ab150cd: Pulling fs layer
+  f23454853ece: Pulling fs layer
+  382fc705c73e: Pulling fs layer
+  d3ca9739cc11: Pulling fs layer
+  6a1efb0c1bd5: Pulling fs layer
+  8a2394d0e063: Pulling fs layer
+  f3b1e43d060f: Pulling fs layer
+  57496111cb97: Pulling fs layer
+  525dc51dd5ed: Pulling fs layer
+  36553b3fcd0b: Pulling fs layer
+  442437f69356: Pulling fs layer
+  ab118777560a: Pulling fs layer
+  cbcf8a9c3bd7: Pulling fs layer
+  382fc705c73e: Waiting
+  525dc51dd5ed: Waiting
+  d3ca9739cc11: Waiting
+  36553b3fcd0b: Waiting
+  6a1efb0c1bd5: Waiting
+  442437f69356: Waiting
+  8a2394d0e063: Waiting
+  f3b1e43d060f: Waiting
+  57496111cb97: Waiting
+  ab118777560a: Waiting
+  cbcf8a9c3bd7: Waiting
+  4f4fb700ef54: Waiting
+  96e95ab150cd: Waiting
+  f23454853ece: Waiting
+  056c59815f33: Verifying Checksum
+  056c59815f33: Download complete
+  0a2e1e6a4873: Download complete
+  96e95ab150cd: Download complete
+  4f4fb700ef54: Verifying Checksum
+  4f4fb700ef54: Download complete
+  0a2e1e6a4873: Pull complete
+  f23454853ece: Download complete
+  8037d4fff50b: Verifying Checksum
+  8037d4fff50b: Download complete
+  382fc705c73e: Verifying Checksum
+  382fc705c73e: Download complete
+  d3ca9739cc11: Verifying Checksum
+  d3ca9739cc11: Download complete
+  8a2394d0e063: Verifying Checksum
+  8a2394d0e063: Download complete
+  57496111cb97: Verifying Checksum
+  57496111cb97: Download complete
+  f3b1e43d060f: Verifying Checksum
+  f3b1e43d060f: Download complete
+  36553b3fcd0b: Verifying Checksum
+  36553b3fcd0b: Download complete
+  6a1efb0c1bd5: Verifying Checksum
+  6a1efb0c1bd5: Download complete
+  525dc51dd5ed: Verifying Checksum
+  525dc51dd5ed: Download complete
+  442437f69356: Verifying Checksum
+  442437f69356: Download complete
+  ab118777560a: Verifying Checksum
+  ab118777560a: Download complete
+  cbcf8a9c3bd7: Verifying Checksum
+  cbcf8a9c3bd7: Download complete
+  8037d4fff50b: Pull complete
+  056c59815f33: Pull complete
+  4f4fb700ef54: Pull complete
+  96e95ab150cd: Pull complete
+  f23454853ece: Pull complete
+  382fc705c73e: Pull complete
+  d3ca9739cc11: Pull complete
+  6a1efb0c1bd5: Pull complete
+  8a2394d0e063: Pull complete
+  f3b1e43d060f: Pull complete
+  57496111cb97: Pull complete
+  525dc51dd5ed: Pull complete
+  36553b3fcd0b: Pull complete
+  442437f69356: Pull complete
+  ab118777560a: Pull complete
+  cbcf8a9c3bd7: Pull complete
+  Digest: sha256:5e940d75ad95733343d9c33d56e1f923651ee887c917af59caec5686bd84ab64
+  Status: Downloaded newer image for ghcr.io/speakeasy-api/sdk-generation-action:v15
+  ghcr.io/speakeasy-api/sdk-generation-action:v15
+  
+0s
+0s
+Run smorimoto/tune-github-hosted-runner-network@v1
+Run sudo ethtool -K eth0 tx off rx off
+Actual changes:
+tx-checksum-ipv4: off
+tx-checksum-ipv6: off
+tx-tcp-segmentation: off [not requested]
+tx-tcp6-segmentation: off [not requested]
+rx-checksum: off
+53s
 Run speakeasy-api/sdk-generation-action@v15
-/usr/bin/docker run --name ghcriospeakeasyapisdkgenerationactionv15_1d9cef --label 5b5d49 --workdir /github/workspace --rm -e "INPUT_SPEAKEASY_VERSION" -e "INPUT_GITHUB_ACCESS_TOKEN" -e "INPUT_MODE" -e "INPUT_FORCE" -e "INPUT_SIGNED_COMMITS" -e "INPUT_SPEAKEASY_API_KEY" -e "INPUT_PR_CREATION_PAT" -e "INPUT_OUTPUT_TESTS" -e "INPUT_SPEAKEASY_SERVER_URL" -e "INPUT_WORKING_DIRECTORY" -e "INPUT_OPENAPI_DOC_AUTH_TOKEN" -e "INPUT_TARGET" -e "INPUT_REGISTRY_TAGS" -e "INPUT_PUSH_CODE_SAMPLES_ONLY" -e "INPUT_SET_VERSION" -e "INPUT_CLI_ENVIRONMENT_VARIABLES" -e "INPUT_PNPM_VERSION" -e "INPUT_POETRY_VERSION" -e "INPUT_GITHUB_REPOSITORY" -e "INPUT_SOURCES" -e "INPUT_CODE_SAMPLES" -e "INPUT_MAX_SUGGESTIONS" -e "INPUT_ACTION" -e "INPUT_BRANCH_NAME" -e "INPUT_CLI_OUTPUT" -e "INPUT_PREVIOUS_GEN_VERSION" -e "INPUT_OPENAI_API_KEY" -e "INPUT_GPG_FINGERPRINT" -e "INPUT_TARGET_DIRECTORY" -e "INPUT_REGISTRY_NAME" -e "INPUT_SKIP_TESTING" -e "SPEAKEASY_API_KEY" -e "SPEAKEASY_SERVER_URL" -e "OPENAI_API_KEY" -e "OPENAPI_DOC_
+/usr/bin/docker run --name ghcriospeakeasyapisdkgenerationactionv15_e1b78f --label c9d621 --workdir /github/workspace --rm -e "INPUT_SPEAKEASY_VERSION" -e "INPUT_GITHUB_ACCESS_TOKEN" -e "INPUT_MODE" -e "INPUT_FORCE" -e "INPUT_SIGNED_COMMITS" -e "INPUT_SPEAKEASY_API_KEY" -e "INPUT_PR_CREATION_PAT" -e "INPUT_OUTPUT_TESTS" -e "INPUT_SPEAKEASY_SERVER_URL" -e "INPUT_WORKING_DIRECTORY" -e "INPUT_OPENAPI_DOC_AUTH_TOKEN" -e "INPUT_TARGET" -e "INPUT_REGISTRY_TAGS" -e "INPUT_PUSH_CODE_SAMPLES_ONLY" -e "INPUT_SET_VERSION" -e "INPUT_CLI_ENVIRONMENT_VARIABLES" -e "INPUT_PNPM_VERSION" -e "INPUT_POETRY_VERSION" -e "INPUT_GITHUB_REPOSITORY" -e "INPUT_SOURCES" -e "INPUT_CODE_SAMPLES" -e "INPUT_MAX_SUGGESTIONS" -e "INPUT_ACTION" -e "INPUT_BRANCH_NAME" -e "INPUT_CLI_OUTPUT" -e "INPUT_PREVIOUS_GEN_VERSION" -e "INPUT_OPENAI_API_KEY" -e "INPUT_GPG_FINGERPRINT" -e "INPUT_TARGET_DIRECTORY" -e "INPUT_REGISTRY_NAME" -e "INPUT_SKIP_TESTING" -e "SPEAKEASY_API_KEY" -e "SPEAKEASY_SERVER_URL" -e "OPENAI_API_KEY" -e "OPENAPI_DOC_
 INFO:  Cloning repo: https://github.com/kintsugi-tax/kintsugi-tax-java-sdk from ref: refs/heads/main
-Enumerating objects: 812, done.
-Counting objects:   0% (1/812)
-Counting objects:   1% (9/812)
-Counting objects:   2% (17/812)
-Counting objects:   3% (25/812)
-Counting objects:   4% (33/812)
-Counting objects:   5% (41/812)
-Counting objects:   6% (49/812)
-Counting objects:   7% (57/812)
-Counting objects:   8% (65/812)
-Counting objects:   9% (74/812)
-Counting objects:  10% (82/812)
-Counting objects:  11% (90/812)
-Counting objects:  12% (98/812)
-Counting objects:  13% (106/812)
-Counting objects:  14% (114/812)
-Counting objects:  15% (122/812)
-Counting objects:  16% (130/812)
-Counting objects:  17% (139/812)
-Counting objects:  18% (147/812)
-Counting objects:  19% (155/812)
-Counting objects:  20% (163/812)
-Counting objects:  21% (171/812)
-Counting objects:  22% (179/812)
-Counting objects:  23% (187/812)
-Counting objects:  24% (195/812)
-Counting objects:  25% (203/812)
-Counting objects:  26% (212/812)
-Counting objects:  27% (220/812)
-Counting objects:  28% (228/812)
-Counting objects:  29% (236/812)
-Counting objects:  30% (244/812)
-Counting objects:  31% (252/812)
-Counting objects:  32% (260/812)
-Counting objects:  33% (268/812)
-Counting objects:  34% (277/812)
-Counting objects:  35% (285/812)
-Counting objects:  36% (293/812)
-Counting objects:  37% (301/812)
-Counting objects:  38% (309/812)
-Counting objects:  39% (317/812)
-Counting objects:  40% (325/812)
-Counting objects:  41% (333/812)
-Counting objects:  42% (342/812)
-Counting objects:  43% (350/812)
-Counting objects:  44% (358/812)
-Counting objects:  45% (366/812)
-Counting objects:  46% (374/812)
-Counting objects:  47% (382/812)
-Counting objects:  48% (390/812)
-Counting objects:  49% (398/812)
-Counting objects:  50% (406/812)
-Counting objects:  51% (415/812)
-Counting objects:  52% (423/812)
-Counting objects:  53% (431/812)
-Counting objects:  54% (439/812)
-Counting objects:  55% (447/812)
-Counting objects:  56% (455/812)
-Counting objects:  57% (463/812)
-Counting objects:  58% (471/812)
-Counting objects:  59% (480/812)
-Counting objects:  60% (488/812)
-Counting objects:  61% (496/812)
-Counting objects:  62% (504/812)
-Counting objects:  63% (512/812)
-Counting objects:  64% (520/812)
-Counting objects:  65% (528/812)
-Counting objects:  66% (536/812)
-Counting objects:  67% (545/812)
-Counting objects:  68% (553/812)
-Counting objects:  69% (561/812)
-Counting objects:  70% (569/812)
-Counting objects:  71% (577/812)
-Counting objects:  72% (585/812)
-Counting objects:  73% (593/812)
-Counting objects:  74% (601/812)
-Counting objects:  75% (609/812)
-Counting objects:  76% (618/812)
-Counting objects:  77% (626/812)
-Counting objects:  78% (634/812)
-Counting objects:  79% (642/812)
-Counting objects:  80% (650/812)
-Counting objects:  81% (658/812)
-Counting objects:  82% (666/812)
-Counting objects:  83% (674/812)
-Counting objects:  84% (683/812)
-Counting objects:  85% (691/812)
-Counting objects:  86% (699/812)
-Counting objects:  87% (707/812)
-Counting objects:  88% (715/812)
-Counting objects:  89% (723/812)
-Counting objects:  90% (731/812)
-Counting objects:  91% (739/812)
-Counting objects:  92% (748/812)
-Counting objects:  93% (756/812)
-Counting objects:  94% (764/812)
-Counting objects:  95% (772/812)
-Counting objects:  96% (780/812)
-Counting objects:  97% (788/812)
-Counting objects:  98% (796/812)
-Counting objects:  99% (804/812)
-Counting objects: 100% (812/812)
-Counting objects: 100% (812/812), done.
-Compressing objects:   0% (1/287)
-Compressing objects:   1% (3/287)
-Compressing objects:   2% (6/287)
-Compressing objects:   3% (9/287)
-Compressing objects:   4% (12/287)
-Compressing objects:   5% (15/287)
-Compressing objects:   6% (18/287)
-Compressing objects:   7% (21/287)
-Compressing objects:   8% (23/287)
-Compressing objects:   9% (26/287)
-Compressing objects:  10% (29/287)
-Compressing objects:  11% (32/287)
-Compressing objects:  12% (35/287)
-Compressing objects:  13% (38/287)
-Compressing objects:  14% (41/287)
-Compressing objects:  15% (44/287)
-Compressing objects:  16% (46/287)
-Compressing objects:  17% (49/287)
-Compressing objects:  18% (52/287)
-Compressing objects:  19% (55/287)
-Compressing objects:  20% (58/287)
-Compressing objects:  21% (61/287)
-Compressing objects:  22% (64/287)
-Compressing objects:  23% (67/287)
-Compressing objects:  24% (69/287)
-Compressing objects:  25% (72/287)
-Compressing objects:  26% (75/287)
-Compressing objects:  27% (78/287)
-Compressing objects:  28% (81/287)
-Compressing objects:  29% (84/287)
-Compressing objects:  30% (87/287)
-Compressing objects:  31% (89/287)
-Compressing objects:  32% (92/287)
-Compressing objects:  33% (95/287)
-Compressing objects:  34% (98/287)
-Compressing objects:  35% (101/287)
-Compressing objects:  36% (104/287)
-Compressing objects:  37% (107/287)
-Compressing objects:  38% (110/287)
-Compressing objects:  39% (112/287)
-Compressing objects:  40% (115/287)
-Compressing objects:  41% (118/287)
-Compressing objects:  42% (121/287)
-Compressing objects:  43% (124/287)
-Compressing objects:  44% (127/287)
-Compressing objects:  45% (130/287)
-Compressing objects:  46% (133/287)
-Compressing objects:  47% (135/287)
-Compressing objects:  48% (138/287)
-Compressing objects:  49% (141/287)
-Compressing objects:  50% (144/287)
-Compressing objects:  51% (147/287)
-Compressing objects:  52% (150/287)
-Compressing objects:  53% (153/287)
-Compressing objects:  54% (155/287)
-Compressing objects:  55% (158/287)
-Compressing objects:  56% (161/287)
-Compressing objects:  57% (164/287)
-Compressing objects:  58% (167/287)
-Compressing objects:  59% (170/287)
-Compressing objects:  60% (173/287)
-Compressing objects:  61% (176/287)
-Compressing objects:  62% (178/287)
-Compressing objects:  63% (181/287)
-Compressing objects:  64% (184/287)
-Compressing objects:  65% (187/287)
-Compressing objects:  66% (190/287)
-Compressing objects:  67% (193/287)
-Compressing objects:  68% (196/287)
-Compressing objects:  69% (199/287)
-Compressing objects:  70% (201/287)
-Compressing objects:  71% (204/287)
-Compressing objects:  72% (207/287)
-Compressing objects:  73% (210/287)
-Compressing objects:  74% (213/287)
-Compressing objects:  75% (216/287)
-Compressing objects:  76% (219/287)
-Compressing objects:  77% (221/287)
-Compressing objects:  78% (224/287)
-Compressing objects:  79% (227/287)
-Compressing objects:  80% (230/287)
-Compressing objects:  81% (233/287)
-Compressing objects:  82% (236/287)
-Compressing objects:  83% (239/287)
-Compressing objects:  84% (242/287)
-Compressing objects:  85% (244/287)
-Compressing objects:  86% (247/287)
-Compressing objects:  87% (250/287)
-Compressing objects:  88% (253/287)
-Compressing objects:  89% (256/287)
-Compressing objects:  90% (259/287)
-Compressing objects:  91% (262/287)
-Compressing objects:  92% (265/287)
-Compressing objects:  93% (267/287)
-Compressing objects:  94% (270/287)
-Compressing objects:  95% (273/287)
-Compressing objects:  96% (276/287)
-Compressing objects:  97% (279/287)
-Compressing objects:  98% (282/287)
-Compressing objects:  99% (285/287)
-Compressing objects: 100% (287/287)
-Compressing objects: 100% (287/287), done.
-Total 812 (delta 484), reused 803 (delta 478), pack-reused 0 (from 0)
+Enumerating objects: 822, done.
+Counting objects:   0% (1/822)
+Counting objects:   1% (9/822)
+Counting objects:   2% (17/822)
+Counting objects:   3% (25/822)
+Counting objects:   4% (33/822)
+Counting objects:   5% (42/822)
+Counting objects:   6% (50/822)
+Counting objects:   7% (58/822)
+Counting objects:   8% (66/822)
+Counting objects:   9% (74/822)
+Counting objects:  10% (83/822)
+Counting objects:  11% (91/822)
+Counting objects:  12% (99/822)
+Counting objects:  13% (107/822)
+Counting objects:  14% (116/822)
+Counting objects:  15% (124/822)
+Counting objects:  16% (132/822)
+Counting objects:  17% (140/822)
+Counting objects:  18% (148/822)
+Counting objects:  19% (157/822)
+Counting objects:  20% (165/822)
+Counting objects:  21% (173/822)
+Counting objects:  22% (181/822)
+Counting objects:  23% (190/822)
+Counting objects:  24% (198/822)
+Counting objects:  25% (206/822)
+Counting objects:  26% (214/822)
+Counting objects:  27% (222/822)
+Counting objects:  28% (231/822)
+Counting objects:  29% (239/822)
+Counting objects:  30% (247/822)
+Counting objects:  31% (255/822)
+Counting objects:  32% (264/822)
+Counting objects:  33% (272/822)
+Counting objects:  34% (280/822)
+Counting objects:  35% (288/822)
+Counting objects:  36% (296/822)
+Counting objects:  37% (305/822)
+Counting objects:  38% (313/822)
+Counting objects:  39% (321/822)
+Counting objects:  40% (329/822)
+Counting objects:  41% (338/822)
+Counting objects:  42% (346/822)
+Counting objects:  43% (354/822)
+Counting objects:  44% (362/822)
+Counting objects:  45% (370/822)
+Counting objects:  46% (379/822)
+Counting objects:  47% (387/822)
+Counting objects:  48% (395/822)
+Counting objects:  49% (403/822)
+Counting objects:  50% (411/822)
+Counting objects:  51% (420/822)
+Counting objects:  52% (428/822)
+Counting objects:  53% (436/822)
+Counting objects:  54% (444/822)
+Counting objects:  55% (453/822)
+Counting objects:  56% (461/822)
+Counting objects:  57% (469/822)
+Counting objects:  58% (477/822)
+Counting objects:  59% (485/822)
+Counting objects:  60% (494/822)
+Counting objects:  61% (502/822)
+Counting objects:  62% (510/822)
+Counting objects:  63% (518/822)
+Counting objects:  64% (527/822)
+Counting objects:  65% (535/822)
+Counting objects:  66% (543/822)
+Counting objects:  67% (551/822)
+Counting objects:  68% (559/822)
+Counting objects:  69% (568/822)
+Counting objects:  70% (576/822)
+Counting objects:  71% (584/822)
+Counting objects:  72% (592/822)
+Counting objects:  73% (601/822)
+Counting objects:  74% (609/822)
+Counting objects:  75% (617/822)
+Counting objects:  76% (625/822)
+Counting objects:  77% (633/822)
+Counting objects:  78% (642/822)
+Counting objects:  79% (650/822)
+Counting objects:  80% (658/822)
+Counting objects:  81% (666/822)
+Counting objects:  82% (675/822)
+Counting objects:  83% (683/822)
+Counting objects:  84% (691/822)
+Counting objects:  85% (699/822)
+Counting objects:  86% (707/822)
+Counting objects:  87% (716/822)
+Counting objects:  88% (724/822)
+Counting objects:  89% (732/822)
+Counting objects:  90% (740/822)
+Counting objects:  91% (749/822)
+Counting objects:  92% (757/822)
+Counting objects:  93% (765/822)
+Counting objects:  94% (773/822)
+Counting objects:  95% (781/822)
+Counting objects:  96% (790/822)
+Counting objects:  97% (798/822)
+Counting objects:  98% (806/822)
+Counting objects:  99% (814/822)
+Counting objects: 100% (822/822)
+Counting objects: 100% (822/822), done.
+Compressing objects:   0% (1/293)
+Compressing objects:   1% (3/293)
+Compressing objects:   2% (6/293)
+Compressing objects:   3% (9/293)
+Compressing objects:   4% (12/293)
+Compressing objects:   5% (15/293)
+Compressing objects:   6% (18/293)
+Compressing objects:   7% (21/293)
+Compressing objects:   8% (24/293)
+Compressing objects:   9% (27/293)
+Compressing objects:  10% (30/293)
+Compressing objects:  11% (33/293)
+Compressing objects:  12% (36/293)
+Compressing objects:  13% (39/293)
+Compressing objects:  14% (42/293)
+Compressing objects:  15% (44/293)
+Compressing objects:  16% (47/293)
+Compressing objects:  17% (50/293)
+Compressing objects:  18% (53/293)
+Compressing objects:  19% (56/293)
+Compressing objects:  20% (59/293)
+Compressing objects:  21% (62/293)
+Compressing objects:  22% (65/293)
+Compressing objects:  23% (68/293)
+Compressing objects:  24% (71/293)
+Compressing objects:  25% (74/293)
+Compressing objects:  26% (77/293)
+Compressing objects:  27% (80/293)
+Compressing objects:  28% (83/293)
+Compressing objects:  29% (85/293)
+Compressing objects:  30% (88/293)
+Compressing objects:  31% (91/293)
+Compressing objects:  32% (94/293)
+Compressing objects:  33% (97/293)
+Compressing objects:  34% (100/293)
+Compressing objects:  35% (103/293)
+Compressing objects:  36% (106/293)
+Compressing objects:  37% (109/293)
+Compressing objects:  38% (112/293)
+Compressing objects:  39% (115/293)
+Compressing objects:  40% (118/293)
+Compressing objects:  41% (121/293)
+Compressing objects:  42% (124/293)
+Compressing objects:  43% (126/293)
+Compressing objects:  44% (129/293)
+Compressing objects:  45% (132/293)
+Compressing objects:  46% (135/293)
+Compressing objects:  47% (138/293)
+Compressing objects:  48% (141/293)
+Compressing objects:  49% (144/293)
+Compressing objects:  50% (147/293)
+Compressing objects:  51% (150/293)
+Compressing objects:  52% (153/293)
+Compressing objects:  53% (156/293)
+Compressing objects:  54% (159/293)
+Compressing objects:  55% (162/293)
+Compressing objects:  56% (165/293)
+Compressing objects:  57% (168/293)
+Compressing objects:  58% (170/293)
+Compressing objects:  59% (173/293)
+Compressing objects:  60% (176/293)
+Compressing objects:  61% (179/293)
+Compressing objects:  62% (182/293)
+Compressing objects:  63% (185/293)
+Compressing objects:  64% (188/293)
+Compressing objects:  65% (191/293)
+Compressing objects:  66% (194/293)
+Compressing objects:  67% (197/293)
+Compressing objects:  68% (200/293)
+Compressing objects:  69% (203/293)
+Compressing objects:  70% (206/293)
+Compressing objects:  71% (209/293)
+Compressing objects:  72% (211/293)
+Compressing objects:  73% (214/293)
+Compressing objects:  74% (217/293)
+Compressing objects:  75% (220/293)
+Compressing objects:  76% (223/293)
+Compressing objects:  77% (226/293)
+Compressing objects:  78% (229/293)
+Compressing objects:  79% (232/293)
+Compressing objects:  80% (235/293)
+Compressing objects:  81% (238/293)
+Compressing objects:  82% (241/293)
+Compressing objects:  83% (244/293)
+Compressing objects:  84% (247/293)
+Compressing objects:  85% (250/293)
+Compressing objects:  86% (252/293)
+Compressing objects:  87% (255/293)
+Compressing objects:  88% (258/293)
+Compressing objects:  89% (261/293)
+Compressing objects:  90% (264/293)
+Compressing objects:  91% (267/293)
+Compressing objects:  92% (270/293)
+Compressing objects:  93% (273/293)
+Compressing objects:  94% (276/293)
+Compressing objects:  95% (279/293)
+Compressing objects:  96% (282/293)
+Compressing objects:  97% (285/293)
+Compressing objects:  98% (288/293)
+Compressing objects:  99% (291/293)
+Compressing objects: 100% (293/293)
+Compressing objects: 100% (293/293), done.
+Total 822 (delta 489), reused 812 (delta 482), pack-reused 0 (from 0)
 Downloading speakeasy cli version:  v1.581.2
 Extracted speakeasy cli to:  /bin
 INFO:  Existing PR not found
-INFO:  Creating branch speakeasy-sdk-regen-1752530245
+INFO:  Creating branch speakeasy-sdk-regen-1752530967
 Generating java SDK in /github/workspace/repo
 force input enabled - setting SPEAKEASY_FORCE_GENERATION=true
 INFO:  Setting outputs:
 publish_java=false
-INFO:  Deleting branch speakeasy-sdk-regen-1752530245
-  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:35: error: cannot find symbol                                      
-  import org.openapis.openapi.models.components.TransactionEstimateRequest;                                                                                               
-                                                                                                                                                                                                                                                                                                    
-    symbol:   class TransactionEstimateRequest                                                                                                                            
-    location: package org.openapis.openapi.models.components                                                                                                              
-  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:36: error: cannot find symbol                                      
-  import org.openapis.openapi.models.components.TransactionPublicRequest;                                                                                                 
-                                                                                                                                                                                                                         
-    symbol:   class TransactionPublicRequest                                                                                                                              
-    location: package org.openapis.openapi.models.components                                                                                                              
-  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:37: error: cannot find symbol                                      
-  import org.openapis.openapi.models.components.TransactionUpdate;                                                                                                        
-                                                                                                                                                                                                                                                                                                    
-    symbol:   class TransactionUpdate                                                                                                                                     
-    location: package org.openapis.openapi.models.components                                                                                                              
-  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:38: error: cannot find symbol                                      
-  import org.openapis.openapi.models.components.UpdateFilingTemp;                                                                                                         
-                                                                                                                                                                                                                         
-    symbol:   class UpdateFilingTemp                                                                                                                                      
-    location: package org.openapis.openapi.models.components                                                                                                              
-  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:39: error: cannot find symbol                                      
-  import org.openapis.openapi.models.components.ValidationAddress;                                                                                                        
-                                                                                                                                                                                                                                                                                                    
-    symbol:   class ValidationAddress                                                                                                                                     
-    location: package org.openapis.openapi.models.components                                                                                                              
-  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:46: error: cannot find symbol                                      
-              AddressBase request,                                                                                                                                        
-                                                                                                                                                                                        
-    symbol:   class AddressBase                                                                                                                                           
-    location: interface MethodCallSearchV1AddressValidationSearchPost                                                                                                     
-  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:47: error: cannot find symbol                                      
-              SearchV1AddressValidationSearchPostSecurity security) throws Exception;                                                                                     
-                                                                                                                                                                                                                                                                                                                                     
-    symbol:   class SearchV1AddressValidationSearchPostSecurity                                                                                                           
-    location: interface MethodCallSearchV1AddressValidationSearchPost                                                                                                     
-  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:45: error: cannot find symbol                                      
-          SearchV1AddressValidationSearchPostResponse searchV1AddressValidationSearchPost(                                                                                
-                                                                                                                                                                                    
-    symbol:   class SearchV1AddressValidationSearchPostResponse                                                                                                           
-    location: interface MethodCallSearchV1AddressValidationSearchPost                                                                                                     
-  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:52: error: cannot find symbol                                      
-              SuggestionsV1AddressValidationSuggestionsPostSecurity security,                                                                                             
-                                                                                                                                                                                                                                                                                                                                     
-    symbol:   class SuggestionsV1AddressValidationSuggestionsPostSecurity                                                                                                 
-    location: interface MethodCallSuggestionsV1AddressValidationSuggestionsPost                                                                                           
-  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:54: error: cannot find symbol                                      
-              ValidationAddress validationAddress) throws Exception;                                                                                                      
-                                                                                                                                                                                        
-    symbol:   class ValidationAddress                                                                                                                                     
-    location: interface MethodCallSuggestionsV1AddressValidationSuggestionsPost                                                                                           
-  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:51: error: cannot find symbol                                      
-          SuggestionsV1AddressValidationSuggestionsPostResponse suggestionsV1AddressValidationSuggestionsPost(                                                            
-                                                                                                                                                                                                                                                                                                                                         
-    symbol:   class SuggestionsV1AddressValidationSuggestionsPostResponse                                                                                                 
-    location: interface MethodCallSuggestionsV1AddressValidationSuggestionsPost                                                                                           
-  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:59: error: cannot find symbol                                      
-              GetCustomersV1Request request,                                                                                                                              
-                                                                                                                                                                                        
-    symbol:   class GetCustomersV1Request                                                                                                                                 
-    location: interface MethodCallGetCustomersV1                                                                                                                          
-  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:60: error: cannot find symbol                                      
-              GetCustomersV1Security security) throws Exception;                                                                                                          
-                                                                                                                                                                                                                                                                                                                                     
-    symbol:   class GetCustomersV1Security                                                                                                                                
-    location: interface MethodCallGetCustomersV1                                                                                                                          
-  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:58: error: cannot find symbol                                      
-          GetCustomersV1Response getCustomersV1(                                                                                                                          
-                                                                                                                                                                                    
-    symbol:   class GetCustomersV1Response                                                                                                                                
-    location: interface MethodCallGetCustomersV1                                                                                                                          
-  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:65: error: cannot find symbol                                      
-              CreateCustomerV1CustomersPostSecurity security,                                                                                                             
-                                                                                                                                                                                                                                                                                                                                     
-    symbol:   class CreateCustomerV1CustomersPostSecurity                                                                                                                 
-    location: interface MethodCallCreateCustomerV1CustomersPost                                                                                                           
-  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:67: error: cannot find symbol                                      
-              CustomerCreate customerCreate) throws Exception;                                                                                                            
-                                                                                                                                                                                        
-    symbol:   class CustomerCreate                                                                                                                                        
-    location: interface MethodCallCreateCustomerV1CustomersPost                                                                                                           
-  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:64: error: cannot find symbol                                      
-          CreateCustomerV1CustomersPostResponse createCustomerV1CustomersPost(                                                                                            
-                                                                                                                                                                                                                                                                                                                                         
-    symbol:   class CreateCustomerV1CustomersPostResponse                                                                                                                 
-    location: interface MethodCallCreateCustomerV1CustomersPost                                                                                                           
-  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:72: error: cannot find symbol                                      
-              GetCustomerByIdV1CustomersCustomerIdGetSecurity security,                                                                                                   
-                                                                                                                                                                                        
-    symbol:   class GetCustomerByIdV1CustomersCustomerIdGetSecurity                                                                                                       
-    location: interface MethodCallGetCustomerByIdV1CustomersCustomerIdGet                                                                                                 
-  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:71: error: cannot find symbol                                      
-          GetCustomerByIdV1CustomersCustomerIdGetResponse getCustomerByIdV1CustomersCustomerIdGet(                                                                        
-                                                                                                                                                                                                                                                                                                                                         
-    symbol:   class GetCustomerByIdV1CustomersCustomerIdGetResponse                                                                                                       
-    location: interface MethodCallGetCustomerByIdV1CustomersCustomerIdGet                                                                                                 
-  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:79: error: cannot find symbol                                      
-              UpdateCustomerV1CustomersCustomerIdPutSecurity security,                                                                                                    
-                                                                                                                                                                                        
-    symbol:   class UpdateCustomerV1CustomersCustomerIdPutSecurity                                                                                                        
-    location: interface MethodCallUpdateCustomerV1CustomersCustomerIdPut                                                                                                  
-  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:82: error: cannot find symbol                                      
-              CustomerUpdate customerUpdate) throws Exception;                                                                                                            
-                                                                                                                                                                                                                                                                                                                                     
-    symbol:   class CustomerUpdate                                                                                                                                        
-    location: interface MethodCallUpdateCustomerV1CustomersCustomerIdPut                                                                                                  
-  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:78: error: cannot find symbol                                      
-          UpdateCustomerV1CustomersCustomerIdPutResponse updateCustomerV1CustomersCustomerIdPut(                                                                          
-                                                                                                                                                                                    
-    symbol:   class UpdateCustomerV1CustomersCustomerIdPutResponse                                                                                                        
-    location: interface MethodCallUpdateCustomerV1CustomersCustomerIdPut                                                                                                  
-  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:87: error: cannot find symbol                                      
-              GetCustomerByExternalIdV1CustomersExternalExternalIdGetSecurity security,                                                                                   
-                                                                                                                                                                                                                                                                                                                                     
-    symbol:   class GetCustomerByExternalIdV1CustomersExternalExternalIdGetSecurity                                                                                       
-    location: interface MethodCallGetCustomerByExternalIdV1CustomersExternalExternalIdGet                                                                                 
-  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:86: error: cannot find symbol                                      
-          GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse getCustomerByExternalIdV1CustomersExternalExternalIdGet(                                        
-                                                                                                                                                                                    
-    symbol:   class GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse                                                                                       
-    location: interface MethodCallGetCustomerByExternalIdV1CustomersExternalExternalIdGet                                                                                 
-  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:94: error: cannot find symbol                                      
-              GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetSecurity security,                                                                           
-                                                                                                                                                                                                                                                                                                                                     
-    symbol:   class GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetSecurity   
+INFO:  Deleting branch speakeasy-sdk-regen-1752530967
+Error: error running workflow: error running speakeasy command: speakeasy run -t java --installationURLs {} --repo-subdirs {"java":""} -r https://github.com/kintsugi-tax/kintsugi-tax-java-sdk.git --skip-testing - exit status 1
+ Running with latest Speakeasy version
+                                     
+                 
+» Target: java...
+                 
+INFO    Running target java (java)...
+                             
+» Source: kintsugi-overlay...
+                             
+INFO    Running Source kintsugi-overlay...
+                                
+» Downloading remote document...
+                                
+INFO    Downloaded https://api.trykintsugi.com/openapi.json to /github/workspace/repo/.speakeasy/temp/downloaded_rmGiJdKOLO.json
+                      
+» Applying Overlays...
+                      
+INFO    Applying 2 overlays into /github/workspace/repo/.speakeasy/temp/overlay_GWnvmnrSTw.yaml...
+                       
+» Apply 2 overlay(s)...
+                       
+Successfully applied 2 overlays into /github/workspace/repo/.speakeasy/temp/overlay_GWnvmnrSTw.yaml
+                        
+» Validating Document...
+                        
+INFO    Linting OpenAPI document...
+INFO    Using ruleset speakeasy-generation
+INFO    No global security found, hoisting most used operation security to global level	{"schemes":["APIKeyHeader"]}
+INFO    Lint report available to view at: https://app.speakeasy.com/org/kintsugi-ai/tax-platform/linting-report/873e477186951bc9e5d2ce1f3e2b4355
+INFO    validation hint: [line 1] retries - Retries should be configured
+INFO    validation hint: [line 1] validate-servers - No servers found in document, either add servers to the document or set a baseServerUrl in the gen.yaml config file
+INFO    validation hint: [line 148] pagination - Pagination might be supported by this operation
+INFO    validation hint: [line 521] pagination - Pagination might be supported by this operation
+INFO    validation hint: [line 847] pagination - Pagination might be supported by this operation
+INFO    validation hint: [line 1135] pagination - Pagination might be supported by this operation
+INFO    validation hint: [line 16126] duplicate-schemas - 2 duplicates of object "type: string, phone: string, street_1: string... 9 more" at lines[16126,16250]
+INFO    validation hint: [line 16128] duplicate-schemas - 2 duplicates of enum "SHIP_TO, BILL_TO" at lines[16128,16252]
+INFO    validation hint: [line 18621] duplicate-schemas - 9 duplicates of schema "Ctx" at lines[18621,19568,19691,19806,19848,19890,19932,19974,20016]
+INFO    
+OpenAPI document linting complete. 0 errors, 0 warnings, 9 hints
+OpenAPI document valid ✓
+                       
+» Diagnosing OpenAPI...
+                       
+                             
+» Tracking OpenAPI Changes...
+                             
+                                
+» Snapshotting Resolved Layer...
+                                
+                             
+» Storing OpenAPI Revision...
+                             
+                        
+» Validating gen.yaml...
+                        
+INFO    
+Validating gen.yaml for target java...
+                        
+» Generating Java SDK...
+                        
+INFO    Generating SDK for java...
+Setup Environment
+Load and Validate Document
+Generate SDK
+Cleanup Orphaned Files
+Update Lock File
+                       
+  » Update Lock File...
+                       
+  Step: Update Lock File started
+  Step: Update Lock File completed
+Compile SDK
+                  
+  » Compile SDK...
+                  
+  Step: Compile SDK started
+  INFO    Running command: gradle build -x test	{"path":"/github/workspace/repo"}
+  WARN    failed running commands: 
+  Starting a Gradle Daemon (subsequent builds will be faster)
+  > Task :compileJava
+  > Task :compileJava FAILED
+  [Incubating] Problems report is available at: file:///github/workspace/repo/build/reports/problems/problems-report.html
+  1 actionable task: 1 executed
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/components/CustomerInput.java:19: error: package org.openapis.openapi.utils does not exist
+  import org.openapis.openapi.utils.LazySingletonValue;
+                                                                                                                                                                                              
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/components/CustomerInput.java:20: error: package org.openapis.openapi.utils does not exist
+  import org.openapis.openapi.utils.Utils;                                                                                                                   
+                                                                                                                                                             
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/components/CustomerInput.java:97: error: cannot find symbol
+      private JsonNullable<? extends CountryCodeEnum> country;
+                                                                                                                                                                  
+    symbol:   class CountryCodeEnum                                                                                            
+    location: class CustomerInput                                                                                              
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/components/CustomerInput.java:122: error: cannot find symbol
+      private Optional<? extends StatusEnum> status;                                                                           
+                                                                                                                               
+    symbol:   class StatusEnum
+    location: class CustomerInput
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/components/CustomerInput.java:133: error: cannot find symbol
+      private Optional<? extends AddressStatus> addressStatus;
+                                                                                                                                                              
+    symbol:   class AddressStatus                                                                                              
+    location: class CustomerInput                                                                                              
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/components/CustomerInput.java:140: error: cannot find symbol
+      private JsonNullable<? extends SourceEnum> source;                                                                       
+                                                                                                                               
+    symbol:   class SourceEnum
+    location: class CustomerInput
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/components/CustomerInput.java:176: error: cannot find symbol
+              @JsonProperty("country") JsonNullable<? extends CountryCodeEnum> country,
+                                                                                                                                                                                           
+    symbol:   class CountryCodeEnum                                                                                            
+    location: class CustomerInput                                                                                              
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/components/CustomerInput.java:180: error: cannot find symbol
+              @JsonProperty("status") Optional<? extends StatusEnum> status,                                                   
+                                                                                                                               
+    symbol:   class StatusEnum
+    location: class CustomerInput
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/components/CustomerInput.java:182: error: cannot find symbol
+              @JsonProperty("address_status") Optional<? extends AddressStatus> addressStatus,
+                                                                                                                                                                                              
+    symbol:   class AddressStatus                                                                                              
+    location: class CustomerInput                                                                                              
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/components/CustomerInput.java:183: error: cannot find symbol
+              @JsonProperty("source") JsonNullable<? extends SourceEnum> source,                                               
+                                                                                                                               
+    symbol:   class SourceEnum
+    location: class CustomerInput
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/components/CustomerInput.java:324: error: cannot find symbol
+      public JsonNullable<CountryCodeEnum> country() {
+                                                                                                                                                       
+    symbol:   class CountryCodeEnum                                                                                            
+    location: class CustomerInput                                                                                              
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/components/CustomerInput.java:354: error: cannot find symbol
+      public Optional<StatusEnum> status() {                                                                                   
+                                                                                                                               
+    symbol:   class StatusEnum
+    location: class CustomerInput
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/components/CustomerInput.java:368: error: cannot find symbol
+      public Optional<AddressStatus> addressStatus() {
+                                                                                                                                                   
+    symbol:   class AddressStatus                                                                                              
+    location: class CustomerInput                                                                                              
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/components/CustomerInput.java:377: error: cannot find symbol
+      public JsonNullable<SourceEnum> source() {                                                                               
+                                                                                                                               
+    symbol:   class SourceEnum
+    location: class CustomerInput
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/components/CustomerInput.java:590: error: cannot find symbol
+      public CustomerInput withCountry(CountryCodeEnum country) {
+                                                                                                                                                                    
+    symbol:   class CountryCodeEnum                                                                                            
+    location: class CustomerInput                                                                                              
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/components/CustomerInput.java:599: error: cannot find symbol
+      public CustomerInput withCountry(JsonNullable<? extends CountryCodeEnum> country) {                                      
+                                                                                                                               
+    symbol:   class CountryCodeEnum
+    location: class CustomerInput
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/components/CustomerInput.java:659: error: cannot find symbol
+      public CustomerInput withStatus(StatusEnum status) {
+                                                                                                                                                                   
+    symbol:   class StatusEnum                                                                                                 
+    location: class CustomerInput                                                                                              
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/components/CustomerInput.java:665: error: cannot find symbol
+      public CustomerInput withStatus(Optional<? extends StatusEnum> status) {                                                 
+                                                                                                                               
+    symbol:   class StatusEnum
+    location: class CustomerInput
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/components/CustomerInput.java:689: error: cannot find symbol
+      public CustomerInput withAddressStatus(AddressStatus addressStatus) {
+                                                                                                                                                                          
+    symbol:   class AddressStatus                                                                                              
+    location: class CustomerInput                                                                                              
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/components/CustomerInput.java:695: error: cannot find symbol
+      public CustomerInput withAddressStatus(Optional<? extends AddressStatus> addressStatus) {                                
+                                                                                                                               
+    symbol:   class AddressStatus
+    location: class CustomerInput
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/components/CustomerInput.java:704: error: cannot find symbol
+      public CustomerInput withSource(SourceEnum source) {
+                                                                                                                                                                   
+    symbol:   class SourceEnum                                                                                                 
+    location: class CustomerInput                                                                                              
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/components/CustomerInput.java:713: error: cannot find symbol
+      public CustomerInput withSource(JsonNullable<? extends SourceEnum> source) {                                             
+                                                                                                                               
+    symbol:   class SourceEnum
+    location: class CustomerInput
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/components/CustomerInput.java:893: error: cannot find symbol
+          private JsonNullable<? extends CountryCodeEnum> country = JsonNullable.undefined();
+                                                                                                                                                                      
+    symbol:   class CountryCodeEnum                                                                                            
+    location: class Builder                                                                                                    
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/components/CustomerInput.java:901: error: cannot find symbol
+          private Optional<? extends StatusEnum> status = Optional.empty();                                                    
+                                                                                                                               
+    symbol:   class StatusEnum
+    location: class Builder
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/components/CustomerInput.java:905: error: cannot find symbol
+          private Optional<? extends AddressStatus> addressStatus = Optional.empty();
+                                                                                                                                                                  
+    symbol:   class AddressStatus                                                                                              
+    location: class Builder                                                                                                    
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/components/CustomerInput.java:907: error: cannot find symbol
+          private JsonNullable<? extends SourceEnum> source = JsonNullable.undefined();                                        
+                                                                                                                               
+    symbol:   class SourceEnum
+    location: class Builder
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/components/CustomerInput.java:1100: error: cannot find symbol
+          public Builder country(CountryCodeEnum country) {
+                                                                                                                                                               
+    symbol:   class CountryCodeEnum                                                                                             
+    location: class Builder                                                                                                     
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/components/CustomerInput.java:1109: error: cannot find symbol
+          public Builder country(JsonNullable<? extends CountryCodeEnum> country) {                                             
+                                                                                                                                
+    symbol:   class CountryCodeEnum
+    location: class Builder
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/components/CustomerInput.java:1169: error: cannot find symbol
+          public Builder status(StatusEnum status) {
+                                                                                                                                                              
+    symbol:   class StatusEnum                                                                                                  
+    location: class Builder                                                                                                     
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/components/CustomerInput.java:1175: error: cannot find symbol
+          public Builder status(Optional<? extends StatusEnum> status) {                                                        
+                                                                                                                                
+    symbol:   class StatusEnum
+    location: class Builder
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/components/CustomerInput.java:1199: error: cannot find symbol
+          public Builder addressStatus(AddressStatus addressStatus) {
+                                                                                                                                                                     
+    symbol:   class AddressStatus                                                                                               
+    location: class Builder                                                                                                     
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/components/CustomerInput.java:1205: error: cannot find symbol
+          public Builder addressStatus(Optional<? extends AddressStatus> addressStatus) {                                       
+                                                                                                                                
+    symbol:   class AddressStatus
+    location: class Builder
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/components/CustomerInput.java:1214: error: cannot find symbol
+          public Builder source(SourceEnum source) {
+                                                                                                                                                              
+    symbol:   class SourceEnum                                                                                                  
+    location: class Builder                                                                                                     
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/components/CustomerInput.java:1223: error: cannot find symbol
+          public Builder source(JsonNullable<? extends SourceEnum> source) {                                                    
+                                                                                                                                
+    symbol:   class SourceEnum
+    location: class Builder
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/components/CustomerInput.java:1319: error: cannot find symbol
+          private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_IsTestData =
+                                                                                                                                                                 
+    symbol:   class LazySingletonValue                                                                                              
+    location: class Builder                                                                                                         
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:13: error: cannot find symbol
+  import org.openapis.openapi.models.components.AddressBase;                                                                        
+                                                                                                                                    
+    symbol:   class AddressBase
+    location: package org.openapis.openapi.models.components
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:14: error: cannot find symbol
+  import org.openapis.openapi.models.components.BigCommerceTaxEstimationRequest;
+                                                                                                                                                                                 
+    symbol:   class BigCommerceTaxEstimationRequest                                                                                 
+    location: package org.openapis.openapi.models.components                                                                        
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:15: error: cannot find symbol
+  import org.openapis.openapi.models.components.BigcommerceConnectRequest;                                                          
+                                                                                                                                    
+    symbol:   class BigcommerceConnectRequest
+    location: package org.openapis.openapi.models.components
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:16: error: cannot find symbol
+  import org.openapis.openapi.models.components.BigcommerceDeactivateRequest;
+                                                                                                                                                                                 
+    symbol:   class BigcommerceDeactivateRequest                                                                                    
+    location: package org.openapis.openapi.models.components                                                                        
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:17: error: cannot find symbol
+  import org.openapis.openapi.models.components.BigcommerceTaxCalculation;                                                          
+                                                                                                                                    
+    symbol:   class BigcommerceTaxCalculation
+    location: package org.openapis.openapi.models.components
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:18: error: cannot find symbol
+  import org.openapis.openapi.models.components.BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost;
+                                                                                                                                                                                 
+    symbol:   class BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost                                            
+    location: package org.openapis.openapi.models.components                                                                        
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:19: error: cannot find symbol
+  import org.openapis.openapi.models.components.ChargebeeAddressValidationRequest;                                                  
+                                                                                                                                    
+    symbol:   class ChargebeeAddressValidationRequest
+    location: package org.openapis.openapi.models.components
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:20: error: cannot find symbol
+  import org.openapis.openapi.models.components.ChargebeeInvoiceRequest;
+                                                                                                                                                                                 
+    symbol:   class ChargebeeInvoiceRequest                                                                                         
+    location: package org.openapis.openapi.models.components                                                                        
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:21: error: cannot find symbol
+  import org.openapis.openapi.models.components.ChargebeeTaxEstimateRequest;                                                        
+                                                                                                                                    
+    symbol:   class ChargebeeTaxEstimateRequest
+    location: package org.openapis.openapi.models.components
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:22: error: cannot find symbol
+  import org.openapis.openapi.models.components.ChargebeeTaxabilityAddressRequest;
+                                                                                                                                                                                 
+    symbol:   class ChargebeeTaxabilityAddressRequest                                                                               
+    location: package org.openapis.openapi.models.components                                                                        
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:23: error: cannot find symbol
+  import org.openapis.openapi.models.components.CreditNoteCreate;                                                                   
+                                                                                                                                    
+    symbol:   class CreditNoteCreate
+    location: package org.openapis.openapi.models.components
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:24: error: cannot find symbol
+  import org.openapis.openapi.models.components.CreditNoteRequest;
+                                                                                                                                                                                 
+    symbol:   class CreditNoteRequest                                                                                               
+    location: package org.openapis.openapi.models.components                                                                        
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:25: error: cannot find symbol
+  import org.openapis.openapi.models.components.CustomerCreate;                                                                     
+                                                                                                                                    
+    symbol:   class CustomerCreate
+    location: package org.openapis.openapi.models.components
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:26: error: cannot find symbol
+  import org.openapis.openapi.models.components.CustomerUpdate;
+                                                                                                                                                                                 
+    symbol:   class CustomerUpdate                                                                                                  
+    location: package org.openapis.openapi.models.components                                                                        
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:27: error: cannot find symbol
+  import org.openapis.openapi.models.components.ExemptionCreate;                                                                    
+                                                                                                                                    
+    symbol:   class ExemptionCreate
+    location: package org.openapis.openapi.models.components
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:28: error: cannot find symbol
+  import org.openapis.openapi.models.components.FilingCreate;
+                                                                                                                                                                                 
+    symbol:   class FilingCreate                                                                                                    
+    location: package org.openapis.openapi.models.components                                                                        
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:29: error: cannot find symbol
+  import org.openapis.openapi.models.components.MagentoTaxEstimationRequest;                                                        
+                                                                                                                                    
+    symbol:   class MagentoTaxEstimationRequest
+    location: package org.openapis.openapi.models.components
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:30: error: cannot find symbol
+  import org.openapis.openapi.models.components.PhysicalNexusCreate;
+                                                                                                                                                                                 
+    symbol:   class PhysicalNexusCreate                                                                                             
+    location: package org.openapis.openapi.models.components                                                                        
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:31: error: cannot find symbol
+  import org.openapis.openapi.models.components.PhysicalNexusUpdate;                                                                
+                                                                                                                                    
+    symbol:   class PhysicalNexusUpdate
+    location: package org.openapis.openapi.models.components
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:32: error: cannot find symbol
+  import org.openapis.openapi.models.components.ProductUpdate;
+                                                                                                                                                                                 
+    symbol:   class ProductUpdate                                                                                                   
+    location: package org.openapis.openapi.models.components                                                                        
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:33: error: cannot find symbol
+  import org.openapis.openapi.models.components.RegistrationUpdateAPI;                                                              
+                                                                                                                                    
+    symbol:   class RegistrationUpdateAPI
+    location: package org.openapis.openapi.models.components
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:34: error: cannot find symbol
+  import org.openapis.openapi.models.components.TransactionCreate;
+                                                                                                                                                                                 
+    symbol:   class TransactionCreate                                                                                               
+    location: package org.openapis.openapi.models.components                                                                        
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:35: error: cannot find symbol
+  import org.openapis.openapi.models.components.TransactionEstimateRequest;                                                         
+                                                                                                                                    
+    symbol:   class TransactionEstimateRequest
+    location: package org.openapis.openapi.models.components
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:36: error: cannot find symbol
+  import org.openapis.openapi.models.components.TransactionPublicRequest;
+                                                                                                                                                                                 
+    symbol:   class TransactionPublicRequest                                                                                        
+    location: package org.openapis.openapi.models.components                                                                        
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:37: error: cannot find symbol
+  import org.openapis.openapi.models.components.TransactionUpdate;                                                                  
+                                                                                                                                    
+    symbol:   class TransactionUpdate
+    location: package org.openapis.openapi.models.components
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:38: error: cannot find symbol
+  import org.openapis.openapi.models.components.UpdateFilingTemp;
+                                                                                                                                                                                 
+    symbol:   class UpdateFilingTemp                                                                                                
+    location: package org.openapis.openapi.models.components                                                                        
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:39: error: cannot find symbol
+  import org.openapis.openapi.models.components.ValidationAddress;                                                                  
+                                                                                                                                    
+    symbol:   class ValidationAddress
+    location: package org.openapis.openapi.models.components
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:46: error: cannot find symbol
+              AddressBase request,
+                                                                                                                                                
+    symbol:   class AddressBase                                                                                                     
+    location: interface MethodCallSearchV1AddressValidationSearchPost                                                               
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:47: error: cannot find symbol
+              SearchV1AddressValidationSearchPostSecurity security) throws Exception;                                               
+                                                                                                                                    
+    symbol:   class SearchV1AddressValidationSearchPostSecurity
+    location: interface MethodCallSearchV1AddressValidationSearchPost
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:45: error: cannot find symbol
+          SearchV1AddressValidationSearchPostResponse searchV1AddressValidationSearchPost(
+                                                                                                                                            
+    symbol:   class SearchV1AddressValidationSearchPostResponse                                                                     
+    location: interface MethodCallSearchV1AddressValidationSearchPost                                                               
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:52: error: cannot find symbol
+              SuggestionsV1AddressValidationSuggestionsPostSecurity security,                                                       
+                                                                                                                                    
+    symbol:   class SuggestionsV1AddressValidationSuggestionsPostSecurity
+    location: interface MethodCallSuggestionsV1AddressValidationSuggestionsPost
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:54: error: cannot find symbol
+              ValidationAddress validationAddress) throws Exception;
+                                                                                                                                                
+    symbol:   class ValidationAddress                                                                                               
+    location: interface MethodCallSuggestionsV1AddressValidationSuggestionsPost                                                     
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:51: error: cannot find symbol
+          SuggestionsV1AddressValidationSuggestionsPostResponse suggestionsV1AddressValidationSuggestionsPost(                      
+                                                                                                                                    
+    symbol:   class SuggestionsV1AddressValidationSuggestionsPostResponse
+    location: interface MethodCallSuggestionsV1AddressValidationSuggestionsPost
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:59: error: cannot find symbol
+              GetCustomersV1Request request,
+                                                                                                                                                
+    symbol:   class GetCustomersV1Request                                                                                           
+    location: interface MethodCallGetCustomersV1                                                                                    
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:60: error: cannot find symbol
+              GetCustomersV1Security security) throws Exception;                                                                    
+                                                                                                                                    
+    symbol:   class GetCustomersV1Security
+    location: interface MethodCallGetCustomersV1
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:58: error: cannot find symbol
+          GetCustomersV1Response getCustomersV1(
+                                                                                                                                            
+    symbol:   class GetCustomersV1Response                                                                                          
+    location: interface MethodCallGetCustomersV1                                                                                    
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:65: error: cannot find symbol
+              CreateCustomerV1CustomersPostSecurity security,                                                                       
+                                                                                                                                    
+    symbol:   class CreateCustomerV1CustomersPostSecurity
+    location: interface MethodCallCreateCustomerV1CustomersPost
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:67: error: cannot find symbol
+              CustomerCreate customerCreate) throws Exception;
+                                                                                                                                                
+    symbol:   class CustomerCreate                                                                                                  
+    location: interface MethodCallCreateCustomerV1CustomersPost                                                                     
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:64: error: cannot find symbol
+          CreateCustomerV1CustomersPostResponse createCustomerV1CustomersPost(                                                      
+                                                                                                                                    
+    symbol:   class CreateCustomerV1CustomersPostResponse
+    location: interface MethodCallCreateCustomerV1CustomersPost
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:72: error: cannot find symbol
+              GetCustomerByIdV1CustomersCustomerIdGetSecurity security,
+                                                                                                                                                
+    symbol:   class GetCustomerByIdV1CustomersCustomerIdGetSecurity                                                                 
+    location: interface MethodCallGetCustomerByIdV1CustomersCustomerIdGet                                                           
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:71: error: cannot find symbol
+          GetCustomerByIdV1CustomersCustomerIdGetResponse getCustomerByIdV1CustomersCustomerIdGet(                                  
+                                                                                                                                    
+    symbol:   class GetCustomerByIdV1CustomersCustomerIdGetResponse
+    location: interface MethodCallGetCustomerByIdV1CustomersCustomerIdGet
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:79: error: cannot find symbol
+              UpdateCustomerV1CustomersCustomerIdPutSecurity security,
+                                                                                                                                                
+    symbol:   class UpdateCustomerV1CustomersCustomerIdPutSecurity                                                                  
+    location: interface MethodCallUpdateCustomerV1CustomersCustomerIdPut                                                            
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:82: error: cannot find symbol
+              CustomerUpdate customerUpdate) throws Exception;                                                                      
+                                                                                                                                    
+    location: class Builder
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/components/CustomerInput.java:1214: error: cannot find symbol
+          public Builder source(SourceEnum source) {
+                                                                                                                                                              
+    symbol:   class SourceEnum                                                                                                  
+    location: class Builder                                                                                                     
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/components/CustomerInput.java:1223: error: cannot find symbol
+          public Builder source(JsonNullable<? extends SourceEnum> source) {                                                    
+                                                                                                                                
+    symbol:   class SourceEnum
+    location: class Builder
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/components/CustomerInput.java:1319: error: cannot find symbol
+          private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_IsTestData =
+                                                                                                                                                                 
+    symbol:   class LazySingletonValue                                                                                              
+    location: class Builder                                                                                                         
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:13: error: cannot find symbol
+  import org.openapis.openapi.models.components.AddressBase;                                                                        
+                                                                                                                                    
+    symbol:   class AddressBase
+    location: package org.openapis.openapi.models.components
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:14: error: cannot find symbol
+  import org.openapis.openapi.models.components.BigCommerceTaxEstimationRequest;
+                                                                                                                                                                                 
+    symbol:   class BigCommerceTaxEstimationRequest                                                                                 
+    location: package org.openapis.openapi.models.components                                                                        
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:15: error: cannot find symbol
+  import org.openapis.openapi.models.components.BigcommerceConnectRequest;                                                          
+                                                                                                                                    
+    symbol:   class BigcommerceConnectRequest
+    location: package org.openapis.openapi.models.components
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:16: error: cannot find symbol
+  import org.openapis.openapi.models.components.BigcommerceDeactivateRequest;
+                                                                                                                                                                                 
+    symbol:   class BigcommerceDeactivateRequest                                                                                    
+    location: package org.openapis.openapi.models.components                                                                        
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:17: error: cannot find symbol
+  import org.openapis.openapi.models.components.BigcommerceTaxCalculation;                                                          
+                                                                                                                                    
+    symbol:   class BigcommerceTaxCalculation
+    location: package org.openapis.openapi.models.components
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:18: error: cannot find symbol
+  import org.openapis.openapi.models.components.BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost;
+                                                                                                                                                                                 
+    symbol:   class BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost                                            
+    location: package org.openapis.openapi.models.components                                                                        
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:19: error: cannot find symbol
+  import org.openapis.openapi.models.components.ChargebeeAddressValidationRequest;                                                  
+                                                                                                                                    
+    symbol:   class ChargebeeAddressValidationRequest
+    location: package org.openapis.openapi.models.components
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:20: error: cannot find symbol
+  import org.openapis.openapi.models.components.ChargebeeInvoiceRequest;
+                                                                                                                                                                                 
+    symbol:   class ChargebeeInvoiceRequest                                                                                         
+    location: package org.openapis.openapi.models.components                                                                        
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:21: error: cannot find symbol
+  import org.openapis.openapi.models.components.ChargebeeTaxEstimateRequest;                                                        
+                                                                                                                                    
+    symbol:   class ChargebeeTaxEstimateRequest
+    location: package org.openapis.openapi.models.components
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:22: error: cannot find symbol
+  import org.openapis.openapi.models.components.ChargebeeTaxabilityAddressRequest;
+                                                                                                                                                                                 
+    symbol:   class ChargebeeTaxabilityAddressRequest                                                                               
+    location: package org.openapis.openapi.models.components                                                                        
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:23: error: cannot find symbol
+  import org.openapis.openapi.models.components.CreditNoteCreate;                                                                   
+                                                                                                                                    
+    symbol:   class CreditNoteCreate
+    location: package org.openapis.openapi.models.components
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:24: error: cannot find symbol
+  import org.openapis.openapi.models.components.CreditNoteRequest;
+                                                                                                                                                                                 
+    symbol:   class CreditNoteRequest                                                                                               
+    location: package org.openapis.openapi.models.components                                                                        
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:25: error: cannot find symbol
+  import org.openapis.openapi.models.components.CustomerCreate;                                                                     
+                                                                                                                                    
+    symbol:   class CustomerCreate
+    location: package org.openapis.openapi.models.components
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:26: error: cannot find symbol
+  import org.openapis.openapi.models.components.CustomerUpdate;
+                                                                                                                                                                                 
+    symbol:   class CustomerUpdate                                                                                                  
+    location: package org.openapis.openapi.models.components                                                                        
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:27: error: cannot find symbol
+  import org.openapis.openapi.models.components.ExemptionCreate;                                                                    
+                                                                                                                                    
+    symbol:   class ExemptionCreate
+    location: package org.openapis.openapi.models.components
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:28: error: cannot find symbol
+  import org.openapis.openapi.models.components.FilingCreate;
+                                                                                                                                                                                 
+    symbol:   class FilingCreate                                                                                                    
+    location: package org.openapis.openapi.models.components                                                                        
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:29: error: cannot find symbol
+  import org.openapis.openapi.models.components.MagentoTaxEstimationRequest;                                                        
+                                                                                                                                    
+    symbol:   class MagentoTaxEstimationRequest
+    location: package org.openapis.openapi.models.components
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:30: error: cannot find symbol
+  import org.openapis.openapi.models.components.PhysicalNexusCreate;
+                                                                                                                                                                                 
+    symbol:   class PhysicalNexusCreate                                                                                             
+    location: package org.openapis.openapi.models.components                                                                        
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:31: error: cannot find symbol
+  import org.openapis.openapi.models.components.PhysicalNexusUpdate;                                                                
+                                                                                                                                    
+    symbol:   class PhysicalNexusUpdate
+    location: package org.openapis.openapi.models.components
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:32: error: cannot find symbol
+  import org.openapis.openapi.models.components.ProductUpdate;
+                                                                                                                                                                                 
+    symbol:   class ProductUpdate                                                                                                   
+    location: package org.openapis.openapi.models.components                                                                        
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:33: error: cannot find symbol
+  import org.openapis.openapi.models.components.RegistrationUpdateAPI;                                                              
+                                                                                                                                    
+    symbol:   class RegistrationUpdateAPI
+    location: package org.openapis.openapi.models.components
+  /github/workspace/repo/src/main/java/org/openapis/openapi/models/operations/SDKMethodInterfaces.java:34: error: cannot find symbol
+  import org.openapis.openapi.models.components.TransactionCreate;
+                

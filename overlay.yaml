@@ -1,127 +1,29 @@
 overlay: 1.0.0
 x-speakeasy-jsonpath: rfc9535
 info:
-  title: Kintsugi Tax Platform API Overlay - Java SDK
+  title: Kintsugi Tax Platform API Overlay - Minimal Java SDK
   version: 1.0.0
 actions:
   # =============================================================================
-  # SIMPLIFIED APPROACH FOR JAVA SDK
+  # MINIMAL JAVA SDK - ONLY ESSENTIAL ENDPOINTS
   # =============================================================================
-  # Only include the most essential endpoints to avoid component generation issues
+  # Start with just a few endpoints to see if we can get the generator working
   # =============================================================================
 
-  # === ADDRESS VALIDATION ENDPOINTS ===
+  # === ONLY ADDRESS VALIDATION - MINIMAL TEST ===
   - target: $.paths['/v1/address_validation/search'].post
     update:
       x-public: true
-      
-  - target: $.paths['/v1/address_validation/suggestions'].post
-    update:
-      x-public: true
-
-  # === CUSTOMERS ENDPOINTS ===
-  - target: $.paths['/v1/customers'].get
-    update:
-      x-public: true
-      
-  - target: $.paths['/v1/customers'].post
-    update:
-      x-public: true
-      
-  - target: $.paths['/v1/customers/{customer_id}'].get
-    update:
-      x-public: true
-      
-  - target: $.paths['/v1/customers/{customer_id}'].put
-    update:
-      x-public: true
-      
-  - target: $.paths['/v1/customers/external/{external_id}'].get
-    update:
-      x-public: true
-
-  # === EXEMPTIONS ENDPOINTS ===
-  - target: $.paths['/v1/exemptions'].get
-    update:
-      x-public: true
-      
-  - target: $.paths['/v1/exemptions'].post
-    update:
-      x-public: true
-      
-  - target: $.paths['/v1/exemptions/{exemption_id}'].get
-    update:
-      x-public: true
-      
-  - target: $.paths['/v1/exemptions/{exemption_id}'].put
-    update:
-      x-public: true
-      
-  - target: $.paths['/v1/exemptions/{exemption_id}'].delete
-    update:
-      x-public: true
-
-  # === NEXUS ENDPOINTS ===
-  - target: $.paths['/v1/nexus'].get
-    update:
-      x-public: true
-
-  # === PRODUCTS ENDPOINTS ===
-  - target: $.paths['/v1/products'].get
-    update:
-      x-public: true
-      
-  - target: $.paths['/v1/products'].post
-    update:
-      x-public: true
-      
-  - target: $.paths['/v1/products/{product_id}'].get
-    update:
-      x-public: true
-      
-  - target: $.paths['/v1/products/{product_id}'].put
-    update:
-      x-public: true
-      
-  - target: $.paths['/v1/products/{product_id}'].delete
-    update:
-      x-public: true
-
-  # === TAX ESTIMATION ENDPOINTS ===
-  - target: $.paths['/v1/tax_estimation'].post
-    update:
-      x-public: true
-
-  # === TRANSACTIONS ENDPOINTS ===
-  - target: $.paths['/v1/transactions'].get
-    update:
-      x-public: true
-      
-  - target: $.paths['/v1/transactions'].post
-    update:
-      x-public: true
-      
-  - target: $.paths['/v1/transactions/{transaction_id}'].get
-    update:
-      x-public: true
-      
-  - target: $.paths['/v1/transactions/{transaction_id}'].put
-    update:
-      x-public: true
-      
-  - target: $.paths['/v1/transactions/{transaction_id}'].delete
-    update:
-      x-public: true
 
   # =============================================================================
-  # REMOVE ALL OTHER PATHS
+  # REMOVE EVERYTHING ELSE
   # =============================================================================
   - target: $.paths.*[?@['x-public'] != true]
     remove: true
 
 # =============================================================================
-# MINIMAL JAVA SDK CONFIGURATION
+# MINIMAL JAVA SDK TEST
 # =============================================================================
-# This overlay focuses only on essential endpoints to avoid Java generator
-# component generation issues that were causing compilation failures
+# This overlay includes only one endpoint to test if the Java generator
+# can handle the most basic case without compilation errors
 # =============================================================================

@@ -22,7 +22,7 @@ generation:
     generateNewTests: true
     skipResponseBodyAssertions: false
 java:
-  version: 0.5.4
+  version: 0.5.5
   additionalDependencies: []
   additionalPlugins: []
   artifactID: kintsugi-tax-java-sdk

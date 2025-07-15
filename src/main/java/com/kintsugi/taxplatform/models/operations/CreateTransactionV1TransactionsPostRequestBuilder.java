@@ -60,9 +60,7 @@ public class CreateTransactionV1TransactionsPostRequestBuilder {
     public CreateTransactionV1TransactionsPostResponse call() throws Exception {
         
         RequestOperation<CreateTransactionV1TransactionsPostRequest, CreateTransactionV1TransactionsPostResponse> operation
-              = new CreateTransactionV1TransactionsPostOperation(
-                sdkConfiguration,
-                security);
+              = new CreateTransactionV1TransactionsPostOperation(sdkConfiguration, security);
         CreateTransactionV1TransactionsPostRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

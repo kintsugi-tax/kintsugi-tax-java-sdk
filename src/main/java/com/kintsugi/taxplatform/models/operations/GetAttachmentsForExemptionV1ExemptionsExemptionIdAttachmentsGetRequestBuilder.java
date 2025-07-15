@@ -59,9 +59,7 @@ public class GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequ
     public GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetResponse call() throws Exception {
         
         RequestOperation<GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest, GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetResponse> operation
-              = new GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetOperation(
-                sdkConfiguration,
-                security);
+              = new GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetOperation(sdkConfiguration, security);
         GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

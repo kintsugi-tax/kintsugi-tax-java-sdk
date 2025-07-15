@@ -68,9 +68,7 @@ public class UpdateTransactionV1TransactionsTransactionIdPutRequestBuilder {
     public UpdateTransactionV1TransactionsTransactionIdPutResponse call() throws Exception {
         
         RequestOperation<UpdateTransactionV1TransactionsTransactionIdPutRequest, UpdateTransactionV1TransactionsTransactionIdPutResponse> operation
-              = new UpdateTransactionV1TransactionsTransactionIdPutOperation(
-                sdkConfiguration,
-                security);
+              = new UpdateTransactionV1TransactionsTransactionIdPutOperation(sdkConfiguration, security);
         UpdateTransactionV1TransactionsTransactionIdPutRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

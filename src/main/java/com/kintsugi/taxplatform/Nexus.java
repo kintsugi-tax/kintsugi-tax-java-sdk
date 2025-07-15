@@ -41,13 +41,9 @@ public class Nexus {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public GetNexusForOrgV1NexusGetResponse list(
-            GetNexusForOrgV1NexusGetRequest request,
-            GetNexusForOrgV1NexusGetSecurity security) throws Exception {
+    public GetNexusForOrgV1NexusGetResponse list(GetNexusForOrgV1NexusGetRequest request, GetNexusForOrgV1NexusGetSecurity security) throws Exception {
         RequestOperation<GetNexusForOrgV1NexusGetRequest, GetNexusForOrgV1NexusGetResponse> operation
-              = new GetNexusForOrgV1NexusGetOperation(
-                sdkConfiguration,
-                security);
+              = new GetNexusForOrgV1NexusGetOperation(sdkConfiguration, security);
         return operation.handleResponse(operation.doRequest(request));
     }
 

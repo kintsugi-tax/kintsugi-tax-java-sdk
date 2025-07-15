@@ -60,9 +60,7 @@ public class CreateCustomerV1CustomersPostRequestBuilder {
     public CreateCustomerV1CustomersPostResponse call() throws Exception {
         
         RequestOperation<CreateCustomerV1CustomersPostRequest, CreateCustomerV1CustomersPostResponse> operation
-              = new CreateCustomerV1CustomersPostOperation(
-                sdkConfiguration,
-                security);
+              = new CreateCustomerV1CustomersPostOperation(sdkConfiguration, security);
         CreateCustomerV1CustomersPostRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

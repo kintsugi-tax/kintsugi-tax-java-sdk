@@ -67,9 +67,7 @@ public class UpdateProductV1ProductsProductIdPutRequestBuilder {
     public UpdateProductV1ProductsProductIdPutResponse call() throws Exception {
         
         RequestOperation<UpdateProductV1ProductsProductIdPutRequest, UpdateProductV1ProductsProductIdPutResponse> operation
-              = new UpdateProductV1ProductsProductIdPutOperation(
-                sdkConfiguration,
-                security);
+              = new UpdateProductV1ProductsProductIdPutOperation(sdkConfiguration, security);
         UpdateProductV1ProductsProductIdPutRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

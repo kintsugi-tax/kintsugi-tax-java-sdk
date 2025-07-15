@@ -68,9 +68,7 @@ public class CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostR
     public CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostResponse call() throws Exception {
         
         RequestOperation<CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest, CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostResponse> operation
-              = new CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostOperation(
-                sdkConfiguration,
-                security);
+              = new CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostOperation(sdkConfiguration, security);
         CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

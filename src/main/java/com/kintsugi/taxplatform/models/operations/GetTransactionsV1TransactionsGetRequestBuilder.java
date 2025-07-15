@@ -35,9 +35,7 @@ public class GetTransactionsV1TransactionsGetRequestBuilder {
     public GetTransactionsV1TransactionsGetResponse call() throws Exception {
         
         RequestOperation<GetTransactionsV1TransactionsGetRequest, GetTransactionsV1TransactionsGetResponse> operation
-              = new GetTransactionsV1TransactionsGetOperation(
-                sdkConfiguration,
-                security);
+              = new GetTransactionsV1TransactionsGetOperation(sdkConfiguration, security);
 
         return operation.handleResponse(operation.doRequest(request));
     }

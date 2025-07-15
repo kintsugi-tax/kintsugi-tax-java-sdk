@@ -59,9 +59,7 @@ public class GetExemptionByIdV1ExemptionsExemptionIdGetRequestBuilder {
     public GetExemptionByIdV1ExemptionsExemptionIdGetResponse call() throws Exception {
         
         RequestOperation<GetExemptionByIdV1ExemptionsExemptionIdGetRequest, GetExemptionByIdV1ExemptionsExemptionIdGetResponse> operation
-              = new GetExemptionByIdV1ExemptionsExemptionIdGetOperation(
-                sdkConfiguration,
-                security);
+              = new GetExemptionByIdV1ExemptionsExemptionIdGetOperation(sdkConfiguration, security);
         GetExemptionByIdV1ExemptionsExemptionIdGetRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

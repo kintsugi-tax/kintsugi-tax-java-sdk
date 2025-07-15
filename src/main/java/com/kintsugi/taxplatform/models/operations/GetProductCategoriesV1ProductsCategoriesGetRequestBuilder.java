@@ -51,9 +51,7 @@ public class GetProductCategoriesV1ProductsCategoriesGetRequestBuilder {
     public GetProductCategoriesV1ProductsCategoriesGetResponse call() throws Exception {
         
         RequestOperation<GetProductCategoriesV1ProductsCategoriesGetRequest, GetProductCategoriesV1ProductsCategoriesGetResponse> operation
-              = new GetProductCategoriesV1ProductsCategoriesGetOperation(
-                sdkConfiguration,
-                security);
+              = new GetProductCategoriesV1ProductsCategoriesGetOperation(sdkConfiguration, security);
         GetProductCategoriesV1ProductsCategoriesGetRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

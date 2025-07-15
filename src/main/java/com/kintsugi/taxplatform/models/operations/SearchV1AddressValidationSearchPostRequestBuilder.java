@@ -36,9 +36,7 @@ public class SearchV1AddressValidationSearchPostRequestBuilder {
     public SearchV1AddressValidationSearchPostResponse call() throws Exception {
         
         RequestOperation<AddressBase, SearchV1AddressValidationSearchPostResponse> operation
-              = new SearchV1AddressValidationSearchPostOperation(
-                sdkConfiguration,
-                security);
+              = new SearchV1AddressValidationSearchPostOperation(sdkConfiguration, security);
 
         return operation.handleResponse(operation.doRequest(request));
     }

@@ -60,9 +60,7 @@ public class CreateProductV1ProductsPostRequestBuilder {
     public CreateProductV1ProductsPostResponse call() throws Exception {
         
         RequestOperation<CreateProductV1ProductsPostRequest, CreateProductV1ProductsPostResponse> operation
-              = new CreateProductV1ProductsPostOperation(
-                sdkConfiguration,
-                security);
+              = new CreateProductV1ProductsPostOperation(sdkConfiguration, security);
         CreateProductV1ProductsPostRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

@@ -79,13 +79,9 @@ public class Customers {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public GetCustomersV1Response list(
-            GetCustomersV1Request request,
-            GetCustomersV1Security security) throws Exception {
+    public GetCustomersV1Response list(GetCustomersV1Request request, GetCustomersV1Security security) throws Exception {
         RequestOperation<GetCustomersV1Request, GetCustomersV1Response> operation
-              = new GetCustomersV1Operation(
-                sdkConfiguration,
-                security);
+              = new GetCustomersV1Operation(sdkConfiguration, security);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -112,9 +108,7 @@ public class Customers {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public CreateCustomerV1CustomersPostResponse create(
-            CreateCustomerV1CustomersPostSecurity security,
-            CustomerCreate customerCreate) throws Exception {
+    public CreateCustomerV1CustomersPostResponse create(CreateCustomerV1CustomersPostSecurity security, CustomerCreate customerCreate) throws Exception {
         return create(security, Optional.empty(), customerCreate);
     }
 
@@ -131,8 +125,7 @@ public class Customers {
      * @throws Exception if the API call fails
      */
     public CreateCustomerV1CustomersPostResponse create(
-            CreateCustomerV1CustomersPostSecurity security,
-            Optional<String> xOrganizationId,
+            CreateCustomerV1CustomersPostSecurity security, Optional<String> xOrganizationId,
             CustomerCreate customerCreate) throws Exception {
         CreateCustomerV1CustomersPostRequest request =
             CreateCustomerV1CustomersPostRequest
@@ -141,9 +134,7 @@ public class Customers {
                 .customerCreate(customerCreate)
                 .build();
         RequestOperation<CreateCustomerV1CustomersPostRequest, CreateCustomerV1CustomersPostResponse> operation
-              = new CreateCustomerV1CustomersPostOperation(
-                sdkConfiguration,
-                security);
+              = new CreateCustomerV1CustomersPostOperation(sdkConfiguration, security);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -172,9 +163,7 @@ public class Customers {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public GetCustomerByIdV1CustomersCustomerIdGetResponse get(
-            GetCustomerByIdV1CustomersCustomerIdGetSecurity security,
-            String customerId) throws Exception {
+    public GetCustomerByIdV1CustomersCustomerIdGetResponse get(GetCustomerByIdV1CustomersCustomerIdGetSecurity security, String customerId) throws Exception {
         return get(security, customerId, Optional.empty());
     }
 
@@ -192,8 +181,7 @@ public class Customers {
      * @throws Exception if the API call fails
      */
     public GetCustomerByIdV1CustomersCustomerIdGetResponse get(
-            GetCustomerByIdV1CustomersCustomerIdGetSecurity security,
-            String customerId,
+            GetCustomerByIdV1CustomersCustomerIdGetSecurity security, String customerId,
             Optional<String> xOrganizationId) throws Exception {
         GetCustomerByIdV1CustomersCustomerIdGetRequest request =
             GetCustomerByIdV1CustomersCustomerIdGetRequest
@@ -202,9 +190,7 @@ public class Customers {
                 .xOrganizationId(xOrganizationId)
                 .build();
         RequestOperation<GetCustomerByIdV1CustomersCustomerIdGetRequest, GetCustomerByIdV1CustomersCustomerIdGetResponse> operation
-              = new GetCustomerByIdV1CustomersCustomerIdGetOperation(
-                sdkConfiguration,
-                security);
+              = new GetCustomerByIdV1CustomersCustomerIdGetOperation(sdkConfiguration, security);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -235,8 +221,7 @@ public class Customers {
      * @throws Exception if the API call fails
      */
     public UpdateCustomerV1CustomersCustomerIdPutResponse update(
-            UpdateCustomerV1CustomersCustomerIdPutSecurity security,
-            String customerId,
+            UpdateCustomerV1CustomersCustomerIdPutSecurity security, String customerId,
             CustomerUpdate customerUpdate) throws Exception {
         return update(security, customerId, Optional.empty(),
             customerUpdate);
@@ -257,10 +242,8 @@ public class Customers {
      * @throws Exception if the API call fails
      */
     public UpdateCustomerV1CustomersCustomerIdPutResponse update(
-            UpdateCustomerV1CustomersCustomerIdPutSecurity security,
-            String customerId,
-            Optional<String> xOrganizationId,
-            CustomerUpdate customerUpdate) throws Exception {
+            UpdateCustomerV1CustomersCustomerIdPutSecurity security, String customerId,
+            Optional<String> xOrganizationId, CustomerUpdate customerUpdate) throws Exception {
         UpdateCustomerV1CustomersCustomerIdPutRequest request =
             UpdateCustomerV1CustomersCustomerIdPutRequest
                 .builder()
@@ -269,9 +252,7 @@ public class Customers {
                 .customerUpdate(customerUpdate)
                 .build();
         RequestOperation<UpdateCustomerV1CustomersCustomerIdPutRequest, UpdateCustomerV1CustomersCustomerIdPutResponse> operation
-              = new UpdateCustomerV1CustomersCustomerIdPutOperation(
-                sdkConfiguration,
-                security);
+              = new UpdateCustomerV1CustomersCustomerIdPutOperation(sdkConfiguration, security);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -300,9 +281,7 @@ public class Customers {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse getByExternalId(
-            GetCustomerByExternalIdV1CustomersExternalExternalIdGetSecurity security,
-            String externalId) throws Exception {
+    public GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse getByExternalId(GetCustomerByExternalIdV1CustomersExternalExternalIdGetSecurity security, String externalId) throws Exception {
         return getByExternalId(security, externalId, Optional.empty());
     }
 
@@ -320,8 +299,7 @@ public class Customers {
      * @throws Exception if the API call fails
      */
     public GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse getByExternalId(
-            GetCustomerByExternalIdV1CustomersExternalExternalIdGetSecurity security,
-            String externalId,
+            GetCustomerByExternalIdV1CustomersExternalExternalIdGetSecurity security, String externalId,
             Optional<String> xOrganizationId) throws Exception {
         GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest request =
             GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest
@@ -330,9 +308,7 @@ public class Customers {
                 .xOrganizationId(xOrganizationId)
                 .build();
         RequestOperation<GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest, GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse> operation
-              = new GetCustomerByExternalIdV1CustomersExternalExternalIdGetOperation(
-                sdkConfiguration,
-                security);
+              = new GetCustomerByExternalIdV1CustomersExternalExternalIdGetOperation(sdkConfiguration, security);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -357,9 +333,7 @@ public class Customers {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse getTransactions(
-            GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetSecurity security,
-            String customerId) throws Exception {
+    public GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse getTransactions(GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetSecurity security, String customerId) throws Exception {
         return getTransactions(security, customerId, Optional.empty());
     }
 
@@ -375,8 +349,7 @@ public class Customers {
      * @throws Exception if the API call fails
      */
     public GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse getTransactions(
-            GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetSecurity security,
-            String customerId,
+            GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetSecurity security, String customerId,
             Optional<String> xOrganizationId) throws Exception {
         GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest request =
             GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest
@@ -385,9 +358,7 @@ public class Customers {
                 .xOrganizationId(xOrganizationId)
                 .build();
         RequestOperation<GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest, GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse> operation
-              = new GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetOperation(
-                sdkConfiguration,
-                security);
+              = new GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetOperation(sdkConfiguration, security);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -414,8 +385,7 @@ public class Customers {
      * @throws Exception if the API call fails
      */
     public CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostResponse createTransaction(
-            CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostSecurity security,
-            String customerId,
+            CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostSecurity security, String customerId,
             TransactionCreate transactionCreate) throws Exception {
         return createTransaction(security, customerId, Optional.empty(),
             transactionCreate);
@@ -434,10 +404,8 @@ public class Customers {
      * @throws Exception if the API call fails
      */
     public CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostResponse createTransaction(
-            CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostSecurity security,
-            String customerId,
-            Optional<String> xOrganizationId,
-            TransactionCreate transactionCreate) throws Exception {
+            CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostSecurity security, String customerId,
+            Optional<String> xOrganizationId, TransactionCreate transactionCreate) throws Exception {
         CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest request =
             CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest
                 .builder()
@@ -446,9 +414,7 @@ public class Customers {
                 .transactionCreate(transactionCreate)
                 .build();
         RequestOperation<CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest, CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostResponse> operation
-              = new CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostOperation(
-                sdkConfiguration,
-                security);
+              = new CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostOperation(sdkConfiguration, security);
         return operation.handleResponse(operation.doRequest(request));
     }
 

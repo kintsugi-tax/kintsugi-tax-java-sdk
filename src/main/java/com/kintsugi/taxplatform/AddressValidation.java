@@ -54,13 +54,9 @@ public class AddressValidation {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public SearchV1AddressValidationSearchPostResponse search(
-            AddressBase request,
-            SearchV1AddressValidationSearchPostSecurity security) throws Exception {
+    public SearchV1AddressValidationSearchPostResponse search(AddressBase request, SearchV1AddressValidationSearchPostSecurity security) throws Exception {
         RequestOperation<AddressBase, SearchV1AddressValidationSearchPostResponse> operation
-              = new SearchV1AddressValidationSearchPostOperation(
-                sdkConfiguration,
-                security);
+              = new SearchV1AddressValidationSearchPostOperation(sdkConfiguration, security);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -93,9 +89,7 @@ public class AddressValidation {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public SuggestionsV1AddressValidationSuggestionsPostResponse suggestions(
-            SuggestionsV1AddressValidationSuggestionsPostSecurity security,
-            ValidationAddress validationAddress) throws Exception {
+    public SuggestionsV1AddressValidationSuggestionsPostResponse suggestions(SuggestionsV1AddressValidationSuggestionsPostSecurity security, ValidationAddress validationAddress) throws Exception {
         return suggestions(security, Optional.empty(), validationAddress);
     }
 
@@ -115,8 +109,7 @@ public class AddressValidation {
      * @throws Exception if the API call fails
      */
     public SuggestionsV1AddressValidationSuggestionsPostResponse suggestions(
-            SuggestionsV1AddressValidationSuggestionsPostSecurity security,
-            Optional<String> xOrganizationId,
+            SuggestionsV1AddressValidationSuggestionsPostSecurity security, Optional<String> xOrganizationId,
             ValidationAddress validationAddress) throws Exception {
         SuggestionsV1AddressValidationSuggestionsPostRequest request =
             SuggestionsV1AddressValidationSuggestionsPostRequest
@@ -125,9 +118,7 @@ public class AddressValidation {
                 .validationAddress(validationAddress)
                 .build();
         RequestOperation<SuggestionsV1AddressValidationSuggestionsPostRequest, SuggestionsV1AddressValidationSuggestionsPostResponse> operation
-              = new SuggestionsV1AddressValidationSuggestionsPostOperation(
-                sdkConfiguration,
-                security);
+              = new SuggestionsV1AddressValidationSuggestionsPostOperation(sdkConfiguration, security);
         return operation.handleResponse(operation.doRequest(request));
     }
 

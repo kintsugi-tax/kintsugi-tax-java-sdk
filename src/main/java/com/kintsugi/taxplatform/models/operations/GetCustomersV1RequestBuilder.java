@@ -35,9 +35,7 @@ public class GetCustomersV1RequestBuilder {
     public GetCustomersV1Response call() throws Exception {
         
         RequestOperation<GetCustomersV1Request, GetCustomersV1Response> operation
-              = new GetCustomersV1Operation(
-                sdkConfiguration,
-                security);
+              = new GetCustomersV1Operation(sdkConfiguration, security);
 
         return operation.handleResponse(operation.doRequest(request));
     }

@@ -35,9 +35,7 @@ public class GetExemptionsV1ExemptionsGetRequestBuilder {
     public GetExemptionsV1ExemptionsGetResponse call() throws Exception {
         
         RequestOperation<GetExemptionsV1ExemptionsGetRequest, GetExemptionsV1ExemptionsGetResponse> operation
-              = new GetExemptionsV1ExemptionsGetOperation(
-                sdkConfiguration,
-                security);
+              = new GetExemptionsV1ExemptionsGetOperation(sdkConfiguration, security);
 
         return operation.handleResponse(operation.doRequest(request));
     }

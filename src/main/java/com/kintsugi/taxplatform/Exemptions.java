@@ -64,13 +64,9 @@ public class Exemptions {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public GetExemptionsV1ExemptionsGetResponse list(
-            GetExemptionsV1ExemptionsGetRequest request,
-            GetExemptionsV1ExemptionsGetSecurity security) throws Exception {
+    public GetExemptionsV1ExemptionsGetResponse list(GetExemptionsV1ExemptionsGetRequest request, GetExemptionsV1ExemptionsGetSecurity security) throws Exception {
         RequestOperation<GetExemptionsV1ExemptionsGetRequest, GetExemptionsV1ExemptionsGetResponse> operation
-              = new GetExemptionsV1ExemptionsGetOperation(
-                sdkConfiguration,
-                security);
+              = new GetExemptionsV1ExemptionsGetOperation(sdkConfiguration, security);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -99,9 +95,7 @@ public class Exemptions {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public CreateExemptionV1ExemptionsPostResponse create(
-            CreateExemptionV1ExemptionsPostSecurity security,
-            ExemptionCreate exemptionCreate) throws Exception {
+    public CreateExemptionV1ExemptionsPostResponse create(CreateExemptionV1ExemptionsPostSecurity security, ExemptionCreate exemptionCreate) throws Exception {
         return create(security, Optional.empty(), exemptionCreate);
     }
 
@@ -119,8 +113,7 @@ public class Exemptions {
      * @throws Exception if the API call fails
      */
     public CreateExemptionV1ExemptionsPostResponse create(
-            CreateExemptionV1ExemptionsPostSecurity security,
-            Optional<String> xOrganizationId,
+            CreateExemptionV1ExemptionsPostSecurity security, Optional<String> xOrganizationId,
             ExemptionCreate exemptionCreate) throws Exception {
         CreateExemptionV1ExemptionsPostRequest request =
             CreateExemptionV1ExemptionsPostRequest
@@ -129,9 +122,7 @@ public class Exemptions {
                 .exemptionCreate(exemptionCreate)
                 .build();
         RequestOperation<CreateExemptionV1ExemptionsPostRequest, CreateExemptionV1ExemptionsPostResponse> operation
-              = new CreateExemptionV1ExemptionsPostOperation(
-                sdkConfiguration,
-                security);
+              = new CreateExemptionV1ExemptionsPostOperation(sdkConfiguration, security);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -162,9 +153,7 @@ public class Exemptions {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public GetExemptionByIdV1ExemptionsExemptionIdGetResponse get(
-            GetExemptionByIdV1ExemptionsExemptionIdGetSecurity security,
-            String exemptionId) throws Exception {
+    public GetExemptionByIdV1ExemptionsExemptionIdGetResponse get(GetExemptionByIdV1ExemptionsExemptionIdGetSecurity security, String exemptionId) throws Exception {
         return get(security, exemptionId, Optional.empty());
     }
 
@@ -183,8 +172,7 @@ public class Exemptions {
      * @throws Exception if the API call fails
      */
     public GetExemptionByIdV1ExemptionsExemptionIdGetResponse get(
-            GetExemptionByIdV1ExemptionsExemptionIdGetSecurity security,
-            String exemptionId,
+            GetExemptionByIdV1ExemptionsExemptionIdGetSecurity security, String exemptionId,
             Optional<String> xOrganizationId) throws Exception {
         GetExemptionByIdV1ExemptionsExemptionIdGetRequest request =
             GetExemptionByIdV1ExemptionsExemptionIdGetRequest
@@ -193,9 +181,7 @@ public class Exemptions {
                 .xOrganizationId(xOrganizationId)
                 .build();
         RequestOperation<GetExemptionByIdV1ExemptionsExemptionIdGetRequest, GetExemptionByIdV1ExemptionsExemptionIdGetResponse> operation
-              = new GetExemptionByIdV1ExemptionsExemptionIdGetOperation(
-                sdkConfiguration,
-                security);
+              = new GetExemptionByIdV1ExemptionsExemptionIdGetOperation(sdkConfiguration, security);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -228,8 +214,7 @@ public class Exemptions {
      * @throws Exception if the API call fails
      */
     public UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse uploadCertificate(
-            UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostSecurity security,
-            String exemptionId,
+            UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostSecurity security, String exemptionId,
             BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost) throws Exception {
         return uploadCertificate(security, exemptionId, Optional.empty(),
             bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost);
@@ -251,10 +236,8 @@ public class Exemptions {
      * @throws Exception if the API call fails
      */
     public UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse uploadCertificate(
-            UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostSecurity security,
-            String exemptionId,
-            Optional<String> xOrganizationId,
-            BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost) throws Exception {
+            UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostSecurity security, String exemptionId,
+            Optional<String> xOrganizationId, BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost) throws Exception {
         UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest request =
             UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest
                 .builder()
@@ -263,9 +246,7 @@ public class Exemptions {
                 .bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost(bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost)
                 .build();
         RequestOperation<UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest, UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse> operation
-              = new UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostOperation(
-                sdkConfiguration,
-                security);
+              = new UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostOperation(sdkConfiguration, security);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -297,9 +278,7 @@ public class Exemptions {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetResponse getAttachments(
-            GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetSecurity security,
-            String exemptionId) throws Exception {
+    public GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetResponse getAttachments(GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetSecurity security, String exemptionId) throws Exception {
         return getAttachments(security, exemptionId, Optional.empty());
     }
 
@@ -319,8 +298,7 @@ public class Exemptions {
      * @throws Exception if the API call fails
      */
     public GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetResponse getAttachments(
-            GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetSecurity security,
-            String exemptionId,
+            GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetSecurity security, String exemptionId,
             Optional<String> xOrganizationId) throws Exception {
         GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest request =
             GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest
@@ -329,9 +307,7 @@ public class Exemptions {
                 .xOrganizationId(xOrganizationId)
                 .build();
         RequestOperation<GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest, GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetResponse> operation
-              = new GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetOperation(
-                sdkConfiguration,
-                security);
+              = new GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetOperation(sdkConfiguration, security);
         return operation.handleResponse(operation.doRequest(request));
     }
 

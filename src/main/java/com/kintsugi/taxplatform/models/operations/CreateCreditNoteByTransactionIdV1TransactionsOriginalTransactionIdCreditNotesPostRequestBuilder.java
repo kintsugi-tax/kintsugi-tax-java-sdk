@@ -68,9 +68,7 @@ public class CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
     public CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostResponse call() throws Exception {
         
         RequestOperation<CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostRequest, CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostResponse> operation
-              = new CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostOperation(
-                sdkConfiguration,
-                security);
+              = new CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostOperation(sdkConfiguration, security);
         CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

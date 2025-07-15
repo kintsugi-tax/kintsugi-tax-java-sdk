@@ -68,9 +68,7 @@ public class UpdateCustomerV1CustomersCustomerIdPutRequestBuilder {
     public UpdateCustomerV1CustomersCustomerIdPutResponse call() throws Exception {
         
         RequestOperation<UpdateCustomerV1CustomersCustomerIdPutRequest, UpdateCustomerV1CustomersCustomerIdPutResponse> operation
-              = new UpdateCustomerV1CustomersCustomerIdPutOperation(
-                sdkConfiguration,
-                security);
+              = new UpdateCustomerV1CustomersCustomerIdPutOperation(sdkConfiguration, security);
         UpdateCustomerV1CustomersCustomerIdPutRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

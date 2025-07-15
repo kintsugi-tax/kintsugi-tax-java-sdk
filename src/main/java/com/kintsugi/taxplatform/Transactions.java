@@ -82,13 +82,9 @@ public class Transactions {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public GetTransactionsV1TransactionsGetResponse list(
-            GetTransactionsV1TransactionsGetRequest request,
-            GetTransactionsV1TransactionsGetSecurity security) throws Exception {
+    public GetTransactionsV1TransactionsGetResponse list(GetTransactionsV1TransactionsGetRequest request, GetTransactionsV1TransactionsGetSecurity security) throws Exception {
         RequestOperation<GetTransactionsV1TransactionsGetRequest, GetTransactionsV1TransactionsGetResponse> operation
-              = new GetTransactionsV1TransactionsGetOperation(
-                sdkConfiguration,
-                security);
+              = new GetTransactionsV1TransactionsGetOperation(sdkConfiguration, security);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -113,9 +109,7 @@ public class Transactions {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public CreateTransactionV1TransactionsPostResponse create(
-            CreateTransactionV1TransactionsPostSecurity security,
-            TransactionPublicRequest transactionPublicRequest) throws Exception {
+    public CreateTransactionV1TransactionsPostResponse create(CreateTransactionV1TransactionsPostSecurity security, TransactionPublicRequest transactionPublicRequest) throws Exception {
         return create(security, Optional.empty(), transactionPublicRequest);
     }
 
@@ -131,8 +125,7 @@ public class Transactions {
      * @throws Exception if the API call fails
      */
     public CreateTransactionV1TransactionsPostResponse create(
-            CreateTransactionV1TransactionsPostSecurity security,
-            Optional<String> xOrganizationId,
+            CreateTransactionV1TransactionsPostSecurity security, Optional<String> xOrganizationId,
             TransactionPublicRequest transactionPublicRequest) throws Exception {
         CreateTransactionV1TransactionsPostRequest request =
             CreateTransactionV1TransactionsPostRequest
@@ -141,9 +134,7 @@ public class Transactions {
                 .transactionPublicRequest(transactionPublicRequest)
                 .build();
         RequestOperation<CreateTransactionV1TransactionsPostRequest, CreateTransactionV1TransactionsPostResponse> operation
-              = new CreateTransactionV1TransactionsPostOperation(
-                sdkConfiguration,
-                security);
+              = new CreateTransactionV1TransactionsPostOperation(sdkConfiguration, security);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -170,9 +161,7 @@ public class Transactions {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse getByExternalId(
-            GetTransactionByExternalIdV1TransactionsExternalExternalIdGetSecurity security,
-            String externalId) throws Exception {
+    public GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse getByExternalId(GetTransactionByExternalIdV1TransactionsExternalExternalIdGetSecurity security, String externalId) throws Exception {
         return getByExternalId(security, externalId, Optional.empty());
     }
 
@@ -189,8 +178,7 @@ public class Transactions {
      * @throws Exception if the API call fails
      */
     public GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse getByExternalId(
-            GetTransactionByExternalIdV1TransactionsExternalExternalIdGetSecurity security,
-            String externalId,
+            GetTransactionByExternalIdV1TransactionsExternalExternalIdGetSecurity security, String externalId,
             Optional<String> xOrganizationId) throws Exception {
         GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest request =
             GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest
@@ -199,9 +187,7 @@ public class Transactions {
                 .xOrganizationId(xOrganizationId)
                 .build();
         RequestOperation<GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest, GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse> operation
-              = new GetTransactionByExternalIdV1TransactionsExternalExternalIdGetOperation(
-                sdkConfiguration,
-                security);
+              = new GetTransactionByExternalIdV1TransactionsExternalExternalIdGetOperation(sdkConfiguration, security);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -228,8 +214,7 @@ public class Transactions {
      * @throws Exception if the API call fails
      */
     public UpdateTransactionV1TransactionsTransactionIdPutResponse update(
-            UpdateTransactionV1TransactionsTransactionIdPutSecurity security,
-            String transactionId,
+            UpdateTransactionV1TransactionsTransactionIdPutSecurity security, String transactionId,
             TransactionUpdate transactionUpdate) throws Exception {
         return update(security, transactionId, Optional.empty(),
             transactionUpdate);
@@ -248,10 +233,8 @@ public class Transactions {
      * @throws Exception if the API call fails
      */
     public UpdateTransactionV1TransactionsTransactionIdPutResponse update(
-            UpdateTransactionV1TransactionsTransactionIdPutSecurity security,
-            String transactionId,
-            Optional<String> xOrganizationId,
-            TransactionUpdate transactionUpdate) throws Exception {
+            UpdateTransactionV1TransactionsTransactionIdPutSecurity security, String transactionId,
+            Optional<String> xOrganizationId, TransactionUpdate transactionUpdate) throws Exception {
         UpdateTransactionV1TransactionsTransactionIdPutRequest request =
             UpdateTransactionV1TransactionsTransactionIdPutRequest
                 .builder()
@@ -260,9 +243,7 @@ public class Transactions {
                 .transactionUpdate(transactionUpdate)
                 .build();
         RequestOperation<UpdateTransactionV1TransactionsTransactionIdPutRequest, UpdateTransactionV1TransactionsTransactionIdPutResponse> operation
-              = new UpdateTransactionV1TransactionsTransactionIdPutOperation(
-                sdkConfiguration,
-                security);
+              = new UpdateTransactionV1TransactionsTransactionIdPutOperation(sdkConfiguration, security);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -289,9 +270,7 @@ public class Transactions {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public GetTransactionByIdV1TransactionsTransactionIdGetResponse getById(
-            GetTransactionByIdV1TransactionsTransactionIdGetSecurity security,
-            String transactionId) throws Exception {
+    public GetTransactionByIdV1TransactionsTransactionIdGetResponse getById(GetTransactionByIdV1TransactionsTransactionIdGetSecurity security, String transactionId) throws Exception {
         return getById(security, transactionId, Optional.empty());
     }
 
@@ -308,8 +287,7 @@ public class Transactions {
      * @throws Exception if the API call fails
      */
     public GetTransactionByIdV1TransactionsTransactionIdGetResponse getById(
-            GetTransactionByIdV1TransactionsTransactionIdGetSecurity security,
-            String transactionId,
+            GetTransactionByIdV1TransactionsTransactionIdGetSecurity security, String transactionId,
             Optional<String> xOrganizationId) throws Exception {
         GetTransactionByIdV1TransactionsTransactionIdGetRequest request =
             GetTransactionByIdV1TransactionsTransactionIdGetRequest
@@ -318,9 +296,7 @@ public class Transactions {
                 .xOrganizationId(xOrganizationId)
                 .build();
         RequestOperation<GetTransactionByIdV1TransactionsTransactionIdGetRequest, GetTransactionByIdV1TransactionsTransactionIdGetResponse> operation
-              = new GetTransactionByIdV1TransactionsTransactionIdGetOperation(
-                sdkConfiguration,
-                security);
+              = new GetTransactionByIdV1TransactionsTransactionIdGetOperation(sdkConfiguration, security);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -347,9 +323,7 @@ public class Transactions {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetResponse getByFilingId(
-            GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetSecurity security,
-            String filingId) throws Exception {
+    public GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetResponse getByFilingId(GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetSecurity security, String filingId) throws Exception {
         return getByFilingId(security, filingId, Optional.empty());
     }
 
@@ -367,8 +341,7 @@ public class Transactions {
      * @throws Exception if the API call fails
      */
     public GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetResponse getByFilingId(
-            GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetSecurity security,
-            String filingId,
+            GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetSecurity security, String filingId,
             Optional<String> xOrganizationId) throws Exception {
         GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest request =
             GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest
@@ -377,9 +350,7 @@ public class Transactions {
                 .xOrganizationId(xOrganizationId)
                 .build();
         RequestOperation<GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest, GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetResponse> operation
-              = new GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetOperation(
-                sdkConfiguration,
-                security);
+              = new GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetOperation(sdkConfiguration, security);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -406,8 +377,7 @@ public class Transactions {
      * @throws Exception if the API call fails
      */
     public CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostResponse createCreditNote(
-            CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostSecurity security,
-            String originalTransactionId,
+            CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostSecurity security, String originalTransactionId,
             CreditNoteCreate creditNoteCreate) throws Exception {
         return createCreditNote(security, originalTransactionId, Optional.empty(),
             creditNoteCreate);
@@ -426,10 +396,8 @@ public class Transactions {
      * @throws Exception if the API call fails
      */
     public CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostResponse createCreditNote(
-            CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostSecurity security,
-            String originalTransactionId,
-            Optional<String> xOrganizationId,
-            CreditNoteCreate creditNoteCreate) throws Exception {
+            CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostSecurity security, String originalTransactionId,
+            Optional<String> xOrganizationId, CreditNoteCreate creditNoteCreate) throws Exception {
         CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostRequest request =
             CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostRequest
                 .builder()
@@ -438,9 +406,7 @@ public class Transactions {
                 .creditNoteCreate(creditNoteCreate)
                 .build();
         RequestOperation<CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostRequest, CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostResponse> operation
-              = new CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostOperation(
-                sdkConfiguration,
-                security);
+              = new CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostOperation(sdkConfiguration, security);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -468,10 +434,8 @@ public class Transactions {
      * @throws Exception if the API call fails
      */
     public UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutResponse updateCreditNote(
-            UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutSecurity security,
-            String originalTransactionId,
-            String creditNoteId,
-            CreditNoteCreate creditNoteCreate) throws Exception {
+            UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutSecurity security, String originalTransactionId,
+            String creditNoteId, CreditNoteCreate creditNoteCreate) throws Exception {
         return updateCreditNote(security, originalTransactionId, creditNoteId,
             Optional.empty(), creditNoteCreate);
     }
@@ -490,10 +454,8 @@ public class Transactions {
      * @throws Exception if the API call fails
      */
     public UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutResponse updateCreditNote(
-            UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutSecurity security,
-            String originalTransactionId,
-            String creditNoteId,
-            Optional<String> xOrganizationId,
+            UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutSecurity security, String originalTransactionId,
+            String creditNoteId, Optional<String> xOrganizationId,
             CreditNoteCreate creditNoteCreate) throws Exception {
         UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutRequest request =
             UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutRequest
@@ -504,9 +466,7 @@ public class Transactions {
                 .creditNoteCreate(creditNoteCreate)
                 .build();
         RequestOperation<UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutRequest, UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutResponse> operation
-              = new UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutOperation(
-                sdkConfiguration,
-                security);
+              = new UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutOperation(sdkConfiguration, security);
         return operation.handleResponse(operation.doRequest(request));
     }
 

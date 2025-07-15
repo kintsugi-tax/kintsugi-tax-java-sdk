@@ -59,9 +59,7 @@ public class GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequestBui
     public GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetResponse call() throws Exception {
         
         RequestOperation<GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest, GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetResponse> operation
-              = new GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetOperation(
-                sdkConfiguration,
-                security);
+              = new GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetOperation(sdkConfiguration, security);
         GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

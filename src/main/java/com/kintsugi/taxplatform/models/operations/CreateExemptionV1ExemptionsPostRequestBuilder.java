@@ -60,9 +60,7 @@ public class CreateExemptionV1ExemptionsPostRequestBuilder {
     public CreateExemptionV1ExemptionsPostResponse call() throws Exception {
         
         RequestOperation<CreateExemptionV1ExemptionsPostRequest, CreateExemptionV1ExemptionsPostResponse> operation
-              = new CreateExemptionV1ExemptionsPostOperation(
-                sdkConfiguration,
-                security);
+              = new CreateExemptionV1ExemptionsPostOperation(sdkConfiguration, security);
         CreateExemptionV1ExemptionsPostRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

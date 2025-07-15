@@ -75,9 +75,7 @@ public class EstimateTaxV1TaxEstimatePostRequestBuilder {
     public EstimateTaxV1TaxEstimatePostResponse call() throws Exception {
         
         RequestOperation<EstimateTaxV1TaxEstimatePostRequest, EstimateTaxV1TaxEstimatePostResponse> operation
-              = new EstimateTaxV1TaxEstimatePostOperation(
-                sdkConfiguration,
-                security);
+              = new EstimateTaxV1TaxEstimatePostOperation(sdkConfiguration, security);
         EstimateTaxV1TaxEstimatePostRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

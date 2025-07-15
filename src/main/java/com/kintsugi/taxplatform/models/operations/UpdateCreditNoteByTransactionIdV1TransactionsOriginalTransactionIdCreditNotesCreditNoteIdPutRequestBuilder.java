@@ -76,9 +76,7 @@ public class UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
     public UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutResponse call() throws Exception {
         
         RequestOperation<UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutRequest, UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutResponse> operation
-              = new UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutOperation(
-                sdkConfiguration,
-                security);
+              = new UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutOperation(sdkConfiguration, security);
         UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

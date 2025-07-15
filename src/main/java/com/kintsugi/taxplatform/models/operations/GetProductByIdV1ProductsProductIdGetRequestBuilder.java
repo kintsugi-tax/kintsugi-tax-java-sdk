@@ -59,9 +59,7 @@ public class GetProductByIdV1ProductsProductIdGetRequestBuilder {
     public GetProductByIdV1ProductsProductIdGetResponse call() throws Exception {
         
         RequestOperation<GetProductByIdV1ProductsProductIdGetRequest, GetProductByIdV1ProductsProductIdGetResponse> operation
-              = new GetProductByIdV1ProductsProductIdGetOperation(
-                sdkConfiguration,
-                security);
+              = new GetProductByIdV1ProductsProductIdGetOperation(sdkConfiguration, security);
         GetProductByIdV1ProductsProductIdGetRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

@@ -224,6 +224,11 @@ public class NexusResponse {
 
 
     @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("last_tax_liability_processed_at")
+    private JsonNullable<OffsetDateTime> lastTaxLiabilityProcessedAt;
+
+
+    @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("periods")
     private JsonNullable<? extends List<Map<String, Object>>> periods;
 
@@ -325,6 +330,7 @@ public class NexusResponse {
             @JsonProperty("vda_eligible") JsonNullable<Boolean> vdaEligible,
             @JsonProperty("confidence_level") JsonNullable<Double> confidenceLevel,
             @JsonProperty("last_processed_at") JsonNullable<OffsetDateTime> lastProcessedAt,
+            @JsonProperty("last_tax_liability_processed_at") JsonNullable<OffsetDateTime> lastTaxLiabilityProcessedAt,
             @JsonProperty("periods") JsonNullable<? extends List<Map<String, Object>>> periods,
             @JsonProperty("currency") JsonNullable<? extends CurrencyEnum> currency,
             @JsonProperty("id") String id,
@@ -378,6 +384,7 @@ public class NexusResponse {
         Utils.checkNotNull(vdaEligible, "vdaEligible");
         Utils.checkNotNull(confidenceLevel, "confidenceLevel");
         Utils.checkNotNull(lastProcessedAt, "lastProcessedAt");
+        Utils.checkNotNull(lastTaxLiabilityProcessedAt, "lastTaxLiabilityProcessedAt");
         Utils.checkNotNull(periods, "periods");
         Utils.checkNotNull(currency, "currency");
         Utils.checkNotNull(id, "id");
@@ -431,6 +438,7 @@ public class NexusResponse {
         this.vdaEligible = vdaEligible;
         this.confidenceLevel = confidenceLevel;
         this.lastProcessedAt = lastProcessedAt;
+        this.lastTaxLiabilityProcessedAt = lastTaxLiabilityProcessedAt;
         this.periods = periods;
         this.currency = currency;
         this.id = id;
@@ -482,11 +490,11 @@ public class NexusResponse {
             Optional.empty(), Optional.empty(), JsonNullable.undefined(),
             JsonNullable.undefined(), Optional.empty(), JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
-            JsonNullable.undefined(), JsonNullable.undefined(), id,
-            createdAt, updatedAt, organizationId,
-            JsonNullable.undefined(), JsonNullable.undefined(), isVdaEligible,
-            nexusType, totalTransactions, totalTransactionsIncluded,
-            totalTransactionsExempted, totalTransactionsMarketplace);
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            id, createdAt, updatedAt,
+            organizationId, JsonNullable.undefined(), JsonNullable.undefined(),
+            isVdaEligible, nexusType, totalTransactions,
+            totalTransactionsIncluded, totalTransactionsExempted, totalTransactionsMarketplace);
     }
 
     @SuppressWarnings("unchecked")
@@ -696,6 +704,11 @@ public class NexusResponse {
     @JsonIgnore
     public JsonNullable<OffsetDateTime> lastProcessedAt() {
         return lastProcessedAt;
+    }
+
+    @JsonIgnore
+    public JsonNullable<OffsetDateTime> lastTaxLiabilityProcessedAt() {
+        return lastTaxLiabilityProcessedAt;
     }
 
     @SuppressWarnings("unchecked")
@@ -1221,6 +1234,18 @@ public class NexusResponse {
         return this;
     }
 
+    public NexusResponse withLastTaxLiabilityProcessedAt(OffsetDateTime lastTaxLiabilityProcessedAt) {
+        Utils.checkNotNull(lastTaxLiabilityProcessedAt, "lastTaxLiabilityProcessedAt");
+        this.lastTaxLiabilityProcessedAt = JsonNullable.of(lastTaxLiabilityProcessedAt);
+        return this;
+    }
+
+    public NexusResponse withLastTaxLiabilityProcessedAt(JsonNullable<OffsetDateTime> lastTaxLiabilityProcessedAt) {
+        Utils.checkNotNull(lastTaxLiabilityProcessedAt, "lastTaxLiabilityProcessedAt");
+        this.lastTaxLiabilityProcessedAt = lastTaxLiabilityProcessedAt;
+        return this;
+    }
+
     public NexusResponse withPeriods(List<Map<String, Object>> periods) {
         Utils.checkNotNull(periods, "periods");
         this.periods = JsonNullable.of(periods);
@@ -1384,6 +1409,7 @@ public class NexusResponse {
             Utils.enhancedDeepEquals(this.vdaEligible, other.vdaEligible) &&
             Utils.enhancedDeepEquals(this.confidenceLevel, other.confidenceLevel) &&
             Utils.enhancedDeepEquals(this.lastProcessedAt, other.lastProcessedAt) &&
+            Utils.enhancedDeepEquals(this.lastTaxLiabilityProcessedAt, other.lastTaxLiabilityProcessedAt) &&
             Utils.enhancedDeepEquals(this.periods, other.periods) &&
             Utils.enhancedDeepEquals(this.currency, other.currency) &&
             Utils.enhancedDeepEquals(this.id, other.id) &&
@@ -1416,11 +1442,11 @@ public class NexusResponse {
             previousPeriodStartDate, previousPeriodEndDate, earliestTransactionDate,
             mostRecentTransactionDate, earliestCollectedDate, predictedMonthFromToday,
             vdaEligible, confidenceLevel, lastProcessedAt,
-            periods, currency, id,
-            createdAt, updatedAt, organizationId,
-            registration, registrationRegime, isVdaEligible,
-            nexusType, totalTransactions, totalTransactionsIncluded,
-            totalTransactionsExempted, totalTransactionsMarketplace);
+            lastTaxLiabilityProcessedAt, periods, currency,
+            id, createdAt, updatedAt,
+            organizationId, registration, registrationRegime,
+            isVdaEligible, nexusType, totalTransactions,
+            totalTransactionsIncluded, totalTransactionsExempted, totalTransactionsMarketplace);
     }
     
     @Override
@@ -1465,6 +1491,7 @@ public class NexusResponse {
                 "vdaEligible", vdaEligible,
                 "confidenceLevel", confidenceLevel,
                 "lastProcessedAt", lastProcessedAt,
+                "lastTaxLiabilityProcessedAt", lastTaxLiabilityProcessedAt,
                 "periods", periods,
                 "currency", currency,
                 "id", id,
@@ -1563,6 +1590,8 @@ public class NexusResponse {
         private JsonNullable<Double> confidenceLevel = JsonNullable.undefined();
 
         private JsonNullable<OffsetDateTime> lastProcessedAt = JsonNullable.undefined();
+
+        private JsonNullable<OffsetDateTime> lastTaxLiabilityProcessedAt = JsonNullable.undefined();
 
         private JsonNullable<? extends List<Map<String, Object>>> periods = JsonNullable.undefined();
 
@@ -2062,6 +2091,19 @@ public class NexusResponse {
         }
 
 
+        public Builder lastTaxLiabilityProcessedAt(OffsetDateTime lastTaxLiabilityProcessedAt) {
+            Utils.checkNotNull(lastTaxLiabilityProcessedAt, "lastTaxLiabilityProcessedAt");
+            this.lastTaxLiabilityProcessedAt = JsonNullable.of(lastTaxLiabilityProcessedAt);
+            return this;
+        }
+
+        public Builder lastTaxLiabilityProcessedAt(JsonNullable<OffsetDateTime> lastTaxLiabilityProcessedAt) {
+            Utils.checkNotNull(lastTaxLiabilityProcessedAt, "lastTaxLiabilityProcessedAt");
+            this.lastTaxLiabilityProcessedAt = lastTaxLiabilityProcessedAt;
+            return this;
+        }
+
+
         public Builder periods(List<Map<String, Object>> periods) {
             Utils.checkNotNull(periods, "periods");
             this.periods = JsonNullable.of(periods);
@@ -2235,11 +2277,11 @@ public class NexusResponse {
                 previousPeriodStartDate, previousPeriodEndDate, earliestTransactionDate,
                 mostRecentTransactionDate, earliestCollectedDate, predictedMonthFromToday,
                 vdaEligible, confidenceLevel, lastProcessedAt,
-                periods, currency, id,
-                createdAt, updatedAt, organizationId,
-                registration, registrationRegime, isVdaEligible,
-                nexusType, totalTransactions, totalTransactionsIncluded,
-                totalTransactionsExempted, totalTransactionsMarketplace);
+                lastTaxLiabilityProcessedAt, periods, currency,
+                id, createdAt, updatedAt,
+                organizationId, registration, registrationRegime,
+                isVdaEligible, nexusType, totalTransactions,
+                totalTransactionsIncluded, totalTransactionsExempted, totalTransactionsMarketplace);
         }
 
 

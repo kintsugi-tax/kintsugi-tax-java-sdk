@@ -59,9 +59,7 @@ public class GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequestBuild
     public GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse call() throws Exception {
         
         RequestOperation<GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest, GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse> operation
-              = new GetCustomerByExternalIdV1CustomersExternalExternalIdGetOperation(
-                sdkConfiguration,
-                security);
+              = new GetCustomerByExternalIdV1CustomersExternalExternalIdGetOperation(sdkConfiguration, security);
         GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

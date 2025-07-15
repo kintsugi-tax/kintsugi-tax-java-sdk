@@ -35,9 +35,7 @@ public class GetNexusForOrgV1NexusGetRequestBuilder {
     public GetNexusForOrgV1NexusGetResponse call() throws Exception {
         
         RequestOperation<GetNexusForOrgV1NexusGetRequest, GetNexusForOrgV1NexusGetResponse> operation
-              = new GetNexusForOrgV1NexusGetOperation(
-                sdkConfiguration,
-                security);
+              = new GetNexusForOrgV1NexusGetOperation(sdkConfiguration, security);
 
         return operation.handleResponse(operation.doRequest(request));
     }

@@ -29,86 +29,94 @@ import java.util.Optional;
 
 
 public class GetCustomerByIdV1CustomersCustomerIdGetOperation implements RequestOperation<GetCustomerByIdV1CustomersCustomerIdGetRequest, GetCustomerByIdV1CustomersCustomerIdGetResponse> {
-    
+
     private final SDKConfiguration sdkConfiguration;
+    private final String baseUrl;
     private final GetCustomerByIdV1CustomersCustomerIdGetSecurity security;
+    private final SecuritySource securitySource;
+    private final HTTPClient client;
 
     public GetCustomerByIdV1CustomersCustomerIdGetOperation(
-            SDKConfiguration sdkConfiguration,
-            GetCustomerByIdV1CustomersCustomerIdGetSecurity security) {
+        SDKConfiguration sdkConfiguration,
+        GetCustomerByIdV1CustomersCustomerIdGetSecurity security) {
         this.sdkConfiguration = sdkConfiguration;
+        this.baseUrl = this.sdkConfiguration.serverUrl();
         this.security = security;
+        // hooks will be passed method level security only
+        this.securitySource = SecuritySource.of(security);
+        this.client = this.sdkConfiguration.client();
     }
-    
-    @Override
-    public HttpResponse<InputStream> doRequest(GetCustomerByIdV1CustomersCustomerIdGetRequest request) throws Exception {
-        String baseUrl = this.sdkConfiguration.serverUrl();
+
+    private Optional<SecuritySource> securitySource() {
+        return Optional.ofNullable(this.securitySource);
+    }
+
+    public HttpRequest buildRequest(GetCustomerByIdV1CustomersCustomerIdGetRequest request) throws Exception {
         String url = Utils.generateURL(
                 GetCustomerByIdV1CustomersCustomerIdGetRequest.class,
-                baseUrl,
+                this.baseUrl,
                 "/v1/customers/{customer_id}",
                 request, null);
-        
         HTTPRequest req = new HTTPRequest(url, "GET");
         req.addHeader("Accept", "application/json")
-            .addHeader("user-agent", 
-                SDKConfiguration.USER_AGENT);
+                .addHeader("user-agent", SDKConfiguration.USER_AGENT);
         req.addHeaders(Utils.getHeadersFromMetadata(request, null));
-
-        // hooks will be passed method level security only
-        Optional<SecuritySource> hookSecuritySource = Optional.of(SecuritySource.of(security));
         Utils.configureSecurity(req, security);
-        HTTPClient client = this.sdkConfiguration.client();
-        HttpRequest r = 
-            sdkConfiguration.hooks()
-               .beforeRequest(
-                  new BeforeRequestContextImpl(
-                      this.sdkConfiguration,
-                      baseUrl,
-                      "get_customer_by_id_v1_customers__customer_id__get", 
-                      java.util.Optional.empty(), 
-                      hookSecuritySource),
-                  req.build());
+
+        return sdkConfiguration.hooks().beforeRequest(
+              new BeforeRequestContextImpl(
+                  this.sdkConfiguration,
+                  this.baseUrl,
+                  "get_customer_by_id_v1_customers__customer_id__get",
+                  java.util.Optional.empty(),
+                  securitySource()),
+              req.build());
+    }
+
+    private HttpResponse<InputStream> onError(HttpResponse<InputStream> response,
+                                              Exception error) throws Exception {
+        return sdkConfiguration.hooks()
+            .afterError(
+                new AfterErrorContextImpl(
+                    this.sdkConfiguration,
+                    this.baseUrl,
+                    "get_customer_by_id_v1_customers__customer_id__get",
+                    java.util.Optional.empty(),
+                    securitySource()),
+                Optional.ofNullable(response),
+                Optional.ofNullable(error));
+    }
+
+    private HttpResponse<InputStream> onSuccess(HttpResponse<InputStream> response) throws Exception {
+        return sdkConfiguration.hooks()
+            .afterSuccess(
+                new AfterSuccessContextImpl(
+                    this.sdkConfiguration,
+                    this.baseUrl,
+                    "get_customer_by_id_v1_customers__customer_id__get",
+                    java.util.Optional.empty(),
+                    securitySource()),
+                response);
+    }
+
+    @Override
+    public HttpResponse<InputStream> doRequest(GetCustomerByIdV1CustomersCustomerIdGetRequest request) throws Exception {
+        HttpRequest r = buildRequest(request);
         HttpResponse<InputStream> httpRes;
         try {
             httpRes = client.send(r);
             if (Utils.statusCodeMatches(httpRes.statusCode(), "404", "422", "4XX", "5XX")) {
-                httpRes = sdkConfiguration.hooks()
-                    .afterError(
-                        new AfterErrorContextImpl(
-                            this.sdkConfiguration,
-                            baseUrl,
-                            "get_customer_by_id_v1_customers__customer_id__get",
-                            java.util.Optional.empty(),
-                            hookSecuritySource),
-                        Optional.of(httpRes),
-                        Optional.empty());
+                httpRes = onError(httpRes, null);
             } else {
-                httpRes = sdkConfiguration.hooks()
-                    .afterSuccess(
-                        new AfterSuccessContextImpl(
-                            this.sdkConfiguration,
-                            baseUrl,
-                            "get_customer_by_id_v1_customers__customer_id__get",
-                            java.util.Optional.empty(), 
-                            hookSecuritySource),
-                         httpRes);
+                httpRes = onSuccess(httpRes);
             }
         } catch (Exception e) {
-            httpRes = sdkConfiguration.hooks()
-                    .afterError(
-                        new AfterErrorContextImpl(
-                            this.sdkConfiguration,
-                            baseUrl,
-                            "get_customer_by_id_v1_customers__customer_id__get",
-                            java.util.Optional.empty(),
-                            hookSecuritySource), 
-                        Optional.empty(),
-                        Optional.of(e));
+            httpRes = onError(null, e);
         }
-    
+
         return httpRes;
     }
+
 
     @Override
     public GetCustomerByIdV1CustomersCustomerIdGetResponse handleResponse(HttpResponse<InputStream> response) throws Exception {

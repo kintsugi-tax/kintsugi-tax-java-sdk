@@ -68,9 +68,7 @@ public class UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostReq
     public UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse call() throws Exception {
         
         RequestOperation<UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest, UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse> operation
-              = new UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostOperation(
-                sdkConfiguration,
-                security);
+              = new UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostOperation(sdkConfiguration, security);
         UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

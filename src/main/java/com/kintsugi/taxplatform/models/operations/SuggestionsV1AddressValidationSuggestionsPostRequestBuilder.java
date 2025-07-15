@@ -60,9 +60,7 @@ public class SuggestionsV1AddressValidationSuggestionsPostRequestBuilder {
     public SuggestionsV1AddressValidationSuggestionsPostResponse call() throws Exception {
         
         RequestOperation<SuggestionsV1AddressValidationSuggestionsPostRequest, SuggestionsV1AddressValidationSuggestionsPostResponse> operation
-              = new SuggestionsV1AddressValidationSuggestionsPostOperation(
-                sdkConfiguration,
-                security);
+              = new SuggestionsV1AddressValidationSuggestionsPostOperation(sdkConfiguration, security);
         SuggestionsV1AddressValidationSuggestionsPostRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

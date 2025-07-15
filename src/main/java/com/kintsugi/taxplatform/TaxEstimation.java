@@ -49,9 +49,7 @@ public class TaxEstimation {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public EstimateTaxV1TaxEstimatePostResponse estimateTax(
-            EstimateTaxV1TaxEstimatePostSecurity security,
-            TransactionEstimateRequest transactionEstimateRequest) throws Exception {
+    public EstimateTaxV1TaxEstimatePostResponse estimateTax(EstimateTaxV1TaxEstimatePostSecurity security, TransactionEstimateRequest transactionEstimateRequest) throws Exception {
         return estimateTax(security, Optional.empty(), Optional.empty(),
             transactionEstimateRequest);
     }
@@ -72,10 +70,8 @@ public class TaxEstimation {
      * @throws Exception if the API call fails
      */
     public EstimateTaxV1TaxEstimatePostResponse estimateTax(
-            EstimateTaxV1TaxEstimatePostSecurity security,
-            Optional<Boolean> simulateNexusMet,
-            Optional<String> xOrganizationId,
-            TransactionEstimateRequest transactionEstimateRequest) throws Exception {
+            EstimateTaxV1TaxEstimatePostSecurity security, Optional<Boolean> simulateNexusMet,
+            Optional<String> xOrganizationId, TransactionEstimateRequest transactionEstimateRequest) throws Exception {
         EstimateTaxV1TaxEstimatePostRequest request =
             EstimateTaxV1TaxEstimatePostRequest
                 .builder()
@@ -84,9 +80,7 @@ public class TaxEstimation {
                 .transactionEstimateRequest(transactionEstimateRequest)
                 .build();
         RequestOperation<EstimateTaxV1TaxEstimatePostRequest, EstimateTaxV1TaxEstimatePostResponse> operation
-              = new EstimateTaxV1TaxEstimatePostOperation(
-                sdkConfiguration,
-                security);
+              = new EstimateTaxV1TaxEstimatePostOperation(sdkConfiguration, security);
         return operation.handleResponse(operation.doRequest(request));
     }
 

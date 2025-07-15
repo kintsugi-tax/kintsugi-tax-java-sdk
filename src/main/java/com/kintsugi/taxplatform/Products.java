@@ -64,13 +64,9 @@ public class Products {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public GetProductsV1ProductsGetResponse list(
-            GetProductsV1ProductsGetRequest request,
-            GetProductsV1ProductsGetSecurity security) throws Exception {
+    public GetProductsV1ProductsGetResponse list(GetProductsV1ProductsGetRequest request, GetProductsV1ProductsGetSecurity security) throws Exception {
         RequestOperation<GetProductsV1ProductsGetRequest, GetProductsV1ProductsGetResponse> operation
-              = new GetProductsV1ProductsGetOperation(
-                sdkConfiguration,
-                security);
+              = new GetProductsV1ProductsGetOperation(sdkConfiguration, security);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -99,9 +95,7 @@ public class Products {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public CreateProductV1ProductsPostResponse create(
-            CreateProductV1ProductsPostSecurity security,
-            ProductCreateManual productCreateManual) throws Exception {
+    public CreateProductV1ProductsPostResponse create(CreateProductV1ProductsPostSecurity security, ProductCreateManual productCreateManual) throws Exception {
         return create(security, Optional.empty(), productCreateManual);
     }
 
@@ -119,8 +113,7 @@ public class Products {
      * @throws Exception if the API call fails
      */
     public CreateProductV1ProductsPostResponse create(
-            CreateProductV1ProductsPostSecurity security,
-            Optional<String> xOrganizationId,
+            CreateProductV1ProductsPostSecurity security, Optional<String> xOrganizationId,
             ProductCreateManual productCreateManual) throws Exception {
         CreateProductV1ProductsPostRequest request =
             CreateProductV1ProductsPostRequest
@@ -129,9 +122,7 @@ public class Products {
                 .productCreateManual(productCreateManual)
                 .build();
         RequestOperation<CreateProductV1ProductsPostRequest, CreateProductV1ProductsPostResponse> operation
-              = new CreateProductV1ProductsPostOperation(
-                sdkConfiguration,
-                security);
+              = new CreateProductV1ProductsPostOperation(sdkConfiguration, security);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -160,9 +151,7 @@ public class Products {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public GetProductByIdV1ProductsProductIdGetResponse get(
-            GetProductByIdV1ProductsProductIdGetSecurity security,
-            String productId) throws Exception {
+    public GetProductByIdV1ProductsProductIdGetResponse get(GetProductByIdV1ProductsProductIdGetSecurity security, String productId) throws Exception {
         return get(security, productId, Optional.empty());
     }
 
@@ -180,8 +169,7 @@ public class Products {
      * @throws Exception if the API call fails
      */
     public GetProductByIdV1ProductsProductIdGetResponse get(
-            GetProductByIdV1ProductsProductIdGetSecurity security,
-            String productId,
+            GetProductByIdV1ProductsProductIdGetSecurity security, String productId,
             Optional<String> xOrganizationId) throws Exception {
         GetProductByIdV1ProductsProductIdGetRequest request =
             GetProductByIdV1ProductsProductIdGetRequest
@@ -190,9 +178,7 @@ public class Products {
                 .xOrganizationId(xOrganizationId)
                 .build();
         RequestOperation<GetProductByIdV1ProductsProductIdGetRequest, GetProductByIdV1ProductsProductIdGetResponse> operation
-              = new GetProductByIdV1ProductsProductIdGetOperation(
-                sdkConfiguration,
-                security);
+              = new GetProductByIdV1ProductsProductIdGetOperation(sdkConfiguration, security);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -221,8 +207,7 @@ public class Products {
      * @throws Exception if the API call fails
      */
     public UpdateProductV1ProductsProductIdPutResponse update(
-            UpdateProductV1ProductsProductIdPutSecurity security,
-            String productId,
+            UpdateProductV1ProductsProductIdPutSecurity security, String productId,
             Product requestBody) throws Exception {
         return update(security, productId, Optional.empty(),
             requestBody);
@@ -242,10 +227,8 @@ public class Products {
      * @throws Exception if the API call fails
      */
     public UpdateProductV1ProductsProductIdPutResponse update(
-            UpdateProductV1ProductsProductIdPutSecurity security,
-            String productId,
-            Optional<String> xOrganizationId,
-            Product requestBody) throws Exception {
+            UpdateProductV1ProductsProductIdPutSecurity security, String productId,
+            Optional<String> xOrganizationId, Product requestBody) throws Exception {
         UpdateProductV1ProductsProductIdPutRequest request =
             UpdateProductV1ProductsProductIdPutRequest
                 .builder()
@@ -254,9 +237,7 @@ public class Products {
                 .requestBody(requestBody)
                 .build();
         RequestOperation<UpdateProductV1ProductsProductIdPutRequest, UpdateProductV1ProductsProductIdPutResponse> operation
-              = new UpdateProductV1ProductsProductIdPutOperation(
-                sdkConfiguration,
-                security);
+              = new UpdateProductV1ProductsProductIdPutOperation(sdkConfiguration, security);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -300,18 +281,14 @@ public class Products {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public GetProductCategoriesV1ProductsCategoriesGetResponse listCategories(
-            GetProductCategoriesV1ProductsCategoriesGetSecurity security,
-            Optional<String> xOrganizationId) throws Exception {
+    public GetProductCategoriesV1ProductsCategoriesGetResponse listCategories(GetProductCategoriesV1ProductsCategoriesGetSecurity security, Optional<String> xOrganizationId) throws Exception {
         GetProductCategoriesV1ProductsCategoriesGetRequest request =
             GetProductCategoriesV1ProductsCategoriesGetRequest
                 .builder()
                 .xOrganizationId(xOrganizationId)
                 .build();
         RequestOperation<GetProductCategoriesV1ProductsCategoriesGetRequest, GetProductCategoriesV1ProductsCategoriesGetResponse> operation
-              = new GetProductCategoriesV1ProductsCategoriesGetOperation(
-                sdkConfiguration,
-                security);
+              = new GetProductCategoriesV1ProductsCategoriesGetOperation(sdkConfiguration, security);
         return operation.handleResponse(operation.doRequest(request));
     }
 

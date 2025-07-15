@@ -31,26 +31,34 @@ import java.util.Optional;
 
 
 public class UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutOperation implements RequestOperation<UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutRequest, UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutResponse> {
-    
+
     private final SDKConfiguration sdkConfiguration;
+    private final String baseUrl;
     private final UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutSecurity security;
+    private final SecuritySource securitySource;
+    private final HTTPClient client;
 
     public UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutOperation(
-            SDKConfiguration sdkConfiguration,
-            UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutSecurity security) {
+        SDKConfiguration sdkConfiguration,
+        UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutSecurity security) {
         this.sdkConfiguration = sdkConfiguration;
+        this.baseUrl = this.sdkConfiguration.serverUrl();
         this.security = security;
+        // hooks will be passed method level security only
+        this.securitySource = SecuritySource.of(security);
+        this.client = this.sdkConfiguration.client();
     }
-    
-    @Override
-    public HttpResponse<InputStream> doRequest(UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutRequest request) throws Exception {
-        String baseUrl = this.sdkConfiguration.serverUrl();
+
+    private Optional<SecuritySource> securitySource() {
+        return Optional.ofNullable(this.securitySource);
+    }
+
+    public HttpRequest buildRequest(UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutRequest request) throws Exception {
         String url = Utils.generateURL(
                 UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutRequest.class,
-                baseUrl,
+                this.baseUrl,
                 "/v1/transactions/{original_transaction_id}/credit_notes/{credit_note_id}",
                 request, null);
-        
         HTTPRequest req = new HTTPRequest(url, "PUT");
         Object convertedRequest = Utils.convertToShape(
                 request, 
@@ -66,64 +74,64 @@ public class UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
         }
         req.setBody(Optional.ofNullable(serializedRequestBody));
         req.addHeader("Accept", "application/json")
-            .addHeader("user-agent", 
-                SDKConfiguration.USER_AGENT);
+                .addHeader("user-agent", SDKConfiguration.USER_AGENT);
         req.addHeaders(Utils.getHeadersFromMetadata(request, null));
-
-        // hooks will be passed method level security only
-        Optional<SecuritySource> hookSecuritySource = Optional.of(SecuritySource.of(security));
         Utils.configureSecurity(req, security);
-        HTTPClient client = this.sdkConfiguration.client();
-        HttpRequest r = 
-            sdkConfiguration.hooks()
-               .beforeRequest(
-                  new BeforeRequestContextImpl(
-                      this.sdkConfiguration,
-                      baseUrl,
-                      "update_credit_note_by_transaction_id_v1_transactions__original_transaction_id__credit_notes__credit_note_id__put", 
-                      java.util.Optional.empty(), 
-                      hookSecuritySource),
-                  req.build());
+
+        return sdkConfiguration.hooks().beforeRequest(
+              new BeforeRequestContextImpl(
+                  this.sdkConfiguration,
+                  this.baseUrl,
+                  "update_credit_note_by_transaction_id_v1_transactions__original_transaction_id__credit_notes__credit_note_id__put",
+                  java.util.Optional.empty(),
+                  securitySource()),
+              req.build());
+    }
+
+    private HttpResponse<InputStream> onError(HttpResponse<InputStream> response,
+                                              Exception error) throws Exception {
+        return sdkConfiguration.hooks()
+            .afterError(
+                new AfterErrorContextImpl(
+                    this.sdkConfiguration,
+                    this.baseUrl,
+                    "update_credit_note_by_transaction_id_v1_transactions__original_transaction_id__credit_notes__credit_note_id__put",
+                    java.util.Optional.empty(),
+                    securitySource()),
+                Optional.ofNullable(response),
+                Optional.ofNullable(error));
+    }
+
+    private HttpResponse<InputStream> onSuccess(HttpResponse<InputStream> response) throws Exception {
+        return sdkConfiguration.hooks()
+            .afterSuccess(
+                new AfterSuccessContextImpl(
+                    this.sdkConfiguration,
+                    this.baseUrl,
+                    "update_credit_note_by_transaction_id_v1_transactions__original_transaction_id__credit_notes__credit_note_id__put",
+                    java.util.Optional.empty(),
+                    securitySource()),
+                response);
+    }
+
+    @Override
+    public HttpResponse<InputStream> doRequest(UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutRequest request) throws Exception {
+        HttpRequest r = buildRequest(request);
         HttpResponse<InputStream> httpRes;
         try {
             httpRes = client.send(r);
             if (Utils.statusCodeMatches(httpRes.statusCode(), "422", "4XX", "5XX")) {
-                httpRes = sdkConfiguration.hooks()
-                    .afterError(
-                        new AfterErrorContextImpl(
-                            this.sdkConfiguration,
-                            baseUrl,
-                            "update_credit_note_by_transaction_id_v1_transactions__original_transaction_id__credit_notes__credit_note_id__put",
-                            java.util.Optional.empty(),
-                            hookSecuritySource),
-                        Optional.of(httpRes),
-                        Optional.empty());
+                httpRes = onError(httpRes, null);
             } else {
-                httpRes = sdkConfiguration.hooks()
-                    .afterSuccess(
-                        new AfterSuccessContextImpl(
-                            this.sdkConfiguration,
-                            baseUrl,
-                            "update_credit_note_by_transaction_id_v1_transactions__original_transaction_id__credit_notes__credit_note_id__put",
-                            java.util.Optional.empty(), 
-                            hookSecuritySource),
-                         httpRes);
+                httpRes = onSuccess(httpRes);
             }
         } catch (Exception e) {
-            httpRes = sdkConfiguration.hooks()
-                    .afterError(
-                        new AfterErrorContextImpl(
-                            this.sdkConfiguration,
-                            baseUrl,
-                            "update_credit_note_by_transaction_id_v1_transactions__original_transaction_id__credit_notes__credit_note_id__put",
-                            java.util.Optional.empty(),
-                            hookSecuritySource), 
-                        Optional.empty(),
-                        Optional.of(e));
+            httpRes = onError(null, e);
         }
-    
+
         return httpRes;
     }
+
 
     @Override
     public UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutResponse handleResponse(HttpResponse<InputStream> response) throws Exception {

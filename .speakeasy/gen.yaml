@@ -32,6 +32,7 @@ java:
   companyName: Kintsugi
   companyURL: https://trykintsugi.com
   defaultErrorName: APIException
+  enableAsync: false
   enableCustomCodeRegions: false
   flattenGlobalSecurity: true
   githubURL: https://github.com/kintsugi-tax/kintsugi-tax-java-sdk

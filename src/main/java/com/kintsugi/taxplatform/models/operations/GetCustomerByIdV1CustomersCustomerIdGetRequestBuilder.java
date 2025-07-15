@@ -59,9 +59,7 @@ public class GetCustomerByIdV1CustomersCustomerIdGetRequestBuilder {
     public GetCustomerByIdV1CustomersCustomerIdGetResponse call() throws Exception {
         
         RequestOperation<GetCustomerByIdV1CustomersCustomerIdGetRequest, GetCustomerByIdV1CustomersCustomerIdGetResponse> operation
-              = new GetCustomerByIdV1CustomersCustomerIdGetOperation(
-                sdkConfiguration,
-                security);
+              = new GetCustomerByIdV1CustomersCustomerIdGetOperation(sdkConfiguration, security);
         GetCustomerByIdV1CustomersCustomerIdGetRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

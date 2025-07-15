@@ -47,14 +47,14 @@ The samples below show how a published SDK artifact is used:
 
 Gradle:
 ```groovy
-implementation 'com.kintsugi.taxplatform:tax-platform-sdk:0.5.1'
+implementation 'com.trykintsugi:kintsugi-tax-java-sdk:0.5.1'
 ```
 
 Maven:
 ```xml
 <dependency>
-    <groupId>com.kintsugi.taxplatform</groupId>
-    <artifactId>tax-platform-sdk</artifactId>
+    <groupId>com.trykintsugi</groupId>
+    <artifactId>kintsugi-tax-java-sdk</artifactId>
     <version>0.5.1</version>
 </dependency>
 ```

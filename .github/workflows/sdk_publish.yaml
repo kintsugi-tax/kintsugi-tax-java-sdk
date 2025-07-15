@@ -9,8 +9,10 @@ permissions:
   push:
     branches:
       - main
-    paths:
-      - .speakeasy/gen.lock
+    # Only skip if the commit is just documentation changes
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
   workflow_dispatch: {}
 jobs:
   publish:

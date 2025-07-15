@@ -27,6 +27,7 @@ public class AddressValidation {
     AddressValidation(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
     }
+
     /**
      * Search
      * 

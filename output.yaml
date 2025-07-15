@@ -14434,8 +14434,10 @@ components:
           type: "array"
           title: "Lineitems"
         "deliveries":
-          items: {"$ref": "#/components/schemas/ShopwareTaxEstimateRequestDeliveries"}
-          type: "array"
+          anyOf:
+            - items: {"$ref": "#/components/schemas/ShopwareTaxEstimateRequestDeliveries"}
+              type: "array"
+            - type: "null"
           title: "Deliveries"
         "token":
           type: "string"
@@ -14444,7 +14446,6 @@ components:
       required:
         - "price"
         - "lineItems"
-        - "deliveries"
         - "token"
       title: "ShopwareTaxEstimateRequestCart"
     "ShopwareTaxEstimateRequestContext":
@@ -14517,10 +14518,25 @@ components:
     "ShopwareTaxEstimateRequestDeliveries":
       properties:
         "shippingCosts": {"$ref": "#/components/schemas/ShopwareTaxEstimateRequestLineItemPrice"}
+        "positions":
+          anyOf:
+            - items: {"$ref": "#/components/schemas/ShopwareTaxEstimateRequestDeliveryPosition"}
+              type: "array"
+            - type: "null"
+          title: "Positions"
       type: "object"
       required:
         - "shippingCosts"
       title: "ShopwareTaxEstimateRequestDeliveries"
+    "ShopwareTaxEstimateRequestDeliveryPosition":
+      properties:
+        "identifier":
+          type: "string"
+          title: "Identifier"
+      type: "object"
+      required:
+        - "identifier"
+      title: "ShopwareTaxEstimateRequestDeliveryPosition"
     "ShopwareTaxEstimateRequestLineItem":
       properties:
         "id":

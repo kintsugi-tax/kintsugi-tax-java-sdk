@@ -43,6 +43,7 @@ public class Products {
     Products(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
     }
+
     /**
      * Get Products
      * 

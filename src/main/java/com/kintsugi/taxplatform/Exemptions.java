@@ -43,6 +43,7 @@ public class Exemptions {
     Exemptions(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
     }
+
     /**
      * Get Exemptions
      * 

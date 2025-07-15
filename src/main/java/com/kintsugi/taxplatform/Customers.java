@@ -54,6 +54,7 @@ public class Customers {
     Customers(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
     }
+
     /**
      * Get Customers
      * 

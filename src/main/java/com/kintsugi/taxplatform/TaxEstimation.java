@@ -23,6 +23,7 @@ public class TaxEstimation {
     TaxEstimation(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
     }
+
     /**
      * Estimate Tax
      * 

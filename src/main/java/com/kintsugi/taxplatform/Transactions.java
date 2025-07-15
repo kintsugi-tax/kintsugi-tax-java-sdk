@@ -59,6 +59,7 @@ public class Transactions {
     Transactions(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
     }
+
     /**
      * Get Transactions
      * 

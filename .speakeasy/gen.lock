@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 13bfb8e3-2795-4089-a96d-9ab7fcceafd9
 management:
-  docChecksum: d407773c96857c468bc20a9658617ffb
+  docChecksum: 5a082a616a355880fb3dc0e861b77381
   docVersion: 1.0.0
-  speakeasyVersion: 1.581.2
-  generationVersion: 2.656.9
-  releaseVersion: 0.5.1
-  configChecksum: 9dbe299c71f23e9f35a557f1219a379f
+  speakeasyVersion: 1.582.0
+  generationVersion: 2.657.1
+  releaseVersion: 0.5.2
+  configChecksum: a83c0289afaf83adca5a658be1bf1959
 features:
   java:
     additionalDependencies: 0.1.0

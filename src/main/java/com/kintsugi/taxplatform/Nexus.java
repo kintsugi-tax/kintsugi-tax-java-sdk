@@ -11,7 +11,6 @@ import com.kintsugi.taxplatform.models.operations.GetNexusForOrgV1NexusGetRespon
 import com.kintsugi.taxplatform.models.operations.GetNexusForOrgV1NexusGetSecurity;
 import com.kintsugi.taxplatform.operations.GetNexusForOrgV1NexusGetOperation;
 import java.lang.Exception;
-import java.util.Optional;
 
 
 public class Nexus {
@@ -20,6 +19,7 @@ public class Nexus {
     Nexus(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
     }
+
     /**
      * Get Nexus For Org
      * 

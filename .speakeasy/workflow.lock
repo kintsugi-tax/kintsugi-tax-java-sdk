@@ -6,7 +6,7 @@ sources:
         sourceBlobDigest: sha256:04748077d84e9488e94943ac73118c29a9cacf77a7942a960233f79e72b6f34e
         tags:
             - latest
-            - speakeasy-sdk-regen-1752603073
+            - speakeasy-sdk-regen-1752609864
             - 1.0.0
 targets:
     java:
@@ -15,7 +15,7 @@ targets:
         sourceRevisionDigest: sha256:542980f532052fc6c73158f840645f06d87b2ae368351ebcaf63f49b17fc6933
         sourceBlobDigest: sha256:04748077d84e9488e94943ac73118c29a9cacf77a7942a960233f79e72b6f34e
         codeSamplesNamespace: kintsugi-overlay-java-code-samples
-        codeSamplesRevisionDigest: sha256:8a25763e5caa1e06674f05405c831e2da03e3ae8051fa7c4ebe44caf1f94ef1a
+        codeSamplesRevisionDigest: sha256:2a3d60b4e3e0c86c3c71329479aa8887205426337abf07b3f83a6c964adbe0d0
 workflow:
     workflowVersion: 1.0.0
     speakeasyVersion: latest

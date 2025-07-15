@@ -33,6 +33,7 @@ Developer-friendly & type-safe Java SDK specifically catered to leverage *tax-pl
 * [Development](#development)
   * [Maturity](#maturity)
   * [Contributions](#contributions)
+* [Force publish test](#force-publish-test)
 
 <!-- End Table of Contents [toc] -->
 
@@ -47,7 +48,7 @@ The samples below show how a published SDK artifact is used:
 
 Gradle:
 ```groovy
-implementation 'com.trykintsugi:kintsugi-tax-java-sdk:0.5.5'
+implementation 'com.trykintsugi:kintsugi-tax-java-sdk:0.5.6'
 ```
 
 Maven:
@@ -55,7 +56,7 @@ Maven:
 <dependency>
     <groupId>com.trykintsugi</groupId>
     <artifactId>kintsugi-tax-java-sdk</artifactId>
-    <version>0.5.5</version>
+    <version>0.5.6</version>
 </dependency>
 ```
 

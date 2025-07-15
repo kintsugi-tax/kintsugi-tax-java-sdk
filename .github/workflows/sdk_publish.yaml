@@ -9,21 +9,18 @@ permissions:
   push:
     branches:
       - main
-    # Only skip if the commit is just documentation changes
-    paths-ignore:
-      - '**.md'
-      - 'docs/**'
+    paths:
+      - .speakeasy/gen.lock
   workflow_dispatch: {}
 jobs:
   publish:
     uses: speakeasy-api/sdk-generation-action/.github/workflows/sdk-publish.yaml@v15
     with:
       target: java
-      force: true
     secrets:
       github_access_token: ${{ secrets.GITHUB_TOKEN }}
-      speakeasy_api_key: ${{ secrets.SPEAKEASY_API_KEY }} 
-      ossrh_username: ${{ secrets.OSSRH_USERNAME }}
-      ossrh_password: ${{ secrets.OSSRH_PASSWORD }}
-      java_gpg_secret_key: ${{ secrets.JAVA_GPG_SECRET_KEY }}
       java_gpg_passphrase: ${{ secrets.JAVA_GPG_PASSPHRASE }}
+      java_gpg_secret_key: ${{ secrets.JAVA_GPG_SECRET_KEY }}
+      ossrh_password: ${{ secrets.OSSRH_PASSWORD }}
+      ossrh_username: ${{ secrets.OSSRH_USERNAME }}
+      speakeasy_api_key: ${{ secrets.SPEAKEASY_API_KEY }}

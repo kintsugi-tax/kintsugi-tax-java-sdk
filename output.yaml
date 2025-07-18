@@ -1719,6 +1719,16 @@ paths:
             description: "Filter transactions by marketplace (e.g., AMAZON, EBAY)."
             title: "Marketplace"
           description: "Filter transactions by marketplace (e.g., AMAZON, EBAY)."
+        - name: "exempt__in"
+          in: "query"
+          required: false
+          schema:
+            anyOf:
+              - type: "string"
+              - type: "null"
+            description: "Filter transactions by exemption status.\n        Multiple values can be passed as a comma-separated list (e.g., EXEMPT,TAXABLE)."
+            title: "Exempt  In"
+          description: "Filter transactions by exemption status.\n        Multiple values can be passed as a comma-separated list (e.g., EXEMPT,TAXABLE)."
         - name: "page"
           in: "query"
           required: false
@@ -2128,6 +2138,7 @@ paths:
       x-speakeasy-name-override: getByFilingId
   "/v1/transactions/export/csv": {}
   "/v1/transactions/reports/details": {}
+  "/v1/transactions/min-max-date": {}
   "/v1/transactions/addresses/fill_blank": {}
   "/v1/transactions/archive_by_date": {}
   "/v1/transactions/addresses/blank": {}
@@ -2841,7 +2852,11 @@ components:
         "id":
           type: "string"
           title: "Id"
-          description: "Unique identifier for the registration."
+          description: "The unique identifier for the registration."
+        "credits_total_available":
+          type: "string"
+          title: "Credits Total Available"
+          default: "0.00"
         "password_encrypted":
           anyOf:
             - type: "string"
@@ -4229,18 +4244,6 @@ components:
             - type: "string"
             - type: "null"
           title: "Marketplace Id"
-        "newest_transaction_date":
-          anyOf:
-            - type: "string"
-              format: "date-time"
-            - type: "null"
-          title: "Newest Transaction Date"
-        "oldest_transaction_date":
-          anyOf:
-            - type: "string"
-              format: "date-time"
-            - type: "null"
-          title: "Oldest Transaction Date"
       type: "object"
       required:
         - "id"
@@ -6976,6 +6979,8 @@ components:
         - "ANNUALLY"
         - "ANNUAL_FISCAL_YEAR"
         - "SEMI_MONTHLY"
+        - "BI_MONTHLY"
+        - "FOUR_MONTHLY"
       title: "FilingFrequencyEnum"
     "FilingMetrics":
       properties:
@@ -13833,7 +13838,11 @@ components:
         "id":
           type: "string"
           title: "Id"
-          description: "Unique identifier for the registration."
+          description: "The unique identifier for the registration."
+        "credits_total_available":
+          type: "string"
+          title: "Credits Total Available"
+          default: "0.00"
         "password_encrypted":
           anyOf:
             - type: "string"

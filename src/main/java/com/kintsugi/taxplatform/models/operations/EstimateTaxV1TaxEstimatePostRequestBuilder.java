@@ -6,7 +6,7 @@ package com.kintsugi.taxplatform.models.operations;
 import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 
 import com.kintsugi.taxplatform.SDKConfiguration;
-import com.kintsugi.taxplatform.models.components.TransactionEstimateRequest;
+import com.kintsugi.taxplatform.models.components.TransactionEstimatePublicRequest;
 import com.kintsugi.taxplatform.operations.EstimateTaxV1TaxEstimatePostOperation;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Boolean;
@@ -19,7 +19,7 @@ public class EstimateTaxV1TaxEstimatePostRequestBuilder {
     private EstimateTaxV1TaxEstimatePostSecurity security;
     private Optional<Boolean> simulateNexusMet = Optional.empty();
     private Optional<String> xOrganizationId = Optional.empty();
-    private TransactionEstimateRequest transactionEstimateRequest;
+    private TransactionEstimatePublicRequest transactionEstimatePublicRequest;
     private final SDKConfiguration sdkConfiguration;
 
     public EstimateTaxV1TaxEstimatePostRequestBuilder(SDKConfiguration sdkConfiguration) {
@@ -56,9 +56,9 @@ public class EstimateTaxV1TaxEstimatePostRequestBuilder {
         return this;
     }
 
-    public EstimateTaxV1TaxEstimatePostRequestBuilder transactionEstimateRequest(TransactionEstimateRequest transactionEstimateRequest) {
-        Utils.checkNotNull(transactionEstimateRequest, "transactionEstimateRequest");
-        this.transactionEstimateRequest = transactionEstimateRequest;
+    public EstimateTaxV1TaxEstimatePostRequestBuilder transactionEstimatePublicRequest(TransactionEstimatePublicRequest transactionEstimatePublicRequest) {
+        Utils.checkNotNull(transactionEstimatePublicRequest, "transactionEstimatePublicRequest");
+        this.transactionEstimatePublicRequest = transactionEstimatePublicRequest;
         return this;
     }
 
@@ -67,7 +67,7 @@ public class EstimateTaxV1TaxEstimatePostRequestBuilder {
 
         EstimateTaxV1TaxEstimatePostRequest request = new EstimateTaxV1TaxEstimatePostRequest(simulateNexusMet,
             xOrganizationId,
-            transactionEstimateRequest);
+            transactionEstimatePublicRequest);
 
         return request;
     }

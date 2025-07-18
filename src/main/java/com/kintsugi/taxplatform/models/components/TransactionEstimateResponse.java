@@ -70,22 +70,22 @@ public class TransactionEstimateResponse {
     @JsonProperty("marketplace")
     private JsonNullable<Boolean> marketplace;
 
+
+    @JsonProperty("transaction_items")
+    private List<TransactionItemEstimateResponse> transactionItems;
+
     /**
      * Details about the customer. If the customer is not found, it will be ignored.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("customer")
-    private JsonNullable<? extends CustomerBaseOutput> customer;
+    private JsonNullable<? extends CustomerBase> customer;
 
     /**
      * List of addresses related to the transaction. At least one BILL_TO or SHIP_TO address must be provided. The address will be validated during estimation, and the transaction may be rejected if the address does not pass validation. The SHIP_TO will be preferred to use for determining tax liability. **Deprecated:** Use of `address.status` in estimate api is ignored and will be removed in the future status will be considered UNVERIFIED by default and always validated
      */
     @JsonProperty("addresses")
     private List<TransactionEstimateResponseAddress> addresses;
-
-
-    @JsonProperty("transaction_items")
-    private List<TransactionItemEstimateResponse> transactionItems;
 
     /**
      * The total amount of tax determined for the transaction.
@@ -134,9 +134,9 @@ public class TransactionEstimateResponse {
             @JsonProperty("description") JsonNullable<String> description,
             @JsonProperty("source") JsonNullable<? extends SourceEnum> source,
             @JsonProperty("marketplace") JsonNullable<Boolean> marketplace,
-            @JsonProperty("customer") JsonNullable<? extends CustomerBaseOutput> customer,
-            @JsonProperty("addresses") List<TransactionEstimateResponseAddress> addresses,
             @JsonProperty("transaction_items") List<TransactionItemEstimateResponse> transactionItems,
+            @JsonProperty("customer") JsonNullable<? extends CustomerBase> customer,
+            @JsonProperty("addresses") List<TransactionEstimateResponseAddress> addresses,
             @JsonProperty("total_tax_amount_calculated") Optional<String> totalTaxAmountCalculated,
             @JsonProperty("taxable_amount") Optional<String> taxableAmount,
             @JsonProperty("tax_rate_calculated") Optional<String> taxRateCalculated,
@@ -149,9 +149,9 @@ public class TransactionEstimateResponse {
         Utils.checkNotNull(description, "description");
         Utils.checkNotNull(source, "source");
         Utils.checkNotNull(marketplace, "marketplace");
+        Utils.checkNotNull(transactionItems, "transactionItems");
         Utils.checkNotNull(customer, "customer");
         Utils.checkNotNull(addresses, "addresses");
-        Utils.checkNotNull(transactionItems, "transactionItems");
         Utils.checkNotNull(totalTaxAmountCalculated, "totalTaxAmountCalculated");
         Utils.checkNotNull(taxableAmount, "taxableAmount");
         Utils.checkNotNull(taxRateCalculated, "taxRateCalculated");
@@ -164,9 +164,9 @@ public class TransactionEstimateResponse {
         this.description = description;
         this.source = source;
         this.marketplace = marketplace;
+        this.transactionItems = transactionItems;
         this.customer = customer;
         this.addresses = addresses;
-        this.transactionItems = transactionItems;
         this.totalTaxAmountCalculated = totalTaxAmountCalculated;
         this.taxableAmount = taxableAmount;
         this.taxRateCalculated = taxRateCalculated;
@@ -178,12 +178,12 @@ public class TransactionEstimateResponse {
             OffsetDateTime date,
             String externalId,
             CurrencyEnum currency,
-            List<TransactionEstimateResponseAddress> addresses,
-            List<TransactionItemEstimateResponse> transactionItems) {
+            List<TransactionItemEstimateResponse> transactionItems,
+            List<TransactionEstimateResponseAddress> addresses) {
         this(date, externalId, Optional.empty(),
             currency, JsonNullable.undefined(), JsonNullable.undefined(),
-            JsonNullable.undefined(), JsonNullable.undefined(), addresses,
-            transactionItems, Optional.empty(), Optional.empty(),
+            JsonNullable.undefined(), transactionItems, JsonNullable.undefined(),
+            addresses, Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty());
     }
 
@@ -244,13 +244,18 @@ public class TransactionEstimateResponse {
         return marketplace;
     }
 
+    @JsonIgnore
+    public List<TransactionItemEstimateResponse> transactionItems() {
+        return transactionItems;
+    }
+
     /**
      * Details about the customer. If the customer is not found, it will be ignored.
      */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public JsonNullable<CustomerBaseOutput> customer() {
-        return (JsonNullable<CustomerBaseOutput>) customer;
+    public JsonNullable<CustomerBase> customer() {
+        return (JsonNullable<CustomerBase>) customer;
     }
 
     /**
@@ -259,11 +264,6 @@ public class TransactionEstimateResponse {
     @JsonIgnore
     public List<TransactionEstimateResponseAddress> addresses() {
         return addresses;
-    }
-
-    @JsonIgnore
-    public List<TransactionItemEstimateResponse> transactionItems() {
-        return transactionItems;
     }
 
     /**
@@ -417,10 +417,16 @@ public class TransactionEstimateResponse {
         return this;
     }
 
+    public TransactionEstimateResponse withTransactionItems(List<TransactionItemEstimateResponse> transactionItems) {
+        Utils.checkNotNull(transactionItems, "transactionItems");
+        this.transactionItems = transactionItems;
+        return this;
+    }
+
     /**
      * Details about the customer. If the customer is not found, it will be ignored.
      */
-    public TransactionEstimateResponse withCustomer(CustomerBaseOutput customer) {
+    public TransactionEstimateResponse withCustomer(CustomerBase customer) {
         Utils.checkNotNull(customer, "customer");
         this.customer = JsonNullable.of(customer);
         return this;
@@ -429,7 +435,7 @@ public class TransactionEstimateResponse {
     /**
      * Details about the customer. If the customer is not found, it will be ignored.
      */
-    public TransactionEstimateResponse withCustomer(JsonNullable<? extends CustomerBaseOutput> customer) {
+    public TransactionEstimateResponse withCustomer(JsonNullable<? extends CustomerBase> customer) {
         Utils.checkNotNull(customer, "customer");
         this.customer = customer;
         return this;
@@ -441,12 +447,6 @@ public class TransactionEstimateResponse {
     public TransactionEstimateResponse withAddresses(List<TransactionEstimateResponseAddress> addresses) {
         Utils.checkNotNull(addresses, "addresses");
         this.addresses = addresses;
-        return this;
-    }
-
-    public TransactionEstimateResponse withTransactionItems(List<TransactionItemEstimateResponse> transactionItems) {
-        Utils.checkNotNull(transactionItems, "transactionItems");
-        this.transactionItems = transactionItems;
         return this;
     }
 
@@ -568,9 +568,9 @@ public class TransactionEstimateResponse {
             Utils.enhancedDeepEquals(this.description, other.description) &&
             Utils.enhancedDeepEquals(this.source, other.source) &&
             Utils.enhancedDeepEquals(this.marketplace, other.marketplace) &&
+            Utils.enhancedDeepEquals(this.transactionItems, other.transactionItems) &&
             Utils.enhancedDeepEquals(this.customer, other.customer) &&
             Utils.enhancedDeepEquals(this.addresses, other.addresses) &&
-            Utils.enhancedDeepEquals(this.transactionItems, other.transactionItems) &&
             Utils.enhancedDeepEquals(this.totalTaxAmountCalculated, other.totalTaxAmountCalculated) &&
             Utils.enhancedDeepEquals(this.taxableAmount, other.taxableAmount) &&
             Utils.enhancedDeepEquals(this.taxRateCalculated, other.taxRateCalculated) &&
@@ -583,8 +583,8 @@ public class TransactionEstimateResponse {
         return Utils.enhancedHash(
             date, externalId, totalAmount,
             currency, description, source,
-            marketplace, customer, addresses,
-            transactionItems, totalTaxAmountCalculated, taxableAmount,
+            marketplace, transactionItems, customer,
+            addresses, totalTaxAmountCalculated, taxableAmount,
             taxRateCalculated, nexusMet, hasActiveRegistration);
     }
     
@@ -598,9 +598,9 @@ public class TransactionEstimateResponse {
                 "description", description,
                 "source", source,
                 "marketplace", marketplace,
+                "transactionItems", transactionItems,
                 "customer", customer,
                 "addresses", addresses,
-                "transactionItems", transactionItems,
                 "totalTaxAmountCalculated", totalTaxAmountCalculated,
                 "taxableAmount", taxableAmount,
                 "taxRateCalculated", taxRateCalculated,
@@ -626,11 +626,11 @@ public class TransactionEstimateResponse {
 
         private JsonNullable<Boolean> marketplace = JsonNullable.undefined();
 
-        private JsonNullable<? extends CustomerBaseOutput> customer = JsonNullable.undefined();
+        private List<TransactionItemEstimateResponse> transactionItems;
+
+        private JsonNullable<? extends CustomerBase> customer = JsonNullable.undefined();
 
         private List<TransactionEstimateResponseAddress> addresses;
-
-        private List<TransactionItemEstimateResponse> transactionItems;
 
         private Optional<String> totalTaxAmountCalculated;
 
@@ -757,10 +757,17 @@ public class TransactionEstimateResponse {
         }
 
 
+        public Builder transactionItems(List<TransactionItemEstimateResponse> transactionItems) {
+            Utils.checkNotNull(transactionItems, "transactionItems");
+            this.transactionItems = transactionItems;
+            return this;
+        }
+
+
         /**
          * Details about the customer. If the customer is not found, it will be ignored.
          */
-        public Builder customer(CustomerBaseOutput customer) {
+        public Builder customer(CustomerBase customer) {
             Utils.checkNotNull(customer, "customer");
             this.customer = JsonNullable.of(customer);
             return this;
@@ -769,7 +776,7 @@ public class TransactionEstimateResponse {
         /**
          * Details about the customer. If the customer is not found, it will be ignored.
          */
-        public Builder customer(JsonNullable<? extends CustomerBaseOutput> customer) {
+        public Builder customer(JsonNullable<? extends CustomerBase> customer) {
             Utils.checkNotNull(customer, "customer");
             this.customer = customer;
             return this;
@@ -782,13 +789,6 @@ public class TransactionEstimateResponse {
         public Builder addresses(List<TransactionEstimateResponseAddress> addresses) {
             Utils.checkNotNull(addresses, "addresses");
             this.addresses = addresses;
-            return this;
-        }
-
-
-        public Builder transactionItems(List<TransactionItemEstimateResponse> transactionItems) {
-            Utils.checkNotNull(transactionItems, "transactionItems");
-            this.transactionItems = transactionItems;
             return this;
         }
 
@@ -916,8 +916,8 @@ public class TransactionEstimateResponse {
             return new TransactionEstimateResponse(
                 date, externalId, totalAmount,
                 currency, description, source,
-                marketplace, customer, addresses,
-                transactionItems, totalTaxAmountCalculated, taxableAmount,
+                marketplace, transactionItems, customer,
+                addresses, totalTaxAmountCalculated, taxableAmount,
                 taxRateCalculated, nexusMet, hasActiveRegistration);
         }
 

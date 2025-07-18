@@ -316,18 +316,18 @@ DEBUG	discriminated: Renamed to "ProductCreateManual_Product Subcategory"
 DEBUG	
 
 --- Renaming 2 types with name "type" ---
-DEBUG	discriminated: Renamed to "TransactionEstimateRequest_type" 
-	 labels: "original_name:type scope:shared data_type:enum refName:TransactionEstimateRequest property:address" 
-	 registrationID: "scope:shared refType:Schemas refName:TransactionEstimateRequest property:addresses originalName:type"
+DEBUG	discriminated: Renamed to "TransactionEstimatePublicRequest_type" 
+	 labels: "original_name:type scope:shared data_type:enum refName:TransactionEstimatePublicRequest property:address" 
+	 registrationID: "scope:shared refType:Schemas refName:TransactionEstimatePublicRequest property:addresses originalName:type"
 DEBUG	discriminated: Renamed to "TransactionEstimateResponse_type" 
 	 labels: "original_name:type scope:shared data_type:enum refName:TransactionEstimateResponse property:address" 
 	 registrationID: "scope:shared refType:Schemas refName:TransactionEstimateResponse property:addresses originalName:type"
 DEBUG	
 
 --- Renaming 2 types with name "address" ---
-DEBUG	discriminated: Renamed to "TransactionEstimateRequest_address" 
-	 labels: "original_name:address scope:shared refName:TransactionEstimateRequest" 
-	 registrationID: "scope:shared refType:Schemas refName:TransactionEstimateRequest originalName:address"
+DEBUG	discriminated: Renamed to "TransactionEstimatePublicRequest_address" 
+	 labels: "original_name:address scope:shared refName:TransactionEstimatePublicRequest" 
+	 registrationID: "scope:shared refType:Schemas refName:TransactionEstimatePublicRequest originalName:address"
 DEBUG	discriminated: Renamed to "TransactionEstimateResponse_address" 
 	 labels: "original_name:address scope:shared refName:TransactionEstimateResponse" 
 	 registrationID: "scope:shared refType:Schemas refName:TransactionEstimateResponse originalName:address"
@@ -612,24 +612,24 @@ UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCre
 UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutResponse (ContentType: string, StatusCode: int32, RawResponse: response ...)
 UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutSecurity (APIKeyHeader: string, HTTPBearer: string)
 TaxEstimation (SDK empty)
-EstimateTaxV1TaxEstimatePostRequest (simulate_nexus_met: boolean, x-organization-id: string, TransactionEstimateRequest: TransactionEstimateRequest)
- TransactionEstimateRequest (date: date-time, external_id: string, total_amount: union ...)
+EstimateTaxV1TaxEstimatePostRequest (simulate_nexus_met: boolean, x-organization-id: string, TransactionEstimatePublicRequest: TransactionEstimatePublicRequest)
+ TransactionEstimatePublicRequest (date: date-time, external_id: string, total_amount: union ...)
   TotalAmountOfTheTransaction,AfterDiscounts (union)
-  CustomerBaseInput (phone: string, street_1: string, street_2: string ...)
-   TransactionEstimateRequestAddress (type: enum, phone: string, street_1: string ...)
-    TransactionEstimateRequestType (enum: SHIP_TO, BILL_TO)
    TransactionItemEstimateBase (external_id: string, date: date-time, description: string ...)
     QuantityOfTheProduct (union)
     TotalAmountOfThisTransactionItem,AfterDiscounts (union)
+  CustomerBasePublic (phone: string, street_1: string, street_2: string ...)
+   TransactionEstimatePublicRequestAddress (type: enum, phone: string, street_1: string ...)
+    TransactionEstimatePublicRequestType (enum: SHIP_TO, BILL_TO)
 EstimateTaxV1TaxEstimatePostResponse (ContentType: string, StatusCode: int32, RawResponse: response ...)
  PageTransactionEstimateResponse (items: array, total: integer, page: integer ...)
    TransactionEstimateResponse (date: date-time, external_id: string, total_amount: string ...)
-    CustomerBaseOutput (phone: string, street_1: string, street_2: string ...)
-     TransactionEstimateResponseAddress (type: enum, phone: string, street_1: string ...)
-      TransactionEstimateResponseType (enum: SHIP_TO, BILL_TO)
      TransactionItemEstimateResponse (external_id: string, date: date-time, description: string ...)
        TaxItemEstimate (rate: string, name: string, amount: string ...)
         TaxItemReturnReasonEnum (enum: NO_RULE_FOUND, RULE_FOUND_TAXABLE, RULE_FOUND_NOT_TAXABLE ...)
+    CustomerBase (phone: string, street_1: string, street_2: string ...)
+     TransactionEstimateResponseAddress (type: enum, phone: string, street_1: string ...)
+      TransactionEstimateResponseType (enum: SHIP_TO, BILL_TO)
 BackendSrcTaxEstimationResponsesValidationErrorResponse (error)
   BackendSrcTaxEstimationResponsesValidationErrorItem (type: string, loc: array, msg: string ...)
 EstimateTaxV1TaxEstimatePostSecurity (APIKeyHeader: string, HTTPBearer: string)

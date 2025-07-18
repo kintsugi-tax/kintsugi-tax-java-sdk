@@ -1543,7 +1543,6 @@ paths:
               schema: {"$ref": "#/components/schemas/HTTPValidationError"}
       x-public: true
       x-speakeasy-name-override: listCategories
-  "/v1/products/bulk_approve/": {}
   "/v1/products/bulk_classify/": {}
   "/v1/products/bulk_approve_v2": {}
   "/v1/products/config/": {}
@@ -1719,6 +1718,16 @@ paths:
             description: "Filter transactions by marketplace (e.g., AMAZON, EBAY)."
             title: "Marketplace"
           description: "Filter transactions by marketplace (e.g., AMAZON, EBAY)."
+        - name: "exempt__in"
+          in: "query"
+          required: false
+          schema:
+            anyOf:
+              - type: "string"
+              - type: "null"
+            description: "Filter transactions by exemption status.\n        Multiple values can be passed as a comma-separated list (e.g., EXEMPT,TAXABLE)."
+            title: "Exempt  In"
+          description: "Filter transactions by exemption status.\n        Multiple values can be passed as a comma-separated list (e.g., EXEMPT,TAXABLE)."
         - name: "page"
           in: "query"
           required: false
@@ -2128,6 +2137,7 @@ paths:
       x-speakeasy-name-override: getByFilingId
   "/v1/transactions/export/csv": {}
   "/v1/transactions/reports/details": {}
+  "/v1/transactions/min-max-date": {}
   "/v1/transactions/addresses/fill_blank": {}
   "/v1/transactions/archive_by_date": {}
   "/v1/transactions/addresses/blank": {}
@@ -2270,7 +2280,7 @@ paths:
         required: true
         content:
           "application/json":
-            schema: {"$ref": "#/components/schemas/TransactionEstimateRequest"}
+            schema: {"$ref": "#/components/schemas/TransactionEstimatePublicRequest"}
             example: {"date": "2025-01-23T13:01:29.949Z", "external_id": "txn_12345", "currency": "USD", "addresses": [{"type": "SHIP_TO", "street_1": "789 Pine St", "city": "Austin", "state": "TX", "postal_code": "78701", "country": "US"}], "transaction_items": [{"external_id": "item_A", "date": "2024-10-28T10:00:00Z", "external_product_id": "prod_abc", "quantity": 2, "amount": 100}, {"external_id": "item_B", "date": "2024-10-28T10:00:00Z", "external_product_id": "prod_xyz", "quantity": 1, "amount": 75.5}]}
       responses:
         "200":
@@ -2841,7 +2851,11 @@ components:
         "id":
           type: "string"
           title: "Id"
-          description: "Unique identifier for the registration."
+          description: "The unique identifier for the registration."
+        "credits_total_available":
+          type: "string"
+          title: "Credits Total Available"
+          default: "0.00"
         "password_encrypted":
           anyOf:
             - type: "string"
@@ -3496,8 +3510,19 @@ components:
         "id":
           type: "string"
           title: "Id"
-        "product_category": {"$ref": "#/components/schemas/ProductCategoryEnum"}
-        "product_subcategory": {"$ref": "#/components/schemas/ProductSubCategoryEnum"}
+          description: "Unique identifier of the product."
+        "product_category":
+          anyOf:
+            - {"$ref": "#/components/schemas/ProductCategoryEnum"}
+            - type: "string"
+          title: "Product Category"
+          description: "The high-level category of the product."
+        "product_subcategory":
+          anyOf:
+            - {"$ref": "#/components/schemas/ProductSubCategoryEnum"}
+            - type: "string"
+          title: "Product Subcategory"
+          description: "The subcategory of the product."
       type: "object"
       required:
         - "id"
@@ -4229,18 +4254,6 @@ components:
             - type: "string"
             - type: "null"
           title: "Marketplace Id"
-        "newest_transaction_date":
-          anyOf:
-            - type: "string"
-              format: "date-time"
-            - type: "null"
-          title: "Newest Transaction Date"
-        "oldest_transaction_date":
-          anyOf:
-            - type: "string"
-              format: "date-time"
-            - type: "null"
-          title: "Oldest Transaction Date"
       type: "object"
       required:
         - "id"
@@ -5390,109 +5403,7 @@ components:
         - "mrr"
         - "auto_close_invoices"
       title: "Customer"
-    "CustomerBase-Input":
-      properties:
-        "phone":
-          anyOf:
-            - type: "string"
-            - type: "null"
-          title: "Phone"
-          description: "Phone number associated with the address."
-        "street_1":
-          anyOf:
-            - type: "string"
-            - type: "null"
-          title: "Street 1"
-          description: "Primary street address."
-        "street_2":
-          anyOf:
-            - type: "string"
-            - type: "null"
-          title: "Street 2"
-          description: "Additional street address details, such as an apartment or suite number."
-        "city":
-          anyOf:
-            - type: "string"
-            - type: "null"
-          title: "City"
-          description: "City where the customer resides."
-        "county":
-          anyOf:
-            - type: "string"
-            - type: "null"
-          title: "County"
-          description: "County or district of the customer."
-        "state":
-          anyOf:
-            - type: "string"
-            - type: "null"
-          title: "State"
-          description: "State or province of the customer."
-        "postal_code":
-          anyOf:
-            - type: "string"
-            - type: "null"
-          title: "Postal Code"
-          description: "ZIP or Postal code of the customer."
-        "country":
-          anyOf:
-            - {"$ref": "#/components/schemas/CountryCodeEnum"}
-            - type: "null"
-          description: "Country code in ISO 3166-1 alpha-2 format"
-        "full_address":
-          anyOf:
-            - type: "string"
-            - type: "null"
-          title: "Full Address"
-          description: "Complete address string of the customer, which can be used as an alternative to individual fields."
-        "name":
-          anyOf:
-            - type: "string"
-              maxLength: 200
-            - type: "null"
-          title: "Name"
-          description: "Name of the customer."
-        "external_id":
-          anyOf:
-            - type: "string"
-              maxLength: 100
-            - type: "null"
-          title: "External Id"
-          description: "A unique identifier for the customer."
-        "status": {"$ref": "#/components/schemas/StatusEnum", "description": "Status of the customer (e.g., ACTIVE, INACTIVE).", "default": "ACTIVE"}
-        "email":
-          anyOf:
-            - type: "string"
-              maxLength: 200
-            - type: "null"
-          title: "Email"
-          description: "Email address of the customer."
-        "address_status": {"$ref": "#/components/schemas/AddressStatus", "description": "Address status of the customer. Defaults to UNVERIFIED.", "default": "UNVERIFIED"}
-        "source":
-          anyOf:
-            - {"$ref": "#/components/schemas/SourceEnum"}
-            - type: "null"
-          description: "Source of the customer information (e.g., BIGCOMMERCE, STRIPE, etc.)."
-        "registration_number":
-          anyOf:
-            - type: "string"
-            - type: "null"
-          title: "Registration Number"
-        "connection_id":
-          anyOf:
-            - type: "string"
-            - type: "null"
-          title: "Connection Id"
-          description: "Unique identifier of the connection related to the customer."
-        "enriched_fields":
-          anyOf:
-            - type: "string"
-            - type: "null"
-          title: "Enriched Fields"
-          description: "Additional enriched fields for the customer, if available."
-      type: "object"
-      title: "CustomerBase"
-    "CustomerBase-Output":
+    "CustomerBase":
       properties:
         "phone":
           anyOf:
@@ -5700,6 +5611,102 @@ components:
       required:
         - "organization_id"
       title: "CustomerBaseBase"
+    "CustomerBasePublic":
+      properties:
+        "phone":
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Phone"
+          description: "Phone number associated with the address."
+        "street_1":
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Street 1"
+          description: "Primary street address."
+        "street_2":
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Street 2"
+          description: "Additional street address details, such as an apartment or suite number."
+        "city":
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "City"
+          description: "City where the customer resides."
+        "county":
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "County"
+          description: "County or district of the customer."
+        "state":
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "State"
+          description: "State or province of the customer."
+        "postal_code":
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Postal Code"
+          description: "ZIP or Postal code of the customer."
+        "country":
+          anyOf:
+            - {"$ref": "#/components/schemas/CountryCodeEnum"}
+            - type: "null"
+          description: "Country code in ISO 3166-1 alpha-2 format"
+        "full_address":
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Full Address"
+          description: "Complete address string of the customer, which can be used as an alternative to individual fields."
+        "name":
+          anyOf:
+            - type: "string"
+              maxLength: 200
+            - type: "null"
+          title: "Name"
+          description: "Name of the customer."
+        "external_id":
+          anyOf:
+            - type: "string"
+              maxLength: 100
+            - type: "null"
+          title: "External Id"
+          description: "A unique identifier for the customer."
+        "status": {"$ref": "#/components/schemas/StatusEnum", "description": "Status of the customer (e.g., ACTIVE, INACTIVE).", "default": "ACTIVE"}
+        "email":
+          anyOf:
+            - type: "string"
+              maxLength: 200
+            - type: "null"
+          title: "Email"
+          description: "Email address of the customer."
+        "address_status": {"$ref": "#/components/schemas/AddressStatus", "description": "Address status of the customer. Defaults to UNVERIFIED.", "default": "UNVERIFIED"}
+        "source":
+          anyOf:
+            - {"$ref": "#/components/schemas/SourceEnum"}
+            - type: "null"
+          description: "Source of the customer information (e.g., BIGCOMMERCE, STRIPE, etc.)."
+        "registration_number":
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Registration Number"
+        "connection_id":
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Connection Id"
+          description: "Unique identifier of the connection related to the customer."
+      type: "object"
+      title: "CustomerBasePublic"
     "CustomerCreate":
       properties:
         "phone":
@@ -6976,6 +6983,8 @@ components:
         - "ANNUALLY"
         - "ANNUAL_FISCAL_YEAR"
         - "SEMI_MONTHLY"
+        - "BI_MONTHLY"
+        - "FOUR_MONTHLY"
       title: "FilingFrequencyEnum"
     "FilingMetrics":
       properties:
@@ -13833,7 +13842,11 @@ components:
         "id":
           type: "string"
           title: "Id"
-          description: "Unique identifier for the registration."
+          description: "The unique identifier for the registration."
+        "credits_total_available":
+          type: "string"
+          title: "Credits Total Available"
+          default: "0.00"
         "password_encrypted":
           anyOf:
             - type: "string"
@@ -15961,12 +15974,6 @@ components:
           title: "Full Address"
           description: "Complete address string of the customer, which can be used as an alternative to individual fields."
         "type": {"$ref": "#/components/schemas/AddressType", "description": "Type of address. Allowed values: BILL_TO, SHIP_TO."}
-        "enriched_fields":
-          anyOf:
-            - type: "string"
-            - type: "null"
-          title: "Enriched Fields"
-          description: "Optional additional enriched data for the address."
       type: "object"
       required:
         - "type"
@@ -16811,7 +16818,7 @@ components:
         - "addresses"
         - "transaction_items"
       title: "TransactionCreate"
-    "TransactionEstimateRequest":
+    "TransactionEstimatePublicRequest":
       properties:
         "date":
           type: "string"
@@ -16851,9 +16858,14 @@ components:
           title: "Use to indicate if this transaction was placed through a Marketplace, which will mean that the item is not taxable."
           description: "Indicates if the transaction involves a marketplace."
           default: false
+        "transaction_items":
+          items: {"$ref": "#/components/schemas/TransactionItemEstimateBase"}
+          type: "array"
+          title: "The items that make up the transaction."
+          description: "List of items involved in the transaction."
         "customer":
           anyOf:
-            - {"$ref": "#/components/schemas/CustomerBase-Input"}
+            - {"$ref": "#/components/schemas/CustomerBasePublic"}
             - type: "null"
           title: "The customer who placed the transaction."
           description: "Details about the customer. If the customer is not found, it will be ignored."
@@ -16897,9 +16909,6 @@ components:
                 type: "string"
                 description: "Status of the address. Deprecated and ignored."
                 deprecated: true
-              "enriched_fields":
-                type: "string"
-                description: "Additional enriched fields related to the address."
             type: "object"
             required:
               - "type"
@@ -16908,35 +16917,16 @@ components:
               - "country"
           type: "array"
           title: "The address information for this transaction."
-          description: "List of addresses related to the transaction. At least one BILL_TO or SHIP_TO address must be provided. The address will be validated during estimation, and the transaction may be rejected if the address does not pass validation. The SHIP_TO will be preferred to use for determining tax liability. **Deprecated:** Use of `address.status` in estimate api is ignored and will be removed in the future status will be considered UNVERIFIED by default and always validated"
-        "transaction_items":
-          items: {"$ref": "#/components/schemas/TransactionItemEstimateBase"}
-          type: "array"
-          title: "The items that make up the transaction."
-          description: "List of items involved in the transaction."
-        "simulate_active_registration":
-          anyOf:
-            - type: "boolean"
-            - type: "null"
-          title: "Simulate Active Registration Met"
-          description: "If True, assumes active registration is met for tax estimation."
-          default: false
-        "simulate_nexus_met":
-          anyOf:
-            - type: "boolean"
-            - type: "null"
-          title: "Simulate Nexus Met"
-          description: "Use simulate_active_registration instead.\n        This field will be removed in future releases."
-          deprecated: true
+          description: "List of addresses related to the transaction. At least one BILL_TO or SHIP_TO address must be provided. The address will be validated during estimation, and the transaction may be rejected if the address does not pass validation. The SHIP_TO will be preferred to use for determining tax liability."
       type: "object"
       required:
         - "date"
         - "external_id"
         - "currency"
-        - "addresses"
         - "transaction_items"
-      title: "TransactionEstimateRequest"
-      description: "Request model for tax estimation, including all fields from TransactionEstimateBase\nand an additional field to simulate nexus being met."
+        - "addresses"
+      title: "TransactionEstimatePublicRequest"
+      description: "Public request model for tax estimation API documentation.\nThis model excludes internal fields like enriched_fields that should not be exposed in API docs."
     "TransactionEstimateResponse":
       properties:
         "date":
@@ -16975,9 +16965,13 @@ components:
           title: "Use to indicate if this transaction was placed through a Marketplace, which will mean that the item is not taxable."
           description: "Indicates if the transaction involves a marketplace."
           default: false
+        "transaction_items":
+          items: {"$ref": "#/components/schemas/TransactionItemEstimateResponse"}
+          type: "array"
+          title: "Transaction Items"
         "customer":
           anyOf:
-            - {"$ref": "#/components/schemas/CustomerBase-Output"}
+            - {"$ref": "#/components/schemas/CustomerBase"}
             - type: "null"
           title: "The customer who placed the transaction."
           description: "Details about the customer. If the customer is not found, it will be ignored."
@@ -17033,10 +17027,6 @@ components:
           type: "array"
           title: "The address information for this transaction."
           description: "List of addresses related to the transaction. At least one BILL_TO or SHIP_TO address must be provided. The address will be validated during estimation, and the transaction may be rejected if the address does not pass validation. The SHIP_TO will be preferred to use for determining tax liability. **Deprecated:** Use of `address.status` in estimate api is ignored and will be removed in the future status will be considered UNVERIFIED by default and always validated"
-        "transaction_items":
-          items: {"$ref": "#/components/schemas/TransactionItemEstimateResponse"}
-          type: "array"
-          title: "Transaction Items"
         "total_tax_amount_calculated":
           type: "string"
           title: "Total Tax Amount Calculated"
@@ -17068,8 +17058,8 @@ components:
         - "date"
         - "external_id"
         - "currency"
-        - "addresses"
         - "transaction_items"
+        - "addresses"
       title: "TransactionEstimateResponse"
     "TransactionExemptStatusEnum":
       type: "string"

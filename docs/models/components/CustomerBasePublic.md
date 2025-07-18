@@ -1,4 +1,4 @@
-# CustomerBaseInput
+# CustomerBasePublic
 
 
 ## Fields
@@ -22,4 +22,3 @@
 | `source`                                                                                           | [JsonNullable\<SourceEnum>](../../models/components/SourceEnum.md)                                 | :heavy_minus_sign:                                                                                 | Source of the customer information (e.g., BIGCOMMERCE, STRIPE, etc.).                              |
 | `registrationNumber`                                                                               | *JsonNullable\<String>*                                                                            | :heavy_minus_sign:                                                                                 | N/A                                                                                                |
 | `connectionId`                                                                                     | *JsonNullable\<String>*                                                                            | :heavy_minus_sign:                                                                                 | Unique identifier of the connection related to the customer.                                       |
-| `enrichedFields`                                                                                   | *JsonNullable\<String>*                                                                            | :heavy_minus_sign:                                                                                 | Additional enriched fields for the customer, if available.                                         |

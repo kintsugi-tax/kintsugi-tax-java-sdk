@@ -9,19 +9,19 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * TransactionEstimateRequestType
+ * TransactionEstimatePublicRequestType
  * 
  * <p>Type of the address. Must be either
  *                         SHIP_TO or BILL_TO.
  */
-public enum TransactionEstimateRequestType {
+public enum TransactionEstimatePublicRequestType {
     SHIP_TO("SHIP_TO"),
     BILL_TO("BILL_TO");
 
     @JsonValue
     private final String value;
 
-    TransactionEstimateRequestType(String value) {
+    TransactionEstimatePublicRequestType(String value) {
         this.value = value;
     }
     
@@ -29,8 +29,8 @@ public enum TransactionEstimateRequestType {
         return value;
     }
     
-    public static Optional<TransactionEstimateRequestType> fromValue(String value) {
-        for (TransactionEstimateRequestType o: TransactionEstimateRequestType.values()) {
+    public static Optional<TransactionEstimatePublicRequestType> fromValue(String value) {
+        for (TransactionEstimatePublicRequestType o: TransactionEstimatePublicRequestType.values()) {
             if (Objects.deepEquals(o.value, value)) {
                 return Optional.of(o);
             }

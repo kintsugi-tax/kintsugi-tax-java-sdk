@@ -5,7 +5,7 @@ package com.kintsugi.taxplatform.models.operations;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.kintsugi.taxplatform.models.components.TransactionEstimateRequest;
+import com.kintsugi.taxplatform.models.components.TransactionEstimatePublicRequest;
 import com.kintsugi.taxplatform.utils.SpeakeasyMetadata;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Boolean;
@@ -33,24 +33,24 @@ public class EstimateTaxV1TaxEstimatePostRequest {
 
 
     @SpeakeasyMetadata("request:mediaType=application/json")
-    private TransactionEstimateRequest transactionEstimateRequest;
+    private TransactionEstimatePublicRequest transactionEstimatePublicRequest;
 
     @JsonCreator
     public EstimateTaxV1TaxEstimatePostRequest(
             Optional<Boolean> simulateNexusMet,
             Optional<String> xOrganizationId,
-            TransactionEstimateRequest transactionEstimateRequest) {
+            TransactionEstimatePublicRequest transactionEstimatePublicRequest) {
         Utils.checkNotNull(simulateNexusMet, "simulateNexusMet");
         Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        Utils.checkNotNull(transactionEstimateRequest, "transactionEstimateRequest");
+        Utils.checkNotNull(transactionEstimatePublicRequest, "transactionEstimatePublicRequest");
         this.simulateNexusMet = simulateNexusMet;
         this.xOrganizationId = xOrganizationId;
-        this.transactionEstimateRequest = transactionEstimateRequest;
+        this.transactionEstimatePublicRequest = transactionEstimatePublicRequest;
     }
     
     public EstimateTaxV1TaxEstimatePostRequest(
-            TransactionEstimateRequest transactionEstimateRequest) {
-        this(Optional.empty(), Optional.empty(), transactionEstimateRequest);
+            TransactionEstimatePublicRequest transactionEstimatePublicRequest) {
+        this(Optional.empty(), Optional.empty(), transactionEstimatePublicRequest);
     }
 
     /**
@@ -73,8 +73,8 @@ public class EstimateTaxV1TaxEstimatePostRequest {
     }
 
     @JsonIgnore
-    public TransactionEstimateRequest transactionEstimateRequest() {
-        return transactionEstimateRequest;
+    public TransactionEstimatePublicRequest transactionEstimatePublicRequest() {
+        return transactionEstimatePublicRequest;
     }
 
     public static Builder builder() {
@@ -126,9 +126,9 @@ public class EstimateTaxV1TaxEstimatePostRequest {
         return this;
     }
 
-    public EstimateTaxV1TaxEstimatePostRequest withTransactionEstimateRequest(TransactionEstimateRequest transactionEstimateRequest) {
-        Utils.checkNotNull(transactionEstimateRequest, "transactionEstimateRequest");
-        this.transactionEstimateRequest = transactionEstimateRequest;
+    public EstimateTaxV1TaxEstimatePostRequest withTransactionEstimatePublicRequest(TransactionEstimatePublicRequest transactionEstimatePublicRequest) {
+        Utils.checkNotNull(transactionEstimatePublicRequest, "transactionEstimatePublicRequest");
+        this.transactionEstimatePublicRequest = transactionEstimatePublicRequest;
         return this;
     }
 
@@ -144,13 +144,13 @@ public class EstimateTaxV1TaxEstimatePostRequest {
         return 
             Utils.enhancedDeepEquals(this.simulateNexusMet, other.simulateNexusMet) &&
             Utils.enhancedDeepEquals(this.xOrganizationId, other.xOrganizationId) &&
-            Utils.enhancedDeepEquals(this.transactionEstimateRequest, other.transactionEstimateRequest);
+            Utils.enhancedDeepEquals(this.transactionEstimatePublicRequest, other.transactionEstimatePublicRequest);
     }
     
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-            simulateNexusMet, xOrganizationId, transactionEstimateRequest);
+            simulateNexusMet, xOrganizationId, transactionEstimatePublicRequest);
     }
     
     @Override
@@ -158,7 +158,7 @@ public class EstimateTaxV1TaxEstimatePostRequest {
         return Utils.toString(EstimateTaxV1TaxEstimatePostRequest.class,
                 "simulateNexusMet", simulateNexusMet,
                 "xOrganizationId", xOrganizationId,
-                "transactionEstimateRequest", transactionEstimateRequest);
+                "transactionEstimatePublicRequest", transactionEstimatePublicRequest);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -169,7 +169,7 @@ public class EstimateTaxV1TaxEstimatePostRequest {
 
         private Optional<String> xOrganizationId = Optional.empty();
 
-        private TransactionEstimateRequest transactionEstimateRequest;
+        private TransactionEstimatePublicRequest transactionEstimatePublicRequest;
 
         private Builder() {
           // force use of static builder() method
@@ -220,16 +220,16 @@ public class EstimateTaxV1TaxEstimatePostRequest {
         }
 
 
-        public Builder transactionEstimateRequest(TransactionEstimateRequest transactionEstimateRequest) {
-            Utils.checkNotNull(transactionEstimateRequest, "transactionEstimateRequest");
-            this.transactionEstimateRequest = transactionEstimateRequest;
+        public Builder transactionEstimatePublicRequest(TransactionEstimatePublicRequest transactionEstimatePublicRequest) {
+            Utils.checkNotNull(transactionEstimatePublicRequest, "transactionEstimatePublicRequest");
+            this.transactionEstimatePublicRequest = transactionEstimatePublicRequest;
             return this;
         }
 
         public EstimateTaxV1TaxEstimatePostRequest build() {
 
             return new EstimateTaxV1TaxEstimatePostRequest(
-                simulateNexusMet, xOrganizationId, transactionEstimateRequest);
+                simulateNexusMet, xOrganizationId, transactionEstimatePublicRequest);
         }
 
     }

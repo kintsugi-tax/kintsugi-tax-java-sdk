@@ -40,19 +40,10 @@ public class Application {
                     .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
                     .build())
                 .xOrganizationId("org_12345")
-                .transactionEstimateRequest(TransactionEstimateRequest.builder()
+                .transactionEstimatePublicRequest(TransactionEstimatePublicRequest.builder()
                     .date(OffsetDateTime.parse("2025-01-23T13:01:29.949Z"))
                     .externalId("txn_12345")
                     .currency(CurrencyEnum.USD)
-                    .addresses(List.of(
-                        TransactionEstimateRequestAddress.builder()
-                            .type(TransactionEstimateRequestType.SHIP_TO)
-                            .state("TX")
-                            .postalCode("78701")
-                            .country("US")
-                            .street1("789 Pine St")
-                            .city("Austin")
-                            .build()))
                     .transactionItems(List.of(
                         TransactionItemEstimateBase.builder()
                             .date(OffsetDateTime.parse("2024-10-28T10:00:00Z"))
@@ -67,6 +58,15 @@ public class Application {
                             .externalId("item_B")
                             .externalProductId("prod_xyz")
                             .quantity(QuantityOfTheProduct.of(1d))
+                            .build()))
+                    .addresses(List.of(
+                        TransactionEstimatePublicRequestAddress.builder()
+                            .type(TransactionEstimatePublicRequestType.SHIP_TO)
+                            .state("TX")
+                            .postalCode("78701")
+                            .country("US")
+                            .street1("789 Pine St")
+                            .city("Austin")
                             .build()))
                     .build())
                 .call();
@@ -85,7 +85,7 @@ public class Application {
 | `security`                                                                                                                                                                                               | [com.kintsugi.taxplatform.models.operations.EstimateTaxV1TaxEstimatePostSecurity](../../models/operations/EstimateTaxV1TaxEstimatePostSecurity.md)                                                       | :heavy_check_mark:                                                                                                                                                                                       | The security requirements to use for the request.                                                                                                                                                        |                                                                                                                                                                                                          |
 | `simulateNexusMet`                                                                                                                                                                                       | *Optional\<Boolean>*                                                                                                                                                                                     | :heavy_minus_sign:                                                                                                                                                                                       | : warning: ** DEPRECATED **: This will be removed in a future release, please migrate away from it as soon as possible.<br/><br/>**Deprecated:** Use `simulate_active_registration` in the request body instead. |                                                                                                                                                                                                          |
 | `xOrganizationId`                                                                                                                                                                                        | *Optional\<String>*                                                                                                                                                                                      | :heavy_check_mark:                                                                                                                                                                                       | The unique identifier for the organization making the request                                                                                                                                            | org_12345                                                                                                                                                                                                |
-| `transactionEstimateRequest`                                                                                                                                                                             | [TransactionEstimateRequest](../../models/components/TransactionEstimateRequest.md)                                                                                                                      | :heavy_check_mark:                                                                                                                                                                                       | N/A                                                                                                                                                                                                      |                                                                                                                                                                                                          |
+| `transactionEstimatePublicRequest`                                                                                                                                                                       | [TransactionEstimatePublicRequest](../../models/components/TransactionEstimatePublicRequest.md)                                                                                                          | :heavy_check_mark:                                                                                                                                                                                       | N/A                                                                                                                                                                                                      |                                                                                                                                                                                                          |
 
 ### Response
 

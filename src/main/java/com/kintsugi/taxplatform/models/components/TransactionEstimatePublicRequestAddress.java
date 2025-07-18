@@ -15,13 +15,13 @@ import java.lang.String;
 import java.util.Optional;
 
 
-public class TransactionEstimateRequestAddress {
+public class TransactionEstimatePublicRequestAddress {
     /**
      * Type of the address. Must be either
      *                         SHIP_TO or BILL_TO.
      */
     @JsonProperty("type")
-    private TransactionEstimateRequestType type;
+    private TransactionEstimatePublicRequestType type;
 
     /**
      * Phone number associated with the customer.
@@ -93,16 +93,9 @@ public class TransactionEstimateRequestAddress {
     @Deprecated
     private Optional<String> status;
 
-    /**
-     * Additional enriched fields related to the address.
-     */
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("enriched_fields")
-    private Optional<String> enrichedFields;
-
     @JsonCreator
-    public TransactionEstimateRequestAddress(
-            @JsonProperty("type") TransactionEstimateRequestType type,
+    public TransactionEstimatePublicRequestAddress(
+            @JsonProperty("type") TransactionEstimatePublicRequestType type,
             @JsonProperty("phone") Optional<String> phone,
             @JsonProperty("street_1") Optional<String> street1,
             @JsonProperty("street_2") Optional<String> street2,
@@ -112,8 +105,7 @@ public class TransactionEstimateRequestAddress {
             @JsonProperty("postal_code") String postalCode,
             @JsonProperty("country") String country,
             @JsonProperty("full_address") Optional<String> fullAddress,
-            @JsonProperty("status") Optional<String> status,
-            @JsonProperty("enriched_fields") Optional<String> enrichedFields) {
+            @JsonProperty("status") Optional<String> status) {
         Utils.checkNotNull(type, "type");
         Utils.checkNotNull(phone, "phone");
         Utils.checkNotNull(street1, "street1");
@@ -125,7 +117,6 @@ public class TransactionEstimateRequestAddress {
         Utils.checkNotNull(country, "country");
         Utils.checkNotNull(fullAddress, "fullAddress");
         Utils.checkNotNull(status, "status");
-        Utils.checkNotNull(enrichedFields, "enrichedFields");
         this.type = type;
         this.phone = phone;
         this.street1 = street1;
@@ -137,18 +128,17 @@ public class TransactionEstimateRequestAddress {
         this.country = country;
         this.fullAddress = fullAddress;
         this.status = status;
-        this.enrichedFields = enrichedFields;
     }
     
-    public TransactionEstimateRequestAddress(
-            TransactionEstimateRequestType type,
+    public TransactionEstimatePublicRequestAddress(
+            TransactionEstimatePublicRequestType type,
             String state,
             String postalCode,
             String country) {
         this(type, Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
             state, postalCode, country,
-            Optional.empty(), Optional.empty(), Optional.empty());
+            Optional.empty(), Optional.empty());
     }
 
     /**
@@ -156,7 +146,7 @@ public class TransactionEstimateRequestAddress {
      *                         SHIP_TO or BILL_TO.
      */
     @JsonIgnore
-    public TransactionEstimateRequestType type() {
+    public TransactionEstimatePublicRequestType type() {
         return type;
     }
 
@@ -243,14 +233,6 @@ public class TransactionEstimateRequestAddress {
         return status;
     }
 
-    /**
-     * Additional enriched fields related to the address.
-     */
-    @JsonIgnore
-    public Optional<String> enrichedFields() {
-        return enrichedFields;
-    }
-
     public static Builder builder() {
         return new Builder();
     }
@@ -260,7 +242,7 @@ public class TransactionEstimateRequestAddress {
      * Type of the address. Must be either
      *                         SHIP_TO or BILL_TO.
      */
-    public TransactionEstimateRequestAddress withType(TransactionEstimateRequestType type) {
+    public TransactionEstimatePublicRequestAddress withType(TransactionEstimatePublicRequestType type) {
         Utils.checkNotNull(type, "type");
         this.type = type;
         return this;
@@ -269,7 +251,7 @@ public class TransactionEstimateRequestAddress {
     /**
      * Phone number associated with the customer.
      */
-    public TransactionEstimateRequestAddress withPhone(String phone) {
+    public TransactionEstimatePublicRequestAddress withPhone(String phone) {
         Utils.checkNotNull(phone, "phone");
         this.phone = Optional.ofNullable(phone);
         return this;
@@ -279,7 +261,7 @@ public class TransactionEstimateRequestAddress {
     /**
      * Phone number associated with the customer.
      */
-    public TransactionEstimateRequestAddress withPhone(Optional<String> phone) {
+    public TransactionEstimatePublicRequestAddress withPhone(Optional<String> phone) {
         Utils.checkNotNull(phone, "phone");
         this.phone = phone;
         return this;
@@ -288,7 +270,7 @@ public class TransactionEstimateRequestAddress {
     /**
      * Primary street address of the customer.
      */
-    public TransactionEstimateRequestAddress withStreet1(String street1) {
+    public TransactionEstimatePublicRequestAddress withStreet1(String street1) {
         Utils.checkNotNull(street1, "street1");
         this.street1 = Optional.ofNullable(street1);
         return this;
@@ -298,7 +280,7 @@ public class TransactionEstimateRequestAddress {
     /**
      * Primary street address of the customer.
      */
-    public TransactionEstimateRequestAddress withStreet1(Optional<String> street1) {
+    public TransactionEstimatePublicRequestAddress withStreet1(Optional<String> street1) {
         Utils.checkNotNull(street1, "street1");
         this.street1 = street1;
         return this;
@@ -307,7 +289,7 @@ public class TransactionEstimateRequestAddress {
     /**
      * Additional street address details, such as an apartment or suite number.
      */
-    public TransactionEstimateRequestAddress withStreet2(String street2) {
+    public TransactionEstimatePublicRequestAddress withStreet2(String street2) {
         Utils.checkNotNull(street2, "street2");
         this.street2 = Optional.ofNullable(street2);
         return this;
@@ -317,7 +299,7 @@ public class TransactionEstimateRequestAddress {
     /**
      * Additional street address details, such as an apartment or suite number.
      */
-    public TransactionEstimateRequestAddress withStreet2(Optional<String> street2) {
+    public TransactionEstimatePublicRequestAddress withStreet2(Optional<String> street2) {
         Utils.checkNotNull(street2, "street2");
         this.street2 = street2;
         return this;
@@ -326,7 +308,7 @@ public class TransactionEstimateRequestAddress {
     /**
      * City where the customer resides.
      */
-    public TransactionEstimateRequestAddress withCity(String city) {
+    public TransactionEstimatePublicRequestAddress withCity(String city) {
         Utils.checkNotNull(city, "city");
         this.city = Optional.ofNullable(city);
         return this;
@@ -336,7 +318,7 @@ public class TransactionEstimateRequestAddress {
     /**
      * City where the customer resides.
      */
-    public TransactionEstimateRequestAddress withCity(Optional<String> city) {
+    public TransactionEstimatePublicRequestAddress withCity(Optional<String> city) {
         Utils.checkNotNull(city, "city");
         this.city = city;
         return this;
@@ -345,7 +327,7 @@ public class TransactionEstimateRequestAddress {
     /**
      * County or district of the customer.
      */
-    public TransactionEstimateRequestAddress withCounty(String county) {
+    public TransactionEstimatePublicRequestAddress withCounty(String county) {
         Utils.checkNotNull(county, "county");
         this.county = Optional.ofNullable(county);
         return this;
@@ -355,7 +337,7 @@ public class TransactionEstimateRequestAddress {
     /**
      * County or district of the customer.
      */
-    public TransactionEstimateRequestAddress withCounty(Optional<String> county) {
+    public TransactionEstimatePublicRequestAddress withCounty(Optional<String> county) {
         Utils.checkNotNull(county, "county");
         this.county = county;
         return this;
@@ -364,7 +346,7 @@ public class TransactionEstimateRequestAddress {
     /**
      * State or province of the address.
      */
-    public TransactionEstimateRequestAddress withState(String state) {
+    public TransactionEstimatePublicRequestAddress withState(String state) {
         Utils.checkNotNull(state, "state");
         this.state = state;
         return this;
@@ -373,7 +355,7 @@ public class TransactionEstimateRequestAddress {
     /**
      * Postal code of the address.
      */
-    public TransactionEstimateRequestAddress withPostalCode(String postalCode) {
+    public TransactionEstimatePublicRequestAddress withPostalCode(String postalCode) {
         Utils.checkNotNull(postalCode, "postalCode");
         this.postalCode = postalCode;
         return this;
@@ -382,7 +364,7 @@ public class TransactionEstimateRequestAddress {
     /**
      * Country of the address.
      */
-    public TransactionEstimateRequestAddress withCountry(String country) {
+    public TransactionEstimatePublicRequestAddress withCountry(String country) {
         Utils.checkNotNull(country, "country");
         this.country = country;
         return this;
@@ -391,7 +373,7 @@ public class TransactionEstimateRequestAddress {
     /**
      * Complete address string of the customer, which can be used as an alternative to individual fields.
      */
-    public TransactionEstimateRequestAddress withFullAddress(String fullAddress) {
+    public TransactionEstimatePublicRequestAddress withFullAddress(String fullAddress) {
         Utils.checkNotNull(fullAddress, "fullAddress");
         this.fullAddress = Optional.ofNullable(fullAddress);
         return this;
@@ -401,7 +383,7 @@ public class TransactionEstimateRequestAddress {
     /**
      * Complete address string of the customer, which can be used as an alternative to individual fields.
      */
-    public TransactionEstimateRequestAddress withFullAddress(Optional<String> fullAddress) {
+    public TransactionEstimatePublicRequestAddress withFullAddress(Optional<String> fullAddress) {
         Utils.checkNotNull(fullAddress, "fullAddress");
         this.fullAddress = fullAddress;
         return this;
@@ -413,7 +395,7 @@ public class TransactionEstimateRequestAddress {
      * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
      */
     @Deprecated
-    public TransactionEstimateRequestAddress withStatus(String status) {
+    public TransactionEstimatePublicRequestAddress withStatus(String status) {
         Utils.checkNotNull(status, "status");
         this.status = Optional.ofNullable(status);
         return this;
@@ -426,28 +408,9 @@ public class TransactionEstimateRequestAddress {
      * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
      */
     @Deprecated
-    public TransactionEstimateRequestAddress withStatus(Optional<String> status) {
+    public TransactionEstimatePublicRequestAddress withStatus(Optional<String> status) {
         Utils.checkNotNull(status, "status");
         this.status = status;
-        return this;
-    }
-
-    /**
-     * Additional enriched fields related to the address.
-     */
-    public TransactionEstimateRequestAddress withEnrichedFields(String enrichedFields) {
-        Utils.checkNotNull(enrichedFields, "enrichedFields");
-        this.enrichedFields = Optional.ofNullable(enrichedFields);
-        return this;
-    }
-
-
-    /**
-     * Additional enriched fields related to the address.
-     */
-    public TransactionEstimateRequestAddress withEnrichedFields(Optional<String> enrichedFields) {
-        Utils.checkNotNull(enrichedFields, "enrichedFields");
-        this.enrichedFields = enrichedFields;
         return this;
     }
 
@@ -459,7 +422,7 @@ public class TransactionEstimateRequestAddress {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        TransactionEstimateRequestAddress other = (TransactionEstimateRequestAddress) o;
+        TransactionEstimatePublicRequestAddress other = (TransactionEstimatePublicRequestAddress) o;
         return 
             Utils.enhancedDeepEquals(this.type, other.type) &&
             Utils.enhancedDeepEquals(this.phone, other.phone) &&
@@ -471,8 +434,7 @@ public class TransactionEstimateRequestAddress {
             Utils.enhancedDeepEquals(this.postalCode, other.postalCode) &&
             Utils.enhancedDeepEquals(this.country, other.country) &&
             Utils.enhancedDeepEquals(this.fullAddress, other.fullAddress) &&
-            Utils.enhancedDeepEquals(this.status, other.status) &&
-            Utils.enhancedDeepEquals(this.enrichedFields, other.enrichedFields);
+            Utils.enhancedDeepEquals(this.status, other.status);
     }
     
     @Override
@@ -481,12 +443,12 @@ public class TransactionEstimateRequestAddress {
             type, phone, street1,
             street2, city, county,
             state, postalCode, country,
-            fullAddress, status, enrichedFields);
+            fullAddress, status);
     }
     
     @Override
     public String toString() {
-        return Utils.toString(TransactionEstimateRequestAddress.class,
+        return Utils.toString(TransactionEstimatePublicRequestAddress.class,
                 "type", type,
                 "phone", phone,
                 "street1", street1,
@@ -497,14 +459,13 @@ public class TransactionEstimateRequestAddress {
                 "postalCode", postalCode,
                 "country", country,
                 "fullAddress", fullAddress,
-                "status", status,
-                "enrichedFields", enrichedFields);
+                "status", status);
     }
 
     @SuppressWarnings("UnusedReturnValue")
     public final static class Builder {
 
-        private TransactionEstimateRequestType type;
+        private TransactionEstimatePublicRequestType type;
 
         private Optional<String> phone = Optional.empty();
 
@@ -527,8 +488,6 @@ public class TransactionEstimateRequestAddress {
         @Deprecated
         private Optional<String> status = Optional.empty();
 
-        private Optional<String> enrichedFields = Optional.empty();
-
         private Builder() {
           // force use of static builder() method
         }
@@ -538,7 +497,7 @@ public class TransactionEstimateRequestAddress {
          * Type of the address. Must be either
          *                         SHIP_TO or BILL_TO.
          */
-        public Builder type(TransactionEstimateRequestType type) {
+        public Builder type(TransactionEstimatePublicRequestType type) {
             Utils.checkNotNull(type, "type");
             this.type = type;
             return this;
@@ -713,32 +672,13 @@ public class TransactionEstimateRequestAddress {
             return this;
         }
 
+        public TransactionEstimatePublicRequestAddress build() {
 
-        /**
-         * Additional enriched fields related to the address.
-         */
-        public Builder enrichedFields(String enrichedFields) {
-            Utils.checkNotNull(enrichedFields, "enrichedFields");
-            this.enrichedFields = Optional.ofNullable(enrichedFields);
-            return this;
-        }
-
-        /**
-         * Additional enriched fields related to the address.
-         */
-        public Builder enrichedFields(Optional<String> enrichedFields) {
-            Utils.checkNotNull(enrichedFields, "enrichedFields");
-            this.enrichedFields = enrichedFields;
-            return this;
-        }
-
-        public TransactionEstimateRequestAddress build() {
-
-            return new TransactionEstimateRequestAddress(
+            return new TransactionEstimatePublicRequestAddress(
                 type, phone, street1,
                 street2, city, county,
                 state, postalCode, country,
-                fullAddress, status, enrichedFields);
+                fullAddress, status);
         }
 
     }

@@ -87,13 +87,6 @@ public class TransactionAddressPublic {
     @JsonProperty("type")
     private AddressType type;
 
-    /**
-     * Optional additional enriched data for the address.
-     */
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("enriched_fields")
-    private JsonNullable<String> enrichedFields;
-
     @JsonCreator
     public TransactionAddressPublic(
             @JsonProperty("phone") JsonNullable<String> phone,
@@ -105,8 +98,7 @@ public class TransactionAddressPublic {
             @JsonProperty("postal_code") JsonNullable<String> postalCode,
             @JsonProperty("country") JsonNullable<? extends CountryCodeEnum> country,
             @JsonProperty("full_address") JsonNullable<String> fullAddress,
-            @JsonProperty("type") AddressType type,
-            @JsonProperty("enriched_fields") JsonNullable<String> enrichedFields) {
+            @JsonProperty("type") AddressType type) {
         Utils.checkNotNull(phone, "phone");
         Utils.checkNotNull(street1, "street1");
         Utils.checkNotNull(street2, "street2");
@@ -117,7 +109,6 @@ public class TransactionAddressPublic {
         Utils.checkNotNull(country, "country");
         Utils.checkNotNull(fullAddress, "fullAddress");
         Utils.checkNotNull(type, "type");
-        Utils.checkNotNull(enrichedFields, "enrichedFields");
         this.phone = phone;
         this.street1 = street1;
         this.street2 = street2;
@@ -128,7 +119,6 @@ public class TransactionAddressPublic {
         this.country = country;
         this.fullAddress = fullAddress;
         this.type = type;
-        this.enrichedFields = enrichedFields;
     }
     
     public TransactionAddressPublic(
@@ -136,7 +126,7 @@ public class TransactionAddressPublic {
         this(JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
-            type, JsonNullable.undefined());
+            type);
     }
 
     /**
@@ -215,14 +205,6 @@ public class TransactionAddressPublic {
     @JsonIgnore
     public AddressType type() {
         return type;
-    }
-
-    /**
-     * Optional additional enriched data for the address.
-     */
-    @JsonIgnore
-    public JsonNullable<String> enrichedFields() {
-        return enrichedFields;
     }
 
     public static Builder builder() {
@@ -398,24 +380,6 @@ public class TransactionAddressPublic {
         return this;
     }
 
-    /**
-     * Optional additional enriched data for the address.
-     */
-    public TransactionAddressPublic withEnrichedFields(String enrichedFields) {
-        Utils.checkNotNull(enrichedFields, "enrichedFields");
-        this.enrichedFields = JsonNullable.of(enrichedFields);
-        return this;
-    }
-
-    /**
-     * Optional additional enriched data for the address.
-     */
-    public TransactionAddressPublic withEnrichedFields(JsonNullable<String> enrichedFields) {
-        Utils.checkNotNull(enrichedFields, "enrichedFields");
-        this.enrichedFields = enrichedFields;
-        return this;
-    }
-
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -435,8 +399,7 @@ public class TransactionAddressPublic {
             Utils.enhancedDeepEquals(this.postalCode, other.postalCode) &&
             Utils.enhancedDeepEquals(this.country, other.country) &&
             Utils.enhancedDeepEquals(this.fullAddress, other.fullAddress) &&
-            Utils.enhancedDeepEquals(this.type, other.type) &&
-            Utils.enhancedDeepEquals(this.enrichedFields, other.enrichedFields);
+            Utils.enhancedDeepEquals(this.type, other.type);
     }
     
     @Override
@@ -445,7 +408,7 @@ public class TransactionAddressPublic {
             phone, street1, street2,
             city, county, state,
             postalCode, country, fullAddress,
-            type, enrichedFields);
+            type);
     }
     
     @Override
@@ -460,8 +423,7 @@ public class TransactionAddressPublic {
                 "postalCode", postalCode,
                 "country", country,
                 "fullAddress", fullAddress,
-                "type", type,
-                "enrichedFields", enrichedFields);
+                "type", type);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -486,8 +448,6 @@ public class TransactionAddressPublic {
         private JsonNullable<String> fullAddress = JsonNullable.undefined();
 
         private AddressType type;
-
-        private JsonNullable<String> enrichedFields = JsonNullable.undefined();
 
         private Builder() {
           // force use of static builder() method
@@ -671,32 +631,13 @@ public class TransactionAddressPublic {
             return this;
         }
 
-
-        /**
-         * Optional additional enriched data for the address.
-         */
-        public Builder enrichedFields(String enrichedFields) {
-            Utils.checkNotNull(enrichedFields, "enrichedFields");
-            this.enrichedFields = JsonNullable.of(enrichedFields);
-            return this;
-        }
-
-        /**
-         * Optional additional enriched data for the address.
-         */
-        public Builder enrichedFields(JsonNullable<String> enrichedFields) {
-            Utils.checkNotNull(enrichedFields, "enrichedFields");
-            this.enrichedFields = enrichedFields;
-            return this;
-        }
-
         public TransactionAddressPublic build() {
 
             return new TransactionAddressPublic(
                 phone, street1, street2,
                 city, county, state,
                 postalCode, country, fullAddress,
-                type, enrichedFields);
+                type);
         }
 
     }

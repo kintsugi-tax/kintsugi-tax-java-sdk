@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 13bfb8e3-2795-4089-a96d-9ab7fcceafd9
 management:
-  docChecksum: 5a082a616a355880fb3dc0e861b77381
+  docChecksum: f400455b19ae3ea3a1c7941292d77ecf
   docVersion: 1.0.0
-  speakeasyVersion: 1.582.0
-  generationVersion: 2.657.1
-  releaseVersion: 0.5.7
-  configChecksum: d90ed39bcc91da6e3ba85011ad38e066
+  speakeasyVersion: 1.583.0
+  generationVersion: 2.658.3
+  releaseVersion: 0.5.8
+  configChecksum: da61423411d33f8b1922fa685da74796
   repoURL: https://github.com/kintsugi-tax/kintsugi-tax-java-sdk.git
   published: true
 features:
@@ -63,9 +63,9 @@ generatedFiles:
   - docs/models/components/CreditNoteItemCreateUpdateTaxableAmount.md
   - docs/models/components/CurrencyEnum.md
   - docs/models/components/Customer.md
+  - docs/models/components/CustomerBase.md
   - docs/models/components/CustomerBaseBase.md
-  - docs/models/components/CustomerBaseInput.md
-  - docs/models/components/CustomerBaseOutput.md
+  - docs/models/components/CustomerBasePublic.md
   - docs/models/components/CustomerCreate.md
   - docs/models/components/CustomerRead.md
   - docs/models/components/CustomerUpdate.md
@@ -145,9 +145,9 @@ generatedFiles:
   - docs/models/components/TransactionCreateTotalTaxAmountCalculated.md
   - docs/models/components/TransactionCreateTotalTaxAmountImported.md
   - docs/models/components/TransactionCreateTotalTaxLiabilityAmount.md
-  - docs/models/components/TransactionEstimateRequest.md
-  - docs/models/components/TransactionEstimateRequestAddress.md
-  - docs/models/components/TransactionEstimateRequestType.md
+  - docs/models/components/TransactionEstimatePublicRequest.md
+  - docs/models/components/TransactionEstimatePublicRequestAddress.md
+  - docs/models/components/TransactionEstimatePublicRequestType.md
   - docs/models/components/TransactionEstimateResponse.md
   - docs/models/components/TransactionEstimateResponseAddress.md
   - docs/models/components/TransactionEstimateResponseType.md
@@ -371,9 +371,9 @@ generatedFiles:
   - src/main/java/com/kintsugi/taxplatform/models/components/CreditNoteItemCreateUpdateTaxableAmount.java
   - src/main/java/com/kintsugi/taxplatform/models/components/CurrencyEnum.java
   - src/main/java/com/kintsugi/taxplatform/models/components/Customer.java
+  - src/main/java/com/kintsugi/taxplatform/models/components/CustomerBase.java
   - src/main/java/com/kintsugi/taxplatform/models/components/CustomerBaseBase.java
-  - src/main/java/com/kintsugi/taxplatform/models/components/CustomerBaseInput.java
-  - src/main/java/com/kintsugi/taxplatform/models/components/CustomerBaseOutput.java
+  - src/main/java/com/kintsugi/taxplatform/models/components/CustomerBasePublic.java
   - src/main/java/com/kintsugi/taxplatform/models/components/CustomerCreate.java
   - src/main/java/com/kintsugi/taxplatform/models/components/CustomerRead.java
   - src/main/java/com/kintsugi/taxplatform/models/components/CustomerUpdate.java
@@ -453,9 +453,9 @@ generatedFiles:
   - src/main/java/com/kintsugi/taxplatform/models/components/TransactionCreateTotalTaxAmountCalculated.java
   - src/main/java/com/kintsugi/taxplatform/models/components/TransactionCreateTotalTaxAmountImported.java
   - src/main/java/com/kintsugi/taxplatform/models/components/TransactionCreateTotalTaxLiabilityAmount.java
-  - src/main/java/com/kintsugi/taxplatform/models/components/TransactionEstimateRequest.java
-  - src/main/java/com/kintsugi/taxplatform/models/components/TransactionEstimateRequestAddress.java
-  - src/main/java/com/kintsugi/taxplatform/models/components/TransactionEstimateRequestType.java
+  - src/main/java/com/kintsugi/taxplatform/models/components/TransactionEstimatePublicRequest.java
+  - src/main/java/com/kintsugi/taxplatform/models/components/TransactionEstimatePublicRequestAddress.java
+  - src/main/java/com/kintsugi/taxplatform/models/components/TransactionEstimatePublicRequestType.java
   - src/main/java/com/kintsugi/taxplatform/models/components/TransactionEstimateResponse.java
   - src/main/java/com/kintsugi/taxplatform/models/components/TransactionEstimateResponseAddress.java
   - src/main/java/com/kintsugi/taxplatform/models/components/TransactionEstimateResponseType.java
@@ -1256,7 +1256,7 @@ examples:
         header:
           x-organization-id: "org_12345"
       requestBody:
-        application/json: {"date": "2025-10-15T06:09:56.760Z", "external_id": "<id>", "currency": "WST", "addresses": [{"type": "BILL_TO", "state": "Virginia", "postal_code": "53776-2466", "country": "Wallis and Futuna"}], "transaction_items": [{"date": "2023-10-09T10:49:19.753Z", "amount": "612.37", "exempt": false}]}
+        application/json: {"date": "2025-10-15T06:09:56.760Z", "external_id": "<id>", "currency": "WST", "transaction_items": [{"date": "2023-10-09T10:49:19.753Z", "amount": "612.37", "exempt": false}], "addresses": [{"type": "BILL_TO", "state": "Virginia", "postal_code": "53776-2466", "country": "Wallis and Futuna"}]}
       responses:
         "200":
           application/json: {"items": [], "total": 610767, "page": 61497, "size": 435684}

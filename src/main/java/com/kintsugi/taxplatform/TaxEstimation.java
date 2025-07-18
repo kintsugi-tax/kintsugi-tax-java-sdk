@@ -5,7 +5,7 @@ package com.kintsugi.taxplatform;
 
 import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 
-import com.kintsugi.taxplatform.models.components.TransactionEstimateRequest;
+import com.kintsugi.taxplatform.models.components.TransactionEstimatePublicRequest;
 import com.kintsugi.taxplatform.models.operations.EstimateTaxV1TaxEstimatePostRequest;
 import com.kintsugi.taxplatform.models.operations.EstimateTaxV1TaxEstimatePostRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.EstimateTaxV1TaxEstimatePostResponse;
@@ -45,14 +45,14 @@ public class TaxEstimation {
      *     transaction details, customer details, and addresses. Optionally simulates nexus being met for tax calculation purposes. The `simulate_nexus_met` parameter is deprecated and will be removed in future releases.
      * 
      * @param security The security details to use for authentication.
-     * @param transactionEstimateRequest Request model for tax estimation, including all fields from TransactionEstimateBase
-     *         and an additional field to simulate nexus being met.
+     * @param transactionEstimatePublicRequest Public request model for tax estimation API documentation.
+     *         This model excludes internal fields like enriched_fields that should not be exposed in API docs.
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public EstimateTaxV1TaxEstimatePostResponse estimateTax(EstimateTaxV1TaxEstimatePostSecurity security, TransactionEstimateRequest transactionEstimateRequest) throws Exception {
+    public EstimateTaxV1TaxEstimatePostResponse estimateTax(EstimateTaxV1TaxEstimatePostSecurity security, TransactionEstimatePublicRequest transactionEstimatePublicRequest) throws Exception {
         return estimateTax(security, Optional.empty(), Optional.empty(),
-            transactionEstimateRequest);
+            transactionEstimatePublicRequest);
     }
 
     /**
@@ -65,20 +65,20 @@ public class TaxEstimation {
      * @param security The security details to use for authentication.
      * @param simulateNexusMet **Deprecated:** Use `simulate_active_registration` in the request body instead.
      * @param xOrganizationId The unique identifier for the organization making the request
-     * @param transactionEstimateRequest Request model for tax estimation, including all fields from TransactionEstimateBase
-     *         and an additional field to simulate nexus being met.
+     * @param transactionEstimatePublicRequest Public request model for tax estimation API documentation.
+     *         This model excludes internal fields like enriched_fields that should not be exposed in API docs.
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
     public EstimateTaxV1TaxEstimatePostResponse estimateTax(
             EstimateTaxV1TaxEstimatePostSecurity security, Optional<Boolean> simulateNexusMet,
-            Optional<String> xOrganizationId, TransactionEstimateRequest transactionEstimateRequest) throws Exception {
+            Optional<String> xOrganizationId, TransactionEstimatePublicRequest transactionEstimatePublicRequest) throws Exception {
         EstimateTaxV1TaxEstimatePostRequest request =
             EstimateTaxV1TaxEstimatePostRequest
                 .builder()
                 .simulateNexusMet(simulateNexusMet)
                 .xOrganizationId(xOrganizationId)
-                .transactionEstimateRequest(transactionEstimateRequest)
+                .transactionEstimatePublicRequest(transactionEstimatePublicRequest)
                 .build();
         RequestOperation<EstimateTaxV1TaxEstimatePostRequest, EstimateTaxV1TaxEstimatePostResponse> operation
               = new EstimateTaxV1TaxEstimatePostOperation(sdkConfiguration, security);

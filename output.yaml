@@ -138,6 +138,7 @@ paths:
   "/v1/quickbooks/webhook/listener": {}
   "/v1/connections/{connection_id}/set_tax_collection": {}
   "/v1/admin/connections": {}
+  "/v1/connections/apideck/{connection_id}/activate": {}
   "/v1/webhooks/stripe/{mode}/connect": {}
   "/v1/webhooks/stripe/organizations/{organization_id}/connections/{connection_id}": {}
   "/v1/stripe/apps/oauth/authorize": {}
@@ -3389,6 +3390,16 @@ components:
         - "GROWTH"
         - "PREMIUM"
       title: "BillingPlanEnum"
+    "Body_activate_apideck_connection_v1_connections_apideck__connection_id__activate_put":
+      properties:
+        "shop_id":
+          type: "string"
+          title: "Shop Id"
+          description: "Store/Company identifier (realm_id for QuickBooks, shop_id for Shopware, etc.)"
+      type: "object"
+      required:
+        - "shop_id"
+      title: "Body_activate_apideck_connection_v1_connections_apideck__connection_id__activate_put"
     "Body_bulk_approve_filings_v1_filings_bulk_approve_put":
       properties:
         "filing_ids":
@@ -4283,6 +4294,11 @@ components:
           anyOf:
             - {"$ref": "#/components/schemas/CountryCodeEnum"}
             - type: "null"
+        "shop_id":
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Shop Id"
       type: "object"
       title: "ConnectionUpdate"
     "Content":

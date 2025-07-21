@@ -138,6 +138,7 @@ paths:
   "/v1/quickbooks/webhook/listener": {}
   "/v1/connections/{connection_id}/set_tax_collection": {}
   "/v1/admin/connections": {}
+  "/v1/connections/apideck/{connection_id}/activate": {}
   "/v1/webhooks/stripe/{mode}/connect": {}
   "/v1/webhooks/stripe/organizations/{organization_id}/connections/{connection_id}": {}
   "/v1/stripe/apps/oauth/authorize": {}
@@ -3389,6 +3390,16 @@ components:
         - "GROWTH"
         - "PREMIUM"
       title: "BillingPlanEnum"
+    "Body_activate_apideck_connection_v1_connections_apideck__connection_id__activate_put":
+      properties:
+        "shop_id":
+          type: "string"
+          title: "Shop Id"
+          description: "Store/Company identifier (realm_id for QuickBooks, shop_id for Shopware, etc.)"
+      type: "object"
+      required:
+        - "shop_id"
+      title: "Body_activate_apideck_connection_v1_connections_apideck__connection_id__activate_put"
     "Body_bulk_approve_filings_v1_filings_bulk_approve_put":
       properties:
         "filing_ids":
@@ -4283,6 +4294,11 @@ components:
           anyOf:
             - {"$ref": "#/components/schemas/CountryCodeEnum"}
             - type: "null"
+        "shop_id":
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Shop Id"
       type: "object"
       title: "ConnectionUpdate"
     "Content":
@@ -12141,32 +12157,6 @@ components:
         - "amount"
         - "tax_inclusive"
       title: "Price"
-    "PriceResponse":
-      properties:
-        "amount_inclusive":
-          type: "string"
-          title: "Amount Inclusive"
-        "amount_exclusive":
-          type: "string"
-          title: "Amount Exclusive"
-        "total_tax":
-          type: "string"
-          title: "Total Tax"
-        "tax_rate":
-          type: "string"
-          title: "Tax Rate"
-        "sales_tax_summary":
-          items: {"$ref": "#/components/schemas/SalesTaxSummary"}
-          type: "array"
-          title: "Sales Tax Summary"
-      type: "object"
-      required:
-        - "amount_inclusive"
-        - "amount_exclusive"
-        - "total_tax"
-        - "tax_rate"
-        - "sales_tax_summary"
-      title: "PriceResponse"
     "ProcessingStatusEnum":
       type: "string"
       enum:
@@ -20004,7 +19994,7 @@ components:
           title: "Id"
         "price":
           anyOf:
-            - {"$ref": "#/components/schemas/PriceResponse"}
+            - {"$ref": "#/components/schemas/backend__src__connections__bigcommerce__models__PriceResponse"}
             - type: "null"
         "type":
           type: "string"
@@ -20025,7 +20015,7 @@ components:
           title: "Id"
         "price":
           anyOf:
-            - {"$ref": "#/components/schemas/PriceResponse"}
+            - {"$ref": "#/components/schemas/backend__src__connections__bigcommerce__models__PriceResponse"}
             - type: "null"
         "type":
           type: "string"
@@ -20035,6 +20025,32 @@ components:
         - "id"
         - "type"
       title: "LineItemResponseBase"
+    "backend__src__connections__bigcommerce__models__PriceResponse":
+      properties:
+        "amount_inclusive":
+          type: "string"
+          title: "Amount Inclusive"
+        "amount_exclusive":
+          type: "string"
+          title: "Amount Exclusive"
+        "total_tax":
+          type: "string"
+          title: "Total Tax"
+        "tax_rate":
+          type: "string"
+          title: "Tax Rate"
+        "sales_tax_summary":
+          items: {"$ref": "#/components/schemas/SalesTaxSummary"}
+          type: "array"
+          title: "Sales Tax Summary"
+      type: "object"
+      required:
+        - "amount_inclusive"
+        - "amount_exclusive"
+        - "total_tax"
+        - "tax_rate"
+        - "sales_tax_summary"
+      title: "PriceResponse"
     "backend__src__connections__chargebee__models__customer__ChargebeeCustomer":
       properties:
         "id":
@@ -20246,7 +20262,7 @@ components:
         "id":
           type: "string"
           title: "Id"
-        "price_response": {"$ref": "#/components/schemas/PriceResponse"}
+        "price_response": {"$ref": "#/components/schemas/backend__src__connections__ecommerce__magento__models__PriceResponse"}
         "type":
           type: "string"
           title: "Type"
@@ -20261,7 +20277,7 @@ components:
         "id":
           type: "string"
           title: "Id"
-        "price_response": {"$ref": "#/components/schemas/PriceResponse"}
+        "price_response": {"$ref": "#/components/schemas/backend__src__connections__ecommerce__magento__models__PriceResponse"}
         "type":
           type: "string"
           title: "Type"
@@ -20271,6 +20287,27 @@ components:
         - "price_response"
         - "type"
       title: "LineItemResponseBase"
+    "backend__src__connections__ecommerce__magento__models__PriceResponse":
+      properties:
+        "amount_inclusive":
+          type: "string"
+          title: "Amount Inclusive"
+        "amount_exclusive":
+          type: "string"
+          title: "Amount Exclusive"
+        "total_tax":
+          type: "string"
+          title: "Total Tax"
+        "tax_rate":
+          type: "string"
+          title: "Tax Rate"
+      type: "object"
+      required:
+        - "amount_inclusive"
+        - "amount_exclusive"
+        - "total_tax"
+        - "tax_rate"
+      title: "PriceResponse"
     "backend__src__customers__responses__ValidationErrorItem":
       properties:
         "type":

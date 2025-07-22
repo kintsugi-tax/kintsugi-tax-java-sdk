@@ -59,7 +59,7 @@ javadoc {
 }
 
 tasks.withType(Javadoc) {
-  failOnError false
+  failOnError = false
   options.addStringOption('Xdoclint:none', '-quiet')
 }
 
@@ -105,7 +105,7 @@ publishing {
             // https://github.com/gradle/gradle/issues/18619
             groupId = "com.trykintsugi"
             artifactId = "kintsugi-tax-java-sdk"
-            version = "0.5.9"
+            version = "0.6.0"
 
             from components.java
 
@@ -116,10 +116,10 @@ publishing {
                 ]
                 name = 'Kintsugi Java SDK'
                 description = 'SDK enabling Java developers to easily integrate with the Kintsugi API.'
-                url = 'https://github.com/kintsugi-tax/kintsugi-tax-java-sdk'
+                url = 'https://https://github.com/kintsugi-tax/kintsugi-tax-java-sdk'
                 scm {
                     url = 'https://github.com/kintsugi-tax/kintsugi-tax-java-sdk'
-                    connection = 'scm:git:ssh://git@github.com:kintsugi-tax/kintsugi-tax-java-sdk.git'
+                    connection = 'scm:git:ssh://git@https://github.com/kintsugi-tax/kintsugi-tax-java-sdk.git'
                 }
                 licenses {
                     license {

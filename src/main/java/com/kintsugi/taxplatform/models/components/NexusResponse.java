@@ -289,6 +289,11 @@ public class NexusResponse {
     @JsonProperty("total_transactions_marketplace")
     private long totalTransactionsMarketplace;
 
+
+    @JsonInclude(Include.ALWAYS)
+    @JsonProperty("marketplace_included")
+    private Optional<Boolean> marketplaceIncluded;
+
     @JsonCreator
     public NexusResponse(
             @JsonProperty("processing_status") Optional<? extends NexusStatusEnum> processingStatus,
@@ -344,7 +349,8 @@ public class NexusResponse {
             @JsonProperty("total_transactions") long totalTransactions,
             @JsonProperty("total_transactions_included") long totalTransactionsIncluded,
             @JsonProperty("total_transactions_exempted") long totalTransactionsExempted,
-            @JsonProperty("total_transactions_marketplace") long totalTransactionsMarketplace) {
+            @JsonProperty("total_transactions_marketplace") long totalTransactionsMarketplace,
+            @JsonProperty("marketplace_included") Optional<Boolean> marketplaceIncluded) {
         Utils.checkNotNull(processingStatus, "processingStatus");
         Utils.checkNotNull(status, "status");
         Utils.checkNotNull(countryCode, "countryCode");
@@ -399,6 +405,7 @@ public class NexusResponse {
         Utils.checkNotNull(totalTransactionsIncluded, "totalTransactionsIncluded");
         Utils.checkNotNull(totalTransactionsExempted, "totalTransactionsExempted");
         Utils.checkNotNull(totalTransactionsMarketplace, "totalTransactionsMarketplace");
+        Utils.checkNotNull(marketplaceIncluded, "marketplaceIncluded");
         this.processingStatus = processingStatus;
         this.status = status;
         this.countryCode = countryCode;
@@ -453,6 +460,7 @@ public class NexusResponse {
         this.totalTransactionsIncluded = totalTransactionsIncluded;
         this.totalTransactionsExempted = totalTransactionsExempted;
         this.totalTransactionsMarketplace = totalTransactionsMarketplace;
+        this.marketplaceIncluded = marketplaceIncluded;
     }
     
     public NexusResponse(
@@ -494,7 +502,8 @@ public class NexusResponse {
             id, createdAt, updatedAt,
             organizationId, JsonNullable.undefined(), JsonNullable.undefined(),
             isVdaEligible, nexusType, totalTransactions,
-            totalTransactionsIncluded, totalTransactionsExempted, totalTransactionsMarketplace);
+            totalTransactionsIncluded, totalTransactionsExempted, totalTransactionsMarketplace,
+            Optional.empty());
     }
 
     @SuppressWarnings("unchecked")
@@ -786,6 +795,11 @@ public class NexusResponse {
     @JsonIgnore
     public long totalTransactionsMarketplace() {
         return totalTransactionsMarketplace;
+    }
+
+    @JsonIgnore
+    public Optional<Boolean> marketplaceIncluded() {
+        return marketplaceIncluded;
     }
 
     public static Builder builder() {
@@ -1360,6 +1374,19 @@ public class NexusResponse {
         return this;
     }
 
+    public NexusResponse withMarketplaceIncluded(boolean marketplaceIncluded) {
+        Utils.checkNotNull(marketplaceIncluded, "marketplaceIncluded");
+        this.marketplaceIncluded = Optional.ofNullable(marketplaceIncluded);
+        return this;
+    }
+
+
+    public NexusResponse withMarketplaceIncluded(Optional<Boolean> marketplaceIncluded) {
+        Utils.checkNotNull(marketplaceIncluded, "marketplaceIncluded");
+        this.marketplaceIncluded = marketplaceIncluded;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -1423,7 +1450,8 @@ public class NexusResponse {
             Utils.enhancedDeepEquals(this.totalTransactions, other.totalTransactions) &&
             Utils.enhancedDeepEquals(this.totalTransactionsIncluded, other.totalTransactionsIncluded) &&
             Utils.enhancedDeepEquals(this.totalTransactionsExempted, other.totalTransactionsExempted) &&
-            Utils.enhancedDeepEquals(this.totalTransactionsMarketplace, other.totalTransactionsMarketplace);
+            Utils.enhancedDeepEquals(this.totalTransactionsMarketplace, other.totalTransactionsMarketplace) &&
+            Utils.enhancedDeepEquals(this.marketplaceIncluded, other.marketplaceIncluded);
     }
     
     @Override
@@ -1446,7 +1474,8 @@ public class NexusResponse {
             id, createdAt, updatedAt,
             organizationId, registration, registrationRegime,
             isVdaEligible, nexusType, totalTransactions,
-            totalTransactionsIncluded, totalTransactionsExempted, totalTransactionsMarketplace);
+            totalTransactionsIncluded, totalTransactionsExempted, totalTransactionsMarketplace,
+            marketplaceIncluded);
     }
     
     @Override
@@ -1505,7 +1534,8 @@ public class NexusResponse {
                 "totalTransactions", totalTransactions,
                 "totalTransactionsIncluded", totalTransactionsIncluded,
                 "totalTransactionsExempted", totalTransactionsExempted,
-                "totalTransactionsMarketplace", totalTransactionsMarketplace);
+                "totalTransactionsMarketplace", totalTransactionsMarketplace,
+                "marketplaceIncluded", marketplaceIncluded);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -1620,6 +1650,8 @@ public class NexusResponse {
         private Long totalTransactionsExempted;
 
         private Long totalTransactionsMarketplace;
+
+        private Optional<Boolean> marketplaceIncluded = Optional.empty();
 
         private Builder() {
           // force use of static builder() method
@@ -2231,6 +2263,19 @@ public class NexusResponse {
             return this;
         }
 
+
+        public Builder marketplaceIncluded(boolean marketplaceIncluded) {
+            Utils.checkNotNull(marketplaceIncluded, "marketplaceIncluded");
+            this.marketplaceIncluded = Optional.ofNullable(marketplaceIncluded);
+            return this;
+        }
+
+        public Builder marketplaceIncluded(Optional<Boolean> marketplaceIncluded) {
+            Utils.checkNotNull(marketplaceIncluded, "marketplaceIncluded");
+            this.marketplaceIncluded = marketplaceIncluded;
+            return this;
+        }
+
         public NexusResponse build() {
             if (transactionCount == null) {
                 transactionCount = _SINGLETON_VALUE_TransactionCount.value();
@@ -2281,7 +2326,8 @@ public class NexusResponse {
                 id, createdAt, updatedAt,
                 organizationId, registration, registrationRegime,
                 isVdaEligible, nexusType, totalTransactions,
-                totalTransactionsIncluded, totalTransactionsExempted, totalTransactionsMarketplace);
+                totalTransactionsIncluded, totalTransactionsExempted, totalTransactionsMarketplace,
+                marketplaceIncluded);
         }
 
 

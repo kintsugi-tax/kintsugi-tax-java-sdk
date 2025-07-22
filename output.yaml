@@ -1036,6 +1036,7 @@ paths:
   "/v1/metrics/filings": {}
   "/v1/admin/filings/{filing_id}/attachments": {}
   "/v1/admin/filings/{filing_id}/reports/download": {}
+  "/v1/admin/filings/{filing_id}/georgia-import-file": {}
   "/v1/import/validate": {}
   "/v1/import/upload-urls": {}
   "/v1/import/internal-upload": {}
@@ -2356,7 +2357,6 @@ paths:
   "/bigcommerce/estimate": {}
   "/bigcommerce/commit": {}
   "/magento/estimate": {}
-  "/magento/commit": {}
   "/magento/webhook/listener": {}
   "/magento/validate": {}
   "/shopware/registration": {}
@@ -2908,6 +2908,7 @@ components:
         - "magento"
         - "shopware"
         - "xero"
+        - "netsuite"
       title: "ApiDeckServiceEnum"
     "ApiKeyRequest":
       properties:
@@ -8993,6 +8994,12 @@ components:
           type: "integer"
           title: "Total Transactions Marketplace"
           readOnly: true
+        "marketplace_included":
+          anyOf:
+            - type: "boolean"
+            - type: "null"
+          title: "Marketplace Included"
+          readOnly: true
       type: "object"
       required:
         - "country_code"
@@ -9019,6 +9026,7 @@ components:
         - "total_transactions_included"
         - "total_transactions_exempted"
         - "total_transactions_marketplace"
+        - "marketplace_included"
       title: "NexusResponse"
     "NexusStateEnum":
       type: "string"

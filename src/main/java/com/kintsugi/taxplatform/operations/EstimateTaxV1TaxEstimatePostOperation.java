@@ -66,7 +66,7 @@ public class EstimateTaxV1TaxEstimatePostOperation implements RequestOperation<E
                 new TypeReference<Object>() {});
         SerializedBody serializedRequestBody = Utils.serializeRequestBody(
                 convertedRequest, 
-                "transactionEstimateRequest",
+                "transactionEstimatePublicRequest",
                 "json",
                 false);
         if (serializedRequestBody == null) {

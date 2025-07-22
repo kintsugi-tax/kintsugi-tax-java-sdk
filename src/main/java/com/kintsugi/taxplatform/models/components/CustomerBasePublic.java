@@ -16,7 +16,7 @@ import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 
 
-public class CustomerBaseOutput {
+public class CustomerBasePublic {
     /**
      * Phone number associated with the address.
      */
@@ -131,7 +131,7 @@ public class CustomerBaseOutput {
     private JsonNullable<String> connectionId;
 
     @JsonCreator
-    public CustomerBaseOutput(
+    public CustomerBasePublic(
             @JsonProperty("phone") JsonNullable<String> phone,
             @JsonProperty("street_1") JsonNullable<String> street1,
             @JsonProperty("street_2") JsonNullable<String> street2,
@@ -185,7 +185,7 @@ public class CustomerBaseOutput {
         this.connectionId = connectionId;
     }
     
-    public CustomerBaseOutput() {
+    public CustomerBasePublic() {
         this(JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
@@ -333,7 +333,7 @@ public class CustomerBaseOutput {
     /**
      * Phone number associated with the address.
      */
-    public CustomerBaseOutput withPhone(String phone) {
+    public CustomerBasePublic withPhone(String phone) {
         Utils.checkNotNull(phone, "phone");
         this.phone = JsonNullable.of(phone);
         return this;
@@ -342,7 +342,7 @@ public class CustomerBaseOutput {
     /**
      * Phone number associated with the address.
      */
-    public CustomerBaseOutput withPhone(JsonNullable<String> phone) {
+    public CustomerBasePublic withPhone(JsonNullable<String> phone) {
         Utils.checkNotNull(phone, "phone");
         this.phone = phone;
         return this;
@@ -351,7 +351,7 @@ public class CustomerBaseOutput {
     /**
      * Primary street address.
      */
-    public CustomerBaseOutput withStreet1(String street1) {
+    public CustomerBasePublic withStreet1(String street1) {
         Utils.checkNotNull(street1, "street1");
         this.street1 = JsonNullable.of(street1);
         return this;
@@ -360,7 +360,7 @@ public class CustomerBaseOutput {
     /**
      * Primary street address.
      */
-    public CustomerBaseOutput withStreet1(JsonNullable<String> street1) {
+    public CustomerBasePublic withStreet1(JsonNullable<String> street1) {
         Utils.checkNotNull(street1, "street1");
         this.street1 = street1;
         return this;
@@ -369,7 +369,7 @@ public class CustomerBaseOutput {
     /**
      * Additional street address details, such as an apartment or suite number.
      */
-    public CustomerBaseOutput withStreet2(String street2) {
+    public CustomerBasePublic withStreet2(String street2) {
         Utils.checkNotNull(street2, "street2");
         this.street2 = JsonNullable.of(street2);
         return this;
@@ -378,7 +378,7 @@ public class CustomerBaseOutput {
     /**
      * Additional street address details, such as an apartment or suite number.
      */
-    public CustomerBaseOutput withStreet2(JsonNullable<String> street2) {
+    public CustomerBasePublic withStreet2(JsonNullable<String> street2) {
         Utils.checkNotNull(street2, "street2");
         this.street2 = street2;
         return this;
@@ -387,7 +387,7 @@ public class CustomerBaseOutput {
     /**
      * City where the customer resides.
      */
-    public CustomerBaseOutput withCity(String city) {
+    public CustomerBasePublic withCity(String city) {
         Utils.checkNotNull(city, "city");
         this.city = JsonNullable.of(city);
         return this;
@@ -396,7 +396,7 @@ public class CustomerBaseOutput {
     /**
      * City where the customer resides.
      */
-    public CustomerBaseOutput withCity(JsonNullable<String> city) {
+    public CustomerBasePublic withCity(JsonNullable<String> city) {
         Utils.checkNotNull(city, "city");
         this.city = city;
         return this;
@@ -405,7 +405,7 @@ public class CustomerBaseOutput {
     /**
      * County or district of the customer.
      */
-    public CustomerBaseOutput withCounty(String county) {
+    public CustomerBasePublic withCounty(String county) {
         Utils.checkNotNull(county, "county");
         this.county = JsonNullable.of(county);
         return this;
@@ -414,7 +414,7 @@ public class CustomerBaseOutput {
     /**
      * County or district of the customer.
      */
-    public CustomerBaseOutput withCounty(JsonNullable<String> county) {
+    public CustomerBasePublic withCounty(JsonNullable<String> county) {
         Utils.checkNotNull(county, "county");
         this.county = county;
         return this;
@@ -423,7 +423,7 @@ public class CustomerBaseOutput {
     /**
      * State or province of the customer.
      */
-    public CustomerBaseOutput withState(String state) {
+    public CustomerBasePublic withState(String state) {
         Utils.checkNotNull(state, "state");
         this.state = JsonNullable.of(state);
         return this;
@@ -432,7 +432,7 @@ public class CustomerBaseOutput {
     /**
      * State or province of the customer.
      */
-    public CustomerBaseOutput withState(JsonNullable<String> state) {
+    public CustomerBasePublic withState(JsonNullable<String> state) {
         Utils.checkNotNull(state, "state");
         this.state = state;
         return this;
@@ -441,7 +441,7 @@ public class CustomerBaseOutput {
     /**
      * ZIP or Postal code of the customer.
      */
-    public CustomerBaseOutput withPostalCode(String postalCode) {
+    public CustomerBasePublic withPostalCode(String postalCode) {
         Utils.checkNotNull(postalCode, "postalCode");
         this.postalCode = JsonNullable.of(postalCode);
         return this;
@@ -450,7 +450,7 @@ public class CustomerBaseOutput {
     /**
      * ZIP or Postal code of the customer.
      */
-    public CustomerBaseOutput withPostalCode(JsonNullable<String> postalCode) {
+    public CustomerBasePublic withPostalCode(JsonNullable<String> postalCode) {
         Utils.checkNotNull(postalCode, "postalCode");
         this.postalCode = postalCode;
         return this;
@@ -459,7 +459,7 @@ public class CustomerBaseOutput {
     /**
      * Country code in ISO 3166-1 alpha-2 format
      */
-    public CustomerBaseOutput withCountry(CountryCodeEnum country) {
+    public CustomerBasePublic withCountry(CountryCodeEnum country) {
         Utils.checkNotNull(country, "country");
         this.country = JsonNullable.of(country);
         return this;
@@ -468,7 +468,7 @@ public class CustomerBaseOutput {
     /**
      * Country code in ISO 3166-1 alpha-2 format
      */
-    public CustomerBaseOutput withCountry(JsonNullable<? extends CountryCodeEnum> country) {
+    public CustomerBasePublic withCountry(JsonNullable<? extends CountryCodeEnum> country) {
         Utils.checkNotNull(country, "country");
         this.country = country;
         return this;
@@ -477,7 +477,7 @@ public class CustomerBaseOutput {
     /**
      * Complete address string of the customer, which can be used as an alternative to individual fields.
      */
-    public CustomerBaseOutput withFullAddress(String fullAddress) {
+    public CustomerBasePublic withFullAddress(String fullAddress) {
         Utils.checkNotNull(fullAddress, "fullAddress");
         this.fullAddress = JsonNullable.of(fullAddress);
         return this;
@@ -486,7 +486,7 @@ public class CustomerBaseOutput {
     /**
      * Complete address string of the customer, which can be used as an alternative to individual fields.
      */
-    public CustomerBaseOutput withFullAddress(JsonNullable<String> fullAddress) {
+    public CustomerBasePublic withFullAddress(JsonNullable<String> fullAddress) {
         Utils.checkNotNull(fullAddress, "fullAddress");
         this.fullAddress = fullAddress;
         return this;
@@ -495,7 +495,7 @@ public class CustomerBaseOutput {
     /**
      * Name of the customer.
      */
-    public CustomerBaseOutput withName(String name) {
+    public CustomerBasePublic withName(String name) {
         Utils.checkNotNull(name, "name");
         this.name = JsonNullable.of(name);
         return this;
@@ -504,7 +504,7 @@ public class CustomerBaseOutput {
     /**
      * Name of the customer.
      */
-    public CustomerBaseOutput withName(JsonNullable<String> name) {
+    public CustomerBasePublic withName(JsonNullable<String> name) {
         Utils.checkNotNull(name, "name");
         this.name = name;
         return this;
@@ -513,7 +513,7 @@ public class CustomerBaseOutput {
     /**
      * A unique identifier for the customer.
      */
-    public CustomerBaseOutput withExternalId(String externalId) {
+    public CustomerBasePublic withExternalId(String externalId) {
         Utils.checkNotNull(externalId, "externalId");
         this.externalId = JsonNullable.of(externalId);
         return this;
@@ -522,20 +522,20 @@ public class CustomerBaseOutput {
     /**
      * A unique identifier for the customer.
      */
-    public CustomerBaseOutput withExternalId(JsonNullable<String> externalId) {
+    public CustomerBasePublic withExternalId(JsonNullable<String> externalId) {
         Utils.checkNotNull(externalId, "externalId");
         this.externalId = externalId;
         return this;
     }
 
-    public CustomerBaseOutput withStatus(StatusEnum status) {
+    public CustomerBasePublic withStatus(StatusEnum status) {
         Utils.checkNotNull(status, "status");
         this.status = Optional.ofNullable(status);
         return this;
     }
 
 
-    public CustomerBaseOutput withStatus(Optional<? extends StatusEnum> status) {
+    public CustomerBasePublic withStatus(Optional<? extends StatusEnum> status) {
         Utils.checkNotNull(status, "status");
         this.status = status;
         return this;
@@ -544,7 +544,7 @@ public class CustomerBaseOutput {
     /**
      * Email address of the customer.
      */
-    public CustomerBaseOutput withEmail(String email) {
+    public CustomerBasePublic withEmail(String email) {
         Utils.checkNotNull(email, "email");
         this.email = JsonNullable.of(email);
         return this;
@@ -553,20 +553,20 @@ public class CustomerBaseOutput {
     /**
      * Email address of the customer.
      */
-    public CustomerBaseOutput withEmail(JsonNullable<String> email) {
+    public CustomerBasePublic withEmail(JsonNullable<String> email) {
         Utils.checkNotNull(email, "email");
         this.email = email;
         return this;
     }
 
-    public CustomerBaseOutput withAddressStatus(AddressStatus addressStatus) {
+    public CustomerBasePublic withAddressStatus(AddressStatus addressStatus) {
         Utils.checkNotNull(addressStatus, "addressStatus");
         this.addressStatus = Optional.ofNullable(addressStatus);
         return this;
     }
 
 
-    public CustomerBaseOutput withAddressStatus(Optional<? extends AddressStatus> addressStatus) {
+    public CustomerBasePublic withAddressStatus(Optional<? extends AddressStatus> addressStatus) {
         Utils.checkNotNull(addressStatus, "addressStatus");
         this.addressStatus = addressStatus;
         return this;
@@ -575,7 +575,7 @@ public class CustomerBaseOutput {
     /**
      * Source of the customer information (e.g., BIGCOMMERCE, STRIPE, etc.).
      */
-    public CustomerBaseOutput withSource(SourceEnum source) {
+    public CustomerBasePublic withSource(SourceEnum source) {
         Utils.checkNotNull(source, "source");
         this.source = JsonNullable.of(source);
         return this;
@@ -584,19 +584,19 @@ public class CustomerBaseOutput {
     /**
      * Source of the customer information (e.g., BIGCOMMERCE, STRIPE, etc.).
      */
-    public CustomerBaseOutput withSource(JsonNullable<? extends SourceEnum> source) {
+    public CustomerBasePublic withSource(JsonNullable<? extends SourceEnum> source) {
         Utils.checkNotNull(source, "source");
         this.source = source;
         return this;
     }
 
-    public CustomerBaseOutput withRegistrationNumber(String registrationNumber) {
+    public CustomerBasePublic withRegistrationNumber(String registrationNumber) {
         Utils.checkNotNull(registrationNumber, "registrationNumber");
         this.registrationNumber = JsonNullable.of(registrationNumber);
         return this;
     }
 
-    public CustomerBaseOutput withRegistrationNumber(JsonNullable<String> registrationNumber) {
+    public CustomerBasePublic withRegistrationNumber(JsonNullable<String> registrationNumber) {
         Utils.checkNotNull(registrationNumber, "registrationNumber");
         this.registrationNumber = registrationNumber;
         return this;
@@ -605,7 +605,7 @@ public class CustomerBaseOutput {
     /**
      * Unique identifier of the connection related to the customer.
      */
-    public CustomerBaseOutput withConnectionId(String connectionId) {
+    public CustomerBasePublic withConnectionId(String connectionId) {
         Utils.checkNotNull(connectionId, "connectionId");
         this.connectionId = JsonNullable.of(connectionId);
         return this;
@@ -614,7 +614,7 @@ public class CustomerBaseOutput {
     /**
      * Unique identifier of the connection related to the customer.
      */
-    public CustomerBaseOutput withConnectionId(JsonNullable<String> connectionId) {
+    public CustomerBasePublic withConnectionId(JsonNullable<String> connectionId) {
         Utils.checkNotNull(connectionId, "connectionId");
         this.connectionId = connectionId;
         return this;
@@ -628,7 +628,7 @@ public class CustomerBaseOutput {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        CustomerBaseOutput other = (CustomerBaseOutput) o;
+        CustomerBasePublic other = (CustomerBasePublic) o;
         return 
             Utils.enhancedDeepEquals(this.phone, other.phone) &&
             Utils.enhancedDeepEquals(this.street1, other.street1) &&
@@ -662,7 +662,7 @@ public class CustomerBaseOutput {
     
     @Override
     public String toString() {
-        return Utils.toString(CustomerBaseOutput.class,
+        return Utils.toString(CustomerBasePublic.class,
                 "phone", phone,
                 "street1", street1,
                 "street2", street2,
@@ -1028,9 +1028,9 @@ public class CustomerBaseOutput {
             return this;
         }
 
-        public CustomerBaseOutput build() {
+        public CustomerBasePublic build() {
 
-            return new CustomerBaseOutput(
+            return new CustomerBasePublic(
                 phone, street1, street2,
                 city, county, state,
                 postalCode, country, fullAddress,

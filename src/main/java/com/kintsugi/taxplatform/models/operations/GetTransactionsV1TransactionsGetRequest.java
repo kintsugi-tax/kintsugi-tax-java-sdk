@@ -116,6 +116,13 @@ public class GetTransactionsV1TransactionsGetRequest {
     private JsonNullable<Boolean> marketplace;
 
     /**
+     * Filter transactions by exemption status.
+     *         Multiple values can be passed as a comma-separated list (e.g., EXEMPT,TAXABLE).
+     */
+    @SpeakeasyMetadata("queryParam:style=form,explode=true,name=exempt__in")
+    private JsonNullable<String> exemptIn;
+
+    /**
      * Page number
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=page")
@@ -149,6 +156,7 @@ public class GetTransactionsV1TransactionsGetRequest {
             JsonNullable<LocalDate> dateLte,
             JsonNullable<String> processingStatusIn,
             JsonNullable<Boolean> marketplace,
+            JsonNullable<String> exemptIn,
             Optional<Long> page,
             Optional<Long> size,
             Optional<String> xOrganizationId) {
@@ -166,6 +174,7 @@ public class GetTransactionsV1TransactionsGetRequest {
         Utils.checkNotNull(dateLte, "dateLte");
         Utils.checkNotNull(processingStatusIn, "processingStatusIn");
         Utils.checkNotNull(marketplace, "marketplace");
+        Utils.checkNotNull(exemptIn, "exemptIn");
         Utils.checkNotNull(page, "page");
         Utils.checkNotNull(size, "size");
         Utils.checkNotNull(xOrganizationId, "xOrganizationId");
@@ -183,6 +192,7 @@ public class GetTransactionsV1TransactionsGetRequest {
         this.dateLte = dateLte;
         this.processingStatusIn = processingStatusIn;
         this.marketplace = marketplace;
+        this.exemptIn = exemptIn;
         this.page = page;
         this.size = size;
         this.xOrganizationId = xOrganizationId;
@@ -193,8 +203,8 @@ public class GetTransactionsV1TransactionsGetRequest {
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
-            JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty(),
-            Optional.empty(), Optional.empty());
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            Optional.empty(), Optional.empty(), Optional.empty());
     }
 
     /**
@@ -318,6 +328,15 @@ public class GetTransactionsV1TransactionsGetRequest {
     @JsonIgnore
     public JsonNullable<Boolean> marketplace() {
         return marketplace;
+    }
+
+    /**
+     * Filter transactions by exemption status.
+     *         Multiple values can be passed as a comma-separated list (e.g., EXEMPT,TAXABLE).
+     */
+    @JsonIgnore
+    public JsonNullable<String> exemptIn() {
+        return exemptIn;
     }
 
     /**
@@ -620,6 +639,26 @@ public class GetTransactionsV1TransactionsGetRequest {
     }
 
     /**
+     * Filter transactions by exemption status.
+     *         Multiple values can be passed as a comma-separated list (e.g., EXEMPT,TAXABLE).
+     */
+    public GetTransactionsV1TransactionsGetRequest withExemptIn(String exemptIn) {
+        Utils.checkNotNull(exemptIn, "exemptIn");
+        this.exemptIn = JsonNullable.of(exemptIn);
+        return this;
+    }
+
+    /**
+     * Filter transactions by exemption status.
+     *         Multiple values can be passed as a comma-separated list (e.g., EXEMPT,TAXABLE).
+     */
+    public GetTransactionsV1TransactionsGetRequest withExemptIn(JsonNullable<String> exemptIn) {
+        Utils.checkNotNull(exemptIn, "exemptIn");
+        this.exemptIn = exemptIn;
+        return this;
+    }
+
+    /**
      * Page number
      */
     public GetTransactionsV1TransactionsGetRequest withPage(long page) {
@@ -700,6 +739,7 @@ public class GetTransactionsV1TransactionsGetRequest {
             Utils.enhancedDeepEquals(this.dateLte, other.dateLte) &&
             Utils.enhancedDeepEquals(this.processingStatusIn, other.processingStatusIn) &&
             Utils.enhancedDeepEquals(this.marketplace, other.marketplace) &&
+            Utils.enhancedDeepEquals(this.exemptIn, other.exemptIn) &&
             Utils.enhancedDeepEquals(this.page, other.page) &&
             Utils.enhancedDeepEquals(this.size, other.size) &&
             Utils.enhancedDeepEquals(this.xOrganizationId, other.xOrganizationId);
@@ -712,8 +752,8 @@ public class GetTransactionsV1TransactionsGetRequest {
             searchQuery, country, state,
             addressStatusIn, status, filingId,
             orderBy, dateGte, dateLte,
-            processingStatusIn, marketplace, page,
-            size, xOrganizationId);
+            processingStatusIn, marketplace, exemptIn,
+            page, size, xOrganizationId);
     }
     
     @Override
@@ -733,6 +773,7 @@ public class GetTransactionsV1TransactionsGetRequest {
                 "dateLte", dateLte,
                 "processingStatusIn", processingStatusIn,
                 "marketplace", marketplace,
+                "exemptIn", exemptIn,
                 "page", page,
                 "size", size,
                 "xOrganizationId", xOrganizationId);
@@ -768,6 +809,8 @@ public class GetTransactionsV1TransactionsGetRequest {
         private JsonNullable<String> processingStatusIn = JsonNullable.undefined();
 
         private JsonNullable<Boolean> marketplace = JsonNullable.undefined();
+
+        private JsonNullable<String> exemptIn = JsonNullable.undefined();
 
         private Optional<Long> page;
 
@@ -1065,6 +1108,27 @@ public class GetTransactionsV1TransactionsGetRequest {
 
 
         /**
+         * Filter transactions by exemption status.
+         *         Multiple values can be passed as a comma-separated list (e.g., EXEMPT,TAXABLE).
+         */
+        public Builder exemptIn(String exemptIn) {
+            Utils.checkNotNull(exemptIn, "exemptIn");
+            this.exemptIn = JsonNullable.of(exemptIn);
+            return this;
+        }
+
+        /**
+         * Filter transactions by exemption status.
+         *         Multiple values can be passed as a comma-separated list (e.g., EXEMPT,TAXABLE).
+         */
+        public Builder exemptIn(JsonNullable<String> exemptIn) {
+            Utils.checkNotNull(exemptIn, "exemptIn");
+            this.exemptIn = exemptIn;
+            return this;
+        }
+
+
+        /**
          * Page number
          */
         public Builder page(long page) {
@@ -1133,8 +1197,8 @@ public class GetTransactionsV1TransactionsGetRequest {
                 searchQuery, country, state,
                 addressStatusIn, status, filingId,
                 orderBy, dateGte, dateLte,
-                processingStatusIn, marketplace, page,
-                size, xOrganizationId);
+                processingStatusIn, marketplace, exemptIn,
+                page, size, xOrganizationId);
         }
 
 

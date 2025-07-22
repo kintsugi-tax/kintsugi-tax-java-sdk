@@ -20,12 +20,12 @@ import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 
 /**
- * TransactionEstimateRequest
+ * TransactionEstimatePublicRequest
  * 
- * <p>Request model for tax estimation, including all fields from TransactionEstimateBase
- * and an additional field to simulate nexus being met.
+ * <p>Public request model for tax estimation API documentation.
+ * This model excludes internal fields like enriched_fields that should not be exposed in API docs.
  */
-public class TransactionEstimateRequest {
+public class TransactionEstimatePublicRequest {
     /**
      * The date of the transaction in ISO 8601 format (e.g., 2025-01-25T12:00:00Z).
      */
@@ -74,44 +74,26 @@ public class TransactionEstimateRequest {
     private JsonNullable<Boolean> marketplace;
 
     /**
-     * Details about the customer. If the customer is not found, it will be ignored.
-     */
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("customer")
-    private JsonNullable<? extends CustomerBaseInput> customer;
-
-    /**
-     * List of addresses related to the transaction. At least one BILL_TO or SHIP_TO address must be provided. The address will be validated during estimation, and the transaction may be rejected if the address does not pass validation. The SHIP_TO will be preferred to use for determining tax liability. **Deprecated:** Use of `address.status` in estimate api is ignored and will be removed in the future status will be considered UNVERIFIED by default and always validated
-     */
-    @JsonProperty("addresses")
-    private List<TransactionEstimateRequestAddress> addresses;
-
-    /**
      * List of items involved in the transaction.
      */
     @JsonProperty("transaction_items")
     private List<TransactionItemEstimateBase> transactionItems;
 
     /**
-     * If True, assumes active registration is met for tax estimation.
+     * Details about the customer. If the customer is not found, it will be ignored.
      */
     @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("simulate_active_registration")
-    private JsonNullable<Boolean> simulateActiveRegistration;
+    @JsonProperty("customer")
+    private JsonNullable<? extends CustomerBasePublic> customer;
 
     /**
-     * Use simulate_active_registration instead.
-     *         This field will be removed in future releases.
-     * 
-     * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
+     * List of addresses related to the transaction. At least one BILL_TO or SHIP_TO address must be provided. The address will be validated during estimation, and the transaction may be rejected if the address does not pass validation. The SHIP_TO will be preferred to use for determining tax liability.
      */
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("simulate_nexus_met")
-    @Deprecated
-    private JsonNullable<Boolean> simulateNexusMet;
+    @JsonProperty("addresses")
+    private List<TransactionEstimatePublicRequestAddress> addresses;
 
     @JsonCreator
-    public TransactionEstimateRequest(
+    public TransactionEstimatePublicRequest(
             @JsonProperty("date") OffsetDateTime date,
             @JsonProperty("external_id") String externalId,
             @JsonProperty("total_amount") Optional<? extends TotalAmountOfTheTransactionAfterDiscounts> totalAmount,
@@ -119,11 +101,9 @@ public class TransactionEstimateRequest {
             @JsonProperty("description") JsonNullable<String> description,
             @JsonProperty("source") JsonNullable<? extends SourceEnum> source,
             @JsonProperty("marketplace") JsonNullable<Boolean> marketplace,
-            @JsonProperty("customer") JsonNullable<? extends CustomerBaseInput> customer,
-            @JsonProperty("addresses") List<TransactionEstimateRequestAddress> addresses,
             @JsonProperty("transaction_items") List<TransactionItemEstimateBase> transactionItems,
-            @JsonProperty("simulate_active_registration") JsonNullable<Boolean> simulateActiveRegistration,
-            @JsonProperty("simulate_nexus_met") JsonNullable<Boolean> simulateNexusMet) {
+            @JsonProperty("customer") JsonNullable<? extends CustomerBasePublic> customer,
+            @JsonProperty("addresses") List<TransactionEstimatePublicRequestAddress> addresses) {
         Utils.checkNotNull(date, "date");
         Utils.checkNotNull(externalId, "externalId");
         Utils.checkNotNull(totalAmount, "totalAmount");
@@ -131,11 +111,9 @@ public class TransactionEstimateRequest {
         Utils.checkNotNull(description, "description");
         Utils.checkNotNull(source, "source");
         Utils.checkNotNull(marketplace, "marketplace");
+        Utils.checkNotNull(transactionItems, "transactionItems");
         Utils.checkNotNull(customer, "customer");
         Utils.checkNotNull(addresses, "addresses");
-        Utils.checkNotNull(transactionItems, "transactionItems");
-        Utils.checkNotNull(simulateActiveRegistration, "simulateActiveRegistration");
-        Utils.checkNotNull(simulateNexusMet, "simulateNexusMet");
         this.date = date;
         this.externalId = externalId;
         this.totalAmount = totalAmount;
@@ -143,23 +121,21 @@ public class TransactionEstimateRequest {
         this.description = description;
         this.source = source;
         this.marketplace = marketplace;
+        this.transactionItems = transactionItems;
         this.customer = customer;
         this.addresses = addresses;
-        this.transactionItems = transactionItems;
-        this.simulateActiveRegistration = simulateActiveRegistration;
-        this.simulateNexusMet = simulateNexusMet;
     }
     
-    public TransactionEstimateRequest(
+    public TransactionEstimatePublicRequest(
             OffsetDateTime date,
             String externalId,
             CurrencyEnum currency,
-            List<TransactionEstimateRequestAddress> addresses,
-            List<TransactionItemEstimateBase> transactionItems) {
+            List<TransactionItemEstimateBase> transactionItems,
+            List<TransactionEstimatePublicRequestAddress> addresses) {
         this(date, externalId, Optional.empty(),
             currency, JsonNullable.undefined(), JsonNullable.undefined(),
-            JsonNullable.undefined(), JsonNullable.undefined(), addresses,
-            transactionItems, JsonNullable.undefined(), JsonNullable.undefined());
+            JsonNullable.undefined(), transactionItems, JsonNullable.undefined(),
+            addresses);
     }
 
     /**
@@ -221,23 +197,6 @@ public class TransactionEstimateRequest {
     }
 
     /**
-     * Details about the customer. If the customer is not found, it will be ignored.
-     */
-    @SuppressWarnings("unchecked")
-    @JsonIgnore
-    public JsonNullable<CustomerBaseInput> customer() {
-        return (JsonNullable<CustomerBaseInput>) customer;
-    }
-
-    /**
-     * List of addresses related to the transaction. At least one BILL_TO or SHIP_TO address must be provided. The address will be validated during estimation, and the transaction may be rejected if the address does not pass validation. The SHIP_TO will be preferred to use for determining tax liability. **Deprecated:** Use of `address.status` in estimate api is ignored and will be removed in the future status will be considered UNVERIFIED by default and always validated
-     */
-    @JsonIgnore
-    public List<TransactionEstimateRequestAddress> addresses() {
-        return addresses;
-    }
-
-    /**
      * List of items involved in the transaction.
      */
     @JsonIgnore
@@ -246,23 +205,20 @@ public class TransactionEstimateRequest {
     }
 
     /**
-     * If True, assumes active registration is met for tax estimation.
+     * Details about the customer. If the customer is not found, it will be ignored.
      */
+    @SuppressWarnings("unchecked")
     @JsonIgnore
-    public JsonNullable<Boolean> simulateActiveRegistration() {
-        return simulateActiveRegistration;
+    public JsonNullable<CustomerBasePublic> customer() {
+        return (JsonNullable<CustomerBasePublic>) customer;
     }
 
     /**
-     * Use simulate_active_registration instead.
-     *         This field will be removed in future releases.
-     * 
-     * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
+     * List of addresses related to the transaction. At least one BILL_TO or SHIP_TO address must be provided. The address will be validated during estimation, and the transaction may be rejected if the address does not pass validation. The SHIP_TO will be preferred to use for determining tax liability.
      */
-    @Deprecated
     @JsonIgnore
-    public JsonNullable<Boolean> simulateNexusMet() {
-        return simulateNexusMet;
+    public List<TransactionEstimatePublicRequestAddress> addresses() {
+        return addresses;
     }
 
     public static Builder builder() {
@@ -273,7 +229,7 @@ public class TransactionEstimateRequest {
     /**
      * The date of the transaction in ISO 8601 format (e.g., 2025-01-25T12:00:00Z).
      */
-    public TransactionEstimateRequest withDate(OffsetDateTime date) {
+    public TransactionEstimatePublicRequest withDate(OffsetDateTime date) {
         Utils.checkNotNull(date, "date");
         this.date = date;
         return this;
@@ -282,7 +238,7 @@ public class TransactionEstimateRequest {
     /**
      * Unique identifier of this transaction in the source system.
      */
-    public TransactionEstimateRequest withExternalId(String externalId) {
+    public TransactionEstimatePublicRequest withExternalId(String externalId) {
         Utils.checkNotNull(externalId, "externalId");
         this.externalId = externalId;
         return this;
@@ -291,7 +247,7 @@ public class TransactionEstimateRequest {
     /**
      * Total amount of the transaction.
      */
-    public TransactionEstimateRequest withTotalAmount(TotalAmountOfTheTransactionAfterDiscounts totalAmount) {
+    public TransactionEstimatePublicRequest withTotalAmount(TotalAmountOfTheTransactionAfterDiscounts totalAmount) {
         Utils.checkNotNull(totalAmount, "totalAmount");
         this.totalAmount = Optional.ofNullable(totalAmount);
         return this;
@@ -301,13 +257,13 @@ public class TransactionEstimateRequest {
     /**
      * Total amount of the transaction.
      */
-    public TransactionEstimateRequest withTotalAmount(Optional<? extends TotalAmountOfTheTransactionAfterDiscounts> totalAmount) {
+    public TransactionEstimatePublicRequest withTotalAmount(Optional<? extends TotalAmountOfTheTransactionAfterDiscounts> totalAmount) {
         Utils.checkNotNull(totalAmount, "totalAmount");
         this.totalAmount = totalAmount;
         return this;
     }
 
-    public TransactionEstimateRequest withCurrency(CurrencyEnum currency) {
+    public TransactionEstimatePublicRequest withCurrency(CurrencyEnum currency) {
         Utils.checkNotNull(currency, "currency");
         this.currency = currency;
         return this;
@@ -316,7 +272,7 @@ public class TransactionEstimateRequest {
     /**
      * An optional description of the transaction.
      */
-    public TransactionEstimateRequest withDescription(String description) {
+    public TransactionEstimatePublicRequest withDescription(String description) {
         Utils.checkNotNull(description, "description");
         this.description = JsonNullable.of(description);
         return this;
@@ -325,7 +281,7 @@ public class TransactionEstimateRequest {
     /**
      * An optional description of the transaction.
      */
-    public TransactionEstimateRequest withDescription(JsonNullable<String> description) {
+    public TransactionEstimatePublicRequest withDescription(JsonNullable<String> description) {
         Utils.checkNotNull(description, "description");
         this.description = description;
         return this;
@@ -337,7 +293,7 @@ public class TransactionEstimateRequest {
      * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
      */
     @Deprecated
-    public TransactionEstimateRequest withSource(SourceEnum source) {
+    public TransactionEstimatePublicRequest withSource(SourceEnum source) {
         Utils.checkNotNull(source, "source");
         this.source = JsonNullable.of(source);
         return this;
@@ -349,7 +305,7 @@ public class TransactionEstimateRequest {
      * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
      */
     @Deprecated
-    public TransactionEstimateRequest withSource(JsonNullable<? extends SourceEnum> source) {
+    public TransactionEstimatePublicRequest withSource(JsonNullable<? extends SourceEnum> source) {
         Utils.checkNotNull(source, "source");
         this.source = source;
         return this;
@@ -358,7 +314,7 @@ public class TransactionEstimateRequest {
     /**
      * Indicates if the transaction involves a marketplace.
      */
-    public TransactionEstimateRequest withMarketplace(boolean marketplace) {
+    public TransactionEstimatePublicRequest withMarketplace(boolean marketplace) {
         Utils.checkNotNull(marketplace, "marketplace");
         this.marketplace = JsonNullable.of(marketplace);
         return this;
@@ -367,16 +323,25 @@ public class TransactionEstimateRequest {
     /**
      * Indicates if the transaction involves a marketplace.
      */
-    public TransactionEstimateRequest withMarketplace(JsonNullable<Boolean> marketplace) {
+    public TransactionEstimatePublicRequest withMarketplace(JsonNullable<Boolean> marketplace) {
         Utils.checkNotNull(marketplace, "marketplace");
         this.marketplace = marketplace;
         return this;
     }
 
     /**
+     * List of items involved in the transaction.
+     */
+    public TransactionEstimatePublicRequest withTransactionItems(List<TransactionItemEstimateBase> transactionItems) {
+        Utils.checkNotNull(transactionItems, "transactionItems");
+        this.transactionItems = transactionItems;
+        return this;
+    }
+
+    /**
      * Details about the customer. If the customer is not found, it will be ignored.
      */
-    public TransactionEstimateRequest withCustomer(CustomerBaseInput customer) {
+    public TransactionEstimatePublicRequest withCustomer(CustomerBasePublic customer) {
         Utils.checkNotNull(customer, "customer");
         this.customer = JsonNullable.of(customer);
         return this;
@@ -385,71 +350,18 @@ public class TransactionEstimateRequest {
     /**
      * Details about the customer. If the customer is not found, it will be ignored.
      */
-    public TransactionEstimateRequest withCustomer(JsonNullable<? extends CustomerBaseInput> customer) {
+    public TransactionEstimatePublicRequest withCustomer(JsonNullable<? extends CustomerBasePublic> customer) {
         Utils.checkNotNull(customer, "customer");
         this.customer = customer;
         return this;
     }
 
     /**
-     * List of addresses related to the transaction. At least one BILL_TO or SHIP_TO address must be provided. The address will be validated during estimation, and the transaction may be rejected if the address does not pass validation. The SHIP_TO will be preferred to use for determining tax liability. **Deprecated:** Use of `address.status` in estimate api is ignored and will be removed in the future status will be considered UNVERIFIED by default and always validated
+     * List of addresses related to the transaction. At least one BILL_TO or SHIP_TO address must be provided. The address will be validated during estimation, and the transaction may be rejected if the address does not pass validation. The SHIP_TO will be preferred to use for determining tax liability.
      */
-    public TransactionEstimateRequest withAddresses(List<TransactionEstimateRequestAddress> addresses) {
+    public TransactionEstimatePublicRequest withAddresses(List<TransactionEstimatePublicRequestAddress> addresses) {
         Utils.checkNotNull(addresses, "addresses");
         this.addresses = addresses;
-        return this;
-    }
-
-    /**
-     * List of items involved in the transaction.
-     */
-    public TransactionEstimateRequest withTransactionItems(List<TransactionItemEstimateBase> transactionItems) {
-        Utils.checkNotNull(transactionItems, "transactionItems");
-        this.transactionItems = transactionItems;
-        return this;
-    }
-
-    /**
-     * If True, assumes active registration is met for tax estimation.
-     */
-    public TransactionEstimateRequest withSimulateActiveRegistration(boolean simulateActiveRegistration) {
-        Utils.checkNotNull(simulateActiveRegistration, "simulateActiveRegistration");
-        this.simulateActiveRegistration = JsonNullable.of(simulateActiveRegistration);
-        return this;
-    }
-
-    /**
-     * If True, assumes active registration is met for tax estimation.
-     */
-    public TransactionEstimateRequest withSimulateActiveRegistration(JsonNullable<Boolean> simulateActiveRegistration) {
-        Utils.checkNotNull(simulateActiveRegistration, "simulateActiveRegistration");
-        this.simulateActiveRegistration = simulateActiveRegistration;
-        return this;
-    }
-
-    /**
-     * Use simulate_active_registration instead.
-     *         This field will be removed in future releases.
-     * 
-     * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
-     */
-    @Deprecated
-    public TransactionEstimateRequest withSimulateNexusMet(boolean simulateNexusMet) {
-        Utils.checkNotNull(simulateNexusMet, "simulateNexusMet");
-        this.simulateNexusMet = JsonNullable.of(simulateNexusMet);
-        return this;
-    }
-
-    /**
-     * Use simulate_active_registration instead.
-     *         This field will be removed in future releases.
-     * 
-     * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
-     */
-    @Deprecated
-    public TransactionEstimateRequest withSimulateNexusMet(JsonNullable<Boolean> simulateNexusMet) {
-        Utils.checkNotNull(simulateNexusMet, "simulateNexusMet");
-        this.simulateNexusMet = simulateNexusMet;
         return this;
     }
 
@@ -461,7 +373,7 @@ public class TransactionEstimateRequest {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        TransactionEstimateRequest other = (TransactionEstimateRequest) o;
+        TransactionEstimatePublicRequest other = (TransactionEstimatePublicRequest) o;
         return 
             Utils.enhancedDeepEquals(this.date, other.date) &&
             Utils.enhancedDeepEquals(this.externalId, other.externalId) &&
@@ -470,11 +382,9 @@ public class TransactionEstimateRequest {
             Utils.enhancedDeepEquals(this.description, other.description) &&
             Utils.enhancedDeepEquals(this.source, other.source) &&
             Utils.enhancedDeepEquals(this.marketplace, other.marketplace) &&
-            Utils.enhancedDeepEquals(this.customer, other.customer) &&
-            Utils.enhancedDeepEquals(this.addresses, other.addresses) &&
             Utils.enhancedDeepEquals(this.transactionItems, other.transactionItems) &&
-            Utils.enhancedDeepEquals(this.simulateActiveRegistration, other.simulateActiveRegistration) &&
-            Utils.enhancedDeepEquals(this.simulateNexusMet, other.simulateNexusMet);
+            Utils.enhancedDeepEquals(this.customer, other.customer) &&
+            Utils.enhancedDeepEquals(this.addresses, other.addresses);
     }
     
     @Override
@@ -482,13 +392,13 @@ public class TransactionEstimateRequest {
         return Utils.enhancedHash(
             date, externalId, totalAmount,
             currency, description, source,
-            marketplace, customer, addresses,
-            transactionItems, simulateActiveRegistration, simulateNexusMet);
+            marketplace, transactionItems, customer,
+            addresses);
     }
     
     @Override
     public String toString() {
-        return Utils.toString(TransactionEstimateRequest.class,
+        return Utils.toString(TransactionEstimatePublicRequest.class,
                 "date", date,
                 "externalId", externalId,
                 "totalAmount", totalAmount,
@@ -496,11 +406,9 @@ public class TransactionEstimateRequest {
                 "description", description,
                 "source", source,
                 "marketplace", marketplace,
-                "customer", customer,
-                "addresses", addresses,
                 "transactionItems", transactionItems,
-                "simulateActiveRegistration", simulateActiveRegistration,
-                "simulateNexusMet", simulateNexusMet);
+                "customer", customer,
+                "addresses", addresses);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -521,16 +429,11 @@ public class TransactionEstimateRequest {
 
         private JsonNullable<Boolean> marketplace = JsonNullable.undefined();
 
-        private JsonNullable<? extends CustomerBaseInput> customer = JsonNullable.undefined();
-
-        private List<TransactionEstimateRequestAddress> addresses;
-
         private List<TransactionItemEstimateBase> transactionItems;
 
-        private JsonNullable<Boolean> simulateActiveRegistration = JsonNullable.undefined();
+        private JsonNullable<? extends CustomerBasePublic> customer = JsonNullable.undefined();
 
-        @Deprecated
-        private JsonNullable<Boolean> simulateNexusMet = JsonNullable.undefined();
+        private List<TransactionEstimatePublicRequestAddress> addresses;
 
         private Builder() {
           // force use of static builder() method
@@ -647,35 +550,6 @@ public class TransactionEstimateRequest {
 
 
         /**
-         * Details about the customer. If the customer is not found, it will be ignored.
-         */
-        public Builder customer(CustomerBaseInput customer) {
-            Utils.checkNotNull(customer, "customer");
-            this.customer = JsonNullable.of(customer);
-            return this;
-        }
-
-        /**
-         * Details about the customer. If the customer is not found, it will be ignored.
-         */
-        public Builder customer(JsonNullable<? extends CustomerBaseInput> customer) {
-            Utils.checkNotNull(customer, "customer");
-            this.customer = customer;
-            return this;
-        }
-
-
-        /**
-         * List of addresses related to the transaction. At least one BILL_TO or SHIP_TO address must be provided. The address will be validated during estimation, and the transaction may be rejected if the address does not pass validation. The SHIP_TO will be preferred to use for determining tax liability. **Deprecated:** Use of `address.status` in estimate api is ignored and will be removed in the future status will be considered UNVERIFIED by default and always validated
-         */
-        public Builder addresses(List<TransactionEstimateRequestAddress> addresses) {
-            Utils.checkNotNull(addresses, "addresses");
-            this.addresses = addresses;
-            return this;
-        }
-
-
-        /**
          * List of items involved in the transaction.
          */
         public Builder transactionItems(List<TransactionItemEstimateBase> transactionItems) {
@@ -686,57 +560,40 @@ public class TransactionEstimateRequest {
 
 
         /**
-         * If True, assumes active registration is met for tax estimation.
+         * Details about the customer. If the customer is not found, it will be ignored.
          */
-        public Builder simulateActiveRegistration(boolean simulateActiveRegistration) {
-            Utils.checkNotNull(simulateActiveRegistration, "simulateActiveRegistration");
-            this.simulateActiveRegistration = JsonNullable.of(simulateActiveRegistration);
+        public Builder customer(CustomerBasePublic customer) {
+            Utils.checkNotNull(customer, "customer");
+            this.customer = JsonNullable.of(customer);
             return this;
         }
 
         /**
-         * If True, assumes active registration is met for tax estimation.
+         * Details about the customer. If the customer is not found, it will be ignored.
          */
-        public Builder simulateActiveRegistration(JsonNullable<Boolean> simulateActiveRegistration) {
-            Utils.checkNotNull(simulateActiveRegistration, "simulateActiveRegistration");
-            this.simulateActiveRegistration = simulateActiveRegistration;
+        public Builder customer(JsonNullable<? extends CustomerBasePublic> customer) {
+            Utils.checkNotNull(customer, "customer");
+            this.customer = customer;
             return this;
         }
 
 
         /**
-         * Use simulate_active_registration instead.
-         *         This field will be removed in future releases.
-         * 
-         * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
+         * List of addresses related to the transaction. At least one BILL_TO or SHIP_TO address must be provided. The address will be validated during estimation, and the transaction may be rejected if the address does not pass validation. The SHIP_TO will be preferred to use for determining tax liability.
          */
-        @Deprecated
-        public Builder simulateNexusMet(boolean simulateNexusMet) {
-            Utils.checkNotNull(simulateNexusMet, "simulateNexusMet");
-            this.simulateNexusMet = JsonNullable.of(simulateNexusMet);
+        public Builder addresses(List<TransactionEstimatePublicRequestAddress> addresses) {
+            Utils.checkNotNull(addresses, "addresses");
+            this.addresses = addresses;
             return this;
         }
 
-        /**
-         * Use simulate_active_registration instead.
-         *         This field will be removed in future releases.
-         * 
-         * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
-         */
-        @Deprecated
-        public Builder simulateNexusMet(JsonNullable<Boolean> simulateNexusMet) {
-            Utils.checkNotNull(simulateNexusMet, "simulateNexusMet");
-            this.simulateNexusMet = simulateNexusMet;
-            return this;
-        }
+        public TransactionEstimatePublicRequest build() {
 
-        public TransactionEstimateRequest build() {
-
-            return new TransactionEstimateRequest(
+            return new TransactionEstimatePublicRequest(
                 date, externalId, totalAmount,
                 currency, description, source,
-                marketplace, customer, addresses,
-                transactionItems, simulateActiveRegistration, simulateNexusMet);
+                marketplace, transactionItems, customer,
+                addresses);
         }
 
     }

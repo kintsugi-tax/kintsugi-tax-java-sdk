@@ -93,10 +93,10 @@ publishing {
                 ]
                 name = 'Kintsugi Java SDK'
                 description = 'SDK enabling Java developers to easily integrate with the Kintsugi API.'
-                url = 'https://https://github.com/kintsugi-tax/kintsugi-tax-java-sdk'
+                url = 'https://github.com/kintsugi-tax/kintsugi-tax-java-sdk'
                 scm {
                     url = 'https://github.com/kintsugi-tax/kintsugi-tax-java-sdk'
-                    connection = 'scm:git:ssh://git@https://github.com/kintsugi-tax/kintsugi-tax-java-sdk.git'
+                    connection = 'scm:git:ssh://git@github.com:kintsugi-tax/kintsugi-tax-java-sdk.git'
                 }
                 licenses {
                     license {

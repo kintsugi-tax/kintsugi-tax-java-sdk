@@ -32,10 +32,10 @@ import com.kintsugi.taxplatform.models.operations.GetTransactionsV1TransactionsG
 import com.kintsugi.taxplatform.models.operations.GetTransactionsV1TransactionsGetRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.GetTransactionsV1TransactionsGetResponse;
 import com.kintsugi.taxplatform.models.operations.GetTransactionsV1TransactionsGetSecurity;
-import com.kintsugi.taxplatform.models.operations.UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutRequest;
-import com.kintsugi.taxplatform.models.operations.UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutRequestBuilder;
-import com.kintsugi.taxplatform.models.operations.UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutResponse;
-import com.kintsugi.taxplatform.models.operations.UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutSecurity;
+import com.kintsugi.taxplatform.models.operations.PUTUpdateCreditNoteByTransactionIdRequest;
+import com.kintsugi.taxplatform.models.operations.PUTUpdateCreditNoteByTransactionIdRequestBuilder;
+import com.kintsugi.taxplatform.models.operations.PUTUpdateCreditNoteByTransactionIdResponse;
+import com.kintsugi.taxplatform.models.operations.PUTUpdateCreditNoteByTransactionIdSecurity;
 import com.kintsugi.taxplatform.models.operations.UpdateTransactionV1TransactionsTransactionIdPutRequest;
 import com.kintsugi.taxplatform.models.operations.UpdateTransactionV1TransactionsTransactionIdPutRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.UpdateTransactionV1TransactionsTransactionIdPutResponse;
@@ -46,7 +46,7 @@ import com.kintsugi.taxplatform.operations.GetTransactionByExternalIdV1Transacti
 import com.kintsugi.taxplatform.operations.GetTransactionByIdV1TransactionsTransactionIdGetOperation;
 import com.kintsugi.taxplatform.operations.GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetOperation;
 import com.kintsugi.taxplatform.operations.GetTransactionsV1TransactionsGetOperation;
-import com.kintsugi.taxplatform.operations.UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutOperation;
+import com.kintsugi.taxplatform.operations.PUTUpdateCreditNoteByTransactionIdOperation;
 import com.kintsugi.taxplatform.operations.UpdateTransactionV1TransactionsTransactionIdPutOperation;
 import java.lang.Exception;
 import java.lang.String;
@@ -418,8 +418,8 @@ public class Transactions {
      * 
      * @return The call builder
      */
-    public UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutRequestBuilder updateCreditNote() {
-        return new UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutRequestBuilder(sdkConfiguration);
+    public PUTUpdateCreditNoteByTransactionIdRequestBuilder updateCreditNote() {
+        return new PUTUpdateCreditNoteByTransactionIdRequestBuilder(sdkConfiguration);
     }
 
     /**
@@ -434,8 +434,8 @@ public class Transactions {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutResponse updateCreditNote(
-            UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutSecurity security, String originalTransactionId,
+    public PUTUpdateCreditNoteByTransactionIdResponse updateCreditNote(
+            PUTUpdateCreditNoteByTransactionIdSecurity security, String originalTransactionId,
             String creditNoteId, CreditNoteCreate creditNoteCreate) throws Exception {
         return updateCreditNote(security, originalTransactionId, creditNoteId,
             Optional.empty(), creditNoteCreate);
@@ -454,20 +454,20 @@ public class Transactions {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutResponse updateCreditNote(
-            UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutSecurity security, String originalTransactionId,
+    public PUTUpdateCreditNoteByTransactionIdResponse updateCreditNote(
+            PUTUpdateCreditNoteByTransactionIdSecurity security, String originalTransactionId,
             String creditNoteId, Optional<String> xOrganizationId,
             CreditNoteCreate creditNoteCreate) throws Exception {
-        UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutRequest request =
-            UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutRequest
+        PUTUpdateCreditNoteByTransactionIdRequest request =
+            PUTUpdateCreditNoteByTransactionIdRequest
                 .builder()
                 .originalTransactionId(originalTransactionId)
                 .creditNoteId(creditNoteId)
                 .xOrganizationId(xOrganizationId)
                 .creditNoteCreate(creditNoteCreate)
                 .build();
-        RequestOperation<UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutRequest, UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutResponse> operation
-              = new UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutOperation(sdkConfiguration, security);
+        RequestOperation<PUTUpdateCreditNoteByTransactionIdRequest, PUTUpdateCreditNoteByTransactionIdResponse> operation
+              = new PUTUpdateCreditNoteByTransactionIdOperation(sdkConfiguration, security);
         return operation.handleResponse(operation.doRequest(request));
     }
 

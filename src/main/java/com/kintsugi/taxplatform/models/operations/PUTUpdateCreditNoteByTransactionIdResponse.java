@@ -17,7 +17,7 @@ import java.net.http.HttpResponse;
 import java.util.Optional;
 
 
-public class UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutResponse implements Response {
+public class PUTUpdateCreditNoteByTransactionIdResponse implements Response {
     /**
      * HTTP response content type for this operation
      */
@@ -39,7 +39,7 @@ public class UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
     private Optional<? extends Object> any;
 
     @JsonCreator
-    public UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutResponse(
+    public PUTUpdateCreditNoteByTransactionIdResponse(
             String contentType,
             int statusCode,
             HttpResponse<InputStream> rawResponse,
@@ -54,7 +54,7 @@ public class UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
         this.any = any;
     }
     
-    public UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutResponse(
+    public PUTUpdateCreditNoteByTransactionIdResponse(
             String contentType,
             int statusCode,
             HttpResponse<InputStream> rawResponse) {
@@ -103,7 +103,7 @@ public class UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
     /**
      * HTTP response content type for this operation
      */
-    public UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutResponse withContentType(String contentType) {
+    public PUTUpdateCreditNoteByTransactionIdResponse withContentType(String contentType) {
         Utils.checkNotNull(contentType, "contentType");
         this.contentType = contentType;
         return this;
@@ -112,7 +112,7 @@ public class UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
     /**
      * HTTP response status code for this operation
      */
-    public UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutResponse withStatusCode(int statusCode) {
+    public PUTUpdateCreditNoteByTransactionIdResponse withStatusCode(int statusCode) {
         Utils.checkNotNull(statusCode, "statusCode");
         this.statusCode = statusCode;
         return this;
@@ -121,7 +121,7 @@ public class UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
     /**
      * Raw HTTP response; suitable for custom response parsing
      */
-    public UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutResponse withRawResponse(HttpResponse<InputStream> rawResponse) {
+    public PUTUpdateCreditNoteByTransactionIdResponse withRawResponse(HttpResponse<InputStream> rawResponse) {
         Utils.checkNotNull(rawResponse, "rawResponse");
         this.rawResponse = rawResponse;
         return this;
@@ -130,7 +130,7 @@ public class UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
     /**
      * Successful Response
      */
-    public UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutResponse withAny(Object any) {
+    public PUTUpdateCreditNoteByTransactionIdResponse withAny(Object any) {
         Utils.checkNotNull(any, "any");
         this.any = Optional.ofNullable(any);
         return this;
@@ -140,7 +140,7 @@ public class UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
     /**
      * Successful Response
      */
-    public UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutResponse withAny(Optional<? extends Object> any) {
+    public PUTUpdateCreditNoteByTransactionIdResponse withAny(Optional<? extends Object> any) {
         Utils.checkNotNull(any, "any");
         this.any = any;
         return this;
@@ -154,7 +154,7 @@ public class UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutResponse other = (UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutResponse) o;
+        PUTUpdateCreditNoteByTransactionIdResponse other = (PUTUpdateCreditNoteByTransactionIdResponse) o;
         return 
             Utils.enhancedDeepEquals(this.contentType, other.contentType) &&
             Utils.enhancedDeepEquals(this.statusCode, other.statusCode) &&
@@ -171,7 +171,7 @@ public class UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
     
     @Override
     public String toString() {
-        return Utils.toString(UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutResponse.class,
+        return Utils.toString(PUTUpdateCreditNoteByTransactionIdResponse.class,
                 "contentType", contentType,
                 "statusCode", statusCode,
                 "rawResponse", rawResponse,
@@ -242,9 +242,9 @@ public class UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
             return this;
         }
 
-        public UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutResponse build() {
+        public PUTUpdateCreditNoteByTransactionIdResponse build() {
 
-            return new UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutResponse(
+            return new PUTUpdateCreditNoteByTransactionIdResponse(
                 contentType, statusCode, rawResponse,
                 any);
         }

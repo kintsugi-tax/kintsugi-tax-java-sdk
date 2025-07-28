@@ -13,7 +13,7 @@ import java.lang.String;
 import java.util.Optional;
 
 
-public class UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutSecurity implements HasSecurity {
+public class PUTUpdateCreditNoteByTransactionIdSecurity implements HasSecurity {
 
     @SpeakeasyMetadata("security:scheme=true,type=apiKey,subtype=header,name=X-API-KEY")
     private Optional<String> apiKeyHeader;
@@ -23,7 +23,7 @@ public class UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
     private Optional<String> httpBearer;
 
     @JsonCreator
-    public UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutSecurity(
+    public PUTUpdateCreditNoteByTransactionIdSecurity(
             Optional<String> apiKeyHeader,
             Optional<String> httpBearer) {
         Utils.checkNotNull(apiKeyHeader, "apiKeyHeader");
@@ -32,7 +32,7 @@ public class UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
         this.httpBearer = httpBearer;
     }
     
-    public UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutSecurity() {
+    public PUTUpdateCreditNoteByTransactionIdSecurity() {
         this(Optional.empty(), Optional.empty());
     }
 
@@ -51,27 +51,27 @@ public class UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
     }
 
 
-    public UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutSecurity withAPIKeyHeader(String apiKeyHeader) {
+    public PUTUpdateCreditNoteByTransactionIdSecurity withAPIKeyHeader(String apiKeyHeader) {
         Utils.checkNotNull(apiKeyHeader, "apiKeyHeader");
         this.apiKeyHeader = Optional.ofNullable(apiKeyHeader);
         return this;
     }
 
 
-    public UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutSecurity withAPIKeyHeader(Optional<String> apiKeyHeader) {
+    public PUTUpdateCreditNoteByTransactionIdSecurity withAPIKeyHeader(Optional<String> apiKeyHeader) {
         Utils.checkNotNull(apiKeyHeader, "apiKeyHeader");
         this.apiKeyHeader = apiKeyHeader;
         return this;
     }
 
-    public UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutSecurity withHTTPBearer(String httpBearer) {
+    public PUTUpdateCreditNoteByTransactionIdSecurity withHTTPBearer(String httpBearer) {
         Utils.checkNotNull(httpBearer, "httpBearer");
         this.httpBearer = Optional.ofNullable(httpBearer);
         return this;
     }
 
 
-    public UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutSecurity withHTTPBearer(Optional<String> httpBearer) {
+    public PUTUpdateCreditNoteByTransactionIdSecurity withHTTPBearer(Optional<String> httpBearer) {
         Utils.checkNotNull(httpBearer, "httpBearer");
         this.httpBearer = httpBearer;
         return this;
@@ -85,7 +85,7 @@ public class UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutSecurity other = (UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutSecurity) o;
+        PUTUpdateCreditNoteByTransactionIdSecurity other = (PUTUpdateCreditNoteByTransactionIdSecurity) o;
         return 
             Utils.enhancedDeepEquals(this.apiKeyHeader, other.apiKeyHeader) &&
             Utils.enhancedDeepEquals(this.httpBearer, other.httpBearer);
@@ -99,7 +99,7 @@ public class UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
     
     @Override
     public String toString() {
-        return Utils.toString(UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutSecurity.class,
+        return Utils.toString(PUTUpdateCreditNoteByTransactionIdSecurity.class,
                 "apiKeyHeader", apiKeyHeader,
                 "httpBearer", httpBearer);
     }
@@ -141,9 +141,9 @@ public class UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
             return this;
         }
 
-        public UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutSecurity build() {
+        public PUTUpdateCreditNoteByTransactionIdSecurity build() {
 
-            return new UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutSecurity(
+            return new PUTUpdateCreditNoteByTransactionIdSecurity(
                 apiKeyHeader, httpBearer);
         }
 

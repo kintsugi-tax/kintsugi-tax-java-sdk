@@ -10,9 +10,9 @@ import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.SecuritySource;
 import com.kintsugi.taxplatform.models.errors.APIException;
 import com.kintsugi.taxplatform.models.errors.HTTPValidationError;
-import com.kintsugi.taxplatform.models.operations.UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutRequest;
-import com.kintsugi.taxplatform.models.operations.UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutResponse;
-import com.kintsugi.taxplatform.models.operations.UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutSecurity;
+import com.kintsugi.taxplatform.models.operations.PUTUpdateCreditNoteByTransactionIdRequest;
+import com.kintsugi.taxplatform.models.operations.PUTUpdateCreditNoteByTransactionIdResponse;
+import com.kintsugi.taxplatform.models.operations.PUTUpdateCreditNoteByTransactionIdSecurity;
 import com.kintsugi.taxplatform.utils.HTTPClient;
 import com.kintsugi.taxplatform.utils.HTTPRequest;
 import com.kintsugi.taxplatform.utils.Hook.AfterErrorContextImpl;
@@ -30,17 +30,17 @@ import java.net.http.HttpResponse;
 import java.util.Optional;
 
 
-public class UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutOperation implements RequestOperation<UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutRequest, UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutResponse> {
+public class PUTUpdateCreditNoteByTransactionIdOperation implements RequestOperation<PUTUpdateCreditNoteByTransactionIdRequest, PUTUpdateCreditNoteByTransactionIdResponse> {
 
     private final SDKConfiguration sdkConfiguration;
     private final String baseUrl;
-    private final UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutSecurity security;
+    private final PUTUpdateCreditNoteByTransactionIdSecurity security;
     private final SecuritySource securitySource;
     private final HTTPClient client;
 
-    public UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutOperation(
+    public PUTUpdateCreditNoteByTransactionIdOperation(
         SDKConfiguration sdkConfiguration,
-        UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutSecurity security) {
+        PUTUpdateCreditNoteByTransactionIdSecurity security) {
         this.sdkConfiguration = sdkConfiguration;
         this.baseUrl = this.sdkConfiguration.serverUrl();
         this.security = security;
@@ -53,9 +53,9 @@ public class UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
         return Optional.ofNullable(this.securitySource);
     }
 
-    public HttpRequest buildRequest(UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutRequest request) throws Exception {
+    public HttpRequest buildRequest(PUTUpdateCreditNoteByTransactionIdRequest request) throws Exception {
         String url = Utils.generateURL(
-                UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutRequest.class,
+                PUTUpdateCreditNoteByTransactionIdRequest.class,
                 this.baseUrl,
                 "/v1/transactions/{original_transaction_id}/credit_notes/{credit_note_id}",
                 request, null);
@@ -82,7 +82,7 @@ public class UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
               new BeforeRequestContextImpl(
                   this.sdkConfiguration,
                   this.baseUrl,
-                  "update_credit_note_by_transaction_id_v1_transactions__original_transaction_id__credit_notes__credit_note_id__put",
+                  "PUT_update_credit_note_by_transaction_id",
                   java.util.Optional.empty(),
                   securitySource()),
               req.build());
@@ -95,7 +95,7 @@ public class UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
                 new AfterErrorContextImpl(
                     this.sdkConfiguration,
                     this.baseUrl,
-                    "update_credit_note_by_transaction_id_v1_transactions__original_transaction_id__credit_notes__credit_note_id__put",
+                    "PUT_update_credit_note_by_transaction_id",
                     java.util.Optional.empty(),
                     securitySource()),
                 Optional.ofNullable(response),
@@ -108,14 +108,14 @@ public class UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
                 new AfterSuccessContextImpl(
                     this.sdkConfiguration,
                     this.baseUrl,
-                    "update_credit_note_by_transaction_id_v1_transactions__original_transaction_id__credit_notes__credit_note_id__put",
+                    "PUT_update_credit_note_by_transaction_id",
                     java.util.Optional.empty(),
                     securitySource()),
                 response);
     }
 
     @Override
-    public HttpResponse<InputStream> doRequest(UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutRequest request) throws Exception {
+    public HttpResponse<InputStream> doRequest(PUTUpdateCreditNoteByTransactionIdRequest request) throws Exception {
         HttpRequest r = buildRequest(request);
         HttpResponse<InputStream> httpRes;
         try {
@@ -134,19 +134,19 @@ public class UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
 
 
     @Override
-    public UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutResponse handleResponse(HttpResponse<InputStream> response) throws Exception {
+    public PUTUpdateCreditNoteByTransactionIdResponse handleResponse(HttpResponse<InputStream> response) throws Exception {
         String contentType = response
             .headers()
             .firstValue("Content-Type")
             .orElse("application/octet-stream");
-        UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutResponse.Builder resBuilder = 
-            UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutResponse
+        PUTUpdateCreditNoteByTransactionIdResponse.Builder resBuilder = 
+            PUTUpdateCreditNoteByTransactionIdResponse
                 .builder()
                 .contentType(contentType)
                 .statusCode(response.statusCode())
                 .rawResponse(response);
 
-        UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutResponse res = resBuilder.build();
+        PUTUpdateCreditNoteByTransactionIdResponse res = resBuilder.build();
         
         if (Utils.statusCodeMatches(response.statusCode(), "200")) {
             if (Utils.contentTypeMatches(contentType, "application/json")) {

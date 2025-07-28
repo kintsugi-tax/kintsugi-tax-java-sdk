@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 13bfb8e3-2795-4089-a96d-9ab7fcceafd9
 management:
-  docChecksum: 5935c838f3c5f3bda4fe122101ea3cc8
+  docChecksum: abf6143ab509ec16a4cf8fb0683fbb3d
   docVersion: 1.0.0
-  speakeasyVersion: 1.589.0
-  generationVersion: 2.664.0
-  releaseVersion: 0.6.1
-  configChecksum: 05317ebf44c4ec2840de071c986feffb
+  speakeasyVersion: 1.590.0
+  generationVersion: 2.666.0
+  releaseVersion: 0.6.2
+  configChecksum: 81bd1a398d7afd60fc43500c82ca83bb
   repoURL: https://github.com/kintsugi-tax/kintsugi-tax-java-sdk.git
   published: true
 features:
@@ -293,15 +293,15 @@ generatedFiles:
   - docs/models/operations/GetTransactionsV1TransactionsGetRequest.md
   - docs/models/operations/GetTransactionsV1TransactionsGetResponse.md
   - docs/models/operations/GetTransactionsV1TransactionsGetSecurity.md
+  - docs/models/operations/PUTUpdateCreditNoteByTransactionIdRequest.md
+  - docs/models/operations/PUTUpdateCreditNoteByTransactionIdResponse.md
+  - docs/models/operations/PUTUpdateCreditNoteByTransactionIdSecurity.md
   - docs/models/operations/Product.md
   - docs/models/operations/SearchV1AddressValidationSearchPostResponse.md
   - docs/models/operations/SearchV1AddressValidationSearchPostSecurity.md
   - docs/models/operations/SuggestionsV1AddressValidationSuggestionsPostRequest.md
   - docs/models/operations/SuggestionsV1AddressValidationSuggestionsPostResponse.md
   - docs/models/operations/SuggestionsV1AddressValidationSuggestionsPostSecurity.md
-  - docs/models/operations/UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutRequest.md
-  - docs/models/operations/UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutResponse.md
-  - docs/models/operations/UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutSecurity.md
   - docs/models/operations/UpdateCustomerV1CustomersCustomerIdPutRequest.md
   - docs/models/operations/UpdateCustomerV1CustomersCustomerIdPutResponse.md
   - docs/models/operations/UpdateCustomerV1CustomersCustomerIdPutSecurity.md
@@ -625,6 +625,10 @@ generatedFiles:
   - src/main/java/com/kintsugi/taxplatform/models/operations/GetTransactionsV1TransactionsGetRequestBuilder.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/GetTransactionsV1TransactionsGetResponse.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/GetTransactionsV1TransactionsGetSecurity.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/PUTUpdateCreditNoteByTransactionIdRequest.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/PUTUpdateCreditNoteByTransactionIdRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/PUTUpdateCreditNoteByTransactionIdResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/PUTUpdateCreditNoteByTransactionIdSecurity.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/Product.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/SearchV1AddressValidationSearchPostRequestBuilder.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/SearchV1AddressValidationSearchPostResponse.java
@@ -633,10 +637,6 @@ generatedFiles:
   - src/main/java/com/kintsugi/taxplatform/models/operations/SuggestionsV1AddressValidationSuggestionsPostRequestBuilder.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/SuggestionsV1AddressValidationSuggestionsPostResponse.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/SuggestionsV1AddressValidationSuggestionsPostSecurity.java
-  - src/main/java/com/kintsugi/taxplatform/models/operations/UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutRequest.java
-  - src/main/java/com/kintsugi/taxplatform/models/operations/UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutRequestBuilder.java
-  - src/main/java/com/kintsugi/taxplatform/models/operations/UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutResponse.java
-  - src/main/java/com/kintsugi/taxplatform/models/operations/UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutSecurity.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/UpdateCustomerV1CustomersCustomerIdPutRequest.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/UpdateCustomerV1CustomersCustomerIdPutRequestBuilder.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/UpdateCustomerV1CustomersCustomerIdPutResponse.java
@@ -676,9 +676,9 @@ generatedFiles:
   - src/main/java/com/kintsugi/taxplatform/operations/GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetOperation.java
   - src/main/java/com/kintsugi/taxplatform/operations/GetTransactionsV1TransactionsGetOperation.java
   - src/main/java/com/kintsugi/taxplatform/operations/Operations.java
+  - src/main/java/com/kintsugi/taxplatform/operations/PUTUpdateCreditNoteByTransactionIdOperation.java
   - src/main/java/com/kintsugi/taxplatform/operations/SearchV1AddressValidationSearchPostOperation.java
   - src/main/java/com/kintsugi/taxplatform/operations/SuggestionsV1AddressValidationSuggestionsPostOperation.java
-  - src/main/java/com/kintsugi/taxplatform/operations/UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutOperation.java
   - src/main/java/com/kintsugi/taxplatform/operations/UpdateCustomerV1CustomersCustomerIdPutOperation.java
   - src/main/java/com/kintsugi/taxplatform/operations/UpdateProductV1ProductsProductIdPutOperation.java
   - src/main/java/com/kintsugi/taxplatform/operations/UpdateTransactionV1TransactionsTransactionIdPutOperation.java
@@ -1266,4 +1266,19 @@ examples:
           application/json: {"detail": [{"type": "<value>", "loc": ["<value 1>"], "msg": "<value>", "input": "<value>", "ctx": {"key": "<value>", "key1": "<value>", "key2": "<value>"}}]}
         "500":
           application/json: {"detail": "<value>"}
+  PUT_update_credit_note_by_transaction_id:
+    speakeasy-default-PUT-update-credit-note-by-transaction-id:
+      parameters:
+        path:
+          original_transaction_id: "<id>"
+          credit_note_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"external_id": "<id>", "date": "2023-07-25T11:01:44.924Z", "status": "CANCELLED", "currency": "SPL", "transaction_items": [{"external_id": "<id>", "date": "2024-09-15T23:01:02.880Z", "external_product_id": "<id>"}]}
+      responses:
+        "200":
+          application/json: "<value>"
+        "422":
+          application/json: {}
 examplesVersion: 1.0.2

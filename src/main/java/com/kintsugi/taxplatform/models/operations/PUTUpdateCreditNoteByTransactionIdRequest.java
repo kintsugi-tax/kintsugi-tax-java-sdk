@@ -13,7 +13,7 @@ import java.lang.String;
 import java.util.Optional;
 
 
-public class UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutRequest {
+public class PUTUpdateCreditNoteByTransactionIdRequest {
 
     @SpeakeasyMetadata("pathParam:style=simple,explode=false,name=original_transaction_id")
     private String originalTransactionId;
@@ -33,7 +33,7 @@ public class UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
     private CreditNoteCreate creditNoteCreate;
 
     @JsonCreator
-    public UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutRequest(
+    public PUTUpdateCreditNoteByTransactionIdRequest(
             String originalTransactionId,
             String creditNoteId,
             Optional<String> xOrganizationId,
@@ -48,7 +48,7 @@ public class UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
         this.creditNoteCreate = creditNoteCreate;
     }
     
-    public UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutRequest(
+    public PUTUpdateCreditNoteByTransactionIdRequest(
             String originalTransactionId,
             String creditNoteId,
             CreditNoteCreate creditNoteCreate) {
@@ -84,13 +84,13 @@ public class UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
     }
 
 
-    public UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutRequest withOriginalTransactionId(String originalTransactionId) {
+    public PUTUpdateCreditNoteByTransactionIdRequest withOriginalTransactionId(String originalTransactionId) {
         Utils.checkNotNull(originalTransactionId, "originalTransactionId");
         this.originalTransactionId = originalTransactionId;
         return this;
     }
 
-    public UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutRequest withCreditNoteId(String creditNoteId) {
+    public PUTUpdateCreditNoteByTransactionIdRequest withCreditNoteId(String creditNoteId) {
         Utils.checkNotNull(creditNoteId, "creditNoteId");
         this.creditNoteId = creditNoteId;
         return this;
@@ -99,7 +99,7 @@ public class UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
     /**
      * The unique identifier for the organization making the request
      */
-    public UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutRequest withXOrganizationId(String xOrganizationId) {
+    public PUTUpdateCreditNoteByTransactionIdRequest withXOrganizationId(String xOrganizationId) {
         Utils.checkNotNull(xOrganizationId, "xOrganizationId");
         this.xOrganizationId = Optional.ofNullable(xOrganizationId);
         return this;
@@ -109,13 +109,13 @@ public class UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
     /**
      * The unique identifier for the organization making the request
      */
-    public UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutRequest withXOrganizationId(Optional<String> xOrganizationId) {
+    public PUTUpdateCreditNoteByTransactionIdRequest withXOrganizationId(Optional<String> xOrganizationId) {
         Utils.checkNotNull(xOrganizationId, "xOrganizationId");
         this.xOrganizationId = xOrganizationId;
         return this;
     }
 
-    public UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutRequest withCreditNoteCreate(CreditNoteCreate creditNoteCreate) {
+    public PUTUpdateCreditNoteByTransactionIdRequest withCreditNoteCreate(CreditNoteCreate creditNoteCreate) {
         Utils.checkNotNull(creditNoteCreate, "creditNoteCreate");
         this.creditNoteCreate = creditNoteCreate;
         return this;
@@ -129,7 +129,7 @@ public class UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutRequest other = (UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutRequest) o;
+        PUTUpdateCreditNoteByTransactionIdRequest other = (PUTUpdateCreditNoteByTransactionIdRequest) o;
         return 
             Utils.enhancedDeepEquals(this.originalTransactionId, other.originalTransactionId) &&
             Utils.enhancedDeepEquals(this.creditNoteId, other.creditNoteId) &&
@@ -146,7 +146,7 @@ public class UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
     
     @Override
     public String toString() {
-        return Utils.toString(UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutRequest.class,
+        return Utils.toString(PUTUpdateCreditNoteByTransactionIdRequest.class,
                 "originalTransactionId", originalTransactionId,
                 "creditNoteId", creditNoteId,
                 "xOrganizationId", xOrganizationId,
@@ -208,9 +208,9 @@ public class UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
             return this;
         }
 
-        public UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutRequest build() {
+        public PUTUpdateCreditNoteByTransactionIdRequest build() {
 
-            return new UpdateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesCreditNoteIdPutRequest(
+            return new PUTUpdateCreditNoteByTransactionIdRequest(
                 originalTransactionId, creditNoteId, xOrganizationId,
                 creditNoteCreate);
         }

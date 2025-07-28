@@ -1017,6 +1017,7 @@ paths:
   "/v1/dashboard/tasks": {}
   "/v1/filings": {}
   "/v1/admin/filings": {}
+  "/v1/admin/filings/all": {}
   "/v1/filings/approval_stats": {}
   "/v1/filings/{filing_id}": {}
   "/v1/admin/filings/count": {}
@@ -2197,7 +2198,7 @@ paths:
         - "Transactions"
       summary: "Update Credit Note By Transaction Id"
       description: "Update an existing credit note for a specific transaction."
-      operationId: "update_credit_note_by_transaction_id_v1_transactions__original_transaction_id__credit_notes__credit_note_id__put"
+      operationId: "PUT_update_credit_note_by_transaction_id"
       security:
         - APIKeyHeader: []
         - HTTPBearer: []
@@ -2669,6 +2670,187 @@ components:
         - "SHIP_FROM"
         - "BILL_FROM"
       title: "AddressType"
+    "AdminAllFilingRead":
+      properties:
+        "status": {"$ref": "#/components/schemas/FilingStatusEnum", "description": "Filing status. Possible values:\n                                    UNFILED, FILING, FILED.", "default": "UNFILED"}
+        "start_date":
+          type: "string"
+          format: "date"
+          title: "Start Date"
+          description: "The start date of the filing period."
+        "end_date":
+          type: "string"
+          format: "date"
+          title: "End Date"
+          description: "The end date of the filing period."
+        "due_date":
+          anyOf:
+            - type: "string"
+              format: "date"
+            - type: "null"
+          title: "Due Date"
+          description: "The due date of the filing."
+        "date_filed":
+          anyOf:
+            - type: "string"
+              format: "date"
+            - type: "null"
+          title: "Date Filed"
+          description: "The date the filing was completed, if applicable."
+        "is_manual":
+          anyOf:
+            - type: "boolean"
+            - type: "null"
+          title: "Is Manual"
+          description: "Indicates if the filing was done manually."
+        "state_code":
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "State Code"
+          description: "The code of the state associated with the filing (e.g., IA, NY)."
+        "state_name":
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "State Name"
+          description: "The name of the state associated with the filing\n        (e.g., Iowa, New York)."
+        "country_code": {"$ref": "#/components/schemas/CountryCodeEnum", "description": "Country code in ISO 3166-1 alpha-2 format (e.g., US)."}
+        "jira_issue_key":
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Jira Issue Key"
+          description: "The associated JIRA issue key for tracking the filing,\n        if available. Can be null."
+        "auto_approved":
+          anyOf:
+            - type: "boolean"
+            - type: "null"
+          title: "Auto Approved"
+          description: "Indicates if the filing was auto-approved. Defaults to false."
+          default: false
+        "amount_calculated":
+          type: "string"
+          title: "Amount Calculated"
+          description: "The calculated amount for the filing. Defaults to 0.00."
+          default: "0.00"
+        "amount_adjusted":
+          type: "string"
+          title: "Amount Adjusted"
+          description: "Adjusted amount, if any."
+          default: "0.00"
+        "amount_discounts":
+          type: "string"
+          title: "Amount Discounts"
+          description: "Discounts applied to the filing."
+          default: "0.00"
+        "amount_fees":
+          type: "string"
+          title: "Amount Fees"
+          description: "Discounts applied to the amount."
+          default: "0.00"
+        "amount_penalties":
+          type: "string"
+          title: "Amount Penalties"
+          description: "Penalties applied to the filing."
+          default: "0.00"
+        "amount_tax_collected":
+          type: "string"
+          title: "Amount Tax Collected"
+          description: "Total tax collected during the filing period."
+          default: "0.00"
+        "amount_sales":
+          type: "string"
+          title: "Amount Sales"
+          description: "Total sales amount during the filing period."
+          default: "0.00"
+        "amount":
+          type: "string"
+          title: "Amount"
+          description: "Final amount due for the filing."
+          default: "0.00"
+        "total_tax_liability":
+          type: "string"
+          title: "Total Tax Liability"
+          description: "Total tax liability for the filing."
+          default: "0.00"
+        "transaction_count":
+          type: "integer"
+          title: "Transaction Count"
+          description: "Total number of transactions associated with the filing."
+          default: 0
+        "internal_notes":
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Internal Notes"
+          description: "Notes or comments related to the filing."
+        "recent_details_report_link":
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Recent Details Report Link"
+        "tax_remitted":
+          type: "string"
+          title: "Tax Remitted"
+          description: "The amount of tax remitted."
+          default: "0.00"
+        "return_confirmation_id":
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Return Confirmation Id"
+          description: "Return confirmation ID, if applicable."
+        "payment_confirmation_id":
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Payment Confirmation Id"
+          description: "Payment confirmation ID, if applicable."
+        "block_approval":
+          anyOf:
+            - type: "boolean"
+            - type: "null"
+          title: "Block Approval"
+          description: "Indicates if the filing can be approved."
+        "currency":
+          anyOf:
+            - {"$ref": "#/components/schemas/CurrencyEnum"}
+            - type: "null"
+          description: "Currency code for the filing (e.g., USD, CAD)."
+        "id":
+          type: "string"
+          title: "Id"
+          description: "Unique identifier for the filing."
+        "registration_id":
+          type: "string"
+          title: "Registration Id"
+          description: "Identifier for the registration associated with the filing."
+        "organization_id":
+          type: "string"
+          title: "Organization Id"
+          description: "Identifier for the organization associated with the filing."
+        "organization_name":
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Organization Name"
+          description: "Name of the organization associated with the filing."
+        "filing_frequency":
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Filing Frequency"
+          description: "Filing frequency from the associated registration."
+      type: "object"
+      required:
+        - "start_date"
+        - "end_date"
+        - "country_code"
+        - "id"
+        - "registration_id"
+        - "organization_id"
+      title: "AdminAllFilingRead"
     "AdminFilingRegistrationPasswordRead":
       properties:
         "registration_date":
@@ -11095,12 +11277,16 @@ components:
           anyOf:
             - {"$ref": "#/components/schemas/OssTypeEnum"}
             - type: "null"
+        "enable_new_auto_filing_experience":
+          type: "boolean"
+          title: "Enable New Auto Filing Experience"
       type: "object"
       required:
         - "disable_onboarding"
         - "enable_eu_registration"
         - "product_category_version"
         - "oss_scheme"
+        - "enable_new_auto_filing_experience"
       title: "OrganizationSettingsResponse"
     "OrganizationSourceEnum":
       type: "string"
@@ -11237,6 +11423,43 @@ components:
         - "NON_UNION"
       title: "OssTypeEnum"
       description: "Type of OSS registration."
+    "Page_AdminAllFilingRead_":
+      properties:
+        "items":
+          items: {"$ref": "#/components/schemas/AdminAllFilingRead"}
+          type: "array"
+          title: "Items"
+        "total":
+          anyOf:
+            - type: "integer"
+              minimum: 0
+            - type: "null"
+          title: "Total"
+        "page":
+          anyOf:
+            - type: "integer"
+              minimum: 1
+            - type: "null"
+          title: "Page"
+        "size":
+          anyOf:
+            - type: "integer"
+              minimum: 1
+            - type: "null"
+          title: "Size"
+        "pages":
+          anyOf:
+            - type: "integer"
+              minimum: 0
+            - type: "null"
+          title: "Pages"
+      type: "object"
+      required:
+        - "items"
+        - "total"
+        - "page"
+        - "size"
+      title: "Page[AdminAllFilingRead]"
     "Page_AttachmentRead_":
       properties:
         "items":

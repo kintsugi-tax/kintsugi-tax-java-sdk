@@ -11,9 +11,9 @@ import com.kintsugi.taxplatform.SecuritySource;
 import com.kintsugi.taxplatform.models.components.TransactionRead;
 import com.kintsugi.taxplatform.models.errors.APIException;
 import com.kintsugi.taxplatform.models.errors.HTTPValidationError;
-import com.kintsugi.taxplatform.models.operations.CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostRequest;
-import com.kintsugi.taxplatform.models.operations.CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostResponse;
-import com.kintsugi.taxplatform.models.operations.CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostSecurity;
+import com.kintsugi.taxplatform.models.operations.POSTCreateCreditNoteByTransactionIdRequest;
+import com.kintsugi.taxplatform.models.operations.POSTCreateCreditNoteByTransactionIdResponse;
+import com.kintsugi.taxplatform.models.operations.POSTCreateCreditNoteByTransactionIdSecurity;
 import com.kintsugi.taxplatform.utils.HTTPClient;
 import com.kintsugi.taxplatform.utils.HTTPRequest;
 import com.kintsugi.taxplatform.utils.Hook.AfterErrorContextImpl;
@@ -31,17 +31,17 @@ import java.net.http.HttpResponse;
 import java.util.Optional;
 
 
-public class CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostOperation implements RequestOperation<CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostRequest, CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostResponse> {
+public class POSTCreateCreditNoteByTransactionIdOperation implements RequestOperation<POSTCreateCreditNoteByTransactionIdRequest, POSTCreateCreditNoteByTransactionIdResponse> {
 
     private final SDKConfiguration sdkConfiguration;
     private final String baseUrl;
-    private final CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostSecurity security;
+    private final POSTCreateCreditNoteByTransactionIdSecurity security;
     private final SecuritySource securitySource;
     private final HTTPClient client;
 
-    public CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostOperation(
+    public POSTCreateCreditNoteByTransactionIdOperation(
         SDKConfiguration sdkConfiguration,
-        CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostSecurity security) {
+        POSTCreateCreditNoteByTransactionIdSecurity security) {
         this.sdkConfiguration = sdkConfiguration;
         this.baseUrl = this.sdkConfiguration.serverUrl();
         this.security = security;
@@ -54,9 +54,9 @@ public class CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
         return Optional.ofNullable(this.securitySource);
     }
 
-    public HttpRequest buildRequest(CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostRequest request) throws Exception {
+    public HttpRequest buildRequest(POSTCreateCreditNoteByTransactionIdRequest request) throws Exception {
         String url = Utils.generateURL(
-                CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostRequest.class,
+                POSTCreateCreditNoteByTransactionIdRequest.class,
                 this.baseUrl,
                 "/v1/transactions/{original_transaction_id}/credit_notes",
                 request, null);
@@ -83,7 +83,7 @@ public class CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
               new BeforeRequestContextImpl(
                   this.sdkConfiguration,
                   this.baseUrl,
-                  "create_credit_note_by_transaction_id_v1_transactions__original_transaction_id__credit_notes_post",
+                  "POST_create_credit_note_by_transaction_id",
                   java.util.Optional.empty(),
                   securitySource()),
               req.build());
@@ -96,7 +96,7 @@ public class CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
                 new AfterErrorContextImpl(
                     this.sdkConfiguration,
                     this.baseUrl,
-                    "create_credit_note_by_transaction_id_v1_transactions__original_transaction_id__credit_notes_post",
+                    "POST_create_credit_note_by_transaction_id",
                     java.util.Optional.empty(),
                     securitySource()),
                 Optional.ofNullable(response),
@@ -109,14 +109,14 @@ public class CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
                 new AfterSuccessContextImpl(
                     this.sdkConfiguration,
                     this.baseUrl,
-                    "create_credit_note_by_transaction_id_v1_transactions__original_transaction_id__credit_notes_post",
+                    "POST_create_credit_note_by_transaction_id",
                     java.util.Optional.empty(),
                     securitySource()),
                 response);
     }
 
     @Override
-    public HttpResponse<InputStream> doRequest(CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostRequest request) throws Exception {
+    public HttpResponse<InputStream> doRequest(POSTCreateCreditNoteByTransactionIdRequest request) throws Exception {
         HttpRequest r = buildRequest(request);
         HttpResponse<InputStream> httpRes;
         try {
@@ -135,19 +135,19 @@ public class CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
 
 
     @Override
-    public CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostResponse handleResponse(HttpResponse<InputStream> response) throws Exception {
+    public POSTCreateCreditNoteByTransactionIdResponse handleResponse(HttpResponse<InputStream> response) throws Exception {
         String contentType = response
             .headers()
             .firstValue("Content-Type")
             .orElse("application/octet-stream");
-        CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostResponse.Builder resBuilder = 
-            CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostResponse
+        POSTCreateCreditNoteByTransactionIdResponse.Builder resBuilder = 
+            POSTCreateCreditNoteByTransactionIdResponse
                 .builder()
                 .contentType(contentType)
                 .statusCode(response.statusCode())
                 .rawResponse(response);
 
-        CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostResponse res = resBuilder.build();
+        POSTCreateCreditNoteByTransactionIdResponse res = resBuilder.build();
         
         if (Utils.statusCodeMatches(response.statusCode(), "200")) {
             if (Utils.contentTypeMatches(contentType, "application/json")) {

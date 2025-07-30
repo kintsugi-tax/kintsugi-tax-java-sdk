@@ -1038,6 +1038,7 @@ paths:
   "/v1/admin/filings/{filing_id}/attachments": {}
   "/v1/admin/filings/{filing_id}/reports/download": {}
   "/v1/admin/filings/{filing_id}/georgia-import-file": {}
+  "/v1/admin/filings/{filing_id}/enhanced-georgia-data": {}
   "/v1/import/validate": {}
   "/v1/import/upload-urls": {}
   "/v1/import/internal-upload": {}
@@ -2151,7 +2152,7 @@ paths:
         - "Transactions"
       summary: "Create Credit Note By Transaction Id"
       description: "Create a new credit note for a specific transaction."
-      operationId: "create_credit_note_by_transaction_id_v1_transactions__original_transaction_id__credit_notes_post"
+      operationId: "POST_create_credit_note_by_transaction_id"
       security:
         - APIKeyHeader: []
         - HTTPBearer: []
@@ -2763,6 +2764,13 @@ components:
           type: "string"
           title: "Amount Sales"
           description: "Total sales amount during the filing period."
+          default: "0.00"
+        "total_taxable_sales":
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Total Taxable Sales"
+          description: "Total taxable amount during the filing period."
           default: "0.00"
         "amount":
           type: "string"
@@ -6385,6 +6393,28 @@ components:
         - "content"
         - "link"
       title: "EmailRequest"
+    "EnhancedGeorgiaFilingData":
+      properties:
+        "filing_id":
+          type: "string"
+          title: "Filing Id"
+        "organization_id":
+          type: "string"
+          title: "Organization Id"
+        "filing_period": {"$ref": "#/components/schemas/FilingPeriod"}
+        "summary": {"$ref": "#/components/schemas/GeorgiaFilingSummary"}
+        "jurisdiction_breakdown":
+          items: {"$ref": "#/components/schemas/JurisdictionBreakdown"}
+          type: "array"
+          title: "Jurisdiction Breakdown"
+      type: "object"
+      required:
+        - "filing_id"
+        - "organization_id"
+        - "filing_period"
+        - "summary"
+        - "jurisdiction_breakdown"
+      title: "EnhancedGeorgiaFilingData"
     "EntityTypeEnum":
       type: "string"
       enum:
@@ -6854,6 +6884,13 @@ components:
           title: "Amount Sales"
           description: "Total sales amount during the filing period."
           default: "0.00"
+        "total_taxable_sales":
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Total Taxable Sales"
+          description: "Total taxable amount during the filing period."
+          default: "0.00"
         "amount":
           type: "string"
           title: "Amount"
@@ -7090,6 +7127,13 @@ components:
           title: "Amount Sales"
           description: "Total sales amount during the filing period."
           default: "0.00"
+        "total_taxable_sales":
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Total Taxable Sales"
+          description: "Total taxable amount during the filing period."
+          default: "0.00"
         "amount":
           type: "string"
           title: "Amount"
@@ -7205,6 +7249,19 @@ components:
           default: "0.00"
       type: "object"
       title: "FilingMetrics"
+    "FilingPeriod":
+      properties:
+        "start_date":
+          type: "string"
+          title: "Start Date"
+        "end_date":
+          type: "string"
+          title: "End Date"
+      type: "object"
+      required:
+        - "start_date"
+        - "end_date"
+      title: "FilingPeriod"
     "FilingRead":
       properties:
         "status": {"$ref": "#/components/schemas/FilingStatusEnum", "description": "Filing status. Possible values:\n                                    UNFILED, FILING, FILED.", "default": "UNFILED"}
@@ -7298,6 +7355,13 @@ components:
           type: "string"
           title: "Amount Sales"
           description: "Total sales amount during the filing period."
+          default: "0.00"
+        "total_taxable_sales":
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Total Taxable Sales"
+          description: "Total taxable amount during the filing period."
           default: "0.00"
         "amount":
           type: "string"
@@ -7484,6 +7548,14 @@ components:
           title: "Amount Sales"
           description: "Total sales amount during the filing period."
           default: "0.00"
+        "total_taxable_sales":
+          anyOf:
+            - type: "number"
+            - type: "string"
+            - type: "null"
+          title: "Total Taxable Sales"
+          description: "Total taxable amount during the filing period."
+          default: "0.00"
         "amount":
           anyOf:
             - type: "number"
@@ -7554,6 +7626,27 @@ components:
         - "end_date"
         - "country_code"
       title: "FilingUpdateInternal"
+    "GeorgiaFilingSummary":
+      properties:
+        "total_state_sales":
+          type: "number"
+          title: "Total State Sales"
+        "deductions_exemptions":
+          type: "number"
+          title: "Deductions Exemptions"
+        "taxable_sales":
+          type: "number"
+          title: "Taxable Sales"
+        "total_tax_collected":
+          type: "number"
+          title: "Total Tax Collected"
+      type: "object"
+      required:
+        - "total_state_sales"
+        - "deductions_exemptions"
+        - "taxable_sales"
+        - "total_tax_collected"
+      title: "GeorgiaFilingSummary"
     "HTTPValidationError":
       properties:
         "detail":
@@ -8532,6 +8625,27 @@ components:
         - "name"
       title: "Jurisdiction"
       description: "The tax jurisdiction details"
+    "JurisdictionBreakdown":
+      properties:
+        "jurisdiction_code":
+          type: "string"
+          title: "Jurisdiction Code"
+        "taxable_sales":
+          type: "number"
+          title: "Taxable Sales"
+        "tax_liability":
+          type: "number"
+          title: "Tax Liability"
+        "collected_tax":
+          type: "number"
+          title: "Collected Tax"
+      type: "object"
+      required:
+        - "jurisdiction_code"
+        - "taxable_sales"
+        - "tax_liability"
+        - "collected_tax"
+      title: "JurisdictionBreakdown"
     "JurisdictionType":
       type: "string"
       enum:

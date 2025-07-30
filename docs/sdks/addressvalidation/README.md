@@ -17,6 +17,7 @@ This API validates and enriches address information
 
 ### Example Usage
 
+<!-- UsageSnippet language="java" operationID="search_v1_address_validation_search_post" method="post" path="/v1/address_validation/search" -->
 ```java
 package hello.world;
 
@@ -92,6 +93,7 @@ This API endpoint provides address suggestions based on
 
 ### Example Usage
 
+<!-- UsageSnippet language="java" operationID="suggestions_v1_address_validation_suggestions_post" method="post" path="/v1/address_validation/suggestions" -->
 ```java
 package hello.world;
 

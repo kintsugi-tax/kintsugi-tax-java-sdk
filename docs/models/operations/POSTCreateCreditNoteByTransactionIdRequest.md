@@ -1,4 +1,4 @@
-# CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostRequest
+# POSTCreateCreditNoteByTransactionIdRequest
 
 
 ## Fields

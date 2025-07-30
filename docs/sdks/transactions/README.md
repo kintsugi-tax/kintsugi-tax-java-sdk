@@ -21,6 +21,7 @@ The Get Transactions API retrieves a list of transactions with
 
 ### Example Usage
 
+<!-- UsageSnippet language="java" operationID="get_transactions_v1_transactions_get" method="get" path="/v1/transactions" -->
 ```java
 package hello.world;
 
@@ -81,6 +82,7 @@ Create a transaction.
 
 ### Example Usage
 
+<!-- UsageSnippet language="java" operationID="create_transaction_v1_transactions_post" method="post" path="/v1/transactions" -->
 ```java
 package hello.world;
 
@@ -174,6 +176,7 @@ Retrieves a specific transaction based on its external ID.
 
 ### Example Usage
 
+<!-- UsageSnippet language="java" operationID="get_transaction_by_external_id_v1_transactions_external__external_id__get" method="get" path="/v1/transactions/external/{external_id}" -->
 ```java
 package hello.world;
 
@@ -233,6 +236,7 @@ Update a specific transaction by its ID.
 
 ### Example Usage
 
+<!-- UsageSnippet language="java" operationID="update_transaction_v1_transactions__transaction_id__put" method="put" path="/v1/transactions/{transaction_id}" -->
 ```java
 package hello.world;
 
@@ -311,6 +315,7 @@ The Get Transaction By Id API retrieves detailed information
 
 ### Example Usage
 
+<!-- UsageSnippet language="java" operationID="get_transaction_by_id_v1_transactions__transaction_id__get" method="get" path="/v1/transactions/{transaction_id}" -->
 ```java
 package hello.world;
 
@@ -370,6 +375,7 @@ Retrieve transactions by filing ID.
 
 ### Example Usage
 
+<!-- UsageSnippet language="java" operationID="get_transactions_by_filing_id_v1_transactions_filings__filing_id__get" method="get" path="/v1/transactions/filings/{filing_id}" -->
 ```java
 package hello.world;
 
@@ -429,14 +435,15 @@ Create a new credit note for a specific transaction.
 
 ### Example Usage
 
+<!-- UsageSnippet language="java" operationID="POST_create_credit_note_by_transaction_id" method="post" path="/v1/transactions/{original_transaction_id}/credit_notes" -->
 ```java
 package hello.world;
 
 import com.kintsugi.taxplatform.SDK;
 import com.kintsugi.taxplatform.models.components.*;
 import com.kintsugi.taxplatform.models.errors.HTTPValidationError;
-import com.kintsugi.taxplatform.models.operations.CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostResponse;
-import com.kintsugi.taxplatform.models.operations.CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostSecurity;
+import com.kintsugi.taxplatform.models.operations.POSTCreateCreditNoteByTransactionIdResponse;
+import com.kintsugi.taxplatform.models.operations.POSTCreateCreditNoteByTransactionIdSecurity;
 import java.lang.Exception;
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -448,8 +455,8 @@ public class Application {
         SDK sdk = SDK.builder()
             .build();
 
-        CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostResponse res = sdk.transactions().createCreditNote()
-                .security(CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostSecurity.builder()
+        POSTCreateCreditNoteByTransactionIdResponse res = sdk.transactions().createCreditNote()
+                .security(POSTCreateCreditNoteByTransactionIdSecurity.builder()
                     .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
                     .build())
                 .originalTransactionId("<id>")
@@ -481,16 +488,16 @@ public class Application {
 
 ### Parameters
 
-| Parameter                                                                                                                                                                                                                                                    | Type                                                                                                                                                                                                                                                         | Required                                                                                                                                                                                                                                                     | Description                                                                                                                                                                                                                                                  | Example                                                                                                                                                                                                                                                      |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `security`                                                                                                                                                                                                                                                   | [com.kintsugi.taxplatform.models.operations.CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostSecurity](../../models/operations/CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostSecurity.md) | :heavy_check_mark:                                                                                                                                                                                                                                           | The security requirements to use for the request.                                                                                                                                                                                                            |                                                                                                                                                                                                                                                              |
-| `originalTransactionId`                                                                                                                                                                                                                                      | *String*                                                                                                                                                                                                                                                     | :heavy_check_mark:                                                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                                                          |                                                                                                                                                                                                                                                              |
-| `xOrganizationId`                                                                                                                                                                                                                                            | *Optional\<String>*                                                                                                                                                                                                                                          | :heavy_check_mark:                                                                                                                                                                                                                                           | The unique identifier for the organization making the request                                                                                                                                                                                                | org_12345                                                                                                                                                                                                                                                    |
-| `creditNoteCreate`                                                                                                                                                                                                                                           | [CreditNoteCreate](../../models/components/CreditNoteCreate.md)                                                                                                                                                                                              | :heavy_check_mark:                                                                                                                                                                                                                                           | N/A                                                                                                                                                                                                                                                          |                                                                                                                                                                                                                                                              |
+| Parameter                                                                                                                                                        | Type                                                                                                                                                             | Required                                                                                                                                                         | Description                                                                                                                                                      | Example                                                                                                                                                          |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `security`                                                                                                                                                       | [com.kintsugi.taxplatform.models.operations.POSTCreateCreditNoteByTransactionIdSecurity](../../models/operations/POSTCreateCreditNoteByTransactionIdSecurity.md) | :heavy_check_mark:                                                                                                                                               | The security requirements to use for the request.                                                                                                                |                                                                                                                                                                  |
+| `originalTransactionId`                                                                                                                                          | *String*                                                                                                                                                         | :heavy_check_mark:                                                                                                                                               | N/A                                                                                                                                                              |                                                                                                                                                                  |
+| `xOrganizationId`                                                                                                                                                | *Optional\<String>*                                                                                                                                              | :heavy_check_mark:                                                                                                                                               | The unique identifier for the organization making the request                                                                                                    | org_12345                                                                                                                                                        |
+| `creditNoteCreate`                                                                                                                                               | [CreditNoteCreate](../../models/components/CreditNoteCreate.md)                                                                                                  | :heavy_check_mark:                                                                                                                                               | N/A                                                                                                                                                              |                                                                                                                                                                  |
 
 ### Response
 
-**[CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostResponse](../../models/operations/CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostResponse.md)**
+**[POSTCreateCreditNoteByTransactionIdResponse](../../models/operations/POSTCreateCreditNoteByTransactionIdResponse.md)**
 
 ### Errors
 
@@ -505,6 +512,7 @@ Update an existing credit note for a specific transaction.
 
 ### Example Usage
 
+<!-- UsageSnippet language="java" operationID="PUT_update_credit_note_by_transaction_id" method="put" path="/v1/transactions/{original_transaction_id}/credit_notes/{credit_note_id}" -->
 ```java
 package hello.world;
 

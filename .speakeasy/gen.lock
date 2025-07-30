@@ -1,19 +1,19 @@
 lockVersion: 2.0.0
 id: 13bfb8e3-2795-4089-a96d-9ab7fcceafd9
 management:
-  docChecksum: abf6143ab509ec16a4cf8fb0683fbb3d
+  docChecksum: 3b7599d4823043c763a96752a57b54f0
   docVersion: 1.0.0
-  speakeasyVersion: 1.590.0
-  generationVersion: 2.666.0
-  releaseVersion: 0.6.2
-  configChecksum: 81bd1a398d7afd60fc43500c82ca83bb
+  speakeasyVersion: 1.592.1
+  generationVersion: 2.667.0
+  releaseVersion: 0.6.3
+  configChecksum: d4f28957e2139c5cf277080383e6cbe0
   repoURL: https://github.com/kintsugi-tax/kintsugi-tax-java-sdk.git
   published: true
 features:
   java:
     additionalDependencies: 0.1.0
     constsAndDefaults: 0.1.1
-    core: 3.45.1
+    core: 3.45.2
     deprecations: 2.81.1
     flattening: 2.81.1
     globalSecurity: 2.83.0
@@ -225,9 +225,6 @@ generatedFiles:
   - docs/models/errors/ErrorResponse.md
   - docs/models/errors/HTTPValidationError.md
   - docs/models/operations/CountryCode.md
-  - docs/models/operations/CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostRequest.md
-  - docs/models/operations/CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostResponse.md
-  - docs/models/operations/CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostSecurity.md
   - docs/models/operations/CreateCustomerV1CustomersPostRequest.md
   - docs/models/operations/CreateCustomerV1CustomersPostResponse.md
   - docs/models/operations/CreateCustomerV1CustomersPostSecurity.md
@@ -293,6 +290,9 @@ generatedFiles:
   - docs/models/operations/GetTransactionsV1TransactionsGetRequest.md
   - docs/models/operations/GetTransactionsV1TransactionsGetResponse.md
   - docs/models/operations/GetTransactionsV1TransactionsGetSecurity.md
+  - docs/models/operations/POSTCreateCreditNoteByTransactionIdRequest.md
+  - docs/models/operations/POSTCreateCreditNoteByTransactionIdResponse.md
+  - docs/models/operations/POSTCreateCreditNoteByTransactionIdSecurity.md
   - docs/models/operations/PUTUpdateCreditNoteByTransactionIdRequest.md
   - docs/models/operations/PUTUpdateCreditNoteByTransactionIdResponse.md
   - docs/models/operations/PUTUpdateCreditNoteByTransactionIdSecurity.md
@@ -535,10 +535,6 @@ generatedFiles:
   - src/main/java/com/kintsugi/taxplatform/models/errors/ErrorResponse.java
   - src/main/java/com/kintsugi/taxplatform/models/errors/HTTPValidationError.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/CountryCode.java
-  - src/main/java/com/kintsugi/taxplatform/models/operations/CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostRequest.java
-  - src/main/java/com/kintsugi/taxplatform/models/operations/CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostRequestBuilder.java
-  - src/main/java/com/kintsugi/taxplatform/models/operations/CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostResponse.java
-  - src/main/java/com/kintsugi/taxplatform/models/operations/CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostSecurity.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/CreateCustomerV1CustomersPostRequest.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/CreateCustomerV1CustomersPostRequestBuilder.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/CreateCustomerV1CustomersPostResponse.java
@@ -625,6 +621,10 @@ generatedFiles:
   - src/main/java/com/kintsugi/taxplatform/models/operations/GetTransactionsV1TransactionsGetRequestBuilder.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/GetTransactionsV1TransactionsGetResponse.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/GetTransactionsV1TransactionsGetSecurity.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/POSTCreateCreditNoteByTransactionIdRequest.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/POSTCreateCreditNoteByTransactionIdRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/POSTCreateCreditNoteByTransactionIdResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/POSTCreateCreditNoteByTransactionIdSecurity.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/PUTUpdateCreditNoteByTransactionIdRequest.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/PUTUpdateCreditNoteByTransactionIdRequestBuilder.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/PUTUpdateCreditNoteByTransactionIdResponse.java
@@ -653,7 +653,6 @@ generatedFiles:
   - src/main/java/com/kintsugi/taxplatform/models/operations/UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequestBuilder.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostSecurity.java
-  - src/main/java/com/kintsugi/taxplatform/operations/CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostOperation.java
   - src/main/java/com/kintsugi/taxplatform/operations/CreateCustomerV1CustomersPostOperation.java
   - src/main/java/com/kintsugi/taxplatform/operations/CreateExemptionV1ExemptionsPostOperation.java
   - src/main/java/com/kintsugi/taxplatform/operations/CreateProductV1ProductsPostOperation.java
@@ -676,6 +675,7 @@ generatedFiles:
   - src/main/java/com/kintsugi/taxplatform/operations/GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetOperation.java
   - src/main/java/com/kintsugi/taxplatform/operations/GetTransactionsV1TransactionsGetOperation.java
   - src/main/java/com/kintsugi/taxplatform/operations/Operations.java
+  - src/main/java/com/kintsugi/taxplatform/operations/POSTCreateCreditNoteByTransactionIdOperation.java
   - src/main/java/com/kintsugi/taxplatform/operations/PUTUpdateCreditNoteByTransactionIdOperation.java
   - src/main/java/com/kintsugi/taxplatform/operations/SearchV1AddressValidationSearchPostOperation.java
   - src/main/java/com/kintsugi/taxplatform/operations/SuggestionsV1AddressValidationSuggestionsPostOperation.java
@@ -1279,6 +1279,20 @@ examples:
       responses:
         "200":
           application/json: "<value>"
+        "422":
+          application/json: {}
+  POST_create_credit_note_by_transaction_id:
+    speakeasy-default-POST-create-credit-note-by-transaction-id:
+      parameters:
+        path:
+          original_transaction_id: "<id>"
+        header:
+          x-organization-id: "org_12345"
+      requestBody:
+        application/json: {"external_id": "<id>", "date": "2024-01-17T09:54:06.459Z", "status": "PENDING", "currency": "GEL", "transaction_items": [{"external_id": "<id>", "date": "2023-07-11T07:57:04.867Z", "external_product_id": "<id>"}]}
+      responses:
+        "200":
+          application/json: {"organization_id": "<id>", "external_id": "<id>", "date": "2024-03-08T14:51:43.874Z", "total_amount": "0.00", "total_tax_amount_imported": "0.00", "tax_rate_imported": "0.00", "total_tax_amount_calculated": "0.00", "tax_rate_calculated": "0.00", "total_tax_liability_amount": "0.00", "taxable_amount": "0.00", "locked": false, "id": "<id>", "addresses": [], "transaction_items": [{"organization_id": "<id>", "date": "2025-04-01T04:49:49.945Z", "external_product_id": "<id>", "quantity": "1.0", "amount": "0.00", "tax_amount_imported": "0.00", "tax_rate_imported": "0.00", "tax_amount_calculated": "0.00", "tax_rate_calculated": "0.00", "taxable_amount": "0.00", "exempt": false, "id": "<id>", "tax_items": []}], "type": "SALE"}
         "422":
           application/json: {}
 examplesVersion: 1.0.2

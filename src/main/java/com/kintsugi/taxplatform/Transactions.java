@@ -8,10 +8,6 @@ import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 import com.kintsugi.taxplatform.models.components.CreditNoteCreate;
 import com.kintsugi.taxplatform.models.components.TransactionPublicRequest;
 import com.kintsugi.taxplatform.models.components.TransactionUpdate;
-import com.kintsugi.taxplatform.models.operations.CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostRequest;
-import com.kintsugi.taxplatform.models.operations.CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostRequestBuilder;
-import com.kintsugi.taxplatform.models.operations.CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostResponse;
-import com.kintsugi.taxplatform.models.operations.CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostSecurity;
 import com.kintsugi.taxplatform.models.operations.CreateTransactionV1TransactionsPostRequest;
 import com.kintsugi.taxplatform.models.operations.CreateTransactionV1TransactionsPostRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.CreateTransactionV1TransactionsPostResponse;
@@ -32,6 +28,10 @@ import com.kintsugi.taxplatform.models.operations.GetTransactionsV1TransactionsG
 import com.kintsugi.taxplatform.models.operations.GetTransactionsV1TransactionsGetRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.GetTransactionsV1TransactionsGetResponse;
 import com.kintsugi.taxplatform.models.operations.GetTransactionsV1TransactionsGetSecurity;
+import com.kintsugi.taxplatform.models.operations.POSTCreateCreditNoteByTransactionIdRequest;
+import com.kintsugi.taxplatform.models.operations.POSTCreateCreditNoteByTransactionIdRequestBuilder;
+import com.kintsugi.taxplatform.models.operations.POSTCreateCreditNoteByTransactionIdResponse;
+import com.kintsugi.taxplatform.models.operations.POSTCreateCreditNoteByTransactionIdSecurity;
 import com.kintsugi.taxplatform.models.operations.PUTUpdateCreditNoteByTransactionIdRequest;
 import com.kintsugi.taxplatform.models.operations.PUTUpdateCreditNoteByTransactionIdRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.PUTUpdateCreditNoteByTransactionIdResponse;
@@ -40,12 +40,12 @@ import com.kintsugi.taxplatform.models.operations.UpdateTransactionV1Transaction
 import com.kintsugi.taxplatform.models.operations.UpdateTransactionV1TransactionsTransactionIdPutRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.UpdateTransactionV1TransactionsTransactionIdPutResponse;
 import com.kintsugi.taxplatform.models.operations.UpdateTransactionV1TransactionsTransactionIdPutSecurity;
-import com.kintsugi.taxplatform.operations.CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostOperation;
 import com.kintsugi.taxplatform.operations.CreateTransactionV1TransactionsPostOperation;
 import com.kintsugi.taxplatform.operations.GetTransactionByExternalIdV1TransactionsExternalExternalIdGetOperation;
 import com.kintsugi.taxplatform.operations.GetTransactionByIdV1TransactionsTransactionIdGetOperation;
 import com.kintsugi.taxplatform.operations.GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetOperation;
 import com.kintsugi.taxplatform.operations.GetTransactionsV1TransactionsGetOperation;
+import com.kintsugi.taxplatform.operations.POSTCreateCreditNoteByTransactionIdOperation;
 import com.kintsugi.taxplatform.operations.PUTUpdateCreditNoteByTransactionIdOperation;
 import com.kintsugi.taxplatform.operations.UpdateTransactionV1TransactionsTransactionIdPutOperation;
 import java.lang.Exception;
@@ -362,8 +362,8 @@ public class Transactions {
      * 
      * @return The call builder
      */
-    public CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostRequestBuilder createCreditNote() {
-        return new CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostRequestBuilder(sdkConfiguration);
+    public POSTCreateCreditNoteByTransactionIdRequestBuilder createCreditNote() {
+        return new POSTCreateCreditNoteByTransactionIdRequestBuilder(sdkConfiguration);
     }
 
     /**
@@ -377,8 +377,8 @@ public class Transactions {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostResponse createCreditNote(
-            CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostSecurity security, String originalTransactionId,
+    public POSTCreateCreditNoteByTransactionIdResponse createCreditNote(
+            POSTCreateCreditNoteByTransactionIdSecurity security, String originalTransactionId,
             CreditNoteCreate creditNoteCreate) throws Exception {
         return createCreditNote(security, originalTransactionId, Optional.empty(),
             creditNoteCreate);
@@ -396,18 +396,18 @@ public class Transactions {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostResponse createCreditNote(
-            CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostSecurity security, String originalTransactionId,
+    public POSTCreateCreditNoteByTransactionIdResponse createCreditNote(
+            POSTCreateCreditNoteByTransactionIdSecurity security, String originalTransactionId,
             Optional<String> xOrganizationId, CreditNoteCreate creditNoteCreate) throws Exception {
-        CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostRequest request =
-            CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostRequest
+        POSTCreateCreditNoteByTransactionIdRequest request =
+            POSTCreateCreditNoteByTransactionIdRequest
                 .builder()
                 .originalTransactionId(originalTransactionId)
                 .xOrganizationId(xOrganizationId)
                 .creditNoteCreate(creditNoteCreate)
                 .build();
-        RequestOperation<CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostRequest, CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostResponse> operation
-              = new CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostOperation(sdkConfiguration, security);
+        RequestOperation<POSTCreateCreditNoteByTransactionIdRequest, POSTCreateCreditNoteByTransactionIdResponse> operation
+              = new POSTCreateCreditNoteByTransactionIdOperation(sdkConfiguration, security);
         return operation.handleResponse(operation.doRequest(request));
     }
 

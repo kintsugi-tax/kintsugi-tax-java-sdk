@@ -17,7 +17,7 @@ import java.net.http.HttpResponse;
 import java.util.Optional;
 
 
-public class CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostResponse implements Response {
+public class POSTCreateCreditNoteByTransactionIdResponse implements Response {
     /**
      * HTTP response content type for this operation
      */
@@ -39,7 +39,7 @@ public class CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
     private Optional<? extends TransactionRead> transactionRead;
 
     @JsonCreator
-    public CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostResponse(
+    public POSTCreateCreditNoteByTransactionIdResponse(
             String contentType,
             int statusCode,
             HttpResponse<InputStream> rawResponse,
@@ -54,7 +54,7 @@ public class CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
         this.transactionRead = transactionRead;
     }
     
-    public CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostResponse(
+    public POSTCreateCreditNoteByTransactionIdResponse(
             String contentType,
             int statusCode,
             HttpResponse<InputStream> rawResponse) {
@@ -103,7 +103,7 @@ public class CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
     /**
      * HTTP response content type for this operation
      */
-    public CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostResponse withContentType(String contentType) {
+    public POSTCreateCreditNoteByTransactionIdResponse withContentType(String contentType) {
         Utils.checkNotNull(contentType, "contentType");
         this.contentType = contentType;
         return this;
@@ -112,7 +112,7 @@ public class CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
     /**
      * HTTP response status code for this operation
      */
-    public CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostResponse withStatusCode(int statusCode) {
+    public POSTCreateCreditNoteByTransactionIdResponse withStatusCode(int statusCode) {
         Utils.checkNotNull(statusCode, "statusCode");
         this.statusCode = statusCode;
         return this;
@@ -121,7 +121,7 @@ public class CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
     /**
      * Raw HTTP response; suitable for custom response parsing
      */
-    public CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostResponse withRawResponse(HttpResponse<InputStream> rawResponse) {
+    public POSTCreateCreditNoteByTransactionIdResponse withRawResponse(HttpResponse<InputStream> rawResponse) {
         Utils.checkNotNull(rawResponse, "rawResponse");
         this.rawResponse = rawResponse;
         return this;
@@ -130,7 +130,7 @@ public class CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
     /**
      * Successful Response
      */
-    public CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostResponse withTransactionRead(TransactionRead transactionRead) {
+    public POSTCreateCreditNoteByTransactionIdResponse withTransactionRead(TransactionRead transactionRead) {
         Utils.checkNotNull(transactionRead, "transactionRead");
         this.transactionRead = Optional.ofNullable(transactionRead);
         return this;
@@ -140,7 +140,7 @@ public class CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
     /**
      * Successful Response
      */
-    public CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostResponse withTransactionRead(Optional<? extends TransactionRead> transactionRead) {
+    public POSTCreateCreditNoteByTransactionIdResponse withTransactionRead(Optional<? extends TransactionRead> transactionRead) {
         Utils.checkNotNull(transactionRead, "transactionRead");
         this.transactionRead = transactionRead;
         return this;
@@ -154,7 +154,7 @@ public class CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostResponse other = (CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostResponse) o;
+        POSTCreateCreditNoteByTransactionIdResponse other = (POSTCreateCreditNoteByTransactionIdResponse) o;
         return 
             Utils.enhancedDeepEquals(this.contentType, other.contentType) &&
             Utils.enhancedDeepEquals(this.statusCode, other.statusCode) &&
@@ -171,7 +171,7 @@ public class CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
     
     @Override
     public String toString() {
-        return Utils.toString(CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostResponse.class,
+        return Utils.toString(POSTCreateCreditNoteByTransactionIdResponse.class,
                 "contentType", contentType,
                 "statusCode", statusCode,
                 "rawResponse", rawResponse,
@@ -242,9 +242,9 @@ public class CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
             return this;
         }
 
-        public CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostResponse build() {
+        public POSTCreateCreditNoteByTransactionIdResponse build() {
 
-            return new CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostResponse(
+            return new POSTCreateCreditNoteByTransactionIdResponse(
                 contentType, statusCode, rawResponse,
                 transactionRead);
         }

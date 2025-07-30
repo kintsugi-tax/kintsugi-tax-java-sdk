@@ -13,6 +13,7 @@ Get a list of all nexuses for the organization.
 
 ### Example Usage
 
+<!-- UsageSnippet language="java" operationID="get_nexus_for_org_v1_nexus_get" method="get" path="/v1/nexus" -->
 ```java
 package hello.world;
 

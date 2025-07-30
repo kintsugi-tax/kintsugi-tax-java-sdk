@@ -13,7 +13,7 @@ import java.lang.String;
 import java.util.Optional;
 
 
-public class CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostRequest {
+public class POSTCreateCreditNoteByTransactionIdRequest {
 
     @SpeakeasyMetadata("pathParam:style=simple,explode=false,name=original_transaction_id")
     private String originalTransactionId;
@@ -29,7 +29,7 @@ public class CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
     private CreditNoteCreate creditNoteCreate;
 
     @JsonCreator
-    public CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostRequest(
+    public POSTCreateCreditNoteByTransactionIdRequest(
             String originalTransactionId,
             Optional<String> xOrganizationId,
             CreditNoteCreate creditNoteCreate) {
@@ -41,7 +41,7 @@ public class CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
         this.creditNoteCreate = creditNoteCreate;
     }
     
-    public CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostRequest(
+    public POSTCreateCreditNoteByTransactionIdRequest(
             String originalTransactionId,
             CreditNoteCreate creditNoteCreate) {
         this(originalTransactionId, Optional.empty(), creditNoteCreate);
@@ -70,7 +70,7 @@ public class CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
     }
 
 
-    public CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostRequest withOriginalTransactionId(String originalTransactionId) {
+    public POSTCreateCreditNoteByTransactionIdRequest withOriginalTransactionId(String originalTransactionId) {
         Utils.checkNotNull(originalTransactionId, "originalTransactionId");
         this.originalTransactionId = originalTransactionId;
         return this;
@@ -79,7 +79,7 @@ public class CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
     /**
      * The unique identifier for the organization making the request
      */
-    public CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostRequest withXOrganizationId(String xOrganizationId) {
+    public POSTCreateCreditNoteByTransactionIdRequest withXOrganizationId(String xOrganizationId) {
         Utils.checkNotNull(xOrganizationId, "xOrganizationId");
         this.xOrganizationId = Optional.ofNullable(xOrganizationId);
         return this;
@@ -89,13 +89,13 @@ public class CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
     /**
      * The unique identifier for the organization making the request
      */
-    public CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostRequest withXOrganizationId(Optional<String> xOrganizationId) {
+    public POSTCreateCreditNoteByTransactionIdRequest withXOrganizationId(Optional<String> xOrganizationId) {
         Utils.checkNotNull(xOrganizationId, "xOrganizationId");
         this.xOrganizationId = xOrganizationId;
         return this;
     }
 
-    public CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostRequest withCreditNoteCreate(CreditNoteCreate creditNoteCreate) {
+    public POSTCreateCreditNoteByTransactionIdRequest withCreditNoteCreate(CreditNoteCreate creditNoteCreate) {
         Utils.checkNotNull(creditNoteCreate, "creditNoteCreate");
         this.creditNoteCreate = creditNoteCreate;
         return this;
@@ -109,7 +109,7 @@ public class CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostRequest other = (CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostRequest) o;
+        POSTCreateCreditNoteByTransactionIdRequest other = (POSTCreateCreditNoteByTransactionIdRequest) o;
         return 
             Utils.enhancedDeepEquals(this.originalTransactionId, other.originalTransactionId) &&
             Utils.enhancedDeepEquals(this.xOrganizationId, other.xOrganizationId) &&
@@ -124,7 +124,7 @@ public class CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
     
     @Override
     public String toString() {
-        return Utils.toString(CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostRequest.class,
+        return Utils.toString(POSTCreateCreditNoteByTransactionIdRequest.class,
                 "originalTransactionId", originalTransactionId,
                 "xOrganizationId", xOrganizationId,
                 "creditNoteCreate", creditNoteCreate);
@@ -176,9 +176,9 @@ public class CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdC
             return this;
         }
 
-        public CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostRequest build() {
+        public POSTCreateCreditNoteByTransactionIdRequest build() {
 
-            return new CreateCreditNoteByTransactionIdV1TransactionsOriginalTransactionIdCreditNotesPostRequest(
+            return new POSTCreateCreditNoteByTransactionIdRequest(
                 originalTransactionId, xOrganizationId, creditNoteCreate);
         }
 

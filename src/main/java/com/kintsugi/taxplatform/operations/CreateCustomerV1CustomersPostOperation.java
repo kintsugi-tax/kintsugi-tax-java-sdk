@@ -8,13 +8,12 @@ import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.SecuritySource;
+import com.kintsugi.taxplatform.models.components.CustomerCreate;
 import com.kintsugi.taxplatform.models.components.CustomerRead;
 import com.kintsugi.taxplatform.models.errors.APIException;
 import com.kintsugi.taxplatform.models.errors.BackendSrcCustomersResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
-import com.kintsugi.taxplatform.models.operations.CreateCustomerV1CustomersPostRequest;
 import com.kintsugi.taxplatform.models.operations.CreateCustomerV1CustomersPostResponse;
-import com.kintsugi.taxplatform.models.operations.CreateCustomerV1CustomersPostSecurity;
 import com.kintsugi.taxplatform.utils.HTTPClient;
 import com.kintsugi.taxplatform.utils.HTTPRequest;
 import com.kintsugi.taxplatform.utils.Hook.AfterErrorContextImpl;
@@ -32,22 +31,17 @@ import java.net.http.HttpResponse;
 import java.util.Optional;
 
 
-public class CreateCustomerV1CustomersPostOperation implements RequestOperation<CreateCustomerV1CustomersPostRequest, CreateCustomerV1CustomersPostResponse> {
+public class CreateCustomerV1CustomersPostOperation implements RequestOperation<CustomerCreate, CreateCustomerV1CustomersPostResponse> {
 
     private final SDKConfiguration sdkConfiguration;
     private final String baseUrl;
-    private final CreateCustomerV1CustomersPostSecurity security;
     private final SecuritySource securitySource;
     private final HTTPClient client;
 
-    public CreateCustomerV1CustomersPostOperation(
-        SDKConfiguration sdkConfiguration,
-        CreateCustomerV1CustomersPostSecurity security) {
+    public CreateCustomerV1CustomersPostOperation(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
         this.baseUrl = this.sdkConfiguration.serverUrl();
-        this.security = security;
-        // hooks will be passed method level security only
-        this.securitySource = SecuritySource.of(security);
+        this.securitySource = this.sdkConfiguration.securitySource();
         this.client = this.sdkConfiguration.client();
     }
 
@@ -55,7 +49,7 @@ public class CreateCustomerV1CustomersPostOperation implements RequestOperation<
         return Optional.ofNullable(this.securitySource);
     }
 
-    public HttpRequest buildRequest(CreateCustomerV1CustomersPostRequest request) throws Exception {
+    public HttpRequest buildRequest(CustomerCreate request) throws Exception {
         String url = Utils.generateURL(
                 this.baseUrl,
                 "/v1/customers");
@@ -63,10 +57,10 @@ public class CreateCustomerV1CustomersPostOperation implements RequestOperation<
         Object convertedRequest = Utils.convertToShape(
                 request, 
                 JsonShape.DEFAULT,
-                new TypeReference<Object>() {});
+                new TypeReference<CustomerCreate>() {});
         SerializedBody serializedRequestBody = Utils.serializeRequestBody(
                 convertedRequest, 
-                "customerCreate",
+                "request",
                 "json",
                 false);
         if (serializedRequestBody == null) {
@@ -75,15 +69,14 @@ public class CreateCustomerV1CustomersPostOperation implements RequestOperation<
         req.setBody(Optional.ofNullable(serializedRequestBody));
         req.addHeader("Accept", "application/json")
                 .addHeader("user-agent", SDKConfiguration.USER_AGENT);
-        req.addHeaders(Utils.getHeadersFromMetadata(request, null));
-        Utils.configureSecurity(req, security);
+        Utils.configureSecurity(req, this.sdkConfiguration.securitySource().getSecurity());
 
         return sdkConfiguration.hooks().beforeRequest(
               new BeforeRequestContextImpl(
                   this.sdkConfiguration,
                   this.baseUrl,
                   "create_customer_v1_customers_post",
-                  java.util.Optional.empty(),
+                  java.util.Optional.of(java.util.List.of()),
                   securitySource()),
               req.build());
     }
@@ -96,7 +89,7 @@ public class CreateCustomerV1CustomersPostOperation implements RequestOperation<
                     this.sdkConfiguration,
                     this.baseUrl,
                     "create_customer_v1_customers_post",
-                    java.util.Optional.empty(),
+                    java.util.Optional.of(java.util.List.of()),
                     securitySource()),
                 Optional.ofNullable(response),
                 Optional.ofNullable(error));
@@ -109,13 +102,13 @@ public class CreateCustomerV1CustomersPostOperation implements RequestOperation<
                     this.sdkConfiguration,
                     this.baseUrl,
                     "create_customer_v1_customers_post",
-                    java.util.Optional.empty(),
+                    java.util.Optional.of(java.util.List.of()),
                     securitySource()),
                 response);
     }
 
     @Override
-    public HttpResponse<InputStream> doRequest(CreateCustomerV1CustomersPostRequest request) throws Exception {
+    public HttpResponse<InputStream> doRequest(CustomerCreate request) throws Exception {
         HttpRequest r = buildRequest(request);
         HttpResponse<InputStream> httpRes;
         try {

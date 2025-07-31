@@ -13,7 +13,6 @@ import com.kintsugi.taxplatform.models.errors.APIException;
 import com.kintsugi.taxplatform.models.errors.HTTPValidationError;
 import com.kintsugi.taxplatform.models.operations.GetNexusForOrgV1NexusGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetNexusForOrgV1NexusGetResponse;
-import com.kintsugi.taxplatform.models.operations.GetNexusForOrgV1NexusGetSecurity;
 import com.kintsugi.taxplatform.utils.HTTPClient;
 import com.kintsugi.taxplatform.utils.HTTPRequest;
 import com.kintsugi.taxplatform.utils.Hook.AfterErrorContextImpl;
@@ -32,18 +31,13 @@ public class GetNexusForOrgV1NexusGetOperation implements RequestOperation<GetNe
 
     private final SDKConfiguration sdkConfiguration;
     private final String baseUrl;
-    private final GetNexusForOrgV1NexusGetSecurity security;
     private final SecuritySource securitySource;
     private final HTTPClient client;
 
-    public GetNexusForOrgV1NexusGetOperation(
-        SDKConfiguration sdkConfiguration,
-        GetNexusForOrgV1NexusGetSecurity security) {
+    public GetNexusForOrgV1NexusGetOperation(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
         this.baseUrl = this.sdkConfiguration.serverUrl();
-        this.security = security;
-        // hooks will be passed method level security only
-        this.securitySource = SecuritySource.of(security);
+        this.securitySource = this.sdkConfiguration.securitySource();
         this.client = this.sdkConfiguration.client();
     }
 
@@ -63,15 +57,14 @@ public class GetNexusForOrgV1NexusGetOperation implements RequestOperation<GetNe
                 GetNexusForOrgV1NexusGetRequest.class,
                 request, 
                 null));
-        req.addHeaders(Utils.getHeadersFromMetadata(request, null));
-        Utils.configureSecurity(req, security);
+        Utils.configureSecurity(req, this.sdkConfiguration.securitySource().getSecurity());
 
         return sdkConfiguration.hooks().beforeRequest(
               new BeforeRequestContextImpl(
                   this.sdkConfiguration,
                   this.baseUrl,
                   "get_nexus_for_org_v1_nexus_get",
-                  java.util.Optional.empty(),
+                  java.util.Optional.of(java.util.List.of()),
                   securitySource()),
               req.build());
     }
@@ -84,7 +77,7 @@ public class GetNexusForOrgV1NexusGetOperation implements RequestOperation<GetNe
                     this.sdkConfiguration,
                     this.baseUrl,
                     "get_nexus_for_org_v1_nexus_get",
-                    java.util.Optional.empty(),
+                    java.util.Optional.of(java.util.List.of()),
                     securitySource()),
                 Optional.ofNullable(response),
                 Optional.ofNullable(error));
@@ -97,7 +90,7 @@ public class GetNexusForOrgV1NexusGetOperation implements RequestOperation<GetNe
                     this.sdkConfiguration,
                     this.baseUrl,
                     "get_nexus_for_org_v1_nexus_get",
-                    java.util.Optional.empty(),
+                    java.util.Optional.of(java.util.List.of()),
                     securitySource()),
                 response);
     }

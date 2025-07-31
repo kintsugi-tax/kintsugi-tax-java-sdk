@@ -1,4 +1,0 @@
-# TransactionCreateConvertedTotalAmount
-
-Converted total amount.
-

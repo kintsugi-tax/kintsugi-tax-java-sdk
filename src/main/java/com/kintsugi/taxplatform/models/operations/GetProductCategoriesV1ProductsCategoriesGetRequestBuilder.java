@@ -3,57 +3,25 @@
  */
 package com.kintsugi.taxplatform.models.operations;
 
-import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
+import static com.kintsugi.taxplatform.operations.Operations.RequestlessOperation;
 
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.operations.GetProductCategoriesV1ProductsCategoriesGetOperation;
-import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
-import java.lang.String;
-import java.util.Optional;
 
 public class GetProductCategoriesV1ProductsCategoriesGetRequestBuilder {
 
-    private GetProductCategoriesV1ProductsCategoriesGetSecurity security;
-    private Optional<String> xOrganizationId = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
 
     public GetProductCategoriesV1ProductsCategoriesGetRequestBuilder(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
     }
 
-    public GetProductCategoriesV1ProductsCategoriesGetRequestBuilder security(GetProductCategoriesV1ProductsCategoriesGetSecurity security) {
-        Utils.checkNotNull(security, "security");
-        this.security = security;
-        return this;
-    }
-                
-    public GetProductCategoriesV1ProductsCategoriesGetRequestBuilder xOrganizationId(String xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = Optional.of(xOrganizationId);
-        return this;
-    }
-
-    public GetProductCategoriesV1ProductsCategoriesGetRequestBuilder xOrganizationId(Optional<String> xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = xOrganizationId;
-        return this;
-    }
-
-
-    private GetProductCategoriesV1ProductsCategoriesGetRequest buildRequest() {
-
-        GetProductCategoriesV1ProductsCategoriesGetRequest request = new GetProductCategoriesV1ProductsCategoriesGetRequest(xOrganizationId);
-
-        return request;
-    }
-
     public GetProductCategoriesV1ProductsCategoriesGetResponse call() throws Exception {
         
-        RequestOperation<GetProductCategoriesV1ProductsCategoriesGetRequest, GetProductCategoriesV1ProductsCategoriesGetResponse> operation
-              = new GetProductCategoriesV1ProductsCategoriesGetOperation(sdkConfiguration, security);
-        GetProductCategoriesV1ProductsCategoriesGetRequest request = buildRequest();
+        RequestlessOperation<GetProductCategoriesV1ProductsCategoriesGetResponse> operation
+            = new GetProductCategoriesV1ProductsCategoriesGetOperation(sdkConfiguration);
 
-        return operation.handleResponse(operation.doRequest(request));
+        return operation.handleResponse(operation.doRequest());
     }
 }

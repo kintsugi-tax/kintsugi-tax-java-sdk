@@ -14,7 +14,6 @@ import com.kintsugi.taxplatform.models.errors.BackendSrcTaxEstimationResponsesVa
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
 import com.kintsugi.taxplatform.models.operations.EstimateTaxV1TaxEstimatePostRequest;
 import com.kintsugi.taxplatform.models.operations.EstimateTaxV1TaxEstimatePostResponse;
-import com.kintsugi.taxplatform.models.operations.EstimateTaxV1TaxEstimatePostSecurity;
 import com.kintsugi.taxplatform.utils.HTTPClient;
 import com.kintsugi.taxplatform.utils.HTTPRequest;
 import com.kintsugi.taxplatform.utils.Hook.AfterErrorContextImpl;
@@ -36,18 +35,13 @@ public class EstimateTaxV1TaxEstimatePostOperation implements RequestOperation<E
 
     private final SDKConfiguration sdkConfiguration;
     private final String baseUrl;
-    private final EstimateTaxV1TaxEstimatePostSecurity security;
     private final SecuritySource securitySource;
     private final HTTPClient client;
 
-    public EstimateTaxV1TaxEstimatePostOperation(
-        SDKConfiguration sdkConfiguration,
-        EstimateTaxV1TaxEstimatePostSecurity security) {
+    public EstimateTaxV1TaxEstimatePostOperation(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
         this.baseUrl = this.sdkConfiguration.serverUrl();
-        this.security = security;
-        // hooks will be passed method level security only
-        this.securitySource = SecuritySource.of(security);
+        this.securitySource = this.sdkConfiguration.securitySource();
         this.client = this.sdkConfiguration.client();
     }
 
@@ -80,15 +74,14 @@ public class EstimateTaxV1TaxEstimatePostOperation implements RequestOperation<E
                 EstimateTaxV1TaxEstimatePostRequest.class,
                 request, 
                 null));
-        req.addHeaders(Utils.getHeadersFromMetadata(request, null));
-        Utils.configureSecurity(req, security);
+        Utils.configureSecurity(req, this.sdkConfiguration.securitySource().getSecurity());
 
         return sdkConfiguration.hooks().beforeRequest(
               new BeforeRequestContextImpl(
                   this.sdkConfiguration,
                   this.baseUrl,
                   "estimate_tax_v1_tax_estimate_post",
-                  java.util.Optional.empty(),
+                  java.util.Optional.of(java.util.List.of()),
                   securitySource()),
               req.build());
     }
@@ -101,7 +94,7 @@ public class EstimateTaxV1TaxEstimatePostOperation implements RequestOperation<E
                     this.sdkConfiguration,
                     this.baseUrl,
                     "estimate_tax_v1_tax_estimate_post",
-                    java.util.Optional.empty(),
+                    java.util.Optional.of(java.util.List.of()),
                     securitySource()),
                 Optional.ofNullable(response),
                 Optional.ofNullable(error));
@@ -114,7 +107,7 @@ public class EstimateTaxV1TaxEstimatePostOperation implements RequestOperation<E
                     this.sdkConfiguration,
                     this.baseUrl,
                     "estimate_tax_v1_tax_estimate_post",
-                    java.util.Optional.empty(),
+                    java.util.Optional.of(java.util.List.of()),
                     securitySource()),
                 response);
     }

@@ -11,13 +11,10 @@ import com.kintsugi.taxplatform.operations.UpdateCustomerV1CustomersCustomerIdPu
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
 import java.lang.String;
-import java.util.Optional;
 
 public class UpdateCustomerV1CustomersCustomerIdPutRequestBuilder {
 
-    private UpdateCustomerV1CustomersCustomerIdPutSecurity security;
     private String customerId;
-    private Optional<String> xOrganizationId = Optional.empty();
     private CustomerUpdate customerUpdate;
     private final SDKConfiguration sdkConfiguration;
 
@@ -25,27 +22,9 @@ public class UpdateCustomerV1CustomersCustomerIdPutRequestBuilder {
         this.sdkConfiguration = sdkConfiguration;
     }
 
-    public UpdateCustomerV1CustomersCustomerIdPutRequestBuilder security(UpdateCustomerV1CustomersCustomerIdPutSecurity security) {
-        Utils.checkNotNull(security, "security");
-        this.security = security;
-        return this;
-    }
-
     public UpdateCustomerV1CustomersCustomerIdPutRequestBuilder customerId(String customerId) {
         Utils.checkNotNull(customerId, "customerId");
         this.customerId = customerId;
-        return this;
-    }
-                
-    public UpdateCustomerV1CustomersCustomerIdPutRequestBuilder xOrganizationId(String xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = Optional.of(xOrganizationId);
-        return this;
-    }
-
-    public UpdateCustomerV1CustomersCustomerIdPutRequestBuilder xOrganizationId(Optional<String> xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = xOrganizationId;
         return this;
     }
 
@@ -59,7 +38,6 @@ public class UpdateCustomerV1CustomersCustomerIdPutRequestBuilder {
     private UpdateCustomerV1CustomersCustomerIdPutRequest buildRequest() {
 
         UpdateCustomerV1CustomersCustomerIdPutRequest request = new UpdateCustomerV1CustomersCustomerIdPutRequest(customerId,
-            xOrganizationId,
             customerUpdate);
 
         return request;
@@ -68,7 +46,7 @@ public class UpdateCustomerV1CustomersCustomerIdPutRequestBuilder {
     public UpdateCustomerV1CustomersCustomerIdPutResponse call() throws Exception {
         
         RequestOperation<UpdateCustomerV1CustomersCustomerIdPutRequest, UpdateCustomerV1CustomersCustomerIdPutResponse> operation
-              = new UpdateCustomerV1CustomersCustomerIdPutOperation(sdkConfiguration, security);
+              = new UpdateCustomerV1CustomersCustomerIdPutOperation(sdkConfiguration);
         UpdateCustomerV1CustomersCustomerIdPutRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

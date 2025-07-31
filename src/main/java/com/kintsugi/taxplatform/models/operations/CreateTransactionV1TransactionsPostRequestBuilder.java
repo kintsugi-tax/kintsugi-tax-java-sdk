@@ -10,58 +10,26 @@ import com.kintsugi.taxplatform.models.components.TransactionPublicRequest;
 import com.kintsugi.taxplatform.operations.CreateTransactionV1TransactionsPostOperation;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
-import java.lang.String;
-import java.util.Optional;
 
 public class CreateTransactionV1TransactionsPostRequestBuilder {
 
-    private CreateTransactionV1TransactionsPostSecurity security;
-    private Optional<String> xOrganizationId = Optional.empty();
-    private TransactionPublicRequest transactionPublicRequest;
+    private TransactionPublicRequest request;
     private final SDKConfiguration sdkConfiguration;
 
     public CreateTransactionV1TransactionsPostRequestBuilder(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
     }
 
-    public CreateTransactionV1TransactionsPostRequestBuilder security(CreateTransactionV1TransactionsPostSecurity security) {
-        Utils.checkNotNull(security, "security");
-        this.security = security;
+    public CreateTransactionV1TransactionsPostRequestBuilder request(TransactionPublicRequest request) {
+        Utils.checkNotNull(request, "request");
+        this.request = request;
         return this;
-    }
-                
-    public CreateTransactionV1TransactionsPostRequestBuilder xOrganizationId(String xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = Optional.of(xOrganizationId);
-        return this;
-    }
-
-    public CreateTransactionV1TransactionsPostRequestBuilder xOrganizationId(Optional<String> xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = xOrganizationId;
-        return this;
-    }
-
-    public CreateTransactionV1TransactionsPostRequestBuilder transactionPublicRequest(TransactionPublicRequest transactionPublicRequest) {
-        Utils.checkNotNull(transactionPublicRequest, "transactionPublicRequest");
-        this.transactionPublicRequest = transactionPublicRequest;
-        return this;
-    }
-
-
-    private CreateTransactionV1TransactionsPostRequest buildRequest() {
-
-        CreateTransactionV1TransactionsPostRequest request = new CreateTransactionV1TransactionsPostRequest(xOrganizationId,
-            transactionPublicRequest);
-
-        return request;
     }
 
     public CreateTransactionV1TransactionsPostResponse call() throws Exception {
         
-        RequestOperation<CreateTransactionV1TransactionsPostRequest, CreateTransactionV1TransactionsPostResponse> operation
-              = new CreateTransactionV1TransactionsPostOperation(sdkConfiguration, security);
-        CreateTransactionV1TransactionsPostRequest request = buildRequest();
+        RequestOperation<TransactionPublicRequest, CreateTransactionV1TransactionsPostResponse> operation
+              = new CreateTransactionV1TransactionsPostOperation(sdkConfiguration);
 
         return operation.handleResponse(operation.doRequest(request));
     }

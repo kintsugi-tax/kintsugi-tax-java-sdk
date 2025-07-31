@@ -11,25 +11,16 @@ import com.kintsugi.taxplatform.operations.PUTUpdateCreditNoteByTransactionIdOpe
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
 import java.lang.String;
-import java.util.Optional;
 
 public class PUTUpdateCreditNoteByTransactionIdRequestBuilder {
 
-    private PUTUpdateCreditNoteByTransactionIdSecurity security;
     private String originalTransactionId;
     private String creditNoteId;
-    private Optional<String> xOrganizationId = Optional.empty();
     private CreditNoteCreate creditNoteCreate;
     private final SDKConfiguration sdkConfiguration;
 
     public PUTUpdateCreditNoteByTransactionIdRequestBuilder(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
-    }
-
-    public PUTUpdateCreditNoteByTransactionIdRequestBuilder security(PUTUpdateCreditNoteByTransactionIdSecurity security) {
-        Utils.checkNotNull(security, "security");
-        this.security = security;
-        return this;
     }
 
     public PUTUpdateCreditNoteByTransactionIdRequestBuilder originalTransactionId(String originalTransactionId) {
@@ -41,18 +32,6 @@ public class PUTUpdateCreditNoteByTransactionIdRequestBuilder {
     public PUTUpdateCreditNoteByTransactionIdRequestBuilder creditNoteId(String creditNoteId) {
         Utils.checkNotNull(creditNoteId, "creditNoteId");
         this.creditNoteId = creditNoteId;
-        return this;
-    }
-                
-    public PUTUpdateCreditNoteByTransactionIdRequestBuilder xOrganizationId(String xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = Optional.of(xOrganizationId);
-        return this;
-    }
-
-    public PUTUpdateCreditNoteByTransactionIdRequestBuilder xOrganizationId(Optional<String> xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = xOrganizationId;
         return this;
     }
 
@@ -67,7 +46,6 @@ public class PUTUpdateCreditNoteByTransactionIdRequestBuilder {
 
         PUTUpdateCreditNoteByTransactionIdRequest request = new PUTUpdateCreditNoteByTransactionIdRequest(originalTransactionId,
             creditNoteId,
-            xOrganizationId,
             creditNoteCreate);
 
         return request;
@@ -76,7 +54,7 @@ public class PUTUpdateCreditNoteByTransactionIdRequestBuilder {
     public PUTUpdateCreditNoteByTransactionIdResponse call() throws Exception {
         
         RequestOperation<PUTUpdateCreditNoteByTransactionIdRequest, PUTUpdateCreditNoteByTransactionIdResponse> operation
-              = new PUTUpdateCreditNoteByTransactionIdOperation(sdkConfiguration, security);
+              = new PUTUpdateCreditNoteByTransactionIdOperation(sdkConfiguration);
         PUTUpdateCreditNoteByTransactionIdRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

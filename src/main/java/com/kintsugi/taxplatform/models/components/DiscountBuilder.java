@@ -8,19 +8,20 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.kintsugi.taxplatform.utils.LazySingletonValue;
 import com.kintsugi.taxplatform.utils.Utils;
+import java.lang.Double;
 import java.lang.Override;
 import java.lang.String;
-import java.lang.SuppressWarnings;
 import java.util.Optional;
-import org.openapitools.jackson.nullable.JsonNullable;
 
 
 public class DiscountBuilder {
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("external_id")
-    private JsonNullable<String> externalId;
+    private Optional<String> externalId;
 
 
     @JsonProperty("applied_to")
@@ -29,13 +30,13 @@ public class DiscountBuilder {
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("discount_amount")
-    private Optional<? extends DiscountAmount> discountAmount;
+    private Optional<Double> discountAmount;
 
     @JsonCreator
     public DiscountBuilder(
-            @JsonProperty("external_id") JsonNullable<String> externalId,
+            @JsonProperty("external_id") Optional<String> externalId,
             @JsonProperty("applied_to") AppliedTo appliedTo,
-            @JsonProperty("discount_amount") Optional<? extends DiscountAmount> discountAmount) {
+            @JsonProperty("discount_amount") Optional<Double> discountAmount) {
         Utils.checkNotNull(externalId, "externalId");
         Utils.checkNotNull(appliedTo, "appliedTo");
         Utils.checkNotNull(discountAmount, "discountAmount");
@@ -46,11 +47,11 @@ public class DiscountBuilder {
     
     public DiscountBuilder(
             AppliedTo appliedTo) {
-        this(JsonNullable.undefined(), appliedTo, Optional.empty());
+        this(Optional.empty(), appliedTo, Optional.empty());
     }
 
     @JsonIgnore
-    public JsonNullable<String> externalId() {
+    public Optional<String> externalId() {
         return externalId;
     }
 
@@ -59,10 +60,9 @@ public class DiscountBuilder {
         return appliedTo;
     }
 
-    @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<DiscountAmount> discountAmount() {
-        return (Optional<DiscountAmount>) discountAmount;
+    public Optional<Double> discountAmount() {
+        return discountAmount;
     }
 
     public static Builder builder() {
@@ -72,11 +72,12 @@ public class DiscountBuilder {
 
     public DiscountBuilder withExternalId(String externalId) {
         Utils.checkNotNull(externalId, "externalId");
-        this.externalId = JsonNullable.of(externalId);
+        this.externalId = Optional.ofNullable(externalId);
         return this;
     }
 
-    public DiscountBuilder withExternalId(JsonNullable<String> externalId) {
+
+    public DiscountBuilder withExternalId(Optional<String> externalId) {
         Utils.checkNotNull(externalId, "externalId");
         this.externalId = externalId;
         return this;
@@ -88,14 +89,14 @@ public class DiscountBuilder {
         return this;
     }
 
-    public DiscountBuilder withDiscountAmount(DiscountAmount discountAmount) {
+    public DiscountBuilder withDiscountAmount(double discountAmount) {
         Utils.checkNotNull(discountAmount, "discountAmount");
         this.discountAmount = Optional.ofNullable(discountAmount);
         return this;
     }
 
 
-    public DiscountBuilder withDiscountAmount(Optional<? extends DiscountAmount> discountAmount) {
+    public DiscountBuilder withDiscountAmount(Optional<Double> discountAmount) {
         Utils.checkNotNull(discountAmount, "discountAmount");
         this.discountAmount = discountAmount;
         return this;
@@ -133,11 +134,11 @@ public class DiscountBuilder {
     @SuppressWarnings("UnusedReturnValue")
     public final static class Builder {
 
-        private JsonNullable<String> externalId = JsonNullable.undefined();
+        private Optional<String> externalId = Optional.empty();
 
         private AppliedTo appliedTo;
 
-        private Optional<? extends DiscountAmount> discountAmount = Optional.empty();
+        private Optional<Double> discountAmount;
 
         private Builder() {
           // force use of static builder() method
@@ -146,11 +147,11 @@ public class DiscountBuilder {
 
         public Builder externalId(String externalId) {
             Utils.checkNotNull(externalId, "externalId");
-            this.externalId = JsonNullable.of(externalId);
+            this.externalId = Optional.ofNullable(externalId);
             return this;
         }
 
-        public Builder externalId(JsonNullable<String> externalId) {
+        public Builder externalId(Optional<String> externalId) {
             Utils.checkNotNull(externalId, "externalId");
             this.externalId = externalId;
             return this;
@@ -164,23 +165,32 @@ public class DiscountBuilder {
         }
 
 
-        public Builder discountAmount(DiscountAmount discountAmount) {
+        public Builder discountAmount(double discountAmount) {
             Utils.checkNotNull(discountAmount, "discountAmount");
             this.discountAmount = Optional.ofNullable(discountAmount);
             return this;
         }
 
-        public Builder discountAmount(Optional<? extends DiscountAmount> discountAmount) {
+        public Builder discountAmount(Optional<Double> discountAmount) {
             Utils.checkNotNull(discountAmount, "discountAmount");
             this.discountAmount = discountAmount;
             return this;
         }
 
         public DiscountBuilder build() {
+            if (discountAmount == null) {
+                discountAmount = _SINGLETON_VALUE_DiscountAmount.value();
+            }
 
             return new DiscountBuilder(
                 externalId, appliedTo, discountAmount);
         }
 
+
+        private static final LazySingletonValue<Optional<Double>> _SINGLETON_VALUE_DiscountAmount =
+                new LazySingletonValue<>(
+                        "discount_amount",
+                        "\"0.00\"",
+                        new TypeReference<Optional<Double>>() {});
     }
 }

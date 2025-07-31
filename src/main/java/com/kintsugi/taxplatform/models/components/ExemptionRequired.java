@@ -13,19 +13,19 @@ import java.lang.Boolean;
 import java.lang.Override;
 import java.lang.String;
 import java.time.OffsetDateTime;
-import org.openapitools.jackson.nullable.JsonNullable;
+import java.util.Optional;
 
 
 public class ExemptionRequired {
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("jurisdiction")
-    private JsonNullable<String> jurisdiction;
+    private Optional<String> jurisdiction;
 
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("customer_id")
-    private JsonNullable<String> customerId;
+    private Optional<String> customerId;
 
 
     @JsonProperty("organization_id")
@@ -49,8 +49,8 @@ public class ExemptionRequired {
 
     @JsonCreator
     public ExemptionRequired(
-            @JsonProperty("jurisdiction") JsonNullable<String> jurisdiction,
-            @JsonProperty("customer_id") JsonNullable<String> customerId,
+            @JsonProperty("jurisdiction") Optional<String> jurisdiction,
+            @JsonProperty("customer_id") Optional<String> customerId,
             @JsonProperty("organization_id") String organizationId,
             @JsonProperty("exemption_type") ExemptionType exemptionType,
             @JsonProperty("start_date") OffsetDateTime startDate,
@@ -78,18 +78,18 @@ public class ExemptionRequired {
             OffsetDateTime startDate,
             ExemptionStatus status,
             boolean reseller) {
-        this(JsonNullable.undefined(), JsonNullable.undefined(), organizationId,
+        this(Optional.empty(), Optional.empty(), organizationId,
             exemptionType, startDate, status,
             reseller);
     }
 
     @JsonIgnore
-    public JsonNullable<String> jurisdiction() {
+    public Optional<String> jurisdiction() {
         return jurisdiction;
     }
 
     @JsonIgnore
-    public JsonNullable<String> customerId() {
+    public Optional<String> customerId() {
         return customerId;
     }
 
@@ -125,11 +125,12 @@ public class ExemptionRequired {
 
     public ExemptionRequired withJurisdiction(String jurisdiction) {
         Utils.checkNotNull(jurisdiction, "jurisdiction");
-        this.jurisdiction = JsonNullable.of(jurisdiction);
+        this.jurisdiction = Optional.ofNullable(jurisdiction);
         return this;
     }
 
-    public ExemptionRequired withJurisdiction(JsonNullable<String> jurisdiction) {
+
+    public ExemptionRequired withJurisdiction(Optional<String> jurisdiction) {
         Utils.checkNotNull(jurisdiction, "jurisdiction");
         this.jurisdiction = jurisdiction;
         return this;
@@ -137,11 +138,12 @@ public class ExemptionRequired {
 
     public ExemptionRequired withCustomerId(String customerId) {
         Utils.checkNotNull(customerId, "customerId");
-        this.customerId = JsonNullable.of(customerId);
+        this.customerId = Optional.ofNullable(customerId);
         return this;
     }
 
-    public ExemptionRequired withCustomerId(JsonNullable<String> customerId) {
+
+    public ExemptionRequired withCustomerId(Optional<String> customerId) {
         Utils.checkNotNull(customerId, "customerId");
         this.customerId = customerId;
         return this;
@@ -219,9 +221,9 @@ public class ExemptionRequired {
     @SuppressWarnings("UnusedReturnValue")
     public final static class Builder {
 
-        private JsonNullable<String> jurisdiction = JsonNullable.undefined();
+        private Optional<String> jurisdiction = Optional.empty();
 
-        private JsonNullable<String> customerId = JsonNullable.undefined();
+        private Optional<String> customerId = Optional.empty();
 
         private String organizationId;
 
@@ -240,11 +242,11 @@ public class ExemptionRequired {
 
         public Builder jurisdiction(String jurisdiction) {
             Utils.checkNotNull(jurisdiction, "jurisdiction");
-            this.jurisdiction = JsonNullable.of(jurisdiction);
+            this.jurisdiction = Optional.ofNullable(jurisdiction);
             return this;
         }
 
-        public Builder jurisdiction(JsonNullable<String> jurisdiction) {
+        public Builder jurisdiction(Optional<String> jurisdiction) {
             Utils.checkNotNull(jurisdiction, "jurisdiction");
             this.jurisdiction = jurisdiction;
             return this;
@@ -253,11 +255,11 @@ public class ExemptionRequired {
 
         public Builder customerId(String customerId) {
             Utils.checkNotNull(customerId, "customerId");
-            this.customerId = JsonNullable.of(customerId);
+            this.customerId = Optional.ofNullable(customerId);
             return this;
         }
 
-        public Builder customerId(JsonNullable<String> customerId) {
+        public Builder customerId(Optional<String> customerId) {
             Utils.checkNotNull(customerId, "customerId");
             this.customerId = customerId;
             return this;

@@ -8,13 +8,12 @@ import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.SecuritySource;
+import com.kintsugi.taxplatform.models.components.ProductCreateManual;
 import com.kintsugi.taxplatform.models.components.ProductRead;
 import com.kintsugi.taxplatform.models.errors.APIException;
 import com.kintsugi.taxplatform.models.errors.BackendSrcProductsResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
-import com.kintsugi.taxplatform.models.operations.CreateProductV1ProductsPostRequest;
 import com.kintsugi.taxplatform.models.operations.CreateProductV1ProductsPostResponse;
-import com.kintsugi.taxplatform.models.operations.CreateProductV1ProductsPostSecurity;
 import com.kintsugi.taxplatform.utils.HTTPClient;
 import com.kintsugi.taxplatform.utils.HTTPRequest;
 import com.kintsugi.taxplatform.utils.Hook.AfterErrorContextImpl;
@@ -32,22 +31,17 @@ import java.net.http.HttpResponse;
 import java.util.Optional;
 
 
-public class CreateProductV1ProductsPostOperation implements RequestOperation<CreateProductV1ProductsPostRequest, CreateProductV1ProductsPostResponse> {
+public class CreateProductV1ProductsPostOperation implements RequestOperation<ProductCreateManual, CreateProductV1ProductsPostResponse> {
 
     private final SDKConfiguration sdkConfiguration;
     private final String baseUrl;
-    private final CreateProductV1ProductsPostSecurity security;
     private final SecuritySource securitySource;
     private final HTTPClient client;
 
-    public CreateProductV1ProductsPostOperation(
-        SDKConfiguration sdkConfiguration,
-        CreateProductV1ProductsPostSecurity security) {
+    public CreateProductV1ProductsPostOperation(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
         this.baseUrl = this.sdkConfiguration.serverUrl();
-        this.security = security;
-        // hooks will be passed method level security only
-        this.securitySource = SecuritySource.of(security);
+        this.securitySource = this.sdkConfiguration.securitySource();
         this.client = this.sdkConfiguration.client();
     }
 
@@ -55,7 +49,7 @@ public class CreateProductV1ProductsPostOperation implements RequestOperation<Cr
         return Optional.ofNullable(this.securitySource);
     }
 
-    public HttpRequest buildRequest(CreateProductV1ProductsPostRequest request) throws Exception {
+    public HttpRequest buildRequest(ProductCreateManual request) throws Exception {
         String url = Utils.generateURL(
                 this.baseUrl,
                 "/v1/products/");
@@ -63,10 +57,10 @@ public class CreateProductV1ProductsPostOperation implements RequestOperation<Cr
         Object convertedRequest = Utils.convertToShape(
                 request, 
                 JsonShape.DEFAULT,
-                new TypeReference<Object>() {});
+                new TypeReference<ProductCreateManual>() {});
         SerializedBody serializedRequestBody = Utils.serializeRequestBody(
                 convertedRequest, 
-                "productCreateManual",
+                "request",
                 "json",
                 false);
         if (serializedRequestBody == null) {
@@ -75,15 +69,14 @@ public class CreateProductV1ProductsPostOperation implements RequestOperation<Cr
         req.setBody(Optional.ofNullable(serializedRequestBody));
         req.addHeader("Accept", "application/json")
                 .addHeader("user-agent", SDKConfiguration.USER_AGENT);
-        req.addHeaders(Utils.getHeadersFromMetadata(request, null));
-        Utils.configureSecurity(req, security);
+        Utils.configureSecurity(req, this.sdkConfiguration.securitySource().getSecurity());
 
         return sdkConfiguration.hooks().beforeRequest(
               new BeforeRequestContextImpl(
                   this.sdkConfiguration,
                   this.baseUrl,
                   "create_product_v1_products__post",
-                  java.util.Optional.empty(),
+                  java.util.Optional.of(java.util.List.of()),
                   securitySource()),
               req.build());
     }
@@ -96,7 +89,7 @@ public class CreateProductV1ProductsPostOperation implements RequestOperation<Cr
                     this.sdkConfiguration,
                     this.baseUrl,
                     "create_product_v1_products__post",
-                    java.util.Optional.empty(),
+                    java.util.Optional.of(java.util.List.of()),
                     securitySource()),
                 Optional.ofNullable(response),
                 Optional.ofNullable(error));
@@ -109,13 +102,13 @@ public class CreateProductV1ProductsPostOperation implements RequestOperation<Cr
                     this.sdkConfiguration,
                     this.baseUrl,
                     "create_product_v1_products__post",
-                    java.util.Optional.empty(),
+                    java.util.Optional.of(java.util.List.of()),
                     securitySource()),
                 response);
     }
 
     @Override
-    public HttpResponse<InputStream> doRequest(CreateProductV1ProductsPostRequest request) throws Exception {
+    public HttpResponse<InputStream> doRequest(ProductCreateManual request) throws Exception {
         HttpRequest r = buildRequest(request);
         HttpResponse<InputStream> httpRes;
         try {

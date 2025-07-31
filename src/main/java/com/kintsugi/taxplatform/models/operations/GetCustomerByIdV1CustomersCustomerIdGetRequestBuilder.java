@@ -10,23 +10,14 @@ import com.kintsugi.taxplatform.operations.GetCustomerByIdV1CustomersCustomerIdG
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
 import java.lang.String;
-import java.util.Optional;
 
 public class GetCustomerByIdV1CustomersCustomerIdGetRequestBuilder {
 
-    private GetCustomerByIdV1CustomersCustomerIdGetSecurity security;
     private String customerId;
-    private Optional<String> xOrganizationId = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
 
     public GetCustomerByIdV1CustomersCustomerIdGetRequestBuilder(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
-    }
-
-    public GetCustomerByIdV1CustomersCustomerIdGetRequestBuilder security(GetCustomerByIdV1CustomersCustomerIdGetSecurity security) {
-        Utils.checkNotNull(security, "security");
-        this.security = security;
-        return this;
     }
 
     public GetCustomerByIdV1CustomersCustomerIdGetRequestBuilder customerId(String customerId) {
@@ -34,24 +25,11 @@ public class GetCustomerByIdV1CustomersCustomerIdGetRequestBuilder {
         this.customerId = customerId;
         return this;
     }
-                
-    public GetCustomerByIdV1CustomersCustomerIdGetRequestBuilder xOrganizationId(String xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = Optional.of(xOrganizationId);
-        return this;
-    }
-
-    public GetCustomerByIdV1CustomersCustomerIdGetRequestBuilder xOrganizationId(Optional<String> xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = xOrganizationId;
-        return this;
-    }
 
 
     private GetCustomerByIdV1CustomersCustomerIdGetRequest buildRequest() {
 
-        GetCustomerByIdV1CustomersCustomerIdGetRequest request = new GetCustomerByIdV1CustomersCustomerIdGetRequest(customerId,
-            xOrganizationId);
+        GetCustomerByIdV1CustomersCustomerIdGetRequest request = new GetCustomerByIdV1CustomersCustomerIdGetRequest(customerId);
 
         return request;
     }
@@ -59,7 +37,7 @@ public class GetCustomerByIdV1CustomersCustomerIdGetRequestBuilder {
     public GetCustomerByIdV1CustomersCustomerIdGetResponse call() throws Exception {
         
         RequestOperation<GetCustomerByIdV1CustomersCustomerIdGetRequest, GetCustomerByIdV1CustomersCustomerIdGetResponse> operation
-              = new GetCustomerByIdV1CustomersCustomerIdGetOperation(sdkConfiguration, security);
+              = new GetCustomerByIdV1CustomersCustomerIdGetOperation(sdkConfiguration);
         GetCustomerByIdV1CustomersCustomerIdGetRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

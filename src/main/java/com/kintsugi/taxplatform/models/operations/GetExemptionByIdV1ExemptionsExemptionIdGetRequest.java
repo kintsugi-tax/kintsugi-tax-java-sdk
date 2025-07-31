@@ -9,7 +9,6 @@ import com.kintsugi.taxplatform.utils.SpeakeasyMetadata;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Override;
 import java.lang.String;
-import java.util.Optional;
 
 
 public class GetExemptionByIdV1ExemptionsExemptionIdGetRequest {
@@ -19,25 +18,11 @@ public class GetExemptionByIdV1ExemptionsExemptionIdGetRequest {
     @SpeakeasyMetadata("pathParam:style=simple,explode=false,name=exemption_id")
     private String exemptionId;
 
-    /**
-     * The unique identifier for the organization making the request
-     */
-    @SpeakeasyMetadata("header:style=simple,explode=false,name=x-organization-id")
-    private Optional<String> xOrganizationId;
-
     @JsonCreator
     public GetExemptionByIdV1ExemptionsExemptionIdGetRequest(
-            String exemptionId,
-            Optional<String> xOrganizationId) {
-        Utils.checkNotNull(exemptionId, "exemptionId");
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.exemptionId = exemptionId;
-        this.xOrganizationId = xOrganizationId;
-    }
-    
-    public GetExemptionByIdV1ExemptionsExemptionIdGetRequest(
             String exemptionId) {
-        this(exemptionId, Optional.empty());
+        Utils.checkNotNull(exemptionId, "exemptionId");
+        this.exemptionId = exemptionId;
     }
 
     /**
@@ -46,14 +31,6 @@ public class GetExemptionByIdV1ExemptionsExemptionIdGetRequest {
     @JsonIgnore
     public String exemptionId() {
         return exemptionId;
-    }
-
-    /**
-     * The unique identifier for the organization making the request
-     */
-    @JsonIgnore
-    public Optional<String> xOrganizationId() {
-        return xOrganizationId;
     }
 
     public static Builder builder() {
@@ -70,25 +47,6 @@ public class GetExemptionByIdV1ExemptionsExemptionIdGetRequest {
         return this;
     }
 
-    /**
-     * The unique identifier for the organization making the request
-     */
-    public GetExemptionByIdV1ExemptionsExemptionIdGetRequest withXOrganizationId(String xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = Optional.ofNullable(xOrganizationId);
-        return this;
-    }
-
-
-    /**
-     * The unique identifier for the organization making the request
-     */
-    public GetExemptionByIdV1ExemptionsExemptionIdGetRequest withXOrganizationId(Optional<String> xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = xOrganizationId;
-        return this;
-    }
-
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -99,29 +57,25 @@ public class GetExemptionByIdV1ExemptionsExemptionIdGetRequest {
         }
         GetExemptionByIdV1ExemptionsExemptionIdGetRequest other = (GetExemptionByIdV1ExemptionsExemptionIdGetRequest) o;
         return 
-            Utils.enhancedDeepEquals(this.exemptionId, other.exemptionId) &&
-            Utils.enhancedDeepEquals(this.xOrganizationId, other.xOrganizationId);
+            Utils.enhancedDeepEquals(this.exemptionId, other.exemptionId);
     }
     
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-            exemptionId, xOrganizationId);
+            exemptionId);
     }
     
     @Override
     public String toString() {
         return Utils.toString(GetExemptionByIdV1ExemptionsExemptionIdGetRequest.class,
-                "exemptionId", exemptionId,
-                "xOrganizationId", xOrganizationId);
+                "exemptionId", exemptionId);
     }
 
     @SuppressWarnings("UnusedReturnValue")
     public final static class Builder {
 
         private String exemptionId;
-
-        private Optional<String> xOrganizationId = Optional.empty();
 
         private Builder() {
           // force use of static builder() method
@@ -137,29 +91,10 @@ public class GetExemptionByIdV1ExemptionsExemptionIdGetRequest {
             return this;
         }
 
-
-        /**
-         * The unique identifier for the organization making the request
-         */
-        public Builder xOrganizationId(String xOrganizationId) {
-            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-            this.xOrganizationId = Optional.ofNullable(xOrganizationId);
-            return this;
-        }
-
-        /**
-         * The unique identifier for the organization making the request
-         */
-        public Builder xOrganizationId(Optional<String> xOrganizationId) {
-            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-            this.xOrganizationId = xOrganizationId;
-            return this;
-        }
-
         public GetExemptionByIdV1ExemptionsExemptionIdGetRequest build() {
 
             return new GetExemptionByIdV1ExemptionsExemptionIdGetRequest(
-                exemptionId, xOrganizationId);
+                exemptionId);
         }
 
     }

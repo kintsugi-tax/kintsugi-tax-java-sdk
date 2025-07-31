@@ -11,13 +11,10 @@ import com.kintsugi.taxplatform.operations.POSTCreateCreditNoteByTransactionIdOp
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
 import java.lang.String;
-import java.util.Optional;
 
 public class POSTCreateCreditNoteByTransactionIdRequestBuilder {
 
-    private POSTCreateCreditNoteByTransactionIdSecurity security;
     private String originalTransactionId;
-    private Optional<String> xOrganizationId = Optional.empty();
     private CreditNoteCreate creditNoteCreate;
     private final SDKConfiguration sdkConfiguration;
 
@@ -25,27 +22,9 @@ public class POSTCreateCreditNoteByTransactionIdRequestBuilder {
         this.sdkConfiguration = sdkConfiguration;
     }
 
-    public POSTCreateCreditNoteByTransactionIdRequestBuilder security(POSTCreateCreditNoteByTransactionIdSecurity security) {
-        Utils.checkNotNull(security, "security");
-        this.security = security;
-        return this;
-    }
-
     public POSTCreateCreditNoteByTransactionIdRequestBuilder originalTransactionId(String originalTransactionId) {
         Utils.checkNotNull(originalTransactionId, "originalTransactionId");
         this.originalTransactionId = originalTransactionId;
-        return this;
-    }
-                
-    public POSTCreateCreditNoteByTransactionIdRequestBuilder xOrganizationId(String xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = Optional.of(xOrganizationId);
-        return this;
-    }
-
-    public POSTCreateCreditNoteByTransactionIdRequestBuilder xOrganizationId(Optional<String> xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = xOrganizationId;
         return this;
     }
 
@@ -59,7 +38,6 @@ public class POSTCreateCreditNoteByTransactionIdRequestBuilder {
     private POSTCreateCreditNoteByTransactionIdRequest buildRequest() {
 
         POSTCreateCreditNoteByTransactionIdRequest request = new POSTCreateCreditNoteByTransactionIdRequest(originalTransactionId,
-            xOrganizationId,
             creditNoteCreate);
 
         return request;
@@ -68,7 +46,7 @@ public class POSTCreateCreditNoteByTransactionIdRequestBuilder {
     public POSTCreateCreditNoteByTransactionIdResponse call() throws Exception {
         
         RequestOperation<POSTCreateCreditNoteByTransactionIdRequest, POSTCreateCreditNoteByTransactionIdResponse> operation
-              = new POSTCreateCreditNoteByTransactionIdOperation(sdkConfiguration, security);
+              = new POSTCreateCreditNoteByTransactionIdOperation(sdkConfiguration);
         POSTCreateCreditNoteByTransactionIdRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

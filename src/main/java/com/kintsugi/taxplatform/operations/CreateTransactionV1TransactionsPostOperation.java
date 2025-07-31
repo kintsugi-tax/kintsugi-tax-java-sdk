@@ -8,13 +8,12 @@ import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.SecuritySource;
+import com.kintsugi.taxplatform.models.components.TransactionPublicRequest;
 import com.kintsugi.taxplatform.models.components.TransactionRead;
 import com.kintsugi.taxplatform.models.errors.APIException;
 import com.kintsugi.taxplatform.models.errors.BackendSrcTransactionsResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
-import com.kintsugi.taxplatform.models.operations.CreateTransactionV1TransactionsPostRequest;
 import com.kintsugi.taxplatform.models.operations.CreateTransactionV1TransactionsPostResponse;
-import com.kintsugi.taxplatform.models.operations.CreateTransactionV1TransactionsPostSecurity;
 import com.kintsugi.taxplatform.utils.HTTPClient;
 import com.kintsugi.taxplatform.utils.HTTPRequest;
 import com.kintsugi.taxplatform.utils.Hook.AfterErrorContextImpl;
@@ -32,22 +31,17 @@ import java.net.http.HttpResponse;
 import java.util.Optional;
 
 
-public class CreateTransactionV1TransactionsPostOperation implements RequestOperation<CreateTransactionV1TransactionsPostRequest, CreateTransactionV1TransactionsPostResponse> {
+public class CreateTransactionV1TransactionsPostOperation implements RequestOperation<TransactionPublicRequest, CreateTransactionV1TransactionsPostResponse> {
 
     private final SDKConfiguration sdkConfiguration;
     private final String baseUrl;
-    private final CreateTransactionV1TransactionsPostSecurity security;
     private final SecuritySource securitySource;
     private final HTTPClient client;
 
-    public CreateTransactionV1TransactionsPostOperation(
-        SDKConfiguration sdkConfiguration,
-        CreateTransactionV1TransactionsPostSecurity security) {
+    public CreateTransactionV1TransactionsPostOperation(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
         this.baseUrl = this.sdkConfiguration.serverUrl();
-        this.security = security;
-        // hooks will be passed method level security only
-        this.securitySource = SecuritySource.of(security);
+        this.securitySource = this.sdkConfiguration.securitySource();
         this.client = this.sdkConfiguration.client();
     }
 
@@ -55,7 +49,7 @@ public class CreateTransactionV1TransactionsPostOperation implements RequestOper
         return Optional.ofNullable(this.securitySource);
     }
 
-    public HttpRequest buildRequest(CreateTransactionV1TransactionsPostRequest request) throws Exception {
+    public HttpRequest buildRequest(TransactionPublicRequest request) throws Exception {
         String url = Utils.generateURL(
                 this.baseUrl,
                 "/v1/transactions");
@@ -63,10 +57,10 @@ public class CreateTransactionV1TransactionsPostOperation implements RequestOper
         Object convertedRequest = Utils.convertToShape(
                 request, 
                 JsonShape.DEFAULT,
-                new TypeReference<Object>() {});
+                new TypeReference<TransactionPublicRequest>() {});
         SerializedBody serializedRequestBody = Utils.serializeRequestBody(
                 convertedRequest, 
-                "transactionPublicRequest",
+                "request",
                 "json",
                 false);
         if (serializedRequestBody == null) {
@@ -75,15 +69,14 @@ public class CreateTransactionV1TransactionsPostOperation implements RequestOper
         req.setBody(Optional.ofNullable(serializedRequestBody));
         req.addHeader("Accept", "application/json")
                 .addHeader("user-agent", SDKConfiguration.USER_AGENT);
-        req.addHeaders(Utils.getHeadersFromMetadata(request, null));
-        Utils.configureSecurity(req, security);
+        Utils.configureSecurity(req, this.sdkConfiguration.securitySource().getSecurity());
 
         return sdkConfiguration.hooks().beforeRequest(
               new BeforeRequestContextImpl(
                   this.sdkConfiguration,
                   this.baseUrl,
                   "create_transaction_v1_transactions_post",
-                  java.util.Optional.empty(),
+                  java.util.Optional.of(java.util.List.of()),
                   securitySource()),
               req.build());
     }
@@ -96,7 +89,7 @@ public class CreateTransactionV1TransactionsPostOperation implements RequestOper
                     this.sdkConfiguration,
                     this.baseUrl,
                     "create_transaction_v1_transactions_post",
-                    java.util.Optional.empty(),
+                    java.util.Optional.of(java.util.List.of()),
                     securitySource()),
                 Optional.ofNullable(response),
                 Optional.ofNullable(error));
@@ -109,13 +102,13 @@ public class CreateTransactionV1TransactionsPostOperation implements RequestOper
                     this.sdkConfiguration,
                     this.baseUrl,
                     "create_transaction_v1_transactions_post",
-                    java.util.Optional.empty(),
+                    java.util.Optional.of(java.util.List.of()),
                     securitySource()),
                 response);
     }
 
     @Override
-    public HttpResponse<InputStream> doRequest(CreateTransactionV1TransactionsPostRequest request) throws Exception {
+    public HttpResponse<InputStream> doRequest(TransactionPublicRequest request) throws Exception {
         HttpRequest r = buildRequest(request);
         HttpResponse<InputStream> httpRes;
         try {

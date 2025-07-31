@@ -25,12 +25,6 @@ public class EstimateTaxV1TaxEstimatePostRequest {
     @Deprecated
     private Optional<Boolean> simulateNexusMet;
 
-    /**
-     * The unique identifier for the organization making the request
-     */
-    @SpeakeasyMetadata("header:style=simple,explode=false,name=x-organization-id")
-    private Optional<String> xOrganizationId;
-
 
     @SpeakeasyMetadata("request:mediaType=application/json")
     private TransactionEstimatePublicRequest transactionEstimatePublicRequest;
@@ -38,19 +32,16 @@ public class EstimateTaxV1TaxEstimatePostRequest {
     @JsonCreator
     public EstimateTaxV1TaxEstimatePostRequest(
             Optional<Boolean> simulateNexusMet,
-            Optional<String> xOrganizationId,
             TransactionEstimatePublicRequest transactionEstimatePublicRequest) {
         Utils.checkNotNull(simulateNexusMet, "simulateNexusMet");
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
         Utils.checkNotNull(transactionEstimatePublicRequest, "transactionEstimatePublicRequest");
         this.simulateNexusMet = simulateNexusMet;
-        this.xOrganizationId = xOrganizationId;
         this.transactionEstimatePublicRequest = transactionEstimatePublicRequest;
     }
     
     public EstimateTaxV1TaxEstimatePostRequest(
             TransactionEstimatePublicRequest transactionEstimatePublicRequest) {
-        this(Optional.empty(), Optional.empty(), transactionEstimatePublicRequest);
+        this(Optional.empty(), transactionEstimatePublicRequest);
     }
 
     /**
@@ -62,14 +53,6 @@ public class EstimateTaxV1TaxEstimatePostRequest {
     @JsonIgnore
     public Optional<Boolean> simulateNexusMet() {
         return simulateNexusMet;
-    }
-
-    /**
-     * The unique identifier for the organization making the request
-     */
-    @JsonIgnore
-    public Optional<String> xOrganizationId() {
-        return xOrganizationId;
     }
 
     @JsonIgnore
@@ -107,25 +90,6 @@ public class EstimateTaxV1TaxEstimatePostRequest {
         return this;
     }
 
-    /**
-     * The unique identifier for the organization making the request
-     */
-    public EstimateTaxV1TaxEstimatePostRequest withXOrganizationId(String xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = Optional.ofNullable(xOrganizationId);
-        return this;
-    }
-
-
-    /**
-     * The unique identifier for the organization making the request
-     */
-    public EstimateTaxV1TaxEstimatePostRequest withXOrganizationId(Optional<String> xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = xOrganizationId;
-        return this;
-    }
-
     public EstimateTaxV1TaxEstimatePostRequest withTransactionEstimatePublicRequest(TransactionEstimatePublicRequest transactionEstimatePublicRequest) {
         Utils.checkNotNull(transactionEstimatePublicRequest, "transactionEstimatePublicRequest");
         this.transactionEstimatePublicRequest = transactionEstimatePublicRequest;
@@ -143,21 +107,19 @@ public class EstimateTaxV1TaxEstimatePostRequest {
         EstimateTaxV1TaxEstimatePostRequest other = (EstimateTaxV1TaxEstimatePostRequest) o;
         return 
             Utils.enhancedDeepEquals(this.simulateNexusMet, other.simulateNexusMet) &&
-            Utils.enhancedDeepEquals(this.xOrganizationId, other.xOrganizationId) &&
             Utils.enhancedDeepEquals(this.transactionEstimatePublicRequest, other.transactionEstimatePublicRequest);
     }
     
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-            simulateNexusMet, xOrganizationId, transactionEstimatePublicRequest);
+            simulateNexusMet, transactionEstimatePublicRequest);
     }
     
     @Override
     public String toString() {
         return Utils.toString(EstimateTaxV1TaxEstimatePostRequest.class,
                 "simulateNexusMet", simulateNexusMet,
-                "xOrganizationId", xOrganizationId,
                 "transactionEstimatePublicRequest", transactionEstimatePublicRequest);
     }
 
@@ -166,8 +128,6 @@ public class EstimateTaxV1TaxEstimatePostRequest {
 
         @Deprecated
         private Optional<Boolean> simulateNexusMet = Optional.empty();
-
-        private Optional<String> xOrganizationId = Optional.empty();
 
         private TransactionEstimatePublicRequest transactionEstimatePublicRequest;
 
@@ -201,25 +161,6 @@ public class EstimateTaxV1TaxEstimatePostRequest {
         }
 
 
-        /**
-         * The unique identifier for the organization making the request
-         */
-        public Builder xOrganizationId(String xOrganizationId) {
-            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-            this.xOrganizationId = Optional.ofNullable(xOrganizationId);
-            return this;
-        }
-
-        /**
-         * The unique identifier for the organization making the request
-         */
-        public Builder xOrganizationId(Optional<String> xOrganizationId) {
-            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-            this.xOrganizationId = xOrganizationId;
-            return this;
-        }
-
-
         public Builder transactionEstimatePublicRequest(TransactionEstimatePublicRequest transactionEstimatePublicRequest) {
             Utils.checkNotNull(transactionEstimatePublicRequest, "transactionEstimatePublicRequest");
             this.transactionEstimatePublicRequest = transactionEstimatePublicRequest;
@@ -229,7 +170,7 @@ public class EstimateTaxV1TaxEstimatePostRequest {
         public EstimateTaxV1TaxEstimatePostRequest build() {
 
             return new EstimateTaxV1TaxEstimatePostRequest(
-                simulateNexusMet, xOrganizationId, transactionEstimatePublicRequest);
+                simulateNexusMet, transactionEstimatePublicRequest);
         }
 
     }

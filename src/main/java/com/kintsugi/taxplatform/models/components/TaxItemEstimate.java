@@ -16,7 +16,6 @@ import java.lang.Override;
 import java.lang.String;
 import java.lang.SuppressWarnings;
 import java.util.Optional;
-import org.openapitools.jackson.nullable.JsonNullable;
 
 
 public class TaxItemEstimate {
@@ -39,15 +38,17 @@ public class TaxItemEstimate {
     @JsonProperty("exempt")
     private Optional<Boolean> exempt;
 
-
+    /**
+     * We use this to understand the response from get_tax_items
+     */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("exempt_reason")
-    private JsonNullable<? extends TaxItemReturnReasonEnum> exemptReason;
+    private Optional<? extends TaxItemReturnReasonEnum> exemptReason;
 
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("rule")
-    private JsonNullable<String> rule;
+    private Optional<String> rule;
 
     @JsonCreator
     public TaxItemEstimate(
@@ -55,8 +56,8 @@ public class TaxItemEstimate {
             @JsonProperty("name") String name,
             @JsonProperty("amount") Optional<String> amount,
             @JsonProperty("exempt") Optional<Boolean> exempt,
-            @JsonProperty("exempt_reason") JsonNullable<? extends TaxItemReturnReasonEnum> exemptReason,
-            @JsonProperty("rule") JsonNullable<String> rule) {
+            @JsonProperty("exempt_reason") Optional<? extends TaxItemReturnReasonEnum> exemptReason,
+            @JsonProperty("rule") Optional<String> rule) {
         Utils.checkNotNull(rate, "rate");
         Utils.checkNotNull(name, "name");
         Utils.checkNotNull(amount, "amount");
@@ -74,7 +75,7 @@ public class TaxItemEstimate {
     public TaxItemEstimate(
             String name) {
         this(Optional.empty(), name, Optional.empty(),
-            Optional.empty(), JsonNullable.undefined(), JsonNullable.undefined());
+            Optional.empty(), Optional.empty(), Optional.empty());
     }
 
     @JsonIgnore
@@ -97,14 +98,17 @@ public class TaxItemEstimate {
         return exempt;
     }
 
+    /**
+     * We use this to understand the response from get_tax_items
+     */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public JsonNullable<TaxItemReturnReasonEnum> exemptReason() {
-        return (JsonNullable<TaxItemReturnReasonEnum>) exemptReason;
+    public Optional<TaxItemReturnReasonEnum> exemptReason() {
+        return (Optional<TaxItemReturnReasonEnum>) exemptReason;
     }
 
     @JsonIgnore
-    public JsonNullable<String> rule() {
+    public Optional<String> rule() {
         return rule;
     }
 
@@ -158,13 +162,20 @@ public class TaxItemEstimate {
         return this;
     }
 
+    /**
+     * We use this to understand the response from get_tax_items
+     */
     public TaxItemEstimate withExemptReason(TaxItemReturnReasonEnum exemptReason) {
         Utils.checkNotNull(exemptReason, "exemptReason");
-        this.exemptReason = JsonNullable.of(exemptReason);
+        this.exemptReason = Optional.ofNullable(exemptReason);
         return this;
     }
 
-    public TaxItemEstimate withExemptReason(JsonNullable<? extends TaxItemReturnReasonEnum> exemptReason) {
+
+    /**
+     * We use this to understand the response from get_tax_items
+     */
+    public TaxItemEstimate withExemptReason(Optional<? extends TaxItemReturnReasonEnum> exemptReason) {
         Utils.checkNotNull(exemptReason, "exemptReason");
         this.exemptReason = exemptReason;
         return this;
@@ -172,11 +183,12 @@ public class TaxItemEstimate {
 
     public TaxItemEstimate withRule(String rule) {
         Utils.checkNotNull(rule, "rule");
-        this.rule = JsonNullable.of(rule);
+        this.rule = Optional.ofNullable(rule);
         return this;
     }
 
-    public TaxItemEstimate withRule(JsonNullable<String> rule) {
+
+    public TaxItemEstimate withRule(Optional<String> rule) {
         Utils.checkNotNull(rule, "rule");
         this.rule = rule;
         return this;
@@ -229,9 +241,9 @@ public class TaxItemEstimate {
 
         private Optional<Boolean> exempt;
 
-        private JsonNullable<? extends TaxItemReturnReasonEnum> exemptReason = JsonNullable.undefined();
+        private Optional<? extends TaxItemReturnReasonEnum> exemptReason = Optional.empty();
 
-        private JsonNullable<String> rule = JsonNullable.undefined();
+        private Optional<String> rule = Optional.empty();
 
         private Builder() {
           // force use of static builder() method
@@ -284,13 +296,19 @@ public class TaxItemEstimate {
         }
 
 
+        /**
+         * We use this to understand the response from get_tax_items
+         */
         public Builder exemptReason(TaxItemReturnReasonEnum exemptReason) {
             Utils.checkNotNull(exemptReason, "exemptReason");
-            this.exemptReason = JsonNullable.of(exemptReason);
+            this.exemptReason = Optional.ofNullable(exemptReason);
             return this;
         }
 
-        public Builder exemptReason(JsonNullable<? extends TaxItemReturnReasonEnum> exemptReason) {
+        /**
+         * We use this to understand the response from get_tax_items
+         */
+        public Builder exemptReason(Optional<? extends TaxItemReturnReasonEnum> exemptReason) {
             Utils.checkNotNull(exemptReason, "exemptReason");
             this.exemptReason = exemptReason;
             return this;
@@ -299,11 +317,11 @@ public class TaxItemEstimate {
 
         public Builder rule(String rule) {
             Utils.checkNotNull(rule, "rule");
-            this.rule = JsonNullable.of(rule);
+            this.rule = Optional.ofNullable(rule);
             return this;
         }
 
-        public Builder rule(JsonNullable<String> rule) {
+        public Builder rule(Optional<String> rule) {
             Utils.checkNotNull(rule, "rule");
             this.rule = rule;
             return this;

@@ -1,4 +1,0 @@
-# TransactionItemBuilderAmount
-
-Item amount.
-

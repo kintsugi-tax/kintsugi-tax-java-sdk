@@ -1,4 +1,0 @@
-# TransactionCreateTaxableAmount
-
-Taxable amount.
-

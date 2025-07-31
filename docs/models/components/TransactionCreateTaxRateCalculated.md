@@ -1,4 +1,0 @@
-# TransactionCreateTaxRateCalculated
-
-Calculated tax rate.
-

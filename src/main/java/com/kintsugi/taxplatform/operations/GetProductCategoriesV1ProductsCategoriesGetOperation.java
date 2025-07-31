@@ -3,7 +3,7 @@
  */
 package com.kintsugi.taxplatform.operations;
 
-import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
+import static com.kintsugi.taxplatform.operations.Operations.RequestlessOperation;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.kintsugi.taxplatform.SDKConfiguration;
@@ -11,9 +11,7 @@ import com.kintsugi.taxplatform.SecuritySource;
 import com.kintsugi.taxplatform.models.components.ProductCategories;
 import com.kintsugi.taxplatform.models.errors.APIException;
 import com.kintsugi.taxplatform.models.errors.HTTPValidationError;
-import com.kintsugi.taxplatform.models.operations.GetProductCategoriesV1ProductsCategoriesGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetProductCategoriesV1ProductsCategoriesGetResponse;
-import com.kintsugi.taxplatform.models.operations.GetProductCategoriesV1ProductsCategoriesGetSecurity;
 import com.kintsugi.taxplatform.utils.HTTPClient;
 import com.kintsugi.taxplatform.utils.HTTPRequest;
 import com.kintsugi.taxplatform.utils.Hook.AfterErrorContextImpl;
@@ -29,22 +27,17 @@ import java.util.List;
 import java.util.Optional;
 
 
-public class GetProductCategoriesV1ProductsCategoriesGetOperation implements RequestOperation<GetProductCategoriesV1ProductsCategoriesGetRequest, GetProductCategoriesV1ProductsCategoriesGetResponse> {
+public class GetProductCategoriesV1ProductsCategoriesGetOperation implements RequestlessOperation<GetProductCategoriesV1ProductsCategoriesGetResponse> {
 
     private final SDKConfiguration sdkConfiguration;
     private final String baseUrl;
-    private final GetProductCategoriesV1ProductsCategoriesGetSecurity security;
     private final SecuritySource securitySource;
     private final HTTPClient client;
 
-    public GetProductCategoriesV1ProductsCategoriesGetOperation(
-        SDKConfiguration sdkConfiguration,
-        GetProductCategoriesV1ProductsCategoriesGetSecurity security) {
+    public GetProductCategoriesV1ProductsCategoriesGetOperation(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
         this.baseUrl = this.sdkConfiguration.serverUrl();
-        this.security = security;
-        // hooks will be passed method level security only
-        this.securitySource = SecuritySource.of(security);
+        this.securitySource = this.sdkConfiguration.securitySource();
         this.client = this.sdkConfiguration.client();
     }
 
@@ -52,22 +45,21 @@ public class GetProductCategoriesV1ProductsCategoriesGetOperation implements Req
         return Optional.ofNullable(this.securitySource);
     }
 
-    public HttpRequest buildRequest(GetProductCategoriesV1ProductsCategoriesGetRequest request) throws Exception {
+    public HttpRequest buildRequest() throws Exception {
         String url = Utils.generateURL(
                 this.baseUrl,
                 "/v1/products/categories/");
         HTTPRequest req = new HTTPRequest(url, "GET");
         req.addHeader("Accept", "application/json")
                 .addHeader("user-agent", SDKConfiguration.USER_AGENT);
-        req.addHeaders(Utils.getHeadersFromMetadata(request, null));
-        Utils.configureSecurity(req, security);
+        Utils.configureSecurity(req, this.sdkConfiguration.securitySource().getSecurity());
 
         return sdkConfiguration.hooks().beforeRequest(
               new BeforeRequestContextImpl(
                   this.sdkConfiguration,
                   this.baseUrl,
                   "get_product_categories_v1_products_categories__get",
-                  java.util.Optional.empty(),
+                  java.util.Optional.of(java.util.List.of()),
                   securitySource()),
               req.build());
     }
@@ -80,7 +72,7 @@ public class GetProductCategoriesV1ProductsCategoriesGetOperation implements Req
                     this.sdkConfiguration,
                     this.baseUrl,
                     "get_product_categories_v1_products_categories__get",
-                    java.util.Optional.empty(),
+                    java.util.Optional.of(java.util.List.of()),
                     securitySource()),
                 Optional.ofNullable(response),
                 Optional.ofNullable(error));
@@ -93,14 +85,14 @@ public class GetProductCategoriesV1ProductsCategoriesGetOperation implements Req
                     this.sdkConfiguration,
                     this.baseUrl,
                     "get_product_categories_v1_products_categories__get",
-                    java.util.Optional.empty(),
+                    java.util.Optional.of(java.util.List.of()),
                     securitySource()),
                 response);
     }
 
     @Override
-    public HttpResponse<InputStream> doRequest(GetProductCategoriesV1ProductsCategoriesGetRequest request) throws Exception {
-        HttpRequest r = buildRequest(request);
+    public HttpResponse<InputStream> doRequest() throws Exception {
+        HttpRequest r = buildRequest();
         HttpResponse<InputStream> httpRes;
         try {
             httpRes = client.send(r);

@@ -18,8 +18,10 @@ public class SDK {
      * SERVERS contains the list of server urls available to the SDK.
      */
     public static final String[] SERVERS = {
-
-        "/",
+        /**
+         * Production API server URL
+         */
+        "https://api.trykintsugi.com",
     };
 
 
@@ -103,16 +105,15 @@ public class SDK {
             this.sdkConfiguration.setClient(client);
             return this;
         }
+        
         /**
-         * Configures the SDK security to use the provided secret.
+         * Configures the SDK to use the provided security details.
          *
-         * @param apiKeyHeader The secret to use for all requests.
+         * @param security The security details to use for all requests. Can be {@code null}.
          * @return The builder instance.
          */
-        public Builder apiKeyHeader(String apiKeyHeader) {
-            this.sdkConfiguration.setSecuritySource(SecuritySource.of(com.kintsugi.taxplatform.models.components.Security.builder()
-              .apiKeyHeader(apiKeyHeader)
-              .build()));
+        public Builder security(com.kintsugi.taxplatform.models.components.Security security) {
+            this.sdkConfiguration.setSecuritySource(SecuritySource.of(security));
             return this;
         }
 

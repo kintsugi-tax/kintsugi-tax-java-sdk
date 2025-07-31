@@ -14,7 +14,6 @@ import com.kintsugi.taxplatform.models.errors.BackendSrcProductsResponsesValidat
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
 import com.kintsugi.taxplatform.models.operations.UpdateProductV1ProductsProductIdPutRequest;
 import com.kintsugi.taxplatform.models.operations.UpdateProductV1ProductsProductIdPutResponse;
-import com.kintsugi.taxplatform.models.operations.UpdateProductV1ProductsProductIdPutSecurity;
 import com.kintsugi.taxplatform.utils.HTTPClient;
 import com.kintsugi.taxplatform.utils.HTTPRequest;
 import com.kintsugi.taxplatform.utils.Hook.AfterErrorContextImpl;
@@ -36,18 +35,13 @@ public class UpdateProductV1ProductsProductIdPutOperation implements RequestOper
 
     private final SDKConfiguration sdkConfiguration;
     private final String baseUrl;
-    private final UpdateProductV1ProductsProductIdPutSecurity security;
     private final SecuritySource securitySource;
     private final HTTPClient client;
 
-    public UpdateProductV1ProductsProductIdPutOperation(
-        SDKConfiguration sdkConfiguration,
-        UpdateProductV1ProductsProductIdPutSecurity security) {
+    public UpdateProductV1ProductsProductIdPutOperation(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
         this.baseUrl = this.sdkConfiguration.serverUrl();
-        this.security = security;
-        // hooks will be passed method level security only
-        this.securitySource = SecuritySource.of(security);
+        this.securitySource = this.sdkConfiguration.securitySource();
         this.client = this.sdkConfiguration.client();
     }
 
@@ -68,7 +62,7 @@ public class UpdateProductV1ProductsProductIdPutOperation implements RequestOper
                 new TypeReference<Object>() {});
         SerializedBody serializedRequestBody = Utils.serializeRequestBody(
                 convertedRequest, 
-                "requestBody",
+                "productUpdate",
                 "json",
                 false);
         if (serializedRequestBody == null) {
@@ -77,15 +71,14 @@ public class UpdateProductV1ProductsProductIdPutOperation implements RequestOper
         req.setBody(Optional.ofNullable(serializedRequestBody));
         req.addHeader("Accept", "application/json")
                 .addHeader("user-agent", SDKConfiguration.USER_AGENT);
-        req.addHeaders(Utils.getHeadersFromMetadata(request, null));
-        Utils.configureSecurity(req, security);
+        Utils.configureSecurity(req, this.sdkConfiguration.securitySource().getSecurity());
 
         return sdkConfiguration.hooks().beforeRequest(
               new BeforeRequestContextImpl(
                   this.sdkConfiguration,
                   this.baseUrl,
                   "update_product_v1_products__product_id__put",
-                  java.util.Optional.empty(),
+                  java.util.Optional.of(java.util.List.of()),
                   securitySource()),
               req.build());
     }
@@ -98,7 +91,7 @@ public class UpdateProductV1ProductsProductIdPutOperation implements RequestOper
                     this.sdkConfiguration,
                     this.baseUrl,
                     "update_product_v1_products__product_id__put",
-                    java.util.Optional.empty(),
+                    java.util.Optional.of(java.util.List.of()),
                     securitySource()),
                 Optional.ofNullable(response),
                 Optional.ofNullable(error));
@@ -111,7 +104,7 @@ public class UpdateProductV1ProductsProductIdPutOperation implements RequestOper
                     this.sdkConfiguration,
                     this.baseUrl,
                     "update_product_v1_products__product_id__put",
-                    java.util.Optional.empty(),
+                    java.util.Optional.of(java.util.List.of()),
                     securitySource()),
                 response);
     }

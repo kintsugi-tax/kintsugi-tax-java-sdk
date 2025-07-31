@@ -14,7 +14,6 @@ import com.kintsugi.taxplatform.models.errors.BackendSrcExemptionsResponsesValid
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
 import com.kintsugi.taxplatform.models.operations.GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetResponse;
-import com.kintsugi.taxplatform.models.operations.GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetSecurity;
 import com.kintsugi.taxplatform.utils.HTTPClient;
 import com.kintsugi.taxplatform.utils.HTTPRequest;
 import com.kintsugi.taxplatform.utils.Hook.AfterErrorContextImpl;
@@ -34,18 +33,13 @@ public class GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetOper
 
     private final SDKConfiguration sdkConfiguration;
     private final String baseUrl;
-    private final GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetSecurity security;
     private final SecuritySource securitySource;
     private final HTTPClient client;
 
-    public GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetOperation(
-        SDKConfiguration sdkConfiguration,
-        GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetSecurity security) {
+    public GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetOperation(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
         this.baseUrl = this.sdkConfiguration.serverUrl();
-        this.security = security;
-        // hooks will be passed method level security only
-        this.securitySource = SecuritySource.of(security);
+        this.securitySource = this.sdkConfiguration.securitySource();
         this.client = this.sdkConfiguration.client();
     }
 
@@ -62,15 +56,14 @@ public class GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetOper
         HTTPRequest req = new HTTPRequest(url, "GET");
         req.addHeader("Accept", "application/json")
                 .addHeader("user-agent", SDKConfiguration.USER_AGENT);
-        req.addHeaders(Utils.getHeadersFromMetadata(request, null));
-        Utils.configureSecurity(req, security);
+        Utils.configureSecurity(req, this.sdkConfiguration.securitySource().getSecurity());
 
         return sdkConfiguration.hooks().beforeRequest(
               new BeforeRequestContextImpl(
                   this.sdkConfiguration,
                   this.baseUrl,
                   "get_attachments_for_exemption_v1_exemptions__exemption_id__attachments_get",
-                  java.util.Optional.empty(),
+                  java.util.Optional.of(java.util.List.of()),
                   securitySource()),
               req.build());
     }
@@ -83,7 +76,7 @@ public class GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetOper
                     this.sdkConfiguration,
                     this.baseUrl,
                     "get_attachments_for_exemption_v1_exemptions__exemption_id__attachments_get",
-                    java.util.Optional.empty(),
+                    java.util.Optional.of(java.util.List.of()),
                     securitySource()),
                 Optional.ofNullable(response),
                 Optional.ofNullable(error));
@@ -96,7 +89,7 @@ public class GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetOper
                     this.sdkConfiguration,
                     this.baseUrl,
                     "get_attachments_for_exemption_v1_exemptions__exemption_id__attachments_get",
-                    java.util.Optional.empty(),
+                    java.util.Optional.of(java.util.List.of()),
                     securitySource()),
                 response);
     }

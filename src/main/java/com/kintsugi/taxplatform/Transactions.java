@@ -8,38 +8,29 @@ import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 import com.kintsugi.taxplatform.models.components.CreditNoteCreate;
 import com.kintsugi.taxplatform.models.components.TransactionPublicRequest;
 import com.kintsugi.taxplatform.models.components.TransactionUpdate;
-import com.kintsugi.taxplatform.models.operations.CreateTransactionV1TransactionsPostRequest;
 import com.kintsugi.taxplatform.models.operations.CreateTransactionV1TransactionsPostRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.CreateTransactionV1TransactionsPostResponse;
-import com.kintsugi.taxplatform.models.operations.CreateTransactionV1TransactionsPostSecurity;
 import com.kintsugi.taxplatform.models.operations.GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse;
-import com.kintsugi.taxplatform.models.operations.GetTransactionByExternalIdV1TransactionsExternalExternalIdGetSecurity;
 import com.kintsugi.taxplatform.models.operations.GetTransactionByIdV1TransactionsTransactionIdGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetTransactionByIdV1TransactionsTransactionIdGetRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.GetTransactionByIdV1TransactionsTransactionIdGetResponse;
-import com.kintsugi.taxplatform.models.operations.GetTransactionByIdV1TransactionsTransactionIdGetSecurity;
 import com.kintsugi.taxplatform.models.operations.GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetResponse;
-import com.kintsugi.taxplatform.models.operations.GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetSecurity;
 import com.kintsugi.taxplatform.models.operations.GetTransactionsV1TransactionsGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetTransactionsV1TransactionsGetRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.GetTransactionsV1TransactionsGetResponse;
-import com.kintsugi.taxplatform.models.operations.GetTransactionsV1TransactionsGetSecurity;
 import com.kintsugi.taxplatform.models.operations.POSTCreateCreditNoteByTransactionIdRequest;
 import com.kintsugi.taxplatform.models.operations.POSTCreateCreditNoteByTransactionIdRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.POSTCreateCreditNoteByTransactionIdResponse;
-import com.kintsugi.taxplatform.models.operations.POSTCreateCreditNoteByTransactionIdSecurity;
 import com.kintsugi.taxplatform.models.operations.PUTUpdateCreditNoteByTransactionIdRequest;
 import com.kintsugi.taxplatform.models.operations.PUTUpdateCreditNoteByTransactionIdRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.PUTUpdateCreditNoteByTransactionIdResponse;
-import com.kintsugi.taxplatform.models.operations.PUTUpdateCreditNoteByTransactionIdSecurity;
 import com.kintsugi.taxplatform.models.operations.UpdateTransactionV1TransactionsTransactionIdPutRequest;
 import com.kintsugi.taxplatform.models.operations.UpdateTransactionV1TransactionsTransactionIdPutRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.UpdateTransactionV1TransactionsTransactionIdPutResponse;
-import com.kintsugi.taxplatform.models.operations.UpdateTransactionV1TransactionsTransactionIdPutSecurity;
 import com.kintsugi.taxplatform.operations.CreateTransactionV1TransactionsPostOperation;
 import com.kintsugi.taxplatform.operations.GetTransactionByExternalIdV1TransactionsExternalExternalIdGetOperation;
 import com.kintsugi.taxplatform.operations.GetTransactionByIdV1TransactionsTransactionIdGetOperation;
@@ -50,7 +41,6 @@ import com.kintsugi.taxplatform.operations.PUTUpdateCreditNoteByTransactionIdOpe
 import com.kintsugi.taxplatform.operations.UpdateTransactionV1TransactionsTransactionIdPutOperation;
 import java.lang.Exception;
 import java.lang.String;
-import java.util.Optional;
 
 
 public class Transactions {
@@ -79,13 +69,12 @@ public class Transactions {
      *     optional filtering, sorting, and pagination.
      * 
      * @param request The request object containing all the parameters for the API call.
-     * @param security The security details to use for authentication.
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public GetTransactionsV1TransactionsGetResponse list(GetTransactionsV1TransactionsGetRequest request, GetTransactionsV1TransactionsGetSecurity security) throws Exception {
+    public GetTransactionsV1TransactionsGetResponse list(GetTransactionsV1TransactionsGetRequest request) throws Exception {
         RequestOperation<GetTransactionsV1TransactionsGetRequest, GetTransactionsV1TransactionsGetResponse> operation
-              = new GetTransactionsV1TransactionsGetOperation(sdkConfiguration, security);
+              = new GetTransactionsV1TransactionsGetOperation(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -105,37 +94,13 @@ public class Transactions {
      * 
      * <p>Create a transaction.
      * 
-     * @param security The security details to use for authentication.
-     * @param transactionPublicRequest 
+     * @param request The request object containing all the parameters for the API call.
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public CreateTransactionV1TransactionsPostResponse create(CreateTransactionV1TransactionsPostSecurity security, TransactionPublicRequest transactionPublicRequest) throws Exception {
-        return create(security, Optional.empty(), transactionPublicRequest);
-    }
-
-    /**
-     * Create Transaction
-     * 
-     * <p>Create a transaction.
-     * 
-     * @param security The security details to use for authentication.
-     * @param xOrganizationId The unique identifier for the organization making the request
-     * @param transactionPublicRequest 
-     * @return The response from the API call
-     * @throws Exception if the API call fails
-     */
-    public CreateTransactionV1TransactionsPostResponse create(
-            CreateTransactionV1TransactionsPostSecurity security, Optional<String> xOrganizationId,
-            TransactionPublicRequest transactionPublicRequest) throws Exception {
-        CreateTransactionV1TransactionsPostRequest request =
-            CreateTransactionV1TransactionsPostRequest
-                .builder()
-                .xOrganizationId(xOrganizationId)
-                .transactionPublicRequest(transactionPublicRequest)
-                .build();
-        RequestOperation<CreateTransactionV1TransactionsPostRequest, CreateTransactionV1TransactionsPostResponse> operation
-              = new CreateTransactionV1TransactionsPostOperation(sdkConfiguration, security);
+    public CreateTransactionV1TransactionsPostResponse create(TransactionPublicRequest request) throws Exception {
+        RequestOperation<TransactionPublicRequest, CreateTransactionV1TransactionsPostResponse> operation
+              = new CreateTransactionV1TransactionsPostOperation(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -157,38 +122,18 @@ public class Transactions {
      * <p>Retrieves a specific transaction based on its external ID.
      *     This allows users to fetch transaction details using an identifier from an external system.
      * 
-     * @param security The security details to use for authentication.
      * @param externalId The unique external identifier of the transaction.
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse getByExternalId(GetTransactionByExternalIdV1TransactionsExternalExternalIdGetSecurity security, String externalId) throws Exception {
-        return getByExternalId(security, externalId, Optional.empty());
-    }
-
-    /**
-     * Get Transaction By External Id
-     * 
-     * <p>Retrieves a specific transaction based on its external ID.
-     *     This allows users to fetch transaction details using an identifier from an external system.
-     * 
-     * @param security The security details to use for authentication.
-     * @param externalId The unique external identifier of the transaction.
-     * @param xOrganizationId The unique identifier for the organization making the request
-     * @return The response from the API call
-     * @throws Exception if the API call fails
-     */
-    public GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse getByExternalId(
-            GetTransactionByExternalIdV1TransactionsExternalExternalIdGetSecurity security, String externalId,
-            Optional<String> xOrganizationId) throws Exception {
+    public GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse getByExternalId(String externalId) throws Exception {
         GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest request =
             GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest
                 .builder()
                 .externalId(externalId)
-                .xOrganizationId(xOrganizationId)
                 .build();
         RequestOperation<GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest, GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse> operation
-              = new GetTransactionByExternalIdV1TransactionsExternalExternalIdGetOperation(sdkConfiguration, security);
+              = new GetTransactionByExternalIdV1TransactionsExternalExternalIdGetOperation(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -208,43 +153,20 @@ public class Transactions {
      * 
      * <p>Update a specific transaction by its ID.
      * 
-     * @param security The security details to use for authentication.
      * @param transactionId 
      * @param transactionUpdate 
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public UpdateTransactionV1TransactionsTransactionIdPutResponse update(
-            UpdateTransactionV1TransactionsTransactionIdPutSecurity security, String transactionId,
-            TransactionUpdate transactionUpdate) throws Exception {
-        return update(security, transactionId, Optional.empty(),
-            transactionUpdate);
-    }
-
-    /**
-     * Update Transaction
-     * 
-     * <p>Update a specific transaction by its ID.
-     * 
-     * @param security The security details to use for authentication.
-     * @param transactionId 
-     * @param xOrganizationId The unique identifier for the organization making the request
-     * @param transactionUpdate 
-     * @return The response from the API call
-     * @throws Exception if the API call fails
-     */
-    public UpdateTransactionV1TransactionsTransactionIdPutResponse update(
-            UpdateTransactionV1TransactionsTransactionIdPutSecurity security, String transactionId,
-            Optional<String> xOrganizationId, TransactionUpdate transactionUpdate) throws Exception {
+    public UpdateTransactionV1TransactionsTransactionIdPutResponse update(String transactionId, TransactionUpdate transactionUpdate) throws Exception {
         UpdateTransactionV1TransactionsTransactionIdPutRequest request =
             UpdateTransactionV1TransactionsTransactionIdPutRequest
                 .builder()
                 .transactionId(transactionId)
-                .xOrganizationId(xOrganizationId)
                 .transactionUpdate(transactionUpdate)
                 .build();
         RequestOperation<UpdateTransactionV1TransactionsTransactionIdPutRequest, UpdateTransactionV1TransactionsTransactionIdPutResponse> operation
-              = new UpdateTransactionV1TransactionsTransactionIdPutOperation(sdkConfiguration, security);
+              = new UpdateTransactionV1TransactionsTransactionIdPutOperation(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -266,38 +188,18 @@ public class Transactions {
      * <p>The Get Transaction By Id API retrieves detailed information
      *     about a specific transaction by providing its unique transaction ID.
      * 
-     * @param security The security details to use for authentication.
      * @param transactionId The unique identifier of the transaction to retrieve.
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public GetTransactionByIdV1TransactionsTransactionIdGetResponse getById(GetTransactionByIdV1TransactionsTransactionIdGetSecurity security, String transactionId) throws Exception {
-        return getById(security, transactionId, Optional.empty());
-    }
-
-    /**
-     * Get Transaction By Id
-     * 
-     * <p>The Get Transaction By Id API retrieves detailed information
-     *     about a specific transaction by providing its unique transaction ID.
-     * 
-     * @param security The security details to use for authentication.
-     * @param transactionId The unique identifier of the transaction to retrieve.
-     * @param xOrganizationId The unique identifier for the organization making the request
-     * @return The response from the API call
-     * @throws Exception if the API call fails
-     */
-    public GetTransactionByIdV1TransactionsTransactionIdGetResponse getById(
-            GetTransactionByIdV1TransactionsTransactionIdGetSecurity security, String transactionId,
-            Optional<String> xOrganizationId) throws Exception {
+    public GetTransactionByIdV1TransactionsTransactionIdGetResponse getById(String transactionId) throws Exception {
         GetTransactionByIdV1TransactionsTransactionIdGetRequest request =
             GetTransactionByIdV1TransactionsTransactionIdGetRequest
                 .builder()
                 .transactionId(transactionId)
-                .xOrganizationId(xOrganizationId)
                 .build();
         RequestOperation<GetTransactionByIdV1TransactionsTransactionIdGetRequest, GetTransactionByIdV1TransactionsTransactionIdGetResponse> operation
-              = new GetTransactionByIdV1TransactionsTransactionIdGetOperation(sdkConfiguration, security);
+              = new GetTransactionByIdV1TransactionsTransactionIdGetOperation(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -317,41 +219,20 @@ public class Transactions {
      * 
      * <p>Retrieve transactions by filing ID.
      * 
-     * @param security The security details to use for authentication.
      * @param filingId The unique identifier of the filing
      *                 whose transactions you wish to retrieve.
      *                 
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetResponse getByFilingId(GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetSecurity security, String filingId) throws Exception {
-        return getByFilingId(security, filingId, Optional.empty());
-    }
-
-    /**
-     * Get Transactions By Filing Id
-     * 
-     * <p>Retrieve transactions by filing ID.
-     * 
-     * @param security The security details to use for authentication.
-     * @param filingId The unique identifier of the filing
-     *                 whose transactions you wish to retrieve.
-     *                 
-     * @param xOrganizationId The unique identifier for the organization making the request
-     * @return The response from the API call
-     * @throws Exception if the API call fails
-     */
-    public GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetResponse getByFilingId(
-            GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetSecurity security, String filingId,
-            Optional<String> xOrganizationId) throws Exception {
+    public GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetResponse getByFilingId(String filingId) throws Exception {
         GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest request =
             GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest
                 .builder()
                 .filingId(filingId)
-                .xOrganizationId(xOrganizationId)
                 .build();
         RequestOperation<GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest, GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetResponse> operation
-              = new GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetOperation(sdkConfiguration, security);
+              = new GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetOperation(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -371,43 +252,20 @@ public class Transactions {
      * 
      * <p>Create a new credit note for a specific transaction.
      * 
-     * @param security The security details to use for authentication.
      * @param originalTransactionId 
      * @param creditNoteCreate 
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public POSTCreateCreditNoteByTransactionIdResponse createCreditNote(
-            POSTCreateCreditNoteByTransactionIdSecurity security, String originalTransactionId,
-            CreditNoteCreate creditNoteCreate) throws Exception {
-        return createCreditNote(security, originalTransactionId, Optional.empty(),
-            creditNoteCreate);
-    }
-
-    /**
-     * Create Credit Note By Transaction Id
-     * 
-     * <p>Create a new credit note for a specific transaction.
-     * 
-     * @param security The security details to use for authentication.
-     * @param originalTransactionId 
-     * @param xOrganizationId The unique identifier for the organization making the request
-     * @param creditNoteCreate 
-     * @return The response from the API call
-     * @throws Exception if the API call fails
-     */
-    public POSTCreateCreditNoteByTransactionIdResponse createCreditNote(
-            POSTCreateCreditNoteByTransactionIdSecurity security, String originalTransactionId,
-            Optional<String> xOrganizationId, CreditNoteCreate creditNoteCreate) throws Exception {
+    public POSTCreateCreditNoteByTransactionIdResponse createCreditNote(String originalTransactionId, CreditNoteCreate creditNoteCreate) throws Exception {
         POSTCreateCreditNoteByTransactionIdRequest request =
             POSTCreateCreditNoteByTransactionIdRequest
                 .builder()
                 .originalTransactionId(originalTransactionId)
-                .xOrganizationId(xOrganizationId)
                 .creditNoteCreate(creditNoteCreate)
                 .build();
         RequestOperation<POSTCreateCreditNoteByTransactionIdRequest, POSTCreateCreditNoteByTransactionIdResponse> operation
-              = new POSTCreateCreditNoteByTransactionIdOperation(sdkConfiguration, security);
+              = new POSTCreateCreditNoteByTransactionIdOperation(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -427,7 +285,6 @@ public class Transactions {
      * 
      * <p>Update an existing credit note for a specific transaction.
      * 
-     * @param security The security details to use for authentication.
      * @param originalTransactionId 
      * @param creditNoteId 
      * @param creditNoteCreate 
@@ -435,39 +292,17 @@ public class Transactions {
      * @throws Exception if the API call fails
      */
     public PUTUpdateCreditNoteByTransactionIdResponse updateCreditNote(
-            PUTUpdateCreditNoteByTransactionIdSecurity security, String originalTransactionId,
-            String creditNoteId, CreditNoteCreate creditNoteCreate) throws Exception {
-        return updateCreditNote(security, originalTransactionId, creditNoteId,
-            Optional.empty(), creditNoteCreate);
-    }
-
-    /**
-     * Update Credit Note By Transaction Id
-     * 
-     * <p>Update an existing credit note for a specific transaction.
-     * 
-     * @param security The security details to use for authentication.
-     * @param originalTransactionId 
-     * @param creditNoteId 
-     * @param xOrganizationId The unique identifier for the organization making the request
-     * @param creditNoteCreate 
-     * @return The response from the API call
-     * @throws Exception if the API call fails
-     */
-    public PUTUpdateCreditNoteByTransactionIdResponse updateCreditNote(
-            PUTUpdateCreditNoteByTransactionIdSecurity security, String originalTransactionId,
-            String creditNoteId, Optional<String> xOrganizationId,
+            String originalTransactionId, String creditNoteId,
             CreditNoteCreate creditNoteCreate) throws Exception {
         PUTUpdateCreditNoteByTransactionIdRequest request =
             PUTUpdateCreditNoteByTransactionIdRequest
                 .builder()
                 .originalTransactionId(originalTransactionId)
                 .creditNoteId(creditNoteId)
-                .xOrganizationId(xOrganizationId)
                 .creditNoteCreate(creditNoteCreate)
                 .build();
         RequestOperation<PUTUpdateCreditNoteByTransactionIdRequest, PUTUpdateCreditNoteByTransactionIdResponse> operation
-              = new PUTUpdateCreditNoteByTransactionIdOperation(sdkConfiguration, security);
+              = new PUTUpdateCreditNoteByTransactionIdOperation(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 

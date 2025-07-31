@@ -1,4 +1,0 @@
-# TransactionPublicRequestTotalTaxAmountImported
-
-Imported tax amount.
-

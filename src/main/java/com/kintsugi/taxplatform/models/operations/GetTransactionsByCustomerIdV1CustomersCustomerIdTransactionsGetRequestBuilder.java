@@ -10,23 +10,14 @@ import com.kintsugi.taxplatform.operations.GetTransactionsByCustomerIdV1Customer
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
 import java.lang.String;
-import java.util.Optional;
 
 public class GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequestBuilder {
 
-    private GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetSecurity security;
     private String customerId;
-    private Optional<String> xOrganizationId = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
 
     public GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequestBuilder(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
-    }
-
-    public GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequestBuilder security(GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetSecurity security) {
-        Utils.checkNotNull(security, "security");
-        this.security = security;
-        return this;
     }
 
     public GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequestBuilder customerId(String customerId) {
@@ -34,24 +25,11 @@ public class GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequ
         this.customerId = customerId;
         return this;
     }
-                
-    public GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequestBuilder xOrganizationId(String xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = Optional.of(xOrganizationId);
-        return this;
-    }
-
-    public GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequestBuilder xOrganizationId(Optional<String> xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = xOrganizationId;
-        return this;
-    }
 
 
     private GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest buildRequest() {
 
-        GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest request = new GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest(customerId,
-            xOrganizationId);
+        GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest request = new GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest(customerId);
 
         return request;
     }
@@ -59,7 +37,7 @@ public class GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequ
     public GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse call() throws Exception {
         
         RequestOperation<GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest, GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse> operation
-              = new GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetOperation(sdkConfiguration, security);
+              = new GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetOperation(sdkConfiguration);
         GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

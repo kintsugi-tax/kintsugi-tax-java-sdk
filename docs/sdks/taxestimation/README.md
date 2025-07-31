@@ -24,7 +24,6 @@ import com.kintsugi.taxplatform.models.components.*;
 import com.kintsugi.taxplatform.models.errors.BackendSrcTaxEstimationResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
 import com.kintsugi.taxplatform.models.operations.EstimateTaxV1TaxEstimatePostResponse;
-import com.kintsugi.taxplatform.models.operations.EstimateTaxV1TaxEstimatePostSecurity;
 import java.lang.Exception;
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -34,13 +33,13 @@ public class Application {
     public static void main(String[] args) throws ErrorResponse, BackendSrcTaxEstimationResponsesValidationErrorResponse, ErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
+                .security(Security.builder()
+                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
+                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
+                    .build())
             .build();
 
         EstimateTaxV1TaxEstimatePostResponse res = sdk.taxEstimation().estimateTax()
-                .security(EstimateTaxV1TaxEstimatePostSecurity.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .build())
-                .xOrganizationId("org_12345")
                 .transactionEstimatePublicRequest(TransactionEstimatePublicRequest.builder()
                     .date(OffsetDateTime.parse("2025-01-23T13:01:29.949Z"))
                     .externalId("txn_12345")
@@ -48,17 +47,17 @@ public class Application {
                     .transactionItems(List.of(
                         TransactionItemEstimateBase.builder()
                             .date(OffsetDateTime.parse("2024-10-28T10:00:00Z"))
-                            .amount(TotalAmountOfThisTransactionItemAfterDiscounts.of(100d))
+                            .amount(100d)
                             .externalId("item_A")
                             .externalProductId("prod_abc")
-                            .quantity(QuantityOfTheProduct.of(2d))
+                            .quantity(2d)
                             .build(),
                         TransactionItemEstimateBase.builder()
                             .date(OffsetDateTime.parse("2024-10-28T10:00:00Z"))
-                            .amount(TotalAmountOfThisTransactionItemAfterDiscounts.of(75.5))
+                            .amount(75.5)
                             .externalId("item_B")
                             .externalProductId("prod_xyz")
-                            .quantity(QuantityOfTheProduct.of(1d))
+                            .quantity(1d)
                             .build()))
                     .addresses(List.of(
                         TransactionEstimatePublicRequestAddress.builder()
@@ -81,12 +80,10 @@ public class Application {
 
 ### Parameters
 
-| Parameter                                                                                                                                                                                                | Type                                                                                                                                                                                                     | Required                                                                                                                                                                                                 | Description                                                                                                                                                                                              | Example                                                                                                                                                                                                  |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `security`                                                                                                                                                                                               | [com.kintsugi.taxplatform.models.operations.EstimateTaxV1TaxEstimatePostSecurity](../../models/operations/EstimateTaxV1TaxEstimatePostSecurity.md)                                                       | :heavy_check_mark:                                                                                                                                                                                       | The security requirements to use for the request.                                                                                                                                                        |                                                                                                                                                                                                          |
-| `simulateNexusMet`                                                                                                                                                                                       | *Optional\<Boolean>*                                                                                                                                                                                     | :heavy_minus_sign:                                                                                                                                                                                       | : warning: ** DEPRECATED **: This will be removed in a future release, please migrate away from it as soon as possible.<br/><br/>**Deprecated:** Use `simulate_active_registration` in the request body instead. |                                                                                                                                                                                                          |
-| `xOrganizationId`                                                                                                                                                                                        | *Optional\<String>*                                                                                                                                                                                      | :heavy_check_mark:                                                                                                                                                                                       | The unique identifier for the organization making the request                                                                                                                                            | org_12345                                                                                                                                                                                                |
-| `transactionEstimatePublicRequest`                                                                                                                                                                       | [TransactionEstimatePublicRequest](../../models/components/TransactionEstimatePublicRequest.md)                                                                                                          | :heavy_check_mark:                                                                                                                                                                                       | N/A                                                                                                                                                                                                      |                                                                                                                                                                                                          |
+| Parameter                                                                                                                                                                                                | Type                                                                                                                                                                                                     | Required                                                                                                                                                                                                 | Description                                                                                                                                                                                              |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `simulateNexusMet`                                                                                                                                                                                       | *Optional\<Boolean>*                                                                                                                                                                                     | :heavy_minus_sign:                                                                                                                                                                                       | : warning: ** DEPRECATED **: This will be removed in a future release, please migrate away from it as soon as possible.<br/><br/>**Deprecated:** Use `simulate_active_registration` in the request body instead. |
+| `transactionEstimatePublicRequest`                                                                                                                                                                       | [TransactionEstimatePublicRequest](../../models/components/TransactionEstimatePublicRequest.md)                                                                                                          | :heavy_check_mark:                                                                                                                                                                                       | N/A                                                                                                                                                                                                      |
 
 ### Response
 

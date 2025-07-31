@@ -6,6 +6,7 @@ package com.kintsugi.taxplatform.models.operations;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.kintsugi.taxplatform.models.components.CountryCodeEnum;
 import com.kintsugi.taxplatform.utils.LazySingletonValue;
 import com.kintsugi.taxplatform.utils.SpeakeasyMetadata;
 import com.kintsugi.taxplatform.utils.Utils;
@@ -13,10 +14,8 @@ import java.lang.Long;
 import java.lang.Override;
 import java.lang.String;
 import java.lang.SuppressWarnings;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import org.openapitools.jackson.nullable.JsonNullable;
 
 
 public class GetExemptionsV1ExemptionsGetRequest {
@@ -24,55 +23,55 @@ public class GetExemptionsV1ExemptionsGetRequest {
      * Search term to filter exemptions by exemption ID, customer name, or customer email
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=search_query")
-    private JsonNullable<String> searchQuery;
+    private Optional<String> searchQuery;
 
     /**
      * Filter exemptions by their status
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=status__in")
-    private JsonNullable<String> statusIn;
+    private Optional<String> statusIn;
 
     /**
      * Country code in ISO 3166-1 alpha-2 format
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=country_code")
-    private JsonNullable<? extends List<CountryCode>> countryCode;
+    private Optional<? extends List<CountryCodeEnum>> countryCode;
 
     /**
      * Jurisdiction identifier
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=jurisdiction")
-    private JsonNullable<String> jurisdiction;
+    private Optional<String> jurisdiction;
 
     /**
      * Start date for filtering exemptions
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=start_date")
-    private JsonNullable<LocalDate> startDate;
+    private Optional<String> startDate;
 
     /**
      * End date for filtering exemptions
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=end_date")
-    private JsonNullable<LocalDate> endDate;
+    private Optional<String> endDate;
 
     /**
      * Customer ID to filter exemptions
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=customer_id")
-    private JsonNullable<String> customerId;
+    private Optional<String> customerId;
 
     /**
      * Transaction ID to filter exemptions
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=transaction_id")
-    private JsonNullable<String> transactionId;
+    private Optional<String> transactionId;
 
     /**
      * Fields to sort by (comma-separated)
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=order_by")
-    private JsonNullable<String> orderBy;
+    private Optional<String> orderBy;
 
     /**
      * Page number
@@ -86,26 +85,19 @@ public class GetExemptionsV1ExemptionsGetRequest {
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=size")
     private Optional<Long> size;
 
-    /**
-     * The unique identifier for the organization making the request
-     */
-    @SpeakeasyMetadata("header:style=simple,explode=false,name=x-organization-id")
-    private Optional<String> xOrganizationId;
-
     @JsonCreator
     public GetExemptionsV1ExemptionsGetRequest(
-            JsonNullable<String> searchQuery,
-            JsonNullable<String> statusIn,
-            JsonNullable<? extends List<CountryCode>> countryCode,
-            JsonNullable<String> jurisdiction,
-            JsonNullable<LocalDate> startDate,
-            JsonNullable<LocalDate> endDate,
-            JsonNullable<String> customerId,
-            JsonNullable<String> transactionId,
-            JsonNullable<String> orderBy,
+            Optional<String> searchQuery,
+            Optional<String> statusIn,
+            Optional<? extends List<CountryCodeEnum>> countryCode,
+            Optional<String> jurisdiction,
+            Optional<String> startDate,
+            Optional<String> endDate,
+            Optional<String> customerId,
+            Optional<String> transactionId,
+            Optional<String> orderBy,
             Optional<Long> page,
-            Optional<Long> size,
-            Optional<String> xOrganizationId) {
+            Optional<Long> size) {
         Utils.checkNotNull(searchQuery, "searchQuery");
         Utils.checkNotNull(statusIn, "statusIn");
         Utils.checkNotNull(countryCode, "countryCode");
@@ -117,7 +109,6 @@ public class GetExemptionsV1ExemptionsGetRequest {
         Utils.checkNotNull(orderBy, "orderBy");
         Utils.checkNotNull(page, "page");
         Utils.checkNotNull(size, "size");
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
         this.searchQuery = searchQuery;
         this.statusIn = statusIn;
         this.countryCode = countryCode;
@@ -129,21 +120,20 @@ public class GetExemptionsV1ExemptionsGetRequest {
         this.orderBy = orderBy;
         this.page = page;
         this.size = size;
-        this.xOrganizationId = xOrganizationId;
     }
     
     public GetExemptionsV1ExemptionsGetRequest() {
-        this(JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
-            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
-            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
-            Optional.empty(), Optional.empty(), Optional.empty());
+        this(Optional.empty(), Optional.empty(), Optional.empty(),
+            Optional.empty(), Optional.empty(), Optional.empty(),
+            Optional.empty(), Optional.empty(), Optional.empty(),
+            Optional.empty(), Optional.empty());
     }
 
     /**
      * Search term to filter exemptions by exemption ID, customer name, or customer email
      */
     @JsonIgnore
-    public JsonNullable<String> searchQuery() {
+    public Optional<String> searchQuery() {
         return searchQuery;
     }
 
@@ -151,7 +141,7 @@ public class GetExemptionsV1ExemptionsGetRequest {
      * Filter exemptions by their status
      */
     @JsonIgnore
-    public JsonNullable<String> statusIn() {
+    public Optional<String> statusIn() {
         return statusIn;
     }
 
@@ -160,15 +150,15 @@ public class GetExemptionsV1ExemptionsGetRequest {
      */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public JsonNullable<List<CountryCode>> countryCode() {
-        return (JsonNullable<List<CountryCode>>) countryCode;
+    public Optional<List<CountryCodeEnum>> countryCode() {
+        return (Optional<List<CountryCodeEnum>>) countryCode;
     }
 
     /**
      * Jurisdiction identifier
      */
     @JsonIgnore
-    public JsonNullable<String> jurisdiction() {
+    public Optional<String> jurisdiction() {
         return jurisdiction;
     }
 
@@ -176,7 +166,7 @@ public class GetExemptionsV1ExemptionsGetRequest {
      * Start date for filtering exemptions
      */
     @JsonIgnore
-    public JsonNullable<LocalDate> startDate() {
+    public Optional<String> startDate() {
         return startDate;
     }
 
@@ -184,7 +174,7 @@ public class GetExemptionsV1ExemptionsGetRequest {
      * End date for filtering exemptions
      */
     @JsonIgnore
-    public JsonNullable<LocalDate> endDate() {
+    public Optional<String> endDate() {
         return endDate;
     }
 
@@ -192,7 +182,7 @@ public class GetExemptionsV1ExemptionsGetRequest {
      * Customer ID to filter exemptions
      */
     @JsonIgnore
-    public JsonNullable<String> customerId() {
+    public Optional<String> customerId() {
         return customerId;
     }
 
@@ -200,7 +190,7 @@ public class GetExemptionsV1ExemptionsGetRequest {
      * Transaction ID to filter exemptions
      */
     @JsonIgnore
-    public JsonNullable<String> transactionId() {
+    public Optional<String> transactionId() {
         return transactionId;
     }
 
@@ -208,7 +198,7 @@ public class GetExemptionsV1ExemptionsGetRequest {
      * Fields to sort by (comma-separated)
      */
     @JsonIgnore
-    public JsonNullable<String> orderBy() {
+    public Optional<String> orderBy() {
         return orderBy;
     }
 
@@ -228,14 +218,6 @@ public class GetExemptionsV1ExemptionsGetRequest {
         return size;
     }
 
-    /**
-     * The unique identifier for the organization making the request
-     */
-    @JsonIgnore
-    public Optional<String> xOrganizationId() {
-        return xOrganizationId;
-    }
-
     public static Builder builder() {
         return new Builder();
     }
@@ -246,14 +228,15 @@ public class GetExemptionsV1ExemptionsGetRequest {
      */
     public GetExemptionsV1ExemptionsGetRequest withSearchQuery(String searchQuery) {
         Utils.checkNotNull(searchQuery, "searchQuery");
-        this.searchQuery = JsonNullable.of(searchQuery);
+        this.searchQuery = Optional.ofNullable(searchQuery);
         return this;
     }
+
 
     /**
      * Search term to filter exemptions by exemption ID, customer name, or customer email
      */
-    public GetExemptionsV1ExemptionsGetRequest withSearchQuery(JsonNullable<String> searchQuery) {
+    public GetExemptionsV1ExemptionsGetRequest withSearchQuery(Optional<String> searchQuery) {
         Utils.checkNotNull(searchQuery, "searchQuery");
         this.searchQuery = searchQuery;
         return this;
@@ -264,14 +247,15 @@ public class GetExemptionsV1ExemptionsGetRequest {
      */
     public GetExemptionsV1ExemptionsGetRequest withStatusIn(String statusIn) {
         Utils.checkNotNull(statusIn, "statusIn");
-        this.statusIn = JsonNullable.of(statusIn);
+        this.statusIn = Optional.ofNullable(statusIn);
         return this;
     }
+
 
     /**
      * Filter exemptions by their status
      */
-    public GetExemptionsV1ExemptionsGetRequest withStatusIn(JsonNullable<String> statusIn) {
+    public GetExemptionsV1ExemptionsGetRequest withStatusIn(Optional<String> statusIn) {
         Utils.checkNotNull(statusIn, "statusIn");
         this.statusIn = statusIn;
         return this;
@@ -280,16 +264,17 @@ public class GetExemptionsV1ExemptionsGetRequest {
     /**
      * Country code in ISO 3166-1 alpha-2 format
      */
-    public GetExemptionsV1ExemptionsGetRequest withCountryCode(List<CountryCode> countryCode) {
+    public GetExemptionsV1ExemptionsGetRequest withCountryCode(List<CountryCodeEnum> countryCode) {
         Utils.checkNotNull(countryCode, "countryCode");
-        this.countryCode = JsonNullable.of(countryCode);
+        this.countryCode = Optional.ofNullable(countryCode);
         return this;
     }
+
 
     /**
      * Country code in ISO 3166-1 alpha-2 format
      */
-    public GetExemptionsV1ExemptionsGetRequest withCountryCode(JsonNullable<? extends List<CountryCode>> countryCode) {
+    public GetExemptionsV1ExemptionsGetRequest withCountryCode(Optional<? extends List<CountryCodeEnum>> countryCode) {
         Utils.checkNotNull(countryCode, "countryCode");
         this.countryCode = countryCode;
         return this;
@@ -300,14 +285,15 @@ public class GetExemptionsV1ExemptionsGetRequest {
      */
     public GetExemptionsV1ExemptionsGetRequest withJurisdiction(String jurisdiction) {
         Utils.checkNotNull(jurisdiction, "jurisdiction");
-        this.jurisdiction = JsonNullable.of(jurisdiction);
+        this.jurisdiction = Optional.ofNullable(jurisdiction);
         return this;
     }
+
 
     /**
      * Jurisdiction identifier
      */
-    public GetExemptionsV1ExemptionsGetRequest withJurisdiction(JsonNullable<String> jurisdiction) {
+    public GetExemptionsV1ExemptionsGetRequest withJurisdiction(Optional<String> jurisdiction) {
         Utils.checkNotNull(jurisdiction, "jurisdiction");
         this.jurisdiction = jurisdiction;
         return this;
@@ -316,16 +302,17 @@ public class GetExemptionsV1ExemptionsGetRequest {
     /**
      * Start date for filtering exemptions
      */
-    public GetExemptionsV1ExemptionsGetRequest withStartDate(LocalDate startDate) {
+    public GetExemptionsV1ExemptionsGetRequest withStartDate(String startDate) {
         Utils.checkNotNull(startDate, "startDate");
-        this.startDate = JsonNullable.of(startDate);
+        this.startDate = Optional.ofNullable(startDate);
         return this;
     }
+
 
     /**
      * Start date for filtering exemptions
      */
-    public GetExemptionsV1ExemptionsGetRequest withStartDate(JsonNullable<LocalDate> startDate) {
+    public GetExemptionsV1ExemptionsGetRequest withStartDate(Optional<String> startDate) {
         Utils.checkNotNull(startDate, "startDate");
         this.startDate = startDate;
         return this;
@@ -334,16 +321,17 @@ public class GetExemptionsV1ExemptionsGetRequest {
     /**
      * End date for filtering exemptions
      */
-    public GetExemptionsV1ExemptionsGetRequest withEndDate(LocalDate endDate) {
+    public GetExemptionsV1ExemptionsGetRequest withEndDate(String endDate) {
         Utils.checkNotNull(endDate, "endDate");
-        this.endDate = JsonNullable.of(endDate);
+        this.endDate = Optional.ofNullable(endDate);
         return this;
     }
+
 
     /**
      * End date for filtering exemptions
      */
-    public GetExemptionsV1ExemptionsGetRequest withEndDate(JsonNullable<LocalDate> endDate) {
+    public GetExemptionsV1ExemptionsGetRequest withEndDate(Optional<String> endDate) {
         Utils.checkNotNull(endDate, "endDate");
         this.endDate = endDate;
         return this;
@@ -354,14 +342,15 @@ public class GetExemptionsV1ExemptionsGetRequest {
      */
     public GetExemptionsV1ExemptionsGetRequest withCustomerId(String customerId) {
         Utils.checkNotNull(customerId, "customerId");
-        this.customerId = JsonNullable.of(customerId);
+        this.customerId = Optional.ofNullable(customerId);
         return this;
     }
+
 
     /**
      * Customer ID to filter exemptions
      */
-    public GetExemptionsV1ExemptionsGetRequest withCustomerId(JsonNullable<String> customerId) {
+    public GetExemptionsV1ExemptionsGetRequest withCustomerId(Optional<String> customerId) {
         Utils.checkNotNull(customerId, "customerId");
         this.customerId = customerId;
         return this;
@@ -372,14 +361,15 @@ public class GetExemptionsV1ExemptionsGetRequest {
      */
     public GetExemptionsV1ExemptionsGetRequest withTransactionId(String transactionId) {
         Utils.checkNotNull(transactionId, "transactionId");
-        this.transactionId = JsonNullable.of(transactionId);
+        this.transactionId = Optional.ofNullable(transactionId);
         return this;
     }
+
 
     /**
      * Transaction ID to filter exemptions
      */
-    public GetExemptionsV1ExemptionsGetRequest withTransactionId(JsonNullable<String> transactionId) {
+    public GetExemptionsV1ExemptionsGetRequest withTransactionId(Optional<String> transactionId) {
         Utils.checkNotNull(transactionId, "transactionId");
         this.transactionId = transactionId;
         return this;
@@ -390,14 +380,15 @@ public class GetExemptionsV1ExemptionsGetRequest {
      */
     public GetExemptionsV1ExemptionsGetRequest withOrderBy(String orderBy) {
         Utils.checkNotNull(orderBy, "orderBy");
-        this.orderBy = JsonNullable.of(orderBy);
+        this.orderBy = Optional.ofNullable(orderBy);
         return this;
     }
+
 
     /**
      * Fields to sort by (comma-separated)
      */
-    public GetExemptionsV1ExemptionsGetRequest withOrderBy(JsonNullable<String> orderBy) {
+    public GetExemptionsV1ExemptionsGetRequest withOrderBy(Optional<String> orderBy) {
         Utils.checkNotNull(orderBy, "orderBy");
         this.orderBy = orderBy;
         return this;
@@ -441,25 +432,6 @@ public class GetExemptionsV1ExemptionsGetRequest {
         return this;
     }
 
-    /**
-     * The unique identifier for the organization making the request
-     */
-    public GetExemptionsV1ExemptionsGetRequest withXOrganizationId(String xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = Optional.ofNullable(xOrganizationId);
-        return this;
-    }
-
-
-    /**
-     * The unique identifier for the organization making the request
-     */
-    public GetExemptionsV1ExemptionsGetRequest withXOrganizationId(Optional<String> xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = xOrganizationId;
-        return this;
-    }
-
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -480,8 +452,7 @@ public class GetExemptionsV1ExemptionsGetRequest {
             Utils.enhancedDeepEquals(this.transactionId, other.transactionId) &&
             Utils.enhancedDeepEquals(this.orderBy, other.orderBy) &&
             Utils.enhancedDeepEquals(this.page, other.page) &&
-            Utils.enhancedDeepEquals(this.size, other.size) &&
-            Utils.enhancedDeepEquals(this.xOrganizationId, other.xOrganizationId);
+            Utils.enhancedDeepEquals(this.size, other.size);
     }
     
     @Override
@@ -490,7 +461,7 @@ public class GetExemptionsV1ExemptionsGetRequest {
             searchQuery, statusIn, countryCode,
             jurisdiction, startDate, endDate,
             customerId, transactionId, orderBy,
-            page, size, xOrganizationId);
+            page, size);
     }
     
     @Override
@@ -506,36 +477,33 @@ public class GetExemptionsV1ExemptionsGetRequest {
                 "transactionId", transactionId,
                 "orderBy", orderBy,
                 "page", page,
-                "size", size,
-                "xOrganizationId", xOrganizationId);
+                "size", size);
     }
 
     @SuppressWarnings("UnusedReturnValue")
     public final static class Builder {
 
-        private JsonNullable<String> searchQuery = JsonNullable.undefined();
+        private Optional<String> searchQuery = Optional.empty();
 
-        private JsonNullable<String> statusIn = JsonNullable.undefined();
+        private Optional<String> statusIn;
 
-        private JsonNullable<? extends List<CountryCode>> countryCode = JsonNullable.undefined();
+        private Optional<? extends List<CountryCodeEnum>> countryCode = Optional.empty();
 
-        private JsonNullable<String> jurisdiction = JsonNullable.undefined();
+        private Optional<String> jurisdiction = Optional.empty();
 
-        private JsonNullable<LocalDate> startDate = JsonNullable.undefined();
+        private Optional<String> startDate = Optional.empty();
 
-        private JsonNullable<LocalDate> endDate = JsonNullable.undefined();
+        private Optional<String> endDate = Optional.empty();
 
-        private JsonNullable<String> customerId = JsonNullable.undefined();
+        private Optional<String> customerId = Optional.empty();
 
-        private JsonNullable<String> transactionId = JsonNullable.undefined();
+        private Optional<String> transactionId = Optional.empty();
 
-        private JsonNullable<String> orderBy = JsonNullable.undefined();
+        private Optional<String> orderBy;
 
         private Optional<Long> page;
 
         private Optional<Long> size;
-
-        private Optional<String> xOrganizationId = Optional.empty();
 
         private Builder() {
           // force use of static builder() method
@@ -547,14 +515,14 @@ public class GetExemptionsV1ExemptionsGetRequest {
          */
         public Builder searchQuery(String searchQuery) {
             Utils.checkNotNull(searchQuery, "searchQuery");
-            this.searchQuery = JsonNullable.of(searchQuery);
+            this.searchQuery = Optional.ofNullable(searchQuery);
             return this;
         }
 
         /**
          * Search term to filter exemptions by exemption ID, customer name, or customer email
          */
-        public Builder searchQuery(JsonNullable<String> searchQuery) {
+        public Builder searchQuery(Optional<String> searchQuery) {
             Utils.checkNotNull(searchQuery, "searchQuery");
             this.searchQuery = searchQuery;
             return this;
@@ -566,14 +534,14 @@ public class GetExemptionsV1ExemptionsGetRequest {
          */
         public Builder statusIn(String statusIn) {
             Utils.checkNotNull(statusIn, "statusIn");
-            this.statusIn = JsonNullable.of(statusIn);
+            this.statusIn = Optional.ofNullable(statusIn);
             return this;
         }
 
         /**
          * Filter exemptions by their status
          */
-        public Builder statusIn(JsonNullable<String> statusIn) {
+        public Builder statusIn(Optional<String> statusIn) {
             Utils.checkNotNull(statusIn, "statusIn");
             this.statusIn = statusIn;
             return this;
@@ -583,16 +551,16 @@ public class GetExemptionsV1ExemptionsGetRequest {
         /**
          * Country code in ISO 3166-1 alpha-2 format
          */
-        public Builder countryCode(List<CountryCode> countryCode) {
+        public Builder countryCode(List<CountryCodeEnum> countryCode) {
             Utils.checkNotNull(countryCode, "countryCode");
-            this.countryCode = JsonNullable.of(countryCode);
+            this.countryCode = Optional.ofNullable(countryCode);
             return this;
         }
 
         /**
          * Country code in ISO 3166-1 alpha-2 format
          */
-        public Builder countryCode(JsonNullable<? extends List<CountryCode>> countryCode) {
+        public Builder countryCode(Optional<? extends List<CountryCodeEnum>> countryCode) {
             Utils.checkNotNull(countryCode, "countryCode");
             this.countryCode = countryCode;
             return this;
@@ -604,14 +572,14 @@ public class GetExemptionsV1ExemptionsGetRequest {
          */
         public Builder jurisdiction(String jurisdiction) {
             Utils.checkNotNull(jurisdiction, "jurisdiction");
-            this.jurisdiction = JsonNullable.of(jurisdiction);
+            this.jurisdiction = Optional.ofNullable(jurisdiction);
             return this;
         }
 
         /**
          * Jurisdiction identifier
          */
-        public Builder jurisdiction(JsonNullable<String> jurisdiction) {
+        public Builder jurisdiction(Optional<String> jurisdiction) {
             Utils.checkNotNull(jurisdiction, "jurisdiction");
             this.jurisdiction = jurisdiction;
             return this;
@@ -621,16 +589,16 @@ public class GetExemptionsV1ExemptionsGetRequest {
         /**
          * Start date for filtering exemptions
          */
-        public Builder startDate(LocalDate startDate) {
+        public Builder startDate(String startDate) {
             Utils.checkNotNull(startDate, "startDate");
-            this.startDate = JsonNullable.of(startDate);
+            this.startDate = Optional.ofNullable(startDate);
             return this;
         }
 
         /**
          * Start date for filtering exemptions
          */
-        public Builder startDate(JsonNullable<LocalDate> startDate) {
+        public Builder startDate(Optional<String> startDate) {
             Utils.checkNotNull(startDate, "startDate");
             this.startDate = startDate;
             return this;
@@ -640,16 +608,16 @@ public class GetExemptionsV1ExemptionsGetRequest {
         /**
          * End date for filtering exemptions
          */
-        public Builder endDate(LocalDate endDate) {
+        public Builder endDate(String endDate) {
             Utils.checkNotNull(endDate, "endDate");
-            this.endDate = JsonNullable.of(endDate);
+            this.endDate = Optional.ofNullable(endDate);
             return this;
         }
 
         /**
          * End date for filtering exemptions
          */
-        public Builder endDate(JsonNullable<LocalDate> endDate) {
+        public Builder endDate(Optional<String> endDate) {
             Utils.checkNotNull(endDate, "endDate");
             this.endDate = endDate;
             return this;
@@ -661,14 +629,14 @@ public class GetExemptionsV1ExemptionsGetRequest {
          */
         public Builder customerId(String customerId) {
             Utils.checkNotNull(customerId, "customerId");
-            this.customerId = JsonNullable.of(customerId);
+            this.customerId = Optional.ofNullable(customerId);
             return this;
         }
 
         /**
          * Customer ID to filter exemptions
          */
-        public Builder customerId(JsonNullable<String> customerId) {
+        public Builder customerId(Optional<String> customerId) {
             Utils.checkNotNull(customerId, "customerId");
             this.customerId = customerId;
             return this;
@@ -680,14 +648,14 @@ public class GetExemptionsV1ExemptionsGetRequest {
          */
         public Builder transactionId(String transactionId) {
             Utils.checkNotNull(transactionId, "transactionId");
-            this.transactionId = JsonNullable.of(transactionId);
+            this.transactionId = Optional.ofNullable(transactionId);
             return this;
         }
 
         /**
          * Transaction ID to filter exemptions
          */
-        public Builder transactionId(JsonNullable<String> transactionId) {
+        public Builder transactionId(Optional<String> transactionId) {
             Utils.checkNotNull(transactionId, "transactionId");
             this.transactionId = transactionId;
             return this;
@@ -699,14 +667,14 @@ public class GetExemptionsV1ExemptionsGetRequest {
          */
         public Builder orderBy(String orderBy) {
             Utils.checkNotNull(orderBy, "orderBy");
-            this.orderBy = JsonNullable.of(orderBy);
+            this.orderBy = Optional.ofNullable(orderBy);
             return this;
         }
 
         /**
          * Fields to sort by (comma-separated)
          */
-        public Builder orderBy(JsonNullable<String> orderBy) {
+        public Builder orderBy(Optional<String> orderBy) {
             Utils.checkNotNull(orderBy, "orderBy");
             this.orderBy = orderBy;
             return this;
@@ -750,26 +718,13 @@ public class GetExemptionsV1ExemptionsGetRequest {
             return this;
         }
 
-
-        /**
-         * The unique identifier for the organization making the request
-         */
-        public Builder xOrganizationId(String xOrganizationId) {
-            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-            this.xOrganizationId = Optional.ofNullable(xOrganizationId);
-            return this;
-        }
-
-        /**
-         * The unique identifier for the organization making the request
-         */
-        public Builder xOrganizationId(Optional<String> xOrganizationId) {
-            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-            this.xOrganizationId = xOrganizationId;
-            return this;
-        }
-
         public GetExemptionsV1ExemptionsGetRequest build() {
+            if (statusIn == null) {
+                statusIn = _SINGLETON_VALUE_StatusIn.value();
+            }
+            if (orderBy == null) {
+                orderBy = _SINGLETON_VALUE_OrderBy.value();
+            }
             if (page == null) {
                 page = _SINGLETON_VALUE_Page.value();
             }
@@ -781,9 +736,21 @@ public class GetExemptionsV1ExemptionsGetRequest {
                 searchQuery, statusIn, countryCode,
                 jurisdiction, startDate, endDate,
                 customerId, transactionId, orderBy,
-                page, size, xOrganizationId);
+                page, size);
         }
 
+
+        private static final LazySingletonValue<Optional<String>> _SINGLETON_VALUE_StatusIn =
+                new LazySingletonValue<>(
+                        "status__in",
+                        "\"ACTIVE,INACTIVE,EXPIRED\"",
+                        new TypeReference<Optional<String>>() {});
+
+        private static final LazySingletonValue<Optional<String>> _SINGLETON_VALUE_OrderBy =
+                new LazySingletonValue<>(
+                        "order_by",
+                        "\"end_date,FEIN,sales_tax_id,status\"",
+                        new TypeReference<Optional<String>>() {});
 
         private static final LazySingletonValue<Optional<Long>> _SINGLETON_VALUE_Page =
                 new LazySingletonValue<>(

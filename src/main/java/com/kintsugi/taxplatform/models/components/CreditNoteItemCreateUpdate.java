@@ -8,14 +8,16 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.kintsugi.taxplatform.utils.LazySingletonValue;
 import com.kintsugi.taxplatform.utils.Utils;
+import java.lang.Double;
 import java.lang.Override;
 import java.lang.String;
 import java.lang.SuppressWarnings;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
-import org.openapitools.jackson.nullable.JsonNullable;
 
 
 public class CreditNoteItemCreateUpdate {
@@ -36,7 +38,7 @@ public class CreditNoteItemCreateUpdate {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("description")
-    private JsonNullable<String> description;
+    private Optional<String> description;
 
     /**
      * Unique identifier for the associated product in the external system.
@@ -49,42 +51,42 @@ public class CreditNoteItemCreateUpdate {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("quantity")
-    private Optional<? extends CreditNoteItemCreateUpdateQuantity> quantity;
+    private Optional<Double> quantity;
 
     /**
      * Total monetary value of the credit note item before taxes.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("amount")
-    private Optional<? extends CreditNoteItemCreateUpdateAmount> amount;
+    private Optional<Double> amount;
 
     /**
      * Pre-calculated tax amount for the item, if provided by the external system.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("tax_amount_imported")
-    private JsonNullable<? extends CreditNoteItemCreateUpdateTaxAmountImported> taxAmountImported;
+    private Optional<Double> taxAmountImported;
 
     /**
      * Pre-calculated tax rate for the item, if provided by the external system.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("tax_rate_imported")
-    private JsonNullable<? extends CreditNoteItemCreateUpdateTaxRateImported> taxRateImported;
+    private Optional<Double> taxRateImported;
 
     /**
      * Portion of the item amount subject to taxation.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("taxable_amount")
-    private JsonNullable<? extends CreditNoteItemCreateUpdateTaxableAmount> taxableAmount;
+    private Optional<Double> taxableAmount;
 
     /**
-     * Specific tax exemption status applied to this item, if any.
+     * This enum is used to determine if a transaction is exempt from tax.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("tax_exemption")
-    private JsonNullable<? extends TaxExemptionEnum> taxExemption;
+    private Optional<? extends TaxExemptionEnum> taxExemption;
 
     /**
      * Detailed breakdown of individual tax components applied to this item.
@@ -97,14 +99,14 @@ public class CreditNoteItemCreateUpdate {
     public CreditNoteItemCreateUpdate(
             @JsonProperty("external_id") String externalId,
             @JsonProperty("date") OffsetDateTime date,
-            @JsonProperty("description") JsonNullable<String> description,
+            @JsonProperty("description") Optional<String> description,
             @JsonProperty("external_product_id") String externalProductId,
-            @JsonProperty("quantity") Optional<? extends CreditNoteItemCreateUpdateQuantity> quantity,
-            @JsonProperty("amount") Optional<? extends CreditNoteItemCreateUpdateAmount> amount,
-            @JsonProperty("tax_amount_imported") JsonNullable<? extends CreditNoteItemCreateUpdateTaxAmountImported> taxAmountImported,
-            @JsonProperty("tax_rate_imported") JsonNullable<? extends CreditNoteItemCreateUpdateTaxRateImported> taxRateImported,
-            @JsonProperty("taxable_amount") JsonNullable<? extends CreditNoteItemCreateUpdateTaxableAmount> taxableAmount,
-            @JsonProperty("tax_exemption") JsonNullable<? extends TaxExemptionEnum> taxExemption,
+            @JsonProperty("quantity") Optional<Double> quantity,
+            @JsonProperty("amount") Optional<Double> amount,
+            @JsonProperty("tax_amount_imported") Optional<Double> taxAmountImported,
+            @JsonProperty("tax_rate_imported") Optional<Double> taxRateImported,
+            @JsonProperty("taxable_amount") Optional<Double> taxableAmount,
+            @JsonProperty("tax_exemption") Optional<? extends TaxExemptionEnum> taxExemption,
             @JsonProperty("tax_items") Optional<? extends List<TaxItemBuilder>> taxItems) {
         Utils.checkNotNull(externalId, "externalId");
         Utils.checkNotNull(date, "date");
@@ -134,10 +136,10 @@ public class CreditNoteItemCreateUpdate {
             String externalId,
             OffsetDateTime date,
             String externalProductId) {
-        this(externalId, date, JsonNullable.undefined(),
+        this(externalId, date, Optional.empty(),
             externalProductId, Optional.empty(), Optional.empty(),
-            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
-            JsonNullable.undefined(), Optional.empty());
+            Optional.empty(), Optional.empty(), Optional.empty(),
+            Optional.empty(), Optional.empty());
     }
 
     /**
@@ -160,7 +162,7 @@ public class CreditNoteItemCreateUpdate {
      * Brief explanation or details about the credit note item.
      */
     @JsonIgnore
-    public JsonNullable<String> description() {
+    public Optional<String> description() {
         return description;
     }
 
@@ -175,55 +177,50 @@ public class CreditNoteItemCreateUpdate {
     /**
      * Number of units or amount of the product being credited.
      */
-    @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<CreditNoteItemCreateUpdateQuantity> quantity() {
-        return (Optional<CreditNoteItemCreateUpdateQuantity>) quantity;
+    public Optional<Double> quantity() {
+        return quantity;
     }
 
     /**
      * Total monetary value of the credit note item before taxes.
      */
-    @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<CreditNoteItemCreateUpdateAmount> amount() {
-        return (Optional<CreditNoteItemCreateUpdateAmount>) amount;
+    public Optional<Double> amount() {
+        return amount;
     }
 
     /**
      * Pre-calculated tax amount for the item, if provided by the external system.
      */
-    @SuppressWarnings("unchecked")
     @JsonIgnore
-    public JsonNullable<CreditNoteItemCreateUpdateTaxAmountImported> taxAmountImported() {
-        return (JsonNullable<CreditNoteItemCreateUpdateTaxAmountImported>) taxAmountImported;
+    public Optional<Double> taxAmountImported() {
+        return taxAmountImported;
     }
 
     /**
      * Pre-calculated tax rate for the item, if provided by the external system.
      */
-    @SuppressWarnings("unchecked")
     @JsonIgnore
-    public JsonNullable<CreditNoteItemCreateUpdateTaxRateImported> taxRateImported() {
-        return (JsonNullable<CreditNoteItemCreateUpdateTaxRateImported>) taxRateImported;
+    public Optional<Double> taxRateImported() {
+        return taxRateImported;
     }
 
     /**
      * Portion of the item amount subject to taxation.
      */
-    @SuppressWarnings("unchecked")
     @JsonIgnore
-    public JsonNullable<CreditNoteItemCreateUpdateTaxableAmount> taxableAmount() {
-        return (JsonNullable<CreditNoteItemCreateUpdateTaxableAmount>) taxableAmount;
+    public Optional<Double> taxableAmount() {
+        return taxableAmount;
     }
 
     /**
-     * Specific tax exemption status applied to this item, if any.
+     * This enum is used to determine if a transaction is exempt from tax.
      */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public JsonNullable<TaxExemptionEnum> taxExemption() {
-        return (JsonNullable<TaxExemptionEnum>) taxExemption;
+    public Optional<TaxExemptionEnum> taxExemption() {
+        return (Optional<TaxExemptionEnum>) taxExemption;
     }
 
     /**
@@ -263,14 +260,15 @@ public class CreditNoteItemCreateUpdate {
      */
     public CreditNoteItemCreateUpdate withDescription(String description) {
         Utils.checkNotNull(description, "description");
-        this.description = JsonNullable.of(description);
+        this.description = Optional.ofNullable(description);
         return this;
     }
+
 
     /**
      * Brief explanation or details about the credit note item.
      */
-    public CreditNoteItemCreateUpdate withDescription(JsonNullable<String> description) {
+    public CreditNoteItemCreateUpdate withDescription(Optional<String> description) {
         Utils.checkNotNull(description, "description");
         this.description = description;
         return this;
@@ -288,7 +286,7 @@ public class CreditNoteItemCreateUpdate {
     /**
      * Number of units or amount of the product being credited.
      */
-    public CreditNoteItemCreateUpdate withQuantity(CreditNoteItemCreateUpdateQuantity quantity) {
+    public CreditNoteItemCreateUpdate withQuantity(double quantity) {
         Utils.checkNotNull(quantity, "quantity");
         this.quantity = Optional.ofNullable(quantity);
         return this;
@@ -298,7 +296,7 @@ public class CreditNoteItemCreateUpdate {
     /**
      * Number of units or amount of the product being credited.
      */
-    public CreditNoteItemCreateUpdate withQuantity(Optional<? extends CreditNoteItemCreateUpdateQuantity> quantity) {
+    public CreditNoteItemCreateUpdate withQuantity(Optional<Double> quantity) {
         Utils.checkNotNull(quantity, "quantity");
         this.quantity = quantity;
         return this;
@@ -307,7 +305,7 @@ public class CreditNoteItemCreateUpdate {
     /**
      * Total monetary value of the credit note item before taxes.
      */
-    public CreditNoteItemCreateUpdate withAmount(CreditNoteItemCreateUpdateAmount amount) {
+    public CreditNoteItemCreateUpdate withAmount(double amount) {
         Utils.checkNotNull(amount, "amount");
         this.amount = Optional.ofNullable(amount);
         return this;
@@ -317,7 +315,7 @@ public class CreditNoteItemCreateUpdate {
     /**
      * Total monetary value of the credit note item before taxes.
      */
-    public CreditNoteItemCreateUpdate withAmount(Optional<? extends CreditNoteItemCreateUpdateAmount> amount) {
+    public CreditNoteItemCreateUpdate withAmount(Optional<Double> amount) {
         Utils.checkNotNull(amount, "amount");
         this.amount = amount;
         return this;
@@ -326,16 +324,17 @@ public class CreditNoteItemCreateUpdate {
     /**
      * Pre-calculated tax amount for the item, if provided by the external system.
      */
-    public CreditNoteItemCreateUpdate withTaxAmountImported(CreditNoteItemCreateUpdateTaxAmountImported taxAmountImported) {
+    public CreditNoteItemCreateUpdate withTaxAmountImported(double taxAmountImported) {
         Utils.checkNotNull(taxAmountImported, "taxAmountImported");
-        this.taxAmountImported = JsonNullable.of(taxAmountImported);
+        this.taxAmountImported = Optional.ofNullable(taxAmountImported);
         return this;
     }
+
 
     /**
      * Pre-calculated tax amount for the item, if provided by the external system.
      */
-    public CreditNoteItemCreateUpdate withTaxAmountImported(JsonNullable<? extends CreditNoteItemCreateUpdateTaxAmountImported> taxAmountImported) {
+    public CreditNoteItemCreateUpdate withTaxAmountImported(Optional<Double> taxAmountImported) {
         Utils.checkNotNull(taxAmountImported, "taxAmountImported");
         this.taxAmountImported = taxAmountImported;
         return this;
@@ -344,16 +343,17 @@ public class CreditNoteItemCreateUpdate {
     /**
      * Pre-calculated tax rate for the item, if provided by the external system.
      */
-    public CreditNoteItemCreateUpdate withTaxRateImported(CreditNoteItemCreateUpdateTaxRateImported taxRateImported) {
+    public CreditNoteItemCreateUpdate withTaxRateImported(double taxRateImported) {
         Utils.checkNotNull(taxRateImported, "taxRateImported");
-        this.taxRateImported = JsonNullable.of(taxRateImported);
+        this.taxRateImported = Optional.ofNullable(taxRateImported);
         return this;
     }
+
 
     /**
      * Pre-calculated tax rate for the item, if provided by the external system.
      */
-    public CreditNoteItemCreateUpdate withTaxRateImported(JsonNullable<? extends CreditNoteItemCreateUpdateTaxRateImported> taxRateImported) {
+    public CreditNoteItemCreateUpdate withTaxRateImported(Optional<Double> taxRateImported) {
         Utils.checkNotNull(taxRateImported, "taxRateImported");
         this.taxRateImported = taxRateImported;
         return this;
@@ -362,34 +362,36 @@ public class CreditNoteItemCreateUpdate {
     /**
      * Portion of the item amount subject to taxation.
      */
-    public CreditNoteItemCreateUpdate withTaxableAmount(CreditNoteItemCreateUpdateTaxableAmount taxableAmount) {
+    public CreditNoteItemCreateUpdate withTaxableAmount(double taxableAmount) {
         Utils.checkNotNull(taxableAmount, "taxableAmount");
-        this.taxableAmount = JsonNullable.of(taxableAmount);
+        this.taxableAmount = Optional.ofNullable(taxableAmount);
         return this;
     }
+
 
     /**
      * Portion of the item amount subject to taxation.
      */
-    public CreditNoteItemCreateUpdate withTaxableAmount(JsonNullable<? extends CreditNoteItemCreateUpdateTaxableAmount> taxableAmount) {
+    public CreditNoteItemCreateUpdate withTaxableAmount(Optional<Double> taxableAmount) {
         Utils.checkNotNull(taxableAmount, "taxableAmount");
         this.taxableAmount = taxableAmount;
         return this;
     }
 
     /**
-     * Specific tax exemption status applied to this item, if any.
+     * This enum is used to determine if a transaction is exempt from tax.
      */
     public CreditNoteItemCreateUpdate withTaxExemption(TaxExemptionEnum taxExemption) {
         Utils.checkNotNull(taxExemption, "taxExemption");
-        this.taxExemption = JsonNullable.of(taxExemption);
+        this.taxExemption = Optional.ofNullable(taxExemption);
         return this;
     }
 
+
     /**
-     * Specific tax exemption status applied to this item, if any.
+     * This enum is used to determine if a transaction is exempt from tax.
      */
-    public CreditNoteItemCreateUpdate withTaxExemption(JsonNullable<? extends TaxExemptionEnum> taxExemption) {
+    public CreditNoteItemCreateUpdate withTaxExemption(Optional<? extends TaxExemptionEnum> taxExemption) {
         Utils.checkNotNull(taxExemption, "taxExemption");
         this.taxExemption = taxExemption;
         return this;
@@ -469,21 +471,21 @@ public class CreditNoteItemCreateUpdate {
 
         private OffsetDateTime date;
 
-        private JsonNullable<String> description = JsonNullable.undefined();
+        private Optional<String> description = Optional.empty();
 
         private String externalProductId;
 
-        private Optional<? extends CreditNoteItemCreateUpdateQuantity> quantity = Optional.empty();
+        private Optional<Double> quantity;
 
-        private Optional<? extends CreditNoteItemCreateUpdateAmount> amount = Optional.empty();
+        private Optional<Double> amount;
 
-        private JsonNullable<? extends CreditNoteItemCreateUpdateTaxAmountImported> taxAmountImported = JsonNullable.undefined();
+        private Optional<Double> taxAmountImported = Optional.empty();
 
-        private JsonNullable<? extends CreditNoteItemCreateUpdateTaxRateImported> taxRateImported = JsonNullable.undefined();
+        private Optional<Double> taxRateImported = Optional.empty();
 
-        private JsonNullable<? extends CreditNoteItemCreateUpdateTaxableAmount> taxableAmount = JsonNullable.undefined();
+        private Optional<Double> taxableAmount = Optional.empty();
 
-        private JsonNullable<? extends TaxExemptionEnum> taxExemption = JsonNullable.undefined();
+        private Optional<? extends TaxExemptionEnum> taxExemption = Optional.empty();
 
         private Optional<? extends List<TaxItemBuilder>> taxItems = Optional.empty();
 
@@ -517,14 +519,14 @@ public class CreditNoteItemCreateUpdate {
          */
         public Builder description(String description) {
             Utils.checkNotNull(description, "description");
-            this.description = JsonNullable.of(description);
+            this.description = Optional.ofNullable(description);
             return this;
         }
 
         /**
          * Brief explanation or details about the credit note item.
          */
-        public Builder description(JsonNullable<String> description) {
+        public Builder description(Optional<String> description) {
             Utils.checkNotNull(description, "description");
             this.description = description;
             return this;
@@ -544,7 +546,7 @@ public class CreditNoteItemCreateUpdate {
         /**
          * Number of units or amount of the product being credited.
          */
-        public Builder quantity(CreditNoteItemCreateUpdateQuantity quantity) {
+        public Builder quantity(double quantity) {
             Utils.checkNotNull(quantity, "quantity");
             this.quantity = Optional.ofNullable(quantity);
             return this;
@@ -553,7 +555,7 @@ public class CreditNoteItemCreateUpdate {
         /**
          * Number of units or amount of the product being credited.
          */
-        public Builder quantity(Optional<? extends CreditNoteItemCreateUpdateQuantity> quantity) {
+        public Builder quantity(Optional<Double> quantity) {
             Utils.checkNotNull(quantity, "quantity");
             this.quantity = quantity;
             return this;
@@ -563,7 +565,7 @@ public class CreditNoteItemCreateUpdate {
         /**
          * Total monetary value of the credit note item before taxes.
          */
-        public Builder amount(CreditNoteItemCreateUpdateAmount amount) {
+        public Builder amount(double amount) {
             Utils.checkNotNull(amount, "amount");
             this.amount = Optional.ofNullable(amount);
             return this;
@@ -572,7 +574,7 @@ public class CreditNoteItemCreateUpdate {
         /**
          * Total monetary value of the credit note item before taxes.
          */
-        public Builder amount(Optional<? extends CreditNoteItemCreateUpdateAmount> amount) {
+        public Builder amount(Optional<Double> amount) {
             Utils.checkNotNull(amount, "amount");
             this.amount = amount;
             return this;
@@ -582,16 +584,16 @@ public class CreditNoteItemCreateUpdate {
         /**
          * Pre-calculated tax amount for the item, if provided by the external system.
          */
-        public Builder taxAmountImported(CreditNoteItemCreateUpdateTaxAmountImported taxAmountImported) {
+        public Builder taxAmountImported(double taxAmountImported) {
             Utils.checkNotNull(taxAmountImported, "taxAmountImported");
-            this.taxAmountImported = JsonNullable.of(taxAmountImported);
+            this.taxAmountImported = Optional.ofNullable(taxAmountImported);
             return this;
         }
 
         /**
          * Pre-calculated tax amount for the item, if provided by the external system.
          */
-        public Builder taxAmountImported(JsonNullable<? extends CreditNoteItemCreateUpdateTaxAmountImported> taxAmountImported) {
+        public Builder taxAmountImported(Optional<Double> taxAmountImported) {
             Utils.checkNotNull(taxAmountImported, "taxAmountImported");
             this.taxAmountImported = taxAmountImported;
             return this;
@@ -601,16 +603,16 @@ public class CreditNoteItemCreateUpdate {
         /**
          * Pre-calculated tax rate for the item, if provided by the external system.
          */
-        public Builder taxRateImported(CreditNoteItemCreateUpdateTaxRateImported taxRateImported) {
+        public Builder taxRateImported(double taxRateImported) {
             Utils.checkNotNull(taxRateImported, "taxRateImported");
-            this.taxRateImported = JsonNullable.of(taxRateImported);
+            this.taxRateImported = Optional.ofNullable(taxRateImported);
             return this;
         }
 
         /**
          * Pre-calculated tax rate for the item, if provided by the external system.
          */
-        public Builder taxRateImported(JsonNullable<? extends CreditNoteItemCreateUpdateTaxRateImported> taxRateImported) {
+        public Builder taxRateImported(Optional<Double> taxRateImported) {
             Utils.checkNotNull(taxRateImported, "taxRateImported");
             this.taxRateImported = taxRateImported;
             return this;
@@ -620,16 +622,16 @@ public class CreditNoteItemCreateUpdate {
         /**
          * Portion of the item amount subject to taxation.
          */
-        public Builder taxableAmount(CreditNoteItemCreateUpdateTaxableAmount taxableAmount) {
+        public Builder taxableAmount(double taxableAmount) {
             Utils.checkNotNull(taxableAmount, "taxableAmount");
-            this.taxableAmount = JsonNullable.of(taxableAmount);
+            this.taxableAmount = Optional.ofNullable(taxableAmount);
             return this;
         }
 
         /**
          * Portion of the item amount subject to taxation.
          */
-        public Builder taxableAmount(JsonNullable<? extends CreditNoteItemCreateUpdateTaxableAmount> taxableAmount) {
+        public Builder taxableAmount(Optional<Double> taxableAmount) {
             Utils.checkNotNull(taxableAmount, "taxableAmount");
             this.taxableAmount = taxableAmount;
             return this;
@@ -637,18 +639,18 @@ public class CreditNoteItemCreateUpdate {
 
 
         /**
-         * Specific tax exemption status applied to this item, if any.
+         * This enum is used to determine if a transaction is exempt from tax.
          */
         public Builder taxExemption(TaxExemptionEnum taxExemption) {
             Utils.checkNotNull(taxExemption, "taxExemption");
-            this.taxExemption = JsonNullable.of(taxExemption);
+            this.taxExemption = Optional.ofNullable(taxExemption);
             return this;
         }
 
         /**
-         * Specific tax exemption status applied to this item, if any.
+         * This enum is used to determine if a transaction is exempt from tax.
          */
-        public Builder taxExemption(JsonNullable<? extends TaxExemptionEnum> taxExemption) {
+        public Builder taxExemption(Optional<? extends TaxExemptionEnum> taxExemption) {
             Utils.checkNotNull(taxExemption, "taxExemption");
             this.taxExemption = taxExemption;
             return this;
@@ -674,6 +676,12 @@ public class CreditNoteItemCreateUpdate {
         }
 
         public CreditNoteItemCreateUpdate build() {
+            if (quantity == null) {
+                quantity = _SINGLETON_VALUE_Quantity.value();
+            }
+            if (amount == null) {
+                amount = _SINGLETON_VALUE_Amount.value();
+            }
 
             return new CreditNoteItemCreateUpdate(
                 externalId, date, description,
@@ -682,5 +690,17 @@ public class CreditNoteItemCreateUpdate {
                 taxExemption, taxItems);
         }
 
+
+        private static final LazySingletonValue<Optional<Double>> _SINGLETON_VALUE_Quantity =
+                new LazySingletonValue<>(
+                        "quantity",
+                        "\"1.0\"",
+                        new TypeReference<Optional<Double>>() {});
+
+        private static final LazySingletonValue<Optional<Double>> _SINGLETON_VALUE_Amount =
+                new LazySingletonValue<>(
+                        "amount",
+                        "\"0.00\"",
+                        new TypeReference<Optional<Double>>() {});
     }
 }

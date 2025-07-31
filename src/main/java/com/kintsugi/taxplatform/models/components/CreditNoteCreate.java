@@ -8,15 +8,17 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.kintsugi.taxplatform.utils.LazySingletonValue;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Boolean;
+import java.lang.Double;
 import java.lang.Override;
 import java.lang.String;
 import java.lang.SuppressWarnings;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
-import org.openapitools.jackson.nullable.JsonNullable;
 
 
 public class CreditNoteCreate {
@@ -43,42 +45,42 @@ public class CreditNoteCreate {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("description")
-    private JsonNullable<String> description;
+    private Optional<String> description;
 
     /**
      * Total monetary value of the credit note, including all items and taxes.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("total_amount")
-    private Optional<? extends CreditNoteCreateTotalAmount> totalAmount;
+    private Optional<Double> totalAmount;
 
     /**
      * Indicates whether this credit note is associated with a marketplace transaction.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("marketplace")
-    private JsonNullable<Boolean> marketplace;
+    private Optional<Boolean> marketplace;
 
     /**
      * Pre-calculated total tax amount for the entire credit note, if provided by the external system.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("tax_amount_imported")
-    private JsonNullable<? extends CreditNoteCreateTaxAmountImported> taxAmountImported;
+    private Optional<Double> taxAmountImported;
 
     /**
      * Pre-calculated overall tax rate for the credit note, if provided by the external system.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("tax_rate_imported")
-    private JsonNullable<? extends CreditNoteCreateTaxRateImported> taxRateImported;
+    private Optional<Double> taxRateImported;
 
     /**
      * Total portion of the credit note amount subject to taxation.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("taxable_amount")
-    private JsonNullable<? extends CreditNoteCreateTaxableAmount> taxableAmount;
+    private Optional<Double> taxableAmount;
 
 
     @JsonProperty("currency")
@@ -89,7 +91,7 @@ public class CreditNoteCreate {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("addresses")
-    private JsonNullable<? extends List<TransactionAddressBuilder>> addresses;
+    private Optional<? extends List<TransactionAddressBuilder>> addresses;
 
     /**
      * Detailed list of individual items included in this credit note.
@@ -102,14 +104,14 @@ public class CreditNoteCreate {
             @JsonProperty("external_id") String externalId,
             @JsonProperty("date") OffsetDateTime date,
             @JsonProperty("status") Status status,
-            @JsonProperty("description") JsonNullable<String> description,
-            @JsonProperty("total_amount") Optional<? extends CreditNoteCreateTotalAmount> totalAmount,
-            @JsonProperty("marketplace") JsonNullable<Boolean> marketplace,
-            @JsonProperty("tax_amount_imported") JsonNullable<? extends CreditNoteCreateTaxAmountImported> taxAmountImported,
-            @JsonProperty("tax_rate_imported") JsonNullable<? extends CreditNoteCreateTaxRateImported> taxRateImported,
-            @JsonProperty("taxable_amount") JsonNullable<? extends CreditNoteCreateTaxableAmount> taxableAmount,
+            @JsonProperty("description") Optional<String> description,
+            @JsonProperty("total_amount") Optional<Double> totalAmount,
+            @JsonProperty("marketplace") Optional<Boolean> marketplace,
+            @JsonProperty("tax_amount_imported") Optional<Double> taxAmountImported,
+            @JsonProperty("tax_rate_imported") Optional<Double> taxRateImported,
+            @JsonProperty("taxable_amount") Optional<Double> taxableAmount,
             @JsonProperty("currency") CurrencyEnum currency,
-            @JsonProperty("addresses") JsonNullable<? extends List<TransactionAddressBuilder>> addresses,
+            @JsonProperty("addresses") Optional<? extends List<TransactionAddressBuilder>> addresses,
             @JsonProperty("transaction_items") List<CreditNoteItemCreateUpdate> transactionItems) {
         Utils.checkNotNull(externalId, "externalId");
         Utils.checkNotNull(date, "date");
@@ -144,9 +146,9 @@ public class CreditNoteCreate {
             CurrencyEnum currency,
             List<CreditNoteItemCreateUpdate> transactionItems) {
         this(externalId, date, status,
-            JsonNullable.undefined(), Optional.empty(), JsonNullable.undefined(),
-            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
-            currency, JsonNullable.undefined(), transactionItems);
+            Optional.empty(), Optional.empty(), Optional.empty(),
+            Optional.empty(), Optional.empty(), Optional.empty(),
+            currency, Optional.empty(), transactionItems);
     }
 
     /**
@@ -177,52 +179,48 @@ public class CreditNoteCreate {
      * Brief explanation or reason for issuing the credit note.
      */
     @JsonIgnore
-    public JsonNullable<String> description() {
+    public Optional<String> description() {
         return description;
     }
 
     /**
      * Total monetary value of the credit note, including all items and taxes.
      */
-    @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<CreditNoteCreateTotalAmount> totalAmount() {
-        return (Optional<CreditNoteCreateTotalAmount>) totalAmount;
+    public Optional<Double> totalAmount() {
+        return totalAmount;
     }
 
     /**
      * Indicates whether this credit note is associated with a marketplace transaction.
      */
     @JsonIgnore
-    public JsonNullable<Boolean> marketplace() {
+    public Optional<Boolean> marketplace() {
         return marketplace;
     }
 
     /**
      * Pre-calculated total tax amount for the entire credit note, if provided by the external system.
      */
-    @SuppressWarnings("unchecked")
     @JsonIgnore
-    public JsonNullable<CreditNoteCreateTaxAmountImported> taxAmountImported() {
-        return (JsonNullable<CreditNoteCreateTaxAmountImported>) taxAmountImported;
+    public Optional<Double> taxAmountImported() {
+        return taxAmountImported;
     }
 
     /**
      * Pre-calculated overall tax rate for the credit note, if provided by the external system.
      */
-    @SuppressWarnings("unchecked")
     @JsonIgnore
-    public JsonNullable<CreditNoteCreateTaxRateImported> taxRateImported() {
-        return (JsonNullable<CreditNoteCreateTaxRateImported>) taxRateImported;
+    public Optional<Double> taxRateImported() {
+        return taxRateImported;
     }
 
     /**
      * Total portion of the credit note amount subject to taxation.
      */
-    @SuppressWarnings("unchecked")
     @JsonIgnore
-    public JsonNullable<CreditNoteCreateTaxableAmount> taxableAmount() {
-        return (JsonNullable<CreditNoteCreateTaxableAmount>) taxableAmount;
+    public Optional<Double> taxableAmount() {
+        return taxableAmount;
     }
 
     @JsonIgnore
@@ -235,8 +233,8 @@ public class CreditNoteCreate {
      */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public JsonNullable<List<TransactionAddressBuilder>> addresses() {
-        return (JsonNullable<List<TransactionAddressBuilder>>) addresses;
+    public Optional<List<TransactionAddressBuilder>> addresses() {
+        return (Optional<List<TransactionAddressBuilder>>) addresses;
     }
 
     /**
@@ -284,14 +282,15 @@ public class CreditNoteCreate {
      */
     public CreditNoteCreate withDescription(String description) {
         Utils.checkNotNull(description, "description");
-        this.description = JsonNullable.of(description);
+        this.description = Optional.ofNullable(description);
         return this;
     }
+
 
     /**
      * Brief explanation or reason for issuing the credit note.
      */
-    public CreditNoteCreate withDescription(JsonNullable<String> description) {
+    public CreditNoteCreate withDescription(Optional<String> description) {
         Utils.checkNotNull(description, "description");
         this.description = description;
         return this;
@@ -300,7 +299,7 @@ public class CreditNoteCreate {
     /**
      * Total monetary value of the credit note, including all items and taxes.
      */
-    public CreditNoteCreate withTotalAmount(CreditNoteCreateTotalAmount totalAmount) {
+    public CreditNoteCreate withTotalAmount(double totalAmount) {
         Utils.checkNotNull(totalAmount, "totalAmount");
         this.totalAmount = Optional.ofNullable(totalAmount);
         return this;
@@ -310,7 +309,7 @@ public class CreditNoteCreate {
     /**
      * Total monetary value of the credit note, including all items and taxes.
      */
-    public CreditNoteCreate withTotalAmount(Optional<? extends CreditNoteCreateTotalAmount> totalAmount) {
+    public CreditNoteCreate withTotalAmount(Optional<Double> totalAmount) {
         Utils.checkNotNull(totalAmount, "totalAmount");
         this.totalAmount = totalAmount;
         return this;
@@ -321,14 +320,15 @@ public class CreditNoteCreate {
      */
     public CreditNoteCreate withMarketplace(boolean marketplace) {
         Utils.checkNotNull(marketplace, "marketplace");
-        this.marketplace = JsonNullable.of(marketplace);
+        this.marketplace = Optional.ofNullable(marketplace);
         return this;
     }
+
 
     /**
      * Indicates whether this credit note is associated with a marketplace transaction.
      */
-    public CreditNoteCreate withMarketplace(JsonNullable<Boolean> marketplace) {
+    public CreditNoteCreate withMarketplace(Optional<Boolean> marketplace) {
         Utils.checkNotNull(marketplace, "marketplace");
         this.marketplace = marketplace;
         return this;
@@ -337,16 +337,17 @@ public class CreditNoteCreate {
     /**
      * Pre-calculated total tax amount for the entire credit note, if provided by the external system.
      */
-    public CreditNoteCreate withTaxAmountImported(CreditNoteCreateTaxAmountImported taxAmountImported) {
+    public CreditNoteCreate withTaxAmountImported(double taxAmountImported) {
         Utils.checkNotNull(taxAmountImported, "taxAmountImported");
-        this.taxAmountImported = JsonNullable.of(taxAmountImported);
+        this.taxAmountImported = Optional.ofNullable(taxAmountImported);
         return this;
     }
+
 
     /**
      * Pre-calculated total tax amount for the entire credit note, if provided by the external system.
      */
-    public CreditNoteCreate withTaxAmountImported(JsonNullable<? extends CreditNoteCreateTaxAmountImported> taxAmountImported) {
+    public CreditNoteCreate withTaxAmountImported(Optional<Double> taxAmountImported) {
         Utils.checkNotNull(taxAmountImported, "taxAmountImported");
         this.taxAmountImported = taxAmountImported;
         return this;
@@ -355,16 +356,17 @@ public class CreditNoteCreate {
     /**
      * Pre-calculated overall tax rate for the credit note, if provided by the external system.
      */
-    public CreditNoteCreate withTaxRateImported(CreditNoteCreateTaxRateImported taxRateImported) {
+    public CreditNoteCreate withTaxRateImported(double taxRateImported) {
         Utils.checkNotNull(taxRateImported, "taxRateImported");
-        this.taxRateImported = JsonNullable.of(taxRateImported);
+        this.taxRateImported = Optional.ofNullable(taxRateImported);
         return this;
     }
+
 
     /**
      * Pre-calculated overall tax rate for the credit note, if provided by the external system.
      */
-    public CreditNoteCreate withTaxRateImported(JsonNullable<? extends CreditNoteCreateTaxRateImported> taxRateImported) {
+    public CreditNoteCreate withTaxRateImported(Optional<Double> taxRateImported) {
         Utils.checkNotNull(taxRateImported, "taxRateImported");
         this.taxRateImported = taxRateImported;
         return this;
@@ -373,16 +375,17 @@ public class CreditNoteCreate {
     /**
      * Total portion of the credit note amount subject to taxation.
      */
-    public CreditNoteCreate withTaxableAmount(CreditNoteCreateTaxableAmount taxableAmount) {
+    public CreditNoteCreate withTaxableAmount(double taxableAmount) {
         Utils.checkNotNull(taxableAmount, "taxableAmount");
-        this.taxableAmount = JsonNullable.of(taxableAmount);
+        this.taxableAmount = Optional.ofNullable(taxableAmount);
         return this;
     }
+
 
     /**
      * Total portion of the credit note amount subject to taxation.
      */
-    public CreditNoteCreate withTaxableAmount(JsonNullable<? extends CreditNoteCreateTaxableAmount> taxableAmount) {
+    public CreditNoteCreate withTaxableAmount(Optional<Double> taxableAmount) {
         Utils.checkNotNull(taxableAmount, "taxableAmount");
         this.taxableAmount = taxableAmount;
         return this;
@@ -399,14 +402,15 @@ public class CreditNoteCreate {
      */
     public CreditNoteCreate withAddresses(List<TransactionAddressBuilder> addresses) {
         Utils.checkNotNull(addresses, "addresses");
-        this.addresses = JsonNullable.of(addresses);
+        this.addresses = Optional.ofNullable(addresses);
         return this;
     }
+
 
     /**
      * A list of TransactionAddressBuilder objects or None if no addresses are provided. This field represents the addresses associated with the transaction.
      */
-    public CreditNoteCreate withAddresses(JsonNullable<? extends List<TransactionAddressBuilder>> addresses) {
+    public CreditNoteCreate withAddresses(Optional<? extends List<TransactionAddressBuilder>> addresses) {
         Utils.checkNotNull(addresses, "addresses");
         this.addresses = addresses;
         return this;
@@ -480,21 +484,21 @@ public class CreditNoteCreate {
 
         private Status status;
 
-        private JsonNullable<String> description = JsonNullable.undefined();
+        private Optional<String> description = Optional.empty();
 
-        private Optional<? extends CreditNoteCreateTotalAmount> totalAmount = Optional.empty();
+        private Optional<Double> totalAmount;
 
-        private JsonNullable<Boolean> marketplace = JsonNullable.undefined();
+        private Optional<Boolean> marketplace;
 
-        private JsonNullable<? extends CreditNoteCreateTaxAmountImported> taxAmountImported = JsonNullable.undefined();
+        private Optional<Double> taxAmountImported = Optional.empty();
 
-        private JsonNullable<? extends CreditNoteCreateTaxRateImported> taxRateImported = JsonNullable.undefined();
+        private Optional<Double> taxRateImported = Optional.empty();
 
-        private JsonNullable<? extends CreditNoteCreateTaxableAmount> taxableAmount = JsonNullable.undefined();
+        private Optional<Double> taxableAmount = Optional.empty();
 
         private CurrencyEnum currency;
 
-        private JsonNullable<? extends List<TransactionAddressBuilder>> addresses = JsonNullable.undefined();
+        private Optional<? extends List<TransactionAddressBuilder>> addresses = Optional.empty();
 
         private List<CreditNoteItemCreateUpdate> transactionItems;
 
@@ -538,14 +542,14 @@ public class CreditNoteCreate {
          */
         public Builder description(String description) {
             Utils.checkNotNull(description, "description");
-            this.description = JsonNullable.of(description);
+            this.description = Optional.ofNullable(description);
             return this;
         }
 
         /**
          * Brief explanation or reason for issuing the credit note.
          */
-        public Builder description(JsonNullable<String> description) {
+        public Builder description(Optional<String> description) {
             Utils.checkNotNull(description, "description");
             this.description = description;
             return this;
@@ -555,7 +559,7 @@ public class CreditNoteCreate {
         /**
          * Total monetary value of the credit note, including all items and taxes.
          */
-        public Builder totalAmount(CreditNoteCreateTotalAmount totalAmount) {
+        public Builder totalAmount(double totalAmount) {
             Utils.checkNotNull(totalAmount, "totalAmount");
             this.totalAmount = Optional.ofNullable(totalAmount);
             return this;
@@ -564,7 +568,7 @@ public class CreditNoteCreate {
         /**
          * Total monetary value of the credit note, including all items and taxes.
          */
-        public Builder totalAmount(Optional<? extends CreditNoteCreateTotalAmount> totalAmount) {
+        public Builder totalAmount(Optional<Double> totalAmount) {
             Utils.checkNotNull(totalAmount, "totalAmount");
             this.totalAmount = totalAmount;
             return this;
@@ -576,14 +580,14 @@ public class CreditNoteCreate {
          */
         public Builder marketplace(boolean marketplace) {
             Utils.checkNotNull(marketplace, "marketplace");
-            this.marketplace = JsonNullable.of(marketplace);
+            this.marketplace = Optional.ofNullable(marketplace);
             return this;
         }
 
         /**
          * Indicates whether this credit note is associated with a marketplace transaction.
          */
-        public Builder marketplace(JsonNullable<Boolean> marketplace) {
+        public Builder marketplace(Optional<Boolean> marketplace) {
             Utils.checkNotNull(marketplace, "marketplace");
             this.marketplace = marketplace;
             return this;
@@ -593,16 +597,16 @@ public class CreditNoteCreate {
         /**
          * Pre-calculated total tax amount for the entire credit note, if provided by the external system.
          */
-        public Builder taxAmountImported(CreditNoteCreateTaxAmountImported taxAmountImported) {
+        public Builder taxAmountImported(double taxAmountImported) {
             Utils.checkNotNull(taxAmountImported, "taxAmountImported");
-            this.taxAmountImported = JsonNullable.of(taxAmountImported);
+            this.taxAmountImported = Optional.ofNullable(taxAmountImported);
             return this;
         }
 
         /**
          * Pre-calculated total tax amount for the entire credit note, if provided by the external system.
          */
-        public Builder taxAmountImported(JsonNullable<? extends CreditNoteCreateTaxAmountImported> taxAmountImported) {
+        public Builder taxAmountImported(Optional<Double> taxAmountImported) {
             Utils.checkNotNull(taxAmountImported, "taxAmountImported");
             this.taxAmountImported = taxAmountImported;
             return this;
@@ -612,16 +616,16 @@ public class CreditNoteCreate {
         /**
          * Pre-calculated overall tax rate for the credit note, if provided by the external system.
          */
-        public Builder taxRateImported(CreditNoteCreateTaxRateImported taxRateImported) {
+        public Builder taxRateImported(double taxRateImported) {
             Utils.checkNotNull(taxRateImported, "taxRateImported");
-            this.taxRateImported = JsonNullable.of(taxRateImported);
+            this.taxRateImported = Optional.ofNullable(taxRateImported);
             return this;
         }
 
         /**
          * Pre-calculated overall tax rate for the credit note, if provided by the external system.
          */
-        public Builder taxRateImported(JsonNullable<? extends CreditNoteCreateTaxRateImported> taxRateImported) {
+        public Builder taxRateImported(Optional<Double> taxRateImported) {
             Utils.checkNotNull(taxRateImported, "taxRateImported");
             this.taxRateImported = taxRateImported;
             return this;
@@ -631,16 +635,16 @@ public class CreditNoteCreate {
         /**
          * Total portion of the credit note amount subject to taxation.
          */
-        public Builder taxableAmount(CreditNoteCreateTaxableAmount taxableAmount) {
+        public Builder taxableAmount(double taxableAmount) {
             Utils.checkNotNull(taxableAmount, "taxableAmount");
-            this.taxableAmount = JsonNullable.of(taxableAmount);
+            this.taxableAmount = Optional.ofNullable(taxableAmount);
             return this;
         }
 
         /**
          * Total portion of the credit note amount subject to taxation.
          */
-        public Builder taxableAmount(JsonNullable<? extends CreditNoteCreateTaxableAmount> taxableAmount) {
+        public Builder taxableAmount(Optional<Double> taxableAmount) {
             Utils.checkNotNull(taxableAmount, "taxableAmount");
             this.taxableAmount = taxableAmount;
             return this;
@@ -659,14 +663,14 @@ public class CreditNoteCreate {
          */
         public Builder addresses(List<TransactionAddressBuilder> addresses) {
             Utils.checkNotNull(addresses, "addresses");
-            this.addresses = JsonNullable.of(addresses);
+            this.addresses = Optional.ofNullable(addresses);
             return this;
         }
 
         /**
          * A list of TransactionAddressBuilder objects or None if no addresses are provided. This field represents the addresses associated with the transaction.
          */
-        public Builder addresses(JsonNullable<? extends List<TransactionAddressBuilder>> addresses) {
+        public Builder addresses(Optional<? extends List<TransactionAddressBuilder>> addresses) {
             Utils.checkNotNull(addresses, "addresses");
             this.addresses = addresses;
             return this;
@@ -683,6 +687,12 @@ public class CreditNoteCreate {
         }
 
         public CreditNoteCreate build() {
+            if (totalAmount == null) {
+                totalAmount = _SINGLETON_VALUE_TotalAmount.value();
+            }
+            if (marketplace == null) {
+                marketplace = _SINGLETON_VALUE_Marketplace.value();
+            }
 
             return new CreditNoteCreate(
                 externalId, date, status,
@@ -691,5 +701,17 @@ public class CreditNoteCreate {
                 currency, addresses, transactionItems);
         }
 
+
+        private static final LazySingletonValue<Optional<Double>> _SINGLETON_VALUE_TotalAmount =
+                new LazySingletonValue<>(
+                        "total_amount",
+                        "\"0.00\"",
+                        new TypeReference<Optional<Double>>() {});
+
+        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_Marketplace =
+                new LazySingletonValue<>(
+                        "marketplace",
+                        "false",
+                        new TypeReference<Optional<Boolean>>() {});
     }
 }

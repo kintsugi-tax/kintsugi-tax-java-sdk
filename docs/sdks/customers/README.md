@@ -26,9 +26,11 @@ The Get Customers API retrieves
 package hello.world;
 
 import com.kintsugi.taxplatform.SDK;
+import com.kintsugi.taxplatform.models.components.Security;
 import com.kintsugi.taxplatform.models.errors.BackendSrcCustomersResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
-import com.kintsugi.taxplatform.models.operations.*;
+import com.kintsugi.taxplatform.models.operations.GetCustomersV1Request;
+import com.kintsugi.taxplatform.models.operations.GetCustomersV1Response;
 import java.lang.Exception;
 import java.util.List;
 
@@ -37,14 +39,16 @@ public class Application {
     public static void main(String[] args) throws ErrorResponse, BackendSrcCustomersResponsesValidationErrorResponse, ErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
+                .security(Security.builder()
+                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
+                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
+                    .build())
             .build();
 
         GetCustomersV1Request req = GetCustomersV1Request.builder()
-                .xOrganizationId("org_12345")
                 .searchQuery("John")
                 .country(List.of(
-                    GetCustomersV1Country.of("U"),
-                    GetCustomersV1Country.of("S")))
+                    ,))
                 .state("CA")
                 .sourceIn("SHOPIFY,API")
                 .orderBy("created_at,street_1,street_2,city,state,postal_code,country,status")
@@ -52,9 +56,6 @@ public class Application {
 
         GetCustomersV1Response res = sdk.customers().list()
                 .request(req)
-                .security(GetCustomersV1Security.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .build())
                 .call();
 
         if (res.pageCustomerRead().isPresent()) {
@@ -66,10 +67,9 @@ public class Application {
 
 ### Parameters
 
-| Parameter                                                                                                              | Type                                                                                                                   | Required                                                                                                               | Description                                                                                                            |
-| ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| `request`                                                                                                              | [GetCustomersV1Request](../../models/operations/GetCustomersV1Request.md)                                              | :heavy_check_mark:                                                                                                     | The request object to use for the request.                                                                             |
-| `security`                                                                                                             | [com.kintsugi.taxplatform.models.operations.GetCustomersV1Security](../../models/operations/GetCustomersV1Security.md) | :heavy_check_mark:                                                                                                     | The security requirements to use for the request.                                                                      |
+| Parameter                                                                 | Type                                                                      | Required                                                                  | Description                                                               |
+| ------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| `request`                                                                 | [GetCustomersV1Request](../../models/operations/GetCustomersV1Request.md) | :heavy_check_mark:                                                        | The request object to use for the request.                                |
 
 ### Response
 
@@ -100,7 +100,6 @@ import com.kintsugi.taxplatform.models.components.*;
 import com.kintsugi.taxplatform.models.errors.BackendSrcCustomersResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
 import com.kintsugi.taxplatform.models.operations.CreateCustomerV1CustomersPostResponse;
-import com.kintsugi.taxplatform.models.operations.CreateCustomerV1CustomersPostSecurity;
 import java.lang.Exception;
 
 public class Application {
@@ -108,29 +107,31 @@ public class Application {
     public static void main(String[] args) throws ErrorResponse, BackendSrcCustomersResponsesValidationErrorResponse, ErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
+                .security(Security.builder()
+                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
+                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
+                    .build())
             .build();
 
+        CustomerCreate req = CustomerCreate.builder()
+                .phone("987-654-3210")
+                .street1("456 Elm St")
+                .street2("Suite 202")
+                .city("Metropolis")
+                .county("Wayne")
+                .state("NY")
+                .postalCode("10001")
+                .country(CountryCodeEnum.US)
+                .name("Jane Smith")
+                .externalId("cust_002")
+                .status(StatusEnum.ARCHIVED)
+                .email("jane.smith@example.com")
+                .source(SourceEnum.SHOPIFY)
+                .addressStatus(AddressStatus.PARTIALLY_VERIFIED)
+                .build();
+
         CreateCustomerV1CustomersPostResponse res = sdk.customers().create()
-                .security(CreateCustomerV1CustomersPostSecurity.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .build())
-                .xOrganizationId("org_12345")
-                .customerCreate(CustomerCreate.builder()
-                    .phone("987-654-3210")
-                    .street1("456 Elm St")
-                    .street2("Suite 202")
-                    .city("Metropolis")
-                    .county("Wayne")
-                    .state("NY")
-                    .postalCode("10001")
-                    .country(CountryCodeEnum.US)
-                    .name("Jane Smith")
-                    .externalId("cust_002")
-                    .status(StatusEnum.ARCHIVED)
-                    .email("jane.smith@example.com")
-                    .source(SourceEnum.SHOPIFY)
-                    .addressStatus(AddressStatus.PARTIALLY_VERIFIED)
-                    .build())
+                .request(req)
                 .call();
 
         if (res.customerRead().isPresent()) {
@@ -142,11 +143,9 @@ public class Application {
 
 ### Parameters
 
-| Parameter                                                                                                                                            | Type                                                                                                                                                 | Required                                                                                                                                             | Description                                                                                                                                          | Example                                                                                                                                              |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `security`                                                                                                                                           | [com.kintsugi.taxplatform.models.operations.CreateCustomerV1CustomersPostSecurity](../../models/operations/CreateCustomerV1CustomersPostSecurity.md) | :heavy_check_mark:                                                                                                                                   | The security requirements to use for the request.                                                                                                    |                                                                                                                                                      |
-| `xOrganizationId`                                                                                                                                    | *Optional\<String>*                                                                                                                                  | :heavy_check_mark:                                                                                                                                   | The unique identifier for the organization making the request                                                                                        | org_12345                                                                                                                                            |
-| `customerCreate`                                                                                                                                     | [CustomerCreate](../../models/components/CustomerCreate.md)                                                                                          | :heavy_check_mark:                                                                                                                                   | N/A                                                                                                                                                  |                                                                                                                                                      |
+| Parameter                                               | Type                                                    | Required                                                | Description                                             |
+| ------------------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------------- |
+| `request`                                               | [CustomerCreate](../../models/shared/CustomerCreate.md) | :heavy_check_mark:                                      | The request object to use for the request.              |
 
 ### Response
 
@@ -174,9 +173,9 @@ The Get Customer By ID API retrieves the details of a single customer
 package hello.world;
 
 import com.kintsugi.taxplatform.SDK;
+import com.kintsugi.taxplatform.models.components.Security;
 import com.kintsugi.taxplatform.models.errors.HTTPValidationError;
 import com.kintsugi.taxplatform.models.operations.GetCustomerByIdV1CustomersCustomerIdGetResponse;
-import com.kintsugi.taxplatform.models.operations.GetCustomerByIdV1CustomersCustomerIdGetSecurity;
 import java.lang.Exception;
 
 public class Application {
@@ -184,14 +183,14 @@ public class Application {
     public static void main(String[] args) throws HTTPValidationError, Exception {
 
         SDK sdk = SDK.builder()
+                .security(Security.builder()
+                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
+                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
+                    .build())
             .build();
 
         GetCustomerByIdV1CustomersCustomerIdGetResponse res = sdk.customers().get()
-                .security(GetCustomerByIdV1CustomersCustomerIdGetSecurity.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .build())
                 .customerId("cust_abc123")
-                .xOrganizationId("org_12345")
                 .call();
 
         if (res.customerRead().isPresent()) {
@@ -203,11 +202,9 @@ public class Application {
 
 ### Parameters
 
-| Parameter                                                                                                                                                                | Type                                                                                                                                                                     | Required                                                                                                                                                                 | Description                                                                                                                                                              | Example                                                                                                                                                                  |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `security`                                                                                                                                                               | [com.kintsugi.taxplatform.models.operations.GetCustomerByIdV1CustomersCustomerIdGetSecurity](../../models/operations/GetCustomerByIdV1CustomersCustomerIdGetSecurity.md) | :heavy_check_mark:                                                                                                                                                       | The security requirements to use for the request.                                                                                                                        |                                                                                                                                                                          |
-| `customerId`                                                                                                                                                             | *String*                                                                                                                                                                 | :heavy_check_mark:                                                                                                                                                       | Unique identifier of the customer                                                                                                                                        | cust_abc123                                                                                                                                                              |
-| `xOrganizationId`                                                                                                                                                        | *Optional\<String>*                                                                                                                                                      | :heavy_check_mark:                                                                                                                                                       | The unique identifier for the organization making the request                                                                                                            | org_12345                                                                                                                                                                |
+| Parameter                         | Type                              | Required                          | Description                       | Example                           |
+| --------------------------------- | --------------------------------- | --------------------------------- | --------------------------------- | --------------------------------- |
+| `customerId`                      | *String*                          | :heavy_check_mark:                | Unique identifier of the customer | cust_abc123                       |
 
 ### Response
 
@@ -237,7 +234,6 @@ import com.kintsugi.taxplatform.models.components.*;
 import com.kintsugi.taxplatform.models.errors.BackendSrcCustomersResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
 import com.kintsugi.taxplatform.models.operations.UpdateCustomerV1CustomersCustomerIdPutResponse;
-import com.kintsugi.taxplatform.models.operations.UpdateCustomerV1CustomersCustomerIdPutSecurity;
 import java.lang.Exception;
 
 public class Application {
@@ -245,14 +241,14 @@ public class Application {
     public static void main(String[] args) throws ErrorResponse, BackendSrcCustomersResponsesValidationErrorResponse, ErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
+                .security(Security.builder()
+                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
+                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
+                    .build())
             .build();
 
         UpdateCustomerV1CustomersCustomerIdPutResponse res = sdk.customers().update()
-                .security(UpdateCustomerV1CustomersCustomerIdPutSecurity.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .build())
                 .customerId("<id>")
-                .xOrganizationId("org_12345")
                 .customerUpdate(CustomerUpdate.builder()
                     .phone("987-654-3210")
                     .street1("456 Elm St")
@@ -281,12 +277,10 @@ public class Application {
 
 ### Parameters
 
-| Parameter                                                                                                                                                              | Type                                                                                                                                                                   | Required                                                                                                                                                               | Description                                                                                                                                                            | Example                                                                                                                                                                |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `security`                                                                                                                                                             | [com.kintsugi.taxplatform.models.operations.UpdateCustomerV1CustomersCustomerIdPutSecurity](../../models/operations/UpdateCustomerV1CustomersCustomerIdPutSecurity.md) | :heavy_check_mark:                                                                                                                                                     | The security requirements to use for the request.                                                                                                                      |                                                                                                                                                                        |
-| `customerId`                                                                                                                                                           | *String*                                                                                                                                                               | :heavy_check_mark:                                                                                                                                                     | Unique identifier of the customer to be retrieved.                                                                                                                     |                                                                                                                                                                        |
-| `xOrganizationId`                                                                                                                                                      | *Optional\<String>*                                                                                                                                                    | :heavy_check_mark:                                                                                                                                                     | The unique identifier for the organization making the request                                                                                                          | org_12345                                                                                                                                                              |
-| `customerUpdate`                                                                                                                                                       | [CustomerUpdate](../../models/components/CustomerUpdate.md)                                                                                                            | :heavy_check_mark:                                                                                                                                                     | N/A                                                                                                                                                                    |                                                                                                                                                                        |
+| Parameter                                                   | Type                                                        | Required                                                    | Description                                                 |
+| ----------------------------------------------------------- | ----------------------------------------------------------- | ----------------------------------------------------------- | ----------------------------------------------------------- |
+| `customerId`                                                | *String*                                                    | :heavy_check_mark:                                          | Unique identifier of the customer to be retrieved.          |
+| `customerUpdate`                                            | [CustomerUpdate](../../models/components/CustomerUpdate.md) | :heavy_check_mark:                                          | N/A                                                         |
 
 ### Response
 
@@ -314,9 +308,9 @@ an external ID is available.
 package hello.world;
 
 import com.kintsugi.taxplatform.SDK;
+import com.kintsugi.taxplatform.models.components.Security;
 import com.kintsugi.taxplatform.models.errors.HTTPValidationError;
 import com.kintsugi.taxplatform.models.operations.GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse;
-import com.kintsugi.taxplatform.models.operations.GetCustomerByExternalIdV1CustomersExternalExternalIdGetSecurity;
 import java.lang.Exception;
 
 public class Application {
@@ -324,14 +318,14 @@ public class Application {
     public static void main(String[] args) throws HTTPValidationError, Exception {
 
         SDK sdk = SDK.builder()
+                .security(Security.builder()
+                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
+                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
+                    .build())
             .build();
 
         GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse res = sdk.customers().getByExternalId()
-                .security(GetCustomerByExternalIdV1CustomersExternalExternalIdGetSecurity.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .build())
                 .externalId("external_12345")
-                .xOrganizationId("org_12345")
                 .call();
 
         if (res.customerRead().isPresent()) {
@@ -343,11 +337,9 @@ public class Application {
 
 ### Parameters
 
-| Parameter                                                                                                                                                                                                | Type                                                                                                                                                                                                     | Required                                                                                                                                                                                                 | Description                                                                                                                                                                                              | Example                                                                                                                                                                                                  |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `security`                                                                                                                                                                                               | [com.kintsugi.taxplatform.models.operations.GetCustomerByExternalIdV1CustomersExternalExternalIdGetSecurity](../../models/operations/GetCustomerByExternalIdV1CustomersExternalExternalIdGetSecurity.md) | :heavy_check_mark:                                                                                                                                                                                       | The security requirements to use for the request.                                                                                                                                                        |                                                                                                                                                                                                          |
-| `externalId`                                                                                                                                                                                             | *String*                                                                                                                                                                                                 | :heavy_check_mark:                                                                                                                                                                                       | The external identifier of the customer to retrieve.                                                                                                                                                     | external_12345                                                                                                                                                                                           |
-| `xOrganizationId`                                                                                                                                                                                        | *Optional\<String>*                                                                                                                                                                                      | :heavy_check_mark:                                                                                                                                                                                       | The unique identifier for the organization making the request                                                                                                                                            | org_12345                                                                                                                                                                                                |
+| Parameter                                            | Type                                                 | Required                                             | Description                                          | Example                                              |
+| ---------------------------------------------------- | ---------------------------------------------------- | ---------------------------------------------------- | ---------------------------------------------------- | ---------------------------------------------------- |
+| `externalId`                                         | *String*                                             | :heavy_check_mark:                                   | The external identifier of the customer to retrieve. | external_12345                                       |
 
 ### Response
 
@@ -371,9 +363,9 @@ Get a list of transactions for a customer by their unique ID.
 package hello.world;
 
 import com.kintsugi.taxplatform.SDK;
+import com.kintsugi.taxplatform.models.components.Security;
 import com.kintsugi.taxplatform.models.errors.HTTPValidationError;
 import com.kintsugi.taxplatform.models.operations.GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse;
-import com.kintsugi.taxplatform.models.operations.GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetSecurity;
 import java.lang.Exception;
 
 public class Application {
@@ -381,14 +373,14 @@ public class Application {
     public static void main(String[] args) throws HTTPValidationError, Exception {
 
         SDK sdk = SDK.builder()
+                .security(Security.builder()
+                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
+                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
+                    .build())
             .build();
 
         GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse res = sdk.customers().getTransactions()
-                .security(GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetSecurity.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .build())
                 .customerId("<id>")
-                .xOrganizationId("org_12345")
                 .call();
 
         if (res.responseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet().isPresent()) {
@@ -400,11 +392,9 @@ public class Application {
 
 ### Parameters
 
-| Parameter                                                                                                                                                                                                                | Type                                                                                                                                                                                                                     | Required                                                                                                                                                                                                                 | Description                                                                                                                                                                                                              | Example                                                                                                                                                                                                                  |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `security`                                                                                                                                                                                                               | [com.kintsugi.taxplatform.models.operations.GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetSecurity](../../models/operations/GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetSecurity.md) | :heavy_check_mark:                                                                                                                                                                                                       | The security requirements to use for the request.                                                                                                                                                                        |                                                                                                                                                                                                                          |
-| `customerId`                                                                                                                                                                                                             | *String*                                                                                                                                                                                                                 | :heavy_check_mark:                                                                                                                                                                                                       | N/A                                                                                                                                                                                                                      |                                                                                                                                                                                                                          |
-| `xOrganizationId`                                                                                                                                                                                                        | *Optional\<String>*                                                                                                                                                                                                      | :heavy_check_mark:                                                                                                                                                                                                       | The unique identifier for the organization making the request                                                                                                                                                            | org_12345                                                                                                                                                                                                                |
+| Parameter          | Type               | Required           | Description        |
+| ------------------ | ------------------ | ------------------ | ------------------ |
+| `customerId`       | *String*           | :heavy_check_mark: | N/A                |
 
 ### Response
 
@@ -431,7 +421,6 @@ import com.kintsugi.taxplatform.SDK;
 import com.kintsugi.taxplatform.models.components.*;
 import com.kintsugi.taxplatform.models.errors.HTTPValidationError;
 import com.kintsugi.taxplatform.models.operations.CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostResponse;
-import com.kintsugi.taxplatform.models.operations.CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostSecurity;
 import java.lang.Exception;
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -441,25 +430,39 @@ public class Application {
     public static void main(String[] args) throws HTTPValidationError, Exception {
 
         SDK sdk = SDK.builder()
+                .security(Security.builder()
+                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
+                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
+                    .build())
             .build();
 
         CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostResponse res = sdk.customers().createTransaction()
-                .security(CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostSecurity.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .build())
                 .customerId("<id>")
-                .xOrganizationId("org_12345")
                 .transactionCreate(TransactionCreate.builder()
                     .organizationId("<id>")
                     .externalId("<id>")
                     .date(OffsetDateTime.parse("2023-02-16T04:36:50.697Z"))
-                    .addresses(TransactionCreateAddresses.ofTransactionAddressBuilder(List.of()))
+                    .addresses(List.of())
                     .transactionItems(List.of(
                         TransactionItemCreateUpdate.builder()
                             .organizationId("<id>")
                             .date(OffsetDateTime.parse("2024-05-13T04:49:24.946Z"))
                             .externalProductId("<id>")
+                            .quantity(1d)
+                            .amount(0d)
+                            .taxAmountImported(0d)
+                            .taxRateImported(0d)
+                            .taxAmountCalculated(0d)
+                            .taxRateCalculated(0d)
+                            .taxableAmount(0d)
                             .build()))
+                    .totalAmount(0d)
+                    .totalTaxAmountImported(0d)
+                    .taxRateImported(0d)
+                    .totalTaxAmountCalculated(0d)
+                    .taxRateCalculated(0d)
+                    .totalTaxLiabilityAmount(0d)
+                    .taxableAmount(0d)
                     .build())
                 .call();
 
@@ -472,12 +475,10 @@ public class Application {
 
 ### Parameters
 
-| Parameter                                                                                                                                                                                                                      | Type                                                                                                                                                                                                                           | Required                                                                                                                                                                                                                       | Description                                                                                                                                                                                                                    | Example                                                                                                                                                                                                                        |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `security`                                                                                                                                                                                                                     | [com.kintsugi.taxplatform.models.operations.CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostSecurity](../../models/operations/CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostSecurity.md) | :heavy_check_mark:                                                                                                                                                                                                             | The security requirements to use for the request.                                                                                                                                                                              |                                                                                                                                                                                                                                |
-| `customerId`                                                                                                                                                                                                                   | *String*                                                                                                                                                                                                                       | :heavy_check_mark:                                                                                                                                                                                                             | N/A                                                                                                                                                                                                                            |                                                                                                                                                                                                                                |
-| `xOrganizationId`                                                                                                                                                                                                              | *Optional\<String>*                                                                                                                                                                                                            | :heavy_check_mark:                                                                                                                                                                                                             | The unique identifier for the organization making the request                                                                                                                                                                  | org_12345                                                                                                                                                                                                                      |
-| `transactionCreate`                                                                                                                                                                                                            | [TransactionCreate](../../models/components/TransactionCreate.md)                                                                                                                                                              | :heavy_check_mark:                                                                                                                                                                                                             | N/A                                                                                                                                                                                                                            |                                                                                                                                                                                                                                |
+| Parameter                                                         | Type                                                              | Required                                                          | Description                                                       |
+| ----------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- |
+| `customerId`                                                      | *String*                                                          | :heavy_check_mark:                                                | N/A                                                               |
+| `transactionCreate`                                               | [TransactionCreate](../../models/components/TransactionCreate.md) | :heavy_check_mark:                                                | N/A                                                               |
 
 ### Response
 

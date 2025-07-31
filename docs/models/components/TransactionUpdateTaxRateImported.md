@@ -1,4 +1,0 @@
-# TransactionUpdateTaxRateImported
-
-Imported tax rate.
-

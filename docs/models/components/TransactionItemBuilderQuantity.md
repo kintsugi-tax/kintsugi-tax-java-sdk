@@ -1,4 +1,0 @@
-# TransactionItemBuilderQuantity
-
-Quantity of item.
-

@@ -8,34 +8,26 @@ import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 import com.kintsugi.taxplatform.models.components.CustomerCreate;
 import com.kintsugi.taxplatform.models.components.CustomerUpdate;
 import com.kintsugi.taxplatform.models.components.TransactionCreate;
-import com.kintsugi.taxplatform.models.operations.CreateCustomerV1CustomersPostRequest;
 import com.kintsugi.taxplatform.models.operations.CreateCustomerV1CustomersPostRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.CreateCustomerV1CustomersPostResponse;
-import com.kintsugi.taxplatform.models.operations.CreateCustomerV1CustomersPostSecurity;
 import com.kintsugi.taxplatform.models.operations.CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest;
 import com.kintsugi.taxplatform.models.operations.CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostResponse;
-import com.kintsugi.taxplatform.models.operations.CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostSecurity;
 import com.kintsugi.taxplatform.models.operations.GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse;
-import com.kintsugi.taxplatform.models.operations.GetCustomerByExternalIdV1CustomersExternalExternalIdGetSecurity;
 import com.kintsugi.taxplatform.models.operations.GetCustomerByIdV1CustomersCustomerIdGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetCustomerByIdV1CustomersCustomerIdGetRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.GetCustomerByIdV1CustomersCustomerIdGetResponse;
-import com.kintsugi.taxplatform.models.operations.GetCustomerByIdV1CustomersCustomerIdGetSecurity;
 import com.kintsugi.taxplatform.models.operations.GetCustomersV1Request;
 import com.kintsugi.taxplatform.models.operations.GetCustomersV1RequestBuilder;
 import com.kintsugi.taxplatform.models.operations.GetCustomersV1Response;
-import com.kintsugi.taxplatform.models.operations.GetCustomersV1Security;
 import com.kintsugi.taxplatform.models.operations.GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse;
-import com.kintsugi.taxplatform.models.operations.GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetSecurity;
 import com.kintsugi.taxplatform.models.operations.UpdateCustomerV1CustomersCustomerIdPutRequest;
 import com.kintsugi.taxplatform.models.operations.UpdateCustomerV1CustomersCustomerIdPutRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.UpdateCustomerV1CustomersCustomerIdPutResponse;
-import com.kintsugi.taxplatform.models.operations.UpdateCustomerV1CustomersCustomerIdPutSecurity;
 import com.kintsugi.taxplatform.operations.CreateCustomerV1CustomersPostOperation;
 import com.kintsugi.taxplatform.operations.CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostOperation;
 import com.kintsugi.taxplatform.operations.GetCustomerByExternalIdV1CustomersExternalExternalIdGetOperation;
@@ -45,7 +37,6 @@ import com.kintsugi.taxplatform.operations.GetTransactionsByCustomerIdV1Customer
 import com.kintsugi.taxplatform.operations.UpdateCustomerV1CustomersCustomerIdPutOperation;
 import java.lang.Exception;
 import java.lang.String;
-import java.util.Optional;
 
 
 public class Customers {
@@ -76,13 +67,12 @@ public class Customers {
      *     This API allows searching, filtering by country and state, and sorting the results.
      * 
      * @param request The request object containing all the parameters for the API call.
-     * @param security The security details to use for authentication.
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public GetCustomersV1Response list(GetCustomersV1Request request, GetCustomersV1Security security) throws Exception {
+    public GetCustomersV1Response list(GetCustomersV1Request request) throws Exception {
         RequestOperation<GetCustomersV1Request, GetCustomersV1Response> operation
-              = new GetCustomersV1Operation(sdkConfiguration, security);
+              = new GetCustomersV1Operation(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -104,38 +94,13 @@ public class Customers {
      * <p>The Create Customer API enables the creation of a new customer record with essential
      * details like name, contact information, and address, along with optional metadata.
      * 
-     * @param security The security details to use for authentication.
-     * @param customerCreate 
+     * @param request The request object containing all the parameters for the API call.
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public CreateCustomerV1CustomersPostResponse create(CreateCustomerV1CustomersPostSecurity security, CustomerCreate customerCreate) throws Exception {
-        return create(security, Optional.empty(), customerCreate);
-    }
-
-    /**
-     * Create Customer
-     * 
-     * <p>The Create Customer API enables the creation of a new customer record with essential
-     * details like name, contact information, and address, along with optional metadata.
-     * 
-     * @param security The security details to use for authentication.
-     * @param xOrganizationId The unique identifier for the organization making the request
-     * @param customerCreate 
-     * @return The response from the API call
-     * @throws Exception if the API call fails
-     */
-    public CreateCustomerV1CustomersPostResponse create(
-            CreateCustomerV1CustomersPostSecurity security, Optional<String> xOrganizationId,
-            CustomerCreate customerCreate) throws Exception {
-        CreateCustomerV1CustomersPostRequest request =
-            CreateCustomerV1CustomersPostRequest
-                .builder()
-                .xOrganizationId(xOrganizationId)
-                .customerCreate(customerCreate)
-                .build();
-        RequestOperation<CreateCustomerV1CustomersPostRequest, CreateCustomerV1CustomersPostResponse> operation
-              = new CreateCustomerV1CustomersPostOperation(sdkConfiguration, security);
+    public CreateCustomerV1CustomersPostResponse create(CustomerCreate request) throws Exception {
+        RequestOperation<CustomerCreate, CreateCustomerV1CustomersPostResponse> operation
+              = new CreateCustomerV1CustomersPostOperation(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -159,39 +124,18 @@ public class Customers {
      *     using their unique identifier. It returns customer-specific data,
      *     including contact information, address, name and metadata, etc.
      * 
-     * @param security The security details to use for authentication.
      * @param customerId Unique identifier of the customer
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public GetCustomerByIdV1CustomersCustomerIdGetResponse get(GetCustomerByIdV1CustomersCustomerIdGetSecurity security, String customerId) throws Exception {
-        return get(security, customerId, Optional.empty());
-    }
-
-    /**
-     * Get Customer By Id
-     * 
-     * <p>The Get Customer By ID API retrieves the details of a single customer
-     *     using their unique identifier. It returns customer-specific data,
-     *     including contact information, address, name and metadata, etc.
-     * 
-     * @param security The security details to use for authentication.
-     * @param customerId Unique identifier of the customer
-     * @param xOrganizationId The unique identifier for the organization making the request
-     * @return The response from the API call
-     * @throws Exception if the API call fails
-     */
-    public GetCustomerByIdV1CustomersCustomerIdGetResponse get(
-            GetCustomerByIdV1CustomersCustomerIdGetSecurity security, String customerId,
-            Optional<String> xOrganizationId) throws Exception {
+    public GetCustomerByIdV1CustomersCustomerIdGetResponse get(String customerId) throws Exception {
         GetCustomerByIdV1CustomersCustomerIdGetRequest request =
             GetCustomerByIdV1CustomersCustomerIdGetRequest
                 .builder()
                 .customerId(customerId)
-                .xOrganizationId(xOrganizationId)
                 .build();
         RequestOperation<GetCustomerByIdV1CustomersCustomerIdGetRequest, GetCustomerByIdV1CustomersCustomerIdGetResponse> operation
-              = new GetCustomerByIdV1CustomersCustomerIdGetOperation(sdkConfiguration, security);
+              = new GetCustomerByIdV1CustomersCustomerIdGetOperation(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -215,45 +159,20 @@ public class Customers {
      *     information using their unique identifier,
      *     enabling updates to their details as needed.
      * 
-     * @param security The security details to use for authentication.
      * @param customerId Unique identifier of the customer to be retrieved.
      * @param customerUpdate 
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public UpdateCustomerV1CustomersCustomerIdPutResponse update(
-            UpdateCustomerV1CustomersCustomerIdPutSecurity security, String customerId,
-            CustomerUpdate customerUpdate) throws Exception {
-        return update(security, customerId, Optional.empty(),
-            customerUpdate);
-    }
-
-    /**
-     * Update Customer
-     * 
-     * <p>The Update Customer API allows you to modify an existing customer's
-     *     information using their unique identifier,
-     *     enabling updates to their details as needed.
-     * 
-     * @param security The security details to use for authentication.
-     * @param customerId Unique identifier of the customer to be retrieved.
-     * @param xOrganizationId The unique identifier for the organization making the request
-     * @param customerUpdate 
-     * @return The response from the API call
-     * @throws Exception if the API call fails
-     */
-    public UpdateCustomerV1CustomersCustomerIdPutResponse update(
-            UpdateCustomerV1CustomersCustomerIdPutSecurity security, String customerId,
-            Optional<String> xOrganizationId, CustomerUpdate customerUpdate) throws Exception {
+    public UpdateCustomerV1CustomersCustomerIdPutResponse update(String customerId, CustomerUpdate customerUpdate) throws Exception {
         UpdateCustomerV1CustomersCustomerIdPutRequest request =
             UpdateCustomerV1CustomersCustomerIdPutRequest
                 .builder()
                 .customerId(customerId)
-                .xOrganizationId(xOrganizationId)
                 .customerUpdate(customerUpdate)
                 .build();
         RequestOperation<UpdateCustomerV1CustomersCustomerIdPutRequest, UpdateCustomerV1CustomersCustomerIdPutResponse> operation
-              = new UpdateCustomerV1CustomersCustomerIdPutOperation(sdkConfiguration, security);
+              = new UpdateCustomerV1CustomersCustomerIdPutOperation(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -277,39 +196,18 @@ public class Customers {
      * their external identifier. This endpoint is useful for accessing customer data when only
      * an external ID is available.
      * 
-     * @param security The security details to use for authentication.
      * @param externalId The external identifier of the customer to retrieve.
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse getByExternalId(GetCustomerByExternalIdV1CustomersExternalExternalIdGetSecurity security, String externalId) throws Exception {
-        return getByExternalId(security, externalId, Optional.empty());
-    }
-
-    /**
-     * Get Customer By External Id
-     * 
-     * <p>The Get Customer By External ID API retrieves the details of a single customer using
-     * their external identifier. This endpoint is useful for accessing customer data when only
-     * an external ID is available.
-     * 
-     * @param security The security details to use for authentication.
-     * @param externalId The external identifier of the customer to retrieve.
-     * @param xOrganizationId The unique identifier for the organization making the request
-     * @return The response from the API call
-     * @throws Exception if the API call fails
-     */
-    public GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse getByExternalId(
-            GetCustomerByExternalIdV1CustomersExternalExternalIdGetSecurity security, String externalId,
-            Optional<String> xOrganizationId) throws Exception {
+    public GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse getByExternalId(String externalId) throws Exception {
         GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest request =
             GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest
                 .builder()
                 .externalId(externalId)
-                .xOrganizationId(xOrganizationId)
                 .build();
         RequestOperation<GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest, GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse> operation
-              = new GetCustomerByExternalIdV1CustomersExternalExternalIdGetOperation(sdkConfiguration, security);
+              = new GetCustomerByExternalIdV1CustomersExternalExternalIdGetOperation(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -329,37 +227,18 @@ public class Customers {
      * 
      * <p>Get a list of transactions for a customer by their unique ID.
      * 
-     * @param security The security details to use for authentication.
      * @param customerId 
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse getTransactions(GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetSecurity security, String customerId) throws Exception {
-        return getTransactions(security, customerId, Optional.empty());
-    }
-
-    /**
-     * Get Transactions By Customer Id
-     * 
-     * <p>Get a list of transactions for a customer by their unique ID.
-     * 
-     * @param security The security details to use for authentication.
-     * @param customerId 
-     * @param xOrganizationId The unique identifier for the organization making the request
-     * @return The response from the API call
-     * @throws Exception if the API call fails
-     */
-    public GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse getTransactions(
-            GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetSecurity security, String customerId,
-            Optional<String> xOrganizationId) throws Exception {
+    public GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse getTransactions(String customerId) throws Exception {
         GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest request =
             GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest
                 .builder()
                 .customerId(customerId)
-                .xOrganizationId(xOrganizationId)
                 .build();
         RequestOperation<GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest, GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse> operation
-              = new GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetOperation(sdkConfiguration, security);
+              = new GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetOperation(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -379,43 +258,20 @@ public class Customers {
      * 
      * <p>Create a new transaction for a specific customer.
      * 
-     * @param security The security details to use for authentication.
      * @param customerId 
      * @param transactionCreate 
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostResponse createTransaction(
-            CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostSecurity security, String customerId,
-            TransactionCreate transactionCreate) throws Exception {
-        return createTransaction(security, customerId, Optional.empty(),
-            transactionCreate);
-    }
-
-    /**
-     * Create Transaction By Customer Id
-     * 
-     * <p>Create a new transaction for a specific customer.
-     * 
-     * @param security The security details to use for authentication.
-     * @param customerId 
-     * @param xOrganizationId The unique identifier for the organization making the request
-     * @param transactionCreate 
-     * @return The response from the API call
-     * @throws Exception if the API call fails
-     */
-    public CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostResponse createTransaction(
-            CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostSecurity security, String customerId,
-            Optional<String> xOrganizationId, TransactionCreate transactionCreate) throws Exception {
+    public CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostResponse createTransaction(String customerId, TransactionCreate transactionCreate) throws Exception {
         CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest request =
             CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest
                 .builder()
                 .customerId(customerId)
-                .xOrganizationId(xOrganizationId)
                 .transactionCreate(transactionCreate)
                 .build();
         RequestOperation<CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest, CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostResponse> operation
-              = new CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostOperation(sdkConfiguration, security);
+              = new CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostOperation(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 

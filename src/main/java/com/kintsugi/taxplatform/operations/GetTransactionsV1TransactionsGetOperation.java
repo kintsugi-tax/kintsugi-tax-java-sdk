@@ -14,7 +14,6 @@ import com.kintsugi.taxplatform.models.errors.BackendSrcTransactionsResponsesVal
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
 import com.kintsugi.taxplatform.models.operations.GetTransactionsV1TransactionsGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetTransactionsV1TransactionsGetResponse;
-import com.kintsugi.taxplatform.models.operations.GetTransactionsV1TransactionsGetSecurity;
 import com.kintsugi.taxplatform.utils.HTTPClient;
 import com.kintsugi.taxplatform.utils.HTTPRequest;
 import com.kintsugi.taxplatform.utils.Hook.AfterErrorContextImpl;
@@ -33,18 +32,13 @@ public class GetTransactionsV1TransactionsGetOperation implements RequestOperati
 
     private final SDKConfiguration sdkConfiguration;
     private final String baseUrl;
-    private final GetTransactionsV1TransactionsGetSecurity security;
     private final SecuritySource securitySource;
     private final HTTPClient client;
 
-    public GetTransactionsV1TransactionsGetOperation(
-        SDKConfiguration sdkConfiguration,
-        GetTransactionsV1TransactionsGetSecurity security) {
+    public GetTransactionsV1TransactionsGetOperation(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
         this.baseUrl = this.sdkConfiguration.serverUrl();
-        this.security = security;
-        // hooks will be passed method level security only
-        this.securitySource = SecuritySource.of(security);
+        this.securitySource = this.sdkConfiguration.securitySource();
         this.client = this.sdkConfiguration.client();
     }
 
@@ -64,15 +58,14 @@ public class GetTransactionsV1TransactionsGetOperation implements RequestOperati
                 GetTransactionsV1TransactionsGetRequest.class,
                 request, 
                 null));
-        req.addHeaders(Utils.getHeadersFromMetadata(request, null));
-        Utils.configureSecurity(req, security);
+        Utils.configureSecurity(req, this.sdkConfiguration.securitySource().getSecurity());
 
         return sdkConfiguration.hooks().beforeRequest(
               new BeforeRequestContextImpl(
                   this.sdkConfiguration,
                   this.baseUrl,
                   "get_transactions_v1_transactions_get",
-                  java.util.Optional.empty(),
+                  java.util.Optional.of(java.util.List.of()),
                   securitySource()),
               req.build());
     }
@@ -85,7 +78,7 @@ public class GetTransactionsV1TransactionsGetOperation implements RequestOperati
                     this.sdkConfiguration,
                     this.baseUrl,
                     "get_transactions_v1_transactions_get",
-                    java.util.Optional.empty(),
+                    java.util.Optional.of(java.util.List.of()),
                     securitySource()),
                 Optional.ofNullable(response),
                 Optional.ofNullable(error));
@@ -98,7 +91,7 @@ public class GetTransactionsV1TransactionsGetOperation implements RequestOperati
                     this.sdkConfiguration,
                     this.baseUrl,
                     "get_transactions_v1_transactions_get",
-                    java.util.Optional.empty(),
+                    java.util.Optional.of(java.util.List.of()),
                     securitySource()),
                 response);
     }

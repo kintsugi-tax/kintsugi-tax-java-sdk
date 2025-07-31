@@ -8,7 +8,6 @@ import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 import com.kintsugi.taxplatform.models.operations.GetNexusForOrgV1NexusGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetNexusForOrgV1NexusGetRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.GetNexusForOrgV1NexusGetResponse;
-import com.kintsugi.taxplatform.models.operations.GetNexusForOrgV1NexusGetSecurity;
 import com.kintsugi.taxplatform.operations.GetNexusForOrgV1NexusGetOperation;
 import java.lang.Exception;
 
@@ -37,13 +36,12 @@ public class Nexus {
      * <p>Get a list of all nexuses for the organization.
      * 
      * @param request The request object containing all the parameters for the API call.
-     * @param security The security details to use for authentication.
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public GetNexusForOrgV1NexusGetResponse list(GetNexusForOrgV1NexusGetRequest request, GetNexusForOrgV1NexusGetSecurity security) throws Exception {
+    public GetNexusForOrgV1NexusGetResponse list(GetNexusForOrgV1NexusGetRequest request) throws Exception {
         RequestOperation<GetNexusForOrgV1NexusGetRequest, GetNexusForOrgV1NexusGetResponse> operation
-              = new GetNexusForOrgV1NexusGetOperation(sdkConfiguration, security);
+              = new GetNexusForOrgV1NexusGetOperation(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 

@@ -14,7 +14,6 @@ import java.lang.Override;
 import java.lang.String;
 import java.util.List;
 import java.util.Optional;
-import org.openapitools.jackson.nullable.JsonNullable;
 
 
 public class PageCustomerRead {
@@ -23,32 +22,29 @@ public class PageCustomerRead {
     private List<CustomerRead> items;
 
 
-    @JsonInclude(Include.ALWAYS)
     @JsonProperty("total")
-    private Optional<Long> total;
+    private long total;
 
 
-    @JsonInclude(Include.ALWAYS)
     @JsonProperty("page")
-    private Optional<Long> page;
+    private long page;
 
 
-    @JsonInclude(Include.ALWAYS)
     @JsonProperty("size")
-    private Optional<Long> size;
+    private long size;
 
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("pages")
-    private JsonNullable<Long> pages;
+    private Optional<Long> pages;
 
     @JsonCreator
     public PageCustomerRead(
             @JsonProperty("items") List<CustomerRead> items,
-            @JsonProperty("total") Optional<Long> total,
-            @JsonProperty("page") Optional<Long> page,
-            @JsonProperty("size") Optional<Long> size,
-            @JsonProperty("pages") JsonNullable<Long> pages) {
+            @JsonProperty("total") long total,
+            @JsonProperty("page") long page,
+            @JsonProperty("size") long size,
+            @JsonProperty("pages") Optional<Long> pages) {
         Utils.checkNotNull(items, "items");
         Utils.checkNotNull(total, "total");
         Utils.checkNotNull(page, "page");
@@ -62,9 +58,12 @@ public class PageCustomerRead {
     }
     
     public PageCustomerRead(
-            List<CustomerRead> items) {
-        this(items, Optional.empty(), Optional.empty(),
-            Optional.empty(), JsonNullable.undefined());
+            List<CustomerRead> items,
+            long total,
+            long page,
+            long size) {
+        this(items, total, page,
+            size, Optional.empty());
     }
 
     @JsonIgnore
@@ -73,22 +72,22 @@ public class PageCustomerRead {
     }
 
     @JsonIgnore
-    public Optional<Long> total() {
+    public long total() {
         return total;
     }
 
     @JsonIgnore
-    public Optional<Long> page() {
+    public long page() {
         return page;
     }
 
     @JsonIgnore
-    public Optional<Long> size() {
+    public long size() {
         return size;
     }
 
     @JsonIgnore
-    public JsonNullable<Long> pages() {
+    public Optional<Long> pages() {
         return pages;
     }
 
@@ -105,25 +104,11 @@ public class PageCustomerRead {
 
     public PageCustomerRead withTotal(long total) {
         Utils.checkNotNull(total, "total");
-        this.total = Optional.ofNullable(total);
-        return this;
-    }
-
-
-    public PageCustomerRead withTotal(Optional<Long> total) {
-        Utils.checkNotNull(total, "total");
         this.total = total;
         return this;
     }
 
     public PageCustomerRead withPage(long page) {
-        Utils.checkNotNull(page, "page");
-        this.page = Optional.ofNullable(page);
-        return this;
-    }
-
-
-    public PageCustomerRead withPage(Optional<Long> page) {
         Utils.checkNotNull(page, "page");
         this.page = page;
         return this;
@@ -131,24 +116,18 @@ public class PageCustomerRead {
 
     public PageCustomerRead withSize(long size) {
         Utils.checkNotNull(size, "size");
-        this.size = Optional.ofNullable(size);
-        return this;
-    }
-
-
-    public PageCustomerRead withSize(Optional<Long> size) {
-        Utils.checkNotNull(size, "size");
         this.size = size;
         return this;
     }
 
     public PageCustomerRead withPages(long pages) {
         Utils.checkNotNull(pages, "pages");
-        this.pages = JsonNullable.of(pages);
+        this.pages = Optional.ofNullable(pages);
         return this;
     }
 
-    public PageCustomerRead withPages(JsonNullable<Long> pages) {
+
+    public PageCustomerRead withPages(Optional<Long> pages) {
         Utils.checkNotNull(pages, "pages");
         this.pages = pages;
         return this;
@@ -193,13 +172,13 @@ public class PageCustomerRead {
 
         private List<CustomerRead> items;
 
-        private Optional<Long> total = Optional.empty();
+        private Long total;
 
-        private Optional<Long> page = Optional.empty();
+        private Long page;
 
-        private Optional<Long> size = Optional.empty();
+        private Long size;
 
-        private JsonNullable<Long> pages = JsonNullable.undefined();
+        private Optional<Long> pages = Optional.empty();
 
         private Builder() {
           // force use of static builder() method
@@ -215,24 +194,12 @@ public class PageCustomerRead {
 
         public Builder total(long total) {
             Utils.checkNotNull(total, "total");
-            this.total = Optional.ofNullable(total);
-            return this;
-        }
-
-        public Builder total(Optional<Long> total) {
-            Utils.checkNotNull(total, "total");
             this.total = total;
             return this;
         }
 
 
         public Builder page(long page) {
-            Utils.checkNotNull(page, "page");
-            this.page = Optional.ofNullable(page);
-            return this;
-        }
-
-        public Builder page(Optional<Long> page) {
             Utils.checkNotNull(page, "page");
             this.page = page;
             return this;
@@ -241,12 +208,6 @@ public class PageCustomerRead {
 
         public Builder size(long size) {
             Utils.checkNotNull(size, "size");
-            this.size = Optional.ofNullable(size);
-            return this;
-        }
-
-        public Builder size(Optional<Long> size) {
-            Utils.checkNotNull(size, "size");
             this.size = size;
             return this;
         }
@@ -254,11 +215,11 @@ public class PageCustomerRead {
 
         public Builder pages(long pages) {
             Utils.checkNotNull(pages, "pages");
-            this.pages = JsonNullable.of(pages);
+            this.pages = Optional.ofNullable(pages);
             return this;
         }
 
-        public Builder pages(JsonNullable<Long> pages) {
+        public Builder pages(Optional<Long> pages) {
             Utils.checkNotNull(pages, "pages");
             this.pages = pages;
             return this;

@@ -8,12 +8,11 @@ import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.SecuritySource;
+import com.kintsugi.taxplatform.models.components.ValidationAddress;
 import com.kintsugi.taxplatform.models.errors.APIException;
 import com.kintsugi.taxplatform.models.errors.BackendSrcAddressValidationResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
-import com.kintsugi.taxplatform.models.operations.SuggestionsV1AddressValidationSuggestionsPostRequest;
 import com.kintsugi.taxplatform.models.operations.SuggestionsV1AddressValidationSuggestionsPostResponse;
-import com.kintsugi.taxplatform.models.operations.SuggestionsV1AddressValidationSuggestionsPostSecurity;
 import com.kintsugi.taxplatform.utils.HTTPClient;
 import com.kintsugi.taxplatform.utils.HTTPRequest;
 import com.kintsugi.taxplatform.utils.Hook.AfterErrorContextImpl;
@@ -31,22 +30,17 @@ import java.net.http.HttpResponse;
 import java.util.Optional;
 
 
-public class SuggestionsV1AddressValidationSuggestionsPostOperation implements RequestOperation<SuggestionsV1AddressValidationSuggestionsPostRequest, SuggestionsV1AddressValidationSuggestionsPostResponse> {
+public class SuggestionsV1AddressValidationSuggestionsPostOperation implements RequestOperation<ValidationAddress, SuggestionsV1AddressValidationSuggestionsPostResponse> {
 
     private final SDKConfiguration sdkConfiguration;
     private final String baseUrl;
-    private final SuggestionsV1AddressValidationSuggestionsPostSecurity security;
     private final SecuritySource securitySource;
     private final HTTPClient client;
 
-    public SuggestionsV1AddressValidationSuggestionsPostOperation(
-        SDKConfiguration sdkConfiguration,
-        SuggestionsV1AddressValidationSuggestionsPostSecurity security) {
+    public SuggestionsV1AddressValidationSuggestionsPostOperation(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
         this.baseUrl = this.sdkConfiguration.serverUrl();
-        this.security = security;
-        // hooks will be passed method level security only
-        this.securitySource = SecuritySource.of(security);
+        this.securitySource = this.sdkConfiguration.securitySource();
         this.client = this.sdkConfiguration.client();
     }
 
@@ -54,7 +48,7 @@ public class SuggestionsV1AddressValidationSuggestionsPostOperation implements R
         return Optional.ofNullable(this.securitySource);
     }
 
-    public HttpRequest buildRequest(SuggestionsV1AddressValidationSuggestionsPostRequest request) throws Exception {
+    public HttpRequest buildRequest(ValidationAddress request) throws Exception {
         String url = Utils.generateURL(
                 this.baseUrl,
                 "/v1/address_validation/suggestions");
@@ -62,10 +56,10 @@ public class SuggestionsV1AddressValidationSuggestionsPostOperation implements R
         Object convertedRequest = Utils.convertToShape(
                 request, 
                 JsonShape.DEFAULT,
-                new TypeReference<Object>() {});
+                new TypeReference<ValidationAddress>() {});
         SerializedBody serializedRequestBody = Utils.serializeRequestBody(
                 convertedRequest, 
-                "validationAddress",
+                "request",
                 "json",
                 false);
         if (serializedRequestBody == null) {
@@ -74,15 +68,14 @@ public class SuggestionsV1AddressValidationSuggestionsPostOperation implements R
         req.setBody(Optional.ofNullable(serializedRequestBody));
         req.addHeader("Accept", "application/json")
                 .addHeader("user-agent", SDKConfiguration.USER_AGENT);
-        req.addHeaders(Utils.getHeadersFromMetadata(request, null));
-        Utils.configureSecurity(req, security);
+        Utils.configureSecurity(req, this.sdkConfiguration.securitySource().getSecurity());
 
         return sdkConfiguration.hooks().beforeRequest(
               new BeforeRequestContextImpl(
                   this.sdkConfiguration,
                   this.baseUrl,
                   "suggestions_v1_address_validation_suggestions_post",
-                  java.util.Optional.empty(),
+                  java.util.Optional.of(java.util.List.of()),
                   securitySource()),
               req.build());
     }
@@ -95,7 +88,7 @@ public class SuggestionsV1AddressValidationSuggestionsPostOperation implements R
                     this.sdkConfiguration,
                     this.baseUrl,
                     "suggestions_v1_address_validation_suggestions_post",
-                    java.util.Optional.empty(),
+                    java.util.Optional.of(java.util.List.of()),
                     securitySource()),
                 Optional.ofNullable(response),
                 Optional.ofNullable(error));
@@ -108,13 +101,13 @@ public class SuggestionsV1AddressValidationSuggestionsPostOperation implements R
                     this.sdkConfiguration,
                     this.baseUrl,
                     "suggestions_v1_address_validation_suggestions_post",
-                    java.util.Optional.empty(),
+                    java.util.Optional.of(java.util.List.of()),
                     securitySource()),
                 response);
     }
 
     @Override
-    public HttpResponse<InputStream> doRequest(SuggestionsV1AddressValidationSuggestionsPostRequest request) throws Exception {
+    public HttpResponse<InputStream> doRequest(ValidationAddress request) throws Exception {
         HttpRequest r = buildRequest(request);
         HttpResponse<InputStream> httpRes;
         try {

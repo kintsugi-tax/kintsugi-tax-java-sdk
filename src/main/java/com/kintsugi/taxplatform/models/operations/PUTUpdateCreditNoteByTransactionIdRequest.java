@@ -10,7 +10,6 @@ import com.kintsugi.taxplatform.utils.SpeakeasyMetadata;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Override;
 import java.lang.String;
-import java.util.Optional;
 
 
 public class PUTUpdateCreditNoteByTransactionIdRequest {
@@ -22,12 +21,6 @@ public class PUTUpdateCreditNoteByTransactionIdRequest {
     @SpeakeasyMetadata("pathParam:style=simple,explode=false,name=credit_note_id")
     private String creditNoteId;
 
-    /**
-     * The unique identifier for the organization making the request
-     */
-    @SpeakeasyMetadata("header:style=simple,explode=false,name=x-organization-id")
-    private Optional<String> xOrganizationId;
-
 
     @SpeakeasyMetadata("request:mediaType=application/json")
     private CreditNoteCreate creditNoteCreate;
@@ -36,24 +29,13 @@ public class PUTUpdateCreditNoteByTransactionIdRequest {
     public PUTUpdateCreditNoteByTransactionIdRequest(
             String originalTransactionId,
             String creditNoteId,
-            Optional<String> xOrganizationId,
             CreditNoteCreate creditNoteCreate) {
         Utils.checkNotNull(originalTransactionId, "originalTransactionId");
         Utils.checkNotNull(creditNoteId, "creditNoteId");
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
         Utils.checkNotNull(creditNoteCreate, "creditNoteCreate");
         this.originalTransactionId = originalTransactionId;
         this.creditNoteId = creditNoteId;
-        this.xOrganizationId = xOrganizationId;
         this.creditNoteCreate = creditNoteCreate;
-    }
-    
-    public PUTUpdateCreditNoteByTransactionIdRequest(
-            String originalTransactionId,
-            String creditNoteId,
-            CreditNoteCreate creditNoteCreate) {
-        this(originalTransactionId, creditNoteId, Optional.empty(),
-            creditNoteCreate);
     }
 
     @JsonIgnore
@@ -64,14 +46,6 @@ public class PUTUpdateCreditNoteByTransactionIdRequest {
     @JsonIgnore
     public String creditNoteId() {
         return creditNoteId;
-    }
-
-    /**
-     * The unique identifier for the organization making the request
-     */
-    @JsonIgnore
-    public Optional<String> xOrganizationId() {
-        return xOrganizationId;
     }
 
     @JsonIgnore
@@ -96,25 +70,6 @@ public class PUTUpdateCreditNoteByTransactionIdRequest {
         return this;
     }
 
-    /**
-     * The unique identifier for the organization making the request
-     */
-    public PUTUpdateCreditNoteByTransactionIdRequest withXOrganizationId(String xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = Optional.ofNullable(xOrganizationId);
-        return this;
-    }
-
-
-    /**
-     * The unique identifier for the organization making the request
-     */
-    public PUTUpdateCreditNoteByTransactionIdRequest withXOrganizationId(Optional<String> xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = xOrganizationId;
-        return this;
-    }
-
     public PUTUpdateCreditNoteByTransactionIdRequest withCreditNoteCreate(CreditNoteCreate creditNoteCreate) {
         Utils.checkNotNull(creditNoteCreate, "creditNoteCreate");
         this.creditNoteCreate = creditNoteCreate;
@@ -133,15 +88,13 @@ public class PUTUpdateCreditNoteByTransactionIdRequest {
         return 
             Utils.enhancedDeepEquals(this.originalTransactionId, other.originalTransactionId) &&
             Utils.enhancedDeepEquals(this.creditNoteId, other.creditNoteId) &&
-            Utils.enhancedDeepEquals(this.xOrganizationId, other.xOrganizationId) &&
             Utils.enhancedDeepEquals(this.creditNoteCreate, other.creditNoteCreate);
     }
     
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-            originalTransactionId, creditNoteId, xOrganizationId,
-            creditNoteCreate);
+            originalTransactionId, creditNoteId, creditNoteCreate);
     }
     
     @Override
@@ -149,7 +102,6 @@ public class PUTUpdateCreditNoteByTransactionIdRequest {
         return Utils.toString(PUTUpdateCreditNoteByTransactionIdRequest.class,
                 "originalTransactionId", originalTransactionId,
                 "creditNoteId", creditNoteId,
-                "xOrganizationId", xOrganizationId,
                 "creditNoteCreate", creditNoteCreate);
     }
 
@@ -159,8 +111,6 @@ public class PUTUpdateCreditNoteByTransactionIdRequest {
         private String originalTransactionId;
 
         private String creditNoteId;
-
-        private Optional<String> xOrganizationId = Optional.empty();
 
         private CreditNoteCreate creditNoteCreate;
 
@@ -183,25 +133,6 @@ public class PUTUpdateCreditNoteByTransactionIdRequest {
         }
 
 
-        /**
-         * The unique identifier for the organization making the request
-         */
-        public Builder xOrganizationId(String xOrganizationId) {
-            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-            this.xOrganizationId = Optional.ofNullable(xOrganizationId);
-            return this;
-        }
-
-        /**
-         * The unique identifier for the organization making the request
-         */
-        public Builder xOrganizationId(Optional<String> xOrganizationId) {
-            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-            this.xOrganizationId = xOrganizationId;
-            return this;
-        }
-
-
         public Builder creditNoteCreate(CreditNoteCreate creditNoteCreate) {
             Utils.checkNotNull(creditNoteCreate, "creditNoteCreate");
             this.creditNoteCreate = creditNoteCreate;
@@ -211,8 +142,7 @@ public class PUTUpdateCreditNoteByTransactionIdRequest {
         public PUTUpdateCreditNoteByTransactionIdRequest build() {
 
             return new PUTUpdateCreditNoteByTransactionIdRequest(
-                originalTransactionId, creditNoteId, xOrganizationId,
-                creditNoteCreate);
+                originalTransactionId, creditNoteId, creditNoteCreate);
         }
 
     }

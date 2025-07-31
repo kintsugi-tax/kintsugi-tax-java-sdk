@@ -10,58 +10,26 @@ import com.kintsugi.taxplatform.models.components.ExemptionCreate;
 import com.kintsugi.taxplatform.operations.CreateExemptionV1ExemptionsPostOperation;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
-import java.lang.String;
-import java.util.Optional;
 
 public class CreateExemptionV1ExemptionsPostRequestBuilder {
 
-    private CreateExemptionV1ExemptionsPostSecurity security;
-    private Optional<String> xOrganizationId = Optional.empty();
-    private ExemptionCreate exemptionCreate;
+    private ExemptionCreate request;
     private final SDKConfiguration sdkConfiguration;
 
     public CreateExemptionV1ExemptionsPostRequestBuilder(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
     }
 
-    public CreateExemptionV1ExemptionsPostRequestBuilder security(CreateExemptionV1ExemptionsPostSecurity security) {
-        Utils.checkNotNull(security, "security");
-        this.security = security;
+    public CreateExemptionV1ExemptionsPostRequestBuilder request(ExemptionCreate request) {
+        Utils.checkNotNull(request, "request");
+        this.request = request;
         return this;
-    }
-                
-    public CreateExemptionV1ExemptionsPostRequestBuilder xOrganizationId(String xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = Optional.of(xOrganizationId);
-        return this;
-    }
-
-    public CreateExemptionV1ExemptionsPostRequestBuilder xOrganizationId(Optional<String> xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = xOrganizationId;
-        return this;
-    }
-
-    public CreateExemptionV1ExemptionsPostRequestBuilder exemptionCreate(ExemptionCreate exemptionCreate) {
-        Utils.checkNotNull(exemptionCreate, "exemptionCreate");
-        this.exemptionCreate = exemptionCreate;
-        return this;
-    }
-
-
-    private CreateExemptionV1ExemptionsPostRequest buildRequest() {
-
-        CreateExemptionV1ExemptionsPostRequest request = new CreateExemptionV1ExemptionsPostRequest(xOrganizationId,
-            exemptionCreate);
-
-        return request;
     }
 
     public CreateExemptionV1ExemptionsPostResponse call() throws Exception {
         
-        RequestOperation<CreateExemptionV1ExemptionsPostRequest, CreateExemptionV1ExemptionsPostResponse> operation
-              = new CreateExemptionV1ExemptionsPostOperation(sdkConfiguration, security);
-        CreateExemptionV1ExemptionsPostRequest request = buildRequest();
+        RequestOperation<ExemptionCreate, CreateExemptionV1ExemptionsPostResponse> operation
+              = new CreateExemptionV1ExemptionsPostOperation(sdkConfiguration);
 
         return operation.handleResponse(operation.doRequest(request));
     }

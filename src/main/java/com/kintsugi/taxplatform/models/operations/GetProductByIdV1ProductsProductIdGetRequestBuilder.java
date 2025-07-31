@@ -10,23 +10,14 @@ import com.kintsugi.taxplatform.operations.GetProductByIdV1ProductsProductIdGetO
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
 import java.lang.String;
-import java.util.Optional;
 
 public class GetProductByIdV1ProductsProductIdGetRequestBuilder {
 
-    private GetProductByIdV1ProductsProductIdGetSecurity security;
     private String productId;
-    private Optional<String> xOrganizationId = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
 
     public GetProductByIdV1ProductsProductIdGetRequestBuilder(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
-    }
-
-    public GetProductByIdV1ProductsProductIdGetRequestBuilder security(GetProductByIdV1ProductsProductIdGetSecurity security) {
-        Utils.checkNotNull(security, "security");
-        this.security = security;
-        return this;
     }
 
     public GetProductByIdV1ProductsProductIdGetRequestBuilder productId(String productId) {
@@ -34,24 +25,11 @@ public class GetProductByIdV1ProductsProductIdGetRequestBuilder {
         this.productId = productId;
         return this;
     }
-                
-    public GetProductByIdV1ProductsProductIdGetRequestBuilder xOrganizationId(String xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = Optional.of(xOrganizationId);
-        return this;
-    }
-
-    public GetProductByIdV1ProductsProductIdGetRequestBuilder xOrganizationId(Optional<String> xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = xOrganizationId;
-        return this;
-    }
 
 
     private GetProductByIdV1ProductsProductIdGetRequest buildRequest() {
 
-        GetProductByIdV1ProductsProductIdGetRequest request = new GetProductByIdV1ProductsProductIdGetRequest(productId,
-            xOrganizationId);
+        GetProductByIdV1ProductsProductIdGetRequest request = new GetProductByIdV1ProductsProductIdGetRequest(productId);
 
         return request;
     }
@@ -59,7 +37,7 @@ public class GetProductByIdV1ProductsProductIdGetRequestBuilder {
     public GetProductByIdV1ProductsProductIdGetResponse call() throws Exception {
         
         RequestOperation<GetProductByIdV1ProductsProductIdGetRequest, GetProductByIdV1ProductsProductIdGetResponse> operation
-              = new GetProductByIdV1ProductsProductIdGetOperation(sdkConfiguration, security);
+              = new GetProductByIdV1ProductsProductIdGetOperation(sdkConfiguration);
         GetProductByIdV1ProductsProductIdGetRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

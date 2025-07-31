@@ -13,7 +13,6 @@ import java.lang.Exception;
 public class GetNexusForOrgV1NexusGetRequestBuilder {
 
     private GetNexusForOrgV1NexusGetRequest request;
-    private GetNexusForOrgV1NexusGetSecurity security;
     private final SDKConfiguration sdkConfiguration;
 
     public GetNexusForOrgV1NexusGetRequestBuilder(SDKConfiguration sdkConfiguration) {
@@ -26,16 +25,10 @@ public class GetNexusForOrgV1NexusGetRequestBuilder {
         return this;
     }
 
-    public GetNexusForOrgV1NexusGetRequestBuilder security(GetNexusForOrgV1NexusGetSecurity security) {
-        Utils.checkNotNull(security, "security");
-        this.security = security;
-        return this;
-    }
-
     public GetNexusForOrgV1NexusGetResponse call() throws Exception {
         
         RequestOperation<GetNexusForOrgV1NexusGetRequest, GetNexusForOrgV1NexusGetResponse> operation
-              = new GetNexusForOrgV1NexusGetOperation(sdkConfiguration, security);
+              = new GetNexusForOrgV1NexusGetOperation(sdkConfiguration);
 
         return operation.handleResponse(operation.doRequest(request));
     }

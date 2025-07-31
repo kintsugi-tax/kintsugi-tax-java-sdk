@@ -7,26 +7,20 @@ import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 
 import com.kintsugi.taxplatform.models.components.BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost;
 import com.kintsugi.taxplatform.models.components.ExemptionCreate;
-import com.kintsugi.taxplatform.models.operations.CreateExemptionV1ExemptionsPostRequest;
 import com.kintsugi.taxplatform.models.operations.CreateExemptionV1ExemptionsPostRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.CreateExemptionV1ExemptionsPostResponse;
-import com.kintsugi.taxplatform.models.operations.CreateExemptionV1ExemptionsPostSecurity;
 import com.kintsugi.taxplatform.models.operations.GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetResponse;
-import com.kintsugi.taxplatform.models.operations.GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetSecurity;
 import com.kintsugi.taxplatform.models.operations.GetExemptionByIdV1ExemptionsExemptionIdGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetExemptionByIdV1ExemptionsExemptionIdGetRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.GetExemptionByIdV1ExemptionsExemptionIdGetResponse;
-import com.kintsugi.taxplatform.models.operations.GetExemptionByIdV1ExemptionsExemptionIdGetSecurity;
 import com.kintsugi.taxplatform.models.operations.GetExemptionsV1ExemptionsGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetExemptionsV1ExemptionsGetRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.GetExemptionsV1ExemptionsGetResponse;
-import com.kintsugi.taxplatform.models.operations.GetExemptionsV1ExemptionsGetSecurity;
 import com.kintsugi.taxplatform.models.operations.UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest;
 import com.kintsugi.taxplatform.models.operations.UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse;
-import com.kintsugi.taxplatform.models.operations.UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostSecurity;
 import com.kintsugi.taxplatform.operations.CreateExemptionV1ExemptionsPostOperation;
 import com.kintsugi.taxplatform.operations.GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetOperation;
 import com.kintsugi.taxplatform.operations.GetExemptionByIdV1ExemptionsExemptionIdGetOperation;
@@ -34,7 +28,6 @@ import com.kintsugi.taxplatform.operations.GetExemptionsV1ExemptionsGetOperation
 import com.kintsugi.taxplatform.operations.UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostOperation;
 import java.lang.Exception;
 import java.lang.String;
-import java.util.Optional;
 
 
 public class Exemptions {
@@ -61,13 +54,12 @@ public class Exemptions {
      * <p>Retrieve a list of exemptions based on filters.
      * 
      * @param request The request object containing all the parameters for the API call.
-     * @param security The security details to use for authentication.
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public GetExemptionsV1ExemptionsGetResponse list(GetExemptionsV1ExemptionsGetRequest request, GetExemptionsV1ExemptionsGetSecurity security) throws Exception {
+    public GetExemptionsV1ExemptionsGetResponse list(GetExemptionsV1ExemptionsGetRequest request) throws Exception {
         RequestOperation<GetExemptionsV1ExemptionsGetRequest, GetExemptionsV1ExemptionsGetResponse> operation
-              = new GetExemptionsV1ExemptionsGetOperation(sdkConfiguration, security);
+              = new GetExemptionsV1ExemptionsGetOperation(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -91,39 +83,13 @@ public class Exemptions {
      *     This includes defining details such as exemption type, jurisdiction,
      *     Country, State, validity dates, etc.
      * 
-     * @param security The security details to use for authentication.
-     * @param exemptionCreate 
+     * @param request The request object containing all the parameters for the API call.
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public CreateExemptionV1ExemptionsPostResponse create(CreateExemptionV1ExemptionsPostSecurity security, ExemptionCreate exemptionCreate) throws Exception {
-        return create(security, Optional.empty(), exemptionCreate);
-    }
-
-    /**
-     * Create Exemption
-     * 
-     * <p>The Create Exemption API allows you to create a new exemption record.
-     *     This includes defining details such as exemption type, jurisdiction,
-     *     Country, State, validity dates, etc.
-     * 
-     * @param security The security details to use for authentication.
-     * @param xOrganizationId The unique identifier for the organization making the request
-     * @param exemptionCreate 
-     * @return The response from the API call
-     * @throws Exception if the API call fails
-     */
-    public CreateExemptionV1ExemptionsPostResponse create(
-            CreateExemptionV1ExemptionsPostSecurity security, Optional<String> xOrganizationId,
-            ExemptionCreate exemptionCreate) throws Exception {
-        CreateExemptionV1ExemptionsPostRequest request =
-            CreateExemptionV1ExemptionsPostRequest
-                .builder()
-                .xOrganizationId(xOrganizationId)
-                .exemptionCreate(exemptionCreate)
-                .build();
-        RequestOperation<CreateExemptionV1ExemptionsPostRequest, CreateExemptionV1ExemptionsPostResponse> operation
-              = new CreateExemptionV1ExemptionsPostOperation(sdkConfiguration, security);
+    public CreateExemptionV1ExemptionsPostResponse create(ExemptionCreate request) throws Exception {
+        RequestOperation<ExemptionCreate, CreateExemptionV1ExemptionsPostResponse> operation
+              = new CreateExemptionV1ExemptionsPostOperation(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -149,40 +115,18 @@ public class Exemptions {
      *     about a particular exemption, including its associated
      *     customer, organisation id, status, etc.
      * 
-     * @param security The security details to use for authentication.
      * @param exemptionId The unique identifier for the exemption being retrieved.
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public GetExemptionByIdV1ExemptionsExemptionIdGetResponse get(GetExemptionByIdV1ExemptionsExemptionIdGetSecurity security, String exemptionId) throws Exception {
-        return get(security, exemptionId, Optional.empty());
-    }
-
-    /**
-     * Get Exemption By Id
-     * 
-     * <p>The Get Exemption By ID API retrieves a specific exemption record by
-     *     its unique ID. This API is useful for retrieving detailed information
-     *     about a particular exemption, including its associated
-     *     customer, organisation id, status, etc.
-     * 
-     * @param security The security details to use for authentication.
-     * @param exemptionId The unique identifier for the exemption being retrieved.
-     * @param xOrganizationId The unique identifier for the organization making the request
-     * @return The response from the API call
-     * @throws Exception if the API call fails
-     */
-    public GetExemptionByIdV1ExemptionsExemptionIdGetResponse get(
-            GetExemptionByIdV1ExemptionsExemptionIdGetSecurity security, String exemptionId,
-            Optional<String> xOrganizationId) throws Exception {
+    public GetExemptionByIdV1ExemptionsExemptionIdGetResponse get(String exemptionId) throws Exception {
         GetExemptionByIdV1ExemptionsExemptionIdGetRequest request =
             GetExemptionByIdV1ExemptionsExemptionIdGetRequest
                 .builder()
                 .exemptionId(exemptionId)
-                .xOrganizationId(xOrganizationId)
                 .build();
         RequestOperation<GetExemptionByIdV1ExemptionsExemptionIdGetRequest, GetExemptionByIdV1ExemptionsExemptionIdGetResponse> operation
-              = new GetExemptionByIdV1ExemptionsExemptionIdGetOperation(sdkConfiguration, security);
+              = new GetExemptionByIdV1ExemptionsExemptionIdGetOperation(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -208,46 +152,20 @@ public class Exemptions {
      *     This is primarily used to associate supporting documents with an exemption record
      *     to ensure compliance and facilitate verification.
      * 
-     * @param security The security details to use for authentication.
      * @param exemptionId The unique identifier for the exemption to which the attachment will be associated.
      * @param bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost 
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse uploadCertificate(
-            UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostSecurity security, String exemptionId,
-            BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost) throws Exception {
-        return uploadCertificate(security, exemptionId, Optional.empty(),
-            bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost);
-    }
-
-    /**
-     * Upload Exemption Certificate
-     * 
-     * <p>The Upload Exemption Certificate API allows you
-     *     to upload a file attachment (e.g., exemption certificate) for a specific exemption.
-     *     This is primarily used to associate supporting documents with an exemption record
-     *     to ensure compliance and facilitate verification.
-     * 
-     * @param security The security details to use for authentication.
-     * @param exemptionId The unique identifier for the exemption to which the attachment will be associated.
-     * @param xOrganizationId The unique identifier for the organization making the request
-     * @param bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost 
-     * @return The response from the API call
-     * @throws Exception if the API call fails
-     */
-    public UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse uploadCertificate(
-            UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostSecurity security, String exemptionId,
-            Optional<String> xOrganizationId, BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost) throws Exception {
+    public UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse uploadCertificate(String exemptionId, BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost) throws Exception {
         UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest request =
             UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest
                 .builder()
                 .exemptionId(exemptionId)
-                .xOrganizationId(xOrganizationId)
                 .bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost(bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost)
                 .build();
         RequestOperation<UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest, UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse> operation
-              = new UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostOperation(sdkConfiguration, security);
+              = new UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostOperation(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -273,42 +191,19 @@ public class Exemptions {
      *     This is used to view and manage supporting documents
      *     like exemption certificates uploaded for a particular exemption record.
      * 
-     * @param security The security details to use for authentication.
      * @param exemptionId The unique identifier for the exemption
      *                 whose attachments are being retrieved.
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetResponse getAttachments(GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetSecurity security, String exemptionId) throws Exception {
-        return getAttachments(security, exemptionId, Optional.empty());
-    }
-
-    /**
-     * Get Attachments For Exemption
-     * 
-     * <p>The Get Attachments for Exemption API retrieves all
-     *     attachments associated with a specific exemption.
-     *     This is used to view and manage supporting documents
-     *     like exemption certificates uploaded for a particular exemption record.
-     * 
-     * @param security The security details to use for authentication.
-     * @param exemptionId The unique identifier for the exemption
-     *                 whose attachments are being retrieved.
-     * @param xOrganizationId The unique identifier for the organization making the request
-     * @return The response from the API call
-     * @throws Exception if the API call fails
-     */
-    public GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetResponse getAttachments(
-            GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetSecurity security, String exemptionId,
-            Optional<String> xOrganizationId) throws Exception {
+    public GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetResponse getAttachments(String exemptionId) throws Exception {
         GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest request =
             GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest
                 .builder()
                 .exemptionId(exemptionId)
-                .xOrganizationId(xOrganizationId)
                 .build();
         RequestOperation<GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest, GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetResponse> operation
-              = new GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetOperation(sdkConfiguration, security);
+              = new GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetOperation(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 

@@ -14,7 +14,6 @@ import com.kintsugi.taxplatform.models.errors.BackendSrcCustomersResponsesValida
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
 import com.kintsugi.taxplatform.models.operations.GetCustomersV1Request;
 import com.kintsugi.taxplatform.models.operations.GetCustomersV1Response;
-import com.kintsugi.taxplatform.models.operations.GetCustomersV1Security;
 import com.kintsugi.taxplatform.utils.HTTPClient;
 import com.kintsugi.taxplatform.utils.HTTPRequest;
 import com.kintsugi.taxplatform.utils.Hook.AfterErrorContextImpl;
@@ -33,18 +32,13 @@ public class GetCustomersV1Operation implements RequestOperation<GetCustomersV1R
 
     private final SDKConfiguration sdkConfiguration;
     private final String baseUrl;
-    private final GetCustomersV1Security security;
     private final SecuritySource securitySource;
     private final HTTPClient client;
 
-    public GetCustomersV1Operation(
-        SDKConfiguration sdkConfiguration,
-        GetCustomersV1Security security) {
+    public GetCustomersV1Operation(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
         this.baseUrl = this.sdkConfiguration.serverUrl();
-        this.security = security;
-        // hooks will be passed method level security only
-        this.securitySource = SecuritySource.of(security);
+        this.securitySource = this.sdkConfiguration.securitySource();
         this.client = this.sdkConfiguration.client();
     }
 
@@ -64,15 +58,14 @@ public class GetCustomersV1Operation implements RequestOperation<GetCustomersV1R
                 GetCustomersV1Request.class,
                 request, 
                 null));
-        req.addHeaders(Utils.getHeadersFromMetadata(request, null));
-        Utils.configureSecurity(req, security);
+        Utils.configureSecurity(req, this.sdkConfiguration.securitySource().getSecurity());
 
         return sdkConfiguration.hooks().beforeRequest(
               new BeforeRequestContextImpl(
                   this.sdkConfiguration,
                   this.baseUrl,
                   "get_customers_v1",
-                  java.util.Optional.empty(),
+                  java.util.Optional.of(java.util.List.of()),
                   securitySource()),
               req.build());
     }
@@ -85,7 +78,7 @@ public class GetCustomersV1Operation implements RequestOperation<GetCustomersV1R
                     this.sdkConfiguration,
                     this.baseUrl,
                     "get_customers_v1",
-                    java.util.Optional.empty(),
+                    java.util.Optional.of(java.util.List.of()),
                     securitySource()),
                 Optional.ofNullable(response),
                 Optional.ofNullable(error));
@@ -98,7 +91,7 @@ public class GetCustomersV1Operation implements RequestOperation<GetCustomersV1R
                     this.sdkConfiguration,
                     this.baseUrl,
                     "get_customers_v1",
-                    java.util.Optional.empty(),
+                    java.util.Optional.of(java.util.List.of()),
                     securitySource()),
                 response);
     }

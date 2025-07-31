@@ -14,7 +14,6 @@ import java.lang.Override;
 import java.lang.String;
 import java.lang.SuppressWarnings;
 import java.util.Optional;
-import org.openapitools.jackson.nullable.JsonNullable;
 
 
 public class ProductCreateManual {
@@ -35,24 +34,20 @@ public class ProductCreateManual {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("description")
-    private JsonNullable<String> description;
+    private Optional<String> description;
 
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("status")
     private Optional<? extends ProductStatusEnum> status;
 
-    /**
-     * The high-level category of the product.
-     */
-    @JsonProperty("product_category")
-    private ProductCreateManualProductCategory productCategory;
 
-    /**
-     * The subcategory of the product.
-     */
+    @JsonProperty("product_category")
+    private ProductCategoryEnum productCategory;
+
+
     @JsonProperty("product_subcategory")
-    private ProductCreateManualProductSubcategory productSubcategory;
+    private ProductSubCategoryEnum productSubcategory;
 
     /**
      * Specifies whether the product is tax-exempt.
@@ -69,10 +64,10 @@ public class ProductCreateManual {
     public ProductCreateManual(
             @JsonProperty("external_id") String externalId,
             @JsonProperty("name") String name,
-            @JsonProperty("description") JsonNullable<String> description,
+            @JsonProperty("description") Optional<String> description,
             @JsonProperty("status") Optional<? extends ProductStatusEnum> status,
-            @JsonProperty("product_category") ProductCreateManualProductCategory productCategory,
-            @JsonProperty("product_subcategory") ProductCreateManualProductSubcategory productSubcategory,
+            @JsonProperty("product_category") ProductCategoryEnum productCategory,
+            @JsonProperty("product_subcategory") ProductSubCategoryEnum productSubcategory,
             @JsonProperty("tax_exempt") boolean taxExempt,
             @JsonProperty("source") Optional<? extends SourceEnum> source) {
         Utils.checkNotNull(externalId, "externalId");
@@ -96,10 +91,10 @@ public class ProductCreateManual {
     public ProductCreateManual(
             String externalId,
             String name,
-            ProductCreateManualProductCategory productCategory,
-            ProductCreateManualProductSubcategory productSubcategory,
+            ProductCategoryEnum productCategory,
+            ProductSubCategoryEnum productSubcategory,
             boolean taxExempt) {
-        this(externalId, name, JsonNullable.undefined(),
+        this(externalId, name, Optional.empty(),
             Optional.empty(), productCategory, productSubcategory,
             taxExempt, Optional.empty());
     }
@@ -124,7 +119,7 @@ public class ProductCreateManual {
      * A description of the product.
      */
     @JsonIgnore
-    public JsonNullable<String> description() {
+    public Optional<String> description() {
         return description;
     }
 
@@ -134,19 +129,13 @@ public class ProductCreateManual {
         return (Optional<ProductStatusEnum>) status;
     }
 
-    /**
-     * The high-level category of the product.
-     */
     @JsonIgnore
-    public ProductCreateManualProductCategory productCategory() {
+    public ProductCategoryEnum productCategory() {
         return productCategory;
     }
 
-    /**
-     * The subcategory of the product.
-     */
     @JsonIgnore
-    public ProductCreateManualProductSubcategory productSubcategory() {
+    public ProductSubCategoryEnum productSubcategory() {
         return productSubcategory;
     }
 
@@ -192,14 +181,15 @@ public class ProductCreateManual {
      */
     public ProductCreateManual withDescription(String description) {
         Utils.checkNotNull(description, "description");
-        this.description = JsonNullable.of(description);
+        this.description = Optional.ofNullable(description);
         return this;
     }
+
 
     /**
      * A description of the product.
      */
-    public ProductCreateManual withDescription(JsonNullable<String> description) {
+    public ProductCreateManual withDescription(Optional<String> description) {
         Utils.checkNotNull(description, "description");
         this.description = description;
         return this;
@@ -218,19 +208,13 @@ public class ProductCreateManual {
         return this;
     }
 
-    /**
-     * The high-level category of the product.
-     */
-    public ProductCreateManual withProductCategory(ProductCreateManualProductCategory productCategory) {
+    public ProductCreateManual withProductCategory(ProductCategoryEnum productCategory) {
         Utils.checkNotNull(productCategory, "productCategory");
         this.productCategory = productCategory;
         return this;
     }
 
-    /**
-     * The subcategory of the product.
-     */
-    public ProductCreateManual withProductSubcategory(ProductCreateManualProductSubcategory productSubcategory) {
+    public ProductCreateManual withProductSubcategory(ProductSubCategoryEnum productSubcategory) {
         Utils.checkNotNull(productSubcategory, "productSubcategory");
         this.productSubcategory = productSubcategory;
         return this;
@@ -306,13 +290,13 @@ public class ProductCreateManual {
 
         private String name;
 
-        private JsonNullable<String> description = JsonNullable.undefined();
+        private Optional<String> description = Optional.empty();
 
         private Optional<? extends ProductStatusEnum> status = Optional.empty();
 
-        private ProductCreateManualProductCategory productCategory;
+        private ProductCategoryEnum productCategory;
 
-        private ProductCreateManualProductSubcategory productSubcategory;
+        private ProductSubCategoryEnum productSubcategory;
 
         private Boolean taxExempt;
 
@@ -348,14 +332,14 @@ public class ProductCreateManual {
          */
         public Builder description(String description) {
             Utils.checkNotNull(description, "description");
-            this.description = JsonNullable.of(description);
+            this.description = Optional.ofNullable(description);
             return this;
         }
 
         /**
          * A description of the product.
          */
-        public Builder description(JsonNullable<String> description) {
+        public Builder description(Optional<String> description) {
             Utils.checkNotNull(description, "description");
             this.description = description;
             return this;
@@ -375,20 +359,14 @@ public class ProductCreateManual {
         }
 
 
-        /**
-         * The high-level category of the product.
-         */
-        public Builder productCategory(ProductCreateManualProductCategory productCategory) {
+        public Builder productCategory(ProductCategoryEnum productCategory) {
             Utils.checkNotNull(productCategory, "productCategory");
             this.productCategory = productCategory;
             return this;
         }
 
 
-        /**
-         * The subcategory of the product.
-         */
-        public Builder productSubcategory(ProductCreateManualProductSubcategory productSubcategory) {
+        public Builder productSubcategory(ProductSubCategoryEnum productSubcategory) {
             Utils.checkNotNull(productSubcategory, "productSubcategory");
             this.productSubcategory = productSubcategory;
             return this;

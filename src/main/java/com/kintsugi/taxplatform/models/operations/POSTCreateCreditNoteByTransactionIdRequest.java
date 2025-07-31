@@ -10,19 +10,12 @@ import com.kintsugi.taxplatform.utils.SpeakeasyMetadata;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Override;
 import java.lang.String;
-import java.util.Optional;
 
 
 public class POSTCreateCreditNoteByTransactionIdRequest {
 
     @SpeakeasyMetadata("pathParam:style=simple,explode=false,name=original_transaction_id")
     private String originalTransactionId;
-
-    /**
-     * The unique identifier for the organization making the request
-     */
-    @SpeakeasyMetadata("header:style=simple,explode=false,name=x-organization-id")
-    private Optional<String> xOrganizationId;
 
 
     @SpeakeasyMetadata("request:mediaType=application/json")
@@ -31,33 +24,16 @@ public class POSTCreateCreditNoteByTransactionIdRequest {
     @JsonCreator
     public POSTCreateCreditNoteByTransactionIdRequest(
             String originalTransactionId,
-            Optional<String> xOrganizationId,
             CreditNoteCreate creditNoteCreate) {
         Utils.checkNotNull(originalTransactionId, "originalTransactionId");
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
         Utils.checkNotNull(creditNoteCreate, "creditNoteCreate");
         this.originalTransactionId = originalTransactionId;
-        this.xOrganizationId = xOrganizationId;
         this.creditNoteCreate = creditNoteCreate;
-    }
-    
-    public POSTCreateCreditNoteByTransactionIdRequest(
-            String originalTransactionId,
-            CreditNoteCreate creditNoteCreate) {
-        this(originalTransactionId, Optional.empty(), creditNoteCreate);
     }
 
     @JsonIgnore
     public String originalTransactionId() {
         return originalTransactionId;
-    }
-
-    /**
-     * The unique identifier for the organization making the request
-     */
-    @JsonIgnore
-    public Optional<String> xOrganizationId() {
-        return xOrganizationId;
     }
 
     @JsonIgnore
@@ -73,25 +49,6 @@ public class POSTCreateCreditNoteByTransactionIdRequest {
     public POSTCreateCreditNoteByTransactionIdRequest withOriginalTransactionId(String originalTransactionId) {
         Utils.checkNotNull(originalTransactionId, "originalTransactionId");
         this.originalTransactionId = originalTransactionId;
-        return this;
-    }
-
-    /**
-     * The unique identifier for the organization making the request
-     */
-    public POSTCreateCreditNoteByTransactionIdRequest withXOrganizationId(String xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = Optional.ofNullable(xOrganizationId);
-        return this;
-    }
-
-
-    /**
-     * The unique identifier for the organization making the request
-     */
-    public POSTCreateCreditNoteByTransactionIdRequest withXOrganizationId(Optional<String> xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = xOrganizationId;
         return this;
     }
 
@@ -112,21 +69,19 @@ public class POSTCreateCreditNoteByTransactionIdRequest {
         POSTCreateCreditNoteByTransactionIdRequest other = (POSTCreateCreditNoteByTransactionIdRequest) o;
         return 
             Utils.enhancedDeepEquals(this.originalTransactionId, other.originalTransactionId) &&
-            Utils.enhancedDeepEquals(this.xOrganizationId, other.xOrganizationId) &&
             Utils.enhancedDeepEquals(this.creditNoteCreate, other.creditNoteCreate);
     }
     
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-            originalTransactionId, xOrganizationId, creditNoteCreate);
+            originalTransactionId, creditNoteCreate);
     }
     
     @Override
     public String toString() {
         return Utils.toString(POSTCreateCreditNoteByTransactionIdRequest.class,
                 "originalTransactionId", originalTransactionId,
-                "xOrganizationId", xOrganizationId,
                 "creditNoteCreate", creditNoteCreate);
     }
 
@@ -134,8 +89,6 @@ public class POSTCreateCreditNoteByTransactionIdRequest {
     public final static class Builder {
 
         private String originalTransactionId;
-
-        private Optional<String> xOrganizationId = Optional.empty();
 
         private CreditNoteCreate creditNoteCreate;
 
@@ -151,25 +104,6 @@ public class POSTCreateCreditNoteByTransactionIdRequest {
         }
 
 
-        /**
-         * The unique identifier for the organization making the request
-         */
-        public Builder xOrganizationId(String xOrganizationId) {
-            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-            this.xOrganizationId = Optional.ofNullable(xOrganizationId);
-            return this;
-        }
-
-        /**
-         * The unique identifier for the organization making the request
-         */
-        public Builder xOrganizationId(Optional<String> xOrganizationId) {
-            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-            this.xOrganizationId = xOrganizationId;
-            return this;
-        }
-
-
         public Builder creditNoteCreate(CreditNoteCreate creditNoteCreate) {
             Utils.checkNotNull(creditNoteCreate, "creditNoteCreate");
             this.creditNoteCreate = creditNoteCreate;
@@ -179,7 +113,7 @@ public class POSTCreateCreditNoteByTransactionIdRequest {
         public POSTCreateCreditNoteByTransactionIdRequest build() {
 
             return new POSTCreateCreditNoteByTransactionIdRequest(
-                originalTransactionId, xOrganizationId, creditNoteCreate);
+                originalTransactionId, creditNoteCreate);
         }
 
     }

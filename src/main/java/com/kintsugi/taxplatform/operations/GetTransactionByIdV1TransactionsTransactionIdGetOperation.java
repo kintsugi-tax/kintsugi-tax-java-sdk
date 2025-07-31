@@ -14,7 +14,6 @@ import com.kintsugi.taxplatform.models.errors.BackendSrcTransactionsResponsesVal
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
 import com.kintsugi.taxplatform.models.operations.GetTransactionByIdV1TransactionsTransactionIdGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetTransactionByIdV1TransactionsTransactionIdGetResponse;
-import com.kintsugi.taxplatform.models.operations.GetTransactionByIdV1TransactionsTransactionIdGetSecurity;
 import com.kintsugi.taxplatform.utils.HTTPClient;
 import com.kintsugi.taxplatform.utils.HTTPRequest;
 import com.kintsugi.taxplatform.utils.Hook.AfterErrorContextImpl;
@@ -33,18 +32,13 @@ public class GetTransactionByIdV1TransactionsTransactionIdGetOperation implement
 
     private final SDKConfiguration sdkConfiguration;
     private final String baseUrl;
-    private final GetTransactionByIdV1TransactionsTransactionIdGetSecurity security;
     private final SecuritySource securitySource;
     private final HTTPClient client;
 
-    public GetTransactionByIdV1TransactionsTransactionIdGetOperation(
-        SDKConfiguration sdkConfiguration,
-        GetTransactionByIdV1TransactionsTransactionIdGetSecurity security) {
+    public GetTransactionByIdV1TransactionsTransactionIdGetOperation(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
         this.baseUrl = this.sdkConfiguration.serverUrl();
-        this.security = security;
-        // hooks will be passed method level security only
-        this.securitySource = SecuritySource.of(security);
+        this.securitySource = this.sdkConfiguration.securitySource();
         this.client = this.sdkConfiguration.client();
     }
 
@@ -61,15 +55,14 @@ public class GetTransactionByIdV1TransactionsTransactionIdGetOperation implement
         HTTPRequest req = new HTTPRequest(url, "GET");
         req.addHeader("Accept", "application/json")
                 .addHeader("user-agent", SDKConfiguration.USER_AGENT);
-        req.addHeaders(Utils.getHeadersFromMetadata(request, null));
-        Utils.configureSecurity(req, security);
+        Utils.configureSecurity(req, this.sdkConfiguration.securitySource().getSecurity());
 
         return sdkConfiguration.hooks().beforeRequest(
               new BeforeRequestContextImpl(
                   this.sdkConfiguration,
                   this.baseUrl,
                   "get_transaction_by_id_v1_transactions__transaction_id__get",
-                  java.util.Optional.empty(),
+                  java.util.Optional.of(java.util.List.of()),
                   securitySource()),
               req.build());
     }
@@ -82,7 +75,7 @@ public class GetTransactionByIdV1TransactionsTransactionIdGetOperation implement
                     this.sdkConfiguration,
                     this.baseUrl,
                     "get_transaction_by_id_v1_transactions__transaction_id__get",
-                    java.util.Optional.empty(),
+                    java.util.Optional.of(java.util.List.of()),
                     securitySource()),
                 Optional.ofNullable(response),
                 Optional.ofNullable(error));
@@ -95,7 +88,7 @@ public class GetTransactionByIdV1TransactionsTransactionIdGetOperation implement
                     this.sdkConfiguration,
                     this.baseUrl,
                     "get_transaction_by_id_v1_transactions__transaction_id__get",
-                    java.util.Optional.empty(),
+                    java.util.Optional.of(java.util.List.of()),
                     securitySource()),
                 response);
     }

@@ -10,23 +10,14 @@ import com.kintsugi.taxplatform.operations.GetAttachmentsForExemptionV1Exemption
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
 import java.lang.String;
-import java.util.Optional;
 
 public class GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequestBuilder {
 
-    private GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetSecurity security;
     private String exemptionId;
-    private Optional<String> xOrganizationId = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
 
     public GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequestBuilder(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
-    }
-
-    public GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequestBuilder security(GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetSecurity security) {
-        Utils.checkNotNull(security, "security");
-        this.security = security;
-        return this;
     }
 
     public GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequestBuilder exemptionId(String exemptionId) {
@@ -34,24 +25,11 @@ public class GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequ
         this.exemptionId = exemptionId;
         return this;
     }
-                
-    public GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequestBuilder xOrganizationId(String xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = Optional.of(xOrganizationId);
-        return this;
-    }
-
-    public GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequestBuilder xOrganizationId(Optional<String> xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = xOrganizationId;
-        return this;
-    }
 
 
     private GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest buildRequest() {
 
-        GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest request = new GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest(exemptionId,
-            xOrganizationId);
+        GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest request = new GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest(exemptionId);
 
         return request;
     }
@@ -59,7 +37,7 @@ public class GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequ
     public GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetResponse call() throws Exception {
         
         RequestOperation<GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest, GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetResponse> operation
-              = new GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetOperation(sdkConfiguration, security);
+              = new GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetOperation(sdkConfiguration);
         GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

@@ -14,7 +14,6 @@ import com.kintsugi.taxplatform.models.errors.BackendSrcProductsResponsesValidat
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
 import com.kintsugi.taxplatform.models.operations.GetProductByIdV1ProductsProductIdGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetProductByIdV1ProductsProductIdGetResponse;
-import com.kintsugi.taxplatform.models.operations.GetProductByIdV1ProductsProductIdGetSecurity;
 import com.kintsugi.taxplatform.utils.HTTPClient;
 import com.kintsugi.taxplatform.utils.HTTPRequest;
 import com.kintsugi.taxplatform.utils.Hook.AfterErrorContextImpl;
@@ -33,18 +32,13 @@ public class GetProductByIdV1ProductsProductIdGetOperation implements RequestOpe
 
     private final SDKConfiguration sdkConfiguration;
     private final String baseUrl;
-    private final GetProductByIdV1ProductsProductIdGetSecurity security;
     private final SecuritySource securitySource;
     private final HTTPClient client;
 
-    public GetProductByIdV1ProductsProductIdGetOperation(
-        SDKConfiguration sdkConfiguration,
-        GetProductByIdV1ProductsProductIdGetSecurity security) {
+    public GetProductByIdV1ProductsProductIdGetOperation(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
         this.baseUrl = this.sdkConfiguration.serverUrl();
-        this.security = security;
-        // hooks will be passed method level security only
-        this.securitySource = SecuritySource.of(security);
+        this.securitySource = this.sdkConfiguration.securitySource();
         this.client = this.sdkConfiguration.client();
     }
 
@@ -61,15 +55,14 @@ public class GetProductByIdV1ProductsProductIdGetOperation implements RequestOpe
         HTTPRequest req = new HTTPRequest(url, "GET");
         req.addHeader("Accept", "application/json")
                 .addHeader("user-agent", SDKConfiguration.USER_AGENT);
-        req.addHeaders(Utils.getHeadersFromMetadata(request, null));
-        Utils.configureSecurity(req, security);
+        Utils.configureSecurity(req, this.sdkConfiguration.securitySource().getSecurity());
 
         return sdkConfiguration.hooks().beforeRequest(
               new BeforeRequestContextImpl(
                   this.sdkConfiguration,
                   this.baseUrl,
                   "get_product_by_id_v1_products__product_id__get",
-                  java.util.Optional.empty(),
+                  java.util.Optional.of(java.util.List.of()),
                   securitySource()),
               req.build());
     }
@@ -82,7 +75,7 @@ public class GetProductByIdV1ProductsProductIdGetOperation implements RequestOpe
                     this.sdkConfiguration,
                     this.baseUrl,
                     "get_product_by_id_v1_products__product_id__get",
-                    java.util.Optional.empty(),
+                    java.util.Optional.of(java.util.List.of()),
                     securitySource()),
                 Optional.ofNullable(response),
                 Optional.ofNullable(error));
@@ -95,7 +88,7 @@ public class GetProductByIdV1ProductsProductIdGetOperation implements RequestOpe
                     this.sdkConfiguration,
                     this.baseUrl,
                     "get_product_by_id_v1_products__product_id__get",
-                    java.util.Optional.empty(),
+                    java.util.Optional.of(java.util.List.of()),
                     securitySource()),
                 response);
     }

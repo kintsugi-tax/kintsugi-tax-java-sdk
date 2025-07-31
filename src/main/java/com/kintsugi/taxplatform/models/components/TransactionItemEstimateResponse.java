@@ -18,7 +18,6 @@ import java.lang.SuppressWarnings;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
-import org.openapitools.jackson.nullable.JsonNullable;
 
 
 public class TransactionItemEstimateResponse {
@@ -27,7 +26,7 @@ public class TransactionItemEstimateResponse {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("external_id")
-    private JsonNullable<String> externalId;
+    private Optional<String> externalId;
 
     /**
      * The date of the transaction item.
@@ -40,7 +39,7 @@ public class TransactionItemEstimateResponse {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("description")
-    private JsonNullable<String> description;
+    private Optional<String> description;
 
     /**
      * External product identifier. If not found and product_subcategory
@@ -48,42 +47,36 @@ public class TransactionItemEstimateResponse {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("external_product_id")
-    private JsonNullable<String> externalProductId;
+    private Optional<String> externalProductId;
 
     /**
      * Name of the product. Used if creating a new product.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("product_name")
-    private JsonNullable<String> productName;
+    private Optional<String> productName;
 
     /**
      * Description of the product. Used if creating a new product.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("product_description")
-    private JsonNullable<String> productDescription;
+    private Optional<String> productDescription;
 
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("product_source")
-    private JsonNullable<? extends SourceEnum> productSource;
+    private Optional<? extends SourceEnum> productSource;
 
-    /**
-     * Subcategory of the product. Required if product_category is used
-     *         in place of external_product_id.
-     */
+
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("product_subcategory")
-    private JsonNullable<? extends ProductSubCategoryEnum> productSubcategory;
+    private Optional<? extends ProductSubCategoryEnum> productSubcategory;
 
-    /**
-     * Category of the product. Required if product_subcategory is used
-     *         in place of external_product_id.
-     */
+
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("product_category")
-    private JsonNullable<? extends ProductCategoryEnum> productCategory;
+    private Optional<? extends ProductCategoryEnum> productCategory;
 
     /**
      * Defaults to 1.0. The quantity of the item.
@@ -127,11 +120,11 @@ public class TransactionItemEstimateResponse {
     private Optional<String> taxRate;
 
     /**
-     * Reason for exemption, if applicable.
+     * This enum is used to determine if a transaction is exempt from tax.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("exempt_reason")
-    private JsonNullable<? extends TaxExemptionEnum> exemptReason;
+    private Optional<? extends TaxExemptionEnum> exemptReason;
 
     /**
      * List of tax items applied to the transaction item.
@@ -142,22 +135,22 @@ public class TransactionItemEstimateResponse {
 
     @JsonCreator
     public TransactionItemEstimateResponse(
-            @JsonProperty("external_id") JsonNullable<String> externalId,
+            @JsonProperty("external_id") Optional<String> externalId,
             @JsonProperty("date") OffsetDateTime date,
-            @JsonProperty("description") JsonNullable<String> description,
-            @JsonProperty("external_product_id") JsonNullable<String> externalProductId,
-            @JsonProperty("product_name") JsonNullable<String> productName,
-            @JsonProperty("product_description") JsonNullable<String> productDescription,
-            @JsonProperty("product_source") JsonNullable<? extends SourceEnum> productSource,
-            @JsonProperty("product_subcategory") JsonNullable<? extends ProductSubCategoryEnum> productSubcategory,
-            @JsonProperty("product_category") JsonNullable<? extends ProductCategoryEnum> productCategory,
+            @JsonProperty("description") Optional<String> description,
+            @JsonProperty("external_product_id") Optional<String> externalProductId,
+            @JsonProperty("product_name") Optional<String> productName,
+            @JsonProperty("product_description") Optional<String> productDescription,
+            @JsonProperty("product_source") Optional<? extends SourceEnum> productSource,
+            @JsonProperty("product_subcategory") Optional<? extends ProductSubCategoryEnum> productSubcategory,
+            @JsonProperty("product_category") Optional<? extends ProductCategoryEnum> productCategory,
             @JsonProperty("quantity") Optional<String> quantity,
             @JsonProperty("amount") String amount,
             @JsonProperty("exempt") Optional<Boolean> exempt,
             @JsonProperty("tax_amount") Optional<String> taxAmount,
             @JsonProperty("taxable_amount") Optional<String> taxableAmount,
             @JsonProperty("tax_rate") Optional<String> taxRate,
-            @JsonProperty("exempt_reason") JsonNullable<? extends TaxExemptionEnum> exemptReason,
+            @JsonProperty("exempt_reason") Optional<? extends TaxExemptionEnum> exemptReason,
             @JsonProperty("tax_items") Optional<? extends List<TaxItemEstimate>> taxItems) {
         Utils.checkNotNull(externalId, "externalId");
         Utils.checkNotNull(date, "date");
@@ -198,19 +191,19 @@ public class TransactionItemEstimateResponse {
     public TransactionItemEstimateResponse(
             OffsetDateTime date,
             String amount) {
-        this(JsonNullable.undefined(), date, JsonNullable.undefined(),
-            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
-            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+        this(Optional.empty(), date, Optional.empty(),
+            Optional.empty(), Optional.empty(), Optional.empty(),
+            Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), amount, Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
-            JsonNullable.undefined(), Optional.empty());
+            Optional.empty(), Optional.empty());
     }
 
     /**
      * A unique identifier for the transaction item.
      */
     @JsonIgnore
-    public JsonNullable<String> externalId() {
+    public Optional<String> externalId() {
         return externalId;
     }
 
@@ -226,7 +219,7 @@ public class TransactionItemEstimateResponse {
      * A description of the item.
      */
     @JsonIgnore
-    public JsonNullable<String> description() {
+    public Optional<String> description() {
         return description;
     }
 
@@ -235,7 +228,7 @@ public class TransactionItemEstimateResponse {
      *         and product_category are not provided, an error occurs.
      */
     @JsonIgnore
-    public JsonNullable<String> externalProductId() {
+    public Optional<String> externalProductId() {
         return externalProductId;
     }
 
@@ -243,7 +236,7 @@ public class TransactionItemEstimateResponse {
      * Name of the product. Used if creating a new product.
      */
     @JsonIgnore
-    public JsonNullable<String> productName() {
+    public Optional<String> productName() {
         return productName;
     }
 
@@ -251,34 +244,26 @@ public class TransactionItemEstimateResponse {
      * Description of the product. Used if creating a new product.
      */
     @JsonIgnore
-    public JsonNullable<String> productDescription() {
+    public Optional<String> productDescription() {
         return productDescription;
     }
 
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public JsonNullable<SourceEnum> productSource() {
-        return (JsonNullable<SourceEnum>) productSource;
+    public Optional<SourceEnum> productSource() {
+        return (Optional<SourceEnum>) productSource;
     }
 
-    /**
-     * Subcategory of the product. Required if product_category is used
-     *         in place of external_product_id.
-     */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public JsonNullable<ProductSubCategoryEnum> productSubcategory() {
-        return (JsonNullable<ProductSubCategoryEnum>) productSubcategory;
+    public Optional<ProductSubCategoryEnum> productSubcategory() {
+        return (Optional<ProductSubCategoryEnum>) productSubcategory;
     }
 
-    /**
-     * Category of the product. Required if product_subcategory is used
-     *         in place of external_product_id.
-     */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public JsonNullable<ProductCategoryEnum> productCategory() {
-        return (JsonNullable<ProductCategoryEnum>) productCategory;
+    public Optional<ProductCategoryEnum> productCategory() {
+        return (Optional<ProductCategoryEnum>) productCategory;
     }
 
     /**
@@ -330,12 +315,12 @@ public class TransactionItemEstimateResponse {
     }
 
     /**
-     * Reason for exemption, if applicable.
+     * This enum is used to determine if a transaction is exempt from tax.
      */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public JsonNullable<TaxExemptionEnum> exemptReason() {
-        return (JsonNullable<TaxExemptionEnum>) exemptReason;
+    public Optional<TaxExemptionEnum> exemptReason() {
+        return (Optional<TaxExemptionEnum>) exemptReason;
     }
 
     /**
@@ -357,14 +342,15 @@ public class TransactionItemEstimateResponse {
      */
     public TransactionItemEstimateResponse withExternalId(String externalId) {
         Utils.checkNotNull(externalId, "externalId");
-        this.externalId = JsonNullable.of(externalId);
+        this.externalId = Optional.ofNullable(externalId);
         return this;
     }
+
 
     /**
      * A unique identifier for the transaction item.
      */
-    public TransactionItemEstimateResponse withExternalId(JsonNullable<String> externalId) {
+    public TransactionItemEstimateResponse withExternalId(Optional<String> externalId) {
         Utils.checkNotNull(externalId, "externalId");
         this.externalId = externalId;
         return this;
@@ -384,14 +370,15 @@ public class TransactionItemEstimateResponse {
      */
     public TransactionItemEstimateResponse withDescription(String description) {
         Utils.checkNotNull(description, "description");
-        this.description = JsonNullable.of(description);
+        this.description = Optional.ofNullable(description);
         return this;
     }
+
 
     /**
      * A description of the item.
      */
-    public TransactionItemEstimateResponse withDescription(JsonNullable<String> description) {
+    public TransactionItemEstimateResponse withDescription(Optional<String> description) {
         Utils.checkNotNull(description, "description");
         this.description = description;
         return this;
@@ -403,15 +390,16 @@ public class TransactionItemEstimateResponse {
      */
     public TransactionItemEstimateResponse withExternalProductId(String externalProductId) {
         Utils.checkNotNull(externalProductId, "externalProductId");
-        this.externalProductId = JsonNullable.of(externalProductId);
+        this.externalProductId = Optional.ofNullable(externalProductId);
         return this;
     }
+
 
     /**
      * External product identifier. If not found and product_subcategory
      *         and product_category are not provided, an error occurs.
      */
-    public TransactionItemEstimateResponse withExternalProductId(JsonNullable<String> externalProductId) {
+    public TransactionItemEstimateResponse withExternalProductId(Optional<String> externalProductId) {
         Utils.checkNotNull(externalProductId, "externalProductId");
         this.externalProductId = externalProductId;
         return this;
@@ -422,14 +410,15 @@ public class TransactionItemEstimateResponse {
      */
     public TransactionItemEstimateResponse withProductName(String productName) {
         Utils.checkNotNull(productName, "productName");
-        this.productName = JsonNullable.of(productName);
+        this.productName = Optional.ofNullable(productName);
         return this;
     }
+
 
     /**
      * Name of the product. Used if creating a new product.
      */
-    public TransactionItemEstimateResponse withProductName(JsonNullable<String> productName) {
+    public TransactionItemEstimateResponse withProductName(Optional<String> productName) {
         Utils.checkNotNull(productName, "productName");
         this.productName = productName;
         return this;
@@ -440,14 +429,15 @@ public class TransactionItemEstimateResponse {
      */
     public TransactionItemEstimateResponse withProductDescription(String productDescription) {
         Utils.checkNotNull(productDescription, "productDescription");
-        this.productDescription = JsonNullable.of(productDescription);
+        this.productDescription = Optional.ofNullable(productDescription);
         return this;
     }
+
 
     /**
      * Description of the product. Used if creating a new product.
      */
-    public TransactionItemEstimateResponse withProductDescription(JsonNullable<String> productDescription) {
+    public TransactionItemEstimateResponse withProductDescription(Optional<String> productDescription) {
         Utils.checkNotNull(productDescription, "productDescription");
         this.productDescription = productDescription;
         return this;
@@ -455,51 +445,38 @@ public class TransactionItemEstimateResponse {
 
     public TransactionItemEstimateResponse withProductSource(SourceEnum productSource) {
         Utils.checkNotNull(productSource, "productSource");
-        this.productSource = JsonNullable.of(productSource);
+        this.productSource = Optional.ofNullable(productSource);
         return this;
     }
 
-    public TransactionItemEstimateResponse withProductSource(JsonNullable<? extends SourceEnum> productSource) {
+
+    public TransactionItemEstimateResponse withProductSource(Optional<? extends SourceEnum> productSource) {
         Utils.checkNotNull(productSource, "productSource");
         this.productSource = productSource;
         return this;
     }
 
-    /**
-     * Subcategory of the product. Required if product_category is used
-     *         in place of external_product_id.
-     */
     public TransactionItemEstimateResponse withProductSubcategory(ProductSubCategoryEnum productSubcategory) {
         Utils.checkNotNull(productSubcategory, "productSubcategory");
-        this.productSubcategory = JsonNullable.of(productSubcategory);
+        this.productSubcategory = Optional.ofNullable(productSubcategory);
         return this;
     }
 
-    /**
-     * Subcategory of the product. Required if product_category is used
-     *         in place of external_product_id.
-     */
-    public TransactionItemEstimateResponse withProductSubcategory(JsonNullable<? extends ProductSubCategoryEnum> productSubcategory) {
+
+    public TransactionItemEstimateResponse withProductSubcategory(Optional<? extends ProductSubCategoryEnum> productSubcategory) {
         Utils.checkNotNull(productSubcategory, "productSubcategory");
         this.productSubcategory = productSubcategory;
         return this;
     }
 
-    /**
-     * Category of the product. Required if product_subcategory is used
-     *         in place of external_product_id.
-     */
     public TransactionItemEstimateResponse withProductCategory(ProductCategoryEnum productCategory) {
         Utils.checkNotNull(productCategory, "productCategory");
-        this.productCategory = JsonNullable.of(productCategory);
+        this.productCategory = Optional.ofNullable(productCategory);
         return this;
     }
 
-    /**
-     * Category of the product. Required if product_subcategory is used
-     *         in place of external_product_id.
-     */
-    public TransactionItemEstimateResponse withProductCategory(JsonNullable<? extends ProductCategoryEnum> productCategory) {
+
+    public TransactionItemEstimateResponse withProductCategory(Optional<? extends ProductCategoryEnum> productCategory) {
         Utils.checkNotNull(productCategory, "productCategory");
         this.productCategory = productCategory;
         return this;
@@ -610,18 +587,19 @@ public class TransactionItemEstimateResponse {
     }
 
     /**
-     * Reason for exemption, if applicable.
+     * This enum is used to determine if a transaction is exempt from tax.
      */
     public TransactionItemEstimateResponse withExemptReason(TaxExemptionEnum exemptReason) {
         Utils.checkNotNull(exemptReason, "exemptReason");
-        this.exemptReason = JsonNullable.of(exemptReason);
+        this.exemptReason = Optional.ofNullable(exemptReason);
         return this;
     }
 
+
     /**
-     * Reason for exemption, if applicable.
+     * This enum is used to determine if a transaction is exempt from tax.
      */
-    public TransactionItemEstimateResponse withExemptReason(JsonNullable<? extends TaxExemptionEnum> exemptReason) {
+    public TransactionItemEstimateResponse withExemptReason(Optional<? extends TaxExemptionEnum> exemptReason) {
         Utils.checkNotNull(exemptReason, "exemptReason");
         this.exemptReason = exemptReason;
         return this;
@@ -711,23 +689,23 @@ public class TransactionItemEstimateResponse {
     @SuppressWarnings("UnusedReturnValue")
     public final static class Builder {
 
-        private JsonNullable<String> externalId = JsonNullable.undefined();
+        private Optional<String> externalId = Optional.empty();
 
         private OffsetDateTime date;
 
-        private JsonNullable<String> description = JsonNullable.undefined();
+        private Optional<String> description = Optional.empty();
 
-        private JsonNullable<String> externalProductId = JsonNullable.undefined();
+        private Optional<String> externalProductId = Optional.empty();
 
-        private JsonNullable<String> productName = JsonNullable.undefined();
+        private Optional<String> productName = Optional.empty();
 
-        private JsonNullable<String> productDescription = JsonNullable.undefined();
+        private Optional<String> productDescription = Optional.empty();
 
-        private JsonNullable<? extends SourceEnum> productSource = JsonNullable.undefined();
+        private Optional<? extends SourceEnum> productSource = Optional.empty();
 
-        private JsonNullable<? extends ProductSubCategoryEnum> productSubcategory = JsonNullable.undefined();
+        private Optional<? extends ProductSubCategoryEnum> productSubcategory = Optional.empty();
 
-        private JsonNullable<? extends ProductCategoryEnum> productCategory = JsonNullable.undefined();
+        private Optional<? extends ProductCategoryEnum> productCategory = Optional.empty();
 
         private Optional<String> quantity;
 
@@ -741,7 +719,7 @@ public class TransactionItemEstimateResponse {
 
         private Optional<String> taxRate;
 
-        private JsonNullable<? extends TaxExemptionEnum> exemptReason = JsonNullable.undefined();
+        private Optional<? extends TaxExemptionEnum> exemptReason = Optional.empty();
 
         private Optional<? extends List<TaxItemEstimate>> taxItems = Optional.empty();
 
@@ -755,14 +733,14 @@ public class TransactionItemEstimateResponse {
          */
         public Builder externalId(String externalId) {
             Utils.checkNotNull(externalId, "externalId");
-            this.externalId = JsonNullable.of(externalId);
+            this.externalId = Optional.ofNullable(externalId);
             return this;
         }
 
         /**
          * A unique identifier for the transaction item.
          */
-        public Builder externalId(JsonNullable<String> externalId) {
+        public Builder externalId(Optional<String> externalId) {
             Utils.checkNotNull(externalId, "externalId");
             this.externalId = externalId;
             return this;
@@ -784,14 +762,14 @@ public class TransactionItemEstimateResponse {
          */
         public Builder description(String description) {
             Utils.checkNotNull(description, "description");
-            this.description = JsonNullable.of(description);
+            this.description = Optional.ofNullable(description);
             return this;
         }
 
         /**
          * A description of the item.
          */
-        public Builder description(JsonNullable<String> description) {
+        public Builder description(Optional<String> description) {
             Utils.checkNotNull(description, "description");
             this.description = description;
             return this;
@@ -804,7 +782,7 @@ public class TransactionItemEstimateResponse {
          */
         public Builder externalProductId(String externalProductId) {
             Utils.checkNotNull(externalProductId, "externalProductId");
-            this.externalProductId = JsonNullable.of(externalProductId);
+            this.externalProductId = Optional.ofNullable(externalProductId);
             return this;
         }
 
@@ -812,7 +790,7 @@ public class TransactionItemEstimateResponse {
          * External product identifier. If not found and product_subcategory
          *         and product_category are not provided, an error occurs.
          */
-        public Builder externalProductId(JsonNullable<String> externalProductId) {
+        public Builder externalProductId(Optional<String> externalProductId) {
             Utils.checkNotNull(externalProductId, "externalProductId");
             this.externalProductId = externalProductId;
             return this;
@@ -824,14 +802,14 @@ public class TransactionItemEstimateResponse {
          */
         public Builder productName(String productName) {
             Utils.checkNotNull(productName, "productName");
-            this.productName = JsonNullable.of(productName);
+            this.productName = Optional.ofNullable(productName);
             return this;
         }
 
         /**
          * Name of the product. Used if creating a new product.
          */
-        public Builder productName(JsonNullable<String> productName) {
+        public Builder productName(Optional<String> productName) {
             Utils.checkNotNull(productName, "productName");
             this.productName = productName;
             return this;
@@ -843,14 +821,14 @@ public class TransactionItemEstimateResponse {
          */
         public Builder productDescription(String productDescription) {
             Utils.checkNotNull(productDescription, "productDescription");
-            this.productDescription = JsonNullable.of(productDescription);
+            this.productDescription = Optional.ofNullable(productDescription);
             return this;
         }
 
         /**
          * Description of the product. Used if creating a new product.
          */
-        public Builder productDescription(JsonNullable<String> productDescription) {
+        public Builder productDescription(Optional<String> productDescription) {
             Utils.checkNotNull(productDescription, "productDescription");
             this.productDescription = productDescription;
             return this;
@@ -859,53 +837,37 @@ public class TransactionItemEstimateResponse {
 
         public Builder productSource(SourceEnum productSource) {
             Utils.checkNotNull(productSource, "productSource");
-            this.productSource = JsonNullable.of(productSource);
+            this.productSource = Optional.ofNullable(productSource);
             return this;
         }
 
-        public Builder productSource(JsonNullable<? extends SourceEnum> productSource) {
+        public Builder productSource(Optional<? extends SourceEnum> productSource) {
             Utils.checkNotNull(productSource, "productSource");
             this.productSource = productSource;
             return this;
         }
 
 
-        /**
-         * Subcategory of the product. Required if product_category is used
-         *         in place of external_product_id.
-         */
         public Builder productSubcategory(ProductSubCategoryEnum productSubcategory) {
             Utils.checkNotNull(productSubcategory, "productSubcategory");
-            this.productSubcategory = JsonNullable.of(productSubcategory);
+            this.productSubcategory = Optional.ofNullable(productSubcategory);
             return this;
         }
 
-        /**
-         * Subcategory of the product. Required if product_category is used
-         *         in place of external_product_id.
-         */
-        public Builder productSubcategory(JsonNullable<? extends ProductSubCategoryEnum> productSubcategory) {
+        public Builder productSubcategory(Optional<? extends ProductSubCategoryEnum> productSubcategory) {
             Utils.checkNotNull(productSubcategory, "productSubcategory");
             this.productSubcategory = productSubcategory;
             return this;
         }
 
 
-        /**
-         * Category of the product. Required if product_subcategory is used
-         *         in place of external_product_id.
-         */
         public Builder productCategory(ProductCategoryEnum productCategory) {
             Utils.checkNotNull(productCategory, "productCategory");
-            this.productCategory = JsonNullable.of(productCategory);
+            this.productCategory = Optional.ofNullable(productCategory);
             return this;
         }
 
-        /**
-         * Category of the product. Required if product_subcategory is used
-         *         in place of external_product_id.
-         */
-        public Builder productCategory(JsonNullable<? extends ProductCategoryEnum> productCategory) {
+        public Builder productCategory(Optional<? extends ProductCategoryEnum> productCategory) {
             Utils.checkNotNull(productCategory, "productCategory");
             this.productCategory = productCategory;
             return this;
@@ -1018,18 +980,18 @@ public class TransactionItemEstimateResponse {
 
 
         /**
-         * Reason for exemption, if applicable.
+         * This enum is used to determine if a transaction is exempt from tax.
          */
         public Builder exemptReason(TaxExemptionEnum exemptReason) {
             Utils.checkNotNull(exemptReason, "exemptReason");
-            this.exemptReason = JsonNullable.of(exemptReason);
+            this.exemptReason = Optional.ofNullable(exemptReason);
             return this;
         }
 
         /**
-         * Reason for exemption, if applicable.
+         * This enum is used to determine if a transaction is exempt from tax.
          */
-        public Builder exemptReason(JsonNullable<? extends TaxExemptionEnum> exemptReason) {
+        public Builder exemptReason(Optional<? extends TaxExemptionEnum> exemptReason) {
             Utils.checkNotNull(exemptReason, "exemptReason");
             this.exemptReason = exemptReason;
             return this;

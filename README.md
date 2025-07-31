@@ -29,6 +29,7 @@ Developer-friendly & type-safe Java SDK specifically catered to leverage *tax-pl
   * [Authentication](#authentication)
   * [Available Resources and Operations](#available-resources-and-operations)
   * [Error Handling](#error-handling)
+  * [Server Selection](#server-selection)
   * [Debugging](#debugging)
 * [Development](#development)
   * [Maturity](#maturity)
@@ -48,7 +49,7 @@ The samples below show how a published SDK artifact is used:
 
 Gradle:
 ```groovy
-implementation 'com.trykintsugi:kintsugi-tax-java-sdk:0.6.3'
+implementation 'com.trykintsugi:kintsugi-tax-java-sdk:0.7.0'
 ```
 
 Maven:
@@ -56,7 +57,7 @@ Maven:
 <dependency>
     <groupId>com.trykintsugi</groupId>
     <artifactId>kintsugi-tax-java-sdk</artifactId>
-    <version>0.6.3</version>
+    <version>0.7.0</version>
 </dependency>
 ```
 
@@ -131,14 +132,58 @@ public class Application {
 
 ### Per-Client Security Schemes
 
-This SDK supports the following security scheme globally:
+This SDK supports the following security schemes globally:
 
 | Name           | Type   | Scheme  |
 | -------------- | ------ | ------- |
 | `apiKeyHeader` | apiKey | API key |
+| `customHeader` | apiKey | API key |
 
-To authenticate with the API the `apiKeyHeader` parameter must be set when initializing the SDK client instance. For example:
+You can set the security parameters through the `security` builder method when initializing the SDK client instance. The selected scheme will be used by default to authenticate with the API for all operations that support it. For example:
+```java
+package hello.world;
 
+import com.kintsugi.taxplatform.SDK;
+import com.kintsugi.taxplatform.models.components.Security;
+import com.kintsugi.taxplatform.models.components.ValidationAddress;
+import com.kintsugi.taxplatform.models.errors.BackendSrcAddressValidationResponsesValidationErrorResponse;
+import com.kintsugi.taxplatform.models.errors.ErrorResponse;
+import com.kintsugi.taxplatform.models.operations.SuggestionsV1AddressValidationSuggestionsPostResponse;
+import java.lang.Exception;
+
+public class Application {
+
+    public static void main(String[] args) throws ErrorResponse, BackendSrcAddressValidationResponsesValidationErrorResponse, ErrorResponse, Exception {
+
+        SDK sdk = SDK.builder()
+                .security(Security.builder()
+                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
+                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
+                    .build())
+            .build();
+
+        ValidationAddress req = ValidationAddress.builder()
+                .line1("1600 Amphitheatre Parkway")
+                .line2("")
+                .line3("")
+                .city("Mountain View")
+                .state("CA")
+                .postalCode("94043")
+                .id(215L)
+                .county("")
+                .fullAddress("1600 Amphitheatre Parkway, Mountain View, CA 94043")
+                .build();
+
+        SuggestionsV1AddressValidationSuggestionsPostResponse res = sdk.addressValidation().suggestions()
+                .request(req)
+                .call();
+
+        if (res.any().isPresent()) {
+            // handle response
+        }
+    }
+}
+```
 
 ### Per-Operation Security Schemes
 
@@ -177,7 +222,7 @@ public class Application {
         SearchV1AddressValidationSearchPostResponse res = sdk.addressValidation().search()
                 .request(req)
                 .security(SearchV1AddressValidationSearchPostSecurity.builder()
-
+                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
                     .build())
                 .call();
 
@@ -310,6 +355,59 @@ public class Application {
 }
 ```
 <!-- End Error Handling [errors] -->
+
+<!-- Start Server Selection [server] -->
+## Server Selection
+
+### Override Server URL Per-Client
+
+The default server can be overridden globally using the `.serverURL(String serverUrl)` builder method when initializing the SDK client instance. For example:
+```java
+package hello.world;
+
+import com.kintsugi.taxplatform.SDK;
+import com.kintsugi.taxplatform.models.components.AddressBase;
+import com.kintsugi.taxplatform.models.components.CountryCodeEnum;
+import com.kintsugi.taxplatform.models.errors.BackendSrcAddressValidationResponsesValidationErrorResponse;
+import com.kintsugi.taxplatform.models.errors.ErrorResponse;
+import com.kintsugi.taxplatform.models.operations.SearchV1AddressValidationSearchPostResponse;
+import com.kintsugi.taxplatform.models.operations.SearchV1AddressValidationSearchPostSecurity;
+import java.lang.Exception;
+
+public class Application {
+
+    public static void main(String[] args) throws ErrorResponse, BackendSrcAddressValidationResponsesValidationErrorResponse, ErrorResponse, Exception {
+
+        SDK sdk = SDK.builder()
+                .serverURL("https://api.trykintsugi.com")
+            .build();
+
+        AddressBase req = AddressBase.builder()
+                .phone("555-123-4567")
+                .street1("1600 Amphitheatre Parkway")
+                .street2("Building 40")
+                .city("Mountain View")
+                .county("Santa Clara")
+                .state("CA")
+                .postalCode("94043")
+                .country(CountryCodeEnum.US)
+                .fullAddress("1600 Amphitheatre Parkway, Mountain View, CA 94043")
+                .build();
+
+        SearchV1AddressValidationSearchPostResponse res = sdk.addressValidation().search()
+                .request(req)
+                .security(SearchV1AddressValidationSearchPostSecurity.builder()
+                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
+                    .build())
+                .call();
+
+        if (res.response200SearchV1AddressValidationSearchPost().isPresent()) {
+            // handle response
+        }
+    }
+}
+```
+<!-- End Server Selection [server] -->
 
 <!-- Start Debugging [debug] -->
 ## Debugging

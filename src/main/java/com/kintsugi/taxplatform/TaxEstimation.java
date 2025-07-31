@@ -9,11 +9,9 @@ import com.kintsugi.taxplatform.models.components.TransactionEstimatePublicReque
 import com.kintsugi.taxplatform.models.operations.EstimateTaxV1TaxEstimatePostRequest;
 import com.kintsugi.taxplatform.models.operations.EstimateTaxV1TaxEstimatePostRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.EstimateTaxV1TaxEstimatePostResponse;
-import com.kintsugi.taxplatform.models.operations.EstimateTaxV1TaxEstimatePostSecurity;
 import com.kintsugi.taxplatform.operations.EstimateTaxV1TaxEstimatePostOperation;
 import java.lang.Boolean;
 import java.lang.Exception;
-import java.lang.String;
 import java.util.Optional;
 
 
@@ -44,15 +42,13 @@ public class TaxEstimation {
      *     transaction based on the provided details, including organization nexus,
      *     transaction details, customer details, and addresses. Optionally simulates nexus being met for tax calculation purposes. The `simulate_nexus_met` parameter is deprecated and will be removed in future releases.
      * 
-     * @param security The security details to use for authentication.
      * @param transactionEstimatePublicRequest Public request model for tax estimation API documentation.
      *         This model excludes internal fields like enriched_fields that should not be exposed in API docs.
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public EstimateTaxV1TaxEstimatePostResponse estimateTax(EstimateTaxV1TaxEstimatePostSecurity security, TransactionEstimatePublicRequest transactionEstimatePublicRequest) throws Exception {
-        return estimateTax(security, Optional.empty(), Optional.empty(),
-            transactionEstimatePublicRequest);
+    public EstimateTaxV1TaxEstimatePostResponse estimateTax(TransactionEstimatePublicRequest transactionEstimatePublicRequest) throws Exception {
+        return estimateTax(Optional.empty(), transactionEstimatePublicRequest);
     }
 
     /**
@@ -62,26 +58,21 @@ public class TaxEstimation {
      *     transaction based on the provided details, including organization nexus,
      *     transaction details, customer details, and addresses. Optionally simulates nexus being met for tax calculation purposes. The `simulate_nexus_met` parameter is deprecated and will be removed in future releases.
      * 
-     * @param security The security details to use for authentication.
      * @param simulateNexusMet **Deprecated:** Use `simulate_active_registration` in the request body instead.
-     * @param xOrganizationId The unique identifier for the organization making the request
      * @param transactionEstimatePublicRequest Public request model for tax estimation API documentation.
      *         This model excludes internal fields like enriched_fields that should not be exposed in API docs.
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public EstimateTaxV1TaxEstimatePostResponse estimateTax(
-            EstimateTaxV1TaxEstimatePostSecurity security, Optional<Boolean> simulateNexusMet,
-            Optional<String> xOrganizationId, TransactionEstimatePublicRequest transactionEstimatePublicRequest) throws Exception {
+    public EstimateTaxV1TaxEstimatePostResponse estimateTax(Optional<Boolean> simulateNexusMet, TransactionEstimatePublicRequest transactionEstimatePublicRequest) throws Exception {
         EstimateTaxV1TaxEstimatePostRequest request =
             EstimateTaxV1TaxEstimatePostRequest
                 .builder()
                 .simulateNexusMet(simulateNexusMet)
-                .xOrganizationId(xOrganizationId)
                 .transactionEstimatePublicRequest(transactionEstimatePublicRequest)
                 .build();
         RequestOperation<EstimateTaxV1TaxEstimatePostRequest, EstimateTaxV1TaxEstimatePostResponse> operation
-              = new EstimateTaxV1TaxEstimatePostOperation(sdkConfiguration, security);
+              = new EstimateTaxV1TaxEstimatePostOperation(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 

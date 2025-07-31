@@ -13,7 +13,6 @@ import java.lang.Exception;
 public class GetTransactionsV1TransactionsGetRequestBuilder {
 
     private GetTransactionsV1TransactionsGetRequest request;
-    private GetTransactionsV1TransactionsGetSecurity security;
     private final SDKConfiguration sdkConfiguration;
 
     public GetTransactionsV1TransactionsGetRequestBuilder(SDKConfiguration sdkConfiguration) {
@@ -26,16 +25,10 @@ public class GetTransactionsV1TransactionsGetRequestBuilder {
         return this;
     }
 
-    public GetTransactionsV1TransactionsGetRequestBuilder security(GetTransactionsV1TransactionsGetSecurity security) {
-        Utils.checkNotNull(security, "security");
-        this.security = security;
-        return this;
-    }
-
     public GetTransactionsV1TransactionsGetResponse call() throws Exception {
         
         RequestOperation<GetTransactionsV1TransactionsGetRequest, GetTransactionsV1TransactionsGetResponse> operation
-              = new GetTransactionsV1TransactionsGetOperation(sdkConfiguration, security);
+              = new GetTransactionsV1TransactionsGetOperation(sdkConfiguration);
 
         return operation.handleResponse(operation.doRequest(request));
     }

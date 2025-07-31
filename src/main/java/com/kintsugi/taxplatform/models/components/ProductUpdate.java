@@ -8,6 +8,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.kintsugi.taxplatform.utils.LazySingletonValue;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Boolean;
 import java.lang.Override;
@@ -15,7 +17,6 @@ import java.lang.String;
 import java.lang.SuppressWarnings;
 import java.util.List;
 import java.util.Optional;
-import org.openapitools.jackson.nullable.JsonNullable;
 
 
 public class ProductUpdate {
@@ -24,7 +25,7 @@ public class ProductUpdate {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("id")
-    private JsonNullable<String> id;
+    private Optional<String> id;
 
     /**
      * External identifier provided for the product,
@@ -32,12 +33,12 @@ public class ProductUpdate {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("external_id")
-    private JsonNullable<String> externalId;
+    private Optional<String> externalId;
 
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("sku")
-    private JsonNullable<? extends List<String>> sku;
+    private Optional<? extends List<String>> sku;
 
     /**
      * Name of the product.
@@ -50,7 +51,7 @@ public class ProductUpdate {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("description")
-    private JsonNullable<String> description;
+    private Optional<String> description;
 
 
     @JsonInclude(Include.NON_ABSENT)
@@ -76,20 +77,20 @@ public class ProductUpdate {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("classification_failed")
-    private JsonNullable<Boolean> classificationFailed;
+    private Optional<Boolean> classificationFailed;
 
     @JsonCreator
     public ProductUpdate(
-            @JsonProperty("id") JsonNullable<String> id,
-            @JsonProperty("external_id") JsonNullable<String> externalId,
-            @JsonProperty("sku") JsonNullable<? extends List<String>> sku,
+            @JsonProperty("id") Optional<String> id,
+            @JsonProperty("external_id") Optional<String> externalId,
+            @JsonProperty("sku") Optional<? extends List<String>> sku,
             @JsonProperty("name") String name,
-            @JsonProperty("description") JsonNullable<String> description,
+            @JsonProperty("description") Optional<String> description,
             @JsonProperty("status") Optional<? extends ProductStatusEnum> status,
             @JsonProperty("product_category") ProductCategoryEnum productCategory,
             @JsonProperty("product_subcategory") ProductSubCategoryEnum productSubcategory,
             @JsonProperty("tax_exempt") boolean taxExempt,
-            @JsonProperty("classification_failed") JsonNullable<Boolean> classificationFailed) {
+            @JsonProperty("classification_failed") Optional<Boolean> classificationFailed) {
         Utils.checkNotNull(id, "id");
         Utils.checkNotNull(externalId, "externalId");
         Utils.checkNotNull(sku, "sku");
@@ -117,17 +118,17 @@ public class ProductUpdate {
             ProductCategoryEnum productCategory,
             ProductSubCategoryEnum productSubcategory,
             boolean taxExempt) {
-        this(JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
-            name, JsonNullable.undefined(), Optional.empty(),
+        this(Optional.empty(), Optional.empty(), Optional.empty(),
+            name, Optional.empty(), Optional.empty(),
             productCategory, productSubcategory, taxExempt,
-            JsonNullable.undefined());
+            Optional.empty());
     }
 
     /**
      * The unique identifier of the product to be updated.
      */
     @JsonIgnore
-    public JsonNullable<String> id() {
+    public Optional<String> id() {
         return id;
     }
 
@@ -136,14 +137,14 @@ public class ProductUpdate {
      *         typically by the source system.
      */
     @JsonIgnore
-    public JsonNullable<String> externalId() {
+    public Optional<String> externalId() {
         return externalId;
     }
 
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public JsonNullable<List<String>> sku() {
-        return (JsonNullable<List<String>>) sku;
+    public Optional<List<String>> sku() {
+        return (Optional<List<String>>) sku;
     }
 
     /**
@@ -158,7 +159,7 @@ public class ProductUpdate {
      * Description of the product.
      */
     @JsonIgnore
-    public JsonNullable<String> description() {
+    public Optional<String> description() {
         return description;
     }
 
@@ -190,7 +191,7 @@ public class ProductUpdate {
      * Indicates if the product classification failed.
      */
     @JsonIgnore
-    public JsonNullable<Boolean> classificationFailed() {
+    public Optional<Boolean> classificationFailed() {
         return classificationFailed;
     }
 
@@ -204,14 +205,15 @@ public class ProductUpdate {
      */
     public ProductUpdate withId(String id) {
         Utils.checkNotNull(id, "id");
-        this.id = JsonNullable.of(id);
+        this.id = Optional.ofNullable(id);
         return this;
     }
+
 
     /**
      * The unique identifier of the product to be updated.
      */
-    public ProductUpdate withId(JsonNullable<String> id) {
+    public ProductUpdate withId(Optional<String> id) {
         Utils.checkNotNull(id, "id");
         this.id = id;
         return this;
@@ -223,15 +225,16 @@ public class ProductUpdate {
      */
     public ProductUpdate withExternalId(String externalId) {
         Utils.checkNotNull(externalId, "externalId");
-        this.externalId = JsonNullable.of(externalId);
+        this.externalId = Optional.ofNullable(externalId);
         return this;
     }
+
 
     /**
      * External identifier provided for the product,
      *         typically by the source system.
      */
-    public ProductUpdate withExternalId(JsonNullable<String> externalId) {
+    public ProductUpdate withExternalId(Optional<String> externalId) {
         Utils.checkNotNull(externalId, "externalId");
         this.externalId = externalId;
         return this;
@@ -239,11 +242,12 @@ public class ProductUpdate {
 
     public ProductUpdate withSku(List<String> sku) {
         Utils.checkNotNull(sku, "sku");
-        this.sku = JsonNullable.of(sku);
+        this.sku = Optional.ofNullable(sku);
         return this;
     }
 
-    public ProductUpdate withSku(JsonNullable<? extends List<String>> sku) {
+
+    public ProductUpdate withSku(Optional<? extends List<String>> sku) {
         Utils.checkNotNull(sku, "sku");
         this.sku = sku;
         return this;
@@ -263,14 +267,15 @@ public class ProductUpdate {
      */
     public ProductUpdate withDescription(String description) {
         Utils.checkNotNull(description, "description");
-        this.description = JsonNullable.of(description);
+        this.description = Optional.ofNullable(description);
         return this;
     }
+
 
     /**
      * Description of the product.
      */
-    public ProductUpdate withDescription(JsonNullable<String> description) {
+    public ProductUpdate withDescription(Optional<String> description) {
         Utils.checkNotNull(description, "description");
         this.description = description;
         return this;
@@ -315,14 +320,15 @@ public class ProductUpdate {
      */
     public ProductUpdate withClassificationFailed(boolean classificationFailed) {
         Utils.checkNotNull(classificationFailed, "classificationFailed");
-        this.classificationFailed = JsonNullable.of(classificationFailed);
+        this.classificationFailed = Optional.ofNullable(classificationFailed);
         return this;
     }
+
 
     /**
      * Indicates if the product classification failed.
      */
-    public ProductUpdate withClassificationFailed(JsonNullable<Boolean> classificationFailed) {
+    public ProductUpdate withClassificationFailed(Optional<Boolean> classificationFailed) {
         Utils.checkNotNull(classificationFailed, "classificationFailed");
         this.classificationFailed = classificationFailed;
         return this;
@@ -377,15 +383,15 @@ public class ProductUpdate {
     @SuppressWarnings("UnusedReturnValue")
     public final static class Builder {
 
-        private JsonNullable<String> id = JsonNullable.undefined();
+        private Optional<String> id = Optional.empty();
 
-        private JsonNullable<String> externalId = JsonNullable.undefined();
+        private Optional<String> externalId = Optional.empty();
 
-        private JsonNullable<? extends List<String>> sku = JsonNullable.undefined();
+        private Optional<? extends List<String>> sku = Optional.empty();
 
         private String name;
 
-        private JsonNullable<String> description = JsonNullable.undefined();
+        private Optional<String> description = Optional.empty();
 
         private Optional<? extends ProductStatusEnum> status = Optional.empty();
 
@@ -395,7 +401,7 @@ public class ProductUpdate {
 
         private Boolean taxExempt;
 
-        private JsonNullable<Boolean> classificationFailed = JsonNullable.undefined();
+        private Optional<Boolean> classificationFailed;
 
         private Builder() {
           // force use of static builder() method
@@ -407,14 +413,14 @@ public class ProductUpdate {
          */
         public Builder id(String id) {
             Utils.checkNotNull(id, "id");
-            this.id = JsonNullable.of(id);
+            this.id = Optional.ofNullable(id);
             return this;
         }
 
         /**
          * The unique identifier of the product to be updated.
          */
-        public Builder id(JsonNullable<String> id) {
+        public Builder id(Optional<String> id) {
             Utils.checkNotNull(id, "id");
             this.id = id;
             return this;
@@ -427,7 +433,7 @@ public class ProductUpdate {
          */
         public Builder externalId(String externalId) {
             Utils.checkNotNull(externalId, "externalId");
-            this.externalId = JsonNullable.of(externalId);
+            this.externalId = Optional.ofNullable(externalId);
             return this;
         }
 
@@ -435,7 +441,7 @@ public class ProductUpdate {
          * External identifier provided for the product,
          *         typically by the source system.
          */
-        public Builder externalId(JsonNullable<String> externalId) {
+        public Builder externalId(Optional<String> externalId) {
             Utils.checkNotNull(externalId, "externalId");
             this.externalId = externalId;
             return this;
@@ -444,11 +450,11 @@ public class ProductUpdate {
 
         public Builder sku(List<String> sku) {
             Utils.checkNotNull(sku, "sku");
-            this.sku = JsonNullable.of(sku);
+            this.sku = Optional.ofNullable(sku);
             return this;
         }
 
-        public Builder sku(JsonNullable<? extends List<String>> sku) {
+        public Builder sku(Optional<? extends List<String>> sku) {
             Utils.checkNotNull(sku, "sku");
             this.sku = sku;
             return this;
@@ -470,14 +476,14 @@ public class ProductUpdate {
          */
         public Builder description(String description) {
             Utils.checkNotNull(description, "description");
-            this.description = JsonNullable.of(description);
+            this.description = Optional.ofNullable(description);
             return this;
         }
 
         /**
          * Description of the product.
          */
-        public Builder description(JsonNullable<String> description) {
+        public Builder description(Optional<String> description) {
             Utils.checkNotNull(description, "description");
             this.description = description;
             return this;
@@ -526,20 +532,23 @@ public class ProductUpdate {
          */
         public Builder classificationFailed(boolean classificationFailed) {
             Utils.checkNotNull(classificationFailed, "classificationFailed");
-            this.classificationFailed = JsonNullable.of(classificationFailed);
+            this.classificationFailed = Optional.ofNullable(classificationFailed);
             return this;
         }
 
         /**
          * Indicates if the product classification failed.
          */
-        public Builder classificationFailed(JsonNullable<Boolean> classificationFailed) {
+        public Builder classificationFailed(Optional<Boolean> classificationFailed) {
             Utils.checkNotNull(classificationFailed, "classificationFailed");
             this.classificationFailed = classificationFailed;
             return this;
         }
 
         public ProductUpdate build() {
+            if (classificationFailed == null) {
+                classificationFailed = _SINGLETON_VALUE_ClassificationFailed.value();
+            }
 
             return new ProductUpdate(
                 id, externalId, sku,
@@ -548,5 +557,11 @@ public class ProductUpdate {
                 classificationFailed);
         }
 
+
+        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_ClassificationFailed =
+                new LazySingletonValue<>(
+                        "classification_failed",
+                        "false",
+                        new TypeReference<Optional<Boolean>>() {});
     }
 }

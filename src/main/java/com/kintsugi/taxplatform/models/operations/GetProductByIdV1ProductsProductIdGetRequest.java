@@ -9,7 +9,6 @@ import com.kintsugi.taxplatform.utils.SpeakeasyMetadata;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Override;
 import java.lang.String;
-import java.util.Optional;
 
 
 public class GetProductByIdV1ProductsProductIdGetRequest {
@@ -19,25 +18,11 @@ public class GetProductByIdV1ProductsProductIdGetRequest {
     @SpeakeasyMetadata("pathParam:style=simple,explode=false,name=product_id")
     private String productId;
 
-    /**
-     * The unique identifier for the organization making the request
-     */
-    @SpeakeasyMetadata("header:style=simple,explode=false,name=x-organization-id")
-    private Optional<String> xOrganizationId;
-
     @JsonCreator
     public GetProductByIdV1ProductsProductIdGetRequest(
-            String productId,
-            Optional<String> xOrganizationId) {
-        Utils.checkNotNull(productId, "productId");
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.productId = productId;
-        this.xOrganizationId = xOrganizationId;
-    }
-    
-    public GetProductByIdV1ProductsProductIdGetRequest(
             String productId) {
-        this(productId, Optional.empty());
+        Utils.checkNotNull(productId, "productId");
+        this.productId = productId;
     }
 
     /**
@@ -46,14 +31,6 @@ public class GetProductByIdV1ProductsProductIdGetRequest {
     @JsonIgnore
     public String productId() {
         return productId;
-    }
-
-    /**
-     * The unique identifier for the organization making the request
-     */
-    @JsonIgnore
-    public Optional<String> xOrganizationId() {
-        return xOrganizationId;
     }
 
     public static Builder builder() {
@@ -70,25 +47,6 @@ public class GetProductByIdV1ProductsProductIdGetRequest {
         return this;
     }
 
-    /**
-     * The unique identifier for the organization making the request
-     */
-    public GetProductByIdV1ProductsProductIdGetRequest withXOrganizationId(String xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = Optional.ofNullable(xOrganizationId);
-        return this;
-    }
-
-
-    /**
-     * The unique identifier for the organization making the request
-     */
-    public GetProductByIdV1ProductsProductIdGetRequest withXOrganizationId(Optional<String> xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = xOrganizationId;
-        return this;
-    }
-
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -99,29 +57,25 @@ public class GetProductByIdV1ProductsProductIdGetRequest {
         }
         GetProductByIdV1ProductsProductIdGetRequest other = (GetProductByIdV1ProductsProductIdGetRequest) o;
         return 
-            Utils.enhancedDeepEquals(this.productId, other.productId) &&
-            Utils.enhancedDeepEquals(this.xOrganizationId, other.xOrganizationId);
+            Utils.enhancedDeepEquals(this.productId, other.productId);
     }
     
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-            productId, xOrganizationId);
+            productId);
     }
     
     @Override
     public String toString() {
         return Utils.toString(GetProductByIdV1ProductsProductIdGetRequest.class,
-                "productId", productId,
-                "xOrganizationId", xOrganizationId);
+                "productId", productId);
     }
 
     @SuppressWarnings("UnusedReturnValue")
     public final static class Builder {
 
         private String productId;
-
-        private Optional<String> xOrganizationId = Optional.empty();
 
         private Builder() {
           // force use of static builder() method
@@ -137,29 +91,10 @@ public class GetProductByIdV1ProductsProductIdGetRequest {
             return this;
         }
 
-
-        /**
-         * The unique identifier for the organization making the request
-         */
-        public Builder xOrganizationId(String xOrganizationId) {
-            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-            this.xOrganizationId = Optional.ofNullable(xOrganizationId);
-            return this;
-        }
-
-        /**
-         * The unique identifier for the organization making the request
-         */
-        public Builder xOrganizationId(Optional<String> xOrganizationId) {
-            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-            this.xOrganizationId = xOrganizationId;
-            return this;
-        }
-
         public GetProductByIdV1ProductsProductIdGetRequest build() {
 
             return new GetProductByIdV1ProductsProductIdGetRequest(
-                productId, xOrganizationId);
+                productId);
         }
 
     }

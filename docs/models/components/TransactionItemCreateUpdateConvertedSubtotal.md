@@ -1,4 +1,0 @@
-# TransactionItemCreateUpdateConvertedSubtotal
-
-Converted subtotal amount.
-

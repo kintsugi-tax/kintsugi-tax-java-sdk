@@ -1,4 +1,0 @@
-# TransactionCreateConvertedTaxableAmount
-
-Converted taxable amount.
-

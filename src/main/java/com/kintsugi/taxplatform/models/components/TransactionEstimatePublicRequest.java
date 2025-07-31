@@ -8,16 +8,17 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.kintsugi.taxplatform.utils.LazySingletonValue;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Boolean;
-import java.lang.Deprecated;
+import java.lang.Double;
 import java.lang.Override;
 import java.lang.String;
 import java.lang.SuppressWarnings;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
-import org.openapitools.jackson.nullable.JsonNullable;
 
 /**
  * TransactionEstimatePublicRequest
@@ -43,7 +44,7 @@ public class TransactionEstimatePublicRequest {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("total_amount")
-    private Optional<? extends TotalAmountOfTheTransactionAfterDiscounts> totalAmount;
+    private Optional<Double> totalAmount;
 
 
     @JsonProperty("currency")
@@ -54,24 +55,19 @@ public class TransactionEstimatePublicRequest {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("description")
-    private JsonNullable<String> description;
+    private Optional<String> description;
 
-    /**
-     * While currently not used, it may be used in the future to determine taxability. The source of the transaction (e.g., OTHER).
-     * 
-     * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
-     */
+
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("source")
-    @Deprecated
-    private JsonNullable<? extends SourceEnum> source;
+    private Optional<? extends SourceEnum> source;
 
     /**
      * Indicates if the transaction involves a marketplace.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("marketplace")
-    private JsonNullable<Boolean> marketplace;
+    private Optional<Boolean> marketplace;
 
     /**
      * List of items involved in the transaction.
@@ -79,12 +75,10 @@ public class TransactionEstimatePublicRequest {
     @JsonProperty("transaction_items")
     private List<TransactionItemEstimateBase> transactionItems;
 
-    /**
-     * Details about the customer. If the customer is not found, it will be ignored.
-     */
+
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("customer")
-    private JsonNullable<? extends CustomerBasePublic> customer;
+    private Optional<? extends CustomerBasePublic> customer;
 
     /**
      * List of addresses related to the transaction. At least one BILL_TO or SHIP_TO address must be provided. The address will be validated during estimation, and the transaction may be rejected if the address does not pass validation. The SHIP_TO will be preferred to use for determining tax liability.
@@ -96,13 +90,13 @@ public class TransactionEstimatePublicRequest {
     public TransactionEstimatePublicRequest(
             @JsonProperty("date") OffsetDateTime date,
             @JsonProperty("external_id") String externalId,
-            @JsonProperty("total_amount") Optional<? extends TotalAmountOfTheTransactionAfterDiscounts> totalAmount,
+            @JsonProperty("total_amount") Optional<Double> totalAmount,
             @JsonProperty("currency") CurrencyEnum currency,
-            @JsonProperty("description") JsonNullable<String> description,
-            @JsonProperty("source") JsonNullable<? extends SourceEnum> source,
-            @JsonProperty("marketplace") JsonNullable<Boolean> marketplace,
+            @JsonProperty("description") Optional<String> description,
+            @JsonProperty("source") Optional<? extends SourceEnum> source,
+            @JsonProperty("marketplace") Optional<Boolean> marketplace,
             @JsonProperty("transaction_items") List<TransactionItemEstimateBase> transactionItems,
-            @JsonProperty("customer") JsonNullable<? extends CustomerBasePublic> customer,
+            @JsonProperty("customer") Optional<? extends CustomerBasePublic> customer,
             @JsonProperty("addresses") List<TransactionEstimatePublicRequestAddress> addresses) {
         Utils.checkNotNull(date, "date");
         Utils.checkNotNull(externalId, "externalId");
@@ -133,8 +127,8 @@ public class TransactionEstimatePublicRequest {
             List<TransactionItemEstimateBase> transactionItems,
             List<TransactionEstimatePublicRequestAddress> addresses) {
         this(date, externalId, Optional.empty(),
-            currency, JsonNullable.undefined(), JsonNullable.undefined(),
-            JsonNullable.undefined(), transactionItems, JsonNullable.undefined(),
+            currency, Optional.empty(), Optional.empty(),
+            Optional.empty(), transactionItems, Optional.empty(),
             addresses);
     }
 
@@ -157,10 +151,9 @@ public class TransactionEstimatePublicRequest {
     /**
      * Total amount of the transaction.
      */
-    @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<TotalAmountOfTheTransactionAfterDiscounts> totalAmount() {
-        return (Optional<TotalAmountOfTheTransactionAfterDiscounts>) totalAmount;
+    public Optional<Double> totalAmount() {
+        return totalAmount;
     }
 
     @JsonIgnore
@@ -172,27 +165,21 @@ public class TransactionEstimatePublicRequest {
      * An optional description of the transaction.
      */
     @JsonIgnore
-    public JsonNullable<String> description() {
+    public Optional<String> description() {
         return description;
     }
 
-    /**
-     * While currently not used, it may be used in the future to determine taxability. The source of the transaction (e.g., OTHER).
-     * 
-     * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
-     */
-    @Deprecated
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public JsonNullable<SourceEnum> source() {
-        return (JsonNullable<SourceEnum>) source;
+    public Optional<SourceEnum> source() {
+        return (Optional<SourceEnum>) source;
     }
 
     /**
      * Indicates if the transaction involves a marketplace.
      */
     @JsonIgnore
-    public JsonNullable<Boolean> marketplace() {
+    public Optional<Boolean> marketplace() {
         return marketplace;
     }
 
@@ -204,13 +191,10 @@ public class TransactionEstimatePublicRequest {
         return transactionItems;
     }
 
-    /**
-     * Details about the customer. If the customer is not found, it will be ignored.
-     */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public JsonNullable<CustomerBasePublic> customer() {
-        return (JsonNullable<CustomerBasePublic>) customer;
+    public Optional<CustomerBasePublic> customer() {
+        return (Optional<CustomerBasePublic>) customer;
     }
 
     /**
@@ -247,7 +231,7 @@ public class TransactionEstimatePublicRequest {
     /**
      * Total amount of the transaction.
      */
-    public TransactionEstimatePublicRequest withTotalAmount(TotalAmountOfTheTransactionAfterDiscounts totalAmount) {
+    public TransactionEstimatePublicRequest withTotalAmount(double totalAmount) {
         Utils.checkNotNull(totalAmount, "totalAmount");
         this.totalAmount = Optional.ofNullable(totalAmount);
         return this;
@@ -257,7 +241,7 @@ public class TransactionEstimatePublicRequest {
     /**
      * Total amount of the transaction.
      */
-    public TransactionEstimatePublicRequest withTotalAmount(Optional<? extends TotalAmountOfTheTransactionAfterDiscounts> totalAmount) {
+    public TransactionEstimatePublicRequest withTotalAmount(Optional<Double> totalAmount) {
         Utils.checkNotNull(totalAmount, "totalAmount");
         this.totalAmount = totalAmount;
         return this;
@@ -274,38 +258,28 @@ public class TransactionEstimatePublicRequest {
      */
     public TransactionEstimatePublicRequest withDescription(String description) {
         Utils.checkNotNull(description, "description");
-        this.description = JsonNullable.of(description);
+        this.description = Optional.ofNullable(description);
         return this;
     }
+
 
     /**
      * An optional description of the transaction.
      */
-    public TransactionEstimatePublicRequest withDescription(JsonNullable<String> description) {
+    public TransactionEstimatePublicRequest withDescription(Optional<String> description) {
         Utils.checkNotNull(description, "description");
         this.description = description;
         return this;
     }
 
-    /**
-     * While currently not used, it may be used in the future to determine taxability. The source of the transaction (e.g., OTHER).
-     * 
-     * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
-     */
-    @Deprecated
     public TransactionEstimatePublicRequest withSource(SourceEnum source) {
         Utils.checkNotNull(source, "source");
-        this.source = JsonNullable.of(source);
+        this.source = Optional.ofNullable(source);
         return this;
     }
 
-    /**
-     * While currently not used, it may be used in the future to determine taxability. The source of the transaction (e.g., OTHER).
-     * 
-     * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
-     */
-    @Deprecated
-    public TransactionEstimatePublicRequest withSource(JsonNullable<? extends SourceEnum> source) {
+
+    public TransactionEstimatePublicRequest withSource(Optional<? extends SourceEnum> source) {
         Utils.checkNotNull(source, "source");
         this.source = source;
         return this;
@@ -316,14 +290,15 @@ public class TransactionEstimatePublicRequest {
      */
     public TransactionEstimatePublicRequest withMarketplace(boolean marketplace) {
         Utils.checkNotNull(marketplace, "marketplace");
-        this.marketplace = JsonNullable.of(marketplace);
+        this.marketplace = Optional.ofNullable(marketplace);
         return this;
     }
+
 
     /**
      * Indicates if the transaction involves a marketplace.
      */
-    public TransactionEstimatePublicRequest withMarketplace(JsonNullable<Boolean> marketplace) {
+    public TransactionEstimatePublicRequest withMarketplace(Optional<Boolean> marketplace) {
         Utils.checkNotNull(marketplace, "marketplace");
         this.marketplace = marketplace;
         return this;
@@ -338,19 +313,14 @@ public class TransactionEstimatePublicRequest {
         return this;
     }
 
-    /**
-     * Details about the customer. If the customer is not found, it will be ignored.
-     */
     public TransactionEstimatePublicRequest withCustomer(CustomerBasePublic customer) {
         Utils.checkNotNull(customer, "customer");
-        this.customer = JsonNullable.of(customer);
+        this.customer = Optional.ofNullable(customer);
         return this;
     }
 
-    /**
-     * Details about the customer. If the customer is not found, it will be ignored.
-     */
-    public TransactionEstimatePublicRequest withCustomer(JsonNullable<? extends CustomerBasePublic> customer) {
+
+    public TransactionEstimatePublicRequest withCustomer(Optional<? extends CustomerBasePublic> customer) {
         Utils.checkNotNull(customer, "customer");
         this.customer = customer;
         return this;
@@ -418,20 +388,19 @@ public class TransactionEstimatePublicRequest {
 
         private String externalId;
 
-        private Optional<? extends TotalAmountOfTheTransactionAfterDiscounts> totalAmount = Optional.empty();
+        private Optional<Double> totalAmount;
 
         private CurrencyEnum currency;
 
-        private JsonNullable<String> description = JsonNullable.undefined();
+        private Optional<String> description = Optional.empty();
 
-        @Deprecated
-        private JsonNullable<? extends SourceEnum> source = JsonNullable.undefined();
+        private Optional<? extends SourceEnum> source = Optional.empty();
 
-        private JsonNullable<Boolean> marketplace = JsonNullable.undefined();
+        private Optional<Boolean> marketplace;
 
         private List<TransactionItemEstimateBase> transactionItems;
 
-        private JsonNullable<? extends CustomerBasePublic> customer = JsonNullable.undefined();
+        private Optional<? extends CustomerBasePublic> customer = Optional.empty();
 
         private List<TransactionEstimatePublicRequestAddress> addresses;
 
@@ -463,7 +432,7 @@ public class TransactionEstimatePublicRequest {
         /**
          * Total amount of the transaction.
          */
-        public Builder totalAmount(TotalAmountOfTheTransactionAfterDiscounts totalAmount) {
+        public Builder totalAmount(double totalAmount) {
             Utils.checkNotNull(totalAmount, "totalAmount");
             this.totalAmount = Optional.ofNullable(totalAmount);
             return this;
@@ -472,7 +441,7 @@ public class TransactionEstimatePublicRequest {
         /**
          * Total amount of the transaction.
          */
-        public Builder totalAmount(Optional<? extends TotalAmountOfTheTransactionAfterDiscounts> totalAmount) {
+        public Builder totalAmount(Optional<Double> totalAmount) {
             Utils.checkNotNull(totalAmount, "totalAmount");
             this.totalAmount = totalAmount;
             return this;
@@ -491,39 +460,27 @@ public class TransactionEstimatePublicRequest {
          */
         public Builder description(String description) {
             Utils.checkNotNull(description, "description");
-            this.description = JsonNullable.of(description);
+            this.description = Optional.ofNullable(description);
             return this;
         }
 
         /**
          * An optional description of the transaction.
          */
-        public Builder description(JsonNullable<String> description) {
+        public Builder description(Optional<String> description) {
             Utils.checkNotNull(description, "description");
             this.description = description;
             return this;
         }
 
 
-        /**
-         * While currently not used, it may be used in the future to determine taxability. The source of the transaction (e.g., OTHER).
-         * 
-         * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
-         */
-        @Deprecated
         public Builder source(SourceEnum source) {
             Utils.checkNotNull(source, "source");
-            this.source = JsonNullable.of(source);
+            this.source = Optional.ofNullable(source);
             return this;
         }
 
-        /**
-         * While currently not used, it may be used in the future to determine taxability. The source of the transaction (e.g., OTHER).
-         * 
-         * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
-         */
-        @Deprecated
-        public Builder source(JsonNullable<? extends SourceEnum> source) {
+        public Builder source(Optional<? extends SourceEnum> source) {
             Utils.checkNotNull(source, "source");
             this.source = source;
             return this;
@@ -535,14 +492,14 @@ public class TransactionEstimatePublicRequest {
          */
         public Builder marketplace(boolean marketplace) {
             Utils.checkNotNull(marketplace, "marketplace");
-            this.marketplace = JsonNullable.of(marketplace);
+            this.marketplace = Optional.ofNullable(marketplace);
             return this;
         }
 
         /**
          * Indicates if the transaction involves a marketplace.
          */
-        public Builder marketplace(JsonNullable<Boolean> marketplace) {
+        public Builder marketplace(Optional<Boolean> marketplace) {
             Utils.checkNotNull(marketplace, "marketplace");
             this.marketplace = marketplace;
             return this;
@@ -559,19 +516,13 @@ public class TransactionEstimatePublicRequest {
         }
 
 
-        /**
-         * Details about the customer. If the customer is not found, it will be ignored.
-         */
         public Builder customer(CustomerBasePublic customer) {
             Utils.checkNotNull(customer, "customer");
-            this.customer = JsonNullable.of(customer);
+            this.customer = Optional.ofNullable(customer);
             return this;
         }
 
-        /**
-         * Details about the customer. If the customer is not found, it will be ignored.
-         */
-        public Builder customer(JsonNullable<? extends CustomerBasePublic> customer) {
+        public Builder customer(Optional<? extends CustomerBasePublic> customer) {
             Utils.checkNotNull(customer, "customer");
             this.customer = customer;
             return this;
@@ -588,6 +539,12 @@ public class TransactionEstimatePublicRequest {
         }
 
         public TransactionEstimatePublicRequest build() {
+            if (totalAmount == null) {
+                totalAmount = _SINGLETON_VALUE_TotalAmount.value();
+            }
+            if (marketplace == null) {
+                marketplace = _SINGLETON_VALUE_Marketplace.value();
+            }
 
             return new TransactionEstimatePublicRequest(
                 date, externalId, totalAmount,
@@ -596,5 +553,17 @@ public class TransactionEstimatePublicRequest {
                 addresses);
         }
 
+
+        private static final LazySingletonValue<Optional<Double>> _SINGLETON_VALUE_TotalAmount =
+                new LazySingletonValue<>(
+                        "total_amount",
+                        "\"0.0\"",
+                        new TypeReference<Optional<Double>>() {});
+
+        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_Marketplace =
+                new LazySingletonValue<>(
+                        "marketplace",
+                        "false",
+                        new TypeReference<Optional<Boolean>>() {});
     }
 }

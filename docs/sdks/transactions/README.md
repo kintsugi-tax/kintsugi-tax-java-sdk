@@ -5,16 +5,16 @@
 
 ### Available Operations
 
-* [list](#list) - Get Transactions
-* [create](#create) - Create Transaction
-* [getByExternalId](#getbyexternalid) - Get Transaction By External Id
-* [update](#update) - Update Transaction
-* [getById](#getbyid) - Get Transaction By Id
-* [getByFilingId](#getbyfilingid) - Get Transactions By Filing Id
-* [createCreditNote](#createcreditnote) - Create Credit Note By Transaction Id
-* [updateCreditNote](#updatecreditnote) - Update Credit Note By Transaction Id
+* [getTransactionsV1TransactionsGet](#gettransactionsv1transactionsget) - Get Transactions
+* [createTransactionV1TransactionsPost](#createtransactionv1transactionspost) - Create Transaction
+* [getTransactionByExternalIdV1TransactionsExternalExternalIdGet](#gettransactionbyexternalidv1transactionsexternalexternalidget) - Get Transaction By External Id
+* [updateTransactionV1TransactionsTransactionIdPut](#updatetransactionv1transactionstransactionidput) - Update Transaction
+* [getTransactionByIdV1TransactionsTransactionIdGet](#gettransactionbyidv1transactionstransactionidget) - Get Transaction By Id
+* [getTransactionsByFilingIdV1TransactionsFilingsFilingIdGet](#gettransactionsbyfilingidv1transactionsfilingsfilingidget) - Get Transactions By Filing Id
+* [postCreateCreditNoteByTransactionId](#postcreatecreditnotebytransactionid) - Create Credit Note By Transaction Id
+* [putUpdateCreditNoteByTransactionId](#putupdatecreditnotebytransactionid) - Update Credit Note By Transaction Id
 
-## list
+## getTransactionsV1TransactionsGet
 
 The Get Transactions API retrieves a list of transactions with
     optional filtering, sorting, and pagination.
@@ -47,7 +47,7 @@ public class Application {
         GetTransactionsV1TransactionsGetRequest req = GetTransactionsV1TransactionsGetRequest.builder()
                 .build();
 
-        GetTransactionsV1TransactionsGetResponse res = sdk.transactions().list()
+        GetTransactionsV1TransactionsGetResponse res = sdk.transactions().getTransactionsV1TransactionsGet()
                 .request(req)
                 .call();
 
@@ -77,7 +77,7 @@ public class Application {
 | models/errors/ErrorResponse                                          | 500                                                                  | application/json                                                     |
 | models/errors/APIException                                           | 4XX, 5XX                                                             | \*/\*                                                                |
 
-## create
+## createTransactionV1TransactionsPost
 
 Create a transaction.
 
@@ -139,7 +139,7 @@ public class Application {
                 .source(SourceEnum.API)
                 .build();
 
-        CreateTransactionV1TransactionsPostResponse res = sdk.transactions().create()
+        CreateTransactionV1TransactionsPostResponse res = sdk.transactions().createTransactionV1TransactionsPost()
                 .request(req)
                 .call();
 
@@ -169,7 +169,7 @@ public class Application {
 | models/errors/ErrorResponse                                          | 500                                                                  | application/json                                                     |
 | models/errors/APIException                                           | 4XX, 5XX                                                             | \*/\*                                                                |
 
-## getByExternalId
+## getTransactionByExternalIdV1TransactionsExternalExternalIdGet
 
 Retrieves a specific transaction based on its external ID.
     This allows users to fetch transaction details using an identifier from an external system.
@@ -198,7 +198,7 @@ public class Application {
                     .build())
             .build();
 
-        GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse res = sdk.transactions().getByExternalId()
+        GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse res = sdk.transactions().getTransactionByExternalIdV1TransactionsExternalExternalIdGet()
                 .externalId("<id>")
                 .call();
 
@@ -228,7 +228,7 @@ public class Application {
 | models/errors/ErrorResponse                                          | 500                                                                  | application/json                                                     |
 | models/errors/APIException                                           | 4XX, 5XX                                                             | \*/\*                                                                |
 
-## update
+## updateTransactionV1TransactionsTransactionIdPut
 
 Update a specific transaction by its ID.
 
@@ -257,7 +257,7 @@ public class Application {
                     .build())
             .build();
 
-        UpdateTransactionV1TransactionsTransactionIdPutResponse res = sdk.transactions().update()
+        UpdateTransactionV1TransactionsTransactionIdPutResponse res = sdk.transactions().updateTransactionV1TransactionsTransactionIdPut()
                 .transactionId("<id>")
                 .transactionUpdate(TransactionUpdate.builder()
                     .organizationId("orgn_argaLQwMy2fJc")
@@ -303,7 +303,7 @@ public class Application {
 | models/errors/HTTPValidationError | 422                               | application/json                  |
 | models/errors/APIException        | 4XX, 5XX                          | \*/\*                             |
 
-## getById
+## getTransactionByIdV1TransactionsTransactionIdGet
 
 The Get Transaction By Id API retrieves detailed information
     about a specific transaction by providing its unique transaction ID.
@@ -332,7 +332,7 @@ public class Application {
                     .build())
             .build();
 
-        GetTransactionByIdV1TransactionsTransactionIdGetResponse res = sdk.transactions().getById()
+        GetTransactionByIdV1TransactionsTransactionIdGetResponse res = sdk.transactions().getTransactionByIdV1TransactionsTransactionIdGet()
                 .transactionId("<id>")
                 .call();
 
@@ -362,7 +362,7 @@ public class Application {
 | models/errors/ErrorResponse                                          | 500                                                                  | application/json                                                     |
 | models/errors/APIException                                           | 4XX, 5XX                                                             | \*/\*                                                                |
 
-## getByFilingId
+## getTransactionsByFilingIdV1TransactionsFilingsFilingIdGet
 
 Retrieve transactions by filing ID.
 
@@ -390,7 +390,7 @@ public class Application {
                     .build())
             .build();
 
-        GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetResponse res = sdk.transactions().getByFilingId()
+        GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetResponse res = sdk.transactions().getTransactionsByFilingIdV1TransactionsFilingsFilingIdGet()
                 .filingId("<id>")
                 .call();
 
@@ -420,7 +420,7 @@ public class Application {
 | models/errors/ErrorResponse                                          | 500                                                                  | application/json                                                     |
 | models/errors/APIException                                           | 4XX, 5XX                                                             | \*/\*                                                                |
 
-## createCreditNote
+## postCreateCreditNoteByTransactionId
 
 Create a new credit note for a specific transaction.
 
@@ -449,7 +449,7 @@ public class Application {
                     .build())
             .build();
 
-        POSTCreateCreditNoteByTransactionIdResponse res = sdk.transactions().createCreditNote()
+        POSTCreateCreditNoteByTransactionIdResponse res = sdk.transactions().postCreateCreditNoteByTransactionId()
                 .originalTransactionId("<id>")
                 .creditNoteCreate(CreditNoteCreate.builder()
                     .externalId("CN-12345")
@@ -494,7 +494,7 @@ public class Application {
 | models/errors/HTTPValidationError | 422                               | application/json                  |
 | models/errors/APIException        | 4XX, 5XX                          | \*/\*                             |
 
-## updateCreditNote
+## putUpdateCreditNoteByTransactionId
 
 Update an existing credit note for a specific transaction.
 
@@ -523,7 +523,7 @@ public class Application {
                     .build())
             .build();
 
-        PUTUpdateCreditNoteByTransactionIdResponse res = sdk.transactions().updateCreditNote()
+        PUTUpdateCreditNoteByTransactionIdResponse res = sdk.transactions().putUpdateCreditNoteByTransactionId()
                 .originalTransactionId("<id>")
                 .creditNoteId("<id>")
                 .creditNoteCreate(CreditNoteCreate.builder()

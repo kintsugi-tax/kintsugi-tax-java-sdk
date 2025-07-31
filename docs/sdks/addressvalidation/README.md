@@ -5,10 +5,10 @@
 
 ### Available Operations
 
-* [search](#search) - Search
-* [suggestions](#suggestions) - Suggestions
+* [searchV1AddressValidationSearchPost](#searchv1addressvalidationsearchpost) - Search
+* [suggestionsV1AddressValidationSuggestionsPost](#suggestionsv1addressvalidationsuggestionspost) - Suggestions
 
-## search
+## searchV1AddressValidationSearchPost
 
 This API validates and enriches address information
     submitted by the user. It ensures that the address is standardized, accurate,
@@ -49,7 +49,7 @@ public class Application {
                 .fullAddress("1600 Amphitheatre Parkway, Mountain View, CA 94043")
                 .build();
 
-        SearchV1AddressValidationSearchPostResponse res = sdk.addressValidation().search()
+        SearchV1AddressValidationSearchPostResponse res = sdk.addressValidation().searchV1AddressValidationSearchPost()
                 .request(req)
                 .security(SearchV1AddressValidationSearchPostSecurity.builder()
                     .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
@@ -83,7 +83,7 @@ public class Application {
 | models/errors/ErrorResponse                                               | 500                                                                       | application/json                                                          |
 | models/errors/APIException                                                | 4XX, 5XX                                                                  | \*/\*                                                                     |
 
-## suggestions
+## suggestionsV1AddressValidationSuggestionsPost
 
 This API endpoint provides address suggestions based on
     partial input data. It helps users auto-complete and validate addresses efficiently
@@ -128,7 +128,7 @@ public class Application {
                 .fullAddress("1600 Amphitheatre Parkway, Mountain View, CA 94043")
                 .build();
 
-        SuggestionsV1AddressValidationSuggestionsPostResponse res = sdk.addressValidation().suggestions()
+        SuggestionsV1AddressValidationSuggestionsPostResponse res = sdk.addressValidation().suggestionsV1AddressValidationSuggestionsPost()
                 .request(req)
                 .call();
 

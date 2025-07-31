@@ -5,11 +5,29 @@ package com.kintsugi.taxplatform;
 
 import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 
+import com.kintsugi.taxplatform.models.components.PhysicalNexusCreate;
+import com.kintsugi.taxplatform.models.components.PhysicalNexusUpdate;
+import com.kintsugi.taxplatform.models.operations.CreatePhysicalNexusV1NexusPhysicalNexusPostRequestBuilder;
+import com.kintsugi.taxplatform.models.operations.CreatePhysicalNexusV1NexusPhysicalNexusPostResponse;
+import com.kintsugi.taxplatform.models.operations.DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest;
+import com.kintsugi.taxplatform.models.operations.DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequestBuilder;
+import com.kintsugi.taxplatform.models.operations.DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteResponse;
 import com.kintsugi.taxplatform.models.operations.GetNexusForOrgV1NexusGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetNexusForOrgV1NexusGetRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.GetNexusForOrgV1NexusGetResponse;
+import com.kintsugi.taxplatform.models.operations.GetPhysicalNexusV1NexusPhysicalNexusGetRequest;
+import com.kintsugi.taxplatform.models.operations.GetPhysicalNexusV1NexusPhysicalNexusGetRequestBuilder;
+import com.kintsugi.taxplatform.models.operations.GetPhysicalNexusV1NexusPhysicalNexusGetResponse;
+import com.kintsugi.taxplatform.models.operations.UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest;
+import com.kintsugi.taxplatform.models.operations.UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequestBuilder;
+import com.kintsugi.taxplatform.models.operations.UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutResponse;
+import com.kintsugi.taxplatform.operations.CreatePhysicalNexusV1NexusPhysicalNexusPostOperation;
+import com.kintsugi.taxplatform.operations.DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteOperation;
 import com.kintsugi.taxplatform.operations.GetNexusForOrgV1NexusGetOperation;
+import com.kintsugi.taxplatform.operations.GetPhysicalNexusV1NexusPhysicalNexusGetOperation;
+import com.kintsugi.taxplatform.operations.UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutOperation;
 import java.lang.Exception;
+import java.lang.String;
 
 
 public class Nexus {
@@ -20,13 +38,141 @@ public class Nexus {
     }
 
     /**
+     * Get Physical Nexus
+     * 
+     * <p>Retrieve a paginated list of
+     *     physical nexuses for a specific organization.
+     * 
+     * @return The call builder
+     */
+    public GetPhysicalNexusV1NexusPhysicalNexusGetRequestBuilder getPhysicalNexusV1NexusPhysicalNexusGet() {
+        return new GetPhysicalNexusV1NexusPhysicalNexusGetRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Get Physical Nexus
+     * 
+     * <p>Retrieve a paginated list of
+     *     physical nexuses for a specific organization.
+     * 
+     * @param request The request object containing all the parameters for the API call.
+     * @return The response from the API call
+     * @throws Exception if the API call fails
+     */
+    public GetPhysicalNexusV1NexusPhysicalNexusGetResponse getPhysicalNexusV1NexusPhysicalNexusGet(GetPhysicalNexusV1NexusPhysicalNexusGetRequest request) throws Exception {
+        RequestOperation<GetPhysicalNexusV1NexusPhysicalNexusGetRequest, GetPhysicalNexusV1NexusPhysicalNexusGetResponse> operation
+              = new GetPhysicalNexusV1NexusPhysicalNexusGetOperation(sdkConfiguration);
+        return operation.handleResponse(operation.doRequest(request));
+    }
+
+    /**
+     * Create Physical Nexus
+     * 
+     * <p>The Create Physical Nexus API allows you to create a new physical
+     *     nexus by specifying its attributes, including the location,
+     *     start date, end date, etc.
+     * 
+     * @return The call builder
+     */
+    public CreatePhysicalNexusV1NexusPhysicalNexusPostRequestBuilder createPhysicalNexusV1NexusPhysicalNexusPost() {
+        return new CreatePhysicalNexusV1NexusPhysicalNexusPostRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Create Physical Nexus
+     * 
+     * <p>The Create Physical Nexus API allows you to create a new physical
+     *     nexus by specifying its attributes, including the location,
+     *     start date, end date, etc.
+     * 
+     * @param request The request object containing all the parameters for the API call.
+     * @return The response from the API call
+     * @throws Exception if the API call fails
+     */
+    public CreatePhysicalNexusV1NexusPhysicalNexusPostResponse createPhysicalNexusV1NexusPhysicalNexusPost(PhysicalNexusCreate request) throws Exception {
+        RequestOperation<PhysicalNexusCreate, CreatePhysicalNexusV1NexusPhysicalNexusPostResponse> operation
+              = new CreatePhysicalNexusV1NexusPhysicalNexusPostOperation(sdkConfiguration);
+        return operation.handleResponse(operation.doRequest(request));
+    }
+
+    /**
+     * Update Physical Nexus
+     * 
+     * <p>The Update Physical Nexus API allows you to modify the details of
+     *     an existing physical nexus by its unique ID.
+     * 
+     * @return The call builder
+     */
+    public UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequestBuilder updatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPut() {
+        return new UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Update Physical Nexus
+     * 
+     * <p>The Update Physical Nexus API allows you to modify the details of
+     *     an existing physical nexus by its unique ID.
+     * 
+     * @param physicalNexusId The unique identifier of the physical
+     *                                         nexus to update.
+     * @param physicalNexusUpdate 
+     * @return The response from the API call
+     * @throws Exception if the API call fails
+     */
+    public UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutResponse updatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPut(String physicalNexusId, PhysicalNexusUpdate physicalNexusUpdate) throws Exception {
+        UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest request =
+            UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest
+                .builder()
+                .physicalNexusId(physicalNexusId)
+                .physicalNexusUpdate(physicalNexusUpdate)
+                .build();
+        RequestOperation<UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest, UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutResponse> operation
+              = new UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutOperation(sdkConfiguration);
+        return operation.handleResponse(operation.doRequest(request));
+    }
+
+    /**
+     * Delete Physical Nexus
+     * 
+     * <p>The Delete Physical Nexus API allows you to remove an existing
+     *     physical nexus by its unique ID.
+     * 
+     * @return The call builder
+     */
+    public DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequestBuilder deletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDelete() {
+        return new DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Delete Physical Nexus
+     * 
+     * <p>The Delete Physical Nexus API allows you to remove an existing
+     *     physical nexus by its unique ID.
+     * 
+     * @param physicalNexusId The unique identifier of the physical
+     *                                         nexus to delete.
+     * @return The response from the API call
+     * @throws Exception if the API call fails
+     */
+    public DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteResponse deletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDelete(String physicalNexusId) throws Exception {
+        DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest request =
+            DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest
+                .builder()
+                .physicalNexusId(physicalNexusId)
+                .build();
+        RequestOperation<DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest, DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteResponse> operation
+              = new DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteOperation(sdkConfiguration);
+        return operation.handleResponse(operation.doRequest(request));
+    }
+
+    /**
      * Get Nexus For Org
      * 
      * <p>Get a list of all nexuses for the organization.
      * 
      * @return The call builder
      */
-    public GetNexusForOrgV1NexusGetRequestBuilder list() {
+    public GetNexusForOrgV1NexusGetRequestBuilder getNexusForOrgV1NexusGet() {
         return new GetNexusForOrgV1NexusGetRequestBuilder(sdkConfiguration);
     }
 
@@ -39,7 +185,7 @@ public class Nexus {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public GetNexusForOrgV1NexusGetResponse list(GetNexusForOrgV1NexusGetRequest request) throws Exception {
+    public GetNexusForOrgV1NexusGetResponse getNexusForOrgV1NexusGet(GetNexusForOrgV1NexusGetRequest request) throws Exception {
         RequestOperation<GetNexusForOrgV1NexusGetRequest, GetNexusForOrgV1NexusGetResponse> operation
               = new GetNexusForOrgV1NexusGetOperation(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));

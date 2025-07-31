@@ -5,15 +5,15 @@
 
 ### Available Operations
 
-* [list](#list) - Get Customers
-* [create](#create) - Create Customer
-* [get](#get) - Get Customer By Id
-* [update](#update) - Update Customer
-* [getByExternalId](#getbyexternalid) - Get Customer By External Id
-* [getTransactions](#gettransactions) - Get Transactions By Customer Id
-* [createTransaction](#createtransaction) - Create Transaction By Customer Id
+* [getCustomersV1](#getcustomersv1) - Get Customers
+* [createCustomerV1CustomersPost](#createcustomerv1customerspost) - Create Customer
+* [getCustomerByIdV1CustomersCustomerIdGet](#getcustomerbyidv1customerscustomeridget) - Get Customer By Id
+* [updateCustomerV1CustomersCustomerIdPut](#updatecustomerv1customerscustomeridput) - Update Customer
+* [getCustomerByExternalIdV1CustomersExternalExternalIdGet](#getcustomerbyexternalidv1customersexternalexternalidget) - Get Customer By External Id
+* [getTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet](#gettransactionsbycustomeridv1customerscustomeridtransactionsget) - Get Transactions By Customer Id
+* [createTransactionByCustomerIdV1CustomersCustomerIdTransactionsPost](#createtransactionbycustomeridv1customerscustomeridtransactionspost) - Create Transaction By Customer Id
 
-## list
+## getCustomersV1
 
 The Get Customers API retrieves
     a paginated list of customers based on specified filters.
@@ -54,7 +54,7 @@ public class Application {
                 .orderBy("created_at,street_1,street_2,city,state,postal_code,country,status")
                 .build();
 
-        GetCustomersV1Response res = sdk.customers().list()
+        GetCustomersV1Response res = sdk.customers().getCustomersV1()
                 .request(req)
                 .call();
 
@@ -84,7 +84,7 @@ public class Application {
 | models/errors/ErrorResponse                                       | 500                                                               | application/json                                                  |
 | models/errors/APIException                                        | 4XX, 5XX                                                          | \*/\*                                                             |
 
-## create
+## createCustomerV1CustomersPost
 
 The Create Customer API enables the creation of a new customer record with essential
 details like name, contact information, and address, along with optional metadata.
@@ -130,7 +130,7 @@ public class Application {
                 .addressStatus(AddressStatus.PARTIALLY_VERIFIED)
                 .build();
 
-        CreateCustomerV1CustomersPostResponse res = sdk.customers().create()
+        CreateCustomerV1CustomersPostResponse res = sdk.customers().createCustomerV1CustomersPost()
                 .request(req)
                 .call();
 
@@ -160,7 +160,7 @@ public class Application {
 | models/errors/ErrorResponse                                       | 500                                                               | application/json                                                  |
 | models/errors/APIException                                        | 4XX, 5XX                                                          | \*/\*                                                             |
 
-## get
+## getCustomerByIdV1CustomersCustomerIdGet
 
 The Get Customer By ID API retrieves the details of a single customer
     using their unique identifier. It returns customer-specific data,
@@ -189,7 +189,7 @@ public class Application {
                     .build())
             .build();
 
-        GetCustomerByIdV1CustomersCustomerIdGetResponse res = sdk.customers().get()
+        GetCustomerByIdV1CustomersCustomerIdGetResponse res = sdk.customers().getCustomerByIdV1CustomersCustomerIdGet()
                 .customerId("cust_abc123")
                 .call();
 
@@ -217,7 +217,7 @@ public class Application {
 | models/errors/HTTPValidationError | 422                               | application/json                  |
 | models/errors/APIException        | 4XX, 5XX                          | \*/\*                             |
 
-## update
+## updateCustomerV1CustomersCustomerIdPut
 
 The Update Customer API allows you to modify an existing customer's
     information using their unique identifier,
@@ -247,7 +247,7 @@ public class Application {
                     .build())
             .build();
 
-        UpdateCustomerV1CustomersCustomerIdPutResponse res = sdk.customers().update()
+        UpdateCustomerV1CustomersCustomerIdPutResponse res = sdk.customers().updateCustomerV1CustomersCustomerIdPut()
                 .customerId("<id>")
                 .customerUpdate(CustomerUpdate.builder()
                     .phone("987-654-3210")
@@ -295,7 +295,7 @@ public class Application {
 | models/errors/ErrorResponse                                       | 500                                                               | application/json                                                  |
 | models/errors/APIException                                        | 4XX, 5XX                                                          | \*/\*                                                             |
 
-## getByExternalId
+## getCustomerByExternalIdV1CustomersExternalExternalIdGet
 
 The Get Customer By External ID API retrieves the details of a single customer using
 their external identifier. This endpoint is useful for accessing customer data when only
@@ -324,7 +324,7 @@ public class Application {
                     .build())
             .build();
 
-        GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse res = sdk.customers().getByExternalId()
+        GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse res = sdk.customers().getCustomerByExternalIdV1CustomersExternalExternalIdGet()
                 .externalId("external_12345")
                 .call();
 
@@ -352,7 +352,7 @@ public class Application {
 | models/errors/HTTPValidationError | 422                               | application/json                  |
 | models/errors/APIException        | 4XX, 5XX                          | \*/\*                             |
 
-## getTransactions
+## getTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet
 
 Get a list of transactions for a customer by their unique ID.
 
@@ -379,7 +379,7 @@ public class Application {
                     .build())
             .build();
 
-        GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse res = sdk.customers().getTransactions()
+        GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse res = sdk.customers().getTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet()
                 .customerId("<id>")
                 .call();
 
@@ -407,7 +407,7 @@ public class Application {
 | models/errors/HTTPValidationError | 422                               | application/json                  |
 | models/errors/APIException        | 4XX, 5XX                          | \*/\*                             |
 
-## createTransaction
+## createTransactionByCustomerIdV1CustomersCustomerIdTransactionsPost
 
 Create a new transaction for a specific customer.
 
@@ -436,7 +436,7 @@ public class Application {
                     .build())
             .build();
 
-        CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostResponse res = sdk.customers().createTransaction()
+        CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostResponse res = sdk.customers().createTransactionByCustomerIdV1CustomersCustomerIdTransactionsPost()
                 .customerId("<id>")
                 .transactionCreate(TransactionCreate.builder()
                     .organizationId("<id>")

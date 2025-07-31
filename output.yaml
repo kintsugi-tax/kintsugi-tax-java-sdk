@@ -1038,7 +1038,7 @@ paths:
   "/v1/admin/filings/{filing_id}/attachments": {}
   "/v1/admin/filings/{filing_id}/reports/download": {}
   "/v1/admin/filings/{filing_id}/georgia-import-file": {}
-  "/v1/admin/filings/{filing_id}/enhanced-georgia-data": {}
+  "/v1/admin/filings/{filing_id}/enhanced-data": {}
   "/v1/import/validate": {}
   "/v1/import/upload-urls": {}
   "/v1/import/internal-upload": {}
@@ -6393,28 +6393,6 @@ components:
         - "content"
         - "link"
       title: "EmailRequest"
-    "EnhancedGeorgiaFilingData":
-      properties:
-        "filing_id":
-          type: "string"
-          title: "Filing Id"
-        "organization_id":
-          type: "string"
-          title: "Organization Id"
-        "filing_period": {"$ref": "#/components/schemas/FilingPeriod"}
-        "summary": {"$ref": "#/components/schemas/GeorgiaFilingSummary"}
-        "jurisdiction_breakdown":
-          items: {"$ref": "#/components/schemas/JurisdictionBreakdown"}
-          type: "array"
-          title: "Jurisdiction Breakdown"
-      type: "object"
-      required:
-        - "filing_id"
-        - "organization_id"
-        - "filing_period"
-        - "summary"
-        - "jurisdiction_breakdown"
-      title: "EnhancedGeorgiaFilingData"
     "EntityTypeEnum":
       type: "string"
       enum:
@@ -7249,19 +7227,6 @@ components:
           default: "0.00"
       type: "object"
       title: "FilingMetrics"
-    "FilingPeriod":
-      properties:
-        "start_date":
-          type: "string"
-          title: "Start Date"
-        "end_date":
-          type: "string"
-          title: "End Date"
-      type: "object"
-      required:
-        - "start_date"
-        - "end_date"
-      title: "FilingPeriod"
     "FilingRead":
       properties:
         "status": {"$ref": "#/components/schemas/FilingStatusEnum", "description": "Filing status. Possible values:\n                                    UNFILED, FILING, FILED.", "default": "UNFILED"}
@@ -7626,27 +7591,6 @@ components:
         - "end_date"
         - "country_code"
       title: "FilingUpdateInternal"
-    "GeorgiaFilingSummary":
-      properties:
-        "total_state_sales":
-          type: "number"
-          title: "Total State Sales"
-        "deductions_exemptions":
-          type: "number"
-          title: "Deductions Exemptions"
-        "taxable_sales":
-          type: "number"
-          title: "Taxable Sales"
-        "total_tax_collected":
-          type: "number"
-          title: "Total Tax Collected"
-      type: "object"
-      required:
-        - "total_state_sales"
-        - "deductions_exemptions"
-        - "taxable_sales"
-        - "total_tax_collected"
-      title: "GeorgiaFilingSummary"
     "HTTPValidationError":
       properties:
         "detail":
@@ -8625,27 +8569,6 @@ components:
         - "name"
       title: "Jurisdiction"
       description: "The tax jurisdiction details"
-    "JurisdictionBreakdown":
-      properties:
-        "jurisdiction_code":
-          type: "string"
-          title: "Jurisdiction Code"
-        "taxable_sales":
-          type: "number"
-          title: "Taxable Sales"
-        "tax_liability":
-          type: "number"
-          title: "Tax Liability"
-        "collected_tax":
-          type: "number"
-          title: "Collected Tax"
-      type: "object"
-      required:
-        - "jurisdiction_code"
-        - "taxable_sales"
-        - "tax_liability"
-        - "collected_tax"
-      title: "JurisdictionBreakdown"
     "JurisdictionType":
       type: "string"
       enum:
@@ -13161,21 +13084,31 @@ components:
       title: "ProductCodeEnum"
     "ProductConfigCreate":
       properties:
-        "primary_product_category": {"$ref": "#/components/schemas/ProductCategoryEnum"}
-        "primary_product_subcategory": {"$ref": "#/components/schemas/ProductSubCategoryEnum"}
         "ai_enabled":
           type: "boolean"
           title: "Ai Enabled"
           default: false
+        "primary_product_category":
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Primary Product Category"
+        "primary_product_subcategory":
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Primary Product Subcategory"
         "product_description":
           anyOf:
             - type: "string"
             - type: "null"
           title: "Product Description"
+        "primary_product_code_name":
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Primary Product Code Name"
       type: "object"
-      required:
-        - "primary_product_category"
-        - "primary_product_subcategory"
       title: "ProductConfigCreate"
     "ProductConfigCreateUpdate":
       properties:
@@ -13197,6 +13130,12 @@ components:
               maxLength: 1000
             - type: "null"
           title: "Product Description"
+        "primary_product_code_name":
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Primary Product Code Name"
+          description: "The name of the product code."
       type: "object"
       required:
         - "primary_product_category"
@@ -13222,6 +13161,12 @@ components:
               maxLength: 1000
             - type: "null"
           title: "Product Description"
+        "primary_product_code_name":
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Primary Product Code Name"
+          description: "The name of the product code."
         "id":
           type: "string"
           title: "Id"
@@ -13233,24 +13178,35 @@ components:
       title: "ProductConfigRead"
     "ProductConfigUpdate":
       properties:
-        "primary_product_category": {"$ref": "#/components/schemas/ProductCategoryEnum"}
-        "primary_product_subcategory": {"$ref": "#/components/schemas/ProductSubCategoryEnum"}
         "ai_enabled":
           type: "boolean"
           title: "Ai Enabled"
           default: false
+        "primary_product_category":
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Primary Product Category"
+        "primary_product_subcategory":
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Primary Product Subcategory"
         "product_description":
           anyOf:
             - type: "string"
             - type: "null"
           title: "Product Description"
+        "primary_product_code_name":
+          anyOf:
+            - type: "string"
+            - type: "null"
+          title: "Primary Product Code Name"
         "id":
           type: "string"
           title: "Id"
       type: "object"
       required:
-        - "primary_product_category"
-        - "primary_product_subcategory"
         - "id"
       title: "ProductConfigUpdate"
     "ProductConfigsCreate":

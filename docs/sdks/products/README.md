@@ -5,13 +5,13 @@
 
 ### Available Operations
 
-* [list](#list) - Get Products
-* [create](#create) - Create Product
-* [get](#get) - Get Product By Id
-* [update](#update) - Update Product
-* [listCategories](#listcategories) - Get Product Categories
+* [getProductsV1ProductsGet](#getproductsv1productsget) - Get Products
+* [createProductV1ProductsPost](#createproductv1productspost) - Create Product
+* [getProductByIdV1ProductsProductIdGet](#getproductbyidv1productsproductidget) - Get Product By Id
+* [updateProductV1ProductsProductIdPut](#updateproductv1productsproductidput) - Update Product
+* [getProductCategoriesV1ProductsCategoriesGet](#getproductcategoriesv1productscategoriesget) - Get Product Categories
 
-## list
+## getProductsV1ProductsGet
 
 Retrieve a paginated list of products based on filters and search query.
 
@@ -43,7 +43,7 @@ public class Application {
         GetProductsV1ProductsGetRequest req = GetProductsV1ProductsGetRequest.builder()
                 .build();
 
-        GetProductsV1ProductsGetResponse res = sdk.products().list()
+        GetProductsV1ProductsGetResponse res = sdk.products().getProductsV1ProductsGet()
                 .request(req)
                 .call();
 
@@ -73,7 +73,7 @@ public class Application {
 | models/errors/ErrorResponse                                      | 500                                                              | application/json                                                 |
 | models/errors/APIException                                       | 4XX, 5XX                                                         | \*/\*                                                            |
 
-## create
+## createProductV1ProductsPost
 
 The Create Product API allows users to manually create a new product
     in the system. This includes specifying product details such as category,
@@ -114,7 +114,7 @@ public class Application {
                 .source(SourceEnum.BIGCOMMERCE)
                 .build();
 
-        CreateProductV1ProductsPostResponse res = sdk.products().create()
+        CreateProductV1ProductsPostResponse res = sdk.products().createProductV1ProductsPost()
                 .request(req)
                 .call();
 
@@ -144,7 +144,7 @@ public class Application {
 | models/errors/ErrorResponse                                      | 500                                                              | application/json                                                 |
 | models/errors/APIException                                       | 4XX, 5XX                                                         | \*/\*                                                            |
 
-## get
+## getProductByIdV1ProductsProductIdGet
 
 The Get Product By ID API retrieves detailed information about
     a single product by its unique ID. This API helps in viewing the specific details
@@ -174,7 +174,7 @@ public class Application {
                     .build())
             .build();
 
-        GetProductByIdV1ProductsProductIdGetResponse res = sdk.products().get()
+        GetProductByIdV1ProductsProductIdGetResponse res = sdk.products().getProductByIdV1ProductsProductIdGet()
                 .productId("<id>")
                 .call();
 
@@ -204,7 +204,7 @@ public class Application {
 | models/errors/ErrorResponse                                      | 500                                                              | application/json                                                 |
 | models/errors/APIException                                       | 4XX, 5XX                                                         | \*/\*                                                            |
 
-## update
+## updateProductV1ProductsProductIdPut
 
 The Update Product API allows users to modify the details of
     an existing product identified by its unique product_id
@@ -233,7 +233,7 @@ public class Application {
                     .build())
             .build();
 
-        UpdateProductV1ProductsProductIdPutResponse res = sdk.products().update()
+        UpdateProductV1ProductsProductIdPutResponse res = sdk.products().updateProductV1ProductsProductIdPut()
                 .productId("<id>")
                 .productUpdate(ProductUpdate.builder()
                     .name("Updated Product Name")
@@ -273,7 +273,7 @@ public class Application {
 | models/errors/ErrorResponse                                      | 500                                                              | application/json                                                 |
 | models/errors/APIException                                       | 4XX, 5XX                                                         | \*/\*                                                            |
 
-## listCategories
+## getProductCategoriesV1ProductsCategoriesGet
 
 The Get Product Categories API retrieves all
     product categories.  This endpoint helps users understand and select the
@@ -302,7 +302,7 @@ public class Application {
                     .build())
             .build();
 
-        GetProductCategoriesV1ProductsCategoriesGetResponse res = sdk.products().listCategories()
+        GetProductCategoriesV1ProductsCategoriesGetResponse res = sdk.products().getProductCategoriesV1ProductsCategoriesGet()
                 .call();
 
         if (res.responseGetProductCategoriesV1ProductsCategoriesGet().isPresent()) {

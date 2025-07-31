@@ -34,7 +34,7 @@ public class AddressValidation {
      * 
      * @return The call builder
      */
-    public SearchV1AddressValidationSearchPostRequestBuilder search() {
+    public SearchV1AddressValidationSearchPostRequestBuilder searchV1AddressValidationSearchPost() {
         return new SearchV1AddressValidationSearchPostRequestBuilder(sdkConfiguration);
     }
 
@@ -51,7 +51,7 @@ public class AddressValidation {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public SearchV1AddressValidationSearchPostResponse search(AddressBase request, SearchV1AddressValidationSearchPostSecurity security) throws Exception {
+    public SearchV1AddressValidationSearchPostResponse searchV1AddressValidationSearchPost(AddressBase request, SearchV1AddressValidationSearchPostSecurity security) throws Exception {
         RequestOperation<AddressBase, SearchV1AddressValidationSearchPostResponse> operation
               = new SearchV1AddressValidationSearchPostOperation(sdkConfiguration, security);
         return operation.handleResponse(operation.doRequest(request));
@@ -68,7 +68,7 @@ public class AddressValidation {
      * 
      * @return The call builder
      */
-    public SuggestionsV1AddressValidationSuggestionsPostRequestBuilder suggestions() {
+    public SuggestionsV1AddressValidationSuggestionsPostRequestBuilder suggestionsV1AddressValidationSuggestionsPost() {
         return new SuggestionsV1AddressValidationSuggestionsPostRequestBuilder(sdkConfiguration);
     }
 
@@ -85,7 +85,7 @@ public class AddressValidation {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public SuggestionsV1AddressValidationSuggestionsPostResponse suggestions(ValidationAddress request) throws Exception {
+    public SuggestionsV1AddressValidationSuggestionsPostResponse suggestionsV1AddressValidationSuggestionsPost(ValidationAddress request) throws Exception {
         RequestOperation<ValidationAddress, SuggestionsV1AddressValidationSuggestionsPostResponse> operation
               = new SuggestionsV1AddressValidationSuggestionsPostOperation(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));

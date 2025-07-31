@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 13bfb8e3-2795-4089-a96d-9ab7fcceafd9
 management:
-  docChecksum: 05be7a6ce0f40d1f7e41b1dd0493dbfd
+  docChecksum: 993aaaeadcd5feaf3f4253f6b8e3c101
   docVersion: 1.0.0
-  speakeasyVersion: 1.594.0
+  speakeasyVersion: 1.595.0
   generationVersion: 2.670.1
-  releaseVersion: 0.7.0
-  configChecksum: 7d3fffd76a81569b30071a1266c62277
+  releaseVersion: 0.8.0
+  configChecksum: eff01b03b106b3722ccd81974127fe7a
   repoURL: https://github.com/kintsugi-tax/kintsugi-tax-java-sdk.git
   published: true
 features:
@@ -19,10 +19,9 @@ features:
     globalSecurity: 2.83.0
     globalSecurityCallbacks: 0.1.0
     globalServerURLs: 2.82.2
-    groups: 2.81.2
     methodSecurity: 2.82.2
-    nameOverrides: 2.81.3
     sdkHooks: 1.1.0
+    unions: 0.0.6
 generatedFiles:
   - .gitattributes
   - USAGE.md
@@ -35,15 +34,20 @@ generatedFiles:
   - docs/models/components/AddressType.md
   - docs/models/components/AppliedTo.md
   - docs/models/components/AttachmentRead.md
+  - docs/models/components/Attachments.md
   - docs/models/components/BackendSrcAddressValidationResponsesValidationErrorItem.md
   - docs/models/components/BackendSrcCustomersResponsesValidationErrorItem.md
   - docs/models/components/BackendSrcExemptionsModelsExemptionRead.md
   - docs/models/components/BackendSrcExemptionsResponsesValidationErrorItem.md
   - docs/models/components/BackendSrcExemptionsSerializersExemptionRead.md
+  - docs/models/components/BackendSrcFilingsResponsesValidationErrorItem.md
+  - docs/models/components/BackendSrcNexusResponsesValidationErrorItem.md
   - docs/models/components/BackendSrcProductsResponsesValidationErrorItem.md
+  - docs/models/components/BackendSrcRegistrationsResponsesValidationErrorItem.md
   - docs/models/components/BackendSrcTaxEstimationResponsesValidationErrorItem.md
   - docs/models/components/BackendSrcTransactionsResponsesValidationErrorItem.md
   - docs/models/components/BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost.md
+  - docs/models/components/ChangeRegimeStatusEnum.md
   - docs/models/components/CountryCodeEnum.md
   - docs/models/components/CreditNoteCreate.md
   - docs/models/components/CreditNoteItemCreateUpdate.md
@@ -62,17 +66,30 @@ generatedFiles:
   - docs/models/components/ExemptionType.md
   - docs/models/components/FastapiPaginationDefaultPageExemptionRead2.md
   - docs/models/components/File.md
+  - docs/models/components/FilingDetailsRead.md
+  - docs/models/components/FilingFrequencyEnum.md
+  - docs/models/components/FilingRead.md
+  - docs/models/components/FilingStatusEnum.md
   - docs/models/components/JurisdictionType.md
   - docs/models/components/NexusResponse.md
   - docs/models/components/NexusStateEnum.md
   - docs/models/components/NexusStatusEnum.md
   - docs/models/components/NexusTypeEnum.md
+  - docs/models/components/OSSRegistrationCreatePayload.md
+  - docs/models/components/OssTypeEnum.md
   - docs/models/components/PageCustomerRead.md
+  - docs/models/components/PageFilingRead.md
   - docs/models/components/PageNexusResponse.md
+  - docs/models/components/PagePhysicalNexusRead.md
   - docs/models/components/PageProductRead.md
+  - docs/models/components/PageRegistrationReadWithPassword.md
   - docs/models/components/PageTransactionEstimateResponse.md
   - docs/models/components/PageTransactionRead.md
   - docs/models/components/PeriodModelEnum.md
+  - docs/models/components/PhysicalNexusCategory.md
+  - docs/models/components/PhysicalNexusCreate.md
+  - docs/models/components/PhysicalNexusRead.md
+  - docs/models/components/PhysicalNexusUpdate.md
   - docs/models/components/ProcessingStatusEnum.md
   - docs/models/components/ProductCategories.md
   - docs/models/components/ProductCategoryEnum.md
@@ -84,8 +101,15 @@ generatedFiles:
   - docs/models/components/ProductSubCategoryEnum.md
   - docs/models/components/ProductUpdate.md
   - docs/models/components/Registration.md
+  - docs/models/components/RegistrationCreatePayload.md
+  - docs/models/components/RegistrationRead.md
+  - docs/models/components/RegistrationReadWithPassword.md
+  - docs/models/components/RegistrationStatusEnum.md
+  - docs/models/components/RegistrationTypeEnum.md
+  - docs/models/components/RegistrationUpdateAPI.md
   - docs/models/components/RegistrationsRegimeEnum.md
   - docs/models/components/RelatedEntityType.md
+  - docs/models/components/SSTRegistrationCreatePayload.md
   - docs/models/components/SalesOrTransactionsEnum.md
   - docs/models/components/Security.md
   - docs/models/components/SourceEnum.md
@@ -126,17 +150,27 @@ generatedFiles:
   - docs/models/errors/BackendSrcAddressValidationResponsesValidationErrorResponse.md
   - docs/models/errors/BackendSrcCustomersResponsesValidationErrorResponse.md
   - docs/models/errors/BackendSrcExemptionsResponsesValidationErrorResponse.md
+  - docs/models/errors/BackendSrcFilingsResponsesValidationErrorResponse.md
+  - docs/models/errors/BackendSrcNexusResponsesValidationErrorResponse.md
   - docs/models/errors/BackendSrcProductsResponsesValidationErrorResponse.md
+  - docs/models/errors/BackendSrcRegistrationsResponsesValidationErrorResponse.md
   - docs/models/errors/BackendSrcTaxEstimationResponsesValidationErrorResponse.md
   - docs/models/errors/BackendSrcTransactionsResponsesValidationErrorResponse.md
   - docs/models/errors/ErrorResponse.md
   - docs/models/errors/HTTPValidationError.md
   - docs/models/operations/CreateCustomerV1CustomersPostResponse.md
   - docs/models/operations/CreateExemptionV1ExemptionsPostResponse.md
+  - docs/models/operations/CreatePhysicalNexusV1NexusPhysicalNexusPostResponse.md
   - docs/models/operations/CreateProductV1ProductsPostResponse.md
+  - docs/models/operations/CreateRegistration.md
+  - docs/models/operations/CreateRegistrationV1RegistrationsPostResponse.md
   - docs/models/operations/CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest.md
   - docs/models/operations/CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostResponse.md
   - docs/models/operations/CreateTransactionV1TransactionsPostResponse.md
+  - docs/models/operations/DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest.md
+  - docs/models/operations/DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteResponse.md
+  - docs/models/operations/DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest.md
+  - docs/models/operations/DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse.md
   - docs/models/operations/EstimateTaxV1TaxEstimatePostRequest.md
   - docs/models/operations/EstimateTaxV1TaxEstimatePostResponse.md
   - docs/models/operations/GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest.md
@@ -151,13 +185,25 @@ generatedFiles:
   - docs/models/operations/GetExemptionByIdV1ExemptionsExemptionIdGetResponse.md
   - docs/models/operations/GetExemptionsV1ExemptionsGetRequest.md
   - docs/models/operations/GetExemptionsV1ExemptionsGetResponse.md
+  - docs/models/operations/GetFilingByIdV1FilingsFilingIdGetRequest.md
+  - docs/models/operations/GetFilingByIdV1FilingsFilingIdGetResponse.md
+  - docs/models/operations/GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequest.md
+  - docs/models/operations/GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetResponse.md
+  - docs/models/operations/GetFilingsV1FilingsGetRequest.md
+  - docs/models/operations/GetFilingsV1FilingsGetResponse.md
   - docs/models/operations/GetNexusForOrgV1NexusGetRequest.md
   - docs/models/operations/GetNexusForOrgV1NexusGetResponse.md
+  - docs/models/operations/GetPhysicalNexusV1NexusPhysicalNexusGetRequest.md
+  - docs/models/operations/GetPhysicalNexusV1NexusPhysicalNexusGetResponse.md
   - docs/models/operations/GetProductByIdV1ProductsProductIdGetRequest.md
   - docs/models/operations/GetProductByIdV1ProductsProductIdGetResponse.md
   - docs/models/operations/GetProductCategoriesV1ProductsCategoriesGetResponse.md
   - docs/models/operations/GetProductsV1ProductsGetRequest.md
   - docs/models/operations/GetProductsV1ProductsGetResponse.md
+  - docs/models/operations/GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest.md
+  - docs/models/operations/GetRegistrationByIdV1RegistrationsRegistrationIdGetResponse.md
+  - docs/models/operations/GetRegistrationsV1RegistrationsGetRequest.md
+  - docs/models/operations/GetRegistrationsV1RegistrationsGetResponse.md
   - docs/models/operations/GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest.md
   - docs/models/operations/GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse.md
   - docs/models/operations/GetTransactionByIdV1TransactionsTransactionIdGetRequest.md
@@ -177,8 +223,12 @@ generatedFiles:
   - docs/models/operations/SuggestionsV1AddressValidationSuggestionsPostResponse.md
   - docs/models/operations/UpdateCustomerV1CustomersCustomerIdPutRequest.md
   - docs/models/operations/UpdateCustomerV1CustomersCustomerIdPutResponse.md
+  - docs/models/operations/UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest.md
+  - docs/models/operations/UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutResponse.md
   - docs/models/operations/UpdateProductV1ProductsProductIdPutRequest.md
   - docs/models/operations/UpdateProductV1ProductsProductIdPutResponse.md
+  - docs/models/operations/UpdateRegistrationV1RegistrationsRegistrationIdPutRequest.md
+  - docs/models/operations/UpdateRegistrationV1RegistrationsRegistrationIdPutResponse.md
   - docs/models/operations/UpdateTransactionV1TransactionsTransactionIdPutRequest.md
   - docs/models/operations/UpdateTransactionV1TransactionsTransactionIdPutResponse.md
   - docs/models/operations/UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest.md
@@ -186,8 +236,10 @@ generatedFiles:
   - docs/sdks/addressvalidation/README.md
   - docs/sdks/customers/README.md
   - docs/sdks/exemptions/README.md
+  - docs/sdks/filings/README.md
   - docs/sdks/nexus/README.md
   - docs/sdks/products/README.md
+  - docs/sdks/registrations/README.md
   - docs/sdks/sdk/README.md
   - docs/sdks/taxestimation/README.md
   - docs/sdks/transactions/README.md
@@ -200,8 +252,10 @@ generatedFiles:
   - src/main/java/com/kintsugi/taxplatform/AddressValidation.java
   - src/main/java/com/kintsugi/taxplatform/Customers.java
   - src/main/java/com/kintsugi/taxplatform/Exemptions.java
+  - src/main/java/com/kintsugi/taxplatform/Filings.java
   - src/main/java/com/kintsugi/taxplatform/Nexus.java
   - src/main/java/com/kintsugi/taxplatform/Products.java
+  - src/main/java/com/kintsugi/taxplatform/Registrations.java
   - src/main/java/com/kintsugi/taxplatform/SDK.java
   - src/main/java/com/kintsugi/taxplatform/SDKConfiguration.java
   - src/main/java/com/kintsugi/taxplatform/SecuritySource.java
@@ -215,15 +269,20 @@ generatedFiles:
   - src/main/java/com/kintsugi/taxplatform/models/components/AddressType.java
   - src/main/java/com/kintsugi/taxplatform/models/components/AppliedTo.java
   - src/main/java/com/kintsugi/taxplatform/models/components/AttachmentRead.java
+  - src/main/java/com/kintsugi/taxplatform/models/components/Attachments.java
   - src/main/java/com/kintsugi/taxplatform/models/components/BackendSrcAddressValidationResponsesValidationErrorItem.java
   - src/main/java/com/kintsugi/taxplatform/models/components/BackendSrcCustomersResponsesValidationErrorItem.java
   - src/main/java/com/kintsugi/taxplatform/models/components/BackendSrcExemptionsModelsExemptionRead.java
   - src/main/java/com/kintsugi/taxplatform/models/components/BackendSrcExemptionsResponsesValidationErrorItem.java
   - src/main/java/com/kintsugi/taxplatform/models/components/BackendSrcExemptionsSerializersExemptionRead.java
+  - src/main/java/com/kintsugi/taxplatform/models/components/BackendSrcFilingsResponsesValidationErrorItem.java
+  - src/main/java/com/kintsugi/taxplatform/models/components/BackendSrcNexusResponsesValidationErrorItem.java
   - src/main/java/com/kintsugi/taxplatform/models/components/BackendSrcProductsResponsesValidationErrorItem.java
+  - src/main/java/com/kintsugi/taxplatform/models/components/BackendSrcRegistrationsResponsesValidationErrorItem.java
   - src/main/java/com/kintsugi/taxplatform/models/components/BackendSrcTaxEstimationResponsesValidationErrorItem.java
   - src/main/java/com/kintsugi/taxplatform/models/components/BackendSrcTransactionsResponsesValidationErrorItem.java
   - src/main/java/com/kintsugi/taxplatform/models/components/BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost.java
+  - src/main/java/com/kintsugi/taxplatform/models/components/ChangeRegimeStatusEnum.java
   - src/main/java/com/kintsugi/taxplatform/models/components/CountryCodeEnum.java
   - src/main/java/com/kintsugi/taxplatform/models/components/CreditNoteCreate.java
   - src/main/java/com/kintsugi/taxplatform/models/components/CreditNoteItemCreateUpdate.java
@@ -242,17 +301,30 @@ generatedFiles:
   - src/main/java/com/kintsugi/taxplatform/models/components/ExemptionType.java
   - src/main/java/com/kintsugi/taxplatform/models/components/FastapiPaginationDefaultPageExemptionRead2.java
   - src/main/java/com/kintsugi/taxplatform/models/components/File.java
+  - src/main/java/com/kintsugi/taxplatform/models/components/FilingDetailsRead.java
+  - src/main/java/com/kintsugi/taxplatform/models/components/FilingFrequencyEnum.java
+  - src/main/java/com/kintsugi/taxplatform/models/components/FilingRead.java
+  - src/main/java/com/kintsugi/taxplatform/models/components/FilingStatusEnum.java
   - src/main/java/com/kintsugi/taxplatform/models/components/JurisdictionType.java
   - src/main/java/com/kintsugi/taxplatform/models/components/NexusResponse.java
   - src/main/java/com/kintsugi/taxplatform/models/components/NexusStateEnum.java
   - src/main/java/com/kintsugi/taxplatform/models/components/NexusStatusEnum.java
   - src/main/java/com/kintsugi/taxplatform/models/components/NexusTypeEnum.java
+  - src/main/java/com/kintsugi/taxplatform/models/components/OSSRegistrationCreatePayload.java
+  - src/main/java/com/kintsugi/taxplatform/models/components/OssTypeEnum.java
   - src/main/java/com/kintsugi/taxplatform/models/components/PageCustomerRead.java
+  - src/main/java/com/kintsugi/taxplatform/models/components/PageFilingRead.java
   - src/main/java/com/kintsugi/taxplatform/models/components/PageNexusResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/components/PagePhysicalNexusRead.java
   - src/main/java/com/kintsugi/taxplatform/models/components/PageProductRead.java
+  - src/main/java/com/kintsugi/taxplatform/models/components/PageRegistrationReadWithPassword.java
   - src/main/java/com/kintsugi/taxplatform/models/components/PageTransactionEstimateResponse.java
   - src/main/java/com/kintsugi/taxplatform/models/components/PageTransactionRead.java
   - src/main/java/com/kintsugi/taxplatform/models/components/PeriodModelEnum.java
+  - src/main/java/com/kintsugi/taxplatform/models/components/PhysicalNexusCategory.java
+  - src/main/java/com/kintsugi/taxplatform/models/components/PhysicalNexusCreate.java
+  - src/main/java/com/kintsugi/taxplatform/models/components/PhysicalNexusRead.java
+  - src/main/java/com/kintsugi/taxplatform/models/components/PhysicalNexusUpdate.java
   - src/main/java/com/kintsugi/taxplatform/models/components/ProcessingStatusEnum.java
   - src/main/java/com/kintsugi/taxplatform/models/components/ProductCategories.java
   - src/main/java/com/kintsugi/taxplatform/models/components/ProductCategoryEnum.java
@@ -264,8 +336,15 @@ generatedFiles:
   - src/main/java/com/kintsugi/taxplatform/models/components/ProductSubCategoryEnum.java
   - src/main/java/com/kintsugi/taxplatform/models/components/ProductUpdate.java
   - src/main/java/com/kintsugi/taxplatform/models/components/Registration.java
+  - src/main/java/com/kintsugi/taxplatform/models/components/RegistrationCreatePayload.java
+  - src/main/java/com/kintsugi/taxplatform/models/components/RegistrationRead.java
+  - src/main/java/com/kintsugi/taxplatform/models/components/RegistrationReadWithPassword.java
+  - src/main/java/com/kintsugi/taxplatform/models/components/RegistrationStatusEnum.java
+  - src/main/java/com/kintsugi/taxplatform/models/components/RegistrationTypeEnum.java
+  - src/main/java/com/kintsugi/taxplatform/models/components/RegistrationUpdateAPI.java
   - src/main/java/com/kintsugi/taxplatform/models/components/RegistrationsRegimeEnum.java
   - src/main/java/com/kintsugi/taxplatform/models/components/RelatedEntityType.java
+  - src/main/java/com/kintsugi/taxplatform/models/components/SSTRegistrationCreatePayload.java
   - src/main/java/com/kintsugi/taxplatform/models/components/SalesOrTransactionsEnum.java
   - src/main/java/com/kintsugi/taxplatform/models/components/Security.java
   - src/main/java/com/kintsugi/taxplatform/models/components/SourceEnum.java
@@ -308,7 +387,10 @@ generatedFiles:
   - src/main/java/com/kintsugi/taxplatform/models/errors/BackendSrcAddressValidationResponsesValidationErrorResponse.java
   - src/main/java/com/kintsugi/taxplatform/models/errors/BackendSrcCustomersResponsesValidationErrorResponse.java
   - src/main/java/com/kintsugi/taxplatform/models/errors/BackendSrcExemptionsResponsesValidationErrorResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/errors/BackendSrcFilingsResponsesValidationErrorResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/errors/BackendSrcNexusResponsesValidationErrorResponse.java
   - src/main/java/com/kintsugi/taxplatform/models/errors/BackendSrcProductsResponsesValidationErrorResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/errors/BackendSrcRegistrationsResponsesValidationErrorResponse.java
   - src/main/java/com/kintsugi/taxplatform/models/errors/BackendSrcTaxEstimationResponsesValidationErrorResponse.java
   - src/main/java/com/kintsugi/taxplatform/models/errors/BackendSrcTransactionsResponsesValidationErrorResponse.java
   - src/main/java/com/kintsugi/taxplatform/models/errors/ErrorResponse.java
@@ -317,13 +399,24 @@ generatedFiles:
   - src/main/java/com/kintsugi/taxplatform/models/operations/CreateCustomerV1CustomersPostResponse.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/CreateExemptionV1ExemptionsPostRequestBuilder.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/CreateExemptionV1ExemptionsPostResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/CreatePhysicalNexusV1NexusPhysicalNexusPostRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/CreatePhysicalNexusV1NexusPhysicalNexusPostResponse.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/CreateProductV1ProductsPostRequestBuilder.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/CreateProductV1ProductsPostResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/CreateRegistration.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/CreateRegistrationV1RegistrationsPostRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/CreateRegistrationV1RegistrationsPostResponse.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequestBuilder.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostResponse.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/CreateTransactionV1TransactionsPostRequestBuilder.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/CreateTransactionV1TransactionsPostResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/EstimateTaxV1TaxEstimatePostRequest.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/EstimateTaxV1TaxEstimatePostRequestBuilder.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/EstimateTaxV1TaxEstimatePostResponse.java
@@ -345,9 +438,21 @@ generatedFiles:
   - src/main/java/com/kintsugi/taxplatform/models/operations/GetExemptionsV1ExemptionsGetRequest.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/GetExemptionsV1ExemptionsGetRequestBuilder.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/GetExemptionsV1ExemptionsGetResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/GetFilingByIdV1FilingsFilingIdGetRequest.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/GetFilingByIdV1FilingsFilingIdGetRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/GetFilingByIdV1FilingsFilingIdGetResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequest.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/GetFilingsV1FilingsGetRequest.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/GetFilingsV1FilingsGetRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/GetFilingsV1FilingsGetResponse.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/GetNexusForOrgV1NexusGetRequest.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/GetNexusForOrgV1NexusGetRequestBuilder.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/GetNexusForOrgV1NexusGetResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/GetPhysicalNexusV1NexusPhysicalNexusGetRequest.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/GetPhysicalNexusV1NexusPhysicalNexusGetRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/GetPhysicalNexusV1NexusPhysicalNexusGetResponse.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/GetProductByIdV1ProductsProductIdGetRequest.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/GetProductByIdV1ProductsProductIdGetRequestBuilder.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/GetProductByIdV1ProductsProductIdGetResponse.java
@@ -356,6 +461,12 @@ generatedFiles:
   - src/main/java/com/kintsugi/taxplatform/models/operations/GetProductsV1ProductsGetRequest.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/GetProductsV1ProductsGetRequestBuilder.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/GetProductsV1ProductsGetResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/GetRegistrationByIdV1RegistrationsRegistrationIdGetRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/GetRegistrationByIdV1RegistrationsRegistrationIdGetResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/GetRegistrationsV1RegistrationsGetRequest.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/GetRegistrationsV1RegistrationsGetRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/GetRegistrationsV1RegistrationsGetResponse.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequestBuilder.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse.java
@@ -385,9 +496,15 @@ generatedFiles:
   - src/main/java/com/kintsugi/taxplatform/models/operations/UpdateCustomerV1CustomersCustomerIdPutRequest.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/UpdateCustomerV1CustomersCustomerIdPutRequestBuilder.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/UpdateCustomerV1CustomersCustomerIdPutResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutResponse.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/UpdateProductV1ProductsProductIdPutRequest.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/UpdateProductV1ProductsProductIdPutRequestBuilder.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/UpdateProductV1ProductsProductIdPutResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/UpdateRegistrationV1RegistrationsRegistrationIdPutRequest.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/UpdateRegistrationV1RegistrationsRegistrationIdPutRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/UpdateRegistrationV1RegistrationsRegistrationIdPutResponse.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/UpdateTransactionV1TransactionsTransactionIdPutRequest.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/UpdateTransactionV1TransactionsTransactionIdPutRequestBuilder.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/UpdateTransactionV1TransactionsTransactionIdPutResponse.java
@@ -396,9 +513,13 @@ generatedFiles:
   - src/main/java/com/kintsugi/taxplatform/models/operations/UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse.java
   - src/main/java/com/kintsugi/taxplatform/operations/CreateCustomerV1CustomersPostOperation.java
   - src/main/java/com/kintsugi/taxplatform/operations/CreateExemptionV1ExemptionsPostOperation.java
+  - src/main/java/com/kintsugi/taxplatform/operations/CreatePhysicalNexusV1NexusPhysicalNexusPostOperation.java
   - src/main/java/com/kintsugi/taxplatform/operations/CreateProductV1ProductsPostOperation.java
+  - src/main/java/com/kintsugi/taxplatform/operations/CreateRegistrationV1RegistrationsPostOperation.java
   - src/main/java/com/kintsugi/taxplatform/operations/CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostOperation.java
   - src/main/java/com/kintsugi/taxplatform/operations/CreateTransactionV1TransactionsPostOperation.java
+  - src/main/java/com/kintsugi/taxplatform/operations/DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteOperation.java
+  - src/main/java/com/kintsugi/taxplatform/operations/DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostOperation.java
   - src/main/java/com/kintsugi/taxplatform/operations/EstimateTaxV1TaxEstimatePostOperation.java
   - src/main/java/com/kintsugi/taxplatform/operations/GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetOperation.java
   - src/main/java/com/kintsugi/taxplatform/operations/GetCustomerByExternalIdV1CustomersExternalExternalIdGetOperation.java
@@ -406,10 +527,16 @@ generatedFiles:
   - src/main/java/com/kintsugi/taxplatform/operations/GetCustomersV1Operation.java
   - src/main/java/com/kintsugi/taxplatform/operations/GetExemptionByIdV1ExemptionsExemptionIdGetOperation.java
   - src/main/java/com/kintsugi/taxplatform/operations/GetExemptionsV1ExemptionsGetOperation.java
+  - src/main/java/com/kintsugi/taxplatform/operations/GetFilingByIdV1FilingsFilingIdGetOperation.java
+  - src/main/java/com/kintsugi/taxplatform/operations/GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetOperation.java
+  - src/main/java/com/kintsugi/taxplatform/operations/GetFilingsV1FilingsGetOperation.java
   - src/main/java/com/kintsugi/taxplatform/operations/GetNexusForOrgV1NexusGetOperation.java
+  - src/main/java/com/kintsugi/taxplatform/operations/GetPhysicalNexusV1NexusPhysicalNexusGetOperation.java
   - src/main/java/com/kintsugi/taxplatform/operations/GetProductByIdV1ProductsProductIdGetOperation.java
   - src/main/java/com/kintsugi/taxplatform/operations/GetProductCategoriesV1ProductsCategoriesGetOperation.java
   - src/main/java/com/kintsugi/taxplatform/operations/GetProductsV1ProductsGetOperation.java
+  - src/main/java/com/kintsugi/taxplatform/operations/GetRegistrationByIdV1RegistrationsRegistrationIdGetOperation.java
+  - src/main/java/com/kintsugi/taxplatform/operations/GetRegistrationsV1RegistrationsGetOperation.java
   - src/main/java/com/kintsugi/taxplatform/operations/GetTransactionByExternalIdV1TransactionsExternalExternalIdGetOperation.java
   - src/main/java/com/kintsugi/taxplatform/operations/GetTransactionByIdV1TransactionsTransactionIdGetOperation.java
   - src/main/java/com/kintsugi/taxplatform/operations/GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetOperation.java
@@ -421,7 +548,9 @@ generatedFiles:
   - src/main/java/com/kintsugi/taxplatform/operations/SearchV1AddressValidationSearchPostOperation.java
   - src/main/java/com/kintsugi/taxplatform/operations/SuggestionsV1AddressValidationSuggestionsPostOperation.java
   - src/main/java/com/kintsugi/taxplatform/operations/UpdateCustomerV1CustomersCustomerIdPutOperation.java
+  - src/main/java/com/kintsugi/taxplatform/operations/UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutOperation.java
   - src/main/java/com/kintsugi/taxplatform/operations/UpdateProductV1ProductsProductIdPutOperation.java
+  - src/main/java/com/kintsugi/taxplatform/operations/UpdateRegistrationV1RegistrationsRegistrationIdPutOperation.java
   - src/main/java/com/kintsugi/taxplatform/operations/UpdateTransactionV1TransactionsTransactionIdPutOperation.java
   - src/main/java/com/kintsugi/taxplatform/operations/UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostOperation.java
   - src/main/java/com/kintsugi/taxplatform/utils/BackoffStrategy.java
@@ -1042,4 +1171,238 @@ examples:
           application/json: {"organization_id": "<id>", "external_id": "<id>", "date": "2024-03-08T14:51:43.874Z", "total_amount": "0.00", "marketplace": false, "total_tax_amount_imported": "0.00", "tax_rate_imported": "0.00", "total_tax_amount_calculated": "0.00", "tax_rate_calculated": "0.00", "total_tax_liability_amount": "0.00", "taxable_amount": "0.00", "locked": false, "id": "<id>", "addresses": [], "transaction_items": [{"organization_id": "<id>", "date": "2025-04-01T04:49:49.945Z", "external_product_id": "<id>", "quantity": "1.0", "amount": "0.00", "tax_amount_imported": "0.00", "tax_rate_imported": "0.00", "tax_amount_calculated": "0.00", "tax_rate_calculated": "0.00", "taxable_amount": "0.00", "exempt": false, "id": "<id>", "tax_items": []}], "type": "SALE"}
         "422":
           application/json: {}
+  get_filings_v1_filings_get:
+    speakeasy-default-get-filings-v1-filings-get:
+      parameters:
+        query:
+          status__in: "FILED,FILING,UNFILED"
+          start_date: "2024-01-01"
+          end_date: "2024-12-31"
+          date_filed__gte: "2024-01-01"
+          date_filed__lte: "2024-12-31"
+          order_by: "status,start_date,end_date,amount"
+          state_code: "CA"
+          country_code: ["US"]
+          page: 1
+          size: 50
+      responses:
+        "200":
+          application/json: {"items": [], "total": 158868, "page": 564163, "size": 870268}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": []}
+        "500":
+          application/json: {"detail": "<value>"}
+  get_filing_by_id_v1_filings__filing_id__get:
+    speakeasy-default-get-filing-by-id-v1-filings-filing-id-get:
+      parameters:
+        path:
+          filing_id: "<id>"
+      responses:
+        "200":
+          application/json: {"start_date": "2024-05-22", "end_date": "2023-08-31", "country_code": "GL", "auto_approved": false, "amount_calculated": "0.00", "amount_adjusted": "0.00", "amount_discounts": "0.00", "amount_fees": "0.00", "amount_penalties": "0.00", "amount_tax_collected": "0.00", "amount_sales": "0.00", "total_taxable_sales": "0.00", "amount": "0.00", "total_tax_liability": "0.00", "transaction_count": 0, "tax_remitted": "0.00", "id": "<id>", "registration_id": "<id>", "credits_utilized": "0.00"}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": [{"type": "<value>", "loc": ["<value 1>"], "msg": "<value>", "input": "<value>", "ctx": {}}]}
+        "500":
+          application/json: {"detail": "<value>"}
+  get_filings_by_registration_id_v1_filings_registration__registration_id__get:
+    speakeasy-default-get-filings-by-registration-id-v1-filings-registration-registration-id-get:
+      parameters:
+        path:
+          registration_id: "<id>"
+        query:
+          page: 1
+          size: 50
+      responses:
+        "200":
+          application/json: {"items": [], "total": 546803, "page": 610421, "size": 87254}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": [{"type": "<value>", "loc": ["<value 1>", "<value 2>"], "msg": "<value>", "input": "<value>", "ctx": {}}]}
+        "500":
+          application/json: {"detail": "<value>"}
+  get_physical_nexus_v1_nexus_physical_nexus_get:
+    speakeasy-default-get-physical-nexus-v1-nexus-physical-nexus-get:
+      parameters:
+        query:
+          order_by: "country_code,state_code,start_date,end_date"
+          page: 1
+          size: 50
+      responses:
+        "200":
+          application/json: {"items": [{"country_code": "JO", "state_code": "<value>", "start_date": "2024-03-23", "category": "DIGITAL_INFRASTRUCTURE_LOCALIZED", "id": "<id>"}], "total": 191637, "page": 913277, "size": 155955}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": [{"type": "<value>", "loc": [], "msg": "<value>", "input": "<value>", "ctx": {"key": "<value>", "key1": "<value>"}}]}
+        "500":
+          application/json: {"detail": "<value>"}
+  create_physical_nexus_v1_nexus_physical_nexus_post:
+    speakeasy-default-create-physical-nexus-v1-nexus-physical-nexus-post:
+      requestBody:
+        application/json: {"country_code": "HK", "state_code": "<value>", "start_date": "2023-03-25", "category": "MANUFACTURE_OR_PRODUCTION_IN_CANADA"}
+      responses:
+        "200":
+          application/json: {"country_code": "AW", "state_code": "<value>", "start_date": "2023-01-29", "category": "MANUFACTURING_FACILITIES", "id": "<id>"}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": []}
+        "500":
+          application/json: {"detail": "<value>"}
+  update_physical_nexus_v1_nexus_physical_nexus__physical_nexus_id__put:
+    speakeasy-default-update-physical-nexus-v1-nexus-physical-nexus-physical-nexus-id-put:
+      parameters:
+        path:
+          physical_nexus_id: "<id>"
+      requestBody:
+        application/json: {"start_date": "2023-07-29", "category": "WAREHOUSE_AND_INVENTORY_PRESENCE"}
+      responses:
+        "200":
+          application/json: {"country_code": "KR", "state_code": "<value>", "start_date": "2024-12-18", "category": "TELECOMMUTING_OR_REMOTE_EMPLOYEE", "id": "<id>"}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": []}
+        "500":
+          application/json: {"detail": "<value>"}
+  delete_physical_nexus_v1_nexus_physical_nexus__physical_nexus_id__delete:
+    speakeasy-default-delete-physical-nexus-v1-nexus-physical-nexus-physical-nexus-id-delete:
+      parameters:
+        path:
+          physical_nexus_id: "<id>"
+      responses:
+        "200":
+          application/json: "<value>"
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": []}
+        "500":
+          application/json: {"detail": "<value>"}
+  get_registrations_v1_registrations_get:
+    speakeasy-default-get-registrations-v1-registrations-get:
+      parameters:
+        query:
+          status__in: "REGISTERED,PROCESSING,UNREGISTERED,DEREGISTERING,DEREGISTERED,VALIDATING,AWAITING_CLARIFICATION"
+          page: 1
+          size: 50
+      responses:
+        "200":
+          application/json: {"items": [], "total": 216521, "page": 460128, "size": 260478}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": []}
+        "500":
+          application/json: {"detail": "<value>"}
+  create_registration_v1_registrations_post:
+    regular_legacy:
+      requestBody:
+        application/json: {"registration_import_type": "OSS", "imported": false}
+      responses:
+        "200":
+          application/json: {"auto_registered": false, "third_party_enabled": false, "status": "UNREGISTERED", "country_code": "AF", "state_code": "<value>", "state_name": "<value>", "filing_frequency": "SEMI_ANNUALLY", "filing_days": 991336, "initial_sync": false, "amount_fees": "0.00", "vda": false, "sst_import": false, "needs_mark_as_collecting": false, "id": "<id>", "credits_total_available": "0.00", "registration_type": "EU_OSS"}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": []}
+        "500":
+          application/json: {"detail": "<value>"}
+    regular_new:
+      requestBody:
+        application/json: {"registration_import_type": "REGULAR", "registration_date": "2025-02-01", "registration_email": "example@domain.com", "auto_registered": true, "country_code": "US", "state_code": "TX", "state_name": "Texas", "filing_frequency": "MONTHLY", "filing_days": 15, "comment": "Registering for monthly sales tax filings", "initial_sync": false, "amount_fees": 100, "vda": false, "sst_import": false}
+      responses:
+        "200":
+          application/json: {"auto_registered": false, "third_party_enabled": false, "status": "UNREGISTERED", "country_code": "AF", "state_code": "<value>", "state_name": "<value>", "filing_frequency": "SEMI_ANNUALLY", "filing_days": 991336, "initial_sync": false, "amount_fees": "0.00", "vda": false, "sst_import": false, "needs_mark_as_collecting": false, "id": "<id>", "credits_total_available": "0.00", "registration_type": "EU_OSS"}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": []}
+        "500":
+          application/json: {"detail": "<value>"}
+    oss:
+      requestBody:
+        application/json: {"registration_import_type": "OSS", "password_plain_text": "oss_pass_fr", "password_metadata_plain_text": "{\"q\":\"a\"}", "member_state_of_identification_code": "FR", "imported": true}
+      responses:
+        "200":
+          application/json: {"auto_registered": false, "third_party_enabled": false, "status": "UNREGISTERED", "country_code": "AF", "state_code": "<value>", "state_name": "<value>", "filing_frequency": "SEMI_ANNUALLY", "filing_days": 991336, "initial_sync": false, "amount_fees": "0.00", "vda": false, "sst_import": false, "needs_mark_as_collecting": false, "id": "<id>", "credits_total_available": "0.00", "registration_type": "EU_OSS"}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": []}
+        "500":
+          application/json: {"detail": "<value>"}
+    sst:
+      requestBody:
+        application/json: {"registration_import_type": "SST", "password_plain_text": "sst_pass", "password_metadata_plain_text": "{\"q\":\"a\"}", "username": "sst_user"}
+      responses:
+        "200":
+          application/json: {"auto_registered": false, "third_party_enabled": false, "status": "UNREGISTERED", "country_code": "AF", "state_code": "<value>", "state_name": "<value>", "filing_frequency": "SEMI_ANNUALLY", "filing_days": 991336, "initial_sync": false, "amount_fees": "0.00", "vda": false, "sst_import": false, "needs_mark_as_collecting": false, "id": "<id>", "credits_total_available": "0.00", "registration_type": "EU_OSS"}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": []}
+        "500":
+          application/json: {"detail": "<value>"}
+    speakeasy-default-create-registration-v1-registrations-post:
+      requestBody:
+        application/json: {"registration_import_type": "REGULAR", "auto_registered": false, "country_code": "GM", "state_code": "<value>", "state_name": "<value>", "filing_frequency": "MONTHLY", "filing_days": 801864, "initial_sync": false, "amount_fees": 0, "vda": false, "sst_import": false}
+      responses:
+        "200":
+          application/json: {"auto_registered": false, "third_party_enabled": false, "status": "UNREGISTERED", "country_code": "AF", "state_code": "<value>", "state_name": "<value>", "filing_frequency": "SEMI_ANNUALLY", "filing_days": 991336, "initial_sync": false, "amount_fees": "0.00", "vda": false, "sst_import": false, "needs_mark_as_collecting": false, "id": "<id>", "credits_total_available": "0.00", "registration_type": "EU_OSS"}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": []}
+        "500":
+          application/json: {"detail": "<value>"}
+  get_registration_by_id_v1_registrations__registration_id__get:
+    speakeasy-default-get-registration-by-id-v1-registrations-registration-id-get:
+      parameters:
+        path:
+          registration_id: "<id>"
+      responses:
+        "200":
+          application/json: {"auto_registered": false, "third_party_enabled": false, "status": "AWAITING_CLARIFICATION", "country_code": "BO", "state_code": "<value>", "state_name": "<value>", "filing_frequency": "MONTHLY", "filing_days": 607962, "initial_sync": false, "amount_fees": "0.00", "vda": false, "sst_import": false, "needs_mark_as_collecting": false, "id": "<id>", "credits_total_available": "0.00", "registration_type": "EU_OSS"}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": [{"type": "<value>", "loc": ["<value 1>", "<value 2>", "<value 3>"], "msg": "<value>", "input": "<value>", "ctx": {"key": "<value>"}}]}
+        "500":
+          application/json: {"detail": "<value>"}
+  update_registration_v1_registrations__registration_id__put:
+    speakeasy-default-update-registration-v1-registrations-registration-id-put:
+      parameters:
+        path:
+          registration_id: "<id>"
+      requestBody:
+        application/json: {"auto_registered": false, "third_party_enabled": false}
+      responses:
+        "200":
+          application/json: {"auto_registered": false, "third_party_enabled": false, "status": "DEREGISTERING", "country_code": "GL", "state_code": "<value>", "state_name": "<value>", "filing_frequency": "SEMI_MONTHLY", "filing_days": 43389, "initial_sync": false, "amount_fees": "0.00", "vda": false, "sst_import": false, "needs_mark_as_collecting": false, "id": "<id>", "credits_total_available": "0.00", "registration_type": "EU_OSS"}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": []}
+        "500":
+          application/json: {"detail": "<value>"}
+  deregister_registration_v1_registrations__registration_id__deregister_post:
+    speakeasy-default-deregister-registration-v1-registrations-registration-id-deregister-post:
+      parameters:
+        path:
+          registration_id: "regs_123456"
+      responses:
+        "200":
+          application/json: {"auto_registered": false, "third_party_enabled": false, "status": "DEREGISTERED", "country_code": "PW", "state_code": "<value>", "state_name": "<value>", "filing_frequency": "FOUR_MONTHLY", "filing_days": 352449, "initial_sync": false, "amount_fees": "0.00", "vda": false, "sst_import": false, "needs_mark_as_collecting": false, "id": "<id>", "credits_total_available": "0.00", "registration_type": "EU_OSS"}
+        "401":
+          application/json: {"detail": "<value>"}
+        "422":
+          application/json: {"detail": [{"type": "<value>", "loc": ["<value 1>"], "msg": "<value>", "input": "<value>", "ctx": {"key": "<value>", "key1": "<value>"}}]}
+        "500":
+          application/json: {"detail": "<value>"}
 examplesVersion: 1.0.2

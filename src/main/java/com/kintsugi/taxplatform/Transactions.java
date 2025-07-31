@@ -58,7 +58,7 @@ public class Transactions {
      * 
      * @return The call builder
      */
-    public GetTransactionsV1TransactionsGetRequestBuilder list() {
+    public GetTransactionsV1TransactionsGetRequestBuilder getTransactionsV1TransactionsGet() {
         return new GetTransactionsV1TransactionsGetRequestBuilder(sdkConfiguration);
     }
 
@@ -72,7 +72,7 @@ public class Transactions {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public GetTransactionsV1TransactionsGetResponse list(GetTransactionsV1TransactionsGetRequest request) throws Exception {
+    public GetTransactionsV1TransactionsGetResponse getTransactionsV1TransactionsGet(GetTransactionsV1TransactionsGetRequest request) throws Exception {
         RequestOperation<GetTransactionsV1TransactionsGetRequest, GetTransactionsV1TransactionsGetResponse> operation
               = new GetTransactionsV1TransactionsGetOperation(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
@@ -85,7 +85,7 @@ public class Transactions {
      * 
      * @return The call builder
      */
-    public CreateTransactionV1TransactionsPostRequestBuilder create() {
+    public CreateTransactionV1TransactionsPostRequestBuilder createTransactionV1TransactionsPost() {
         return new CreateTransactionV1TransactionsPostRequestBuilder(sdkConfiguration);
     }
 
@@ -98,7 +98,7 @@ public class Transactions {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public CreateTransactionV1TransactionsPostResponse create(TransactionPublicRequest request) throws Exception {
+    public CreateTransactionV1TransactionsPostResponse createTransactionV1TransactionsPost(TransactionPublicRequest request) throws Exception {
         RequestOperation<TransactionPublicRequest, CreateTransactionV1TransactionsPostResponse> operation
               = new CreateTransactionV1TransactionsPostOperation(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
@@ -112,7 +112,7 @@ public class Transactions {
      * 
      * @return The call builder
      */
-    public GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequestBuilder getByExternalId() {
+    public GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequestBuilder getTransactionByExternalIdV1TransactionsExternalExternalIdGet() {
         return new GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequestBuilder(sdkConfiguration);
     }
 
@@ -126,7 +126,7 @@ public class Transactions {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse getByExternalId(String externalId) throws Exception {
+    public GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse getTransactionByExternalIdV1TransactionsExternalExternalIdGet(String externalId) throws Exception {
         GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest request =
             GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest
                 .builder()
@@ -144,7 +144,7 @@ public class Transactions {
      * 
      * @return The call builder
      */
-    public UpdateTransactionV1TransactionsTransactionIdPutRequestBuilder update() {
+    public UpdateTransactionV1TransactionsTransactionIdPutRequestBuilder updateTransactionV1TransactionsTransactionIdPut() {
         return new UpdateTransactionV1TransactionsTransactionIdPutRequestBuilder(sdkConfiguration);
     }
 
@@ -158,7 +158,7 @@ public class Transactions {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public UpdateTransactionV1TransactionsTransactionIdPutResponse update(String transactionId, TransactionUpdate transactionUpdate) throws Exception {
+    public UpdateTransactionV1TransactionsTransactionIdPutResponse updateTransactionV1TransactionsTransactionIdPut(String transactionId, TransactionUpdate transactionUpdate) throws Exception {
         UpdateTransactionV1TransactionsTransactionIdPutRequest request =
             UpdateTransactionV1TransactionsTransactionIdPutRequest
                 .builder()
@@ -178,7 +178,7 @@ public class Transactions {
      * 
      * @return The call builder
      */
-    public GetTransactionByIdV1TransactionsTransactionIdGetRequestBuilder getById() {
+    public GetTransactionByIdV1TransactionsTransactionIdGetRequestBuilder getTransactionByIdV1TransactionsTransactionIdGet() {
         return new GetTransactionByIdV1TransactionsTransactionIdGetRequestBuilder(sdkConfiguration);
     }
 
@@ -192,7 +192,7 @@ public class Transactions {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public GetTransactionByIdV1TransactionsTransactionIdGetResponse getById(String transactionId) throws Exception {
+    public GetTransactionByIdV1TransactionsTransactionIdGetResponse getTransactionByIdV1TransactionsTransactionIdGet(String transactionId) throws Exception {
         GetTransactionByIdV1TransactionsTransactionIdGetRequest request =
             GetTransactionByIdV1TransactionsTransactionIdGetRequest
                 .builder()
@@ -210,7 +210,7 @@ public class Transactions {
      * 
      * @return The call builder
      */
-    public GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequestBuilder getByFilingId() {
+    public GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequestBuilder getTransactionsByFilingIdV1TransactionsFilingsFilingIdGet() {
         return new GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequestBuilder(sdkConfiguration);
     }
 
@@ -225,7 +225,7 @@ public class Transactions {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetResponse getByFilingId(String filingId) throws Exception {
+    public GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetResponse getTransactionsByFilingIdV1TransactionsFilingsFilingIdGet(String filingId) throws Exception {
         GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest request =
             GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest
                 .builder()
@@ -243,7 +243,7 @@ public class Transactions {
      * 
      * @return The call builder
      */
-    public POSTCreateCreditNoteByTransactionIdRequestBuilder createCreditNote() {
+    public POSTCreateCreditNoteByTransactionIdRequestBuilder postCreateCreditNoteByTransactionId() {
         return new POSTCreateCreditNoteByTransactionIdRequestBuilder(sdkConfiguration);
     }
 
@@ -257,7 +257,7 @@ public class Transactions {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public POSTCreateCreditNoteByTransactionIdResponse createCreditNote(String originalTransactionId, CreditNoteCreate creditNoteCreate) throws Exception {
+    public POSTCreateCreditNoteByTransactionIdResponse postCreateCreditNoteByTransactionId(String originalTransactionId, CreditNoteCreate creditNoteCreate) throws Exception {
         POSTCreateCreditNoteByTransactionIdRequest request =
             POSTCreateCreditNoteByTransactionIdRequest
                 .builder()
@@ -276,7 +276,7 @@ public class Transactions {
      * 
      * @return The call builder
      */
-    public PUTUpdateCreditNoteByTransactionIdRequestBuilder updateCreditNote() {
+    public PUTUpdateCreditNoteByTransactionIdRequestBuilder putUpdateCreditNoteByTransactionId() {
         return new PUTUpdateCreditNoteByTransactionIdRequestBuilder(sdkConfiguration);
     }
 
@@ -291,7 +291,7 @@ public class Transactions {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public PUTUpdateCreditNoteByTransactionIdResponse updateCreditNote(
+    public PUTUpdateCreditNoteByTransactionIdResponse putUpdateCreditNoteByTransactionId(
             String originalTransactionId, String creditNoteId,
             CreditNoteCreate creditNoteCreate) throws Exception {
         PUTUpdateCreditNoteByTransactionIdRequest request =

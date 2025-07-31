@@ -5,13 +5,13 @@
 
 ### Available Operations
 
-* [list](#list) - Get Exemptions
-* [create](#create) - Create Exemption
-* [get](#get) - Get Exemption By Id
-* [uploadCertificate](#uploadcertificate) - Upload Exemption Certificate
-* [getAttachments](#getattachments) - Get Attachments For Exemption
+* [getExemptionsV1ExemptionsGet](#getexemptionsv1exemptionsget) - Get Exemptions
+* [createExemptionV1ExemptionsPost](#createexemptionv1exemptionspost) - Create Exemption
+* [getExemptionByIdV1ExemptionsExemptionIdGet](#getexemptionbyidv1exemptionsexemptionidget) - Get Exemption By Id
+* [uploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost](#uploadexemptioncertificatev1exemptionsexemptionidattachmentspost) - Upload Exemption Certificate
+* [getAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGet](#getattachmentsforexemptionv1exemptionsexemptionidattachmentsget) - Get Attachments For Exemption
 
-## list
+## getExemptionsV1ExemptionsGet
 
 Retrieve a list of exemptions based on filters.
 
@@ -52,7 +52,7 @@ public class Application {
                 .transactionId("trans_1234")
                 .build();
 
-        GetExemptionsV1ExemptionsGetResponse res = sdk.exemptions().list()
+        GetExemptionsV1ExemptionsGetResponse res = sdk.exemptions().getExemptionsV1ExemptionsGet()
                 .request(req)
                 .call();
 
@@ -82,7 +82,7 @@ public class Application {
 | models/errors/ErrorResponse                                        | 500                                                                | application/json                                                   |
 | models/errors/APIException                                         | 4XX, 5XX                                                           | \*/\*                                                              |
 
-## create
+## createExemptionV1ExemptionsPost
 
 The Create Exemption API allows you to create a new exemption record.
     This includes defining details such as exemption type, jurisdiction,
@@ -127,7 +127,7 @@ public class Application {
                 .reseller(true)
                 .build();
 
-        CreateExemptionV1ExemptionsPostResponse res = sdk.exemptions().create()
+        CreateExemptionV1ExemptionsPostResponse res = sdk.exemptions().createExemptionV1ExemptionsPost()
                 .request(req)
                 .call();
 
@@ -157,7 +157,7 @@ public class Application {
 | models/errors/ErrorResponse                                        | 500                                                                | application/json                                                   |
 | models/errors/APIException                                         | 4XX, 5XX                                                           | \*/\*                                                              |
 
-## get
+## getExemptionByIdV1ExemptionsExemptionIdGet
 
 The Get Exemption By ID API retrieves a specific exemption record by
     its unique ID. This API is useful for retrieving detailed information
@@ -188,7 +188,7 @@ public class Application {
                     .build())
             .build();
 
-        GetExemptionByIdV1ExemptionsExemptionIdGetResponse res = sdk.exemptions().get()
+        GetExemptionByIdV1ExemptionsExemptionIdGetResponse res = sdk.exemptions().getExemptionByIdV1ExemptionsExemptionIdGet()
                 .exemptionId("<id>")
                 .call();
 
@@ -218,7 +218,7 @@ public class Application {
 | models/errors/ErrorResponse                                        | 500                                                                | application/json                                                   |
 | models/errors/APIException                                         | 4XX, 5XX                                                           | \*/\*                                                              |
 
-## uploadCertificate
+## uploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost
 
 The Upload Exemption Certificate API allows you
     to upload a file attachment (e.g., exemption certificate) for a specific exemption.
@@ -250,7 +250,7 @@ public class Application {
                     .build())
             .build();
 
-        UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse res = sdk.exemptions().uploadCertificate()
+        UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse res = sdk.exemptions().uploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost()
                 .exemptionId("<id>")
                 .bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost(BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost.builder()
                     .file(File.builder()
@@ -287,7 +287,7 @@ public class Application {
 | models/errors/ErrorResponse                                        | 500                                                                | application/json                                                   |
 | models/errors/APIException                                         | 4XX, 5XX                                                           | \*/\*                                                              |
 
-## getAttachments
+## getAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGet
 
 The Get Attachments for Exemption API retrieves all
     attachments associated with a specific exemption.
@@ -318,7 +318,7 @@ public class Application {
                     .build())
             .build();
 
-        GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetResponse res = sdk.exemptions().getAttachments()
+        GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetResponse res = sdk.exemptions().getAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGet()
                 .exemptionId("<id>")
                 .call();
 

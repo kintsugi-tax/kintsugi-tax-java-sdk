@@ -34,10 +34,16 @@ public class SDK {
     private final Exemptions exemptions;
 
 
+    private final Filings filings;
+
+
     private final Nexus nexus;
 
 
     private final Products products;
+
+
+    private final Registrations registrations;
 
 
     private final Transactions transactions;
@@ -61,6 +67,11 @@ public class SDK {
     }
 
 
+    public Filings filings() {
+        return filings;
+    }
+
+
     public Nexus nexus() {
         return nexus;
     }
@@ -68,6 +79,11 @@ public class SDK {
 
     public Products products() {
         return products;
+    }
+
+
+    public Registrations registrations() {
+        return registrations;
     }
 
 
@@ -221,8 +237,10 @@ public class SDK {
         this.addressValidation = new AddressValidation(sdkConfiguration);
         this.customers = new Customers(sdkConfiguration);
         this.exemptions = new Exemptions(sdkConfiguration);
+        this.filings = new Filings(sdkConfiguration);
         this.nexus = new Nexus(sdkConfiguration);
         this.products = new Products(sdkConfiguration);
+        this.registrations = new Registrations(sdkConfiguration);
         this.transactions = new Transactions(sdkConfiguration);
         this.taxEstimation = new TaxEstimation(sdkConfiguration);
     }

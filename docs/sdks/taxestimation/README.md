@@ -5,9 +5,9 @@
 
 ### Available Operations
 
-* [estimateTax](#estimatetax) - Estimate Tax
+* [estimate](#estimate) - Estimate Tax
 
-## estimateTax
+## estimate
 
 The Estimate Tax API calculates the estimated tax for a specific
     transaction based on the provided details, including organization nexus,
@@ -39,7 +39,7 @@ public class Application {
                     .build())
             .build();
 
-        EstimateTaxV1TaxEstimatePostResponse res = sdk.taxEstimation().estimateTax()
+        EstimateTaxV1TaxEstimatePostResponse res = sdk.taxEstimation().estimate()
                 .transactionEstimatePublicRequest(TransactionEstimatePublicRequest.builder()
                     .date(OffsetDateTime.parse("2025-01-23T13:01:29.949Z"))
                     .externalId("txn_12345")

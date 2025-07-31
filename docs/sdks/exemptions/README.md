@@ -5,13 +5,13 @@
 
 ### Available Operations
 
-* [list](#list) - Get Exemptions
+* [get](#get) - Get Exemptions
 * [create](#create) - Create Exemption
-* [get](#get) - Get Exemption By Id
+* [getById](#getbyid) - Get Exemption By Id
 * [uploadCertificate](#uploadcertificate) - Upload Exemption Certificate
 * [getAttachments](#getattachments) - Get Attachments For Exemption
 
-## list
+## get
 
 Retrieve a list of exemptions based on filters.
 
@@ -52,7 +52,7 @@ public class Application {
                 .transactionId("trans_1234")
                 .build();
 
-        GetExemptionsV1ExemptionsGetResponse res = sdk.exemptions().list()
+        GetExemptionsV1ExemptionsGetResponse res = sdk.exemptions().get()
                 .request(req)
                 .call();
 
@@ -157,7 +157,7 @@ public class Application {
 | models/errors/ErrorResponse                                        | 500                                                                | application/json                                                   |
 | models/errors/APIException                                         | 4XX, 5XX                                                           | \*/\*                                                              |
 
-## get
+## getById
 
 The Get Exemption By ID API retrieves a specific exemption record by
     its unique ID. This API is useful for retrieving detailed information
@@ -188,7 +188,7 @@ public class Application {
                     .build())
             .build();
 
-        GetExemptionByIdV1ExemptionsExemptionIdGetResponse res = sdk.exemptions().get()
+        GetExemptionByIdV1ExemptionsExemptionIdGetResponse res = sdk.exemptions().getById()
                 .exemptionId("<id>")
                 .call();
 

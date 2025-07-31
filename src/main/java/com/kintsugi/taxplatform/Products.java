@@ -44,7 +44,7 @@ public class Products {
      * 
      * @return The call builder
      */
-    public GetProductsV1ProductsGetRequestBuilder list() {
+    public GetProductsV1ProductsGetRequestBuilder get() {
         return new GetProductsV1ProductsGetRequestBuilder(sdkConfiguration);
     }
 
@@ -57,7 +57,7 @@ public class Products {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public GetProductsV1ProductsGetResponse list(GetProductsV1ProductsGetRequest request) throws Exception {
+    public GetProductsV1ProductsGetResponse get(GetProductsV1ProductsGetRequest request) throws Exception {
         RequestOperation<GetProductsV1ProductsGetRequest, GetProductsV1ProductsGetResponse> operation
               = new GetProductsV1ProductsGetOperation(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
@@ -102,7 +102,7 @@ public class Products {
      * 
      * @return The call builder
      */
-    public GetProductByIdV1ProductsProductIdGetRequestBuilder get() {
+    public GetProductByIdV1ProductsProductIdGetRequestBuilder getById() {
         return new GetProductByIdV1ProductsProductIdGetRequestBuilder(sdkConfiguration);
     }
 
@@ -117,7 +117,7 @@ public class Products {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public GetProductByIdV1ProductsProductIdGetResponse get(String productId) throws Exception {
+    public GetProductByIdV1ProductsProductIdGetResponse getById(String productId) throws Exception {
         GetProductByIdV1ProductsProductIdGetRequest request =
             GetProductByIdV1ProductsProductIdGetRequest
                 .builder()
@@ -172,7 +172,7 @@ public class Products {
      * 
      * @return The call builder
      */
-    public GetProductCategoriesV1ProductsCategoriesGetRequestBuilder listCategories() {
+    public GetProductCategoriesV1ProductsCategoriesGetRequestBuilder getCategories() {
         return new GetProductCategoriesV1ProductsCategoriesGetRequestBuilder(sdkConfiguration);
     }
 
@@ -186,7 +186,7 @@ public class Products {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public GetProductCategoriesV1ProductsCategoriesGetResponse listCategoriesDirect() throws Exception {
+    public GetProductCategoriesV1ProductsCategoriesGetResponse getCategoriesDirect() throws Exception {
         RequestlessOperation<GetProductCategoriesV1ProductsCategoriesGetResponse> operation
             = new GetProductCategoriesV1ProductsCategoriesGetOperation(sdkConfiguration);
         return operation.handleResponse(operation.doRequest());

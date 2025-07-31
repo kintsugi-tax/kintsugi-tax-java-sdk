@@ -5,15 +5,14 @@
 
 ### Available Operations
 
-* [list](#list) - Get Customers
+* [get](#get) - Get Customers
 * [create](#create) - Create Customer
-* [get](#get) - Get Customer By Id
+* [getById](#getbyid) - Get Customer By Id
 * [update](#update) - Update Customer
 * [getByExternalId](#getbyexternalid) - Get Customer By External Id
-* [getTransactions](#gettransactions) - Get Transactions By Customer Id
 * [createTransaction](#createtransaction) - Create Transaction By Customer Id
 
-## list
+## get
 
 The Get Customers API retrieves
     a paginated list of customers based on specified filters.
@@ -54,7 +53,7 @@ public class Application {
                 .orderBy("created_at,street_1,street_2,city,state,postal_code,country,status")
                 .build();
 
-        GetCustomersV1Response res = sdk.customers().list()
+        GetCustomersV1Response res = sdk.customers().get()
                 .request(req)
                 .call();
 
@@ -160,7 +159,7 @@ public class Application {
 | models/errors/ErrorResponse                                       | 500                                                               | application/json                                                  |
 | models/errors/APIException                                        | 4XX, 5XX                                                          | \*/\*                                                             |
 
-## get
+## getById
 
 The Get Customer By ID API retrieves the details of a single customer
     using their unique identifier. It returns customer-specific data,
@@ -189,7 +188,7 @@ public class Application {
                     .build())
             .build();
 
-        GetCustomerByIdV1CustomersCustomerIdGetResponse res = sdk.customers().get()
+        GetCustomerByIdV1CustomersCustomerIdGetResponse res = sdk.customers().getById()
                 .customerId("cust_abc123")
                 .call();
 
@@ -344,61 +343,6 @@ public class Application {
 ### Response
 
 **[GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse](../../models/operations/GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse.md)**
-
-### Errors
-
-| Error Type                        | Status Code                       | Content Type                      |
-| --------------------------------- | --------------------------------- | --------------------------------- |
-| models/errors/HTTPValidationError | 422                               | application/json                  |
-| models/errors/APIException        | 4XX, 5XX                          | \*/\*                             |
-
-## getTransactions
-
-Get a list of transactions for a customer by their unique ID.
-
-### Example Usage
-
-<!-- UsageSnippet language="java" operationID="get_transactions_by_customer_id_v1_customers__customer_id__transactions_get" method="get" path="/v1/customers/{customer_id}/transactions" -->
-```java
-package hello.world;
-
-import com.kintsugi.taxplatform.SDK;
-import com.kintsugi.taxplatform.models.components.Security;
-import com.kintsugi.taxplatform.models.errors.HTTPValidationError;
-import com.kintsugi.taxplatform.models.operations.GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse;
-import java.lang.Exception;
-
-public class Application {
-
-    public static void main(String[] args) throws HTTPValidationError, Exception {
-
-        SDK sdk = SDK.builder()
-                .security(Security.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
-                    .build())
-            .build();
-
-        GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse res = sdk.customers().getTransactions()
-                .customerId("<id>")
-                .call();
-
-        if (res.responseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet().isPresent()) {
-            // handle response
-        }
-    }
-}
-```
-
-### Parameters
-
-| Parameter          | Type               | Required           | Description        |
-| ------------------ | ------------------ | ------------------ | ------------------ |
-| `customerId`       | *String*           | :heavy_check_mark: | N/A                |
-
-### Response
-
-**[GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse](../../models/operations/GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse.md)**
 
 ### Errors
 

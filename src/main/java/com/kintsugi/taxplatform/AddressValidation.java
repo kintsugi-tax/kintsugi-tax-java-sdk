@@ -68,7 +68,7 @@ public class AddressValidation {
      * 
      * @return The call builder
      */
-    public SuggestionsV1AddressValidationSuggestionsPostRequestBuilder suggestions() {
+    public SuggestionsV1AddressValidationSuggestionsPostRequestBuilder suggest() {
         return new SuggestionsV1AddressValidationSuggestionsPostRequestBuilder(sdkConfiguration);
     }
 
@@ -85,7 +85,7 @@ public class AddressValidation {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public SuggestionsV1AddressValidationSuggestionsPostResponse suggestions(ValidationAddress request) throws Exception {
+    public SuggestionsV1AddressValidationSuggestionsPostResponse suggest(ValidationAddress request) throws Exception {
         RequestOperation<ValidationAddress, SuggestionsV1AddressValidationSuggestionsPostResponse> operation
               = new SuggestionsV1AddressValidationSuggestionsPostOperation(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));

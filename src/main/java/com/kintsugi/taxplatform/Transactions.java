@@ -22,9 +22,6 @@ import com.kintsugi.taxplatform.models.operations.GetTransactionsByFilingIdV1Tra
 import com.kintsugi.taxplatform.models.operations.GetTransactionsV1TransactionsGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetTransactionsV1TransactionsGetRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.GetTransactionsV1TransactionsGetResponse;
-import com.kintsugi.taxplatform.models.operations.POSTCreateCreditNoteByTransactionIdRequest;
-import com.kintsugi.taxplatform.models.operations.POSTCreateCreditNoteByTransactionIdRequestBuilder;
-import com.kintsugi.taxplatform.models.operations.POSTCreateCreditNoteByTransactionIdResponse;
 import com.kintsugi.taxplatform.models.operations.PUTUpdateCreditNoteByTransactionIdRequest;
 import com.kintsugi.taxplatform.models.operations.PUTUpdateCreditNoteByTransactionIdRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.PUTUpdateCreditNoteByTransactionIdResponse;
@@ -36,7 +33,6 @@ import com.kintsugi.taxplatform.operations.GetTransactionByExternalIdV1Transacti
 import com.kintsugi.taxplatform.operations.GetTransactionByIdV1TransactionsTransactionIdGetOperation;
 import com.kintsugi.taxplatform.operations.GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetOperation;
 import com.kintsugi.taxplatform.operations.GetTransactionsV1TransactionsGetOperation;
-import com.kintsugi.taxplatform.operations.POSTCreateCreditNoteByTransactionIdOperation;
 import com.kintsugi.taxplatform.operations.PUTUpdateCreditNoteByTransactionIdOperation;
 import com.kintsugi.taxplatform.operations.UpdateTransactionV1TransactionsTransactionIdPutOperation;
 import java.lang.Exception;
@@ -45,9 +41,15 @@ import java.lang.String;
 
 public class Transactions {
     private final SDKConfiguration sdkConfiguration;
+    private final CreditNotes creditNotes;
 
     Transactions(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
+        this.creditNotes = new CreditNotes(this.sdkConfiguration);
+    }
+
+    public final CreditNotes creditNotes() {
+        return creditNotes;
     }
 
     /**
@@ -58,7 +60,7 @@ public class Transactions {
      * 
      * @return The call builder
      */
-    public GetTransactionsV1TransactionsGetRequestBuilder list() {
+    public GetTransactionsV1TransactionsGetRequestBuilder get() {
         return new GetTransactionsV1TransactionsGetRequestBuilder(sdkConfiguration);
     }
 
@@ -72,7 +74,7 @@ public class Transactions {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public GetTransactionsV1TransactionsGetResponse list(GetTransactionsV1TransactionsGetRequest request) throws Exception {
+    public GetTransactionsV1TransactionsGetResponse get(GetTransactionsV1TransactionsGetRequest request) throws Exception {
         RequestOperation<GetTransactionsV1TransactionsGetRequest, GetTransactionsV1TransactionsGetResponse> operation
               = new GetTransactionsV1TransactionsGetOperation(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
@@ -233,39 +235,6 @@ public class Transactions {
                 .build();
         RequestOperation<GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest, GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetResponse> operation
               = new GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetOperation(sdkConfiguration);
-        return operation.handleResponse(operation.doRequest(request));
-    }
-
-    /**
-     * Create Credit Note By Transaction Id
-     * 
-     * <p>Create a new credit note for a specific transaction.
-     * 
-     * @return The call builder
-     */
-    public POSTCreateCreditNoteByTransactionIdRequestBuilder createCreditNote() {
-        return new POSTCreateCreditNoteByTransactionIdRequestBuilder(sdkConfiguration);
-    }
-
-    /**
-     * Create Credit Note By Transaction Id
-     * 
-     * <p>Create a new credit note for a specific transaction.
-     * 
-     * @param originalTransactionId 
-     * @param creditNoteCreate 
-     * @return The response from the API call
-     * @throws Exception if the API call fails
-     */
-    public POSTCreateCreditNoteByTransactionIdResponse createCreditNote(String originalTransactionId, CreditNoteCreate creditNoteCreate) throws Exception {
-        POSTCreateCreditNoteByTransactionIdRequest request =
-            POSTCreateCreditNoteByTransactionIdRequest
-                .builder()
-                .originalTransactionId(originalTransactionId)
-                .creditNoteCreate(creditNoteCreate)
-                .build();
-        RequestOperation<POSTCreateCreditNoteByTransactionIdRequest, POSTCreateCreditNoteByTransactionIdResponse> operation
-              = new POSTCreateCreditNoteByTransactionIdOperation(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 

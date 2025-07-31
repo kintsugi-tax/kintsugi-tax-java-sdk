@@ -22,9 +22,6 @@ import com.kintsugi.taxplatform.models.operations.GetCustomerByIdV1CustomersCust
 import com.kintsugi.taxplatform.models.operations.GetCustomersV1Request;
 import com.kintsugi.taxplatform.models.operations.GetCustomersV1RequestBuilder;
 import com.kintsugi.taxplatform.models.operations.GetCustomersV1Response;
-import com.kintsugi.taxplatform.models.operations.GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest;
-import com.kintsugi.taxplatform.models.operations.GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequestBuilder;
-import com.kintsugi.taxplatform.models.operations.GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse;
 import com.kintsugi.taxplatform.models.operations.UpdateCustomerV1CustomersCustomerIdPutRequest;
 import com.kintsugi.taxplatform.models.operations.UpdateCustomerV1CustomersCustomerIdPutRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.UpdateCustomerV1CustomersCustomerIdPutResponse;
@@ -33,7 +30,6 @@ import com.kintsugi.taxplatform.operations.CreateTransactionByCustomerIdV1Custom
 import com.kintsugi.taxplatform.operations.GetCustomerByExternalIdV1CustomersExternalExternalIdGetOperation;
 import com.kintsugi.taxplatform.operations.GetCustomerByIdV1CustomersCustomerIdGetOperation;
 import com.kintsugi.taxplatform.operations.GetCustomersV1Operation;
-import com.kintsugi.taxplatform.operations.GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetOperation;
 import com.kintsugi.taxplatform.operations.UpdateCustomerV1CustomersCustomerIdPutOperation;
 import java.lang.Exception;
 import java.lang.String;
@@ -41,9 +37,15 @@ import java.lang.String;
 
 public class Customers {
     private final SDKConfiguration sdkConfiguration;
+    private final CustomersTransactions transactions;
 
     Customers(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
+        this.transactions = new CustomersTransactions(this.sdkConfiguration);
+    }
+
+    public final CustomersTransactions transactions() {
+        return transactions;
     }
 
     /**
@@ -55,7 +57,7 @@ public class Customers {
      * 
      * @return The call builder
      */
-    public GetCustomersV1RequestBuilder list() {
+    public GetCustomersV1RequestBuilder get() {
         return new GetCustomersV1RequestBuilder(sdkConfiguration);
     }
 
@@ -70,7 +72,7 @@ public class Customers {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public GetCustomersV1Response list(GetCustomersV1Request request) throws Exception {
+    public GetCustomersV1Response get(GetCustomersV1Request request) throws Exception {
         RequestOperation<GetCustomersV1Request, GetCustomersV1Response> operation
               = new GetCustomersV1Operation(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
@@ -113,7 +115,7 @@ public class Customers {
      * 
      * @return The call builder
      */
-    public GetCustomerByIdV1CustomersCustomerIdGetRequestBuilder get() {
+    public GetCustomerByIdV1CustomersCustomerIdGetRequestBuilder getById() {
         return new GetCustomerByIdV1CustomersCustomerIdGetRequestBuilder(sdkConfiguration);
     }
 
@@ -128,7 +130,7 @@ public class Customers {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public GetCustomerByIdV1CustomersCustomerIdGetResponse get(String customerId) throws Exception {
+    public GetCustomerByIdV1CustomersCustomerIdGetResponse getById(String customerId) throws Exception {
         GetCustomerByIdV1CustomersCustomerIdGetRequest request =
             GetCustomerByIdV1CustomersCustomerIdGetRequest
                 .builder()
@@ -208,37 +210,6 @@ public class Customers {
                 .build();
         RequestOperation<GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest, GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse> operation
               = new GetCustomerByExternalIdV1CustomersExternalExternalIdGetOperation(sdkConfiguration);
-        return operation.handleResponse(operation.doRequest(request));
-    }
-
-    /**
-     * Get Transactions By Customer Id
-     * 
-     * <p>Get a list of transactions for a customer by their unique ID.
-     * 
-     * @return The call builder
-     */
-    public GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequestBuilder getTransactions() {
-        return new GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequestBuilder(sdkConfiguration);
-    }
-
-    /**
-     * Get Transactions By Customer Id
-     * 
-     * <p>Get a list of transactions for a customer by their unique ID.
-     * 
-     * @param customerId 
-     * @return The response from the API call
-     * @throws Exception if the API call fails
-     */
-    public GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse getTransactions(String customerId) throws Exception {
-        GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest request =
-            GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest
-                .builder()
-                .customerId(customerId)
-                .build();
-        RequestOperation<GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest, GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse> operation
-              = new GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetOperation(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 

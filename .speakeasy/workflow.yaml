@@ -4,6 +4,8 @@ sources:
     kintsugi-overlay:
         inputs:
             - location: https://api-doc.trykintsugi.com/openapi.json
+        overlays:
+            - location: .speakeasy/speakeasy-modifications-overlay-1.yaml
         output: output.yaml
         registry:
             location: registry.speakeasyapi.dev/kintsugi-ai/tax-platform/kintsugi-overlay

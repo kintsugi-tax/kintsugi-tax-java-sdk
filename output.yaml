@@ -46,9 +46,8 @@ paths:
               example: {"detail": "An unexpected error occurred."}
       security:
         - APIKeyHeader: []
-      x-public: true
-      x-speakeasy-group: addressValidation
-      x-speakeasy-name-override: search
+      x-speakeasy-group: "addressValidation"
+      x-speakeasy-name-override: "search"
   "/v1/address_validation/suggestions":
     post:
       tags:
@@ -90,9 +89,8 @@ paths:
             "application/json":
               example: {"detail": "An unexpected error occurred."}
               schema: {"$ref": "#/components/schemas/ErrorResponse"}
-      x-public: true
-      x-speakeasy-group: addressValidation
-      x-speakeasy-name-override: suggestions
+      x-speakeasy-group: "addressValidation"
+      x-speakeasy-name-override: "suggest"
   "/v1/customers":
     get:
       tags:
@@ -197,8 +195,7 @@ paths:
             "application/json":
               example: {"detail": "An unexpected error occurred."}
               schema: {"$ref": "#/components/schemas/ErrorResponse"}
-      x-public: true
-      x-speakeasy-name-override: list
+      x-speakeasy-name-override: "get"
     post:
       tags:
         - "Customers"
@@ -245,8 +242,7 @@ paths:
             "application/json":
               example: {"detail": "An unexpected error occurred."}
               schema: {"$ref": "#/components/schemas/ErrorResponse"}
-      x-public: true
-      x-speakeasy-name-override: create
+      x-speakeasy-name-override: "create"
   "/v1/customers/{customer_id}":
     get:
       tags:
@@ -285,8 +281,7 @@ paths:
             "application/json":
               schema: {"$ref": "#/components/schemas/HTTPValidationError"}
       x-openapi-exclude-422: true
-      x-public: true
-      x-speakeasy-name-override: get
+      x-speakeasy-name-override: "getById"
     put:
       tags:
         - "Customers"
@@ -342,8 +337,7 @@ paths:
             "application/json":
               example: {"detail": "An unexpected error occurred."}
               schema: {"$ref": "#/components/schemas/ErrorResponse"}
-      x-public: true
-      x-speakeasy-name-override: update
+      x-speakeasy-name-override: "update"
   "/v1/customers/external/{external_id}":
     get:
       tags:
@@ -381,8 +375,7 @@ paths:
           content:
             "application/json":
               schema: {"$ref": "#/components/schemas/HTTPValidationError"}
-      x-public: true
-      x-speakeasy-name-override: getByExternalId
+      x-speakeasy-name-override: "getByExternalId"
   "/v1/customers/{customer_id}/transactions":
     get:
       tags:
@@ -414,8 +407,8 @@ paths:
           content:
             "application/json":
               schema: {"$ref": "#/components/schemas/HTTPValidationError"}
-      x-public: true
-      x-speakeasy-name-override: getTransactions
+      x-speakeasy-group: "customers.transactions"
+      x-speakeasy-name-override: "getByCustomerId"
     post:
       tags:
         - "Customers"
@@ -448,8 +441,7 @@ paths:
           content:
             "application/json":
               schema: {"$ref": "#/components/schemas/HTTPValidationError"}
-      x-public: true
-      x-speakeasy-name-override: createTransaction
+      x-speakeasy-name-override: "createTransaction"
   "/v1/exemptions":
     get:
       tags:
@@ -580,8 +572,7 @@ paths:
             "application/json":
               example: {"detail": "An unexpected error occurred"}
               schema: {"$ref": "#/components/schemas/ErrorResponse"}
-      x-public: true
-      x-speakeasy-name-override: list
+      x-speakeasy-name-override: "get"
     post:
       tags:
         - "Exemptions"
@@ -622,8 +613,7 @@ paths:
             "application/json":
               example: {"detail": "An unexpected error occurred"}
               schema: {"$ref": "#/components/schemas/ErrorResponse"}
-      x-public: true
-      x-speakeasy-name-override: create
+      x-speakeasy-name-override: "create"
   "/v1/exemptions/{exemption_id}":
     get:
       tags:
@@ -668,8 +658,7 @@ paths:
             "application/json":
               example: {"detail": "An unexpected error occurred"}
               schema: {"$ref": "#/components/schemas/ErrorResponse"}
-      x-public: true
-      x-speakeasy-name-override: get
+      x-speakeasy-name-override: "getById"
   "/v1/exemptions/{exemption_id}/attachments":
     post:
       tags:
@@ -719,8 +708,7 @@ paths:
             "application/json":
               example: {"detail": "Unauthenticated request."}
               schema: {"$ref": "#/components/schemas/ErrorResponse"}
-      x-public: true
-      x-speakeasy-name-override: uploadCertificate
+      x-speakeasy-name-override: "uploadCertificate"
     get:
       tags:
         - "Exemptions"
@@ -761,13 +749,487 @@ paths:
             "application/json":
               example: {"detail": "Unauthenticated request."}
               schema: {"$ref": "#/components/schemas/ErrorResponse"}
-      x-public: true
-      x-speakeasy-name-override: getAttachments
-  "/v1/filings": {}
-  "/v1/filings/{filing_id}": {}
-  "/v1/filings/registration/{registration_id}": {}
-  "/v1/nexus/physical_nexus": {}
-  "/v1/nexus/physical_nexus/{physical_nexus_id}": {}
+      x-speakeasy-name-override: "getAttachments"
+  "/v1/filings":
+    get:
+      tags:
+        - "Filings"
+      summary: "Get Filings"
+      description: "The Get Filings API retrieves a paginated list of filings based on\n    filters such as dates, jurisdiction, Country, status, etc. This helps track\n    and manage tax filings efficiently across multiple jurisdictions."
+      operationId: "get_filings_v1_filings_get"
+      security:
+        - APIKeyHeader: []
+          CustomHeader: []
+      parameters:
+        - name: "status__in"
+          in: "query"
+          required: false
+          schema:
+            description: "Filter filings by status"
+            default: "FILED,FILING,UNFILED"
+            type: "string"
+          description: "Filter filings by status"
+          example: "FILED,FILING,UNFILED"
+        - name: "start_date"
+          in: "query"
+          required: false
+          schema:
+            description: "Filter filings with a start date greater than or equal to this date."
+            type: "string"
+          description: "Filter filings with a start date greater than or equal to this date."
+          example: "2024-01-01"
+        - name: "end_date"
+          in: "query"
+          required: false
+          schema:
+            description: "Filter filings with an end date less than or equal to this date."
+            type: "string"
+          description: "Filter filings with an end date less than or equal to this date."
+          example: "2024-12-31"
+        - name: "date_filed__gte"
+          in: "query"
+          required: false
+          schema:
+            description: "Filter filings filed on or after this date."
+            type: "string"
+          description: "Filter filings filed on or after this date."
+          example: "2024-01-01"
+        - name: "date_filed__lte"
+          in: "query"
+          required: false
+          schema:
+            description: "Filter filings filed on or before this date."
+            type: "string"
+          description: "Filter filings filed on or before this date."
+          example: "2024-12-31"
+        - name: "order_by"
+          in: "query"
+          required: false
+          schema:
+            description: "Comma-separated list of fields to sort the results."
+            type: "string"
+          description: "Comma-separated list of fields to sort the results."
+          example: "status,start_date,end_date,amount"
+        - name: "state_code"
+          in: "query"
+          required: false
+          schema:
+            description: "Filter filings by state code (e.g., CA for California)."
+            type: "string"
+          description: "Filter filings by state code (e.g., CA for California)."
+          example: "CA"
+        - name: "country_code"
+          in: "query"
+          required: false
+          schema:
+            description: "Filter filings by country code in ISO 3166-1 alpha-2 format (e.g., US)."
+            type: "array"
+            items: {"$ref": "#/components/schemas/CountryCodeEnum"}
+          description: "Filter filings by country code in ISO 3166-1 alpha-2 format (e.g., US)."
+          example: "US"
+        - name: "page"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+            minimum: 1
+            description: "Page number"
+            default: 1
+            title: "Page"
+          description: "Page number"
+        - name: "size"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+            maximum: 100
+            minimum: 1
+            description: "Page size"
+            default: 50
+            title: "Size"
+          description: "Page size"
+      responses:
+        "200":
+          description: "Successfully retrieved filings"
+          content:
+            "application/json":
+              schema: {"$ref": "#/components/schemas/Page_FilingRead_"}
+              example: {"items": [{"status": "FILED", "start_date": "2024-01-01", "end_date": "2024-12-31", "due_date": "2025-01-20", "date_filed": "2025-01-19", "is_manual": false, "state_code": "CA", "state_name": "California", "country_code": "US", "jira_issue_key": "TO-1234", "auto_approved": true, "amount_calculated": "2500.00", "amount_adjusted": "0.00", "amount_discounts": "0.00", "amount_fees": "50.00", "amount_penalties": "10.00", "amount_tax_collected": "2510.00", "amount_sales": "125000.00", "amount": "2510.00", "total_tax_liability": "2510.00", "transaction_count": 25, "internal_notes": "Filing completed successfully.", "tax_remitted": "2510.00", "return_confirmation_id": "RC123456789", "payment_confirmation_id": "PC987654321", "id": "file_ABC123XYZ789", "registration_id": "regs_12345ABCDE"}, {"status": "FILING", "start_date": "2024-07-01", "end_date": "2024-09-30", "due_date": "2024-10-15", "is_manual": true, "state_code": "NY", "state_name": "New York", "country_code": "US", "jira_issue_key": "TO-5678", "auto_approved": false, "amount_calculated": "1200.00", "amount_adjusted": "0.00", "amount_discounts": "0.00", "amount_fees": "30.00", "amount_penalties": "0.00", "amount_tax_collected": "1230.00", "amount_sales": "62000.00", "amount": "1230.00", "total_tax_liability": "1230.00", "transaction_count": 18, "tax_remitted": "0.00", "id": "file_DEF456UVW321", "registration_id": "regs_67890VWXYZ"}], "total": 2, "page": 1, "size": 50, "pages": 1}
+        "404":
+          description: "Resource not found"
+          content:
+            "application/json":
+              example: {"detail": "Entered an incorrect URL."}
+              schema: {"$ref": "#/components/schemas/ErrorResponse"}
+        "401":
+          description: "Unauthenticated request."
+          content:
+            "application/json":
+              example: {"detail": "The request is missing a valid x-api-key."}
+              schema: {"$ref": "#/components/schemas/ErrorResponse"}
+        "422":
+          description: "Validation error"
+          content:
+            "application/json":
+              example: {"detail": [{"type": "date_from_datetime_parsing", "loc": ["query", "start_date"], "msg": "Input should be a valid date or datetime, input is too short", "input": "23rdJan", "ctx": {"error": "input is too short"}}]}
+              schema: {"$ref": "#/components/schemas/backend__src__filings__responses__ValidationErrorResponse"}
+        "500":
+          description: "Internal server error"
+          content:
+            "application/json":
+              example: {"detail": "An unexpected error occurred"}
+              schema: {"$ref": "#/components/schemas/ErrorResponse"}
+      x-speakeasy-name-override: "get"
+  "/v1/filings/{filing_id}":
+    get:
+      tags:
+        - "Filings"
+      summary: "Get Filing By Id"
+      description: "This API retrieves detailed information about a specific\n    filing using its unique identifier (filing_id)."
+      operationId: "get_filing_by_id_v1_filings__filing_id__get"
+      security:
+        - APIKeyHeader: []
+          CustomHeader: []
+      parameters:
+        - name: "filing_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            description: "Unique identifier for the filing to retrieve."
+            title: "Filing Id"
+          description: "Unique identifier for the filing to retrieve."
+      responses:
+        "200":
+          description: "Successfully retrieved filing by id"
+          content:
+            "application/json":
+              schema: {"$ref": "#/components/schemas/FilingDetailsRead"}
+              example: {"status": "UNFILED", "start_date": "2023-01-01", "end_date": "2023-12-31", "due_date": "2024-01-20", "is_manual": true, "state_code": "XX", "state_name": "Dummy State", "country_code": "XY", "auto_approved": false, "amount_calculated": "1000.00", "amount_adjusted": "50.00", "amount_discounts": "25.00", "amount_fees": "10.00", "amount_penalties": "5.00", "amount_tax_collected": "200.00", "amount_sales": "5000.00", "amount": "980.00", "total_tax_liability": "1200.00", "transaction_count": 15, "internal_notes": "Sample internal notes.", "tax_remitted": "100.00", "return_confirmation_id": "dummy_return_id_123", "payment_confirmation_id": "dummy_payment_id_456", "id": "file_dummy_id_789", "registration_id": "regs_dummy_id_101", "can_file": true, "credits_utilized": "10.00"}
+        "404":
+          description: "Resource not found"
+          content:
+            "application/json":
+              example: {"detail": "Not Found."}
+              schema: {"$ref": "#/components/schemas/ErrorResponse"}
+        "401":
+          description: "Unauthenticated request."
+          content:
+            "application/json":
+              example: {"detail": "The request is missing a valid x-api-key."}
+              schema: {"$ref": "#/components/schemas/ErrorResponse"}
+        "422":
+          description: "Validation error"
+          content:
+            "application/json":
+              example: {"detail": [{"type": "date_from_datetime_parsing", "loc": ["query", "start_date"], "msg": "Input should be a valid date or datetime, input is too short", "input": "23rdJan", "ctx": {"error": "input is too short"}}]}
+              schema: {"$ref": "#/components/schemas/backend__src__filings__responses__ValidationErrorResponse"}
+        "500":
+          description: "Internal server error"
+          content:
+            "application/json":
+              example: {"detail": "An unexpected error occurred"}
+              schema: {"$ref": "#/components/schemas/ErrorResponse"}
+      x-speakeasy-name-override: "getById"
+  "/v1/filings/registration/{registration_id}":
+    get:
+      tags:
+        - "Filings"
+      summary: "Get Filings By Registration Id"
+      description: "The Get Filings By Registration ID API\n    retrieves all filings\n    associated with a specific registration ID. This allows users to query detailed\n    filing information tied to\n    a specific registration record."
+      operationId: "get_filings_by_registration_id_v1_filings_registration__registration_id__get"
+      security:
+        - APIKeyHeader: []
+          CustomHeader: []
+      parameters:
+        - name: "registration_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            description: "Unique identifier for the registration\n        associated with the filings."
+            title: "Registration Id"
+          description: "Unique identifier for the registration\n        associated with the filings."
+        - name: "page"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+            minimum: 1
+            description: "Page number"
+            default: 1
+            title: "Page"
+          description: "Page number"
+        - name: "size"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+            maximum: 100
+            minimum: 1
+            description: "Page size"
+            default: 50
+            title: "Size"
+          description: "Page size"
+      responses:
+        "200":
+          description: "Successfully retrieved filings"
+          content:
+            "application/json":
+              schema: {"$ref": "#/components/schemas/Page_FilingRead_"}
+              example: {"items": [{"status": "UNFILED", "start_date": "2024-10-01", "end_date": "2024-10-31", "due_date": "2024-11-20", "is_manual": false, "state_code": "FL", "state_name": "Florida", "country_code": "US", "auto_approved": false, "amount_calculated": "100.00", "amount_adjusted": "0.00", "amount_discounts": "0.00", "amount_fees": "5.00", "amount_penalties": "0.00", "amount_tax_collected": "100.00", "amount_sales": "1000.00", "amount": "105.00", "total_tax_liability": "105.00", "transaction_count": 2, "tax_remitted": "100.00", "id": "file_12345", "registration_id": "regs_12345"}], "total": 1, "page": 1, "size": 50, "pages": 1}
+        "404":
+          description: "Resource not found"
+          content:
+            "application/json":
+              example: {"detail": "Entered an incorrect URL."}
+              schema: {"$ref": "#/components/schemas/ErrorResponse"}
+        "401":
+          description: "Unauthenticated request."
+          content:
+            "application/json":
+              example: {"detail": "The request is missing a valid x-api-key."}
+              schema: {"$ref": "#/components/schemas/ErrorResponse"}
+        "422":
+          description: "Validation error"
+          content:
+            "application/json":
+              example: {"detail": [{"type": "date_from_datetime_parsing", "loc": ["query", "start_date"], "msg": "Input should be a valid date or datetime, input is too short", "input": "23rdJan", "ctx": {"error": "input is too short"}}]}
+              schema: {"$ref": "#/components/schemas/backend__src__filings__responses__ValidationErrorResponse"}
+        "500":
+          description: "Internal server error"
+          content:
+            "application/json":
+              example: {"detail": "An unexpected error occurred"}
+              schema: {"$ref": "#/components/schemas/ErrorResponse"}
+      x-speakeasy-name-override: "getByRegistrationId"
+  "/v1/nexus/physical_nexus":
+    get:
+      tags:
+        - "Nexus"
+      summary: "Get Physical Nexus"
+      description: "Retrieve a paginated list of\n    physical nexuses for a specific organization."
+      operationId: "get_physical_nexus_v1_nexus_physical_nexus_get"
+      security:
+        - APIKeyHeader: []
+          CustomHeader: []
+      parameters:
+        - name: "country_code"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+        - name: "state_code"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+        - name: "order_by"
+          in: "query"
+          required: false
+          schema:
+            default: "country_code,state_code,start_date,end_date"
+            type: "string"
+        - name: "page"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+            minimum: 1
+            description: "Page number"
+            default: 1
+            title: "Page"
+          description: "Page number"
+        - name: "size"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+            maximum: 100
+            minimum: 1
+            description: "Page size"
+            default: 50
+            title: "Size"
+          description: "Page size"
+      responses:
+        "200":
+          description: "Successfully retrieved physical nexuses"
+          content:
+            "application/json":
+              schema: {"$ref": "#/components/schemas/Page_PhysicalNexusRead_"}
+              example: {"items": [{"country_code": "US", "state_code": "CA", "start_date": "2024-01-01", "category": "PHYSICAL_BUSINESS_LOCATION", "id": "phys_ABC123DEF456"}, {"country_code": "US", "state_code": "NY", "start_date": "2024-03-15", "category": "TELECOMMUTING_OR_REMOTE_EMPLOYEE", "id": "phys_XYZ789GHI012"}, {"country_code": "US", "state_code": "TX", "start_date": "2024-06-01", "category": "PHYSICAL_BUSINESS_LOCATION", "external_id": "ext_98765", "id": "phys_456DEF123ABC"}, {"country_code": "US", "state_code": "FL", "start_date": "2024-07-01", "end_date": "2024-12-31", "category": "TELECOMMUTING_OR_REMOTE_EMPLOYEE", "external_id": "ext_54321", "id": "phys_321CBA654FED"}, {"country_code": "US", "state_code": "WA", "start_date": "2024-09-01", "category": "PHYSICAL_BUSINESS_LOCATION", "id": "phys_654FED321CBA"}], "total": 2, "page": 1, "size": 50, "pages": 1}
+        "404":
+          description: "Resource not found"
+          content:
+            "application/json":
+              example: {"detail": "Entered an incorrect URL."}
+              schema: {"$ref": "#/components/schemas/ErrorResponse"}
+        "401":
+          description: "Unauthenticated request."
+          content:
+            "application/json":
+              example: {"detail": "The request is missing a valid x-api-key."}
+              schema: {"$ref": "#/components/schemas/ErrorResponse"}
+        "422":
+          description: "Validation error"
+          content:
+            "application/json":
+              example: {"detail": [{"type": "missing", "loc": ["header", "x-organization-id"], "msg": "Field required"}]}
+              schema: {"$ref": "#/components/schemas/backend__src__nexus__responses__ValidationErrorResponse"}
+        "500":
+          description: "Internal server error"
+          content:
+            "application/json":
+              example: {"detail": "An unexpected error occurred"}
+              schema: {"$ref": "#/components/schemas/ErrorResponse"}
+      x-speakeasy-name-override: "getPhysical"
+    post:
+      tags:
+        - "Nexus"
+      summary: "Create Physical Nexus"
+      description: "The Create Physical Nexus API allows you to create a new physical\n    nexus by specifying its attributes, including the location,\n    start date, end date, etc."
+      operationId: "create_physical_nexus_v1_nexus_physical_nexus_post"
+      security:
+        - APIKeyHeader: []
+          CustomHeader: []
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema: {"$ref": "#/components/schemas/PhysicalNexusCreate"}
+            example: {"country_code": "US", "state_code": "CA", "start_date": "2024-01-01", "end_date": "2025-01-01", "category": "PHYSICAL_BUSINESS_LOCATION", "external_id": "ext_ABC123"}
+      responses:
+        "200":
+          description: "Successfully created physical nexus"
+          content:
+            "application/json":
+              schema: {"$ref": "#/components/schemas/PhysicalNexusRead"}
+              example: {"country_code": "US", "state_code": "CA", "start_date": "2024-01-01", "end_date": "2025-01-01", "category": "PHYSICAL_BUSINESS_LOCATION", "external_id": "ext_ABC123"}
+        "401":
+          description: "Unauthenticated request."
+          content:
+            "application/json":
+              example: {"detail": "The request is missing a valid x-api-key."}
+              schema: {"$ref": "#/components/schemas/ErrorResponse"}
+        "422":
+          description: "Validation error"
+          content:
+            "application/json":
+              example: {"detail": [{"type": "date_from_datetime_parsing", "loc": ["body", "start_date"], "msg": "Input should be a valid date or datetime, input is too short", "input": "23rd Jan", "ctx": {"error": "input is too short"}}]}
+              schema: {"$ref": "#/components/schemas/backend__src__nexus__responses__ValidationErrorResponse"}
+        "500":
+          description: "Internal server error"
+          content:
+            "application/json":
+              example: {"detail": "An unexpected error occurred"}
+              schema: {"$ref": "#/components/schemas/ErrorResponse"}
+      x-speakeasy-name-override: "createPhysical"
+  "/v1/nexus/physical_nexus/{physical_nexus_id}":
+    put:
+      tags:
+        - "Nexus"
+      summary: "Update Physical Nexus"
+      description: "The Update Physical Nexus API allows you to modify the details of\n    an existing physical nexus by its unique ID."
+      operationId: "update_physical_nexus_v1_nexus_physical_nexus__physical_nexus_id__put"
+      security:
+        - APIKeyHeader: []
+          CustomHeader: []
+      parameters:
+        - name: "physical_nexus_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            description: "The unique identifier of the physical\n                                nexus to update."
+            title: "Physical Nexus Id"
+          description: "The unique identifier of the physical\n                                nexus to update."
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema: {"$ref": "#/components/schemas/PhysicalNexusUpdate"}
+            example: {"start_date": "2024-01-01", "end_date": "2025-01-01", "category": "PHYSICAL_BUSINESS_LOCATION"}
+      responses:
+        "200":
+          description: "Successfully created physical nexus"
+          content:
+            "application/json":
+              schema: {"$ref": "#/components/schemas/PhysicalNexusRead"}
+              example: {"country_code": "US", "state_code": "CA", "start_date": "2024-01-01", "end_date": "2025-01-01", "category": "PHYSICAL_BUSINESS_LOCATION", "external_id": "ext_ABC123"}
+        "401":
+          description: "Unauthenticated request."
+          content:
+            "application/json":
+              example: {"detail": "The request is missing a valid x-api-key."}
+              schema: {"$ref": "#/components/schemas/ErrorResponse"}
+        "422":
+          description: "Validation error"
+          content:
+            "application/json":
+              example: {"detail": [{"type": "date_from_datetime_parsing", "loc": ["body", "start_date"], "msg": "Input should be a valid date or datetime, input is too short", "input": "23rd Jan", "ctx": {"error": "input is too short"}}]}
+              schema: {"$ref": "#/components/schemas/backend__src__nexus__responses__ValidationErrorResponse"}
+        "404":
+          description: "Resource not found"
+          content:
+            "application/json":
+              example: {"detail": "Physical Nexus not found for id: phys_1234 in orgn_1234"}
+              schema: {"$ref": "#/components/schemas/ErrorResponse"}
+        "500":
+          description: "Internal server error"
+          content:
+            "application/json":
+              example: {"detail": "An unexpected error occurred"}
+              schema: {"$ref": "#/components/schemas/ErrorResponse"}
+      x-speakeasy-name-override: "updatePhysical"
+    delete:
+      tags:
+        - "Nexus"
+      summary: "Delete Physical Nexus"
+      description: "The Delete Physical Nexus API allows you to remove an existing\n    physical nexus by its unique ID."
+      operationId: "delete_physical_nexus_v1_nexus_physical_nexus__physical_nexus_id__delete"
+      security:
+        - APIKeyHeader: []
+          CustomHeader: []
+      parameters:
+        - name: "physical_nexus_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            description: "The unique identifier of the physical\n                                nexus to delete."
+            title: "Physical Nexus Id"
+          description: "The unique identifier of the physical\n                                nexus to delete."
+      responses:
+        "200":
+          description: "Successfully deleted physical nexus"
+          content:
+            "application/json":
+              schema: {}
+        "401":
+          description: "Unauthenticated request."
+          content:
+            "application/json":
+              example: {"detail": "The request is missing a valid x-api-key."}
+              schema: {"$ref": "#/components/schemas/ErrorResponse"}
+        "422":
+          description: "Validation error"
+          content:
+            "application/json":
+              example: {"detail": [{"type": "missing", "loc": ["header", "x-organization-id"], "msg": "Field required"}]}
+              schema: {"$ref": "#/components/schemas/backend__src__nexus__responses__ValidationErrorResponse"}
+        "404":
+          description: "Resource not found"
+          content:
+            "application/json":
+              example: {"detail": "Physical Nexus not found for id: phys_1234 in orgn_1234"}
+              schema: {"$ref": "#/components/schemas/ErrorResponse"}
+        "500":
+          description: "Internal server error"
+          content:
+            "application/json":
+              example: {"detail": "An unexpected error occurred"}
+              schema: {"$ref": "#/components/schemas/ErrorResponse"}
+      x-speakeasy-name-override: "deletePhysical"
   "/v1/nexus":
     get:
       tags:
@@ -838,8 +1300,7 @@ paths:
           content:
             "application/json":
               schema: {"$ref": "#/components/schemas/HTTPValidationError"}
-      x-public: true
-      x-speakeasy-name-override: list
+      x-speakeasy-name-override: "get"
   "/v1/products/":
     get:
       tags:
@@ -945,8 +1406,7 @@ paths:
             "application/json":
               example: {"detail": "An unexpected error occurred"}
               schema: {"$ref": "#/components/schemas/ErrorResponse"}
-      x-public: true
-      x-speakeasy-name-override: list
+      x-speakeasy-name-override: "get"
     post:
       tags:
         - "Products"
@@ -987,8 +1447,7 @@ paths:
             "application/json":
               example: {"detail": "An unexpected error occurred"}
               schema: {"$ref": "#/components/schemas/ErrorResponse"}
-      x-public: true
-      x-speakeasy-name-override: create
+      x-speakeasy-name-override: "create"
   "/v1/products/{product_id}":
     get:
       tags:
@@ -1038,8 +1497,7 @@ paths:
             "application/json":
               example: {"detail": "An unexpected error occurred"}
               schema: {"$ref": "#/components/schemas/ErrorResponse"}
-      x-public: true
-      x-speakeasy-name-override: get
+      x-speakeasy-name-override: "getById"
     put:
       tags:
         - "Products"
@@ -1094,8 +1552,7 @@ paths:
             "application/json":
               example: {"detail": "An unexpected error occurred"}
               schema: {"$ref": "#/components/schemas/ErrorResponse"}
-      x-public: true
-      x-speakeasy-name-override: update
+      x-speakeasy-name-override: "update"
   "/v1/products/categories/":
     get:
       tags:
@@ -1120,11 +1577,337 @@ paths:
           content:
             "application/json":
               schema: {"$ref": "#/components/schemas/HTTPValidationError"}
-      x-public: true
-      x-speakeasy-name-override: listCategories
-  "/v1/registrations": {}
-  "/v1/registrations/{registration_id}": {}
-  "/v1/registrations/{registration_id}/deregister": {}
+      x-speakeasy-name-override: "getCategories"
+  "/v1/registrations":
+    get:
+      tags:
+        - "Registrations"
+      summary: "Get Registrations"
+      description: "The Get Registrations API retrieves a\n    paginated list of registrations.\n    This API helps in tracking and managing registrations efficiently across multiple\n    jurisdictions."
+      operationId: "get_registrations_v1_registrations_get"
+      security:
+        - APIKeyHeader: []
+          CustomHeader: []
+      parameters:
+        - name: "status__in"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+            description: "Filter registrations by status. Multiple statuses can be passed,\n        separated by commas."
+            default: "REGISTERED,PROCESSING,UNREGISTERED,DEREGISTERING,DEREGISTERED,VALIDATING,AWAITING_CLARIFICATION"
+            title: "Status  In"
+          description: "Filter registrations by status. Multiple statuses can be passed,\n        separated by commas."
+        - name: "state_code"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+            description: "Filter registrations by state code."
+            title: "State Code"
+          description: "Filter registrations by state code."
+        - name: "filing_frequency__in"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+            description: "Filter registrations by filing frequency. Multiple filing frequencies\n        can be passed, separated by commas."
+            title: "Filing Frequency  In"
+          description: "Filter registrations by filing frequency. Multiple filing frequencies\n        can be passed, separated by commas."
+        - name: "country_code__in"
+          in: "query"
+          required: false
+          schema:
+            description: "Filter registrations by country code in ISO 3166-1 alpha-2 format\n        (e.g., US, CA)."
+            type: "array"
+            items: {"$ref": "#/components/schemas/CountryCodeEnum"}
+          description: "Filter registrations by country code in ISO 3166-1 alpha-2 format\n        (e.g., US, CA)."
+        - name: "order_by"
+          in: "query"
+          required: false
+          schema:
+            description: "Order results by specified fields (comma-separated)"
+            type: "string"
+          description: "Order results by specified fields (comma-separated)"
+        - name: "page"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+            minimum: 1
+            description: "Page number"
+            default: 1
+            title: "Page"
+          description: "Page number"
+        - name: "size"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+            maximum: 100
+            minimum: 1
+            description: "Page size"
+            default: 50
+            title: "Size"
+          description: "Page size"
+      responses:
+        "200":
+          description: "Successfully retrieved registrations"
+          content:
+            "application/json":
+              schema: {"$ref": "#/components/schemas/Page_RegistrationReadWithPassword_"}
+              example: {"items": [{"registration_date": "2024-01-01", "registration_email": "example@company.com", "status": "REGISTERED", "registration_key": "TO-1234", "registration_requested": "2023-12-20T10:45:00.000Z", "registration_completed": "2023-12-25T12:00:00.000Z", "auto_registered": true, "country_code": "US", "state_code": "CA", "state_name": "California", "filing_frequency": "MONTHLY", "filing_days": 20, "username": "admin@company.com", "comment": "First-time registration for California.", "create_filings_from": "2024-01-01", "initial_sync": true, "amount_fees": "0.00", "vda": false, "imported": true, "sales_tax_id": "ST-12345", "id": "regs_XYZ123", "password_encrypted": "gAAAAABlC9np...randomstring", "has_all_credentials": true}, {"registration_email": "support@company.com", "status": "PROCESSING", "registration_key": "TO-5678", "registration_requested": "2024-01-10T08:30:00.000Z", "auto_registered": false, "country_code": "US", "state_code": "NY", "state_name": "New York", "filing_frequency": "QUARTERLY", "filing_days": 30, "comment": "Pending clarification from the state.", "initial_sync": false, "amount_fees": "10.00", "vda": true, "imported": false, "id": "regs_ABC789", "has_all_credentials": false}], "total": 2, "page": 1, "size": 50, "pages": 1}
+        "404":
+          description: "Resource not found"
+          content:
+            "application/json":
+              example: {"detail": "Entered an incorrect URL."}
+              schema: {"$ref": "#/components/schemas/ErrorResponse"}
+        "401":
+          description: "Unauthenticated request."
+          content:
+            "application/json":
+              example: {"detail": "The request is missing a valid x-api-key."}
+              schema: {"$ref": "#/components/schemas/ErrorResponse"}
+        "422":
+          description: "Validation error"
+          content:
+            "application/json":
+              example: {"detail": [{"type": "missing", "loc": ["header", "x-organization-id"], "msg": "Field required"}]}
+              schema: {"$ref": "#/components/schemas/backend__src__registrations__responses__ValidationErrorResponse"}
+        "500":
+          description: "Internal server error"
+          content:
+            "application/json":
+              example: {"detail": "An unexpected error occurred"}
+              schema: {"$ref": "#/components/schemas/ErrorResponse"}
+      x-speakeasy-name-override: "get"
+    post:
+      tags:
+        - "Registrations"
+      summary: "Create Registration"
+      description: "The Create Registration API allows users to create a new registration\n    for tracking and managing tax filings efficiently across multiple jurisdictions."
+      operationId: "create_registration_v1_registrations_post"
+      security:
+        - APIKeyHeader: []
+          CustomHeader: []
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema:
+              oneOf:
+                - {"$ref": "#/components/schemas/RegistrationCreatePayload"}
+                - {"$ref": "#/components/schemas/OSSRegistrationCreatePayload"}
+                - {"$ref": "#/components/schemas/SSTRegistrationCreatePayload"}
+              discriminator:
+                propertyName: "registration_import_type"
+                mapping:
+                  "REGULAR": "#/components/schemas/RegistrationCreatePayload"
+                  "OSS": "#/components/schemas/OSSRegistrationCreatePayload"
+                  "SST": "#/components/schemas/SSTRegistrationCreatePayload"
+              title: "Create Registration"
+            examples:
+              "regular_legacy":
+                summary: "Regular Jurisdiction Import Example (Legacy Format)"
+                value: {"registration_date": "2025-02-01", "registration_email": "example@domain.com", "country_code": "US", "state_code": "TX", "state_name": "Texas", "filing_frequency": "MONTHLY", "filing_days": 15, "auto_registered": true, "amount_fees": 100, "comment": "Registering for monthly sales tax filings", "initial_sync": false}
+              "regular_new":
+                summary: "Regular Jurisdiction Import Example (New Format)"
+                value: {"registration_import_type": "REGULAR", "registration_date": "2025-02-01", "registration_email": "example@domain.com", "country_code": "US", "state_code": "TX", "state_name": "Texas", "filing_frequency": "MONTHLY", "filing_days": 15, "auto_registered": true, "amount_fees": 100, "comment": "Registering for monthly sales tax filings", "initial_sync": false}
+              "oss":
+                summary: "OSS Import Example"
+                value: {"registration_import_type": "OSS", "member_state_of_identification_code": "FR", "username": "oss_user_fr", "password_plain_text": "oss_pass_fr", "password_metadata_plain_text": "{\"q\":\"a\"}", "imported": true}
+              "sst":
+                summary: "SST Import Example"
+                value: {"registration_import_type": "SST", "username": "sst_user", "password_plain_text": "sst_pass", "password_metadata_plain_text": "{\"q\":\"a\"}"}
+      responses:
+        "200":
+          description: "Successfully created registration"
+          content:
+            "application/json":
+              schema: {"$ref": "#/components/schemas/RegistrationRead"}
+              example: {"registration_date": "2025-02-01", "registration_email": "example@domain.com", "status": "REGISTERED", "registration_requested": "2025-02-18T19:43:32.684802", "auto_registered": true, "country_code": "US", "state_code": "AR", "state_name": "Arizona", "filing_frequency": "MONTHLY", "filing_days": 15, "comment": "Registering for monthly sales tax filings", "initial_sync": false, "amount_fees": "100.00", "vda": false, "id": "regs_shaGJSHHr4YXg"}
+        "401":
+          description: "Unauthenticated request."
+          content:
+            "application/json":
+              example: {"detail": "The request is missing a valid x-api-key."}
+              schema: {"$ref": "#/components/schemas/ErrorResponse"}
+        "422":
+          description: "Validation error"
+          content:
+            "application/json":
+              example: {"detail": [{"type": "missing", "loc": ["header", "x-organization-id"], "msg": "Field required"}]}
+              schema: {"$ref": "#/components/schemas/backend__src__registrations__responses__ValidationErrorResponse"}
+        "500":
+          description: "Internal server error"
+          content:
+            "application/json":
+              example: {"detail": "An unexpected error occurred"}
+              schema: {"$ref": "#/components/schemas/ErrorResponse"}
+        "409":
+          description: "Registration already exists"
+          content:
+            "application/json":
+              example: {"detail": "Duplicate registration is not allowed for state_code: AR and country_code: US and organization: orgn_BoogPqWD6wioF"}
+              schema: {"$ref": "#/components/schemas/ErrorResponse"}
+      x-speakeasy-name-override: "create"
+  "/v1/registrations/{registration_id}":
+    get:
+      tags:
+        - "Registrations"
+      summary: "Get Registration By Id"
+      description: "The Get Registration By ID API retrieves a single registration record\n    based on its unique identifier."
+      operationId: "get_registration_by_id_v1_registrations__registration_id__get"
+      security:
+        - APIKeyHeader: []
+          CustomHeader: []
+      parameters:
+        - name: "registration_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            description: "The unique identifier of the\n                                registration to retrieve."
+            title: "Registration Id"
+          description: "The unique identifier of the\n                                registration to retrieve."
+      responses:
+        "200":
+          description: "Successfully retrieved registration by id"
+          content:
+            "application/json":
+              schema: {"$ref": "#/components/schemas/RegistrationRead"}
+              example: {"registration_date": "2025-02-01", "registration_email": "example@domain.com", "status": "REGISTERED", "registration_requested": "2025-02-18T19:43:32.684802", "auto_registered": true, "country_code": "US", "state_code": "AR", "state_name": "Arizona", "filing_frequency": "MONTHLY", "filing_days": 15, "comment": "Registering for monthly sales tax filings", "initial_sync": false, "amount_fees": "100.00", "vda": false, "id": "regs_shaGJSHHr4YXg"}
+        "401":
+          description: "Unauthenticated request."
+          content:
+            "application/json":
+              example: {"detail": "The request is missing a valid x-api-key."}
+              schema: {"$ref": "#/components/schemas/ErrorResponse"}
+        "404":
+          description: "Resource Not Found"
+          content:
+            "application/json":
+              example: {"detail": "Registration with id 'regs_38mWTbvcu' does not exist or it is not linked with the corresponding Nexus."}
+        "422":
+          description: "Validation error"
+          content:
+            "application/json":
+              example: {"detail": [{"type": "missing", "loc": ["header", "x-organization-id"], "msg": "Field required"}]}
+              schema: {"$ref": "#/components/schemas/backend__src__registrations__responses__ValidationErrorResponse"}
+        "500":
+          description: "Internal server error"
+          content:
+            "application/json":
+              example: {"detail": "An unexpected error occurred"}
+              schema: {"$ref": "#/components/schemas/ErrorResponse"}
+      x-speakeasy-name-override: "getById"
+    put:
+      tags:
+        - "Registrations"
+      summary: "Update Registration"
+      description: "The Update Registration API allows you to modify\n    an existing registration using its unique registration_id."
+      operationId: "update_registration_v1_registrations__registration_id__put"
+      security:
+        - APIKeyHeader: []
+          CustomHeader: []
+      parameters:
+        - name: "registration_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            description: "The unique identifier of the registration to be updated."
+            title: "Registration Id"
+          description: "The unique identifier of the registration to be updated."
+      requestBody:
+        required: true
+        content:
+          "application/json":
+            schema: {"$ref": "#/components/schemas/RegistrationUpdateAPI"}
+            example: {"registration_date": "2025-03-01", "registration_email": "example@domain.com", "registration_key": "REG-123456", "registration_requested": "2025-02-18T19:43:32.684802", "auto_registered": true, "registrations_regime": "STANDARD", "change_regime_status": "REQUESTED", "username": "User Name", "filing_frequency": "MONTHLY", "create_filings_from": "2025-03-01", "is_approaching": false, "comment": "Updated registration for compliance", "vda": false}
+      responses:
+        "200":
+          description: "Successfully retrieved registration by id"
+          content:
+            "application/json":
+              schema: {"$ref": "#/components/schemas/RegistrationRead"}
+              example: {"registration_date": "2025-02-01", "registration_email": "example@domain.com", "status": "REGISTERED", "registration_requested": "2025-02-18T19:43:32.684802", "auto_registered": true, "country_code": "US", "state_code": "AR", "state_name": "Arizona", "filing_frequency": "MONTHLY", "filing_days": 15, "comment": "Registering for monthly sales tax filings", "initial_sync": false, "amount_fees": "100.00", "vda": false, "id": "regs_shaGJSHHr4YXg"}
+        "401":
+          description: "Unauthenticated request."
+          content:
+            "application/json":
+              example: {"detail": "The request is missing a valid x-api-key."}
+              schema: {"$ref": "#/components/schemas/ErrorResponse"}
+        "404":
+          description: "Resource Not Found"
+          content:
+            "application/json":
+              example: {"detail": "Registration with id 'regs_38mWTbvcu' does not exist or it is not linked with the corresponding Nexus."}
+        "422":
+          description: "Validation error"
+          content:
+            "application/json":
+              example: {"detail": [{"type": "missing", "loc": ["header", "x-organization-id"], "msg": "Field required"}]}
+              schema: {"$ref": "#/components/schemas/backend__src__registrations__responses__ValidationErrorResponse"}
+        "500":
+          description: "Internal server error"
+          content:
+            "application/json":
+              example: {"detail": "An unexpected error occurred"}
+              schema: {"$ref": "#/components/schemas/ErrorResponse"}
+      x-speakeasy-name-override: "update"
+  "/v1/registrations/{registration_id}/deregister":
+    post:
+      tags:
+        - "Registrations"
+      summary: "Deregister Registration"
+      description: "Deregister an existing registration."
+      operationId: "deregister_registration_v1_registrations__registration_id__deregister_post"
+      security:
+        - APIKeyHeader: []
+          CustomHeader: []
+      parameters:
+        - name: "registration_id"
+          in: "path"
+          required: true
+          schema:
+            type: "string"
+            description: "The unique identifier of the registration to deregister."
+            title: "Registration Id"
+          description: "The unique identifier of the registration to deregister."
+          example: "regs_123456"
+      responses:
+        "200":
+          description: "Successfully deregistered registration by id"
+          content:
+            "application/json":
+              schema: {"$ref": "#/components/schemas/RegistrationRead"}
+              example: {"registration_date": "2025-02-01", "registration_email": "example@domain.com", "status": "DEREGISTERING", "registration_requested": "2025-02-18T19:43:32.684802", "auto_registered": true, "country_code": "US", "state_code": "AR", "state_name": "Arizona", "filing_frequency": "MONTHLY", "filing_days": 15, "comment": "Registering for monthly sales tax filings", "initial_sync": false, "amount_fees": "100.00", "vda": false, "id": "regs_shaGJSHHr4YXg"}
+        "401":
+          description: "Unauthenticated request."
+          content:
+            "application/json":
+              example: {"detail": "The request is missing a valid x-api-key."}
+              schema: {"$ref": "#/components/schemas/ErrorResponse"}
+        "404":
+          description: "Resource Not Found"
+          content:
+            "application/json":
+              example: {"detail": "Registration with id 'regs_38mWTbvcu' does not exist or it is not linked with the corresponding Nexus."}
+        "422":
+          description: "Validation error"
+          content:
+            "application/json":
+              example: {"detail": [{"type": "missing", "loc": ["header", "x-organization-id"], "msg": "Field required"}]}
+              schema: {"$ref": "#/components/schemas/backend__src__registrations__responses__ValidationErrorResponse"}
+        "500":
+          description: "Internal server error"
+          content:
+            "application/json":
+              example: {"detail": "An unexpected error occurred"}
+              schema: {"$ref": "#/components/schemas/ErrorResponse"}
+      x-speakeasy-name-override: "deregister"
   "/v1/transactions":
     get:
       tags:
@@ -1294,8 +2077,7 @@ paths:
             "application/json":
               example: {"detail": "An unexpected error occurred"}
               schema: {"$ref": "#/components/schemas/ErrorResponse"}
-      x-public: true
-      x-speakeasy-name-override: list
+      x-speakeasy-name-override: "get"
     post:
       tags:
         - "Transactions"
@@ -1384,8 +2166,7 @@ paths:
                   summary: "External service error"
                   value: {"detail": "An error occurred while making a request to an external service: ExternalServiceError"}
               schema: {"$ref": "#/components/schemas/ErrorResponse"}
-      x-public: true
-      x-speakeasy-name-override: create
+      x-speakeasy-name-override: "create"
   "/v1/transactions/external/{external_id}":
     get:
       tags:
@@ -1436,8 +2217,7 @@ paths:
             "application/json":
               example: {"detail": "An unexpected error occurred"}
               schema: {"$ref": "#/components/schemas/ErrorResponse"}
-      x-public: true
-      x-speakeasy-name-override: getByExternalId
+      x-speakeasy-name-override: "getByExternalId"
   "/v1/transactions/{transaction_id}":
     put:
       tags:
@@ -1472,8 +2252,7 @@ paths:
           content:
             "application/json":
               schema: {"$ref": "#/components/schemas/HTTPValidationError"}
-      x-public: true
-      x-speakeasy-name-override: update
+      x-speakeasy-name-override: "update"
     get:
       tags:
         - "Transactions"
@@ -1523,8 +2302,7 @@ paths:
             "application/json":
               example: {"detail": "An unexpected error occurred"}
               schema: {"$ref": "#/components/schemas/ErrorResponse"}
-      x-public: true
-      x-speakeasy-name-override: getById
+      x-speakeasy-name-override: "getById"
   "/v1/transactions/filings/{filing_id}":
     get:
       tags:
@@ -1572,8 +2350,7 @@ paths:
             "application/json":
               example: {"detail": "An unexpected error occurred"}
               schema: {"$ref": "#/components/schemas/ErrorResponse"}
-      x-public: true
-      x-speakeasy-name-override: getByFilingId
+      x-speakeasy-name-override: "getByFilingId"
   "/v1/transactions/{original_transaction_id}/credit_notes":
     post:
       tags:
@@ -1608,8 +2385,8 @@ paths:
           content:
             "application/json":
               schema: {"$ref": "#/components/schemas/HTTPValidationError"}
-      x-public: true
-      x-speakeasy-name-override: createCreditNote
+      x-speakeasy-group: "transactions.creditNotes"
+      x-speakeasy-name-override: "create"
   "/v1/transactions/{original_transaction_id}/credit_notes/{credit_note_id}":
     put:
       tags:
@@ -1649,8 +2426,7 @@ paths:
           content:
             "application/json":
               schema: {"$ref": "#/components/schemas/HTTPValidationError"}
-      x-public: true
-      x-speakeasy-name-override: updateCreditNote
+      x-speakeasy-name-override: "updateCreditNote"
   "/v1/tax/estimate":
     post:
       tags:
@@ -1708,9 +2484,8 @@ paths:
             "application/json":
               example: {"detail": "An unexpected server error occurred."}
               schema: {"$ref": "#/components/schemas/ErrorResponse"}
-      x-public: true
-      x-speakeasy-group: taxEstimation
-      x-speakeasy-name-override: estimateTax
+      x-speakeasy-group: "taxEstimation"
+      x-speakeasy-name-override: "estimate"
 components:
   schemas:
     "AccountingModelEnum":

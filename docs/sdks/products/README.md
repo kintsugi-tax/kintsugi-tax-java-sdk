@@ -5,13 +5,13 @@
 
 ### Available Operations
 
-* [list](#list) - Get Products
+* [get](#get) - Get Products
 * [create](#create) - Create Product
-* [get](#get) - Get Product By Id
+* [getById](#getbyid) - Get Product By Id
 * [update](#update) - Update Product
-* [listCategories](#listcategories) - Get Product Categories
+* [getCategories](#getcategories) - Get Product Categories
 
-## list
+## get
 
 Retrieve a paginated list of products based on filters and search query.
 
@@ -43,7 +43,7 @@ public class Application {
         GetProductsV1ProductsGetRequest req = GetProductsV1ProductsGetRequest.builder()
                 .build();
 
-        GetProductsV1ProductsGetResponse res = sdk.products().list()
+        GetProductsV1ProductsGetResponse res = sdk.products().get()
                 .request(req)
                 .call();
 
@@ -144,7 +144,7 @@ public class Application {
 | models/errors/ErrorResponse                                      | 500                                                              | application/json                                                 |
 | models/errors/APIException                                       | 4XX, 5XX                                                         | \*/\*                                                            |
 
-## get
+## getById
 
 The Get Product By ID API retrieves detailed information about
     a single product by its unique ID. This API helps in viewing the specific details
@@ -174,7 +174,7 @@ public class Application {
                     .build())
             .build();
 
-        GetProductByIdV1ProductsProductIdGetResponse res = sdk.products().get()
+        GetProductByIdV1ProductsProductIdGetResponse res = sdk.products().getById()
                 .productId("<id>")
                 .call();
 
@@ -273,7 +273,7 @@ public class Application {
 | models/errors/ErrorResponse                                      | 500                                                              | application/json                                                 |
 | models/errors/APIException                                       | 4XX, 5XX                                                         | \*/\*                                                            |
 
-## listCategories
+## getCategories
 
 The Get Product Categories API retrieves all
     product categories.  This endpoint helps users understand and select the
@@ -302,7 +302,7 @@ public class Application {
                     .build())
             .build();
 
-        GetProductCategoriesV1ProductsCategoriesGetResponse res = sdk.products().listCategories()
+        GetProductCategoriesV1ProductsCategoriesGetResponse res = sdk.products().getCategories()
                 .call();
 
         if (res.responseGetProductCategoriesV1ProductsCategoriesGet().isPresent()) {

@@ -44,7 +44,7 @@ public class Exemptions {
      * 
      * @return The call builder
      */
-    public GetExemptionsV1ExemptionsGetRequestBuilder list() {
+    public GetExemptionsV1ExemptionsGetRequestBuilder get() {
         return new GetExemptionsV1ExemptionsGetRequestBuilder(sdkConfiguration);
     }
 
@@ -57,7 +57,7 @@ public class Exemptions {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public GetExemptionsV1ExemptionsGetResponse list(GetExemptionsV1ExemptionsGetRequest request) throws Exception {
+    public GetExemptionsV1ExemptionsGetResponse get(GetExemptionsV1ExemptionsGetRequest request) throws Exception {
         RequestOperation<GetExemptionsV1ExemptionsGetRequest, GetExemptionsV1ExemptionsGetResponse> operation
               = new GetExemptionsV1ExemptionsGetOperation(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
@@ -103,7 +103,7 @@ public class Exemptions {
      * 
      * @return The call builder
      */
-    public GetExemptionByIdV1ExemptionsExemptionIdGetRequestBuilder get() {
+    public GetExemptionByIdV1ExemptionsExemptionIdGetRequestBuilder getById() {
         return new GetExemptionByIdV1ExemptionsExemptionIdGetRequestBuilder(sdkConfiguration);
     }
 
@@ -119,7 +119,7 @@ public class Exemptions {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public GetExemptionByIdV1ExemptionsExemptionIdGetResponse get(String exemptionId) throws Exception {
+    public GetExemptionByIdV1ExemptionsExemptionIdGetResponse getById(String exemptionId) throws Exception {
         GetExemptionByIdV1ExemptionsExemptionIdGetRequest request =
             GetExemptionByIdV1ExemptionsExemptionIdGetRequest
                 .builder()

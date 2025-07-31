@@ -6,7 +6,7 @@
 ### Available Operations
 
 * [search](#search) - Search
-* [suggestions](#suggestions) - Suggestions
+* [suggest](#suggest) - Suggestions
 
 ## search
 
@@ -83,7 +83,7 @@ public class Application {
 | models/errors/ErrorResponse                                               | 500                                                                       | application/json                                                          |
 | models/errors/APIException                                                | 4XX, 5XX                                                                  | \*/\*                                                                     |
 
-## suggestions
+## suggest
 
 This API endpoint provides address suggestions based on
     partial input data. It helps users auto-complete and validate addresses efficiently
@@ -128,7 +128,7 @@ public class Application {
                 .fullAddress("1600 Amphitheatre Parkway, Mountain View, CA 94043")
                 .build();
 
-        SuggestionsV1AddressValidationSuggestionsPostResponse res = sdk.addressValidation().suggestions()
+        SuggestionsV1AddressValidationSuggestionsPostResponse res = sdk.addressValidation().suggest()
                 .request(req)
                 .call();
 

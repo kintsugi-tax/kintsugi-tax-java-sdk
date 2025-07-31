@@ -31,7 +31,7 @@ public class TaxEstimation {
      * 
      * @return The call builder
      */
-    public EstimateTaxV1TaxEstimatePostRequestBuilder estimateTax() {
+    public EstimateTaxV1TaxEstimatePostRequestBuilder estimate() {
         return new EstimateTaxV1TaxEstimatePostRequestBuilder(sdkConfiguration);
     }
 
@@ -47,8 +47,8 @@ public class TaxEstimation {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public EstimateTaxV1TaxEstimatePostResponse estimateTax(TransactionEstimatePublicRequest transactionEstimatePublicRequest) throws Exception {
-        return estimateTax(Optional.empty(), transactionEstimatePublicRequest);
+    public EstimateTaxV1TaxEstimatePostResponse estimate(TransactionEstimatePublicRequest transactionEstimatePublicRequest) throws Exception {
+        return estimate(Optional.empty(), transactionEstimatePublicRequest);
     }
 
     /**
@@ -64,7 +64,7 @@ public class TaxEstimation {
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public EstimateTaxV1TaxEstimatePostResponse estimateTax(Optional<Boolean> simulateNexusMet, TransactionEstimatePublicRequest transactionEstimatePublicRequest) throws Exception {
+    public EstimateTaxV1TaxEstimatePostResponse estimate(Optional<Boolean> simulateNexusMet, TransactionEstimatePublicRequest transactionEstimatePublicRequest) throws Exception {
         EstimateTaxV1TaxEstimatePostRequest request =
             EstimateTaxV1TaxEstimatePostRequest
                 .builder()

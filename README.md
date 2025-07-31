@@ -49,7 +49,7 @@ The samples below show how a published SDK artifact is used:
 
 Gradle:
 ```groovy
-implementation 'com.trykintsugi:kintsugi-tax-java-sdk:0.7.0'
+implementation 'com.trykintsugi:kintsugi-tax-java-sdk:0.9.0'
 ```
 
 Maven:
@@ -57,7 +57,7 @@ Maven:
 <dependency>
     <groupId>com.trykintsugi</groupId>
     <artifactId>kintsugi-tax-java-sdk</artifactId>
-    <version>0.7.0</version>
+    <version>0.9.0</version>
 </dependency>
 ```
 
@@ -174,7 +174,7 @@ public class Application {
                 .fullAddress("1600 Amphitheatre Parkway, Mountain View, CA 94043")
                 .build();
 
-        SuggestionsV1AddressValidationSuggestionsPostResponse res = sdk.addressValidation().suggestions()
+        SuggestionsV1AddressValidationSuggestionsPostResponse res = sdk.addressValidation().suggest()
                 .request(req)
                 .call();
 
@@ -243,53 +243,77 @@ public class Application {
 ### [addressValidation()](docs/sdks/addressvalidation/README.md)
 
 * [search](docs/sdks/addressvalidation/README.md#search) - Search
-* [suggestions](docs/sdks/addressvalidation/README.md#suggestions) - Suggestions
+* [suggest](docs/sdks/addressvalidation/README.md#suggest) - Suggestions
 
 ### [customers()](docs/sdks/customers/README.md)
 
-* [list](docs/sdks/customers/README.md#list) - Get Customers
+* [get](docs/sdks/customers/README.md#get) - Get Customers
 * [create](docs/sdks/customers/README.md#create) - Create Customer
-* [get](docs/sdks/customers/README.md#get) - Get Customer By Id
+* [getById](docs/sdks/customers/README.md#getbyid) - Get Customer By Id
 * [update](docs/sdks/customers/README.md#update) - Update Customer
 * [getByExternalId](docs/sdks/customers/README.md#getbyexternalid) - Get Customer By External Id
-* [getTransactions](docs/sdks/customers/README.md#gettransactions) - Get Transactions By Customer Id
 * [createTransaction](docs/sdks/customers/README.md#createtransaction) - Create Transaction By Customer Id
+
+#### [customers().transactions()](docs/sdks/customerstransactions/README.md)
+
+* [getByCustomerId](docs/sdks/customerstransactions/README.md#getbycustomerid) - Get Transactions By Customer Id
 
 ### [exemptions()](docs/sdks/exemptions/README.md)
 
-* [list](docs/sdks/exemptions/README.md#list) - Get Exemptions
+* [get](docs/sdks/exemptions/README.md#get) - Get Exemptions
 * [create](docs/sdks/exemptions/README.md#create) - Create Exemption
-* [get](docs/sdks/exemptions/README.md#get) - Get Exemption By Id
+* [getById](docs/sdks/exemptions/README.md#getbyid) - Get Exemption By Id
 * [uploadCertificate](docs/sdks/exemptions/README.md#uploadcertificate) - Upload Exemption Certificate
 * [getAttachments](docs/sdks/exemptions/README.md#getattachments) - Get Attachments For Exemption
 
+### [filings()](docs/sdks/filings/README.md)
+
+* [get](docs/sdks/filings/README.md#get) - Get Filings
+* [getById](docs/sdks/filings/README.md#getbyid) - Get Filing By Id
+* [getByRegistrationId](docs/sdks/filings/README.md#getbyregistrationid) - Get Filings By Registration Id
+
 ### [nexus()](docs/sdks/nexus/README.md)
 
-* [list](docs/sdks/nexus/README.md#list) - Get Nexus For Org
+* [getPhysical](docs/sdks/nexus/README.md#getphysical) - Get Physical Nexus
+* [createPhysical](docs/sdks/nexus/README.md#createphysical) - Create Physical Nexus
+* [updatePhysical](docs/sdks/nexus/README.md#updatephysical) - Update Physical Nexus
+* [deletePhysical](docs/sdks/nexus/README.md#deletephysical) - Delete Physical Nexus
+* [get](docs/sdks/nexus/README.md#get) - Get Nexus For Org
 
 ### [products()](docs/sdks/products/README.md)
 
-* [list](docs/sdks/products/README.md#list) - Get Products
+* [get](docs/sdks/products/README.md#get) - Get Products
 * [create](docs/sdks/products/README.md#create) - Create Product
-* [get](docs/sdks/products/README.md#get) - Get Product By Id
+* [getById](docs/sdks/products/README.md#getbyid) - Get Product By Id
 * [update](docs/sdks/products/README.md#update) - Update Product
-* [listCategories](docs/sdks/products/README.md#listcategories) - Get Product Categories
+* [getCategories](docs/sdks/products/README.md#getcategories) - Get Product Categories
+
+### [registrations()](docs/sdks/registrations/README.md)
+
+* [get](docs/sdks/registrations/README.md#get) - Get Registrations
+* [create](docs/sdks/registrations/README.md#create) - Create Registration
+* [getById](docs/sdks/registrations/README.md#getbyid) - Get Registration By Id
+* [update](docs/sdks/registrations/README.md#update) - Update Registration
+* [deregister](docs/sdks/registrations/README.md#deregister) - Deregister Registration
 
 
 ### [taxEstimation()](docs/sdks/taxestimation/README.md)
 
-* [estimateTax](docs/sdks/taxestimation/README.md#estimatetax) - Estimate Tax
+* [estimate](docs/sdks/taxestimation/README.md#estimate) - Estimate Tax
 
 ### [transactions()](docs/sdks/transactions/README.md)
 
-* [list](docs/sdks/transactions/README.md#list) - Get Transactions
+* [get](docs/sdks/transactions/README.md#get) - Get Transactions
 * [create](docs/sdks/transactions/README.md#create) - Create Transaction
 * [getByExternalId](docs/sdks/transactions/README.md#getbyexternalid) - Get Transaction By External Id
 * [update](docs/sdks/transactions/README.md#update) - Update Transaction
 * [getById](docs/sdks/transactions/README.md#getbyid) - Get Transaction By Id
 * [getByFilingId](docs/sdks/transactions/README.md#getbyfilingid) - Get Transactions By Filing Id
-* [createCreditNote](docs/sdks/transactions/README.md#createcreditnote) - Create Credit Note By Transaction Id
 * [updateCreditNote](docs/sdks/transactions/README.md#updatecreditnote) - Update Credit Note By Transaction Id
+
+#### [transactions().creditNotes()](docs/sdks/creditnotes/README.md)
+
+* [create](docs/sdks/creditnotes/README.md#create) - Create Credit Note By Transaction Id
 
 </details>
 <!-- End Available Resources and Operations [operations] -->

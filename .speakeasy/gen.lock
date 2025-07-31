@@ -5,8 +5,8 @@ management:
   docVersion: 1.0.0
   speakeasyVersion: 1.595.0
   generationVersion: 2.670.1
-  releaseVersion: 0.9.0
-  configChecksum: ed96b4b200c48b56df7f15cb591417aa
+  releaseVersion: 0.9.1
+  configChecksum: 3bfd4cb2eb8c3f25fda21064986a072e
   repoURL: https://github.com/kintsugi-tax/kintsugi-tax-java-sdk.git
   published: true
 features:

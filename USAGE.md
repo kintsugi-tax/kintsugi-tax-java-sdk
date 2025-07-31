@@ -30,7 +30,7 @@ public class Application {
                 .fullAddress("1600 Amphitheatre Parkway, Mountain View, CA 94043")
                 .build();
 
-        SearchV1AddressValidationSearchPostResponse res = sdk.addressValidation().searchV1AddressValidationSearchPost()
+        SearchV1AddressValidationSearchPostResponse res = sdk.addressValidation().search()
                 .request(req)
                 .security(SearchV1AddressValidationSearchPostSecurity.builder()
                     .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))

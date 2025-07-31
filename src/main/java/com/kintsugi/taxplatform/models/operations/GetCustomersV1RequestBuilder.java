@@ -13,7 +13,6 @@ import java.lang.Exception;
 public class GetCustomersV1RequestBuilder {
 
     private GetCustomersV1Request request;
-    private GetCustomersV1Security security;
     private final SDKConfiguration sdkConfiguration;
 
     public GetCustomersV1RequestBuilder(SDKConfiguration sdkConfiguration) {
@@ -26,16 +25,10 @@ public class GetCustomersV1RequestBuilder {
         return this;
     }
 
-    public GetCustomersV1RequestBuilder security(GetCustomersV1Security security) {
-        Utils.checkNotNull(security, "security");
-        this.security = security;
-        return this;
-    }
-
     public GetCustomersV1Response call() throws Exception {
         
         RequestOperation<GetCustomersV1Request, GetCustomersV1Response> operation
-              = new GetCustomersV1Operation(sdkConfiguration, security);
+              = new GetCustomersV1Operation(sdkConfiguration);
 
         return operation.handleResponse(operation.doRequest(request));
     }

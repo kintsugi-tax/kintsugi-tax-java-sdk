@@ -4,29 +4,23 @@
 package com.kintsugi.taxplatform;
 
 import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
+import static com.kintsugi.taxplatform.operations.Operations.RequestlessOperation;
 
 import com.kintsugi.taxplatform.models.components.ProductCreateManual;
-import com.kintsugi.taxplatform.models.operations.CreateProductV1ProductsPostRequest;
+import com.kintsugi.taxplatform.models.components.ProductUpdate;
 import com.kintsugi.taxplatform.models.operations.CreateProductV1ProductsPostRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.CreateProductV1ProductsPostResponse;
-import com.kintsugi.taxplatform.models.operations.CreateProductV1ProductsPostSecurity;
 import com.kintsugi.taxplatform.models.operations.GetProductByIdV1ProductsProductIdGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetProductByIdV1ProductsProductIdGetRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.GetProductByIdV1ProductsProductIdGetResponse;
-import com.kintsugi.taxplatform.models.operations.GetProductByIdV1ProductsProductIdGetSecurity;
-import com.kintsugi.taxplatform.models.operations.GetProductCategoriesV1ProductsCategoriesGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetProductCategoriesV1ProductsCategoriesGetRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.GetProductCategoriesV1ProductsCategoriesGetResponse;
-import com.kintsugi.taxplatform.models.operations.GetProductCategoriesV1ProductsCategoriesGetSecurity;
 import com.kintsugi.taxplatform.models.operations.GetProductsV1ProductsGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetProductsV1ProductsGetRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.GetProductsV1ProductsGetResponse;
-import com.kintsugi.taxplatform.models.operations.GetProductsV1ProductsGetSecurity;
-import com.kintsugi.taxplatform.models.operations.Product;
 import com.kintsugi.taxplatform.models.operations.UpdateProductV1ProductsProductIdPutRequest;
 import com.kintsugi.taxplatform.models.operations.UpdateProductV1ProductsProductIdPutRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.UpdateProductV1ProductsProductIdPutResponse;
-import com.kintsugi.taxplatform.models.operations.UpdateProductV1ProductsProductIdPutSecurity;
 import com.kintsugi.taxplatform.operations.CreateProductV1ProductsPostOperation;
 import com.kintsugi.taxplatform.operations.GetProductByIdV1ProductsProductIdGetOperation;
 import com.kintsugi.taxplatform.operations.GetProductCategoriesV1ProductsCategoriesGetOperation;
@@ -34,7 +28,6 @@ import com.kintsugi.taxplatform.operations.GetProductsV1ProductsGetOperation;
 import com.kintsugi.taxplatform.operations.UpdateProductV1ProductsProductIdPutOperation;
 import java.lang.Exception;
 import java.lang.String;
-import java.util.Optional;
 
 
 public class Products {
@@ -61,13 +54,12 @@ public class Products {
      * <p>Retrieve a paginated list of products based on filters and search query.
      * 
      * @param request The request object containing all the parameters for the API call.
-     * @param security The security details to use for authentication.
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public GetProductsV1ProductsGetResponse list(GetProductsV1ProductsGetRequest request, GetProductsV1ProductsGetSecurity security) throws Exception {
+    public GetProductsV1ProductsGetResponse list(GetProductsV1ProductsGetRequest request) throws Exception {
         RequestOperation<GetProductsV1ProductsGetRequest, GetProductsV1ProductsGetResponse> operation
-              = new GetProductsV1ProductsGetOperation(sdkConfiguration, security);
+              = new GetProductsV1ProductsGetOperation(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -91,39 +83,13 @@ public class Products {
      *     in the system. This includes specifying product details such as category,
      *     subcategory, and tax exemption status, etc.
      * 
-     * @param security The security details to use for authentication.
-     * @param productCreateManual 
+     * @param request The request object containing all the parameters for the API call.
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public CreateProductV1ProductsPostResponse create(CreateProductV1ProductsPostSecurity security, ProductCreateManual productCreateManual) throws Exception {
-        return create(security, Optional.empty(), productCreateManual);
-    }
-
-    /**
-     * Create Product
-     * 
-     * <p>The Create Product API allows users to manually create a new product
-     *     in the system. This includes specifying product details such as category,
-     *     subcategory, and tax exemption status, etc.
-     * 
-     * @param security The security details to use for authentication.
-     * @param xOrganizationId The unique identifier for the organization making the request
-     * @param productCreateManual 
-     * @return The response from the API call
-     * @throws Exception if the API call fails
-     */
-    public CreateProductV1ProductsPostResponse create(
-            CreateProductV1ProductsPostSecurity security, Optional<String> xOrganizationId,
-            ProductCreateManual productCreateManual) throws Exception {
-        CreateProductV1ProductsPostRequest request =
-            CreateProductV1ProductsPostRequest
-                .builder()
-                .xOrganizationId(xOrganizationId)
-                .productCreateManual(productCreateManual)
-                .build();
-        RequestOperation<CreateProductV1ProductsPostRequest, CreateProductV1ProductsPostResponse> operation
-              = new CreateProductV1ProductsPostOperation(sdkConfiguration, security);
+    public CreateProductV1ProductsPostResponse create(ProductCreateManual request) throws Exception {
+        RequestOperation<ProductCreateManual, CreateProductV1ProductsPostResponse> operation
+              = new CreateProductV1ProductsPostOperation(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -147,39 +113,18 @@ public class Products {
      *     a single product by its unique ID. This API helps in viewing the specific details
      *     of a product, including its attributes, status, and categorization.
      * 
-     * @param security The security details to use for authentication.
      * @param productId The unique identifier for the product you want to retrieve.
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public GetProductByIdV1ProductsProductIdGetResponse get(GetProductByIdV1ProductsProductIdGetSecurity security, String productId) throws Exception {
-        return get(security, productId, Optional.empty());
-    }
-
-    /**
-     * Get Product By Id
-     * 
-     * <p>The Get Product By ID API retrieves detailed information about
-     *     a single product by its unique ID. This API helps in viewing the specific details
-     *     of a product, including its attributes, status, and categorization.
-     * 
-     * @param security The security details to use for authentication.
-     * @param productId The unique identifier for the product you want to retrieve.
-     * @param xOrganizationId The unique identifier for the organization making the request
-     * @return The response from the API call
-     * @throws Exception if the API call fails
-     */
-    public GetProductByIdV1ProductsProductIdGetResponse get(
-            GetProductByIdV1ProductsProductIdGetSecurity security, String productId,
-            Optional<String> xOrganizationId) throws Exception {
+    public GetProductByIdV1ProductsProductIdGetResponse get(String productId) throws Exception {
         GetProductByIdV1ProductsProductIdGetRequest request =
             GetProductByIdV1ProductsProductIdGetRequest
                 .builder()
                 .productId(productId)
-                .xOrganizationId(xOrganizationId)
                 .build();
         RequestOperation<GetProductByIdV1ProductsProductIdGetRequest, GetProductByIdV1ProductsProductIdGetResponse> operation
-              = new GetProductByIdV1ProductsProductIdGetOperation(sdkConfiguration, security);
+              = new GetProductByIdV1ProductsProductIdGetOperation(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -201,44 +146,20 @@ public class Products {
      * <p>The Update Product API allows users to modify the details of
      *     an existing product identified by its unique product_id
      * 
-     * @param security The security details to use for authentication.
      * @param productId Unique identifier of the product to be updated.
-     * @param requestBody 
+     * @param productUpdate 
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public UpdateProductV1ProductsProductIdPutResponse update(
-            UpdateProductV1ProductsProductIdPutSecurity security, String productId,
-            Product requestBody) throws Exception {
-        return update(security, productId, Optional.empty(),
-            requestBody);
-    }
-
-    /**
-     * Update Product
-     * 
-     * <p>The Update Product API allows users to modify the details of
-     *     an existing product identified by its unique product_id
-     * 
-     * @param security The security details to use for authentication.
-     * @param productId Unique identifier of the product to be updated.
-     * @param xOrganizationId The unique identifier for the organization making the request
-     * @param requestBody 
-     * @return The response from the API call
-     * @throws Exception if the API call fails
-     */
-    public UpdateProductV1ProductsProductIdPutResponse update(
-            UpdateProductV1ProductsProductIdPutSecurity security, String productId,
-            Optional<String> xOrganizationId, Product requestBody) throws Exception {
+    public UpdateProductV1ProductsProductIdPutResponse update(String productId, ProductUpdate productUpdate) throws Exception {
         UpdateProductV1ProductsProductIdPutRequest request =
             UpdateProductV1ProductsProductIdPutRequest
                 .builder()
                 .productId(productId)
-                .xOrganizationId(xOrganizationId)
-                .requestBody(requestBody)
+                .productUpdate(productUpdate)
                 .build();
         RequestOperation<UpdateProductV1ProductsProductIdPutRequest, UpdateProductV1ProductsProductIdPutResponse> operation
-              = new UpdateProductV1ProductsProductIdPutOperation(sdkConfiguration, security);
+              = new UpdateProductV1ProductsProductIdPutOperation(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -262,35 +183,13 @@ public class Products {
      *     product categories.  This endpoint helps users understand and select the
      *     appropriate categories for their products.
      * 
-     * @param security The security details to use for authentication.
      * @return The response from the API call
      * @throws Exception if the API call fails
      */
-    public GetProductCategoriesV1ProductsCategoriesGetResponse listCategories(GetProductCategoriesV1ProductsCategoriesGetSecurity security) throws Exception {
-        return listCategories(security, Optional.empty());
-    }
-
-    /**
-     * Get Product Categories
-     * 
-     * <p>The Get Product Categories API retrieves all
-     *     product categories.  This endpoint helps users understand and select the
-     *     appropriate categories for their products.
-     * 
-     * @param security The security details to use for authentication.
-     * @param xOrganizationId The unique identifier for the organization making the request
-     * @return The response from the API call
-     * @throws Exception if the API call fails
-     */
-    public GetProductCategoriesV1ProductsCategoriesGetResponse listCategories(GetProductCategoriesV1ProductsCategoriesGetSecurity security, Optional<String> xOrganizationId) throws Exception {
-        GetProductCategoriesV1ProductsCategoriesGetRequest request =
-            GetProductCategoriesV1ProductsCategoriesGetRequest
-                .builder()
-                .xOrganizationId(xOrganizationId)
-                .build();
-        RequestOperation<GetProductCategoriesV1ProductsCategoriesGetRequest, GetProductCategoriesV1ProductsCategoriesGetResponse> operation
-              = new GetProductCategoriesV1ProductsCategoriesGetOperation(sdkConfiguration, security);
-        return operation.handleResponse(operation.doRequest(request));
+    public GetProductCategoriesV1ProductsCategoriesGetResponse listCategoriesDirect() throws Exception {
+        RequestlessOperation<GetProductCategoriesV1ProductsCategoriesGetResponse> operation
+            = new GetProductCategoriesV1ProductsCategoriesGetOperation(sdkConfiguration);
+        return operation.handleResponse(operation.doRequest());
     }
 
 }

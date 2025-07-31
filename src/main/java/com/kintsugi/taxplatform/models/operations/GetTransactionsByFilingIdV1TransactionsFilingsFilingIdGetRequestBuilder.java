@@ -10,23 +10,14 @@ import com.kintsugi.taxplatform.operations.GetTransactionsByFilingIdV1Transactio
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
 import java.lang.String;
-import java.util.Optional;
 
 public class GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequestBuilder {
 
-    private GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetSecurity security;
     private String filingId;
-    private Optional<String> xOrganizationId = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
 
     public GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequestBuilder(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
-    }
-
-    public GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequestBuilder security(GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetSecurity security) {
-        Utils.checkNotNull(security, "security");
-        this.security = security;
-        return this;
     }
 
     public GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequestBuilder filingId(String filingId) {
@@ -34,24 +25,11 @@ public class GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequestBui
         this.filingId = filingId;
         return this;
     }
-                
-    public GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequestBuilder xOrganizationId(String xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = Optional.of(xOrganizationId);
-        return this;
-    }
-
-    public GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequestBuilder xOrganizationId(Optional<String> xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = xOrganizationId;
-        return this;
-    }
 
 
     private GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest buildRequest() {
 
-        GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest request = new GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest(filingId,
-            xOrganizationId);
+        GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest request = new GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest(filingId);
 
         return request;
     }
@@ -59,7 +37,7 @@ public class GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequestBui
     public GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetResponse call() throws Exception {
         
         RequestOperation<GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest, GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetResponse> operation
-              = new GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetOperation(sdkConfiguration, security);
+              = new GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetOperation(sdkConfiguration);
         GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

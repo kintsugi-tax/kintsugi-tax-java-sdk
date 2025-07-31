@@ -1,4 +1,0 @@
-# TransactionUpdateConvertedTaxableAmount
-
-Converted taxable amount.
-

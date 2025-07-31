@@ -1,4 +1,0 @@
-# TransactionCreateTaxRateImported
-
-Imported tax rate.
-

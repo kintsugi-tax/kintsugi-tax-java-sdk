@@ -1,4 +1,0 @@
-# TransactionItemCreateUpdateQuantity
-
-Quantity of item.
-

@@ -9,12 +9,11 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.SecuritySource;
 import com.kintsugi.taxplatform.models.components.BackendSrcExemptionsSerializersExemptionRead;
+import com.kintsugi.taxplatform.models.components.ExemptionCreate;
 import com.kintsugi.taxplatform.models.errors.APIException;
 import com.kintsugi.taxplatform.models.errors.BackendSrcExemptionsResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
-import com.kintsugi.taxplatform.models.operations.CreateExemptionV1ExemptionsPostRequest;
 import com.kintsugi.taxplatform.models.operations.CreateExemptionV1ExemptionsPostResponse;
-import com.kintsugi.taxplatform.models.operations.CreateExemptionV1ExemptionsPostSecurity;
 import com.kintsugi.taxplatform.utils.HTTPClient;
 import com.kintsugi.taxplatform.utils.HTTPRequest;
 import com.kintsugi.taxplatform.utils.Hook.AfterErrorContextImpl;
@@ -32,22 +31,17 @@ import java.net.http.HttpResponse;
 import java.util.Optional;
 
 
-public class CreateExemptionV1ExemptionsPostOperation implements RequestOperation<CreateExemptionV1ExemptionsPostRequest, CreateExemptionV1ExemptionsPostResponse> {
+public class CreateExemptionV1ExemptionsPostOperation implements RequestOperation<ExemptionCreate, CreateExemptionV1ExemptionsPostResponse> {
 
     private final SDKConfiguration sdkConfiguration;
     private final String baseUrl;
-    private final CreateExemptionV1ExemptionsPostSecurity security;
     private final SecuritySource securitySource;
     private final HTTPClient client;
 
-    public CreateExemptionV1ExemptionsPostOperation(
-        SDKConfiguration sdkConfiguration,
-        CreateExemptionV1ExemptionsPostSecurity security) {
+    public CreateExemptionV1ExemptionsPostOperation(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
         this.baseUrl = this.sdkConfiguration.serverUrl();
-        this.security = security;
-        // hooks will be passed method level security only
-        this.securitySource = SecuritySource.of(security);
+        this.securitySource = this.sdkConfiguration.securitySource();
         this.client = this.sdkConfiguration.client();
     }
 
@@ -55,7 +49,7 @@ public class CreateExemptionV1ExemptionsPostOperation implements RequestOperatio
         return Optional.ofNullable(this.securitySource);
     }
 
-    public HttpRequest buildRequest(CreateExemptionV1ExemptionsPostRequest request) throws Exception {
+    public HttpRequest buildRequest(ExemptionCreate request) throws Exception {
         String url = Utils.generateURL(
                 this.baseUrl,
                 "/v1/exemptions");
@@ -63,10 +57,10 @@ public class CreateExemptionV1ExemptionsPostOperation implements RequestOperatio
         Object convertedRequest = Utils.convertToShape(
                 request, 
                 JsonShape.DEFAULT,
-                new TypeReference<Object>() {});
+                new TypeReference<ExemptionCreate>() {});
         SerializedBody serializedRequestBody = Utils.serializeRequestBody(
                 convertedRequest, 
-                "exemptionCreate",
+                "request",
                 "json",
                 false);
         if (serializedRequestBody == null) {
@@ -75,15 +69,14 @@ public class CreateExemptionV1ExemptionsPostOperation implements RequestOperatio
         req.setBody(Optional.ofNullable(serializedRequestBody));
         req.addHeader("Accept", "application/json")
                 .addHeader("user-agent", SDKConfiguration.USER_AGENT);
-        req.addHeaders(Utils.getHeadersFromMetadata(request, null));
-        Utils.configureSecurity(req, security);
+        Utils.configureSecurity(req, this.sdkConfiguration.securitySource().getSecurity());
 
         return sdkConfiguration.hooks().beforeRequest(
               new BeforeRequestContextImpl(
                   this.sdkConfiguration,
                   this.baseUrl,
                   "create_exemption_v1_exemptions_post",
-                  java.util.Optional.empty(),
+                  java.util.Optional.of(java.util.List.of()),
                   securitySource()),
               req.build());
     }
@@ -96,7 +89,7 @@ public class CreateExemptionV1ExemptionsPostOperation implements RequestOperatio
                     this.sdkConfiguration,
                     this.baseUrl,
                     "create_exemption_v1_exemptions_post",
-                    java.util.Optional.empty(),
+                    java.util.Optional.of(java.util.List.of()),
                     securitySource()),
                 Optional.ofNullable(response),
                 Optional.ofNullable(error));
@@ -109,13 +102,13 @@ public class CreateExemptionV1ExemptionsPostOperation implements RequestOperatio
                     this.sdkConfiguration,
                     this.baseUrl,
                     "create_exemption_v1_exemptions_post",
-                    java.util.Optional.empty(),
+                    java.util.Optional.of(java.util.List.of()),
                     securitySource()),
                 response);
     }
 
     @Override
-    public HttpResponse<InputStream> doRequest(CreateExemptionV1ExemptionsPostRequest request) throws Exception {
+    public HttpResponse<InputStream> doRequest(ExemptionCreate request) throws Exception {
         HttpRequest r = buildRequest(request);
         HttpResponse<InputStream> httpRes;
         try {

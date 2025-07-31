@@ -14,7 +14,6 @@ import com.kintsugi.taxplatform.models.errors.BackendSrcExemptionsResponsesValid
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
 import com.kintsugi.taxplatform.models.operations.UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest;
 import com.kintsugi.taxplatform.models.operations.UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse;
-import com.kintsugi.taxplatform.models.operations.UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostSecurity;
 import com.kintsugi.taxplatform.utils.HTTPClient;
 import com.kintsugi.taxplatform.utils.HTTPRequest;
 import com.kintsugi.taxplatform.utils.Hook.AfterErrorContextImpl;
@@ -36,18 +35,13 @@ public class UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostOpe
 
     private final SDKConfiguration sdkConfiguration;
     private final String baseUrl;
-    private final UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostSecurity security;
     private final SecuritySource securitySource;
     private final HTTPClient client;
 
-    public UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostOperation(
-        SDKConfiguration sdkConfiguration,
-        UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostSecurity security) {
+    public UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostOperation(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
         this.baseUrl = this.sdkConfiguration.serverUrl();
-        this.security = security;
-        // hooks will be passed method level security only
-        this.securitySource = SecuritySource.of(security);
+        this.securitySource = this.sdkConfiguration.securitySource();
         this.client = this.sdkConfiguration.client();
     }
 
@@ -77,15 +71,14 @@ public class UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostOpe
         req.setBody(Optional.ofNullable(serializedRequestBody));
         req.addHeader("Accept", "application/json")
                 .addHeader("user-agent", SDKConfiguration.USER_AGENT);
-        req.addHeaders(Utils.getHeadersFromMetadata(request, null));
-        Utils.configureSecurity(req, security);
+        Utils.configureSecurity(req, this.sdkConfiguration.securitySource().getSecurity());
 
         return sdkConfiguration.hooks().beforeRequest(
               new BeforeRequestContextImpl(
                   this.sdkConfiguration,
                   this.baseUrl,
                   "upload_exemption_certificate_v1_exemptions__exemption_id__attachments_post",
-                  java.util.Optional.empty(),
+                  java.util.Optional.of(java.util.List.of()),
                   securitySource()),
               req.build());
     }
@@ -98,7 +91,7 @@ public class UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostOpe
                     this.sdkConfiguration,
                     this.baseUrl,
                     "upload_exemption_certificate_v1_exemptions__exemption_id__attachments_post",
-                    java.util.Optional.empty(),
+                    java.util.Optional.of(java.util.List.of()),
                     securitySource()),
                 Optional.ofNullable(response),
                 Optional.ofNullable(error));
@@ -111,7 +104,7 @@ public class UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostOpe
                     this.sdkConfiguration,
                     this.baseUrl,
                     "upload_exemption_certificate_v1_exemptions__exemption_id__attachments_post",
-                    java.util.Optional.empty(),
+                    java.util.Optional.of(java.util.List.of()),
                     securitySource()),
                 response);
     }

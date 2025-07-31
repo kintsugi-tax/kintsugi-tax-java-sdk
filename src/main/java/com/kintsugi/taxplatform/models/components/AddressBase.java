@@ -12,7 +12,7 @@ import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Override;
 import java.lang.String;
 import java.lang.SuppressWarnings;
-import org.openapitools.jackson.nullable.JsonNullable;
+import java.util.Optional;
 
 
 public class AddressBase {
@@ -21,75 +21,73 @@ public class AddressBase {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("phone")
-    private JsonNullable<String> phone;
+    private Optional<String> phone;
 
     /**
      * Primary street address.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("street_1")
-    private JsonNullable<String> street1;
+    private Optional<String> street1;
 
     /**
      * Additional street address details, such as an apartment or suite number.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("street_2")
-    private JsonNullable<String> street2;
+    private Optional<String> street2;
 
     /**
      * City where the customer resides.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("city")
-    private JsonNullable<String> city;
+    private Optional<String> city;
 
     /**
      * County or district of the customer.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("county")
-    private JsonNullable<String> county;
+    private Optional<String> county;
 
     /**
      * State or province of the customer.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("state")
-    private JsonNullable<String> state;
+    private Optional<String> state;
 
     /**
      * ZIP or Postal code of the customer.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("postal_code")
-    private JsonNullable<String> postalCode;
+    private Optional<String> postalCode;
 
-    /**
-     * Country code in ISO 3166-1 alpha-2 format
-     */
+
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("country")
-    private JsonNullable<? extends CountryCodeEnum> country;
+    private Optional<? extends CountryCodeEnum> country;
 
     /**
      * Complete address string of the customer, which can be used as an alternative to individual fields.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("full_address")
-    private JsonNullable<String> fullAddress;
+    private Optional<String> fullAddress;
 
     @JsonCreator
     public AddressBase(
-            @JsonProperty("phone") JsonNullable<String> phone,
-            @JsonProperty("street_1") JsonNullable<String> street1,
-            @JsonProperty("street_2") JsonNullable<String> street2,
-            @JsonProperty("city") JsonNullable<String> city,
-            @JsonProperty("county") JsonNullable<String> county,
-            @JsonProperty("state") JsonNullable<String> state,
-            @JsonProperty("postal_code") JsonNullable<String> postalCode,
-            @JsonProperty("country") JsonNullable<? extends CountryCodeEnum> country,
-            @JsonProperty("full_address") JsonNullable<String> fullAddress) {
+            @JsonProperty("phone") Optional<String> phone,
+            @JsonProperty("street_1") Optional<String> street1,
+            @JsonProperty("street_2") Optional<String> street2,
+            @JsonProperty("city") Optional<String> city,
+            @JsonProperty("county") Optional<String> county,
+            @JsonProperty("state") Optional<String> state,
+            @JsonProperty("postal_code") Optional<String> postalCode,
+            @JsonProperty("country") Optional<? extends CountryCodeEnum> country,
+            @JsonProperty("full_address") Optional<String> fullAddress) {
         Utils.checkNotNull(phone, "phone");
         Utils.checkNotNull(street1, "street1");
         Utils.checkNotNull(street2, "street2");
@@ -111,16 +109,16 @@ public class AddressBase {
     }
     
     public AddressBase() {
-        this(JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
-            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
-            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined());
+        this(Optional.empty(), Optional.empty(), Optional.empty(),
+            Optional.empty(), Optional.empty(), Optional.empty(),
+            Optional.empty(), Optional.empty(), Optional.empty());
     }
 
     /**
      * Phone number associated with the address.
      */
     @JsonIgnore
-    public JsonNullable<String> phone() {
+    public Optional<String> phone() {
         return phone;
     }
 
@@ -128,7 +126,7 @@ public class AddressBase {
      * Primary street address.
      */
     @JsonIgnore
-    public JsonNullable<String> street1() {
+    public Optional<String> street1() {
         return street1;
     }
 
@@ -136,7 +134,7 @@ public class AddressBase {
      * Additional street address details, such as an apartment or suite number.
      */
     @JsonIgnore
-    public JsonNullable<String> street2() {
+    public Optional<String> street2() {
         return street2;
     }
 
@@ -144,7 +142,7 @@ public class AddressBase {
      * City where the customer resides.
      */
     @JsonIgnore
-    public JsonNullable<String> city() {
+    public Optional<String> city() {
         return city;
     }
 
@@ -152,7 +150,7 @@ public class AddressBase {
      * County or district of the customer.
      */
     @JsonIgnore
-    public JsonNullable<String> county() {
+    public Optional<String> county() {
         return county;
     }
 
@@ -160,7 +158,7 @@ public class AddressBase {
      * State or province of the customer.
      */
     @JsonIgnore
-    public JsonNullable<String> state() {
+    public Optional<String> state() {
         return state;
     }
 
@@ -168,24 +166,21 @@ public class AddressBase {
      * ZIP or Postal code of the customer.
      */
     @JsonIgnore
-    public JsonNullable<String> postalCode() {
+    public Optional<String> postalCode() {
         return postalCode;
     }
 
-    /**
-     * Country code in ISO 3166-1 alpha-2 format
-     */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public JsonNullable<CountryCodeEnum> country() {
-        return (JsonNullable<CountryCodeEnum>) country;
+    public Optional<CountryCodeEnum> country() {
+        return (Optional<CountryCodeEnum>) country;
     }
 
     /**
      * Complete address string of the customer, which can be used as an alternative to individual fields.
      */
     @JsonIgnore
-    public JsonNullable<String> fullAddress() {
+    public Optional<String> fullAddress() {
         return fullAddress;
     }
 
@@ -199,14 +194,15 @@ public class AddressBase {
      */
     public AddressBase withPhone(String phone) {
         Utils.checkNotNull(phone, "phone");
-        this.phone = JsonNullable.of(phone);
+        this.phone = Optional.ofNullable(phone);
         return this;
     }
+
 
     /**
      * Phone number associated with the address.
      */
-    public AddressBase withPhone(JsonNullable<String> phone) {
+    public AddressBase withPhone(Optional<String> phone) {
         Utils.checkNotNull(phone, "phone");
         this.phone = phone;
         return this;
@@ -217,14 +213,15 @@ public class AddressBase {
      */
     public AddressBase withStreet1(String street1) {
         Utils.checkNotNull(street1, "street1");
-        this.street1 = JsonNullable.of(street1);
+        this.street1 = Optional.ofNullable(street1);
         return this;
     }
+
 
     /**
      * Primary street address.
      */
-    public AddressBase withStreet1(JsonNullable<String> street1) {
+    public AddressBase withStreet1(Optional<String> street1) {
         Utils.checkNotNull(street1, "street1");
         this.street1 = street1;
         return this;
@@ -235,14 +232,15 @@ public class AddressBase {
      */
     public AddressBase withStreet2(String street2) {
         Utils.checkNotNull(street2, "street2");
-        this.street2 = JsonNullable.of(street2);
+        this.street2 = Optional.ofNullable(street2);
         return this;
     }
+
 
     /**
      * Additional street address details, such as an apartment or suite number.
      */
-    public AddressBase withStreet2(JsonNullable<String> street2) {
+    public AddressBase withStreet2(Optional<String> street2) {
         Utils.checkNotNull(street2, "street2");
         this.street2 = street2;
         return this;
@@ -253,14 +251,15 @@ public class AddressBase {
      */
     public AddressBase withCity(String city) {
         Utils.checkNotNull(city, "city");
-        this.city = JsonNullable.of(city);
+        this.city = Optional.ofNullable(city);
         return this;
     }
+
 
     /**
      * City where the customer resides.
      */
-    public AddressBase withCity(JsonNullable<String> city) {
+    public AddressBase withCity(Optional<String> city) {
         Utils.checkNotNull(city, "city");
         this.city = city;
         return this;
@@ -271,14 +270,15 @@ public class AddressBase {
      */
     public AddressBase withCounty(String county) {
         Utils.checkNotNull(county, "county");
-        this.county = JsonNullable.of(county);
+        this.county = Optional.ofNullable(county);
         return this;
     }
+
 
     /**
      * County or district of the customer.
      */
-    public AddressBase withCounty(JsonNullable<String> county) {
+    public AddressBase withCounty(Optional<String> county) {
         Utils.checkNotNull(county, "county");
         this.county = county;
         return this;
@@ -289,14 +289,15 @@ public class AddressBase {
      */
     public AddressBase withState(String state) {
         Utils.checkNotNull(state, "state");
-        this.state = JsonNullable.of(state);
+        this.state = Optional.ofNullable(state);
         return this;
     }
+
 
     /**
      * State or province of the customer.
      */
-    public AddressBase withState(JsonNullable<String> state) {
+    public AddressBase withState(Optional<String> state) {
         Utils.checkNotNull(state, "state");
         this.state = state;
         return this;
@@ -307,32 +308,28 @@ public class AddressBase {
      */
     public AddressBase withPostalCode(String postalCode) {
         Utils.checkNotNull(postalCode, "postalCode");
-        this.postalCode = JsonNullable.of(postalCode);
+        this.postalCode = Optional.ofNullable(postalCode);
         return this;
     }
+
 
     /**
      * ZIP or Postal code of the customer.
      */
-    public AddressBase withPostalCode(JsonNullable<String> postalCode) {
+    public AddressBase withPostalCode(Optional<String> postalCode) {
         Utils.checkNotNull(postalCode, "postalCode");
         this.postalCode = postalCode;
         return this;
     }
 
-    /**
-     * Country code in ISO 3166-1 alpha-2 format
-     */
     public AddressBase withCountry(CountryCodeEnum country) {
         Utils.checkNotNull(country, "country");
-        this.country = JsonNullable.of(country);
+        this.country = Optional.ofNullable(country);
         return this;
     }
 
-    /**
-     * Country code in ISO 3166-1 alpha-2 format
-     */
-    public AddressBase withCountry(JsonNullable<? extends CountryCodeEnum> country) {
+
+    public AddressBase withCountry(Optional<? extends CountryCodeEnum> country) {
         Utils.checkNotNull(country, "country");
         this.country = country;
         return this;
@@ -343,14 +340,15 @@ public class AddressBase {
      */
     public AddressBase withFullAddress(String fullAddress) {
         Utils.checkNotNull(fullAddress, "fullAddress");
-        this.fullAddress = JsonNullable.of(fullAddress);
+        this.fullAddress = Optional.ofNullable(fullAddress);
         return this;
     }
+
 
     /**
      * Complete address string of the customer, which can be used as an alternative to individual fields.
      */
-    public AddressBase withFullAddress(JsonNullable<String> fullAddress) {
+    public AddressBase withFullAddress(Optional<String> fullAddress) {
         Utils.checkNotNull(fullAddress, "fullAddress");
         this.fullAddress = fullAddress;
         return this;
@@ -402,23 +400,23 @@ public class AddressBase {
     @SuppressWarnings("UnusedReturnValue")
     public final static class Builder {
 
-        private JsonNullable<String> phone = JsonNullable.undefined();
+        private Optional<String> phone = Optional.empty();
 
-        private JsonNullable<String> street1 = JsonNullable.undefined();
+        private Optional<String> street1 = Optional.empty();
 
-        private JsonNullable<String> street2 = JsonNullable.undefined();
+        private Optional<String> street2 = Optional.empty();
 
-        private JsonNullable<String> city = JsonNullable.undefined();
+        private Optional<String> city = Optional.empty();
 
-        private JsonNullable<String> county = JsonNullable.undefined();
+        private Optional<String> county = Optional.empty();
 
-        private JsonNullable<String> state = JsonNullable.undefined();
+        private Optional<String> state = Optional.empty();
 
-        private JsonNullable<String> postalCode = JsonNullable.undefined();
+        private Optional<String> postalCode = Optional.empty();
 
-        private JsonNullable<? extends CountryCodeEnum> country = JsonNullable.undefined();
+        private Optional<? extends CountryCodeEnum> country = Optional.empty();
 
-        private JsonNullable<String> fullAddress = JsonNullable.undefined();
+        private Optional<String> fullAddress = Optional.empty();
 
         private Builder() {
           // force use of static builder() method
@@ -430,14 +428,14 @@ public class AddressBase {
          */
         public Builder phone(String phone) {
             Utils.checkNotNull(phone, "phone");
-            this.phone = JsonNullable.of(phone);
+            this.phone = Optional.ofNullable(phone);
             return this;
         }
 
         /**
          * Phone number associated with the address.
          */
-        public Builder phone(JsonNullable<String> phone) {
+        public Builder phone(Optional<String> phone) {
             Utils.checkNotNull(phone, "phone");
             this.phone = phone;
             return this;
@@ -449,14 +447,14 @@ public class AddressBase {
          */
         public Builder street1(String street1) {
             Utils.checkNotNull(street1, "street1");
-            this.street1 = JsonNullable.of(street1);
+            this.street1 = Optional.ofNullable(street1);
             return this;
         }
 
         /**
          * Primary street address.
          */
-        public Builder street1(JsonNullable<String> street1) {
+        public Builder street1(Optional<String> street1) {
             Utils.checkNotNull(street1, "street1");
             this.street1 = street1;
             return this;
@@ -468,14 +466,14 @@ public class AddressBase {
          */
         public Builder street2(String street2) {
             Utils.checkNotNull(street2, "street2");
-            this.street2 = JsonNullable.of(street2);
+            this.street2 = Optional.ofNullable(street2);
             return this;
         }
 
         /**
          * Additional street address details, such as an apartment or suite number.
          */
-        public Builder street2(JsonNullable<String> street2) {
+        public Builder street2(Optional<String> street2) {
             Utils.checkNotNull(street2, "street2");
             this.street2 = street2;
             return this;
@@ -487,14 +485,14 @@ public class AddressBase {
          */
         public Builder city(String city) {
             Utils.checkNotNull(city, "city");
-            this.city = JsonNullable.of(city);
+            this.city = Optional.ofNullable(city);
             return this;
         }
 
         /**
          * City where the customer resides.
          */
-        public Builder city(JsonNullable<String> city) {
+        public Builder city(Optional<String> city) {
             Utils.checkNotNull(city, "city");
             this.city = city;
             return this;
@@ -506,14 +504,14 @@ public class AddressBase {
          */
         public Builder county(String county) {
             Utils.checkNotNull(county, "county");
-            this.county = JsonNullable.of(county);
+            this.county = Optional.ofNullable(county);
             return this;
         }
 
         /**
          * County or district of the customer.
          */
-        public Builder county(JsonNullable<String> county) {
+        public Builder county(Optional<String> county) {
             Utils.checkNotNull(county, "county");
             this.county = county;
             return this;
@@ -525,14 +523,14 @@ public class AddressBase {
          */
         public Builder state(String state) {
             Utils.checkNotNull(state, "state");
-            this.state = JsonNullable.of(state);
+            this.state = Optional.ofNullable(state);
             return this;
         }
 
         /**
          * State or province of the customer.
          */
-        public Builder state(JsonNullable<String> state) {
+        public Builder state(Optional<String> state) {
             Utils.checkNotNull(state, "state");
             this.state = state;
             return this;
@@ -544,33 +542,27 @@ public class AddressBase {
          */
         public Builder postalCode(String postalCode) {
             Utils.checkNotNull(postalCode, "postalCode");
-            this.postalCode = JsonNullable.of(postalCode);
+            this.postalCode = Optional.ofNullable(postalCode);
             return this;
         }
 
         /**
          * ZIP or Postal code of the customer.
          */
-        public Builder postalCode(JsonNullable<String> postalCode) {
+        public Builder postalCode(Optional<String> postalCode) {
             Utils.checkNotNull(postalCode, "postalCode");
             this.postalCode = postalCode;
             return this;
         }
 
 
-        /**
-         * Country code in ISO 3166-1 alpha-2 format
-         */
         public Builder country(CountryCodeEnum country) {
             Utils.checkNotNull(country, "country");
-            this.country = JsonNullable.of(country);
+            this.country = Optional.ofNullable(country);
             return this;
         }
 
-        /**
-         * Country code in ISO 3166-1 alpha-2 format
-         */
-        public Builder country(JsonNullable<? extends CountryCodeEnum> country) {
+        public Builder country(Optional<? extends CountryCodeEnum> country) {
             Utils.checkNotNull(country, "country");
             this.country = country;
             return this;
@@ -582,14 +574,14 @@ public class AddressBase {
          */
         public Builder fullAddress(String fullAddress) {
             Utils.checkNotNull(fullAddress, "fullAddress");
-            this.fullAddress = JsonNullable.of(fullAddress);
+            this.fullAddress = Optional.ofNullable(fullAddress);
             return this;
         }
 
         /**
          * Complete address string of the customer, which can be used as an alternative to individual fields.
          */
-        public Builder fullAddress(JsonNullable<String> fullAddress) {
+        public Builder fullAddress(Optional<String> fullAddress) {
             Utils.checkNotNull(fullAddress, "fullAddress");
             this.fullAddress = fullAddress;
             return this;

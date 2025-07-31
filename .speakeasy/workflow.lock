@@ -1,28 +1,28 @@
-speakeasyVersion: 1.592.1
+speakeasyVersion: 1.594.0
 sources:
     kintsugi-overlay:
         sourceNamespace: kintsugi-overlay
-        sourceRevisionDigest: sha256:e2dbc8ce5454c20edf3351dc26e22334f0344bff401a1a29095a2e3455a7a6c1
-        sourceBlobDigest: sha256:4e4ae72f118b78aedcebd9175d6b6102f340c8ce7338cf51979141435f32bbee
+        sourceRevisionDigest: sha256:16cdebe27a641c2c4cdfa4cade87248a46946f6b09608d9475505b8176b3ac8c
+        sourceBlobDigest: sha256:8718f5ad5e2a9bb3aa309c8eeb8284615d302e4e91dc38fd928144baef3040a2
         tags:
             - latest
-            - speakeasy-sdk-regen-1753747609
+            - speakeasy-sdk-regen-1753992255
             - 1.0.0
 targets:
     java:
         source: kintsugi-overlay
         sourceNamespace: kintsugi-overlay
-        sourceRevisionDigest: sha256:e2dbc8ce5454c20edf3351dc26e22334f0344bff401a1a29095a2e3455a7a6c1
-        sourceBlobDigest: sha256:4e4ae72f118b78aedcebd9175d6b6102f340c8ce7338cf51979141435f32bbee
+        sourceRevisionDigest: sha256:16cdebe27a641c2c4cdfa4cade87248a46946f6b09608d9475505b8176b3ac8c
+        sourceBlobDigest: sha256:8718f5ad5e2a9bb3aa309c8eeb8284615d302e4e91dc38fd928144baef3040a2
         codeSamplesNamespace: kintsugi-overlay-java-code-samples
-        codeSamplesRevisionDigest: sha256:19b9dd2eb2b2b232608ba62e0326079ca6c66a355eb51186cc7a9308dc9b263f
+        codeSamplesRevisionDigest: sha256:e328e0e5c194fce73bffe694011714459206ad8981ba3223b54506599f2a438b
 workflow:
     workflowVersion: 1.0.0
     speakeasyVersion: latest
     sources:
         kintsugi-overlay:
             inputs:
-                - location: https://api.trykintsugi.com/openapi.json
+                - location: https://api-doc.trykintsugi.com/openapi.json
             overlays:
                 - location: ./overlay.yaml
                 - location: .speakeasy/speakeasy-modifications-overlay.yaml

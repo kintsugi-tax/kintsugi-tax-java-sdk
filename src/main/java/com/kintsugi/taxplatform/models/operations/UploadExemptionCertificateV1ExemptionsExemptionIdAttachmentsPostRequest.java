@@ -10,7 +10,6 @@ import com.kintsugi.taxplatform.utils.SpeakeasyMetadata;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Override;
 import java.lang.String;
-import java.util.Optional;
 
 
 public class UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest {
@@ -20,12 +19,6 @@ public class UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostReq
     @SpeakeasyMetadata("pathParam:style=simple,explode=false,name=exemption_id")
     private String exemptionId;
 
-    /**
-     * The unique identifier for the organization making the request
-     */
-    @SpeakeasyMetadata("header:style=simple,explode=false,name=x-organization-id")
-    private Optional<String> xOrganizationId;
-
 
     @SpeakeasyMetadata("request:mediaType=multipart/form-data")
     private BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost;
@@ -33,20 +26,11 @@ public class UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostReq
     @JsonCreator
     public UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest(
             String exemptionId,
-            Optional<String> xOrganizationId,
             BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost) {
         Utils.checkNotNull(exemptionId, "exemptionId");
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
         Utils.checkNotNull(bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost, "bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost");
         this.exemptionId = exemptionId;
-        this.xOrganizationId = xOrganizationId;
         this.bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost = bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost;
-    }
-    
-    public UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest(
-            String exemptionId,
-            BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost) {
-        this(exemptionId, Optional.empty(), bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost);
     }
 
     /**
@@ -55,14 +39,6 @@ public class UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostReq
     @JsonIgnore
     public String exemptionId() {
         return exemptionId;
-    }
-
-    /**
-     * The unique identifier for the organization making the request
-     */
-    @JsonIgnore
-    public Optional<String> xOrganizationId() {
-        return xOrganizationId;
     }
 
     @JsonIgnore
@@ -84,25 +60,6 @@ public class UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostReq
         return this;
     }
 
-    /**
-     * The unique identifier for the organization making the request
-     */
-    public UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest withXOrganizationId(String xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = Optional.ofNullable(xOrganizationId);
-        return this;
-    }
-
-
-    /**
-     * The unique identifier for the organization making the request
-     */
-    public UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest withXOrganizationId(Optional<String> xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = xOrganizationId;
-        return this;
-    }
-
     public UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest withBodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost(BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost) {
         Utils.checkNotNull(bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost, "bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost");
         this.bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost = bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost;
@@ -120,21 +77,19 @@ public class UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostReq
         UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest other = (UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest) o;
         return 
             Utils.enhancedDeepEquals(this.exemptionId, other.exemptionId) &&
-            Utils.enhancedDeepEquals(this.xOrganizationId, other.xOrganizationId) &&
             Utils.enhancedDeepEquals(this.bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost, other.bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost);
     }
     
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-            exemptionId, xOrganizationId, bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost);
+            exemptionId, bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost);
     }
     
     @Override
     public String toString() {
         return Utils.toString(UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest.class,
                 "exemptionId", exemptionId,
-                "xOrganizationId", xOrganizationId,
                 "bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost", bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost);
     }
 
@@ -142,8 +97,6 @@ public class UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostReq
     public final static class Builder {
 
         private String exemptionId;
-
-        private Optional<String> xOrganizationId = Optional.empty();
 
         private BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost;
 
@@ -162,25 +115,6 @@ public class UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostReq
         }
 
 
-        /**
-         * The unique identifier for the organization making the request
-         */
-        public Builder xOrganizationId(String xOrganizationId) {
-            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-            this.xOrganizationId = Optional.ofNullable(xOrganizationId);
-            return this;
-        }
-
-        /**
-         * The unique identifier for the organization making the request
-         */
-        public Builder xOrganizationId(Optional<String> xOrganizationId) {
-            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-            this.xOrganizationId = xOrganizationId;
-            return this;
-        }
-
-
         public Builder bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost(BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost) {
             Utils.checkNotNull(bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost, "bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost");
             this.bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost = bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost;
@@ -190,7 +124,7 @@ public class UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostReq
         public UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest build() {
 
             return new UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest(
-                exemptionId, xOrganizationId, bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost);
+                exemptionId, bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost);
         }
 
     }

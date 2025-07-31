@@ -6,28 +6,20 @@ package com.kintsugi.taxplatform.models.operations;
 import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 
 import com.kintsugi.taxplatform.SDKConfiguration;
+import com.kintsugi.taxplatform.models.components.ProductUpdate;
 import com.kintsugi.taxplatform.operations.UpdateProductV1ProductsProductIdPutOperation;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
 import java.lang.String;
-import java.util.Optional;
 
 public class UpdateProductV1ProductsProductIdPutRequestBuilder {
 
-    private UpdateProductV1ProductsProductIdPutSecurity security;
     private String productId;
-    private Optional<String> xOrganizationId = Optional.empty();
-    private Product requestBody;
+    private ProductUpdate productUpdate;
     private final SDKConfiguration sdkConfiguration;
 
     public UpdateProductV1ProductsProductIdPutRequestBuilder(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
-    }
-
-    public UpdateProductV1ProductsProductIdPutRequestBuilder security(UpdateProductV1ProductsProductIdPutSecurity security) {
-        Utils.checkNotNull(security, "security");
-        this.security = security;
-        return this;
     }
 
     public UpdateProductV1ProductsProductIdPutRequestBuilder productId(String productId) {
@@ -35,22 +27,10 @@ public class UpdateProductV1ProductsProductIdPutRequestBuilder {
         this.productId = productId;
         return this;
     }
-                
-    public UpdateProductV1ProductsProductIdPutRequestBuilder xOrganizationId(String xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = Optional.of(xOrganizationId);
-        return this;
-    }
 
-    public UpdateProductV1ProductsProductIdPutRequestBuilder xOrganizationId(Optional<String> xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = xOrganizationId;
-        return this;
-    }
-
-    public UpdateProductV1ProductsProductIdPutRequestBuilder requestBody(Product requestBody) {
-        Utils.checkNotNull(requestBody, "requestBody");
-        this.requestBody = requestBody;
+    public UpdateProductV1ProductsProductIdPutRequestBuilder productUpdate(ProductUpdate productUpdate) {
+        Utils.checkNotNull(productUpdate, "productUpdate");
+        this.productUpdate = productUpdate;
         return this;
     }
 
@@ -58,8 +38,7 @@ public class UpdateProductV1ProductsProductIdPutRequestBuilder {
     private UpdateProductV1ProductsProductIdPutRequest buildRequest() {
 
         UpdateProductV1ProductsProductIdPutRequest request = new UpdateProductV1ProductsProductIdPutRequest(productId,
-            xOrganizationId,
-            requestBody);
+            productUpdate);
 
         return request;
     }
@@ -67,7 +46,7 @@ public class UpdateProductV1ProductsProductIdPutRequestBuilder {
     public UpdateProductV1ProductsProductIdPutResponse call() throws Exception {
         
         RequestOperation<UpdateProductV1ProductsProductIdPutRequest, UpdateProductV1ProductsProductIdPutResponse> operation
-              = new UpdateProductV1ProductsProductIdPutOperation(sdkConfiguration, security);
+              = new UpdateProductV1ProductsProductIdPutOperation(sdkConfiguration);
         UpdateProductV1ProductsProductIdPutRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

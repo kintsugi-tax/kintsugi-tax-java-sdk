@@ -13,7 +13,6 @@ import com.kintsugi.taxplatform.models.errors.APIException;
 import com.kintsugi.taxplatform.models.errors.HTTPValidationError;
 import com.kintsugi.taxplatform.models.operations.GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse;
-import com.kintsugi.taxplatform.models.operations.GetCustomerByExternalIdV1CustomersExternalExternalIdGetSecurity;
 import com.kintsugi.taxplatform.utils.HTTPClient;
 import com.kintsugi.taxplatform.utils.HTTPRequest;
 import com.kintsugi.taxplatform.utils.Hook.AfterErrorContextImpl;
@@ -32,18 +31,13 @@ public class GetCustomerByExternalIdV1CustomersExternalExternalIdGetOperation im
 
     private final SDKConfiguration sdkConfiguration;
     private final String baseUrl;
-    private final GetCustomerByExternalIdV1CustomersExternalExternalIdGetSecurity security;
     private final SecuritySource securitySource;
     private final HTTPClient client;
 
-    public GetCustomerByExternalIdV1CustomersExternalExternalIdGetOperation(
-        SDKConfiguration sdkConfiguration,
-        GetCustomerByExternalIdV1CustomersExternalExternalIdGetSecurity security) {
+    public GetCustomerByExternalIdV1CustomersExternalExternalIdGetOperation(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
         this.baseUrl = this.sdkConfiguration.serverUrl();
-        this.security = security;
-        // hooks will be passed method level security only
-        this.securitySource = SecuritySource.of(security);
+        this.securitySource = this.sdkConfiguration.securitySource();
         this.client = this.sdkConfiguration.client();
     }
 
@@ -60,15 +54,14 @@ public class GetCustomerByExternalIdV1CustomersExternalExternalIdGetOperation im
         HTTPRequest req = new HTTPRequest(url, "GET");
         req.addHeader("Accept", "application/json")
                 .addHeader("user-agent", SDKConfiguration.USER_AGENT);
-        req.addHeaders(Utils.getHeadersFromMetadata(request, null));
-        Utils.configureSecurity(req, security);
+        Utils.configureSecurity(req, this.sdkConfiguration.securitySource().getSecurity());
 
         return sdkConfiguration.hooks().beforeRequest(
               new BeforeRequestContextImpl(
                   this.sdkConfiguration,
                   this.baseUrl,
                   "get_customer_by_external_id_v1_customers_external__external_id__get",
-                  java.util.Optional.empty(),
+                  java.util.Optional.of(java.util.List.of()),
                   securitySource()),
               req.build());
     }
@@ -81,7 +74,7 @@ public class GetCustomerByExternalIdV1CustomersExternalExternalIdGetOperation im
                     this.sdkConfiguration,
                     this.baseUrl,
                     "get_customer_by_external_id_v1_customers_external__external_id__get",
-                    java.util.Optional.empty(),
+                    java.util.Optional.of(java.util.List.of()),
                     securitySource()),
                 Optional.ofNullable(response),
                 Optional.ofNullable(error));
@@ -94,7 +87,7 @@ public class GetCustomerByExternalIdV1CustomersExternalExternalIdGetOperation im
                     this.sdkConfiguration,
                     this.baseUrl,
                     "get_customer_by_external_id_v1_customers_external__external_id__get",
-                    java.util.Optional.empty(),
+                    java.util.Optional.of(java.util.List.of()),
                     securitySource()),
                 response);
     }

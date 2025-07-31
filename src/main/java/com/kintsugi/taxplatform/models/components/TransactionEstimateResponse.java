@@ -19,7 +19,6 @@ import java.lang.SuppressWarnings;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
-import org.openapitools.jackson.nullable.JsonNullable;
 
 
 public class TransactionEstimateResponse {
@@ -51,35 +50,28 @@ public class TransactionEstimateResponse {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("description")
-    private JsonNullable<String> description;
+    private Optional<String> description;
 
-    /**
-     * While currently not used, it may be used in the future to determine taxability. The source of the transaction (e.g., OTHER).
-     * 
-     * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
-     */
+
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("source")
-    @Deprecated
-    private JsonNullable<? extends SourceEnum> source;
+    private Optional<? extends SourceEnum> source;
 
     /**
      * Indicates if the transaction involves a marketplace.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("marketplace")
-    private JsonNullable<Boolean> marketplace;
+    private Optional<Boolean> marketplace;
 
 
     @JsonProperty("transaction_items")
     private List<TransactionItemEstimateResponse> transactionItems;
 
-    /**
-     * Details about the customer. If the customer is not found, it will be ignored.
-     */
+
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("customer")
-    private JsonNullable<? extends CustomerBase> customer;
+    private Optional<? extends CustomerBase> customer;
 
     /**
      * List of addresses related to the transaction. At least one BILL_TO or SHIP_TO address must be provided. The address will be validated during estimation, and the transaction may be rejected if the address does not pass validation. The SHIP_TO will be preferred to use for determining tax liability. **Deprecated:** Use of `address.status` in estimate api is ignored and will be removed in the future status will be considered UNVERIFIED by default and always validated
@@ -131,11 +123,11 @@ public class TransactionEstimateResponse {
             @JsonProperty("external_id") String externalId,
             @JsonProperty("total_amount") Optional<String> totalAmount,
             @JsonProperty("currency") CurrencyEnum currency,
-            @JsonProperty("description") JsonNullable<String> description,
-            @JsonProperty("source") JsonNullable<? extends SourceEnum> source,
-            @JsonProperty("marketplace") JsonNullable<Boolean> marketplace,
+            @JsonProperty("description") Optional<String> description,
+            @JsonProperty("source") Optional<? extends SourceEnum> source,
+            @JsonProperty("marketplace") Optional<Boolean> marketplace,
             @JsonProperty("transaction_items") List<TransactionItemEstimateResponse> transactionItems,
-            @JsonProperty("customer") JsonNullable<? extends CustomerBase> customer,
+            @JsonProperty("customer") Optional<? extends CustomerBase> customer,
             @JsonProperty("addresses") List<TransactionEstimateResponseAddress> addresses,
             @JsonProperty("total_tax_amount_calculated") Optional<String> totalTaxAmountCalculated,
             @JsonProperty("taxable_amount") Optional<String> taxableAmount,
@@ -181,8 +173,8 @@ public class TransactionEstimateResponse {
             List<TransactionItemEstimateResponse> transactionItems,
             List<TransactionEstimateResponseAddress> addresses) {
         this(date, externalId, Optional.empty(),
-            currency, JsonNullable.undefined(), JsonNullable.undefined(),
-            JsonNullable.undefined(), transactionItems, JsonNullable.undefined(),
+            currency, Optional.empty(), Optional.empty(),
+            Optional.empty(), transactionItems, Optional.empty(),
             addresses, Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty());
     }
@@ -220,27 +212,21 @@ public class TransactionEstimateResponse {
      * An optional description of the transaction.
      */
     @JsonIgnore
-    public JsonNullable<String> description() {
+    public Optional<String> description() {
         return description;
     }
 
-    /**
-     * While currently not used, it may be used in the future to determine taxability. The source of the transaction (e.g., OTHER).
-     * 
-     * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
-     */
-    @Deprecated
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public JsonNullable<SourceEnum> source() {
-        return (JsonNullable<SourceEnum>) source;
+    public Optional<SourceEnum> source() {
+        return (Optional<SourceEnum>) source;
     }
 
     /**
      * Indicates if the transaction involves a marketplace.
      */
     @JsonIgnore
-    public JsonNullable<Boolean> marketplace() {
+    public Optional<Boolean> marketplace() {
         return marketplace;
     }
 
@@ -249,13 +235,10 @@ public class TransactionEstimateResponse {
         return transactionItems;
     }
 
-    /**
-     * Details about the customer. If the customer is not found, it will be ignored.
-     */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public JsonNullable<CustomerBase> customer() {
-        return (JsonNullable<CustomerBase>) customer;
+    public Optional<CustomerBase> customer() {
+        return (Optional<CustomerBase>) customer;
     }
 
     /**
@@ -362,38 +345,28 @@ public class TransactionEstimateResponse {
      */
     public TransactionEstimateResponse withDescription(String description) {
         Utils.checkNotNull(description, "description");
-        this.description = JsonNullable.of(description);
+        this.description = Optional.ofNullable(description);
         return this;
     }
+
 
     /**
      * An optional description of the transaction.
      */
-    public TransactionEstimateResponse withDescription(JsonNullable<String> description) {
+    public TransactionEstimateResponse withDescription(Optional<String> description) {
         Utils.checkNotNull(description, "description");
         this.description = description;
         return this;
     }
 
-    /**
-     * While currently not used, it may be used in the future to determine taxability. The source of the transaction (e.g., OTHER).
-     * 
-     * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
-     */
-    @Deprecated
     public TransactionEstimateResponse withSource(SourceEnum source) {
         Utils.checkNotNull(source, "source");
-        this.source = JsonNullable.of(source);
+        this.source = Optional.ofNullable(source);
         return this;
     }
 
-    /**
-     * While currently not used, it may be used in the future to determine taxability. The source of the transaction (e.g., OTHER).
-     * 
-     * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
-     */
-    @Deprecated
-    public TransactionEstimateResponse withSource(JsonNullable<? extends SourceEnum> source) {
+
+    public TransactionEstimateResponse withSource(Optional<? extends SourceEnum> source) {
         Utils.checkNotNull(source, "source");
         this.source = source;
         return this;
@@ -404,14 +377,15 @@ public class TransactionEstimateResponse {
      */
     public TransactionEstimateResponse withMarketplace(boolean marketplace) {
         Utils.checkNotNull(marketplace, "marketplace");
-        this.marketplace = JsonNullable.of(marketplace);
+        this.marketplace = Optional.ofNullable(marketplace);
         return this;
     }
+
 
     /**
      * Indicates if the transaction involves a marketplace.
      */
-    public TransactionEstimateResponse withMarketplace(JsonNullable<Boolean> marketplace) {
+    public TransactionEstimateResponse withMarketplace(Optional<Boolean> marketplace) {
         Utils.checkNotNull(marketplace, "marketplace");
         this.marketplace = marketplace;
         return this;
@@ -423,19 +397,14 @@ public class TransactionEstimateResponse {
         return this;
     }
 
-    /**
-     * Details about the customer. If the customer is not found, it will be ignored.
-     */
     public TransactionEstimateResponse withCustomer(CustomerBase customer) {
         Utils.checkNotNull(customer, "customer");
-        this.customer = JsonNullable.of(customer);
+        this.customer = Optional.ofNullable(customer);
         return this;
     }
 
-    /**
-     * Details about the customer. If the customer is not found, it will be ignored.
-     */
-    public TransactionEstimateResponse withCustomer(JsonNullable<? extends CustomerBase> customer) {
+
+    public TransactionEstimateResponse withCustomer(Optional<? extends CustomerBase> customer) {
         Utils.checkNotNull(customer, "customer");
         this.customer = customer;
         return this;
@@ -619,16 +588,15 @@ public class TransactionEstimateResponse {
 
         private CurrencyEnum currency;
 
-        private JsonNullable<String> description = JsonNullable.undefined();
+        private Optional<String> description = Optional.empty();
 
-        @Deprecated
-        private JsonNullable<? extends SourceEnum> source = JsonNullable.undefined();
+        private Optional<? extends SourceEnum> source = Optional.empty();
 
-        private JsonNullable<Boolean> marketplace = JsonNullable.undefined();
+        private Optional<Boolean> marketplace;
 
         private List<TransactionItemEstimateResponse> transactionItems;
 
-        private JsonNullable<? extends CustomerBase> customer = JsonNullable.undefined();
+        private Optional<? extends CustomerBase> customer = Optional.empty();
 
         private List<TransactionEstimateResponseAddress> addresses;
 
@@ -699,39 +667,27 @@ public class TransactionEstimateResponse {
          */
         public Builder description(String description) {
             Utils.checkNotNull(description, "description");
-            this.description = JsonNullable.of(description);
+            this.description = Optional.ofNullable(description);
             return this;
         }
 
         /**
          * An optional description of the transaction.
          */
-        public Builder description(JsonNullable<String> description) {
+        public Builder description(Optional<String> description) {
             Utils.checkNotNull(description, "description");
             this.description = description;
             return this;
         }
 
 
-        /**
-         * While currently not used, it may be used in the future to determine taxability. The source of the transaction (e.g., OTHER).
-         * 
-         * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
-         */
-        @Deprecated
         public Builder source(SourceEnum source) {
             Utils.checkNotNull(source, "source");
-            this.source = JsonNullable.of(source);
+            this.source = Optional.ofNullable(source);
             return this;
         }
 
-        /**
-         * While currently not used, it may be used in the future to determine taxability. The source of the transaction (e.g., OTHER).
-         * 
-         * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
-         */
-        @Deprecated
-        public Builder source(JsonNullable<? extends SourceEnum> source) {
+        public Builder source(Optional<? extends SourceEnum> source) {
             Utils.checkNotNull(source, "source");
             this.source = source;
             return this;
@@ -743,14 +699,14 @@ public class TransactionEstimateResponse {
          */
         public Builder marketplace(boolean marketplace) {
             Utils.checkNotNull(marketplace, "marketplace");
-            this.marketplace = JsonNullable.of(marketplace);
+            this.marketplace = Optional.ofNullable(marketplace);
             return this;
         }
 
         /**
          * Indicates if the transaction involves a marketplace.
          */
-        public Builder marketplace(JsonNullable<Boolean> marketplace) {
+        public Builder marketplace(Optional<Boolean> marketplace) {
             Utils.checkNotNull(marketplace, "marketplace");
             this.marketplace = marketplace;
             return this;
@@ -764,19 +720,13 @@ public class TransactionEstimateResponse {
         }
 
 
-        /**
-         * Details about the customer. If the customer is not found, it will be ignored.
-         */
         public Builder customer(CustomerBase customer) {
             Utils.checkNotNull(customer, "customer");
-            this.customer = JsonNullable.of(customer);
+            this.customer = Optional.ofNullable(customer);
             return this;
         }
 
-        /**
-         * Details about the customer. If the customer is not found, it will be ignored.
-         */
-        public Builder customer(JsonNullable<? extends CustomerBase> customer) {
+        public Builder customer(Optional<? extends CustomerBase> customer) {
             Utils.checkNotNull(customer, "customer");
             this.customer = customer;
             return this;
@@ -897,6 +847,9 @@ public class TransactionEstimateResponse {
             if (totalAmount == null) {
                 totalAmount = _SINGLETON_VALUE_TotalAmount.value();
             }
+            if (marketplace == null) {
+                marketplace = _SINGLETON_VALUE_Marketplace.value();
+            }
             if (totalTaxAmountCalculated == null) {
                 totalTaxAmountCalculated = _SINGLETON_VALUE_TotalTaxAmountCalculated.value();
             }
@@ -927,6 +880,12 @@ public class TransactionEstimateResponse {
                         "total_amount",
                         "\"0.0\"",
                         new TypeReference<Optional<String>>() {});
+
+        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_Marketplace =
+                new LazySingletonValue<>(
+                        "marketplace",
+                        "false",
+                        new TypeReference<Optional<Boolean>>() {});
 
         private static final LazySingletonValue<Optional<String>> _SINGLETON_VALUE_TotalTaxAmountCalculated =
                 new LazySingletonValue<>(

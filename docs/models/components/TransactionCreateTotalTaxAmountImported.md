@@ -1,4 +1,0 @@
-# TransactionCreateTotalTaxAmountImported
-
-Imported tax amount.
-

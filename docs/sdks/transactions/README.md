@@ -26,9 +26,11 @@ The Get Transactions API retrieves a list of transactions with
 package hello.world;
 
 import com.kintsugi.taxplatform.SDK;
+import com.kintsugi.taxplatform.models.components.Security;
 import com.kintsugi.taxplatform.models.errors.BackendSrcTransactionsResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
-import com.kintsugi.taxplatform.models.operations.*;
+import com.kintsugi.taxplatform.models.operations.GetTransactionsV1TransactionsGetRequest;
+import com.kintsugi.taxplatform.models.operations.GetTransactionsV1TransactionsGetResponse;
 import java.lang.Exception;
 
 public class Application {
@@ -36,17 +38,17 @@ public class Application {
     public static void main(String[] args) throws ErrorResponse, BackendSrcTransactionsResponsesValidationErrorResponse, ErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
+                .security(Security.builder()
+                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
+                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
+                    .build())
             .build();
 
         GetTransactionsV1TransactionsGetRequest req = GetTransactionsV1TransactionsGetRequest.builder()
-                .xOrganizationId("org_12345")
                 .build();
 
         GetTransactionsV1TransactionsGetResponse res = sdk.transactions().list()
                 .request(req)
-                .security(GetTransactionsV1TransactionsGetSecurity.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .build())
                 .call();
 
         if (res.pageTransactionRead().isPresent()) {
@@ -58,10 +60,9 @@ public class Application {
 
 ### Parameters
 
-| Parameter                                                                                                                                                  | Type                                                                                                                                                       | Required                                                                                                                                                   | Description                                                                                                                                                |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `request`                                                                                                                                                  | [GetTransactionsV1TransactionsGetRequest](../../models/operations/GetTransactionsV1TransactionsGetRequest.md)                                              | :heavy_check_mark:                                                                                                                                         | The request object to use for the request.                                                                                                                 |
-| `security`                                                                                                                                                 | [com.kintsugi.taxplatform.models.operations.GetTransactionsV1TransactionsGetSecurity](../../models/operations/GetTransactionsV1TransactionsGetSecurity.md) | :heavy_check_mark:                                                                                                                                         | The security requirements to use for the request.                                                                                                          |
+| Parameter                                                                                                     | Type                                                                                                          | Required                                                                                                      | Description                                                                                                   |
+| ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| `request`                                                                                                     | [GetTransactionsV1TransactionsGetRequest](../../models/operations/GetTransactionsV1TransactionsGetRequest.md) | :heavy_check_mark:                                                                                            | The request object to use for the request.                                                                    |
 
 ### Response
 
@@ -91,7 +92,6 @@ import com.kintsugi.taxplatform.models.components.*;
 import com.kintsugi.taxplatform.models.errors.BackendSrcTransactionsResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
 import com.kintsugi.taxplatform.models.operations.CreateTransactionV1TransactionsPostResponse;
-import com.kintsugi.taxplatform.models.operations.CreateTransactionV1TransactionsPostSecurity;
 import java.lang.Exception;
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -101,44 +101,46 @@ public class Application {
     public static void main(String[] args) throws ErrorResponse, BackendSrcTransactionsResponsesValidationErrorResponse, ErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
+                .security(Security.builder()
+                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
+                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
+                    .build())
             .build();
 
-        CreateTransactionV1TransactionsPostResponse res = sdk.transactions().create()
-                .security(CreateTransactionV1TransactionsPostSecurity.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .build())
-                .xOrganizationId("org_12345")
-                .transactionPublicRequest(TransactionPublicRequest.builder()
-                    .organizationId("orgn_YourOrgIdHere")
-                    .externalId("YourUniqueOrder123")
-                    .date(OffsetDateTime.parse("2024-01-15T14:30:00Z"))
-                    .addresses(List.of(
-                        TransactionAddressPublic.builder()
-                            .type(AddressType.SHIP_TO)
-                            .street1("123 Main St")
-                            .city("San Francisco")
-                            .state("CA")
-                            .postalCode("94107")
-                            .country(CountryCodeEnum.US)
-                            .build()))
-                    .transactionItems(List.of(
-                        TransactionItemBuilder.builder()
-                            .organizationId("orgn_YourOrgIdHere")
-                            .date(OffsetDateTime.parse("2024-01-15T14:30:00Z"))
-                            .externalProductId("SKU-ABC")
-                            .product("Example Widget")
-                            .quantity(TransactionItemBuilderQuantity.of(2d))
-                            .amount(TransactionItemBuilderAmount.of(50d))
-                            .build()))
-                    .customer(Customer.of(TransactionImportCustomer.builder()
-                        .externalId("Cust456")
-                        .name("John Doe")
-                        .organizationId("orgn_YourOrgIdHere")
+        TransactionPublicRequest req = TransactionPublicRequest.builder()
+                .organizationId("orgn_YourOrgIdHere")
+                .externalId("YourUniqueOrder123")
+                .date(OffsetDateTime.parse("2024-01-15T14:30:00Z"))
+                .addresses(List.of(
+                    TransactionAddressPublic.builder()
+                        .type(AddressType.SHIP_TO)
+                        .street1("123 Main St")
+                        .city("San Francisco")
+                        .state("CA")
+                        .postalCode("94107")
+                        .country(CountryCodeEnum.US)
                         .build()))
-                    .type(TransactionTypeEnum.SALE)
-                    .currency(CurrencyEnum.USD)
-                    .source(SourceEnum.API)
+                .transactionItems(List.of(
+                    TransactionItemBuilder.builder()
+                        .organizationId("orgn_YourOrgIdHere")
+                        .date(OffsetDateTime.parse("2024-01-15T14:30:00Z"))
+                        .externalProductId("SKU-ABC")
+                        .product("Example Widget")
+                        .quantity(2d)
+                        .amount(50d)
+                        .build()))
+                .customer(CustomerBaseBase.builder()
+                    .organizationId("orgn_YourOrgIdHere")
+                    .name("John Doe")
+                    .externalId("Cust456")
                     .build())
+                .type(TransactionTypeEnum.SALE)
+                .currency(CurrencyEnum.USD)
+                .source(SourceEnum.API)
+                .build();
+
+        CreateTransactionV1TransactionsPostResponse res = sdk.transactions().create()
+                .request(req)
                 .call();
 
         if (res.transactionRead().isPresent()) {
@@ -150,11 +152,9 @@ public class Application {
 
 ### Parameters
 
-| Parameter                                                                                                                                                        | Type                                                                                                                                                             | Required                                                                                                                                                         | Description                                                                                                                                                      | Example                                                                                                                                                          |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `security`                                                                                                                                                       | [com.kintsugi.taxplatform.models.operations.CreateTransactionV1TransactionsPostSecurity](../../models/operations/CreateTransactionV1TransactionsPostSecurity.md) | :heavy_check_mark:                                                                                                                                               | The security requirements to use for the request.                                                                                                                |                                                                                                                                                                  |
-| `xOrganizationId`                                                                                                                                                | *Optional\<String>*                                                                                                                                              | :heavy_check_mark:                                                                                                                                               | The unique identifier for the organization making the request                                                                                                    | org_12345                                                                                                                                                        |
-| `transactionPublicRequest`                                                                                                                                       | [TransactionPublicRequest](../../models/components/TransactionPublicRequest.md)                                                                                  | :heavy_check_mark:                                                                                                                                               | N/A                                                                                                                                                              |                                                                                                                                                                  |
+| Parameter                                                                   | Type                                                                        | Required                                                                    | Description                                                                 |
+| --------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| `request`                                                                   | [TransactionPublicRequest](../../models/shared/TransactionPublicRequest.md) | :heavy_check_mark:                                                          | The request object to use for the request.                                  |
 
 ### Response
 
@@ -181,10 +181,10 @@ Retrieves a specific transaction based on its external ID.
 package hello.world;
 
 import com.kintsugi.taxplatform.SDK;
+import com.kintsugi.taxplatform.models.components.Security;
 import com.kintsugi.taxplatform.models.errors.BackendSrcTransactionsResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
 import com.kintsugi.taxplatform.models.operations.GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse;
-import com.kintsugi.taxplatform.models.operations.GetTransactionByExternalIdV1TransactionsExternalExternalIdGetSecurity;
 import java.lang.Exception;
 
 public class Application {
@@ -192,14 +192,14 @@ public class Application {
     public static void main(String[] args) throws ErrorResponse, BackendSrcTransactionsResponsesValidationErrorResponse, ErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
+                .security(Security.builder()
+                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
+                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
+                    .build())
             .build();
 
         GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse res = sdk.transactions().getByExternalId()
-                .security(GetTransactionByExternalIdV1TransactionsExternalExternalIdGetSecurity.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .build())
                 .externalId("<id>")
-                .xOrganizationId("org_12345")
                 .call();
 
         if (res.transactionRead().isPresent()) {
@@ -211,11 +211,9 @@ public class Application {
 
 ### Parameters
 
-| Parameter                                                                                                                                                                                                            | Type                                                                                                                                                                                                                 | Required                                                                                                                                                                                                             | Description                                                                                                                                                                                                          | Example                                                                                                                                                                                                              |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `security`                                                                                                                                                                                                           | [com.kintsugi.taxplatform.models.operations.GetTransactionByExternalIdV1TransactionsExternalExternalIdGetSecurity](../../models/operations/GetTransactionByExternalIdV1TransactionsExternalExternalIdGetSecurity.md) | :heavy_check_mark:                                                                                                                                                                                                   | The security requirements to use for the request.                                                                                                                                                                    |                                                                                                                                                                                                                      |
-| `externalId`                                                                                                                                                                                                         | *String*                                                                                                                                                                                                             | :heavy_check_mark:                                                                                                                                                                                                   | The unique external identifier of the transaction.                                                                                                                                                                   |                                                                                                                                                                                                                      |
-| `xOrganizationId`                                                                                                                                                                                                    | *Optional\<String>*                                                                                                                                                                                                  | :heavy_check_mark:                                                                                                                                                                                                   | The unique identifier for the organization making the request                                                                                                                                                        | org_12345                                                                                                                                                                                                            |
+| Parameter                                          | Type                                               | Required                                           | Description                                        |
+| -------------------------------------------------- | -------------------------------------------------- | -------------------------------------------------- | -------------------------------------------------- |
+| `externalId`                                       | *String*                                           | :heavy_check_mark:                                 | The unique external identifier of the transaction. |
 
 ### Response
 
@@ -244,7 +242,6 @@ import com.kintsugi.taxplatform.SDK;
 import com.kintsugi.taxplatform.models.components.*;
 import com.kintsugi.taxplatform.models.errors.HTTPValidationError;
 import com.kintsugi.taxplatform.models.operations.UpdateTransactionV1TransactionsTransactionIdPutResponse;
-import com.kintsugi.taxplatform.models.operations.UpdateTransactionV1TransactionsTransactionIdPutSecurity;
 import java.lang.Exception;
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -254,22 +251,22 @@ public class Application {
     public static void main(String[] args) throws HTTPValidationError, Exception {
 
         SDK sdk = SDK.builder()
+                .security(Security.builder()
+                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
+                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
+                    .build())
             .build();
 
         UpdateTransactionV1TransactionsTransactionIdPutResponse res = sdk.transactions().update()
-                .security(UpdateTransactionV1TransactionsTransactionIdPutSecurity.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .build())
                 .transactionId("<id>")
-                .xOrganizationId("org_12345")
                 .transactionUpdate(TransactionUpdate.builder()
                     .organizationId("orgn_argaLQwMy2fJc")
                     .externalId("EXT12345")
                     .date(OffsetDateTime.parse("2025-04-02T17:36:59.814Z"))
-                    .addresses(TransactionUpdateAddresses.ofTransactionAddressBuilder(List.of(
+                    .addresses(List.of(
                         TransactionAddressBuilder.builder()
                             .type(AddressType.BILL_TO)
-                            .build())))
+                            .build()))
                     .transactionItems(List.of(
                         TransactionItemCreateUpdate.builder()
                             .organizationId("orgn_argaLQwMy2fJc")
@@ -290,12 +287,10 @@ public class Application {
 
 ### Parameters
 
-| Parameter                                                                                                                                                                                | Type                                                                                                                                                                                     | Required                                                                                                                                                                                 | Description                                                                                                                                                                              | Example                                                                                                                                                                                  |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `security`                                                                                                                                                                               | [com.kintsugi.taxplatform.models.operations.UpdateTransactionV1TransactionsTransactionIdPutSecurity](../../models/operations/UpdateTransactionV1TransactionsTransactionIdPutSecurity.md) | :heavy_check_mark:                                                                                                                                                                       | The security requirements to use for the request.                                                                                                                                        |                                                                                                                                                                                          |
-| `transactionId`                                                                                                                                                                          | *String*                                                                                                                                                                                 | :heavy_check_mark:                                                                                                                                                                       | N/A                                                                                                                                                                                      |                                                                                                                                                                                          |
-| `xOrganizationId`                                                                                                                                                                        | *Optional\<String>*                                                                                                                                                                      | :heavy_check_mark:                                                                                                                                                                       | The unique identifier for the organization making the request                                                                                                                            | org_12345                                                                                                                                                                                |
-| `transactionUpdate`                                                                                                                                                                      | [TransactionUpdate](../../models/components/TransactionUpdate.md)                                                                                                                        | :heavy_check_mark:                                                                                                                                                                       | N/A                                                                                                                                                                                      |                                                                                                                                                                                          |
+| Parameter                                                         | Type                                                              | Required                                                          | Description                                                       |
+| ----------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- |
+| `transactionId`                                                   | *String*                                                          | :heavy_check_mark:                                                | N/A                                                               |
+| `transactionUpdate`                                               | [TransactionUpdate](../../models/components/TransactionUpdate.md) | :heavy_check_mark:                                                | N/A                                                               |
 
 ### Response
 
@@ -320,10 +315,10 @@ The Get Transaction By Id API retrieves detailed information
 package hello.world;
 
 import com.kintsugi.taxplatform.SDK;
+import com.kintsugi.taxplatform.models.components.Security;
 import com.kintsugi.taxplatform.models.errors.BackendSrcTransactionsResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
 import com.kintsugi.taxplatform.models.operations.GetTransactionByIdV1TransactionsTransactionIdGetResponse;
-import com.kintsugi.taxplatform.models.operations.GetTransactionByIdV1TransactionsTransactionIdGetSecurity;
 import java.lang.Exception;
 
 public class Application {
@@ -331,14 +326,14 @@ public class Application {
     public static void main(String[] args) throws ErrorResponse, BackendSrcTransactionsResponsesValidationErrorResponse, ErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
+                .security(Security.builder()
+                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
+                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
+                    .build())
             .build();
 
         GetTransactionByIdV1TransactionsTransactionIdGetResponse res = sdk.transactions().getById()
-                .security(GetTransactionByIdV1TransactionsTransactionIdGetSecurity.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .build())
                 .transactionId("<id>")
-                .xOrganizationId("org_12345")
                 .call();
 
         if (res.transactionRead().isPresent()) {
@@ -350,11 +345,9 @@ public class Application {
 
 ### Parameters
 
-| Parameter                                                                                                                                                                                  | Type                                                                                                                                                                                       | Required                                                                                                                                                                                   | Description                                                                                                                                                                                | Example                                                                                                                                                                                    |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `security`                                                                                                                                                                                 | [com.kintsugi.taxplatform.models.operations.GetTransactionByIdV1TransactionsTransactionIdGetSecurity](../../models/operations/GetTransactionByIdV1TransactionsTransactionIdGetSecurity.md) | :heavy_check_mark:                                                                                                                                                                         | The security requirements to use for the request.                                                                                                                                          |                                                                                                                                                                                            |
-| `transactionId`                                                                                                                                                                            | *String*                                                                                                                                                                                   | :heavy_check_mark:                                                                                                                                                                         | The unique identifier of the transaction to retrieve.                                                                                                                                      |                                                                                                                                                                                            |
-| `xOrganizationId`                                                                                                                                                                          | *Optional\<String>*                                                                                                                                                                        | :heavy_check_mark:                                                                                                                                                                         | The unique identifier for the organization making the request                                                                                                                              | org_12345                                                                                                                                                                                  |
+| Parameter                                             | Type                                                  | Required                                              | Description                                           |
+| ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- |
+| `transactionId`                                       | *String*                                              | :heavy_check_mark:                                    | The unique identifier of the transaction to retrieve. |
 
 ### Response
 
@@ -380,10 +373,10 @@ Retrieve transactions by filing ID.
 package hello.world;
 
 import com.kintsugi.taxplatform.SDK;
+import com.kintsugi.taxplatform.models.components.Security;
 import com.kintsugi.taxplatform.models.errors.BackendSrcTransactionsResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
 import com.kintsugi.taxplatform.models.operations.GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetResponse;
-import com.kintsugi.taxplatform.models.operations.GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetSecurity;
 import java.lang.Exception;
 
 public class Application {
@@ -391,14 +384,14 @@ public class Application {
     public static void main(String[] args) throws ErrorResponse, BackendSrcTransactionsResponsesValidationErrorResponse, ErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
+                .security(Security.builder()
+                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
+                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
+                    .build())
             .build();
 
         GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetResponse res = sdk.transactions().getByFilingId()
-                .security(GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetSecurity.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .build())
                 .filingId("<id>")
-                .xOrganizationId("org_12345")
                 .call();
 
         if (res.response200GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGet().isPresent()) {
@@ -410,11 +403,9 @@ public class Application {
 
 ### Parameters
 
-| Parameter                                                                                                                                                                                                    | Type                                                                                                                                                                                                         | Required                                                                                                                                                                                                     | Description                                                                                                                                                                                                  | Example                                                                                                                                                                                                      |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `security`                                                                                                                                                                                                   | [com.kintsugi.taxplatform.models.operations.GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetSecurity](../../models/operations/GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetSecurity.md) | :heavy_check_mark:                                                                                                                                                                                           | The security requirements to use for the request.                                                                                                                                                            |                                                                                                                                                                                                              |
-| `filingId`                                                                                                                                                                                                   | *String*                                                                                                                                                                                                     | :heavy_check_mark:                                                                                                                                                                                           | The unique identifier of the filing<br/>        whose transactions you wish to retrieve.<br/>                                                                                                                |                                                                                                                                                                                                              |
-| `xOrganizationId`                                                                                                                                                                                            | *Optional\<String>*                                                                                                                                                                                          | :heavy_check_mark:                                                                                                                                                                                           | The unique identifier for the organization making the request                                                                                                                                                | org_12345                                                                                                                                                                                                    |
+| Parameter                                                                                     | Type                                                                                          | Required                                                                                      | Description                                                                                   |
+| --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `filingId`                                                                                    | *String*                                                                                      | :heavy_check_mark:                                                                            | The unique identifier of the filing<br/>        whose transactions you wish to retrieve.<br/>         |
 
 ### Response
 
@@ -443,7 +434,6 @@ import com.kintsugi.taxplatform.SDK;
 import com.kintsugi.taxplatform.models.components.*;
 import com.kintsugi.taxplatform.models.errors.HTTPValidationError;
 import com.kintsugi.taxplatform.models.operations.POSTCreateCreditNoteByTransactionIdResponse;
-import com.kintsugi.taxplatform.models.operations.POSTCreateCreditNoteByTransactionIdSecurity;
 import java.lang.Exception;
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -453,14 +443,14 @@ public class Application {
     public static void main(String[] args) throws HTTPValidationError, Exception {
 
         SDK sdk = SDK.builder()
+                .security(Security.builder()
+                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
+                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
+                    .build())
             .build();
 
         POSTCreateCreditNoteByTransactionIdResponse res = sdk.transactions().createCreditNote()
-                .security(POSTCreateCreditNoteByTransactionIdSecurity.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .build())
                 .originalTransactionId("<id>")
-                .xOrganizationId("org_12345")
                 .creditNoteCreate(CreditNoteCreate.builder()
                     .externalId("CN-12345")
                     .date(OffsetDateTime.parse("2024-10-27T14:30:00Z"))
@@ -471,11 +461,11 @@ public class Application {
                             .externalId("ITEM-1")
                             .date(OffsetDateTime.parse("2024-10-27T14:30:00Z"))
                             .externalProductId("PROD-ABC")
-                            .quantity(CreditNoteItemCreateUpdateQuantity.of(1d))
-                            .amount(CreditNoteItemCreateUpdateAmount.of(50d))
+                            .quantity(1d)
+                            .amount(50d)
                             .build()))
                     .description("Refund for damaged product")
-                    .totalAmount(CreditNoteCreateTotalAmount.of(50d))
+                    .totalAmount(50d)
                     .build())
                 .call();
 
@@ -488,12 +478,10 @@ public class Application {
 
 ### Parameters
 
-| Parameter                                                                                                                                                        | Type                                                                                                                                                             | Required                                                                                                                                                         | Description                                                                                                                                                      | Example                                                                                                                                                          |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `security`                                                                                                                                                       | [com.kintsugi.taxplatform.models.operations.POSTCreateCreditNoteByTransactionIdSecurity](../../models/operations/POSTCreateCreditNoteByTransactionIdSecurity.md) | :heavy_check_mark:                                                                                                                                               | The security requirements to use for the request.                                                                                                                |                                                                                                                                                                  |
-| `originalTransactionId`                                                                                                                                          | *String*                                                                                                                                                         | :heavy_check_mark:                                                                                                                                               | N/A                                                                                                                                                              |                                                                                                                                                                  |
-| `xOrganizationId`                                                                                                                                                | *Optional\<String>*                                                                                                                                              | :heavy_check_mark:                                                                                                                                               | The unique identifier for the organization making the request                                                                                                    | org_12345                                                                                                                                                        |
-| `creditNoteCreate`                                                                                                                                               | [CreditNoteCreate](../../models/components/CreditNoteCreate.md)                                                                                                  | :heavy_check_mark:                                                                                                                                               | N/A                                                                                                                                                              |                                                                                                                                                                  |
+| Parameter                                                       | Type                                                            | Required                                                        | Description                                                     |
+| --------------------------------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------- |
+| `originalTransactionId`                                         | *String*                                                        | :heavy_check_mark:                                              | N/A                                                             |
+| `creditNoteCreate`                                              | [CreditNoteCreate](../../models/components/CreditNoteCreate.md) | :heavy_check_mark:                                              | N/A                                                             |
 
 ### Response
 
@@ -520,7 +508,6 @@ import com.kintsugi.taxplatform.SDK;
 import com.kintsugi.taxplatform.models.components.*;
 import com.kintsugi.taxplatform.models.errors.HTTPValidationError;
 import com.kintsugi.taxplatform.models.operations.PUTUpdateCreditNoteByTransactionIdResponse;
-import com.kintsugi.taxplatform.models.operations.PUTUpdateCreditNoteByTransactionIdSecurity;
 import java.lang.Exception;
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -530,15 +517,15 @@ public class Application {
     public static void main(String[] args) throws HTTPValidationError, Exception {
 
         SDK sdk = SDK.builder()
+                .security(Security.builder()
+                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
+                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
+                    .build())
             .build();
 
         PUTUpdateCreditNoteByTransactionIdResponse res = sdk.transactions().updateCreditNote()
-                .security(PUTUpdateCreditNoteByTransactionIdSecurity.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .build())
                 .originalTransactionId("<id>")
                 .creditNoteId("<id>")
-                .xOrganizationId("org_12345")
                 .creditNoteCreate(CreditNoteCreate.builder()
                     .externalId("<id>")
                     .date(OffsetDateTime.parse("2023-07-25T11:01:44.924Z"))
@@ -549,7 +536,10 @@ public class Application {
                             .externalId("<id>")
                             .date(OffsetDateTime.parse("2024-09-15T23:01:02.880Z"))
                             .externalProductId("<id>")
+                            .quantity(1d)
+                            .amount(0d)
                             .build()))
+                    .totalAmount(0d)
                     .build())
                 .call();
 
@@ -562,13 +552,11 @@ public class Application {
 
 ### Parameters
 
-| Parameter                                                                                                                                                      | Type                                                                                                                                                           | Required                                                                                                                                                       | Description                                                                                                                                                    | Example                                                                                                                                                        |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `security`                                                                                                                                                     | [com.kintsugi.taxplatform.models.operations.PUTUpdateCreditNoteByTransactionIdSecurity](../../models/operations/PUTUpdateCreditNoteByTransactionIdSecurity.md) | :heavy_check_mark:                                                                                                                                             | The security requirements to use for the request.                                                                                                              |                                                                                                                                                                |
-| `originalTransactionId`                                                                                                                                        | *String*                                                                                                                                                       | :heavy_check_mark:                                                                                                                                             | N/A                                                                                                                                                            |                                                                                                                                                                |
-| `creditNoteId`                                                                                                                                                 | *String*                                                                                                                                                       | :heavy_check_mark:                                                                                                                                             | N/A                                                                                                                                                            |                                                                                                                                                                |
-| `xOrganizationId`                                                                                                                                              | *Optional\<String>*                                                                                                                                            | :heavy_check_mark:                                                                                                                                             | The unique identifier for the organization making the request                                                                                                  | org_12345                                                                                                                                                      |
-| `creditNoteCreate`                                                                                                                                             | [CreditNoteCreate](../../models/components/CreditNoteCreate.md)                                                                                                | :heavy_check_mark:                                                                                                                                             | N/A                                                                                                                                                            |                                                                                                                                                                |
+| Parameter                                                       | Type                                                            | Required                                                        | Description                                                     |
+| --------------------------------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------- |
+| `originalTransactionId`                                         | *String*                                                        | :heavy_check_mark:                                              | N/A                                                             |
+| `creditNoteId`                                                  | *String*                                                        | :heavy_check_mark:                                              | N/A                                                             |
+| `creditNoteCreate`                                              | [CreditNoteCreate](../../models/components/CreditNoteCreate.md) | :heavy_check_mark:                                              | N/A                                                             |
 
 ### Response
 

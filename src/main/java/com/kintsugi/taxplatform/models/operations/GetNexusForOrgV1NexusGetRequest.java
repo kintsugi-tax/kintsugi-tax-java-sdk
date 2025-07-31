@@ -14,29 +14,28 @@ import java.lang.Long;
 import java.lang.Override;
 import java.lang.String;
 import java.util.Optional;
-import org.openapitools.jackson.nullable.JsonNullable;
 
 
 public class GetNexusForOrgV1NexusGetRequest {
 
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=status__in")
-    private JsonNullable<String> statusIn;
+    private Optional<String> statusIn;
 
 
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=state_code")
-    private JsonNullable<String> stateCode;
+    private Optional<String> stateCode;
 
 
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=country_code__in")
-    private JsonNullable<String> countryCodeIn;
+    private Optional<String> countryCodeIn;
 
 
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=order_by")
-    private JsonNullable<String> orderBy;
+    private Optional<String> orderBy;
 
 
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=collected_tax_nexus_met")
-    private JsonNullable<Boolean> collectedTaxNexusMet;
+    private Optional<Boolean> collectedTaxNexusMet;
 
     /**
      * Page number
@@ -50,22 +49,15 @@ public class GetNexusForOrgV1NexusGetRequest {
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=size")
     private Optional<Long> size;
 
-    /**
-     * The unique identifier for the organization making the request
-     */
-    @SpeakeasyMetadata("header:style=simple,explode=false,name=x-organization-id")
-    private Optional<String> xOrganizationId;
-
     @JsonCreator
     public GetNexusForOrgV1NexusGetRequest(
-            JsonNullable<String> statusIn,
-            JsonNullable<String> stateCode,
-            JsonNullable<String> countryCodeIn,
-            JsonNullable<String> orderBy,
-            JsonNullable<Boolean> collectedTaxNexusMet,
+            Optional<String> statusIn,
+            Optional<String> stateCode,
+            Optional<String> countryCodeIn,
+            Optional<String> orderBy,
+            Optional<Boolean> collectedTaxNexusMet,
             Optional<Long> page,
-            Optional<Long> size,
-            Optional<String> xOrganizationId) {
+            Optional<Long> size) {
         Utils.checkNotNull(statusIn, "statusIn");
         Utils.checkNotNull(stateCode, "stateCode");
         Utils.checkNotNull(countryCodeIn, "countryCodeIn");
@@ -73,7 +65,6 @@ public class GetNexusForOrgV1NexusGetRequest {
         Utils.checkNotNull(collectedTaxNexusMet, "collectedTaxNexusMet");
         Utils.checkNotNull(page, "page");
         Utils.checkNotNull(size, "size");
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
         this.statusIn = statusIn;
         this.stateCode = stateCode;
         this.countryCodeIn = countryCodeIn;
@@ -81,37 +72,36 @@ public class GetNexusForOrgV1NexusGetRequest {
         this.collectedTaxNexusMet = collectedTaxNexusMet;
         this.page = page;
         this.size = size;
-        this.xOrganizationId = xOrganizationId;
     }
     
     public GetNexusForOrgV1NexusGetRequest() {
-        this(JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
-            JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty(),
-            Optional.empty(), Optional.empty());
+        this(Optional.empty(), Optional.empty(), Optional.empty(),
+            Optional.empty(), Optional.empty(), Optional.empty(),
+            Optional.empty());
     }
 
     @JsonIgnore
-    public JsonNullable<String> statusIn() {
+    public Optional<String> statusIn() {
         return statusIn;
     }
 
     @JsonIgnore
-    public JsonNullable<String> stateCode() {
+    public Optional<String> stateCode() {
         return stateCode;
     }
 
     @JsonIgnore
-    public JsonNullable<String> countryCodeIn() {
+    public Optional<String> countryCodeIn() {
         return countryCodeIn;
     }
 
     @JsonIgnore
-    public JsonNullable<String> orderBy() {
+    public Optional<String> orderBy() {
         return orderBy;
     }
 
     @JsonIgnore
-    public JsonNullable<Boolean> collectedTaxNexusMet() {
+    public Optional<Boolean> collectedTaxNexusMet() {
         return collectedTaxNexusMet;
     }
 
@@ -131,14 +121,6 @@ public class GetNexusForOrgV1NexusGetRequest {
         return size;
     }
 
-    /**
-     * The unique identifier for the organization making the request
-     */
-    @JsonIgnore
-    public Optional<String> xOrganizationId() {
-        return xOrganizationId;
-    }
-
     public static Builder builder() {
         return new Builder();
     }
@@ -146,11 +128,12 @@ public class GetNexusForOrgV1NexusGetRequest {
 
     public GetNexusForOrgV1NexusGetRequest withStatusIn(String statusIn) {
         Utils.checkNotNull(statusIn, "statusIn");
-        this.statusIn = JsonNullable.of(statusIn);
+        this.statusIn = Optional.ofNullable(statusIn);
         return this;
     }
 
-    public GetNexusForOrgV1NexusGetRequest withStatusIn(JsonNullable<String> statusIn) {
+
+    public GetNexusForOrgV1NexusGetRequest withStatusIn(Optional<String> statusIn) {
         Utils.checkNotNull(statusIn, "statusIn");
         this.statusIn = statusIn;
         return this;
@@ -158,11 +141,12 @@ public class GetNexusForOrgV1NexusGetRequest {
 
     public GetNexusForOrgV1NexusGetRequest withStateCode(String stateCode) {
         Utils.checkNotNull(stateCode, "stateCode");
-        this.stateCode = JsonNullable.of(stateCode);
+        this.stateCode = Optional.ofNullable(stateCode);
         return this;
     }
 
-    public GetNexusForOrgV1NexusGetRequest withStateCode(JsonNullable<String> stateCode) {
+
+    public GetNexusForOrgV1NexusGetRequest withStateCode(Optional<String> stateCode) {
         Utils.checkNotNull(stateCode, "stateCode");
         this.stateCode = stateCode;
         return this;
@@ -170,11 +154,12 @@ public class GetNexusForOrgV1NexusGetRequest {
 
     public GetNexusForOrgV1NexusGetRequest withCountryCodeIn(String countryCodeIn) {
         Utils.checkNotNull(countryCodeIn, "countryCodeIn");
-        this.countryCodeIn = JsonNullable.of(countryCodeIn);
+        this.countryCodeIn = Optional.ofNullable(countryCodeIn);
         return this;
     }
 
-    public GetNexusForOrgV1NexusGetRequest withCountryCodeIn(JsonNullable<String> countryCodeIn) {
+
+    public GetNexusForOrgV1NexusGetRequest withCountryCodeIn(Optional<String> countryCodeIn) {
         Utils.checkNotNull(countryCodeIn, "countryCodeIn");
         this.countryCodeIn = countryCodeIn;
         return this;
@@ -182,11 +167,12 @@ public class GetNexusForOrgV1NexusGetRequest {
 
     public GetNexusForOrgV1NexusGetRequest withOrderBy(String orderBy) {
         Utils.checkNotNull(orderBy, "orderBy");
-        this.orderBy = JsonNullable.of(orderBy);
+        this.orderBy = Optional.ofNullable(orderBy);
         return this;
     }
 
-    public GetNexusForOrgV1NexusGetRequest withOrderBy(JsonNullable<String> orderBy) {
+
+    public GetNexusForOrgV1NexusGetRequest withOrderBy(Optional<String> orderBy) {
         Utils.checkNotNull(orderBy, "orderBy");
         this.orderBy = orderBy;
         return this;
@@ -194,11 +180,12 @@ public class GetNexusForOrgV1NexusGetRequest {
 
     public GetNexusForOrgV1NexusGetRequest withCollectedTaxNexusMet(boolean collectedTaxNexusMet) {
         Utils.checkNotNull(collectedTaxNexusMet, "collectedTaxNexusMet");
-        this.collectedTaxNexusMet = JsonNullable.of(collectedTaxNexusMet);
+        this.collectedTaxNexusMet = Optional.ofNullable(collectedTaxNexusMet);
         return this;
     }
 
-    public GetNexusForOrgV1NexusGetRequest withCollectedTaxNexusMet(JsonNullable<Boolean> collectedTaxNexusMet) {
+
+    public GetNexusForOrgV1NexusGetRequest withCollectedTaxNexusMet(Optional<Boolean> collectedTaxNexusMet) {
         Utils.checkNotNull(collectedTaxNexusMet, "collectedTaxNexusMet");
         this.collectedTaxNexusMet = collectedTaxNexusMet;
         return this;
@@ -242,25 +229,6 @@ public class GetNexusForOrgV1NexusGetRequest {
         return this;
     }
 
-    /**
-     * The unique identifier for the organization making the request
-     */
-    public GetNexusForOrgV1NexusGetRequest withXOrganizationId(String xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = Optional.ofNullable(xOrganizationId);
-        return this;
-    }
-
-
-    /**
-     * The unique identifier for the organization making the request
-     */
-    public GetNexusForOrgV1NexusGetRequest withXOrganizationId(Optional<String> xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = xOrganizationId;
-        return this;
-    }
-
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -277,8 +245,7 @@ public class GetNexusForOrgV1NexusGetRequest {
             Utils.enhancedDeepEquals(this.orderBy, other.orderBy) &&
             Utils.enhancedDeepEquals(this.collectedTaxNexusMet, other.collectedTaxNexusMet) &&
             Utils.enhancedDeepEquals(this.page, other.page) &&
-            Utils.enhancedDeepEquals(this.size, other.size) &&
-            Utils.enhancedDeepEquals(this.xOrganizationId, other.xOrganizationId);
+            Utils.enhancedDeepEquals(this.size, other.size);
     }
     
     @Override
@@ -286,7 +253,7 @@ public class GetNexusForOrgV1NexusGetRequest {
         return Utils.enhancedHash(
             statusIn, stateCode, countryCodeIn,
             orderBy, collectedTaxNexusMet, page,
-            size, xOrganizationId);
+            size);
     }
     
     @Override
@@ -298,28 +265,25 @@ public class GetNexusForOrgV1NexusGetRequest {
                 "orderBy", orderBy,
                 "collectedTaxNexusMet", collectedTaxNexusMet,
                 "page", page,
-                "size", size,
-                "xOrganizationId", xOrganizationId);
+                "size", size);
     }
 
     @SuppressWarnings("UnusedReturnValue")
     public final static class Builder {
 
-        private JsonNullable<String> statusIn = JsonNullable.undefined();
+        private Optional<String> statusIn;
 
-        private JsonNullable<String> stateCode = JsonNullable.undefined();
+        private Optional<String> stateCode = Optional.empty();
 
-        private JsonNullable<String> countryCodeIn = JsonNullable.undefined();
+        private Optional<String> countryCodeIn = Optional.empty();
 
-        private JsonNullable<String> orderBy = JsonNullable.undefined();
+        private Optional<String> orderBy;
 
-        private JsonNullable<Boolean> collectedTaxNexusMet = JsonNullable.undefined();
+        private Optional<Boolean> collectedTaxNexusMet = Optional.empty();
 
         private Optional<Long> page;
 
         private Optional<Long> size;
-
-        private Optional<String> xOrganizationId = Optional.empty();
 
         private Builder() {
           // force use of static builder() method
@@ -328,11 +292,11 @@ public class GetNexusForOrgV1NexusGetRequest {
 
         public Builder statusIn(String statusIn) {
             Utils.checkNotNull(statusIn, "statusIn");
-            this.statusIn = JsonNullable.of(statusIn);
+            this.statusIn = Optional.ofNullable(statusIn);
             return this;
         }
 
-        public Builder statusIn(JsonNullable<String> statusIn) {
+        public Builder statusIn(Optional<String> statusIn) {
             Utils.checkNotNull(statusIn, "statusIn");
             this.statusIn = statusIn;
             return this;
@@ -341,11 +305,11 @@ public class GetNexusForOrgV1NexusGetRequest {
 
         public Builder stateCode(String stateCode) {
             Utils.checkNotNull(stateCode, "stateCode");
-            this.stateCode = JsonNullable.of(stateCode);
+            this.stateCode = Optional.ofNullable(stateCode);
             return this;
         }
 
-        public Builder stateCode(JsonNullable<String> stateCode) {
+        public Builder stateCode(Optional<String> stateCode) {
             Utils.checkNotNull(stateCode, "stateCode");
             this.stateCode = stateCode;
             return this;
@@ -354,11 +318,11 @@ public class GetNexusForOrgV1NexusGetRequest {
 
         public Builder countryCodeIn(String countryCodeIn) {
             Utils.checkNotNull(countryCodeIn, "countryCodeIn");
-            this.countryCodeIn = JsonNullable.of(countryCodeIn);
+            this.countryCodeIn = Optional.ofNullable(countryCodeIn);
             return this;
         }
 
-        public Builder countryCodeIn(JsonNullable<String> countryCodeIn) {
+        public Builder countryCodeIn(Optional<String> countryCodeIn) {
             Utils.checkNotNull(countryCodeIn, "countryCodeIn");
             this.countryCodeIn = countryCodeIn;
             return this;
@@ -367,11 +331,11 @@ public class GetNexusForOrgV1NexusGetRequest {
 
         public Builder orderBy(String orderBy) {
             Utils.checkNotNull(orderBy, "orderBy");
-            this.orderBy = JsonNullable.of(orderBy);
+            this.orderBy = Optional.ofNullable(orderBy);
             return this;
         }
 
-        public Builder orderBy(JsonNullable<String> orderBy) {
+        public Builder orderBy(Optional<String> orderBy) {
             Utils.checkNotNull(orderBy, "orderBy");
             this.orderBy = orderBy;
             return this;
@@ -380,11 +344,11 @@ public class GetNexusForOrgV1NexusGetRequest {
 
         public Builder collectedTaxNexusMet(boolean collectedTaxNexusMet) {
             Utils.checkNotNull(collectedTaxNexusMet, "collectedTaxNexusMet");
-            this.collectedTaxNexusMet = JsonNullable.of(collectedTaxNexusMet);
+            this.collectedTaxNexusMet = Optional.ofNullable(collectedTaxNexusMet);
             return this;
         }
 
-        public Builder collectedTaxNexusMet(JsonNullable<Boolean> collectedTaxNexusMet) {
+        public Builder collectedTaxNexusMet(Optional<Boolean> collectedTaxNexusMet) {
             Utils.checkNotNull(collectedTaxNexusMet, "collectedTaxNexusMet");
             this.collectedTaxNexusMet = collectedTaxNexusMet;
             return this;
@@ -428,26 +392,13 @@ public class GetNexusForOrgV1NexusGetRequest {
             return this;
         }
 
-
-        /**
-         * The unique identifier for the organization making the request
-         */
-        public Builder xOrganizationId(String xOrganizationId) {
-            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-            this.xOrganizationId = Optional.ofNullable(xOrganizationId);
-            return this;
-        }
-
-        /**
-         * The unique identifier for the organization making the request
-         */
-        public Builder xOrganizationId(Optional<String> xOrganizationId) {
-            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-            this.xOrganizationId = xOrganizationId;
-            return this;
-        }
-
         public GetNexusForOrgV1NexusGetRequest build() {
+            if (statusIn == null) {
+                statusIn = _SINGLETON_VALUE_StatusIn.value();
+            }
+            if (orderBy == null) {
+                orderBy = _SINGLETON_VALUE_OrderBy.value();
+            }
             if (page == null) {
                 page = _SINGLETON_VALUE_Page.value();
             }
@@ -458,9 +409,21 @@ public class GetNexusForOrgV1NexusGetRequest {
             return new GetNexusForOrgV1NexusGetRequest(
                 statusIn, stateCode, countryCodeIn,
                 orderBy, collectedTaxNexusMet, page,
-                size, xOrganizationId);
+                size);
         }
 
+
+        private static final LazySingletonValue<Optional<String>> _SINGLETON_VALUE_StatusIn =
+                new LazySingletonValue<>(
+                        "status__in",
+                        "\"APPROACHING,NOT_EXPOSED,PENDING_REGISTRATION,EXPOSED,APPROACHING,REGISTERED\"",
+                        new TypeReference<Optional<String>>() {});
+
+        private static final LazySingletonValue<Optional<String>> _SINGLETON_VALUE_OrderBy =
+                new LazySingletonValue<>(
+                        "order_by",
+                        "\"state_code,country_code\"",
+                        new TypeReference<Optional<String>>() {});
 
         private static final LazySingletonValue<Optional<Long>> _SINGLETON_VALUE_Page =
                 new LazySingletonValue<>(

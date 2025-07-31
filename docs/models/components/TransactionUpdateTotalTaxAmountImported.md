@@ -1,4 +1,0 @@
-# TransactionUpdateTotalTaxAmountImported
-
-Imported tax amount.
-

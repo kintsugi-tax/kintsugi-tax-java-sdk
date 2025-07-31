@@ -1,4 +1,0 @@
-# TransactionCreateTotalTaxAmountCalculated
-
-Calculated tax amount.
-

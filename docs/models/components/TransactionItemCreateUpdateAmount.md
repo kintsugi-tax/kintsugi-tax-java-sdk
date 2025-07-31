@@ -1,4 +1,0 @@
-# TransactionItemCreateUpdateAmount
-
-Item amount.
-

@@ -18,8 +18,10 @@ Get a list of all nexuses for the organization.
 package hello.world;
 
 import com.kintsugi.taxplatform.SDK;
+import com.kintsugi.taxplatform.models.components.Security;
 import com.kintsugi.taxplatform.models.errors.HTTPValidationError;
-import com.kintsugi.taxplatform.models.operations.*;
+import com.kintsugi.taxplatform.models.operations.GetNexusForOrgV1NexusGetRequest;
+import com.kintsugi.taxplatform.models.operations.GetNexusForOrgV1NexusGetResponse;
 import java.lang.Exception;
 
 public class Application {
@@ -27,17 +29,17 @@ public class Application {
     public static void main(String[] args) throws HTTPValidationError, Exception {
 
         SDK sdk = SDK.builder()
+                .security(Security.builder()
+                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
+                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
+                    .build())
             .build();
 
         GetNexusForOrgV1NexusGetRequest req = GetNexusForOrgV1NexusGetRequest.builder()
-                .xOrganizationId("org_12345")
                 .build();
 
         GetNexusForOrgV1NexusGetResponse res = sdk.nexus().list()
                 .request(req)
-                .security(GetNexusForOrgV1NexusGetSecurity.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .build())
                 .call();
 
         if (res.pageNexusResponse().isPresent()) {
@@ -49,10 +51,9 @@ public class Application {
 
 ### Parameters
 
-| Parameter                                                                                                                                  | Type                                                                                                                                       | Required                                                                                                                                   | Description                                                                                                                                |
-| ------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| `request`                                                                                                                                  | [GetNexusForOrgV1NexusGetRequest](../../models/operations/GetNexusForOrgV1NexusGetRequest.md)                                              | :heavy_check_mark:                                                                                                                         | The request object to use for the request.                                                                                                 |
-| `security`                                                                                                                                 | [com.kintsugi.taxplatform.models.operations.GetNexusForOrgV1NexusGetSecurity](../../models/operations/GetNexusForOrgV1NexusGetSecurity.md) | :heavy_check_mark:                                                                                                                         | The security requirements to use for the request.                                                                                          |
+| Parameter                                                                                     | Type                                                                                          | Required                                                                                      | Description                                                                                   |
+| --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `request`                                                                                     | [GetNexusForOrgV1NexusGetRequest](../../models/operations/GetNexusForOrgV1NexusGetRequest.md) | :heavy_check_mark:                                                                            | The request object to use for the request.                                                    |
 
 ### Response
 

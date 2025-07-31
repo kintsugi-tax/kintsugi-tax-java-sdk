@@ -5,16 +5,12 @@ package com.kintsugi.taxplatform.models.components;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Boolean;
 import java.lang.Override;
 import java.lang.String;
-import java.lang.SuppressWarnings;
 import java.util.List;
-import java.util.Optional;
 
 
 public class ProductRead {
@@ -27,22 +23,20 @@ public class ProductRead {
     private String externalId;
 
 
-    @JsonInclude(Include.ALWAYS)
     @JsonProperty("sku")
-    private Optional<? extends List<String>> sku;
+    private List<String> sku;
 
 
     @JsonProperty("code")
-    private Code code;
+    private ProductCodeEnum code;
 
 
     @JsonProperty("name")
     private String name;
 
 
-    @JsonInclude(Include.ALWAYS)
     @JsonProperty("description")
-    private Optional<String> description;
+    private String description;
 
 
     @JsonProperty("status")
@@ -50,11 +44,11 @@ public class ProductRead {
 
 
     @JsonProperty("product_category")
-    private ProductReadProductCategory productCategory;
+    private ProductCategoryEnum productCategory;
 
 
     @JsonProperty("product_subcategory")
-    private ProductReadProductSubcategory productSubcategory;
+    private ProductSubCategoryEnum productSubcategory;
 
 
     @JsonProperty("tax_exempt")
@@ -65,30 +59,28 @@ public class ProductRead {
     private SourceEnum source;
 
 
-    @JsonInclude(Include.ALWAYS)
     @JsonProperty("connection_id")
-    private Optional<String> connectionId;
+    private String connectionId;
 
 
-    @JsonInclude(Include.ALWAYS)
     @JsonProperty("classification_failed")
-    private Optional<Boolean> classificationFailed;
+    private boolean classificationFailed;
 
     @JsonCreator
     public ProductRead(
             @JsonProperty("id") String id,
             @JsonProperty("external_id") String externalId,
-            @JsonProperty("sku") Optional<? extends List<String>> sku,
-            @JsonProperty("code") Code code,
+            @JsonProperty("sku") List<String> sku,
+            @JsonProperty("code") ProductCodeEnum code,
             @JsonProperty("name") String name,
-            @JsonProperty("description") Optional<String> description,
+            @JsonProperty("description") String description,
             @JsonProperty("status") ProductStatusEnum status,
-            @JsonProperty("product_category") ProductReadProductCategory productCategory,
-            @JsonProperty("product_subcategory") ProductReadProductSubcategory productSubcategory,
+            @JsonProperty("product_category") ProductCategoryEnum productCategory,
+            @JsonProperty("product_subcategory") ProductSubCategoryEnum productSubcategory,
             @JsonProperty("tax_exempt") boolean taxExempt,
             @JsonProperty("source") SourceEnum source,
-            @JsonProperty("connection_id") Optional<String> connectionId,
-            @JsonProperty("classification_failed") Optional<Boolean> classificationFailed) {
+            @JsonProperty("connection_id") String connectionId,
+            @JsonProperty("classification_failed") boolean classificationFailed) {
         Utils.checkNotNull(id, "id");
         Utils.checkNotNull(externalId, "externalId");
         Utils.checkNotNull(sku, "sku");
@@ -116,23 +108,6 @@ public class ProductRead {
         this.connectionId = connectionId;
         this.classificationFailed = classificationFailed;
     }
-    
-    public ProductRead(
-            String id,
-            String externalId,
-            Code code,
-            String name,
-            ProductStatusEnum status,
-            ProductReadProductCategory productCategory,
-            ProductReadProductSubcategory productSubcategory,
-            boolean taxExempt,
-            SourceEnum source) {
-        this(id, externalId, Optional.empty(),
-            code, name, Optional.empty(),
-            status, productCategory, productSubcategory,
-            taxExempt, source, Optional.empty(),
-            Optional.empty());
-    }
 
     @JsonIgnore
     public String id() {
@@ -144,14 +119,13 @@ public class ProductRead {
         return externalId;
     }
 
-    @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<List<String>> sku() {
-        return (Optional<List<String>>) sku;
+    public List<String> sku() {
+        return sku;
     }
 
     @JsonIgnore
-    public Code code() {
+    public ProductCodeEnum code() {
         return code;
     }
 
@@ -161,7 +135,7 @@ public class ProductRead {
     }
 
     @JsonIgnore
-    public Optional<String> description() {
+    public String description() {
         return description;
     }
 
@@ -171,12 +145,12 @@ public class ProductRead {
     }
 
     @JsonIgnore
-    public ProductReadProductCategory productCategory() {
+    public ProductCategoryEnum productCategory() {
         return productCategory;
     }
 
     @JsonIgnore
-    public ProductReadProductSubcategory productSubcategory() {
+    public ProductSubCategoryEnum productSubcategory() {
         return productSubcategory;
     }
 
@@ -191,12 +165,12 @@ public class ProductRead {
     }
 
     @JsonIgnore
-    public Optional<String> connectionId() {
+    public String connectionId() {
         return connectionId;
     }
 
     @JsonIgnore
-    public Optional<Boolean> classificationFailed() {
+    public boolean classificationFailed() {
         return classificationFailed;
     }
 
@@ -219,18 +193,11 @@ public class ProductRead {
 
     public ProductRead withSku(List<String> sku) {
         Utils.checkNotNull(sku, "sku");
-        this.sku = Optional.ofNullable(sku);
-        return this;
-    }
-
-
-    public ProductRead withSku(Optional<? extends List<String>> sku) {
-        Utils.checkNotNull(sku, "sku");
         this.sku = sku;
         return this;
     }
 
-    public ProductRead withCode(Code code) {
+    public ProductRead withCode(ProductCodeEnum code) {
         Utils.checkNotNull(code, "code");
         this.code = code;
         return this;
@@ -244,13 +211,6 @@ public class ProductRead {
 
     public ProductRead withDescription(String description) {
         Utils.checkNotNull(description, "description");
-        this.description = Optional.ofNullable(description);
-        return this;
-    }
-
-
-    public ProductRead withDescription(Optional<String> description) {
-        Utils.checkNotNull(description, "description");
         this.description = description;
         return this;
     }
@@ -261,13 +221,13 @@ public class ProductRead {
         return this;
     }
 
-    public ProductRead withProductCategory(ProductReadProductCategory productCategory) {
+    public ProductRead withProductCategory(ProductCategoryEnum productCategory) {
         Utils.checkNotNull(productCategory, "productCategory");
         this.productCategory = productCategory;
         return this;
     }
 
-    public ProductRead withProductSubcategory(ProductReadProductSubcategory productSubcategory) {
+    public ProductRead withProductSubcategory(ProductSubCategoryEnum productSubcategory) {
         Utils.checkNotNull(productSubcategory, "productSubcategory");
         this.productSubcategory = productSubcategory;
         return this;
@@ -287,25 +247,11 @@ public class ProductRead {
 
     public ProductRead withConnectionId(String connectionId) {
         Utils.checkNotNull(connectionId, "connectionId");
-        this.connectionId = Optional.ofNullable(connectionId);
-        return this;
-    }
-
-
-    public ProductRead withConnectionId(Optional<String> connectionId) {
-        Utils.checkNotNull(connectionId, "connectionId");
         this.connectionId = connectionId;
         return this;
     }
 
     public ProductRead withClassificationFailed(boolean classificationFailed) {
-        Utils.checkNotNull(classificationFailed, "classificationFailed");
-        this.classificationFailed = Optional.ofNullable(classificationFailed);
-        return this;
-    }
-
-
-    public ProductRead withClassificationFailed(Optional<Boolean> classificationFailed) {
         Utils.checkNotNull(classificationFailed, "classificationFailed");
         this.classificationFailed = classificationFailed;
         return this;
@@ -371,27 +317,27 @@ public class ProductRead {
 
         private String externalId;
 
-        private Optional<? extends List<String>> sku = Optional.empty();
+        private List<String> sku;
 
-        private Code code;
+        private ProductCodeEnum code;
 
         private String name;
 
-        private Optional<String> description = Optional.empty();
+        private String description;
 
         private ProductStatusEnum status;
 
-        private ProductReadProductCategory productCategory;
+        private ProductCategoryEnum productCategory;
 
-        private ProductReadProductSubcategory productSubcategory;
+        private ProductSubCategoryEnum productSubcategory;
 
         private Boolean taxExempt;
 
         private SourceEnum source;
 
-        private Optional<String> connectionId = Optional.empty();
+        private String connectionId;
 
-        private Optional<Boolean> classificationFailed = Optional.empty();
+        private Boolean classificationFailed;
 
         private Builder() {
           // force use of static builder() method
@@ -414,18 +360,12 @@ public class ProductRead {
 
         public Builder sku(List<String> sku) {
             Utils.checkNotNull(sku, "sku");
-            this.sku = Optional.ofNullable(sku);
-            return this;
-        }
-
-        public Builder sku(Optional<? extends List<String>> sku) {
-            Utils.checkNotNull(sku, "sku");
             this.sku = sku;
             return this;
         }
 
 
-        public Builder code(Code code) {
+        public Builder code(ProductCodeEnum code) {
             Utils.checkNotNull(code, "code");
             this.code = code;
             return this;
@@ -441,12 +381,6 @@ public class ProductRead {
 
         public Builder description(String description) {
             Utils.checkNotNull(description, "description");
-            this.description = Optional.ofNullable(description);
-            return this;
-        }
-
-        public Builder description(Optional<String> description) {
-            Utils.checkNotNull(description, "description");
             this.description = description;
             return this;
         }
@@ -459,14 +393,14 @@ public class ProductRead {
         }
 
 
-        public Builder productCategory(ProductReadProductCategory productCategory) {
+        public Builder productCategory(ProductCategoryEnum productCategory) {
             Utils.checkNotNull(productCategory, "productCategory");
             this.productCategory = productCategory;
             return this;
         }
 
 
-        public Builder productSubcategory(ProductReadProductSubcategory productSubcategory) {
+        public Builder productSubcategory(ProductSubCategoryEnum productSubcategory) {
             Utils.checkNotNull(productSubcategory, "productSubcategory");
             this.productSubcategory = productSubcategory;
             return this;
@@ -489,24 +423,12 @@ public class ProductRead {
 
         public Builder connectionId(String connectionId) {
             Utils.checkNotNull(connectionId, "connectionId");
-            this.connectionId = Optional.ofNullable(connectionId);
-            return this;
-        }
-
-        public Builder connectionId(Optional<String> connectionId) {
-            Utils.checkNotNull(connectionId, "connectionId");
             this.connectionId = connectionId;
             return this;
         }
 
 
         public Builder classificationFailed(boolean classificationFailed) {
-            Utils.checkNotNull(classificationFailed, "classificationFailed");
-            this.classificationFailed = Optional.ofNullable(classificationFailed);
-            return this;
-        }
-
-        public Builder classificationFailed(Optional<Boolean> classificationFailed) {
             Utils.checkNotNull(classificationFailed, "classificationFailed");
             this.classificationFailed = classificationFailed;
             return this;

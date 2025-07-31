@@ -1,4 +1,0 @@
-# TransactionItemBuilderConvertedSubtotal
-
-Converted subtotal amount.
-

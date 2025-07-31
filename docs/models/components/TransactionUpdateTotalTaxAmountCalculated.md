@@ -1,4 +1,0 @@
-# TransactionUpdateTotalTaxAmountCalculated
-
-Calculated tax amount.
-

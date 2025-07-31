@@ -15,7 +15,7 @@ import java.util.List;
 public class ValidationError {
 
     @JsonProperty("loc")
-    private List<Loc> loc;
+    private List<String> loc;
 
 
     @JsonProperty("msg")
@@ -27,7 +27,7 @@ public class ValidationError {
 
     @JsonCreator
     public ValidationError(
-            @JsonProperty("loc") List<Loc> loc,
+            @JsonProperty("loc") List<String> loc,
             @JsonProperty("msg") String msg,
             @JsonProperty("type") String type) {
         Utils.checkNotNull(loc, "loc");
@@ -39,7 +39,7 @@ public class ValidationError {
     }
 
     @JsonIgnore
-    public List<Loc> loc() {
+    public List<String> loc() {
         return loc;
     }
 
@@ -58,7 +58,7 @@ public class ValidationError {
     }
 
 
-    public ValidationError withLoc(List<Loc> loc) {
+    public ValidationError withLoc(List<String> loc) {
         Utils.checkNotNull(loc, "loc");
         this.loc = loc;
         return this;
@@ -108,7 +108,7 @@ public class ValidationError {
     @SuppressWarnings("UnusedReturnValue")
     public final static class Builder {
 
-        private List<Loc> loc;
+        private List<String> loc;
 
         private String msg;
 
@@ -119,7 +119,7 @@ public class ValidationError {
         }
 
 
-        public Builder loc(List<Loc> loc) {
+        public Builder loc(List<String> loc) {
             Utils.checkNotNull(loc, "loc");
             this.loc = loc;
             return this;

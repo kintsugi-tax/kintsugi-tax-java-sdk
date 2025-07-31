@@ -10,58 +10,26 @@ import com.kintsugi.taxplatform.models.components.ValidationAddress;
 import com.kintsugi.taxplatform.operations.SuggestionsV1AddressValidationSuggestionsPostOperation;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
-import java.lang.String;
-import java.util.Optional;
 
 public class SuggestionsV1AddressValidationSuggestionsPostRequestBuilder {
 
-    private SuggestionsV1AddressValidationSuggestionsPostSecurity security;
-    private Optional<String> xOrganizationId = Optional.empty();
-    private ValidationAddress validationAddress;
+    private ValidationAddress request;
     private final SDKConfiguration sdkConfiguration;
 
     public SuggestionsV1AddressValidationSuggestionsPostRequestBuilder(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
     }
 
-    public SuggestionsV1AddressValidationSuggestionsPostRequestBuilder security(SuggestionsV1AddressValidationSuggestionsPostSecurity security) {
-        Utils.checkNotNull(security, "security");
-        this.security = security;
+    public SuggestionsV1AddressValidationSuggestionsPostRequestBuilder request(ValidationAddress request) {
+        Utils.checkNotNull(request, "request");
+        this.request = request;
         return this;
-    }
-                
-    public SuggestionsV1AddressValidationSuggestionsPostRequestBuilder xOrganizationId(String xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = Optional.of(xOrganizationId);
-        return this;
-    }
-
-    public SuggestionsV1AddressValidationSuggestionsPostRequestBuilder xOrganizationId(Optional<String> xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = xOrganizationId;
-        return this;
-    }
-
-    public SuggestionsV1AddressValidationSuggestionsPostRequestBuilder validationAddress(ValidationAddress validationAddress) {
-        Utils.checkNotNull(validationAddress, "validationAddress");
-        this.validationAddress = validationAddress;
-        return this;
-    }
-
-
-    private SuggestionsV1AddressValidationSuggestionsPostRequest buildRequest() {
-
-        SuggestionsV1AddressValidationSuggestionsPostRequest request = new SuggestionsV1AddressValidationSuggestionsPostRequest(xOrganizationId,
-            validationAddress);
-
-        return request;
     }
 
     public SuggestionsV1AddressValidationSuggestionsPostResponse call() throws Exception {
         
-        RequestOperation<SuggestionsV1AddressValidationSuggestionsPostRequest, SuggestionsV1AddressValidationSuggestionsPostResponse> operation
-              = new SuggestionsV1AddressValidationSuggestionsPostOperation(sdkConfiguration, security);
-        SuggestionsV1AddressValidationSuggestionsPostRequest request = buildRequest();
+        RequestOperation<ValidationAddress, SuggestionsV1AddressValidationSuggestionsPostResponse> operation
+              = new SuggestionsV1AddressValidationSuggestionsPostOperation(sdkConfiguration);
 
         return operation.handleResponse(operation.doRequest(request));
     }

@@ -1,4 +1,0 @@
-# TransactionItemCreateUpdateConvertedAmount
-
-Converted item amount.
-

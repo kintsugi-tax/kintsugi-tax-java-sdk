@@ -1,4 +1,0 @@
-# TransactionUpdateTaxableAmount
-
-Taxable amount.
-

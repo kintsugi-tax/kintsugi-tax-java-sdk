@@ -5,11 +5,11 @@ package com.kintsugi.taxplatform.models.operations;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.kintsugi.taxplatform.models.components.ProductUpdate;
 import com.kintsugi.taxplatform.utils.SpeakeasyMetadata;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Override;
 import java.lang.String;
-import java.util.Optional;
 
 
 public class UpdateProductV1ProductsProductIdPutRequest {
@@ -19,33 +19,18 @@ public class UpdateProductV1ProductsProductIdPutRequest {
     @SpeakeasyMetadata("pathParam:style=simple,explode=false,name=product_id")
     private String productId;
 
-    /**
-     * The unique identifier for the organization making the request
-     */
-    @SpeakeasyMetadata("header:style=simple,explode=false,name=x-organization-id")
-    private Optional<String> xOrganizationId;
-
 
     @SpeakeasyMetadata("request:mediaType=application/json")
-    private Product requestBody;
+    private ProductUpdate productUpdate;
 
     @JsonCreator
     public UpdateProductV1ProductsProductIdPutRequest(
             String productId,
-            Optional<String> xOrganizationId,
-            Product requestBody) {
+            ProductUpdate productUpdate) {
         Utils.checkNotNull(productId, "productId");
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        Utils.checkNotNull(requestBody, "requestBody");
+        Utils.checkNotNull(productUpdate, "productUpdate");
         this.productId = productId;
-        this.xOrganizationId = xOrganizationId;
-        this.requestBody = requestBody;
-    }
-    
-    public UpdateProductV1ProductsProductIdPutRequest(
-            String productId,
-            Product requestBody) {
-        this(productId, Optional.empty(), requestBody);
+        this.productUpdate = productUpdate;
     }
 
     /**
@@ -56,17 +41,9 @@ public class UpdateProductV1ProductsProductIdPutRequest {
         return productId;
     }
 
-    /**
-     * The unique identifier for the organization making the request
-     */
     @JsonIgnore
-    public Optional<String> xOrganizationId() {
-        return xOrganizationId;
-    }
-
-    @JsonIgnore
-    public Product requestBody() {
-        return requestBody;
+    public ProductUpdate productUpdate() {
+        return productUpdate;
     }
 
     public static Builder builder() {
@@ -83,28 +60,9 @@ public class UpdateProductV1ProductsProductIdPutRequest {
         return this;
     }
 
-    /**
-     * The unique identifier for the organization making the request
-     */
-    public UpdateProductV1ProductsProductIdPutRequest withXOrganizationId(String xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = Optional.ofNullable(xOrganizationId);
-        return this;
-    }
-
-
-    /**
-     * The unique identifier for the organization making the request
-     */
-    public UpdateProductV1ProductsProductIdPutRequest withXOrganizationId(Optional<String> xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = xOrganizationId;
-        return this;
-    }
-
-    public UpdateProductV1ProductsProductIdPutRequest withRequestBody(Product requestBody) {
-        Utils.checkNotNull(requestBody, "requestBody");
-        this.requestBody = requestBody;
+    public UpdateProductV1ProductsProductIdPutRequest withProductUpdate(ProductUpdate productUpdate) {
+        Utils.checkNotNull(productUpdate, "productUpdate");
+        this.productUpdate = productUpdate;
         return this;
     }
 
@@ -119,22 +77,20 @@ public class UpdateProductV1ProductsProductIdPutRequest {
         UpdateProductV1ProductsProductIdPutRequest other = (UpdateProductV1ProductsProductIdPutRequest) o;
         return 
             Utils.enhancedDeepEquals(this.productId, other.productId) &&
-            Utils.enhancedDeepEquals(this.xOrganizationId, other.xOrganizationId) &&
-            Utils.enhancedDeepEquals(this.requestBody, other.requestBody);
+            Utils.enhancedDeepEquals(this.productUpdate, other.productUpdate);
     }
     
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-            productId, xOrganizationId, requestBody);
+            productId, productUpdate);
     }
     
     @Override
     public String toString() {
         return Utils.toString(UpdateProductV1ProductsProductIdPutRequest.class,
                 "productId", productId,
-                "xOrganizationId", xOrganizationId,
-                "requestBody", requestBody);
+                "productUpdate", productUpdate);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -142,9 +98,7 @@ public class UpdateProductV1ProductsProductIdPutRequest {
 
         private String productId;
 
-        private Optional<String> xOrganizationId = Optional.empty();
-
-        private Product requestBody;
+        private ProductUpdate productUpdate;
 
         private Builder() {
           // force use of static builder() method
@@ -161,35 +115,16 @@ public class UpdateProductV1ProductsProductIdPutRequest {
         }
 
 
-        /**
-         * The unique identifier for the organization making the request
-         */
-        public Builder xOrganizationId(String xOrganizationId) {
-            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-            this.xOrganizationId = Optional.ofNullable(xOrganizationId);
-            return this;
-        }
-
-        /**
-         * The unique identifier for the organization making the request
-         */
-        public Builder xOrganizationId(Optional<String> xOrganizationId) {
-            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-            this.xOrganizationId = xOrganizationId;
-            return this;
-        }
-
-
-        public Builder requestBody(Product requestBody) {
-            Utils.checkNotNull(requestBody, "requestBody");
-            this.requestBody = requestBody;
+        public Builder productUpdate(ProductUpdate productUpdate) {
+            Utils.checkNotNull(productUpdate, "productUpdate");
+            this.productUpdate = productUpdate;
             return this;
         }
 
         public UpdateProductV1ProductsProductIdPutRequest build() {
 
             return new UpdateProductV1ProductsProductIdPutRequest(
-                productId, xOrganizationId, requestBody);
+                productId, productUpdate);
         }
 
     }

@@ -10,23 +10,14 @@ import com.kintsugi.taxplatform.operations.GetTransactionByExternalIdV1Transacti
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
 import java.lang.String;
-import java.util.Optional;
 
 public class GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequestBuilder {
 
-    private GetTransactionByExternalIdV1TransactionsExternalExternalIdGetSecurity security;
     private String externalId;
-    private Optional<String> xOrganizationId = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
 
     public GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequestBuilder(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
-    }
-
-    public GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequestBuilder security(GetTransactionByExternalIdV1TransactionsExternalExternalIdGetSecurity security) {
-        Utils.checkNotNull(security, "security");
-        this.security = security;
-        return this;
     }
 
     public GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequestBuilder externalId(String externalId) {
@@ -34,24 +25,11 @@ public class GetTransactionByExternalIdV1TransactionsExternalExternalIdGetReques
         this.externalId = externalId;
         return this;
     }
-                
-    public GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequestBuilder xOrganizationId(String xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = Optional.of(xOrganizationId);
-        return this;
-    }
-
-    public GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequestBuilder xOrganizationId(Optional<String> xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = xOrganizationId;
-        return this;
-    }
 
 
     private GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest buildRequest() {
 
-        GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest request = new GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest(externalId,
-            xOrganizationId);
+        GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest request = new GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest(externalId);
 
         return request;
     }
@@ -59,7 +37,7 @@ public class GetTransactionByExternalIdV1TransactionsExternalExternalIdGetReques
     public GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse call() throws Exception {
         
         RequestOperation<GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest, GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse> operation
-              = new GetTransactionByExternalIdV1TransactionsExternalExternalIdGetOperation(sdkConfiguration, security);
+              = new GetTransactionByExternalIdV1TransactionsExternalExternalIdGetOperation(sdkConfiguration);
         GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

@@ -11,13 +11,10 @@ import com.kintsugi.taxplatform.operations.CreateTransactionByCustomerIdV1Custom
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
 import java.lang.String;
-import java.util.Optional;
 
 public class CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequestBuilder {
 
-    private CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostSecurity security;
     private String customerId;
-    private Optional<String> xOrganizationId = Optional.empty();
     private TransactionCreate transactionCreate;
     private final SDKConfiguration sdkConfiguration;
 
@@ -25,27 +22,9 @@ public class CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostR
         this.sdkConfiguration = sdkConfiguration;
     }
 
-    public CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequestBuilder security(CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostSecurity security) {
-        Utils.checkNotNull(security, "security");
-        this.security = security;
-        return this;
-    }
-
     public CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequestBuilder customerId(String customerId) {
         Utils.checkNotNull(customerId, "customerId");
         this.customerId = customerId;
-        return this;
-    }
-                
-    public CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequestBuilder xOrganizationId(String xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = Optional.of(xOrganizationId);
-        return this;
-    }
-
-    public CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequestBuilder xOrganizationId(Optional<String> xOrganizationId) {
-        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
-        this.xOrganizationId = xOrganizationId;
         return this;
     }
 
@@ -59,7 +38,6 @@ public class CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostR
     private CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest buildRequest() {
 
         CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest request = new CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest(customerId,
-            xOrganizationId,
             transactionCreate);
 
         return request;
@@ -68,7 +46,7 @@ public class CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostR
     public CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostResponse call() throws Exception {
         
         RequestOperation<CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest, CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostResponse> operation
-              = new CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostOperation(sdkConfiguration, security);
+              = new CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostOperation(sdkConfiguration);
         CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

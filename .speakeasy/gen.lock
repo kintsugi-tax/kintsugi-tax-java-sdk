@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 13bfb8e3-2795-4089-a96d-9ab7fcceafd9
 management:
-  docChecksum: 0d2d7e514f0e4c0c53a1f15748671abf
+  docChecksum: 4050a5b91026e04242fd412043d0fd98
   docVersion: 1.0.0
-  speakeasyVersion: 1.595.0
-  generationVersion: 2.670.1
-  releaseVersion: 0.9.1
-  configChecksum: 3bfd4cb2eb8c3f25fda21064986a072e
+  speakeasyVersion: 1.596.0
+  generationVersion: 2.672.0
+  releaseVersion: 0.9.2
+  configChecksum: 2a5d2307e0859caedf30b34eac9c0b8a
   repoURL: https://github.com/kintsugi-tax/kintsugi-tax-java-sdk.git
   published: true
 features:

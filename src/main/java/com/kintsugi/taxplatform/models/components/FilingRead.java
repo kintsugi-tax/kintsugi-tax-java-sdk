@@ -216,6 +216,13 @@ public class FilingRead {
     private Optional<? extends CurrencyEnum> currency;
 
     /**
+     * Indicates the date when filing will be unpaused.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("paused_until_date")
+    private Optional<String> pausedUntilDate;
+
+    /**
      * Unique identifier for the filing.
      */
     @JsonProperty("id")
@@ -258,6 +265,7 @@ public class FilingRead {
             @JsonProperty("payment_confirmation_id") Optional<String> paymentConfirmationId,
             @JsonProperty("block_approval") Optional<Boolean> blockApproval,
             @JsonProperty("currency") Optional<? extends CurrencyEnum> currency,
+            @JsonProperty("paused_until_date") Optional<String> pausedUntilDate,
             @JsonProperty("id") String id,
             @JsonProperty("registration_id") String registrationId) {
         Utils.checkNotNull(status, "status");
@@ -289,6 +297,7 @@ public class FilingRead {
         Utils.checkNotNull(paymentConfirmationId, "paymentConfirmationId");
         Utils.checkNotNull(blockApproval, "blockApproval");
         Utils.checkNotNull(currency, "currency");
+        Utils.checkNotNull(pausedUntilDate, "pausedUntilDate");
         Utils.checkNotNull(id, "id");
         Utils.checkNotNull(registrationId, "registrationId");
         this.status = status;
@@ -320,6 +329,7 @@ public class FilingRead {
         this.paymentConfirmationId = paymentConfirmationId;
         this.blockApproval = blockApproval;
         this.currency = currency;
+        this.pausedUntilDate = pausedUntilDate;
         this.id = id;
         this.registrationId = registrationId;
     }
@@ -339,8 +349,8 @@ public class FilingRead {
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), id,
-            registrationId);
+            Optional.empty(), Optional.empty(), Optional.empty(),
+            id, registrationId);
     }
 
     @SuppressWarnings("unchecked")
@@ -565,6 +575,14 @@ public class FilingRead {
     @JsonIgnore
     public Optional<CurrencyEnum> currency() {
         return (Optional<CurrencyEnum>) currency;
+    }
+
+    /**
+     * Indicates the date when filing will be unpaused.
+     */
+    @JsonIgnore
+    public Optional<String> pausedUntilDate() {
+        return pausedUntilDate;
     }
 
     /**
@@ -1093,6 +1111,25 @@ public class FilingRead {
     }
 
     /**
+     * Indicates the date when filing will be unpaused.
+     */
+    public FilingRead withPausedUntilDate(String pausedUntilDate) {
+        Utils.checkNotNull(pausedUntilDate, "pausedUntilDate");
+        this.pausedUntilDate = Optional.ofNullable(pausedUntilDate);
+        return this;
+    }
+
+
+    /**
+     * Indicates the date when filing will be unpaused.
+     */
+    public FilingRead withPausedUntilDate(Optional<String> pausedUntilDate) {
+        Utils.checkNotNull(pausedUntilDate, "pausedUntilDate");
+        this.pausedUntilDate = pausedUntilDate;
+        return this;
+    }
+
+    /**
      * Unique identifier for the filing.
      */
     public FilingRead withId(String id) {
@@ -1149,6 +1186,7 @@ public class FilingRead {
             Utils.enhancedDeepEquals(this.paymentConfirmationId, other.paymentConfirmationId) &&
             Utils.enhancedDeepEquals(this.blockApproval, other.blockApproval) &&
             Utils.enhancedDeepEquals(this.currency, other.currency) &&
+            Utils.enhancedDeepEquals(this.pausedUntilDate, other.pausedUntilDate) &&
             Utils.enhancedDeepEquals(this.id, other.id) &&
             Utils.enhancedDeepEquals(this.registrationId, other.registrationId);
     }
@@ -1165,8 +1203,8 @@ public class FilingRead {
             totalTaxableSales, amount, totalTaxLiability,
             transactionCount, internalNotes, recentDetailsReportLink,
             taxRemitted, returnConfirmationId, paymentConfirmationId,
-            blockApproval, currency, id,
-            registrationId);
+            blockApproval, currency, pausedUntilDate,
+            id, registrationId);
     }
     
     @Override
@@ -1201,6 +1239,7 @@ public class FilingRead {
                 "paymentConfirmationId", paymentConfirmationId,
                 "blockApproval", blockApproval,
                 "currency", currency,
+                "pausedUntilDate", pausedUntilDate,
                 "id", id,
                 "registrationId", registrationId);
     }
@@ -1265,6 +1304,8 @@ public class FilingRead {
         private Optional<Boolean> blockApproval = Optional.empty();
 
         private Optional<? extends CurrencyEnum> currency = Optional.empty();
+
+        private Optional<String> pausedUntilDate = Optional.empty();
 
         private String id;
 
@@ -1783,6 +1824,25 @@ public class FilingRead {
 
 
         /**
+         * Indicates the date when filing will be unpaused.
+         */
+        public Builder pausedUntilDate(String pausedUntilDate) {
+            Utils.checkNotNull(pausedUntilDate, "pausedUntilDate");
+            this.pausedUntilDate = Optional.ofNullable(pausedUntilDate);
+            return this;
+        }
+
+        /**
+         * Indicates the date when filing will be unpaused.
+         */
+        public Builder pausedUntilDate(Optional<String> pausedUntilDate) {
+            Utils.checkNotNull(pausedUntilDate, "pausedUntilDate");
+            this.pausedUntilDate = pausedUntilDate;
+            return this;
+        }
+
+
+        /**
          * Unique identifier for the filing.
          */
         public Builder id(String id) {
@@ -1852,8 +1912,8 @@ public class FilingRead {
                 totalTaxableSales, amount, totalTaxLiability,
                 transactionCount, internalNotes, recentDetailsReportLink,
                 taxRemitted, returnConfirmationId, paymentConfirmationId,
-                blockApproval, currency, id,
-                registrationId);
+                blockApproval, currency, pausedUntilDate,
+                id, registrationId);
         }
 
 

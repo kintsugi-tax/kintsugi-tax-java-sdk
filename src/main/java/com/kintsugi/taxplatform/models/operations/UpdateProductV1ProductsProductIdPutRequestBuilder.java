@@ -7,7 +7,7 @@ import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.components.ProductUpdate;
-import com.kintsugi.taxplatform.operations.UpdateProductV1ProductsProductIdPutOperation;
+import com.kintsugi.taxplatform.operations.UpdateProductV1ProductsProductIdPut;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
 import java.lang.String;
@@ -46,7 +46,7 @@ public class UpdateProductV1ProductsProductIdPutRequestBuilder {
     public UpdateProductV1ProductsProductIdPutResponse call() throws Exception {
         
         RequestOperation<UpdateProductV1ProductsProductIdPutRequest, UpdateProductV1ProductsProductIdPutResponse> operation
-              = new UpdateProductV1ProductsProductIdPutOperation(sdkConfiguration);
+              = new UpdateProductV1ProductsProductIdPut.Sync(sdkConfiguration);
         UpdateProductV1ProductsProductIdPutRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

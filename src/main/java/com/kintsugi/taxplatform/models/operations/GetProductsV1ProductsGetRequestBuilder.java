@@ -6,7 +6,7 @@ package com.kintsugi.taxplatform.models.operations;
 import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 
 import com.kintsugi.taxplatform.SDKConfiguration;
-import com.kintsugi.taxplatform.operations.GetProductsV1ProductsGetOperation;
+import com.kintsugi.taxplatform.operations.GetProductsV1ProductsGet;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
 
@@ -28,7 +28,7 @@ public class GetProductsV1ProductsGetRequestBuilder {
     public GetProductsV1ProductsGetResponse call() throws Exception {
         
         RequestOperation<GetProductsV1ProductsGetRequest, GetProductsV1ProductsGetResponse> operation
-              = new GetProductsV1ProductsGetOperation(sdkConfiguration);
+              = new GetProductsV1ProductsGet.Sync(sdkConfiguration);
 
         return operation.handleResponse(operation.doRequest(request));
     }

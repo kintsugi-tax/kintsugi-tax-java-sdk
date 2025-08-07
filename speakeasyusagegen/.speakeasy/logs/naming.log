@@ -115,7 +115,7 @@ GetFilingsV1FilingsGetRequest (status__in: string, start_date: string, end_date:
 GetFilingsV1FilingsGetResponse (ContentType: string, StatusCode: int32, RawResponse: response ...)
  PageFilingRead (items: array, total: integer, page: integer ...)
    FilingRead (status: FilingStatusEnum, start_date: date, end_date: date ...)
-    FilingStatusEnum (enum: UNFILED, FILED, FILING)
+    FilingStatusEnum (enum: UNFILED, FILED, FILING ...)
 BackendSrcFilingsResponsesValidationErrorResponse (error)
   BackendSrcFilingsResponsesValidationErrorItem (type: string, loc: array, msg: string ...)
 GetFilingByIdV1FilingsFilingIdGetRequest (filing_id: string)

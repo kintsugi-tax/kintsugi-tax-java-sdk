@@ -7,7 +7,7 @@ import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.kintsugi.taxplatform.SDKConfiguration;
-import com.kintsugi.taxplatform.operations.GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetOperation;
+import com.kintsugi.taxplatform.operations.GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGet;
 import com.kintsugi.taxplatform.utils.LazySingletonValue;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
@@ -81,7 +81,7 @@ public class GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetReq
     public GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetResponse call() throws Exception {
         
         RequestOperation<GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequest, GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetResponse> operation
-              = new GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetOperation(sdkConfiguration);
+              = new GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGet.Sync(sdkConfiguration);
         GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

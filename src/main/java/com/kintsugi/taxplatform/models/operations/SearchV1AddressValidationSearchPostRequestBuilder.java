@@ -7,7 +7,7 @@ import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.components.AddressBase;
-import com.kintsugi.taxplatform.operations.SearchV1AddressValidationSearchPostOperation;
+import com.kintsugi.taxplatform.operations.SearchV1AddressValidationSearchPost;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
 
@@ -36,7 +36,7 @@ public class SearchV1AddressValidationSearchPostRequestBuilder {
     public SearchV1AddressValidationSearchPostResponse call() throws Exception {
         
         RequestOperation<AddressBase, SearchV1AddressValidationSearchPostResponse> operation
-              = new SearchV1AddressValidationSearchPostOperation(sdkConfiguration, security);
+              = new SearchV1AddressValidationSearchPost.Sync(sdkConfiguration, security);
 
         return operation.handleResponse(operation.doRequest(request));
     }

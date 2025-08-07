@@ -7,7 +7,7 @@ import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.components.PhysicalNexusUpdate;
-import com.kintsugi.taxplatform.operations.UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutOperation;
+import com.kintsugi.taxplatform.operations.UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPut;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
 import java.lang.String;
@@ -46,7 +46,7 @@ public class UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequestBui
     public UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutResponse call() throws Exception {
         
         RequestOperation<UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest, UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutResponse> operation
-              = new UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutOperation(sdkConfiguration);
+              = new UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPut.Sync(sdkConfiguration);
         UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

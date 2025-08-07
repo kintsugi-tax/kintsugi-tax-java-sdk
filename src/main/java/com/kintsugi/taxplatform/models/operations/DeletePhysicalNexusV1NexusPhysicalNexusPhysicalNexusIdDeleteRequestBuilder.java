@@ -6,7 +6,7 @@ package com.kintsugi.taxplatform.models.operations;
 import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 
 import com.kintsugi.taxplatform.SDKConfiguration;
-import com.kintsugi.taxplatform.operations.DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteOperation;
+import com.kintsugi.taxplatform.operations.DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDelete;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
 import java.lang.String;
@@ -37,7 +37,7 @@ public class DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest
     public DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteResponse call() throws Exception {
         
         RequestOperation<DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest, DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteResponse> operation
-              = new DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteOperation(sdkConfiguration);
+              = new DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDelete.Sync(sdkConfiguration);
         DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

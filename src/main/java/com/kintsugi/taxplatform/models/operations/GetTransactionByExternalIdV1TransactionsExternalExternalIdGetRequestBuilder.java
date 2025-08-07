@@ -6,7 +6,7 @@ package com.kintsugi.taxplatform.models.operations;
 import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 
 import com.kintsugi.taxplatform.SDKConfiguration;
-import com.kintsugi.taxplatform.operations.GetTransactionByExternalIdV1TransactionsExternalExternalIdGetOperation;
+import com.kintsugi.taxplatform.operations.GetTransactionByExternalIdV1TransactionsExternalExternalIdGet;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
 import java.lang.String;
@@ -37,7 +37,7 @@ public class GetTransactionByExternalIdV1TransactionsExternalExternalIdGetReques
     public GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse call() throws Exception {
         
         RequestOperation<GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest, GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse> operation
-              = new GetTransactionByExternalIdV1TransactionsExternalExternalIdGetOperation(sdkConfiguration);
+              = new GetTransactionByExternalIdV1TransactionsExternalExternalIdGet.Sync(sdkConfiguration);
         GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

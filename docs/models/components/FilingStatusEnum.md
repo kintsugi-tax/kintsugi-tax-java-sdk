@@ -8,3 +8,4 @@
 | `UNFILED` | UNFILED   |
 | `FILED`   | FILED     |
 | `FILING`  | FILING    |
+| `PAUSED`  | PAUSED    |

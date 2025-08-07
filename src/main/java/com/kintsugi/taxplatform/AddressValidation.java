@@ -12,8 +12,8 @@ import com.kintsugi.taxplatform.models.operations.SearchV1AddressValidationSearc
 import com.kintsugi.taxplatform.models.operations.SearchV1AddressValidationSearchPostSecurity;
 import com.kintsugi.taxplatform.models.operations.SuggestionsV1AddressValidationSuggestionsPostRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.SuggestionsV1AddressValidationSuggestionsPostResponse;
-import com.kintsugi.taxplatform.operations.SearchV1AddressValidationSearchPostOperation;
-import com.kintsugi.taxplatform.operations.SuggestionsV1AddressValidationSuggestionsPostOperation;
+import com.kintsugi.taxplatform.operations.SearchV1AddressValidationSearchPost;
+import com.kintsugi.taxplatform.operations.SuggestionsV1AddressValidationSuggestionsPost;
 import java.lang.Exception;
 
 
@@ -53,7 +53,7 @@ public class AddressValidation {
      */
     public SearchV1AddressValidationSearchPostResponse search(AddressBase request, SearchV1AddressValidationSearchPostSecurity security) throws Exception {
         RequestOperation<AddressBase, SearchV1AddressValidationSearchPostResponse> operation
-              = new SearchV1AddressValidationSearchPostOperation(sdkConfiguration, security);
+              = new SearchV1AddressValidationSearchPost.Sync(sdkConfiguration, security);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -87,7 +87,7 @@ public class AddressValidation {
      */
     public SuggestionsV1AddressValidationSuggestionsPostResponse suggest(ValidationAddress request) throws Exception {
         RequestOperation<ValidationAddress, SuggestionsV1AddressValidationSuggestionsPostResponse> operation
-              = new SuggestionsV1AddressValidationSuggestionsPostOperation(sdkConfiguration);
+              = new SuggestionsV1AddressValidationSuggestionsPost.Sync(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 

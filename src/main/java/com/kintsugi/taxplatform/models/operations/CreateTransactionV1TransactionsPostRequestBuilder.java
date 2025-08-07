@@ -7,7 +7,7 @@ import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.components.TransactionPublicRequest;
-import com.kintsugi.taxplatform.operations.CreateTransactionV1TransactionsPostOperation;
+import com.kintsugi.taxplatform.operations.CreateTransactionV1TransactionsPost;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
 
@@ -29,7 +29,7 @@ public class CreateTransactionV1TransactionsPostRequestBuilder {
     public CreateTransactionV1TransactionsPostResponse call() throws Exception {
         
         RequestOperation<TransactionPublicRequest, CreateTransactionV1TransactionsPostResponse> operation
-              = new CreateTransactionV1TransactionsPostOperation(sdkConfiguration);
+              = new CreateTransactionV1TransactionsPost.Sync(sdkConfiguration);
 
         return operation.handleResponse(operation.doRequest(request));
     }

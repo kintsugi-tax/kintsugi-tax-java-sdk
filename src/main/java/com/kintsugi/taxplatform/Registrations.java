@@ -21,11 +21,11 @@ import com.kintsugi.taxplatform.models.operations.GetRegistrationsV1Registration
 import com.kintsugi.taxplatform.models.operations.UpdateRegistrationV1RegistrationsRegistrationIdPutRequest;
 import com.kintsugi.taxplatform.models.operations.UpdateRegistrationV1RegistrationsRegistrationIdPutRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.UpdateRegistrationV1RegistrationsRegistrationIdPutResponse;
-import com.kintsugi.taxplatform.operations.CreateRegistrationV1RegistrationsPostOperation;
-import com.kintsugi.taxplatform.operations.DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostOperation;
-import com.kintsugi.taxplatform.operations.GetRegistrationByIdV1RegistrationsRegistrationIdGetOperation;
-import com.kintsugi.taxplatform.operations.GetRegistrationsV1RegistrationsGetOperation;
-import com.kintsugi.taxplatform.operations.UpdateRegistrationV1RegistrationsRegistrationIdPutOperation;
+import com.kintsugi.taxplatform.operations.CreateRegistrationV1RegistrationsPost;
+import com.kintsugi.taxplatform.operations.DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPost;
+import com.kintsugi.taxplatform.operations.GetRegistrationByIdV1RegistrationsRegistrationIdGet;
+import com.kintsugi.taxplatform.operations.GetRegistrationsV1RegistrationsGet;
+import com.kintsugi.taxplatform.operations.UpdateRegistrationV1RegistrationsRegistrationIdPut;
 import java.lang.Exception;
 import java.lang.String;
 
@@ -65,7 +65,7 @@ public class Registrations {
      */
     public GetRegistrationsV1RegistrationsGetResponse get(GetRegistrationsV1RegistrationsGetRequest request) throws Exception {
         RequestOperation<GetRegistrationsV1RegistrationsGetRequest, GetRegistrationsV1RegistrationsGetResponse> operation
-              = new GetRegistrationsV1RegistrationsGetOperation(sdkConfiguration);
+              = new GetRegistrationsV1RegistrationsGet.Sync(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -93,7 +93,7 @@ public class Registrations {
      */
     public CreateRegistrationV1RegistrationsPostResponse create(CreateRegistration request) throws Exception {
         RequestOperation<CreateRegistration, CreateRegistrationV1RegistrationsPostResponse> operation
-              = new CreateRegistrationV1RegistrationsPostOperation(sdkConfiguration);
+              = new CreateRegistrationV1RegistrationsPost.Sync(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -127,7 +127,7 @@ public class Registrations {
                 .registrationId(registrationId)
                 .build();
         RequestOperation<GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest, GetRegistrationByIdV1RegistrationsRegistrationIdGetResponse> operation
-              = new GetRegistrationByIdV1RegistrationsRegistrationIdGetOperation(sdkConfiguration);
+              = new GetRegistrationByIdV1RegistrationsRegistrationIdGet.Sync(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -162,7 +162,7 @@ public class Registrations {
                 .registrationUpdateAPI(registrationUpdateAPI)
                 .build();
         RequestOperation<UpdateRegistrationV1RegistrationsRegistrationIdPutRequest, UpdateRegistrationV1RegistrationsRegistrationIdPutResponse> operation
-              = new UpdateRegistrationV1RegistrationsRegistrationIdPutOperation(sdkConfiguration);
+              = new UpdateRegistrationV1RegistrationsRegistrationIdPut.Sync(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -193,7 +193,7 @@ public class Registrations {
                 .registrationId(registrationId)
                 .build();
         RequestOperation<DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest, DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse> operation
-              = new DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostOperation(sdkConfiguration);
+              = new DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPost.Sync(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 

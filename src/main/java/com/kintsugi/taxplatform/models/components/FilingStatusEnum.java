@@ -11,7 +11,8 @@ import java.util.Optional;
 public enum FilingStatusEnum {
     UNFILED("UNFILED"),
     FILED("FILED"),
-    FILING("FILING");
+    FILING("FILING"),
+    PAUSED("PAUSED");
 
     @JsonValue
     private final String value;

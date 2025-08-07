@@ -7,7 +7,7 @@ import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.components.TransactionEstimatePublicRequest;
-import com.kintsugi.taxplatform.operations.EstimateTaxV1TaxEstimatePostOperation;
+import com.kintsugi.taxplatform.operations.EstimateTaxV1TaxEstimatePost;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Boolean;
 import java.lang.Exception;
@@ -53,7 +53,7 @@ public class EstimateTaxV1TaxEstimatePostRequestBuilder {
     public EstimateTaxV1TaxEstimatePostResponse call() throws Exception {
         
         RequestOperation<EstimateTaxV1TaxEstimatePostRequest, EstimateTaxV1TaxEstimatePostResponse> operation
-              = new EstimateTaxV1TaxEstimatePostOperation(sdkConfiguration);
+              = new EstimateTaxV1TaxEstimatePost.Sync(sdkConfiguration);
         EstimateTaxV1TaxEstimatePostRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

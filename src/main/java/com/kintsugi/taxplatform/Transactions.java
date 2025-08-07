@@ -28,13 +28,13 @@ import com.kintsugi.taxplatform.models.operations.PUTUpdateCreditNoteByTransacti
 import com.kintsugi.taxplatform.models.operations.UpdateTransactionV1TransactionsTransactionIdPutRequest;
 import com.kintsugi.taxplatform.models.operations.UpdateTransactionV1TransactionsTransactionIdPutRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.UpdateTransactionV1TransactionsTransactionIdPutResponse;
-import com.kintsugi.taxplatform.operations.CreateTransactionV1TransactionsPostOperation;
-import com.kintsugi.taxplatform.operations.GetTransactionByExternalIdV1TransactionsExternalExternalIdGetOperation;
-import com.kintsugi.taxplatform.operations.GetTransactionByIdV1TransactionsTransactionIdGetOperation;
-import com.kintsugi.taxplatform.operations.GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetOperation;
-import com.kintsugi.taxplatform.operations.GetTransactionsV1TransactionsGetOperation;
-import com.kintsugi.taxplatform.operations.PUTUpdateCreditNoteByTransactionIdOperation;
-import com.kintsugi.taxplatform.operations.UpdateTransactionV1TransactionsTransactionIdPutOperation;
+import com.kintsugi.taxplatform.operations.CreateTransactionV1TransactionsPost;
+import com.kintsugi.taxplatform.operations.GetTransactionByExternalIdV1TransactionsExternalExternalIdGet;
+import com.kintsugi.taxplatform.operations.GetTransactionByIdV1TransactionsTransactionIdGet;
+import com.kintsugi.taxplatform.operations.GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGet;
+import com.kintsugi.taxplatform.operations.GetTransactionsV1TransactionsGet;
+import com.kintsugi.taxplatform.operations.PUTUpdateCreditNoteByTransactionId;
+import com.kintsugi.taxplatform.operations.UpdateTransactionV1TransactionsTransactionIdPut;
 import java.lang.Exception;
 import java.lang.String;
 
@@ -76,7 +76,7 @@ public class Transactions {
      */
     public GetTransactionsV1TransactionsGetResponse get(GetTransactionsV1TransactionsGetRequest request) throws Exception {
         RequestOperation<GetTransactionsV1TransactionsGetRequest, GetTransactionsV1TransactionsGetResponse> operation
-              = new GetTransactionsV1TransactionsGetOperation(sdkConfiguration);
+              = new GetTransactionsV1TransactionsGet.Sync(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -102,7 +102,7 @@ public class Transactions {
      */
     public CreateTransactionV1TransactionsPostResponse create(TransactionPublicRequest request) throws Exception {
         RequestOperation<TransactionPublicRequest, CreateTransactionV1TransactionsPostResponse> operation
-              = new CreateTransactionV1TransactionsPostOperation(sdkConfiguration);
+              = new CreateTransactionV1TransactionsPost.Sync(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -135,7 +135,7 @@ public class Transactions {
                 .externalId(externalId)
                 .build();
         RequestOperation<GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest, GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse> operation
-              = new GetTransactionByExternalIdV1TransactionsExternalExternalIdGetOperation(sdkConfiguration);
+              = new GetTransactionByExternalIdV1TransactionsExternalExternalIdGet.Sync(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -168,7 +168,7 @@ public class Transactions {
                 .transactionUpdate(transactionUpdate)
                 .build();
         RequestOperation<UpdateTransactionV1TransactionsTransactionIdPutRequest, UpdateTransactionV1TransactionsTransactionIdPutResponse> operation
-              = new UpdateTransactionV1TransactionsTransactionIdPutOperation(sdkConfiguration);
+              = new UpdateTransactionV1TransactionsTransactionIdPut.Sync(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -201,7 +201,7 @@ public class Transactions {
                 .transactionId(transactionId)
                 .build();
         RequestOperation<GetTransactionByIdV1TransactionsTransactionIdGetRequest, GetTransactionByIdV1TransactionsTransactionIdGetResponse> operation
-              = new GetTransactionByIdV1TransactionsTransactionIdGetOperation(sdkConfiguration);
+              = new GetTransactionByIdV1TransactionsTransactionIdGet.Sync(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -234,7 +234,7 @@ public class Transactions {
                 .filingId(filingId)
                 .build();
         RequestOperation<GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest, GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetResponse> operation
-              = new GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetOperation(sdkConfiguration);
+              = new GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGet.Sync(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -271,7 +271,7 @@ public class Transactions {
                 .creditNoteCreate(creditNoteCreate)
                 .build();
         RequestOperation<PUTUpdateCreditNoteByTransactionIdRequest, PUTUpdateCreditNoteByTransactionIdResponse> operation
-              = new PUTUpdateCreditNoteByTransactionIdOperation(sdkConfiguration);
+              = new PUTUpdateCreditNoteByTransactionId.Sync(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 

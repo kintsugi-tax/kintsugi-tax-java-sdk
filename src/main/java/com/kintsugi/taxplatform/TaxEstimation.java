@@ -9,7 +9,7 @@ import com.kintsugi.taxplatform.models.components.TransactionEstimatePublicReque
 import com.kintsugi.taxplatform.models.operations.EstimateTaxV1TaxEstimatePostRequest;
 import com.kintsugi.taxplatform.models.operations.EstimateTaxV1TaxEstimatePostRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.EstimateTaxV1TaxEstimatePostResponse;
-import com.kintsugi.taxplatform.operations.EstimateTaxV1TaxEstimatePostOperation;
+import com.kintsugi.taxplatform.operations.EstimateTaxV1TaxEstimatePost;
 import java.lang.Boolean;
 import java.lang.Exception;
 import java.util.Optional;
@@ -72,7 +72,7 @@ public class TaxEstimation {
                 .transactionEstimatePublicRequest(transactionEstimatePublicRequest)
                 .build();
         RequestOperation<EstimateTaxV1TaxEstimatePostRequest, EstimateTaxV1TaxEstimatePostResponse> operation
-              = new EstimateTaxV1TaxEstimatePostOperation(sdkConfiguration);
+              = new EstimateTaxV1TaxEstimatePost.Sync(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 

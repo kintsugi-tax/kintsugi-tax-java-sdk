@@ -6,7 +6,7 @@ package com.kintsugi.taxplatform.models.operations;
 import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 
 import com.kintsugi.taxplatform.SDKConfiguration;
-import com.kintsugi.taxplatform.operations.DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostOperation;
+import com.kintsugi.taxplatform.operations.DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPost;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
 import java.lang.String;
@@ -37,7 +37,7 @@ public class DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRe
     public DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse call() throws Exception {
         
         RequestOperation<DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest, DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse> operation
-              = new DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostOperation(sdkConfiguration);
+              = new DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPost.Sync(sdkConfiguration);
         DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

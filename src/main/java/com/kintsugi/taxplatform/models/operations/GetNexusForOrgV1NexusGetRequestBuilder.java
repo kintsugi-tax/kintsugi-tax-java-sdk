@@ -6,7 +6,7 @@ package com.kintsugi.taxplatform.models.operations;
 import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 
 import com.kintsugi.taxplatform.SDKConfiguration;
-import com.kintsugi.taxplatform.operations.GetNexusForOrgV1NexusGetOperation;
+import com.kintsugi.taxplatform.operations.GetNexusForOrgV1NexusGet;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
 
@@ -28,7 +28,7 @@ public class GetNexusForOrgV1NexusGetRequestBuilder {
     public GetNexusForOrgV1NexusGetResponse call() throws Exception {
         
         RequestOperation<GetNexusForOrgV1NexusGetRequest, GetNexusForOrgV1NexusGetResponse> operation
-              = new GetNexusForOrgV1NexusGetOperation(sdkConfiguration);
+              = new GetNexusForOrgV1NexusGet.Sync(sdkConfiguration);
 
         return operation.handleResponse(operation.doRequest(request));
     }

@@ -6,7 +6,7 @@ package com.kintsugi.taxplatform.models.operations;
 import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 
 import com.kintsugi.taxplatform.SDKConfiguration;
-import com.kintsugi.taxplatform.operations.GetRegistrationsV1RegistrationsGetOperation;
+import com.kintsugi.taxplatform.operations.GetRegistrationsV1RegistrationsGet;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
 
@@ -28,7 +28,7 @@ public class GetRegistrationsV1RegistrationsGetRequestBuilder {
     public GetRegistrationsV1RegistrationsGetResponse call() throws Exception {
         
         RequestOperation<GetRegistrationsV1RegistrationsGetRequest, GetRegistrationsV1RegistrationsGetResponse> operation
-              = new GetRegistrationsV1RegistrationsGetOperation(sdkConfiguration);
+              = new GetRegistrationsV1RegistrationsGet.Sync(sdkConfiguration);
 
         return operation.handleResponse(operation.doRequest(request));
     }

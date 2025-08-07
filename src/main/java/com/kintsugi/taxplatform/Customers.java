@@ -25,12 +25,12 @@ import com.kintsugi.taxplatform.models.operations.GetCustomersV1Response;
 import com.kintsugi.taxplatform.models.operations.UpdateCustomerV1CustomersCustomerIdPutRequest;
 import com.kintsugi.taxplatform.models.operations.UpdateCustomerV1CustomersCustomerIdPutRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.UpdateCustomerV1CustomersCustomerIdPutResponse;
-import com.kintsugi.taxplatform.operations.CreateCustomerV1CustomersPostOperation;
-import com.kintsugi.taxplatform.operations.CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostOperation;
-import com.kintsugi.taxplatform.operations.GetCustomerByExternalIdV1CustomersExternalExternalIdGetOperation;
-import com.kintsugi.taxplatform.operations.GetCustomerByIdV1CustomersCustomerIdGetOperation;
-import com.kintsugi.taxplatform.operations.GetCustomersV1Operation;
-import com.kintsugi.taxplatform.operations.UpdateCustomerV1CustomersCustomerIdPutOperation;
+import com.kintsugi.taxplatform.operations.CreateCustomerV1CustomersPost;
+import com.kintsugi.taxplatform.operations.CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPost;
+import com.kintsugi.taxplatform.operations.GetCustomerByExternalIdV1CustomersExternalExternalIdGet;
+import com.kintsugi.taxplatform.operations.GetCustomerByIdV1CustomersCustomerIdGet;
+import com.kintsugi.taxplatform.operations.GetCustomersV1;
+import com.kintsugi.taxplatform.operations.UpdateCustomerV1CustomersCustomerIdPut;
 import java.lang.Exception;
 import java.lang.String;
 
@@ -74,7 +74,7 @@ public class Customers {
      */
     public GetCustomersV1Response get(GetCustomersV1Request request) throws Exception {
         RequestOperation<GetCustomersV1Request, GetCustomersV1Response> operation
-              = new GetCustomersV1Operation(sdkConfiguration);
+              = new GetCustomersV1.Sync(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -102,7 +102,7 @@ public class Customers {
      */
     public CreateCustomerV1CustomersPostResponse create(CustomerCreate request) throws Exception {
         RequestOperation<CustomerCreate, CreateCustomerV1CustomersPostResponse> operation
-              = new CreateCustomerV1CustomersPostOperation(sdkConfiguration);
+              = new CreateCustomerV1CustomersPost.Sync(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -137,7 +137,7 @@ public class Customers {
                 .customerId(customerId)
                 .build();
         RequestOperation<GetCustomerByIdV1CustomersCustomerIdGetRequest, GetCustomerByIdV1CustomersCustomerIdGetResponse> operation
-              = new GetCustomerByIdV1CustomersCustomerIdGetOperation(sdkConfiguration);
+              = new GetCustomerByIdV1CustomersCustomerIdGet.Sync(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -174,7 +174,7 @@ public class Customers {
                 .customerUpdate(customerUpdate)
                 .build();
         RequestOperation<UpdateCustomerV1CustomersCustomerIdPutRequest, UpdateCustomerV1CustomersCustomerIdPutResponse> operation
-              = new UpdateCustomerV1CustomersCustomerIdPutOperation(sdkConfiguration);
+              = new UpdateCustomerV1CustomersCustomerIdPut.Sync(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -209,7 +209,7 @@ public class Customers {
                 .externalId(externalId)
                 .build();
         RequestOperation<GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest, GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse> operation
-              = new GetCustomerByExternalIdV1CustomersExternalExternalIdGetOperation(sdkConfiguration);
+              = new GetCustomerByExternalIdV1CustomersExternalExternalIdGet.Sync(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -242,7 +242,7 @@ public class Customers {
                 .transactionCreate(transactionCreate)
                 .build();
         RequestOperation<CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest, CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostResponse> operation
-              = new CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostOperation(sdkConfiguration);
+              = new CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPost.Sync(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 

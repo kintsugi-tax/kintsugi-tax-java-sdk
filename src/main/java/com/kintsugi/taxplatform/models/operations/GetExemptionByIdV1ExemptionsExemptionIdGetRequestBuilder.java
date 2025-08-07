@@ -6,7 +6,7 @@ package com.kintsugi.taxplatform.models.operations;
 import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 
 import com.kintsugi.taxplatform.SDKConfiguration;
-import com.kintsugi.taxplatform.operations.GetExemptionByIdV1ExemptionsExemptionIdGetOperation;
+import com.kintsugi.taxplatform.operations.GetExemptionByIdV1ExemptionsExemptionIdGet;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
 import java.lang.String;
@@ -37,7 +37,7 @@ public class GetExemptionByIdV1ExemptionsExemptionIdGetRequestBuilder {
     public GetExemptionByIdV1ExemptionsExemptionIdGetResponse call() throws Exception {
         
         RequestOperation<GetExemptionByIdV1ExemptionsExemptionIdGetRequest, GetExemptionByIdV1ExemptionsExemptionIdGetResponse> operation
-              = new GetExemptionByIdV1ExemptionsExemptionIdGetOperation(sdkConfiguration);
+              = new GetExemptionByIdV1ExemptionsExemptionIdGet.Sync(sdkConfiguration);
         GetExemptionByIdV1ExemptionsExemptionIdGetRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

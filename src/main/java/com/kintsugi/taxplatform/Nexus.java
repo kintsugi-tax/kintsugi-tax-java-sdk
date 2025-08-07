@@ -21,11 +21,11 @@ import com.kintsugi.taxplatform.models.operations.GetPhysicalNexusV1NexusPhysica
 import com.kintsugi.taxplatform.models.operations.UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest;
 import com.kintsugi.taxplatform.models.operations.UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutResponse;
-import com.kintsugi.taxplatform.operations.CreatePhysicalNexusV1NexusPhysicalNexusPostOperation;
-import com.kintsugi.taxplatform.operations.DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteOperation;
-import com.kintsugi.taxplatform.operations.GetNexusForOrgV1NexusGetOperation;
-import com.kintsugi.taxplatform.operations.GetPhysicalNexusV1NexusPhysicalNexusGetOperation;
-import com.kintsugi.taxplatform.operations.UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutOperation;
+import com.kintsugi.taxplatform.operations.CreatePhysicalNexusV1NexusPhysicalNexusPost;
+import com.kintsugi.taxplatform.operations.DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDelete;
+import com.kintsugi.taxplatform.operations.GetNexusForOrgV1NexusGet;
+import com.kintsugi.taxplatform.operations.GetPhysicalNexusV1NexusPhysicalNexusGet;
+import com.kintsugi.taxplatform.operations.UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPut;
 import java.lang.Exception;
 import java.lang.String;
 
@@ -61,7 +61,7 @@ public class Nexus {
      */
     public GetPhysicalNexusV1NexusPhysicalNexusGetResponse getPhysical(GetPhysicalNexusV1NexusPhysicalNexusGetRequest request) throws Exception {
         RequestOperation<GetPhysicalNexusV1NexusPhysicalNexusGetRequest, GetPhysicalNexusV1NexusPhysicalNexusGetResponse> operation
-              = new GetPhysicalNexusV1NexusPhysicalNexusGetOperation(sdkConfiguration);
+              = new GetPhysicalNexusV1NexusPhysicalNexusGet.Sync(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -91,7 +91,7 @@ public class Nexus {
      */
     public CreatePhysicalNexusV1NexusPhysicalNexusPostResponse createPhysical(PhysicalNexusCreate request) throws Exception {
         RequestOperation<PhysicalNexusCreate, CreatePhysicalNexusV1NexusPhysicalNexusPostResponse> operation
-              = new CreatePhysicalNexusV1NexusPhysicalNexusPostOperation(sdkConfiguration);
+              = new CreatePhysicalNexusV1NexusPhysicalNexusPost.Sync(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -127,7 +127,7 @@ public class Nexus {
                 .physicalNexusUpdate(physicalNexusUpdate)
                 .build();
         RequestOperation<UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest, UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutResponse> operation
-              = new UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutOperation(sdkConfiguration);
+              = new UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPut.Sync(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -161,7 +161,7 @@ public class Nexus {
                 .physicalNexusId(physicalNexusId)
                 .build();
         RequestOperation<DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest, DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteResponse> operation
-              = new DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteOperation(sdkConfiguration);
+              = new DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDelete.Sync(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -187,7 +187,7 @@ public class Nexus {
      */
     public GetNexusForOrgV1NexusGetResponse get(GetNexusForOrgV1NexusGetRequest request) throws Exception {
         RequestOperation<GetNexusForOrgV1NexusGetRequest, GetNexusForOrgV1NexusGetResponse> operation
-              = new GetNexusForOrgV1NexusGetOperation(sdkConfiguration);
+              = new GetNexusForOrgV1NexusGet.Sync(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 

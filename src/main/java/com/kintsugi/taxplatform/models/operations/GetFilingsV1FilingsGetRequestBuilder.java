@@ -6,7 +6,7 @@ package com.kintsugi.taxplatform.models.operations;
 import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 
 import com.kintsugi.taxplatform.SDKConfiguration;
-import com.kintsugi.taxplatform.operations.GetFilingsV1FilingsGetOperation;
+import com.kintsugi.taxplatform.operations.GetFilingsV1FilingsGet;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
 
@@ -28,7 +28,7 @@ public class GetFilingsV1FilingsGetRequestBuilder {
     public GetFilingsV1FilingsGetResponse call() throws Exception {
         
         RequestOperation<GetFilingsV1FilingsGetRequest, GetFilingsV1FilingsGetResponse> operation
-              = new GetFilingsV1FilingsGetOperation(sdkConfiguration);
+              = new GetFilingsV1FilingsGet.Sync(sdkConfiguration);
 
         return operation.handleResponse(operation.doRequest(request));
     }

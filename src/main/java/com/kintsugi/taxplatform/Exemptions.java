@@ -21,11 +21,11 @@ import com.kintsugi.taxplatform.models.operations.GetExemptionsV1ExemptionsGetRe
 import com.kintsugi.taxplatform.models.operations.UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest;
 import com.kintsugi.taxplatform.models.operations.UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse;
-import com.kintsugi.taxplatform.operations.CreateExemptionV1ExemptionsPostOperation;
-import com.kintsugi.taxplatform.operations.GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetOperation;
-import com.kintsugi.taxplatform.operations.GetExemptionByIdV1ExemptionsExemptionIdGetOperation;
-import com.kintsugi.taxplatform.operations.GetExemptionsV1ExemptionsGetOperation;
-import com.kintsugi.taxplatform.operations.UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostOperation;
+import com.kintsugi.taxplatform.operations.CreateExemptionV1ExemptionsPost;
+import com.kintsugi.taxplatform.operations.GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGet;
+import com.kintsugi.taxplatform.operations.GetExemptionByIdV1ExemptionsExemptionIdGet;
+import com.kintsugi.taxplatform.operations.GetExemptionsV1ExemptionsGet;
+import com.kintsugi.taxplatform.operations.UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost;
 import java.lang.Exception;
 import java.lang.String;
 
@@ -59,7 +59,7 @@ public class Exemptions {
      */
     public GetExemptionsV1ExemptionsGetResponse get(GetExemptionsV1ExemptionsGetRequest request) throws Exception {
         RequestOperation<GetExemptionsV1ExemptionsGetRequest, GetExemptionsV1ExemptionsGetResponse> operation
-              = new GetExemptionsV1ExemptionsGetOperation(sdkConfiguration);
+              = new GetExemptionsV1ExemptionsGet.Sync(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -89,7 +89,7 @@ public class Exemptions {
      */
     public CreateExemptionV1ExemptionsPostResponse create(ExemptionCreate request) throws Exception {
         RequestOperation<ExemptionCreate, CreateExemptionV1ExemptionsPostResponse> operation
-              = new CreateExemptionV1ExemptionsPostOperation(sdkConfiguration);
+              = new CreateExemptionV1ExemptionsPost.Sync(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -126,7 +126,7 @@ public class Exemptions {
                 .exemptionId(exemptionId)
                 .build();
         RequestOperation<GetExemptionByIdV1ExemptionsExemptionIdGetRequest, GetExemptionByIdV1ExemptionsExemptionIdGetResponse> operation
-              = new GetExemptionByIdV1ExemptionsExemptionIdGetOperation(sdkConfiguration);
+              = new GetExemptionByIdV1ExemptionsExemptionIdGet.Sync(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -165,7 +165,7 @@ public class Exemptions {
                 .bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost(bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost)
                 .build();
         RequestOperation<UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest, UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse> operation
-              = new UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostOperation(sdkConfiguration);
+              = new UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost.Sync(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -203,7 +203,7 @@ public class Exemptions {
                 .exemptionId(exemptionId)
                 .build();
         RequestOperation<GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest, GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetResponse> operation
-              = new GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetOperation(sdkConfiguration);
+              = new GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGet.Sync(sdkConfiguration);
         return operation.handleResponse(operation.doRequest(request));
     }
 

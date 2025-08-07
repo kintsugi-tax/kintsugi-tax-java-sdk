@@ -7,7 +7,7 @@ import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.components.ExemptionCreate;
-import com.kintsugi.taxplatform.operations.CreateExemptionV1ExemptionsPostOperation;
+import com.kintsugi.taxplatform.operations.CreateExemptionV1ExemptionsPost;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
 
@@ -29,7 +29,7 @@ public class CreateExemptionV1ExemptionsPostRequestBuilder {
     public CreateExemptionV1ExemptionsPostResponse call() throws Exception {
         
         RequestOperation<ExemptionCreate, CreateExemptionV1ExemptionsPostResponse> operation
-              = new CreateExemptionV1ExemptionsPostOperation(sdkConfiguration);
+              = new CreateExemptionV1ExemptionsPost.Sync(sdkConfiguration);
 
         return operation.handleResponse(operation.doRequest(request));
     }

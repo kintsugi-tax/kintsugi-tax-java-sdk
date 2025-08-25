@@ -56,6 +56,33 @@ public class SearchV1AddressValidationSearchPost {
             return Optional.ofNullable(this.securitySource);
         }
 
+        BeforeRequestContextImpl createBeforeRequestContext() {
+            return new BeforeRequestContextImpl(
+                    this.sdkConfiguration,
+                    this.baseUrl,
+                    "search_v1_address_validation_search_post",
+                    java.util.Optional.empty(),
+                    securitySource());
+        }
+
+        AfterSuccessContextImpl createAfterSuccessContext() {
+            return new AfterSuccessContextImpl(
+                    this.sdkConfiguration,
+                    this.baseUrl,
+                    "search_v1_address_validation_search_post",
+                    java.util.Optional.empty(),
+                    securitySource());
+        }
+
+        AfterErrorContextImpl createAfterErrorContext() {
+            return new AfterErrorContextImpl(
+                    this.sdkConfiguration,
+                    this.baseUrl,
+                    "search_v1_address_validation_search_post",
+                    java.util.Optional.empty(),
+                    securitySource());
+        }
+
         HttpRequest buildRequest(AddressBase request) throws Exception {
             String url = Utils.generateURL(
                     this.baseUrl,
@@ -79,14 +106,7 @@ public class SearchV1AddressValidationSearchPost {
                     .addHeader("user-agent", SDKConfiguration.USER_AGENT);
             Utils.configureSecurity(req, security);
 
-            return sdkConfiguration.hooks().beforeRequest(
-                    new BeforeRequestContextImpl(
-                            this.sdkConfiguration,
-                            this.baseUrl,
-                            "search_v1_address_validation_search_post",
-                            java.util.Optional.empty(),
-                            securitySource()),
-                    req.build());
+            return req.build();
         }
     }
 
@@ -96,34 +116,25 @@ public class SearchV1AddressValidationSearchPost {
             super(sdkConfiguration, security);
         }
 
+        private HttpRequest onBuildRequest(AddressBase request) throws Exception {
+            HttpRequest req = buildRequest(request);
+            return sdkConfiguration.hooks().beforeRequest(createBeforeRequestContext(), req);
+        }
+
         private HttpResponse<InputStream> onError(HttpResponse<InputStream> response, Exception error) throws Exception {
-            return sdkConfiguration.hooks()
-                    .afterError(
-                            new AfterErrorContextImpl(
-                                    this.sdkConfiguration,
-                                    this.baseUrl,
-                                    "search_v1_address_validation_search_post",
-                                    java.util.Optional.empty(),
-                                    securitySource()),
-                            Optional.ofNullable(response),
-                            Optional.ofNullable(error));
+            return sdkConfiguration.hooks().afterError(
+                    createAfterErrorContext(),
+                    Optional.ofNullable(response),
+                    Optional.ofNullable(error));
         }
 
         private HttpResponse<InputStream> onSuccess(HttpResponse<InputStream> response) throws Exception {
-            return sdkConfiguration.hooks()
-                    .afterSuccess(
-                            new AfterSuccessContextImpl(
-                                    this.sdkConfiguration,
-                                    this.baseUrl,
-                                    "search_v1_address_validation_search_post",
-                                    java.util.Optional.empty(),
-                                    securitySource()),
-                            response);
+            return sdkConfiguration.hooks().afterSuccess(createAfterSuccessContext(), response);
         }
 
         @Override
         public HttpResponse<InputStream> doRequest(AddressBase request) throws Exception {
-            HttpRequest r = buildRequest(request);
+            HttpRequest r = onBuildRequest(request);
             HttpResponse<InputStream> httpRes;
             try {
                 httpRes = client.send(r);

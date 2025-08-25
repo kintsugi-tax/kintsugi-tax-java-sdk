@@ -9,6 +9,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 public enum TaxItemTypeEnum {
+    IMPORTED_ORIGINAL("IMPORTED_ORIGINAL"),
     IMPORTED("IMPORTED"),
     CALCULATED("CALCULATED");
 

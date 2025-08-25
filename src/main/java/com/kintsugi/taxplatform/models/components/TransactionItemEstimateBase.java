@@ -68,15 +68,21 @@ public class TransactionItemEstimateBase {
     @JsonProperty("product_source")
     private Optional<? extends SourceEnum> productSource;
 
-
+    /**
+     * Subcategory of the product. Required if product_category is used
+     *         in place of external_product_id.
+     */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("product_subcategory")
-    private Optional<? extends ProductSubCategoryEnum> productSubcategory;
+    private Optional<String> productSubcategory;
 
-
+    /**
+     * Category of the product. Required if product_subcategory is used
+     *         in place of external_product_id.
+     */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("product_category")
-    private Optional<? extends ProductCategoryEnum> productCategory;
+    private Optional<String> productCategory;
 
     /**
      * Defaults to 1.0. The quantity of the item.
@@ -107,8 +113,8 @@ public class TransactionItemEstimateBase {
             @JsonProperty("product_name") Optional<String> productName,
             @JsonProperty("product_description") Optional<String> productDescription,
             @JsonProperty("product_source") Optional<? extends SourceEnum> productSource,
-            @JsonProperty("product_subcategory") Optional<? extends ProductSubCategoryEnum> productSubcategory,
-            @JsonProperty("product_category") Optional<? extends ProductCategoryEnum> productCategory,
+            @JsonProperty("product_subcategory") Optional<String> productSubcategory,
+            @JsonProperty("product_category") Optional<String> productCategory,
             @JsonProperty("quantity") Optional<Double> quantity,
             @JsonProperty("amount") double amount,
             @JsonProperty("exempt") Optional<Boolean> exempt) {
@@ -202,16 +208,22 @@ public class TransactionItemEstimateBase {
         return (Optional<SourceEnum>) productSource;
     }
 
-    @SuppressWarnings("unchecked")
+    /**
+     * Subcategory of the product. Required if product_category is used
+     *         in place of external_product_id.
+     */
     @JsonIgnore
-    public Optional<ProductSubCategoryEnum> productSubcategory() {
-        return (Optional<ProductSubCategoryEnum>) productSubcategory;
+    public Optional<String> productSubcategory() {
+        return productSubcategory;
     }
 
-    @SuppressWarnings("unchecked")
+    /**
+     * Category of the product. Required if product_subcategory is used
+     *         in place of external_product_id.
+     */
     @JsonIgnore
-    public Optional<ProductCategoryEnum> productCategory() {
-        return (Optional<ProductCategoryEnum>) productCategory;
+    public Optional<String> productCategory() {
+        return productCategory;
     }
 
     /**
@@ -362,27 +374,43 @@ public class TransactionItemEstimateBase {
         return this;
     }
 
-    public TransactionItemEstimateBase withProductSubcategory(ProductSubCategoryEnum productSubcategory) {
+    /**
+     * Subcategory of the product. Required if product_category is used
+     *         in place of external_product_id.
+     */
+    public TransactionItemEstimateBase withProductSubcategory(String productSubcategory) {
         Utils.checkNotNull(productSubcategory, "productSubcategory");
         this.productSubcategory = Optional.ofNullable(productSubcategory);
         return this;
     }
 
 
-    public TransactionItemEstimateBase withProductSubcategory(Optional<? extends ProductSubCategoryEnum> productSubcategory) {
+    /**
+     * Subcategory of the product. Required if product_category is used
+     *         in place of external_product_id.
+     */
+    public TransactionItemEstimateBase withProductSubcategory(Optional<String> productSubcategory) {
         Utils.checkNotNull(productSubcategory, "productSubcategory");
         this.productSubcategory = productSubcategory;
         return this;
     }
 
-    public TransactionItemEstimateBase withProductCategory(ProductCategoryEnum productCategory) {
+    /**
+     * Category of the product. Required if product_subcategory is used
+     *         in place of external_product_id.
+     */
+    public TransactionItemEstimateBase withProductCategory(String productCategory) {
         Utils.checkNotNull(productCategory, "productCategory");
         this.productCategory = Optional.ofNullable(productCategory);
         return this;
     }
 
 
-    public TransactionItemEstimateBase withProductCategory(Optional<? extends ProductCategoryEnum> productCategory) {
+    /**
+     * Category of the product. Required if product_subcategory is used
+     *         in place of external_product_id.
+     */
+    public TransactionItemEstimateBase withProductCategory(Optional<String> productCategory) {
         Utils.checkNotNull(productCategory, "productCategory");
         this.productCategory = productCategory;
         return this;
@@ -502,9 +530,9 @@ public class TransactionItemEstimateBase {
 
         private Optional<? extends SourceEnum> productSource = Optional.empty();
 
-        private Optional<? extends ProductSubCategoryEnum> productSubcategory = Optional.empty();
+        private Optional<String> productSubcategory = Optional.empty();
 
-        private Optional<? extends ProductCategoryEnum> productCategory = Optional.empty();
+        private Optional<String> productCategory = Optional.empty();
 
         private Optional<Double> quantity;
 
@@ -637,26 +665,42 @@ public class TransactionItemEstimateBase {
         }
 
 
-        public Builder productSubcategory(ProductSubCategoryEnum productSubcategory) {
+        /**
+         * Subcategory of the product. Required if product_category is used
+         *         in place of external_product_id.
+         */
+        public Builder productSubcategory(String productSubcategory) {
             Utils.checkNotNull(productSubcategory, "productSubcategory");
             this.productSubcategory = Optional.ofNullable(productSubcategory);
             return this;
         }
 
-        public Builder productSubcategory(Optional<? extends ProductSubCategoryEnum> productSubcategory) {
+        /**
+         * Subcategory of the product. Required if product_category is used
+         *         in place of external_product_id.
+         */
+        public Builder productSubcategory(Optional<String> productSubcategory) {
             Utils.checkNotNull(productSubcategory, "productSubcategory");
             this.productSubcategory = productSubcategory;
             return this;
         }
 
 
-        public Builder productCategory(ProductCategoryEnum productCategory) {
+        /**
+         * Category of the product. Required if product_subcategory is used
+         *         in place of external_product_id.
+         */
+        public Builder productCategory(String productCategory) {
             Utils.checkNotNull(productCategory, "productCategory");
             this.productCategory = Optional.ofNullable(productCategory);
             return this;
         }
 
-        public Builder productCategory(Optional<? extends ProductCategoryEnum> productCategory) {
+        /**
+         * Category of the product. Required if product_subcategory is used
+         *         in place of external_product_id.
+         */
+        public Builder productCategory(Optional<String> productCategory) {
             Utils.checkNotNull(productCategory, "productCategory");
             this.productCategory = productCategory;
             return this;

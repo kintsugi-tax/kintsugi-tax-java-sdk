@@ -61,7 +61,7 @@ GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse (Content
     TransactionItemRead (external_id: string, organization_id: string, date: date-time ...)
      TaxExemptionEnum (enum: PRODUCT, TRANSACTION, CUSTOMER ...)
       TaxItemRead (rule_id: string, rate: string, amount: string ...)
-       TaxItemTypeEnum (enum: IMPORTED, CALCULATED)
+       TaxItemTypeEnum (enum: IMPORTED_ORIGINAL, IMPORTED, CALCULATED)
        JurisdictionType (enum: COUNTRY, FEDERAL, STATE ...)
    CustomerRead (phone: string, street_1: string, street_2: string ...)
     StatusEnum (enum: ACTIVE, ARCHIVED)

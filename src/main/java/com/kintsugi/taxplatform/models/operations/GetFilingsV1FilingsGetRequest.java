@@ -681,7 +681,7 @@ public class GetFilingsV1FilingsGetRequest {
         private static final LazySingletonValue<Optional<String>> _SINGLETON_VALUE_StatusIn =
                 new LazySingletonValue<>(
                         "status__in",
-                        "\"FILED,FILING,UNFILED\"",
+                        "\"FILED,FILING,UNFILED,PAUSED\"",
                         new TypeReference<Optional<String>>() {});
 
         private static final LazySingletonValue<Optional<Long>> _SINGLETON_VALUE_Page =

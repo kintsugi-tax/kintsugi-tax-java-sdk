@@ -2360,7 +2360,7 @@ public class NexusResponse {
         private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_CollectedTaxEnabled =
                 new LazySingletonValue<>(
                         "collected_tax_enabled",
-                        "false",
+                        "true",
                         new TypeReference<Optional<Boolean>>() {});
 
         private static final LazySingletonValue<Optional<OffsetDateTime>> _SINGLETON_VALUE_EarliestCollectedDate =

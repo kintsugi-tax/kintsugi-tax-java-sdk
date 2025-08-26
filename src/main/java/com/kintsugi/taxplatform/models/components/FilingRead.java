@@ -94,6 +94,27 @@ public class FilingRead {
     private Optional<Boolean> autoApproved;
 
     /**
+     * Indicates the date when filing will be unpaused.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("paused_until_date")
+    private Optional<String> pausedUntilDate;
+
+    /**
+     * User ID of who approved the filing.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("approved_by")
+    private Optional<String> approvedBy;
+
+    /**
+     * Timestamp when the filing was approved.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("approved_at")
+    private Optional<String> approvedAt;
+
+    /**
      * The calculated amount for the filing. Defaults to 0.00.
      */
     @JsonInclude(Include.NON_ABSENT)
@@ -216,13 +237,6 @@ public class FilingRead {
     private Optional<? extends CurrencyEnum> currency;
 
     /**
-     * Indicates the date when filing will be unpaused.
-     */
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("paused_until_date")
-    private Optional<String> pausedUntilDate;
-
-    /**
      * Unique identifier for the filing.
      */
     @JsonProperty("id")
@@ -247,6 +261,9 @@ public class FilingRead {
             @JsonProperty("country_code") CountryCodeEnum countryCode,
             @JsonProperty("jira_issue_key") Optional<String> jiraIssueKey,
             @JsonProperty("auto_approved") Optional<Boolean> autoApproved,
+            @JsonProperty("paused_until_date") Optional<String> pausedUntilDate,
+            @JsonProperty("approved_by") Optional<String> approvedBy,
+            @JsonProperty("approved_at") Optional<String> approvedAt,
             @JsonProperty("amount_calculated") Optional<String> amountCalculated,
             @JsonProperty("amount_adjusted") Optional<String> amountAdjusted,
             @JsonProperty("amount_discounts") Optional<String> amountDiscounts,
@@ -265,7 +282,6 @@ public class FilingRead {
             @JsonProperty("payment_confirmation_id") Optional<String> paymentConfirmationId,
             @JsonProperty("block_approval") Optional<Boolean> blockApproval,
             @JsonProperty("currency") Optional<? extends CurrencyEnum> currency,
-            @JsonProperty("paused_until_date") Optional<String> pausedUntilDate,
             @JsonProperty("id") String id,
             @JsonProperty("registration_id") String registrationId) {
         Utils.checkNotNull(status, "status");
@@ -279,6 +295,9 @@ public class FilingRead {
         Utils.checkNotNull(countryCode, "countryCode");
         Utils.checkNotNull(jiraIssueKey, "jiraIssueKey");
         Utils.checkNotNull(autoApproved, "autoApproved");
+        Utils.checkNotNull(pausedUntilDate, "pausedUntilDate");
+        Utils.checkNotNull(approvedBy, "approvedBy");
+        Utils.checkNotNull(approvedAt, "approvedAt");
         Utils.checkNotNull(amountCalculated, "amountCalculated");
         Utils.checkNotNull(amountAdjusted, "amountAdjusted");
         Utils.checkNotNull(amountDiscounts, "amountDiscounts");
@@ -297,7 +316,6 @@ public class FilingRead {
         Utils.checkNotNull(paymentConfirmationId, "paymentConfirmationId");
         Utils.checkNotNull(blockApproval, "blockApproval");
         Utils.checkNotNull(currency, "currency");
-        Utils.checkNotNull(pausedUntilDate, "pausedUntilDate");
         Utils.checkNotNull(id, "id");
         Utils.checkNotNull(registrationId, "registrationId");
         this.status = status;
@@ -311,6 +329,9 @@ public class FilingRead {
         this.countryCode = countryCode;
         this.jiraIssueKey = jiraIssueKey;
         this.autoApproved = autoApproved;
+        this.pausedUntilDate = pausedUntilDate;
+        this.approvedBy = approvedBy;
+        this.approvedAt = approvedAt;
         this.amountCalculated = amountCalculated;
         this.amountAdjusted = amountAdjusted;
         this.amountDiscounts = amountDiscounts;
@@ -329,7 +350,6 @@ public class FilingRead {
         this.paymentConfirmationId = paymentConfirmationId;
         this.blockApproval = blockApproval;
         this.currency = currency;
-        this.pausedUntilDate = pausedUntilDate;
         this.id = id;
         this.registrationId = registrationId;
     }
@@ -350,7 +370,8 @@ public class FilingRead {
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
-            id, registrationId);
+            Optional.empty(), Optional.empty(), id,
+            registrationId);
     }
 
     @SuppressWarnings("unchecked")
@@ -436,6 +457,30 @@ public class FilingRead {
     @JsonIgnore
     public Optional<Boolean> autoApproved() {
         return autoApproved;
+    }
+
+    /**
+     * Indicates the date when filing will be unpaused.
+     */
+    @JsonIgnore
+    public Optional<String> pausedUntilDate() {
+        return pausedUntilDate;
+    }
+
+    /**
+     * User ID of who approved the filing.
+     */
+    @JsonIgnore
+    public Optional<String> approvedBy() {
+        return approvedBy;
+    }
+
+    /**
+     * Timestamp when the filing was approved.
+     */
+    @JsonIgnore
+    public Optional<String> approvedAt() {
+        return approvedAt;
     }
 
     /**
@@ -575,14 +620,6 @@ public class FilingRead {
     @JsonIgnore
     public Optional<CurrencyEnum> currency() {
         return (Optional<CurrencyEnum>) currency;
-    }
-
-    /**
-     * Indicates the date when filing will be unpaused.
-     */
-    @JsonIgnore
-    public Optional<String> pausedUntilDate() {
-        return pausedUntilDate;
     }
 
     /**
@@ -777,6 +814,63 @@ public class FilingRead {
     public FilingRead withAutoApproved(Optional<Boolean> autoApproved) {
         Utils.checkNotNull(autoApproved, "autoApproved");
         this.autoApproved = autoApproved;
+        return this;
+    }
+
+    /**
+     * Indicates the date when filing will be unpaused.
+     */
+    public FilingRead withPausedUntilDate(String pausedUntilDate) {
+        Utils.checkNotNull(pausedUntilDate, "pausedUntilDate");
+        this.pausedUntilDate = Optional.ofNullable(pausedUntilDate);
+        return this;
+    }
+
+
+    /**
+     * Indicates the date when filing will be unpaused.
+     */
+    public FilingRead withPausedUntilDate(Optional<String> pausedUntilDate) {
+        Utils.checkNotNull(pausedUntilDate, "pausedUntilDate");
+        this.pausedUntilDate = pausedUntilDate;
+        return this;
+    }
+
+    /**
+     * User ID of who approved the filing.
+     */
+    public FilingRead withApprovedBy(String approvedBy) {
+        Utils.checkNotNull(approvedBy, "approvedBy");
+        this.approvedBy = Optional.ofNullable(approvedBy);
+        return this;
+    }
+
+
+    /**
+     * User ID of who approved the filing.
+     */
+    public FilingRead withApprovedBy(Optional<String> approvedBy) {
+        Utils.checkNotNull(approvedBy, "approvedBy");
+        this.approvedBy = approvedBy;
+        return this;
+    }
+
+    /**
+     * Timestamp when the filing was approved.
+     */
+    public FilingRead withApprovedAt(String approvedAt) {
+        Utils.checkNotNull(approvedAt, "approvedAt");
+        this.approvedAt = Optional.ofNullable(approvedAt);
+        return this;
+    }
+
+
+    /**
+     * Timestamp when the filing was approved.
+     */
+    public FilingRead withApprovedAt(Optional<String> approvedAt) {
+        Utils.checkNotNull(approvedAt, "approvedAt");
+        this.approvedAt = approvedAt;
         return this;
     }
 
@@ -1111,25 +1205,6 @@ public class FilingRead {
     }
 
     /**
-     * Indicates the date when filing will be unpaused.
-     */
-    public FilingRead withPausedUntilDate(String pausedUntilDate) {
-        Utils.checkNotNull(pausedUntilDate, "pausedUntilDate");
-        this.pausedUntilDate = Optional.ofNullable(pausedUntilDate);
-        return this;
-    }
-
-
-    /**
-     * Indicates the date when filing will be unpaused.
-     */
-    public FilingRead withPausedUntilDate(Optional<String> pausedUntilDate) {
-        Utils.checkNotNull(pausedUntilDate, "pausedUntilDate");
-        this.pausedUntilDate = pausedUntilDate;
-        return this;
-    }
-
-    /**
      * Unique identifier for the filing.
      */
     public FilingRead withId(String id) {
@@ -1168,6 +1243,9 @@ public class FilingRead {
             Utils.enhancedDeepEquals(this.countryCode, other.countryCode) &&
             Utils.enhancedDeepEquals(this.jiraIssueKey, other.jiraIssueKey) &&
             Utils.enhancedDeepEquals(this.autoApproved, other.autoApproved) &&
+            Utils.enhancedDeepEquals(this.pausedUntilDate, other.pausedUntilDate) &&
+            Utils.enhancedDeepEquals(this.approvedBy, other.approvedBy) &&
+            Utils.enhancedDeepEquals(this.approvedAt, other.approvedAt) &&
             Utils.enhancedDeepEquals(this.amountCalculated, other.amountCalculated) &&
             Utils.enhancedDeepEquals(this.amountAdjusted, other.amountAdjusted) &&
             Utils.enhancedDeepEquals(this.amountDiscounts, other.amountDiscounts) &&
@@ -1186,7 +1264,6 @@ public class FilingRead {
             Utils.enhancedDeepEquals(this.paymentConfirmationId, other.paymentConfirmationId) &&
             Utils.enhancedDeepEquals(this.blockApproval, other.blockApproval) &&
             Utils.enhancedDeepEquals(this.currency, other.currency) &&
-            Utils.enhancedDeepEquals(this.pausedUntilDate, other.pausedUntilDate) &&
             Utils.enhancedDeepEquals(this.id, other.id) &&
             Utils.enhancedDeepEquals(this.registrationId, other.registrationId);
     }
@@ -1197,14 +1274,15 @@ public class FilingRead {
             status, startDate, endDate,
             dueDate, dateFiled, isManual,
             stateCode, stateName, countryCode,
-            jiraIssueKey, autoApproved, amountCalculated,
+            jiraIssueKey, autoApproved, pausedUntilDate,
+            approvedBy, approvedAt, amountCalculated,
             amountAdjusted, amountDiscounts, amountFees,
             amountPenalties, amountTaxCollected, amountSales,
             totalTaxableSales, amount, totalTaxLiability,
             transactionCount, internalNotes, recentDetailsReportLink,
             taxRemitted, returnConfirmationId, paymentConfirmationId,
-            blockApproval, currency, pausedUntilDate,
-            id, registrationId);
+            blockApproval, currency, id,
+            registrationId);
     }
     
     @Override
@@ -1221,6 +1299,9 @@ public class FilingRead {
                 "countryCode", countryCode,
                 "jiraIssueKey", jiraIssueKey,
                 "autoApproved", autoApproved,
+                "pausedUntilDate", pausedUntilDate,
+                "approvedBy", approvedBy,
+                "approvedAt", approvedAt,
                 "amountCalculated", amountCalculated,
                 "amountAdjusted", amountAdjusted,
                 "amountDiscounts", amountDiscounts,
@@ -1239,7 +1320,6 @@ public class FilingRead {
                 "paymentConfirmationId", paymentConfirmationId,
                 "blockApproval", blockApproval,
                 "currency", currency,
-                "pausedUntilDate", pausedUntilDate,
                 "id", id,
                 "registrationId", registrationId);
     }
@@ -1268,6 +1348,12 @@ public class FilingRead {
         private Optional<String> jiraIssueKey = Optional.empty();
 
         private Optional<Boolean> autoApproved;
+
+        private Optional<String> pausedUntilDate = Optional.empty();
+
+        private Optional<String> approvedBy = Optional.empty();
+
+        private Optional<String> approvedAt = Optional.empty();
 
         private Optional<String> amountCalculated;
 
@@ -1304,8 +1390,6 @@ public class FilingRead {
         private Optional<Boolean> blockApproval = Optional.empty();
 
         private Optional<? extends CurrencyEnum> currency = Optional.empty();
-
-        private Optional<String> pausedUntilDate = Optional.empty();
 
         private String id;
 
@@ -1489,6 +1573,63 @@ public class FilingRead {
         public Builder autoApproved(Optional<Boolean> autoApproved) {
             Utils.checkNotNull(autoApproved, "autoApproved");
             this.autoApproved = autoApproved;
+            return this;
+        }
+
+
+        /**
+         * Indicates the date when filing will be unpaused.
+         */
+        public Builder pausedUntilDate(String pausedUntilDate) {
+            Utils.checkNotNull(pausedUntilDate, "pausedUntilDate");
+            this.pausedUntilDate = Optional.ofNullable(pausedUntilDate);
+            return this;
+        }
+
+        /**
+         * Indicates the date when filing will be unpaused.
+         */
+        public Builder pausedUntilDate(Optional<String> pausedUntilDate) {
+            Utils.checkNotNull(pausedUntilDate, "pausedUntilDate");
+            this.pausedUntilDate = pausedUntilDate;
+            return this;
+        }
+
+
+        /**
+         * User ID of who approved the filing.
+         */
+        public Builder approvedBy(String approvedBy) {
+            Utils.checkNotNull(approvedBy, "approvedBy");
+            this.approvedBy = Optional.ofNullable(approvedBy);
+            return this;
+        }
+
+        /**
+         * User ID of who approved the filing.
+         */
+        public Builder approvedBy(Optional<String> approvedBy) {
+            Utils.checkNotNull(approvedBy, "approvedBy");
+            this.approvedBy = approvedBy;
+            return this;
+        }
+
+
+        /**
+         * Timestamp when the filing was approved.
+         */
+        public Builder approvedAt(String approvedAt) {
+            Utils.checkNotNull(approvedAt, "approvedAt");
+            this.approvedAt = Optional.ofNullable(approvedAt);
+            return this;
+        }
+
+        /**
+         * Timestamp when the filing was approved.
+         */
+        public Builder approvedAt(Optional<String> approvedAt) {
+            Utils.checkNotNull(approvedAt, "approvedAt");
+            this.approvedAt = approvedAt;
             return this;
         }
 
@@ -1824,25 +1965,6 @@ public class FilingRead {
 
 
         /**
-         * Indicates the date when filing will be unpaused.
-         */
-        public Builder pausedUntilDate(String pausedUntilDate) {
-            Utils.checkNotNull(pausedUntilDate, "pausedUntilDate");
-            this.pausedUntilDate = Optional.ofNullable(pausedUntilDate);
-            return this;
-        }
-
-        /**
-         * Indicates the date when filing will be unpaused.
-         */
-        public Builder pausedUntilDate(Optional<String> pausedUntilDate) {
-            Utils.checkNotNull(pausedUntilDate, "pausedUntilDate");
-            this.pausedUntilDate = pausedUntilDate;
-            return this;
-        }
-
-
-        /**
          * Unique identifier for the filing.
          */
         public Builder id(String id) {
@@ -1906,14 +2028,15 @@ public class FilingRead {
                 status, startDate, endDate,
                 dueDate, dateFiled, isManual,
                 stateCode, stateName, countryCode,
-                jiraIssueKey, autoApproved, amountCalculated,
+                jiraIssueKey, autoApproved, pausedUntilDate,
+                approvedBy, approvedAt, amountCalculated,
                 amountAdjusted, amountDiscounts, amountFees,
                 amountPenalties, amountTaxCollected, amountSales,
                 totalTaxableSales, amount, totalTaxLiability,
                 transactionCount, internalNotes, recentDetailsReportLink,
                 taxRemitted, returnConfirmationId, paymentConfirmationId,
-                blockApproval, currency, pausedUntilDate,
-                id, registrationId);
+                blockApproval, currency, id,
+                registrationId);
         }
 
 

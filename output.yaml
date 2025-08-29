@@ -1097,7 +1097,7 @@ paths:
         content:
           "application/json":
             schema: {"$ref": "#/components/schemas/PhysicalNexusCreate"}
-            example: {"country_code": "US", "state_code": "CA", "start_date": "2024-01-01", "end_date": "2025-01-01", "category": "PHYSICAL_BUSINESS_LOCATION", "external_id": "ext_ABC123"}
+            example: {"country_code": "US", "state_code": "CA", "start_date": "2024-01-01", "end_date": "2025-01-01", "category": "PHYSICAL_BUSINESS_LOCATION", "external_id": "ext_ABC123", "source": "USER"}
       responses:
         "200":
           description: "Successfully created physical nexus"
@@ -3516,6 +3516,21 @@ components:
       required:
         - "file"
       title: "Body_upload_registration_attachment_v1_registrations__registration_id__attachments_post"
+    "BulkApproveProductCodeUpdate":
+      properties:
+        "id":
+          type: "string"
+          title: "Id"
+          description: "Unique identifier of the product."
+        "product_code_name":
+          type: "string"
+          title: "Product Code Name"
+          description: "The product code name."
+      type: "object"
+      required:
+        - "id"
+        - "product_code_name"
+      title: "BulkApproveProductCodeUpdate"
     "BulkApproveUpdate":
       properties:
         "id":
@@ -4540,6 +4555,8 @@ components:
         "default_country": {"$ref": "#/components/schemas/CountryCodeEnum"}
         "shop_id":
           type: "string"
+        "needs_update":
+          type: "boolean"
       type: "object"
       title: "ConnectionUpdate"
     "Content":
@@ -6977,6 +6994,18 @@ components:
         - "FILING"
         - "PAUSED"
       title: "FilingStatusEnum"
+    "FilingTaskStatusEnum":
+      type: "string"
+      enum:
+        - "Created"
+        - "Paused"
+        - "Ready to File"
+        - "Issue"
+        - "Canceled"
+        - "Skipped"
+        - "Submitted"
+        - "Complete"
+      title: "FilingTaskStatusEnum"
     "FilingUpdateInternal":
       properties:
         "status": {"$ref": "#/components/schemas/FilingStatusEnum", "description": "Filing status. Possible values:\n                                    UNFILED, FILING, FILED.", "default": "UNFILED"}
@@ -9969,6 +9998,48 @@ components:
         - "page"
         - "size"
       title: "Page[RegistrationReadWithPassword]"
+    "Page_TaskFilingRead_":
+      properties:
+        "items":
+          items: {"$ref": "#/components/schemas/TaskFilingRead"}
+          type: "array"
+          title: "Items"
+        "total":
+          type: "integer"
+        "page":
+          type: "integer"
+        "size":
+          type: "integer"
+        "pages":
+          type: "integer"
+      type: "object"
+      required:
+        - "items"
+        - "total"
+        - "page"
+        - "size"
+      title: "Page[TaskFilingRead]"
+    "Page_TaskRegistrationRead_":
+      properties:
+        "items":
+          items: {"$ref": "#/components/schemas/TaskRegistrationRead"}
+          type: "array"
+          title: "Items"
+        "total":
+          type: "integer"
+        "page":
+          type: "integer"
+        "size":
+          type: "integer"
+        "pages":
+          type: "integer"
+      type: "object"
+      required:
+        - "items"
+        - "total"
+        - "page"
+        - "size"
+      title: "Page[TaskRegistrationRead]"
     "Page_TransactionAddressRead_":
       properties:
         "items":
@@ -10193,6 +10264,7 @@ components:
         "external_id":
           description: "Optional\n                                        external identifier for the nexus."
           type: "string"
+        "source": {"$ref": "#/components/schemas/PhysicalNexusSource", "description": "The source of the physical nexus presence.\n        Possible values: USER, DEEL.", "default": "USER"}
       type: "object"
       required:
         - "country_code"
@@ -10219,6 +10291,7 @@ components:
         "external_id":
           description: "Optional\n                                        external identifier for the nexus."
           type: "string"
+        "source": {"$ref": "#/components/schemas/PhysicalNexusSource", "description": "The source of the physical nexus presence.\n        Possible values: USER, DEEL.", "default": "USER"}
         "id":
           type: "string"
           title: "Id"
@@ -10231,6 +10304,12 @@ components:
         - "category"
         - "id"
       title: "PhysicalNexusRead"
+    "PhysicalNexusSource":
+      type: "string"
+      enum:
+        - "USER"
+        - "DEEL"
+      title: "PhysicalNexusSource"
     "PhysicalNexusUpdate":
       properties:
         "start_date":
@@ -10991,25 +11070,38 @@ components:
       title: "ProductConfigCreateUpdate"
     "ProductConfigRead":
       properties:
-        "primary_product_category": {"$ref": "#/components/schemas/ProductCategoryEnum"}
-        "primary_product_subcategory": {"$ref": "#/components/schemas/ProductSubCategoryEnum"}
-        "ai_enabled":
-          type: "boolean"
-          title: "Ai Enabled"
-          default: false
-        "product_description":
-          type: "string"
-        "primary_product_code_name":
-          description: "The name of the product code."
-          type: "string"
         "id":
           type: "string"
           title: "Id"
+          description: "The product ID."
+        "primary_product_category":
+          type: "string"
+          title: "Primary Product Category"
+          description: "Primary product category."
+        "primary_product_subcategory":
+          type: "string"
+          title: "Primary Product Subcategory"
+          description: "Primary product subcategory."
+        "ai_enabled":
+          type: "boolean"
+          title: "Ai Enabled"
+          description: "Is ai enabled."
+        "product_description":
+          type: "string"
+          title: "Product Description"
+          description: "The product description."
+        "primary_product_code_name":
+          type: "string"
+          title: "Primary Product Code Name"
+          description: "The name of the product code."
       type: "object"
       required:
+        - "id"
         - "primary_product_category"
         - "primary_product_subcategory"
-        - "id"
+        - "ai_enabled"
+        - "product_description"
+        - "primary_product_code_name"
       title: "ProductConfigRead"
     "ProductConfigsCreate":
       properties:
@@ -11716,6 +11808,16 @@ components:
         - "VALIDATING"
         - "AWAITING_CLARIFICATION"
       title: "RegistrationStatusEnum"
+    "RegistrationTaskStatusEnum":
+      type: "string"
+      enum:
+        - "Created"
+        - "Processing"
+        - "Issue"
+        - "In Review"
+        - "Canceled"
+        - "Complete"
+      title: "RegistrationTaskStatusEnum"
     "RegistrationTypeEnum":
       type: "string"
       enum:
@@ -12678,6 +12780,84 @@ components:
         - "unit_price"
         - "object"
       title: "SubscriptionItem"
+    "TaskFilingRead":
+      properties:
+        "id":
+          type: "string"
+        "related_entity_id":
+          type: "string"
+        "related_entity_type":
+          type: "string"
+        "assignee":
+          type: "string"
+        "status":
+          type: "string"
+        "task_type":
+          type: "string"
+        "waiting_on":
+          type: "string"
+        "organization_id":
+          type: "string"
+        "created_at":
+          type: "string"
+        "updated_at":
+          type: "string"
+        "organization_name":
+          type: "string"
+        "filing": {"$ref": "#/components/schemas/FilingRead"}
+      type: "object"
+      title: "TaskFilingRead"
+    "TaskRead":
+      properties:
+        "id":
+          type: "string"
+        "related_entity_id":
+          type: "string"
+        "related_entity_type":
+          type: "string"
+        "assignee":
+          type: "string"
+        "status":
+          type: "string"
+        "task_type":
+          type: "string"
+        "waiting_on":
+          type: "string"
+        "organization_id":
+          type: "string"
+        "created_at":
+          type: "string"
+        "updated_at":
+          type: "string"
+      type: "object"
+      title: "TaskRead"
+    "TaskRegistrationRead":
+      properties:
+        "id":
+          type: "string"
+        "related_entity_id":
+          type: "string"
+        "related_entity_type":
+          type: "string"
+        "assignee":
+          type: "string"
+        "status":
+          type: "string"
+        "task_type":
+          type: "string"
+        "waiting_on":
+          type: "string"
+        "organization_id":
+          type: "string"
+        "created_at":
+          type: "string"
+        "updated_at":
+          type: "string"
+        "organization_name":
+          type: "string"
+        "registration": {"$ref": "#/components/schemas/RegistrationRead"}
+      type: "object"
+      title: "TaskRegistrationRead"
     "TaxBreakdownByJurisdiction":
       properties:
         "jurisdiction":
@@ -15453,6 +15633,14 @@ components:
           type: "string"
         "is_vat_exempt":
           type: "boolean"
+        "date_created_gmt":
+          type: "string"
+          format: "date-time"
+          title: "Date Created Gmt"
+        "date_modified_gmt":
+          type: "string"
+          format: "date-time"
+          title: "Date Modified Gmt"
         "billing": {"$ref": "#/components/schemas/WooBillingAddress"}
         "shipping": {"$ref": "#/components/schemas/WooShippingAddress"}
       type: "object"

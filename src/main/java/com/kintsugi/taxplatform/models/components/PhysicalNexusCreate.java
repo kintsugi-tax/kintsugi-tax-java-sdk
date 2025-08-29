@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Override;
 import java.lang.String;
+import java.lang.SuppressWarnings;
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -54,6 +55,11 @@ public class PhysicalNexusCreate {
     @JsonProperty("external_id")
     private Optional<String> externalId;
 
+
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("source")
+    private Optional<? extends PhysicalNexusSource> source;
+
     @JsonCreator
     public PhysicalNexusCreate(
             @JsonProperty("country_code") CountryCodeEnum countryCode,
@@ -61,19 +67,22 @@ public class PhysicalNexusCreate {
             @JsonProperty("start_date") LocalDate startDate,
             @JsonProperty("end_date") Optional<String> endDate,
             @JsonProperty("category") PhysicalNexusCategory category,
-            @JsonProperty("external_id") Optional<String> externalId) {
+            @JsonProperty("external_id") Optional<String> externalId,
+            @JsonProperty("source") Optional<? extends PhysicalNexusSource> source) {
         Utils.checkNotNull(countryCode, "countryCode");
         Utils.checkNotNull(stateCode, "stateCode");
         Utils.checkNotNull(startDate, "startDate");
         Utils.checkNotNull(endDate, "endDate");
         Utils.checkNotNull(category, "category");
         Utils.checkNotNull(externalId, "externalId");
+        Utils.checkNotNull(source, "source");
         this.countryCode = countryCode;
         this.stateCode = stateCode;
         this.startDate = startDate;
         this.endDate = endDate;
         this.category = category;
         this.externalId = externalId;
+        this.source = source;
     }
     
     public PhysicalNexusCreate(
@@ -82,7 +91,8 @@ public class PhysicalNexusCreate {
             LocalDate startDate,
             PhysicalNexusCategory category) {
         this(countryCode, stateCode, startDate,
-            Optional.empty(), category, Optional.empty());
+            Optional.empty(), category, Optional.empty(),
+            Optional.empty());
     }
 
     @JsonIgnore
@@ -129,6 +139,12 @@ public class PhysicalNexusCreate {
     @JsonIgnore
     public Optional<String> externalId() {
         return externalId;
+    }
+
+    @SuppressWarnings("unchecked")
+    @JsonIgnore
+    public Optional<PhysicalNexusSource> source() {
+        return (Optional<PhysicalNexusSource>) source;
     }
 
     public static Builder builder() {
@@ -210,6 +226,19 @@ public class PhysicalNexusCreate {
         return this;
     }
 
+    public PhysicalNexusCreate withSource(PhysicalNexusSource source) {
+        Utils.checkNotNull(source, "source");
+        this.source = Optional.ofNullable(source);
+        return this;
+    }
+
+
+    public PhysicalNexusCreate withSource(Optional<? extends PhysicalNexusSource> source) {
+        Utils.checkNotNull(source, "source");
+        this.source = source;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -225,14 +254,16 @@ public class PhysicalNexusCreate {
             Utils.enhancedDeepEquals(this.startDate, other.startDate) &&
             Utils.enhancedDeepEquals(this.endDate, other.endDate) &&
             Utils.enhancedDeepEquals(this.category, other.category) &&
-            Utils.enhancedDeepEquals(this.externalId, other.externalId);
+            Utils.enhancedDeepEquals(this.externalId, other.externalId) &&
+            Utils.enhancedDeepEquals(this.source, other.source);
     }
     
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
             countryCode, stateCode, startDate,
-            endDate, category, externalId);
+            endDate, category, externalId,
+            source);
     }
     
     @Override
@@ -243,7 +274,8 @@ public class PhysicalNexusCreate {
                 "startDate", startDate,
                 "endDate", endDate,
                 "category", category,
-                "externalId", externalId);
+                "externalId", externalId,
+                "source", source);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -260,6 +292,8 @@ public class PhysicalNexusCreate {
         private PhysicalNexusCategory category;
 
         private Optional<String> externalId = Optional.empty();
+
+        private Optional<? extends PhysicalNexusSource> source = Optional.empty();
 
         private Builder() {
           // force use of static builder() method
@@ -343,11 +377,25 @@ public class PhysicalNexusCreate {
             return this;
         }
 
+
+        public Builder source(PhysicalNexusSource source) {
+            Utils.checkNotNull(source, "source");
+            this.source = Optional.ofNullable(source);
+            return this;
+        }
+
+        public Builder source(Optional<? extends PhysicalNexusSource> source) {
+            Utils.checkNotNull(source, "source");
+            this.source = source;
+            return this;
+        }
+
         public PhysicalNexusCreate build() {
 
             return new PhysicalNexusCreate(
                 countryCode, stateCode, startDate,
-                endDate, category, externalId);
+                endDate, category, externalId,
+                source);
         }
 
     }

@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Override;
 import java.lang.String;
+import java.lang.SuppressWarnings;
 import java.time.LocalDate;
 import java.util.Optional;
 
@@ -54,6 +55,11 @@ public class PhysicalNexusRead {
     @JsonProperty("external_id")
     private Optional<String> externalId;
 
+
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("source")
+    private Optional<? extends PhysicalNexusSource> source;
+
     /**
      * The unique identifier for the physical nexus.
      */
@@ -68,6 +74,7 @@ public class PhysicalNexusRead {
             @JsonProperty("end_date") Optional<String> endDate,
             @JsonProperty("category") PhysicalNexusCategory category,
             @JsonProperty("external_id") Optional<String> externalId,
+            @JsonProperty("source") Optional<? extends PhysicalNexusSource> source,
             @JsonProperty("id") String id) {
         Utils.checkNotNull(countryCode, "countryCode");
         Utils.checkNotNull(stateCode, "stateCode");
@@ -75,6 +82,7 @@ public class PhysicalNexusRead {
         Utils.checkNotNull(endDate, "endDate");
         Utils.checkNotNull(category, "category");
         Utils.checkNotNull(externalId, "externalId");
+        Utils.checkNotNull(source, "source");
         Utils.checkNotNull(id, "id");
         this.countryCode = countryCode;
         this.stateCode = stateCode;
@@ -82,6 +90,7 @@ public class PhysicalNexusRead {
         this.endDate = endDate;
         this.category = category;
         this.externalId = externalId;
+        this.source = source;
         this.id = id;
     }
     
@@ -93,7 +102,7 @@ public class PhysicalNexusRead {
             String id) {
         this(countryCode, stateCode, startDate,
             Optional.empty(), category, Optional.empty(),
-            id);
+            Optional.empty(), id);
     }
 
     @JsonIgnore
@@ -140,6 +149,12 @@ public class PhysicalNexusRead {
     @JsonIgnore
     public Optional<String> externalId() {
         return externalId;
+    }
+
+    @SuppressWarnings("unchecked")
+    @JsonIgnore
+    public Optional<PhysicalNexusSource> source() {
+        return (Optional<PhysicalNexusSource>) source;
     }
 
     /**
@@ -229,6 +244,19 @@ public class PhysicalNexusRead {
         return this;
     }
 
+    public PhysicalNexusRead withSource(PhysicalNexusSource source) {
+        Utils.checkNotNull(source, "source");
+        this.source = Optional.ofNullable(source);
+        return this;
+    }
+
+
+    public PhysicalNexusRead withSource(Optional<? extends PhysicalNexusSource> source) {
+        Utils.checkNotNull(source, "source");
+        this.source = source;
+        return this;
+    }
+
     /**
      * The unique identifier for the physical nexus.
      */
@@ -254,6 +282,7 @@ public class PhysicalNexusRead {
             Utils.enhancedDeepEquals(this.endDate, other.endDate) &&
             Utils.enhancedDeepEquals(this.category, other.category) &&
             Utils.enhancedDeepEquals(this.externalId, other.externalId) &&
+            Utils.enhancedDeepEquals(this.source, other.source) &&
             Utils.enhancedDeepEquals(this.id, other.id);
     }
     
@@ -262,7 +291,7 @@ public class PhysicalNexusRead {
         return Utils.enhancedHash(
             countryCode, stateCode, startDate,
             endDate, category, externalId,
-            id);
+            source, id);
     }
     
     @Override
@@ -274,6 +303,7 @@ public class PhysicalNexusRead {
                 "endDate", endDate,
                 "category", category,
                 "externalId", externalId,
+                "source", source,
                 "id", id);
     }
 
@@ -291,6 +321,8 @@ public class PhysicalNexusRead {
         private PhysicalNexusCategory category;
 
         private Optional<String> externalId = Optional.empty();
+
+        private Optional<? extends PhysicalNexusSource> source = Optional.empty();
 
         private String id;
 
@@ -377,6 +409,19 @@ public class PhysicalNexusRead {
         }
 
 
+        public Builder source(PhysicalNexusSource source) {
+            Utils.checkNotNull(source, "source");
+            this.source = Optional.ofNullable(source);
+            return this;
+        }
+
+        public Builder source(Optional<? extends PhysicalNexusSource> source) {
+            Utils.checkNotNull(source, "source");
+            this.source = source;
+            return this;
+        }
+
+
         /**
          * The unique identifier for the physical nexus.
          */
@@ -391,7 +436,7 @@ public class PhysicalNexusRead {
             return new PhysicalNexusRead(
                 countryCode, stateCode, startDate,
                 endDate, category, externalId,
-                id);
+                source, id);
         }
 
     }

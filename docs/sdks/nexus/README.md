@@ -112,6 +112,7 @@ public class Application {
                 .category(PhysicalNexusCategory.PHYSICAL_BUSINESS_LOCATION)
                 .endDate("2025-01-01")
                 .externalId("ext_ABC123")
+                .source(PhysicalNexusSource.USER)
                 .build();
 
         CreatePhysicalNexusV1NexusPhysicalNexusPostResponse res = sdk.nexus().createPhysical()

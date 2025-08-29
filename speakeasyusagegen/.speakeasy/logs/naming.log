@@ -1,5 +1,11 @@
 DEBUG	
 
+--- Renaming 2 types with name "transactions" ---
+DEBUG	discriminated: Renamed to "Customers_transactions" 
+	 labels: "original_name:transactions group:Customers data_type:SDK" 
+	 registrationID: "scope:sdk mainSDK:SDK group:Customers originalName:transactions"
+DEBUG	
+
 --- Renaming 2 types with name "type" ---
 DEBUG	discriminated: Renamed to "TransactionEstimatePublicRequest_type" 
 	 labels: "original_name:type scope:shared data_type:enum refName:TransactionEstimatePublicRequest property:address" 
@@ -16,12 +22,6 @@ DEBUG	discriminated: Renamed to "TransactionEstimatePublicRequest_address"
 DEBUG	discriminated: Renamed to "TransactionEstimateResponse_address" 
 	 labels: "original_name:address scope:shared refName:TransactionEstimateResponse" 
 	 registrationID: "scope:shared refType:Schemas refName:TransactionEstimateResponse originalName:address"
-DEBUG	
-
---- Renaming 2 types with name "transactions" ---
-DEBUG	discriminated: Renamed to "customers_transactions" 
-	 labels: "original_name:transactions group:customers data_type:SDK" 
-	 registrationID: "scope:sdk mainSDK:SDK group:customers originalName:transactions"
 DEBUG	
 
 Sdk (SDK empty)
@@ -130,6 +130,7 @@ GetPhysicalNexusV1NexusPhysicalNexusGetResponse (ContentType: string, StatusCode
  PagePhysicalNexusRead (items: array, total: integer, page: integer ...)
    PhysicalNexusRead (country_code: CountryCodeEnum, state_code: string, start_date: date ...)
     PhysicalNexusCategory (enum: PHYSICAL_BUSINESS_LOCATION, TELECOMMUTING_OR_REMOTE_EMPLOYEE, WARRANTY_AND_REPAIR_SERVICES ...)
+    PhysicalNexusSource (enum: USER, DEEL)
 BackendSrcNexusResponsesValidationErrorResponse (error)
   BackendSrcNexusResponsesValidationErrorItem (type: string, loc: array, msg: string ...)
 PhysicalNexusCreate (country_code: CountryCodeEnum, state_code: string, start_date: date ...)

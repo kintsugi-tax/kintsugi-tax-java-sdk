@@ -1,12 +1,12 @@
 lockVersion: 2.0.0
 id: 13bfb8e3-2795-4089-a96d-9ab7fcceafd9
 management:
-  docChecksum: 6cec13c0770aa3ade026a7321dbfef05
+  docChecksum: ae19c1aad8a672ac7caa28f7c4c8560d
   docVersion: 1.0.0
-  speakeasyVersion: 1.606.8
+  speakeasyVersion: 1.606.9
   generationVersion: 2.687.13
-  releaseVersion: 0.10.0
-  configChecksum: b7d41050ad79cfb11243b35e7f1e65c3
+  releaseVersion: 0.10.1
+  configChecksum: faec2ecffbccf2acffc8b2f0e6ba57f2
   repoURL: https://github.com/kintsugi-tax/kintsugi-tax-java-sdk.git
   published: true
 features:
@@ -1416,4 +1416,3 @@ examples:
         "500":
           application/json: {"detail": "<value>"}
 examplesVersion: 1.0.2
-releaseNotes: "## SDK Changes Detected:\n* `sdk.nexus.getPhysical()`:  `response.items.[].source` **Added**\n* `sdk.nexus.createPhysical()`: \n  *  `request.source` **Added**\n  *  `response.source` **Added**\n* `sdk.nexus.updatePhysical()`:  `response.source` **Added**\n"

@@ -32,9 +32,20 @@ import java.lang.String;
 
 public class Registrations {
     private final SDKConfiguration sdkConfiguration;
+    private final AsyncRegistrations asyncSDK;
 
     Registrations(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
+        this.asyncSDK = new AsyncRegistrations(this, sdkConfiguration);
+    }
+
+    /**
+     * Switches to the async SDK.
+     * 
+     * @return The async SDK
+     */
+    public AsyncRegistrations async() {
+        return asyncSDK;
     }
 
     /**

@@ -237,6 +237,7 @@ import com.kintsugi.taxplatform.models.errors.BackendSrcExemptionsResponsesValid
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
 import com.kintsugi.taxplatform.models.operations.UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse;
 import com.kintsugi.taxplatform.utils.Utils;
+import java.io.FileInputStream;
 import java.lang.Exception;
 
 public class Application {
@@ -255,14 +256,11 @@ public class Application {
                 .bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost(BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost.builder()
                     .file(File.builder()
                         .fileName("example.file")
-                        .content(Utils.readBytes("example.file"))
+                        .content(Utils.readBytesAndClose(new FileInputStream("example.file")))
                         .build())
                     .build())
                 .call();
 
-        if (res.attachmentRead().isPresent()) {
-            // handle response
-        }
     }
 }
 ```

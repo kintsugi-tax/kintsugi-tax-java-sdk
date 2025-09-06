@@ -170,7 +170,7 @@ paths:
           content:
             "application/json":
               schema: {"$ref": "#/components/schemas/Page_CustomerRead_"}
-              example: {"items": [{"id": "cust_123abc", "organization_id": "org_456xyz", "name": "John Doe", "external_id": "cust_123", "status": "ACTIVE", "email": "john.doe@example.com", "phone": "+1234567890", "street_1": "123 Main Street", "street_2": "Apt 4B", "city": "San Francisco", "county": "San Francisco County", "state": "CA", "postal_code": "94105", "country": "US", "full_address": "123 Main Street, Apt 4B, San Francisco, CA 94105", "source": "BIGCOMMERCE", "connection_id": "conn_12345", "address_status": "UNVERIFIED"}], "total": 1, "page": 1, "size": 50, "pages": 1}
+              example: {"items": [{"id": "cust_123abc", "organization_id": "org_456xyz", "name": "John Doe", "external_id": "cust_123", "status": "ACTIVE", "email": "john.doe@example.com", "phone": "+1234567890", "street_1": "123 Main Street", "street_2": "Apt 4B", "city": "San Francisco", "county": "San Francisco County", "state": "CA", "postal_code": "94105", "country": "US", "full_address": "123 Main Street, Apt 4B, San Francisco, CA 94105", "source": "BIGCOMMERCE", "connection_id": "conn_12345", "address_status": "UNVERIFIED", "external_friendly_id": "1234567890"}], "total": 1, "page": 1, "size": 50, "pages": 1}
         "404":
           description: "Entered an incorrect URL."
           content:
@@ -3349,6 +3349,16 @@ components:
       required:
         - "store_hash"
       title: "BigcommerceTaxCalculation"
+    "BillingCustomerDetails":
+      properties:
+        "email":
+          type: "string"
+          format: "email"
+          title: "Email"
+      type: "object"
+      required:
+        - "email"
+      title: "BillingCustomerDetails"
     "BillingFrequencyEnum":
       type: "string"
       enum:
@@ -5459,6 +5469,9 @@ components:
           type: "boolean"
           title: "Is Test Data"
           default: false
+        "external_friendly_id":
+          description: "External friendly identifier associated with the customer."
+          type: "string"
       type: "object"
       required:
         - "organization_id"
@@ -5754,6 +5767,9 @@ components:
         "registration_number":
           description: "Registration number of the customer."
           type: "string"
+        "external_friendly_id":
+          description: "External friendly identifier associated with the customer. We need it for netsuite."
+          type: "string"
       type: "object"
       title: "CustomerCreate"
     "CustomerRead":
@@ -5800,6 +5816,9 @@ components:
         "address_status": {"$ref": "#/components/schemas/AddressStatus", "description": "Status of address verification", "default": "UNVERIFIED"}
         "registration_number":
           description: "Registration number of the customer."
+          type: "string"
+        "external_friendly_id":
+          description: "External friendly identifier associated with the customer. We need it for netsuite."
           type: "string"
         "id":
           type: "string"
@@ -5852,6 +5871,9 @@ components:
         "address_status": {"$ref": "#/components/schemas/AddressStatus", "description": "Address verification status.", "default": "UNVERIFIED"}
         "external_id":
           description: "External identifier associated with the customer"
+          type: "string"
+        "external_friendly_id":
+          description: "External friendly identifier associated with the customer. We need it for netsuite."
           type: "string"
       type: "object"
       title: "CustomerUpdate"
@@ -12590,7 +12612,7 @@ components:
         - "FAIRE"
         - "SHOPWARE"
         - "ZOHO"
-        - "SAGE_INTACCT"
+        - "SAGE-INTACCT"
       title: "SourceEnum"
     "StatusEnum":
       type: "string"
@@ -12805,6 +12827,7 @@ components:
         "organization_name":
           type: "string"
         "filing": {"$ref": "#/components/schemas/FilingRead"}
+        "filing_frequency": {"$ref": "#/components/schemas/FilingFrequencyEnum"}
       type: "object"
       title: "TaskFilingRead"
     "TaskRead":
@@ -12858,6 +12881,16 @@ components:
         "registration": {"$ref": "#/components/schemas/RegistrationRead"}
       type: "object"
       title: "TaskRegistrationRead"
+    "TaskUpdate":
+      properties:
+        "status":
+          type: "string"
+        "assignee":
+          type: "string"
+        "waiting_on":
+          type: "string"
+      type: "object"
+      title: "TaskUpdate"
     "TaxBreakdownByJurisdiction":
       properties:
         "jurisdiction":
@@ -14217,6 +14250,8 @@ components:
         "registration_number":
           type: "string"
         "address_status": {"$ref": "#/components/schemas/AddressStatus", "default": "UNVERIFIED"}
+        "external_friendly_id":
+          type: "string"
       type: "object"
       title: "TransactionImportCustomer"
     "TransactionImportResponse":

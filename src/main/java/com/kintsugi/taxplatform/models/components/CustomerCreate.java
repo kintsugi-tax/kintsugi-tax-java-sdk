@@ -127,6 +127,13 @@ public class CustomerCreate {
     @JsonProperty("registration_number")
     private Optional<String> registrationNumber;
 
+    /**
+     * External friendly identifier associated with the customer. We need it for netsuite.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("external_friendly_id")
+    private Optional<String> externalFriendlyId;
+
     @JsonCreator
     public CustomerCreate(
             @JsonProperty("phone") Optional<String> phone,
@@ -145,7 +152,8 @@ public class CustomerCreate {
             @JsonProperty("source") Optional<? extends SourceEnum> source,
             @JsonProperty("connection_id") Optional<String> connectionId,
             @JsonProperty("address_status") Optional<? extends AddressStatus> addressStatus,
-            @JsonProperty("registration_number") Optional<String> registrationNumber) {
+            @JsonProperty("registration_number") Optional<String> registrationNumber,
+            @JsonProperty("external_friendly_id") Optional<String> externalFriendlyId) {
         Utils.checkNotNull(phone, "phone");
         Utils.checkNotNull(street1, "street1");
         Utils.checkNotNull(street2, "street2");
@@ -163,6 +171,7 @@ public class CustomerCreate {
         Utils.checkNotNull(connectionId, "connectionId");
         Utils.checkNotNull(addressStatus, "addressStatus");
         Utils.checkNotNull(registrationNumber, "registrationNumber");
+        Utils.checkNotNull(externalFriendlyId, "externalFriendlyId");
         this.phone = phone;
         this.street1 = street1;
         this.street2 = street2;
@@ -180,6 +189,7 @@ public class CustomerCreate {
         this.connectionId = connectionId;
         this.addressStatus = addressStatus;
         this.registrationNumber = registrationNumber;
+        this.externalFriendlyId = externalFriendlyId;
     }
     
     public CustomerCreate() {
@@ -188,7 +198,7 @@ public class CustomerCreate {
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty());
+            Optional.empty(), Optional.empty(), Optional.empty());
     }
 
     /**
@@ -317,6 +327,14 @@ public class CustomerCreate {
     @JsonIgnore
     public Optional<String> registrationNumber() {
         return registrationNumber;
+    }
+
+    /**
+     * External friendly identifier associated with the customer. We need it for netsuite.
+     */
+    @JsonIgnore
+    public Optional<String> externalFriendlyId() {
+        return externalFriendlyId;
     }
 
     public static Builder builder() {
@@ -623,6 +641,25 @@ public class CustomerCreate {
         return this;
     }
 
+    /**
+     * External friendly identifier associated with the customer. We need it for netsuite.
+     */
+    public CustomerCreate withExternalFriendlyId(String externalFriendlyId) {
+        Utils.checkNotNull(externalFriendlyId, "externalFriendlyId");
+        this.externalFriendlyId = Optional.ofNullable(externalFriendlyId);
+        return this;
+    }
+
+
+    /**
+     * External friendly identifier associated with the customer. We need it for netsuite.
+     */
+    public CustomerCreate withExternalFriendlyId(Optional<String> externalFriendlyId) {
+        Utils.checkNotNull(externalFriendlyId, "externalFriendlyId");
+        this.externalFriendlyId = externalFriendlyId;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -649,7 +686,8 @@ public class CustomerCreate {
             Utils.enhancedDeepEquals(this.source, other.source) &&
             Utils.enhancedDeepEquals(this.connectionId, other.connectionId) &&
             Utils.enhancedDeepEquals(this.addressStatus, other.addressStatus) &&
-            Utils.enhancedDeepEquals(this.registrationNumber, other.registrationNumber);
+            Utils.enhancedDeepEquals(this.registrationNumber, other.registrationNumber) &&
+            Utils.enhancedDeepEquals(this.externalFriendlyId, other.externalFriendlyId);
     }
     
     @Override
@@ -660,7 +698,7 @@ public class CustomerCreate {
             postalCode, country, fullAddress,
             name, externalId, status,
             email, source, connectionId,
-            addressStatus, registrationNumber);
+            addressStatus, registrationNumber, externalFriendlyId);
     }
     
     @Override
@@ -682,7 +720,8 @@ public class CustomerCreate {
                 "source", source,
                 "connectionId", connectionId,
                 "addressStatus", addressStatus,
-                "registrationNumber", registrationNumber);
+                "registrationNumber", registrationNumber,
+                "externalFriendlyId", externalFriendlyId);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -721,6 +760,8 @@ public class CustomerCreate {
         private Optional<? extends AddressStatus> addressStatus = Optional.empty();
 
         private Optional<String> registrationNumber = Optional.empty();
+
+        private Optional<String> externalFriendlyId = Optional.empty();
 
         private Builder() {
           // force use of static builder() method
@@ -1025,6 +1066,25 @@ public class CustomerCreate {
             return this;
         }
 
+
+        /**
+         * External friendly identifier associated with the customer. We need it for netsuite.
+         */
+        public Builder externalFriendlyId(String externalFriendlyId) {
+            Utils.checkNotNull(externalFriendlyId, "externalFriendlyId");
+            this.externalFriendlyId = Optional.ofNullable(externalFriendlyId);
+            return this;
+        }
+
+        /**
+         * External friendly identifier associated with the customer. We need it for netsuite.
+         */
+        public Builder externalFriendlyId(Optional<String> externalFriendlyId) {
+            Utils.checkNotNull(externalFriendlyId, "externalFriendlyId");
+            this.externalFriendlyId = externalFriendlyId;
+            return this;
+        }
+
         public CustomerCreate build() {
 
             return new CustomerCreate(
@@ -1033,7 +1093,7 @@ public class CustomerCreate {
                 postalCode, country, fullAddress,
                 name, externalId, status,
                 email, source, connectionId,
-                addressStatus, registrationNumber);
+                addressStatus, registrationNumber, externalFriendlyId);
         }
 
     }

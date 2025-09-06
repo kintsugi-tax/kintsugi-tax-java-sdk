@@ -19,9 +19,20 @@ import java.lang.Exception;
 
 public class AddressValidation {
     private final SDKConfiguration sdkConfiguration;
+    private final AsyncAddressValidation asyncSDK;
 
     AddressValidation(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
+        this.asyncSDK = new AsyncAddressValidation(this, sdkConfiguration);
+    }
+
+    /**
+     * Switches to the async SDK.
+     * 
+     * @return The async SDK
+     */
+    public AsyncAddressValidation async() {
+        return asyncSDK;
     }
 
     /**

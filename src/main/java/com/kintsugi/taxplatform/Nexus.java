@@ -32,9 +32,20 @@ import java.lang.String;
 
 public class Nexus {
     private final SDKConfiguration sdkConfiguration;
+    private final AsyncNexus asyncSDK;
 
     Nexus(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
+        this.asyncSDK = new AsyncNexus(this, sdkConfiguration);
+    }
+
+    /**
+     * Switches to the async SDK.
+     * 
+     * @return The async SDK
+     */
+    public AsyncNexus async() {
+        return asyncSDK;
     }
 
     /**

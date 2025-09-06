@@ -32,9 +32,20 @@ import java.lang.String;
 
 public class Products {
     private final SDKConfiguration sdkConfiguration;
+    private final AsyncProducts asyncSDK;
 
     Products(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
+        this.asyncSDK = new AsyncProducts(this, sdkConfiguration);
+    }
+
+    /**
+     * Switches to the async SDK.
+     * 
+     * @return The async SDK
+     */
+    public AsyncProducts async() {
+        return asyncSDK;
     }
 
     /**

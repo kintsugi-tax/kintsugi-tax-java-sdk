@@ -59,7 +59,7 @@ public enum SourceEnum {
     FAIRE("FAIRE"),
     SHOPWARE("SHOPWARE"),
     ZOHO("ZOHO"),
-    SAGE_INTACCT("SAGE_INTACCT");
+    SAGE_INTACCT("SAGE-INTACCT");
 
     @JsonValue
     private final String value;

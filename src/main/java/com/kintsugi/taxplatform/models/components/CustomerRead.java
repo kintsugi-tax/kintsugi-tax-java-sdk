@@ -128,6 +128,13 @@ public class CustomerRead {
     private Optional<String> registrationNumber;
 
     /**
+     * External friendly identifier associated with the customer. We need it for netsuite.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("external_friendly_id")
+    private Optional<String> externalFriendlyId;
+
+    /**
      * Unique identifier for the customer required.
      */
     @JsonProperty("id")
@@ -158,6 +165,7 @@ public class CustomerRead {
             @JsonProperty("connection_id") Optional<String> connectionId,
             @JsonProperty("address_status") Optional<? extends AddressStatus> addressStatus,
             @JsonProperty("registration_number") Optional<String> registrationNumber,
+            @JsonProperty("external_friendly_id") Optional<String> externalFriendlyId,
             @JsonProperty("id") String id,
             @JsonProperty("organization_id") String organizationId) {
         Utils.checkNotNull(phone, "phone");
@@ -177,6 +185,7 @@ public class CustomerRead {
         Utils.checkNotNull(connectionId, "connectionId");
         Utils.checkNotNull(addressStatus, "addressStatus");
         Utils.checkNotNull(registrationNumber, "registrationNumber");
+        Utils.checkNotNull(externalFriendlyId, "externalFriendlyId");
         Utils.checkNotNull(id, "id");
         Utils.checkNotNull(organizationId, "organizationId");
         this.phone = phone;
@@ -196,6 +205,7 @@ public class CustomerRead {
         this.connectionId = connectionId;
         this.addressStatus = addressStatus;
         this.registrationNumber = registrationNumber;
+        this.externalFriendlyId = externalFriendlyId;
         this.id = id;
         this.organizationId = organizationId;
     }
@@ -208,8 +218,8 @@ public class CustomerRead {
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), id,
-            organizationId);
+            Optional.empty(), Optional.empty(), Optional.empty(),
+            id, organizationId);
     }
 
     /**
@@ -338,6 +348,14 @@ public class CustomerRead {
     @JsonIgnore
     public Optional<String> registrationNumber() {
         return registrationNumber;
+    }
+
+    /**
+     * External friendly identifier associated with the customer. We need it for netsuite.
+     */
+    @JsonIgnore
+    public Optional<String> externalFriendlyId() {
+        return externalFriendlyId;
     }
 
     /**
@@ -661,6 +679,25 @@ public class CustomerRead {
     }
 
     /**
+     * External friendly identifier associated with the customer. We need it for netsuite.
+     */
+    public CustomerRead withExternalFriendlyId(String externalFriendlyId) {
+        Utils.checkNotNull(externalFriendlyId, "externalFriendlyId");
+        this.externalFriendlyId = Optional.ofNullable(externalFriendlyId);
+        return this;
+    }
+
+
+    /**
+     * External friendly identifier associated with the customer. We need it for netsuite.
+     */
+    public CustomerRead withExternalFriendlyId(Optional<String> externalFriendlyId) {
+        Utils.checkNotNull(externalFriendlyId, "externalFriendlyId");
+        this.externalFriendlyId = externalFriendlyId;
+        return this;
+    }
+
+    /**
      * Unique identifier for the customer required.
      */
     public CustomerRead withId(String id) {
@@ -705,6 +742,7 @@ public class CustomerRead {
             Utils.enhancedDeepEquals(this.connectionId, other.connectionId) &&
             Utils.enhancedDeepEquals(this.addressStatus, other.addressStatus) &&
             Utils.enhancedDeepEquals(this.registrationNumber, other.registrationNumber) &&
+            Utils.enhancedDeepEquals(this.externalFriendlyId, other.externalFriendlyId) &&
             Utils.enhancedDeepEquals(this.id, other.id) &&
             Utils.enhancedDeepEquals(this.organizationId, other.organizationId);
     }
@@ -717,8 +755,8 @@ public class CustomerRead {
             postalCode, country, fullAddress,
             name, externalId, status,
             email, source, connectionId,
-            addressStatus, registrationNumber, id,
-            organizationId);
+            addressStatus, registrationNumber, externalFriendlyId,
+            id, organizationId);
     }
     
     @Override
@@ -741,6 +779,7 @@ public class CustomerRead {
                 "connectionId", connectionId,
                 "addressStatus", addressStatus,
                 "registrationNumber", registrationNumber,
+                "externalFriendlyId", externalFriendlyId,
                 "id", id,
                 "organizationId", organizationId);
     }
@@ -781,6 +820,8 @@ public class CustomerRead {
         private Optional<? extends AddressStatus> addressStatus = Optional.empty();
 
         private Optional<String> registrationNumber = Optional.empty();
+
+        private Optional<String> externalFriendlyId = Optional.empty();
 
         private String id;
 
@@ -1091,6 +1132,25 @@ public class CustomerRead {
 
 
         /**
+         * External friendly identifier associated with the customer. We need it for netsuite.
+         */
+        public Builder externalFriendlyId(String externalFriendlyId) {
+            Utils.checkNotNull(externalFriendlyId, "externalFriendlyId");
+            this.externalFriendlyId = Optional.ofNullable(externalFriendlyId);
+            return this;
+        }
+
+        /**
+         * External friendly identifier associated with the customer. We need it for netsuite.
+         */
+        public Builder externalFriendlyId(Optional<String> externalFriendlyId) {
+            Utils.checkNotNull(externalFriendlyId, "externalFriendlyId");
+            this.externalFriendlyId = externalFriendlyId;
+            return this;
+        }
+
+
+        /**
          * Unique identifier for the customer required.
          */
         public Builder id(String id) {
@@ -1117,8 +1177,8 @@ public class CustomerRead {
                 postalCode, country, fullAddress,
                 name, externalId, status,
                 email, source, connectionId,
-                addressStatus, registrationNumber, id,
-                organizationId);
+                addressStatus, registrationNumber, externalFriendlyId,
+                id, organizationId);
         }
 
     }

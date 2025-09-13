@@ -159,11 +159,6 @@ public class NexusResponse {
     private Optional<String> collectedTaxNexusMetDate;
 
 
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("collected_tax_enabled")
-    private Optional<Boolean> collectedTaxEnabled;
-
-
     @JsonProperty("period_model")
     private PeriodModelEnum periodModel;
 
@@ -315,7 +310,6 @@ public class NexusResponse {
             @JsonProperty("physical_nexus_met_date") Optional<String> physicalNexusMetDate,
             @JsonProperty("collected_tax_nexus_met") Optional<Boolean> collectedTaxNexusMet,
             @JsonProperty("collected_tax_nexus_met_date") Optional<String> collectedTaxNexusMetDate,
-            @JsonProperty("collected_tax_enabled") Optional<Boolean> collectedTaxEnabled,
             @JsonProperty("period_model") PeriodModelEnum periodModel,
             @JsonProperty("period_start_date") LocalDate periodStartDate,
             @JsonProperty("period_end_date") LocalDate periodEndDate,
@@ -370,7 +364,6 @@ public class NexusResponse {
         Utils.checkNotNull(physicalNexusMetDate, "physicalNexusMetDate");
         Utils.checkNotNull(collectedTaxNexusMet, "collectedTaxNexusMet");
         Utils.checkNotNull(collectedTaxNexusMetDate, "collectedTaxNexusMetDate");
-        Utils.checkNotNull(collectedTaxEnabled, "collectedTaxEnabled");
         Utils.checkNotNull(periodModel, "periodModel");
         Utils.checkNotNull(periodStartDate, "periodStartDate");
         Utils.checkNotNull(periodEndDate, "periodEndDate");
@@ -425,7 +418,6 @@ public class NexusResponse {
         this.physicalNexusMetDate = physicalNexusMetDate;
         this.collectedTaxNexusMet = collectedTaxNexusMet;
         this.collectedTaxNexusMetDate = collectedTaxNexusMetDate;
-        this.collectedTaxEnabled = collectedTaxEnabled;
         this.periodModel = periodModel;
         this.periodStartDate = periodStartDate;
         this.periodEndDate = periodEndDate;
@@ -490,17 +482,16 @@ public class NexusResponse {
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
+            Optional.empty(), Optional.empty(), periodModel,
+            periodStartDate, periodEndDate, previousPeriodStartDate,
+            previousPeriodEndDate, Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
-            periodModel, periodStartDate, periodEndDate,
-            previousPeriodStartDate, previousPeriodEndDate, Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            id, createdAt, updatedAt,
-            organizationId, Optional.empty(), Optional.empty(),
-            isVdaEligible, nexusType, totalTransactions,
-            totalTransactionsIncluded, totalTransactionsExempted, totalTransactionsMarketplace,
-            marketplaceIncluded);
+            Optional.empty(), Optional.empty(), id,
+            createdAt, updatedAt, organizationId,
+            Optional.empty(), Optional.empty(), isVdaEligible,
+            nexusType, totalTransactions, totalTransactionsIncluded,
+            totalTransactionsExempted, totalTransactionsMarketplace, marketplaceIncluded);
     }
 
     @SuppressWarnings("unchecked")
@@ -645,11 +636,6 @@ public class NexusResponse {
     @JsonIgnore
     public Optional<String> collectedTaxNexusMetDate() {
         return collectedTaxNexusMetDate;
-    }
-
-    @JsonIgnore
-    public Optional<Boolean> collectedTaxEnabled() {
-        return collectedTaxEnabled;
     }
 
     @JsonIgnore
@@ -1100,19 +1086,6 @@ public class NexusResponse {
         return this;
     }
 
-    public NexusResponse withCollectedTaxEnabled(boolean collectedTaxEnabled) {
-        Utils.checkNotNull(collectedTaxEnabled, "collectedTaxEnabled");
-        this.collectedTaxEnabled = Optional.ofNullable(collectedTaxEnabled);
-        return this;
-    }
-
-
-    public NexusResponse withCollectedTaxEnabled(Optional<Boolean> collectedTaxEnabled) {
-        Utils.checkNotNull(collectedTaxEnabled, "collectedTaxEnabled");
-        this.collectedTaxEnabled = collectedTaxEnabled;
-        return this;
-    }
-
     public NexusResponse withPeriodModel(PeriodModelEnum periodModel) {
         Utils.checkNotNull(periodModel, "periodModel");
         this.periodModel = periodModel;
@@ -1401,7 +1374,6 @@ public class NexusResponse {
             Utils.enhancedDeepEquals(this.physicalNexusMetDate, other.physicalNexusMetDate) &&
             Utils.enhancedDeepEquals(this.collectedTaxNexusMet, other.collectedTaxNexusMet) &&
             Utils.enhancedDeepEquals(this.collectedTaxNexusMetDate, other.collectedTaxNexusMetDate) &&
-            Utils.enhancedDeepEquals(this.collectedTaxEnabled, other.collectedTaxEnabled) &&
             Utils.enhancedDeepEquals(this.periodModel, other.periodModel) &&
             Utils.enhancedDeepEquals(this.periodStartDate, other.periodStartDate) &&
             Utils.enhancedDeepEquals(this.periodEndDate, other.periodEndDate) &&
@@ -1443,17 +1415,16 @@ public class NexusResponse {
             calculatedTaxLiability, importedTaxLiability, taxLiability,
             nexusMet, nexusMetDate, economicNexusMet,
             economicNexusMetDate, physicalNexusMet, physicalNexusMetDate,
-            collectedTaxNexusMet, collectedTaxNexusMetDate, collectedTaxEnabled,
-            periodModel, periodStartDate, periodEndDate,
-            previousPeriodStartDate, previousPeriodEndDate, earliestTransactionDate,
-            mostRecentTransactionDate, earliestCollectedDate, predictedMonthFromToday,
-            vdaEligible, confidenceLevel, lastProcessedAt,
-            lastTaxLiabilityProcessedAt, periods, currency,
-            id, createdAt, updatedAt,
-            organizationId, registration, registrationRegime,
-            isVdaEligible, nexusType, totalTransactions,
-            totalTransactionsIncluded, totalTransactionsExempted, totalTransactionsMarketplace,
-            marketplaceIncluded);
+            collectedTaxNexusMet, collectedTaxNexusMetDate, periodModel,
+            periodStartDate, periodEndDate, previousPeriodStartDate,
+            previousPeriodEndDate, earliestTransactionDate, mostRecentTransactionDate,
+            earliestCollectedDate, predictedMonthFromToday, vdaEligible,
+            confidenceLevel, lastProcessedAt, lastTaxLiabilityProcessedAt,
+            periods, currency, id,
+            createdAt, updatedAt, organizationId,
+            registration, registrationRegime, isVdaEligible,
+            nexusType, totalTransactions, totalTransactionsIncluded,
+            totalTransactionsExempted, totalTransactionsMarketplace, marketplaceIncluded);
     }
     
     @Override
@@ -1485,7 +1456,6 @@ public class NexusResponse {
                 "physicalNexusMetDate", physicalNexusMetDate,
                 "collectedTaxNexusMet", collectedTaxNexusMet,
                 "collectedTaxNexusMetDate", collectedTaxNexusMetDate,
-                "collectedTaxEnabled", collectedTaxEnabled,
                 "periodModel", periodModel,
                 "periodStartDate", periodStartDate,
                 "periodEndDate", periodEndDate,
@@ -1572,8 +1542,6 @@ public class NexusResponse {
         private Optional<Boolean> collectedTaxNexusMet;
 
         private Optional<String> collectedTaxNexusMetDate = Optional.empty();
-
-        private Optional<Boolean> collectedTaxEnabled;
 
         private PeriodModelEnum periodModel;
 
@@ -1944,19 +1912,6 @@ public class NexusResponse {
         }
 
 
-        public Builder collectedTaxEnabled(boolean collectedTaxEnabled) {
-            Utils.checkNotNull(collectedTaxEnabled, "collectedTaxEnabled");
-            this.collectedTaxEnabled = Optional.ofNullable(collectedTaxEnabled);
-            return this;
-        }
-
-        public Builder collectedTaxEnabled(Optional<Boolean> collectedTaxEnabled) {
-            Utils.checkNotNull(collectedTaxEnabled, "collectedTaxEnabled");
-            this.collectedTaxEnabled = collectedTaxEnabled;
-            return this;
-        }
-
-
         public Builder periodModel(PeriodModelEnum periodModel) {
             Utils.checkNotNull(periodModel, "periodModel");
             this.periodModel = periodModel;
@@ -2258,9 +2213,6 @@ public class NexusResponse {
             if (collectedTaxNexusMet == null) {
                 collectedTaxNexusMet = _SINGLETON_VALUE_CollectedTaxNexusMet.value();
             }
-            if (collectedTaxEnabled == null) {
-                collectedTaxEnabled = _SINGLETON_VALUE_CollectedTaxEnabled.value();
-            }
             if (earliestCollectedDate == null) {
                 earliestCollectedDate = _SINGLETON_VALUE_EarliestCollectedDate.value();
             }
@@ -2277,17 +2229,16 @@ public class NexusResponse {
                 calculatedTaxLiability, importedTaxLiability, taxLiability,
                 nexusMet, nexusMetDate, economicNexusMet,
                 economicNexusMetDate, physicalNexusMet, physicalNexusMetDate,
-                collectedTaxNexusMet, collectedTaxNexusMetDate, collectedTaxEnabled,
-                periodModel, periodStartDate, periodEndDate,
-                previousPeriodStartDate, previousPeriodEndDate, earliestTransactionDate,
-                mostRecentTransactionDate, earliestCollectedDate, predictedMonthFromToday,
-                vdaEligible, confidenceLevel, lastProcessedAt,
-                lastTaxLiabilityProcessedAt, periods, currency,
-                id, createdAt, updatedAt,
-                organizationId, registration, registrationRegime,
-                isVdaEligible, nexusType, totalTransactions,
-                totalTransactionsIncluded, totalTransactionsExempted, totalTransactionsMarketplace,
-                marketplaceIncluded);
+                collectedTaxNexusMet, collectedTaxNexusMetDate, periodModel,
+                periodStartDate, periodEndDate, previousPeriodStartDate,
+                previousPeriodEndDate, earliestTransactionDate, mostRecentTransactionDate,
+                earliestCollectedDate, predictedMonthFromToday, vdaEligible,
+                confidenceLevel, lastProcessedAt, lastTaxLiabilityProcessedAt,
+                periods, currency, id,
+                createdAt, updatedAt, organizationId,
+                registration, registrationRegime, isVdaEligible,
+                nexusType, totalTransactions, totalTransactionsIncluded,
+                totalTransactionsExempted, totalTransactionsMarketplace, marketplaceIncluded);
         }
 
 
@@ -2355,12 +2306,6 @@ public class NexusResponse {
                 new LazySingletonValue<>(
                         "collected_tax_nexus_met",
                         "false",
-                        new TypeReference<Optional<Boolean>>() {});
-
-        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_CollectedTaxEnabled =
-                new LazySingletonValue<>(
-                        "collected_tax_enabled",
-                        "true",
                         new TypeReference<Optional<Boolean>>() {});
 
         private static final LazySingletonValue<Optional<OffsetDateTime>> _SINGLETON_VALUE_EarliestCollectedDate =

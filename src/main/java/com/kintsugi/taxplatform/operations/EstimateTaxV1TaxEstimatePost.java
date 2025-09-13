@@ -4,6 +4,7 @@
 package com.kintsugi.taxplatform.operations;
 
 import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
+import static com.kintsugi.taxplatform.operations.Operations.AsyncRequestOperation;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.kintsugi.taxplatform.SDKConfiguration;
@@ -14,6 +15,8 @@ import com.kintsugi.taxplatform.models.errors.BackendSrcTaxEstimationResponsesVa
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
 import com.kintsugi.taxplatform.models.operations.EstimateTaxV1TaxEstimatePostRequest;
 import com.kintsugi.taxplatform.models.operations.EstimateTaxV1TaxEstimatePostResponse;
+import com.kintsugi.taxplatform.utils.Blob;
+import com.kintsugi.taxplatform.utils.Exceptions;
 import com.kintsugi.taxplatform.utils.HTTPClient;
 import com.kintsugi.taxplatform.utils.HTTPRequest;
 import com.kintsugi.taxplatform.utils.Hook.AfterErrorContextImpl;
@@ -25,11 +28,14 @@ import com.kintsugi.taxplatform.utils.Utils;
 import java.io.InputStream;
 import java.lang.Exception;
 import java.lang.Object;
+import java.lang.RuntimeException;
 import java.lang.String;
+import java.lang.Throwable;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.Optional;
-
+import java.util.concurrent.CompletableFuture;
+import java.util.function.Function;
 
 
 public class EstimateTaxV1TaxEstimatePost {
@@ -77,8 +83,7 @@ public class EstimateTaxV1TaxEstimatePost {
                     java.util.Optional.of(java.util.List.of()),
                     securitySource());
         }
-
-        HttpRequest buildRequest(EstimateTaxV1TaxEstimatePostRequest request) throws Exception {
+        <T, U>HttpRequest buildRequest(T request, Class<T> klass, TypeReference<U> typeReference) throws Exception {
             String url = Utils.generateURL(
                     this.baseUrl,
                     "/v1/tax/estimate");
@@ -86,8 +91,7 @@ public class EstimateTaxV1TaxEstimatePost {
             Object convertedRequest = Utils.convertToShape(
                     request,
                     JsonShape.DEFAULT,
-                    new TypeReference<Object>() {
-                    });
+                    typeReference);
             SerializedBody serializedRequestBody = Utils.serializeRequestBody(
                     convertedRequest,
                     "transactionEstimatePublicRequest",
@@ -101,7 +105,7 @@ public class EstimateTaxV1TaxEstimatePost {
                     .addHeader("user-agent", SDKConfiguration.USER_AGENT);
 
             req.addQueryParams(Utils.getQueryParams(
-                    EstimateTaxV1TaxEstimatePostRequest.class,
+                    klass,
                     request,
                     null));
             Utils.configureSecurity(req, this.sdkConfiguration.securitySource().getSecurity());
@@ -117,7 +121,7 @@ public class EstimateTaxV1TaxEstimatePost {
         }
 
         private HttpRequest onBuildRequest(EstimateTaxV1TaxEstimatePostRequest request) throws Exception {
-            HttpRequest req = buildRequest(request);
+            HttpRequest req = buildRequest(request, EstimateTaxV1TaxEstimatePostRequest.class, new TypeReference<EstimateTaxV1TaxEstimatePostRequest>() {});
             return sdkConfiguration.hooks().beforeRequest(createBeforeRequestContext(), req);
         }
 
@@ -260,6 +264,150 @@ public class EstimateTaxV1TaxEstimatePost {
                     response.statusCode(),
                     "Unexpected status code received: " + response.statusCode(),
                     Utils.extractByteArrayFromBody(response));
+        }
+    }
+    public static class Async extends Base
+            implements AsyncRequestOperation<EstimateTaxV1TaxEstimatePostRequest, com.kintsugi.taxplatform.models.operations.async.EstimateTaxV1TaxEstimatePostResponse> {
+
+        public Async(SDKConfiguration sdkConfiguration) {
+            super(sdkConfiguration);
+        }
+
+        private CompletableFuture<HttpRequest> onBuildRequest(EstimateTaxV1TaxEstimatePostRequest request) throws Exception {
+            HttpRequest req = buildRequest(request, EstimateTaxV1TaxEstimatePostRequest.class, new TypeReference<EstimateTaxV1TaxEstimatePostRequest>() {});
+            return this.sdkConfiguration.asyncHooks().beforeRequest(createBeforeRequestContext(), req);
+        }
+
+        private CompletableFuture<HttpResponse<Blob>> onError(HttpResponse<Blob> response, Throwable error) {
+            return this.sdkConfiguration.asyncHooks().afterError(createAfterErrorContext(), response, error);
+        }
+
+        private CompletableFuture<HttpResponse<Blob>> onSuccess(HttpResponse<Blob> response) {
+            return this.sdkConfiguration.asyncHooks().afterSuccess(createAfterSuccessContext(), response);
+        }
+
+        @Override
+        public CompletableFuture<HttpResponse<Blob>> doRequest(EstimateTaxV1TaxEstimatePostRequest request) {
+            return Exceptions.unchecked(() -> onBuildRequest(request)).get().thenCompose(client::sendAsync)
+                    .handle((resp, err) -> {
+                        if (err != null) {
+                            return onError(null, err);
+                        }
+                        if (Utils.statusCodeMatches(resp.statusCode(), "401", "404", "422", "4XX", "500", "5XX")) {
+                            return onError(resp, null);
+                        }
+                        return CompletableFuture.completedFuture(resp);
+                    })
+                    .thenCompose(Function.identity())
+                    .thenCompose(this::onSuccess);
+        }
+
+        @Override
+        public CompletableFuture<com.kintsugi.taxplatform.models.operations.async.EstimateTaxV1TaxEstimatePostResponse> handleResponse(
+                HttpResponse<Blob> response) {
+            String contentType = response
+                    .headers()
+                    .firstValue("Content-Type")
+                    .orElse("application/octet-stream");
+            com.kintsugi.taxplatform.models.operations.async.EstimateTaxV1TaxEstimatePostResponse.Builder resBuilder =
+                    com.kintsugi.taxplatform.models.operations.async.EstimateTaxV1TaxEstimatePostResponse
+                            .builder()
+                            .contentType(contentType)
+                            .statusCode(response.statusCode())
+                            .rawResponse(response);
+
+            com.kintsugi.taxplatform.models.operations.async.EstimateTaxV1TaxEstimatePostResponse res = resBuilder.build();
+            
+            if (Utils.statusCodeMatches(response.statusCode(), "200")) {
+                if (Utils.contentTypeMatches(contentType, "application/json")) {
+                    return response.body().toByteArray().thenApply(bodyBytes -> {
+                        try {
+                            PageTransactionEstimateResponse out = Utils.mapper().readValue(
+                                    bodyBytes,
+                                    new TypeReference<>() {
+                                    });
+                            res.withPageTransactionEstimateResponse(out);
+                            return res;
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
+                } else {
+                    return Utils.createAsyncApiError(response, "Unexpected content-type received: " + contentType);
+                }
+            }
+            
+            if (Utils.statusCodeMatches(response.statusCode(), "401")) {
+                if (Utils.contentTypeMatches(contentType, "application/json")) {
+                    return response.body().toByteArray().thenApply(bodyBytes -> {
+                        com.kintsugi.taxplatform.models.errors.async.ErrorResponse out;
+                        try {
+                            out = Utils.mapper().readValue(
+                                    bodyBytes,
+                                    new TypeReference<>() {
+                                    });
+                            out.withRawResponse(response);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                        throw out;
+                    });
+                } else {
+                    return Utils.createAsyncApiError(response, "Unexpected content-type received: " + contentType);
+                }
+            }
+            
+            if (Utils.statusCodeMatches(response.statusCode(), "422")) {
+                if (Utils.contentTypeMatches(contentType, "application/json")) {
+                    return response.body().toByteArray().thenApply(bodyBytes -> {
+                        com.kintsugi.taxplatform.models.errors.async.BackendSrcTaxEstimationResponsesValidationErrorResponse out;
+                        try {
+                            out = Utils.mapper().readValue(
+                                    bodyBytes,
+                                    new TypeReference<>() {
+                                    });
+                            out.withRawResponse(response);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                        throw out;
+                    });
+                } else {
+                    return Utils.createAsyncApiError(response, "Unexpected content-type received: " + contentType);
+                }
+            }
+            
+            if (Utils.statusCodeMatches(response.statusCode(), "500")) {
+                if (Utils.contentTypeMatches(contentType, "application/json")) {
+                    return response.body().toByteArray().thenApply(bodyBytes -> {
+                        com.kintsugi.taxplatform.models.errors.async.ErrorResponse out;
+                        try {
+                            out = Utils.mapper().readValue(
+                                    bodyBytes,
+                                    new TypeReference<>() {
+                                    });
+                            out.withRawResponse(response);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                        throw out;
+                    });
+                } else {
+                    return Utils.createAsyncApiError(response, "Unexpected content-type received: " + contentType);
+                }
+            }
+            
+            if (Utils.statusCodeMatches(response.statusCode(), "404", "4XX")) {
+                // no content
+                return Utils.createAsyncApiError(response, "API error occurred");
+            }
+            
+            if (Utils.statusCodeMatches(response.statusCode(), "5XX")) {
+                // no content
+                return Utils.createAsyncApiError(response, "API error occurred");
+            }
+            
+            return Utils.createAsyncApiError(response, "Unexpected status code received: " + response.statusCode());
         }
     }
 }

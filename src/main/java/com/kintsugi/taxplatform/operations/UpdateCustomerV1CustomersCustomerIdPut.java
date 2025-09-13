@@ -4,6 +4,7 @@
 package com.kintsugi.taxplatform.operations;
 
 import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
+import static com.kintsugi.taxplatform.operations.Operations.AsyncRequestOperation;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.kintsugi.taxplatform.SDKConfiguration;
@@ -14,6 +15,8 @@ import com.kintsugi.taxplatform.models.errors.BackendSrcCustomersResponsesValida
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
 import com.kintsugi.taxplatform.models.operations.UpdateCustomerV1CustomersCustomerIdPutRequest;
 import com.kintsugi.taxplatform.models.operations.UpdateCustomerV1CustomersCustomerIdPutResponse;
+import com.kintsugi.taxplatform.utils.Blob;
+import com.kintsugi.taxplatform.utils.Exceptions;
 import com.kintsugi.taxplatform.utils.HTTPClient;
 import com.kintsugi.taxplatform.utils.HTTPRequest;
 import com.kintsugi.taxplatform.utils.Hook.AfterErrorContextImpl;
@@ -25,11 +28,14 @@ import com.kintsugi.taxplatform.utils.Utils;
 import java.io.InputStream;
 import java.lang.Exception;
 import java.lang.Object;
+import java.lang.RuntimeException;
 import java.lang.String;
+import java.lang.Throwable;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.Optional;
-
+import java.util.concurrent.CompletableFuture;
+import java.util.function.Function;
 
 
 public class UpdateCustomerV1CustomersCustomerIdPut {
@@ -77,10 +83,9 @@ public class UpdateCustomerV1CustomersCustomerIdPut {
                     java.util.Optional.of(java.util.List.of()),
                     securitySource());
         }
-
-        HttpRequest buildRequest(UpdateCustomerV1CustomersCustomerIdPutRequest request) throws Exception {
+        <T, U>HttpRequest buildRequest(T request, Class<T> klass, TypeReference<U> typeReference) throws Exception {
             String url = Utils.generateURL(
-                    UpdateCustomerV1CustomersCustomerIdPutRequest.class,
+                    klass,
                     this.baseUrl,
                     "/v1/customers/{customer_id}",
                     request, null);
@@ -88,8 +93,7 @@ public class UpdateCustomerV1CustomersCustomerIdPut {
             Object convertedRequest = Utils.convertToShape(
                     request,
                     JsonShape.DEFAULT,
-                    new TypeReference<Object>() {
-                    });
+                    typeReference);
             SerializedBody serializedRequestBody = Utils.serializeRequestBody(
                     convertedRequest,
                     "customerUpdate",
@@ -114,7 +118,7 @@ public class UpdateCustomerV1CustomersCustomerIdPut {
         }
 
         private HttpRequest onBuildRequest(UpdateCustomerV1CustomersCustomerIdPutRequest request) throws Exception {
-            HttpRequest req = buildRequest(request);
+            HttpRequest req = buildRequest(request, UpdateCustomerV1CustomersCustomerIdPutRequest.class, new TypeReference<UpdateCustomerV1CustomersCustomerIdPutRequest>() {});
             return sdkConfiguration.hooks().beforeRequest(createBeforeRequestContext(), req);
         }
 
@@ -257,6 +261,150 @@ public class UpdateCustomerV1CustomersCustomerIdPut {
                     response.statusCode(),
                     "Unexpected status code received: " + response.statusCode(),
                     Utils.extractByteArrayFromBody(response));
+        }
+    }
+    public static class Async extends Base
+            implements AsyncRequestOperation<UpdateCustomerV1CustomersCustomerIdPutRequest, com.kintsugi.taxplatform.models.operations.async.UpdateCustomerV1CustomersCustomerIdPutResponse> {
+
+        public Async(SDKConfiguration sdkConfiguration) {
+            super(sdkConfiguration);
+        }
+
+        private CompletableFuture<HttpRequest> onBuildRequest(UpdateCustomerV1CustomersCustomerIdPutRequest request) throws Exception {
+            HttpRequest req = buildRequest(request, UpdateCustomerV1CustomersCustomerIdPutRequest.class, new TypeReference<UpdateCustomerV1CustomersCustomerIdPutRequest>() {});
+            return this.sdkConfiguration.asyncHooks().beforeRequest(createBeforeRequestContext(), req);
+        }
+
+        private CompletableFuture<HttpResponse<Blob>> onError(HttpResponse<Blob> response, Throwable error) {
+            return this.sdkConfiguration.asyncHooks().afterError(createAfterErrorContext(), response, error);
+        }
+
+        private CompletableFuture<HttpResponse<Blob>> onSuccess(HttpResponse<Blob> response) {
+            return this.sdkConfiguration.asyncHooks().afterSuccess(createAfterSuccessContext(), response);
+        }
+
+        @Override
+        public CompletableFuture<HttpResponse<Blob>> doRequest(UpdateCustomerV1CustomersCustomerIdPutRequest request) {
+            return Exceptions.unchecked(() -> onBuildRequest(request)).get().thenCompose(client::sendAsync)
+                    .handle((resp, err) -> {
+                        if (err != null) {
+                            return onError(null, err);
+                        }
+                        if (Utils.statusCodeMatches(resp.statusCode(), "401", "404", "422", "4XX", "500", "5XX")) {
+                            return onError(resp, null);
+                        }
+                        return CompletableFuture.completedFuture(resp);
+                    })
+                    .thenCompose(Function.identity())
+                    .thenCompose(this::onSuccess);
+        }
+
+        @Override
+        public CompletableFuture<com.kintsugi.taxplatform.models.operations.async.UpdateCustomerV1CustomersCustomerIdPutResponse> handleResponse(
+                HttpResponse<Blob> response) {
+            String contentType = response
+                    .headers()
+                    .firstValue("Content-Type")
+                    .orElse("application/octet-stream");
+            com.kintsugi.taxplatform.models.operations.async.UpdateCustomerV1CustomersCustomerIdPutResponse.Builder resBuilder =
+                    com.kintsugi.taxplatform.models.operations.async.UpdateCustomerV1CustomersCustomerIdPutResponse
+                            .builder()
+                            .contentType(contentType)
+                            .statusCode(response.statusCode())
+                            .rawResponse(response);
+
+            com.kintsugi.taxplatform.models.operations.async.UpdateCustomerV1CustomersCustomerIdPutResponse res = resBuilder.build();
+            
+            if (Utils.statusCodeMatches(response.statusCode(), "200")) {
+                if (Utils.contentTypeMatches(contentType, "application/json")) {
+                    return response.body().toByteArray().thenApply(bodyBytes -> {
+                        try {
+                            CustomerRead out = Utils.mapper().readValue(
+                                    bodyBytes,
+                                    new TypeReference<>() {
+                                    });
+                            res.withCustomerRead(out);
+                            return res;
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
+                } else {
+                    return Utils.createAsyncApiError(response, "Unexpected content-type received: " + contentType);
+                }
+            }
+            
+            if (Utils.statusCodeMatches(response.statusCode(), "401", "404")) {
+                if (Utils.contentTypeMatches(contentType, "application/json")) {
+                    return response.body().toByteArray().thenApply(bodyBytes -> {
+                        com.kintsugi.taxplatform.models.errors.async.ErrorResponse out;
+                        try {
+                            out = Utils.mapper().readValue(
+                                    bodyBytes,
+                                    new TypeReference<>() {
+                                    });
+                            out.withRawResponse(response);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                        throw out;
+                    });
+                } else {
+                    return Utils.createAsyncApiError(response, "Unexpected content-type received: " + contentType);
+                }
+            }
+            
+            if (Utils.statusCodeMatches(response.statusCode(), "422")) {
+                if (Utils.contentTypeMatches(contentType, "application/json")) {
+                    return response.body().toByteArray().thenApply(bodyBytes -> {
+                        com.kintsugi.taxplatform.models.errors.async.BackendSrcCustomersResponsesValidationErrorResponse out;
+                        try {
+                            out = Utils.mapper().readValue(
+                                    bodyBytes,
+                                    new TypeReference<>() {
+                                    });
+                            out.withRawResponse(response);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                        throw out;
+                    });
+                } else {
+                    return Utils.createAsyncApiError(response, "Unexpected content-type received: " + contentType);
+                }
+            }
+            
+            if (Utils.statusCodeMatches(response.statusCode(), "500")) {
+                if (Utils.contentTypeMatches(contentType, "application/json")) {
+                    return response.body().toByteArray().thenApply(bodyBytes -> {
+                        com.kintsugi.taxplatform.models.errors.async.ErrorResponse out;
+                        try {
+                            out = Utils.mapper().readValue(
+                                    bodyBytes,
+                                    new TypeReference<>() {
+                                    });
+                            out.withRawResponse(response);
+                        } catch (Exception e) {
+                            throw new RuntimeException(e);
+                        }
+                        throw out;
+                    });
+                } else {
+                    return Utils.createAsyncApiError(response, "Unexpected content-type received: " + contentType);
+                }
+            }
+            
+            if (Utils.statusCodeMatches(response.statusCode(), "4XX")) {
+                // no content
+                return Utils.createAsyncApiError(response, "API error occurred");
+            }
+            
+            if (Utils.statusCodeMatches(response.statusCode(), "5XX")) {
+                // no content
+                return Utils.createAsyncApiError(response, "API error occurred");
+            }
+            
+            return Utils.createAsyncApiError(response, "Unexpected status code received: " + response.statusCode());
         }
     }
 }

@@ -265,80 +265,6 @@ public class TransactionUpdate {
     private Optional<String> taxId;
 
 
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("address_status")
-    private Optional<? extends AddressStatus> addressStatus;
-
-    /**
-     * Our transaction state, used to determine when/if a transaction needs additional
-     * processing.
-     */
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("processing_status")
-    private Optional<? extends ProcessingStatusEnum> processingStatus;
-
-
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("destination_currency")
-    private Optional<? extends CurrencyEnum> destinationCurrency;
-
-    /**
-     * Converted total amount.
-     */
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("converted_total_amount")
-    private Optional<Double> convertedTotalAmount;
-
-    /**
-     * Converted imported tax amount.
-     */
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("converted_total_tax_amount_imported")
-    private Optional<Double> convertedTotalTaxAmountImported;
-
-    /**
-     * Converted calculated tax amount.
-     */
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("converted_total_tax_amount_calculated")
-    private Optional<Double> convertedTotalTaxAmountCalculated;
-
-    /**
-     * Currency conversion rate.
-     */
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("conversion_rate")
-    private Optional<Double> conversionRate;
-
-    /**
-     * Converted taxable amount.
-     */
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("converted_taxable_amount")
-    private Optional<Double> convertedTaxableAmount;
-
-    /**
-     * Converted total discount amount.
-     */
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("converted_total_discount")
-    private Optional<Double> convertedTotalDiscount;
-
-    /**
-     * Converted subtotal amount.
-     */
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("converted_subtotal")
-    private Optional<Double> convertedSubtotal;
-
-    /**
-     * Converted total tax liability amount.
-     */
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("converted_total_tax_liability_amount")
-    private Optional<Double> convertedTotalTaxLiabilityAmount;
-
-
     @JsonProperty("addresses")
     private List<TransactionAddressBuilder> addresses;
 
@@ -388,17 +314,6 @@ public class TransactionUpdate {
             @JsonProperty("country") Optional<? extends CountryCodeEnum> country,
             @JsonProperty("postal_code") Optional<String> postalCode,
             @JsonProperty("tax_id") Optional<String> taxId,
-            @JsonProperty("address_status") Optional<? extends AddressStatus> addressStatus,
-            @JsonProperty("processing_status") Optional<? extends ProcessingStatusEnum> processingStatus,
-            @JsonProperty("destination_currency") Optional<? extends CurrencyEnum> destinationCurrency,
-            @JsonProperty("converted_total_amount") Optional<Double> convertedTotalAmount,
-            @JsonProperty("converted_total_tax_amount_imported") Optional<Double> convertedTotalTaxAmountImported,
-            @JsonProperty("converted_total_tax_amount_calculated") Optional<Double> convertedTotalTaxAmountCalculated,
-            @JsonProperty("conversion_rate") Optional<Double> conversionRate,
-            @JsonProperty("converted_taxable_amount") Optional<Double> convertedTaxableAmount,
-            @JsonProperty("converted_total_discount") Optional<Double> convertedTotalDiscount,
-            @JsonProperty("converted_subtotal") Optional<Double> convertedSubtotal,
-            @JsonProperty("converted_total_tax_liability_amount") Optional<Double> convertedTotalTaxLiabilityAmount,
             @JsonProperty("addresses") List<TransactionAddressBuilder> addresses,
             @JsonProperty("transaction_items") List<TransactionItemCreateUpdate> transactionItems,
             @JsonProperty("customer") CustomerUpdate customer) {
@@ -438,17 +353,6 @@ public class TransactionUpdate {
         Utils.checkNotNull(country, "country");
         Utils.checkNotNull(postalCode, "postalCode");
         Utils.checkNotNull(taxId, "taxId");
-        Utils.checkNotNull(addressStatus, "addressStatus");
-        Utils.checkNotNull(processingStatus, "processingStatus");
-        Utils.checkNotNull(destinationCurrency, "destinationCurrency");
-        Utils.checkNotNull(convertedTotalAmount, "convertedTotalAmount");
-        Utils.checkNotNull(convertedTotalTaxAmountImported, "convertedTotalTaxAmountImported");
-        Utils.checkNotNull(convertedTotalTaxAmountCalculated, "convertedTotalTaxAmountCalculated");
-        Utils.checkNotNull(conversionRate, "conversionRate");
-        Utils.checkNotNull(convertedTaxableAmount, "convertedTaxableAmount");
-        Utils.checkNotNull(convertedTotalDiscount, "convertedTotalDiscount");
-        Utils.checkNotNull(convertedSubtotal, "convertedSubtotal");
-        Utils.checkNotNull(convertedTotalTaxLiabilityAmount, "convertedTotalTaxLiabilityAmount");
         Utils.checkNotNull(addresses, "addresses");
         Utils.checkNotNull(transactionItems, "transactionItems");
         Utils.checkNotNull(customer, "customer");
@@ -488,17 +392,6 @@ public class TransactionUpdate {
         this.country = country;
         this.postalCode = postalCode;
         this.taxId = taxId;
-        this.addressStatus = addressStatus;
-        this.processingStatus = processingStatus;
-        this.destinationCurrency = destinationCurrency;
-        this.convertedTotalAmount = convertedTotalAmount;
-        this.convertedTotalTaxAmountImported = convertedTotalTaxAmountImported;
-        this.convertedTotalTaxAmountCalculated = convertedTotalTaxAmountCalculated;
-        this.conversionRate = conversionRate;
-        this.convertedTaxableAmount = convertedTaxableAmount;
-        this.convertedTotalDiscount = convertedTotalDiscount;
-        this.convertedSubtotal = convertedSubtotal;
-        this.convertedTotalTaxLiabilityAmount = convertedTotalTaxLiabilityAmount;
         this.addresses = addresses;
         this.transactionItems = transactionItems;
         this.customer = customer;
@@ -523,11 +416,7 @@ public class TransactionUpdate {
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), addresses,
-            transactionItems, customer);
+            addresses, transactionItems, customer);
     }
 
     @SuppressWarnings("unchecked")
@@ -812,92 +701,6 @@ public class TransactionUpdate {
     @JsonIgnore
     public Optional<String> taxId() {
         return taxId;
-    }
-
-    @SuppressWarnings("unchecked")
-    @JsonIgnore
-    public Optional<AddressStatus> addressStatus() {
-        return (Optional<AddressStatus>) addressStatus;
-    }
-
-    /**
-     * Our transaction state, used to determine when/if a transaction needs additional
-     * processing.
-     */
-    @SuppressWarnings("unchecked")
-    @JsonIgnore
-    public Optional<ProcessingStatusEnum> processingStatus() {
-        return (Optional<ProcessingStatusEnum>) processingStatus;
-    }
-
-    @SuppressWarnings("unchecked")
-    @JsonIgnore
-    public Optional<CurrencyEnum> destinationCurrency() {
-        return (Optional<CurrencyEnum>) destinationCurrency;
-    }
-
-    /**
-     * Converted total amount.
-     */
-    @JsonIgnore
-    public Optional<Double> convertedTotalAmount() {
-        return convertedTotalAmount;
-    }
-
-    /**
-     * Converted imported tax amount.
-     */
-    @JsonIgnore
-    public Optional<Double> convertedTotalTaxAmountImported() {
-        return convertedTotalTaxAmountImported;
-    }
-
-    /**
-     * Converted calculated tax amount.
-     */
-    @JsonIgnore
-    public Optional<Double> convertedTotalTaxAmountCalculated() {
-        return convertedTotalTaxAmountCalculated;
-    }
-
-    /**
-     * Currency conversion rate.
-     */
-    @JsonIgnore
-    public Optional<Double> conversionRate() {
-        return conversionRate;
-    }
-
-    /**
-     * Converted taxable amount.
-     */
-    @JsonIgnore
-    public Optional<Double> convertedTaxableAmount() {
-        return convertedTaxableAmount;
-    }
-
-    /**
-     * Converted total discount amount.
-     */
-    @JsonIgnore
-    public Optional<Double> convertedTotalDiscount() {
-        return convertedTotalDiscount;
-    }
-
-    /**
-     * Converted subtotal amount.
-     */
-    @JsonIgnore
-    public Optional<Double> convertedSubtotal() {
-        return convertedSubtotal;
-    }
-
-    /**
-     * Converted total tax liability amount.
-     */
-    @JsonIgnore
-    public Optional<Double> convertedTotalTaxLiabilityAmount() {
-        return convertedTotalTaxLiabilityAmount;
     }
 
     @JsonIgnore
@@ -1548,205 +1351,6 @@ public class TransactionUpdate {
         return this;
     }
 
-    public TransactionUpdate withAddressStatus(AddressStatus addressStatus) {
-        Utils.checkNotNull(addressStatus, "addressStatus");
-        this.addressStatus = Optional.ofNullable(addressStatus);
-        return this;
-    }
-
-
-    public TransactionUpdate withAddressStatus(Optional<? extends AddressStatus> addressStatus) {
-        Utils.checkNotNull(addressStatus, "addressStatus");
-        this.addressStatus = addressStatus;
-        return this;
-    }
-
-    /**
-     * Our transaction state, used to determine when/if a transaction needs additional
-     * processing.
-     */
-    public TransactionUpdate withProcessingStatus(ProcessingStatusEnum processingStatus) {
-        Utils.checkNotNull(processingStatus, "processingStatus");
-        this.processingStatus = Optional.ofNullable(processingStatus);
-        return this;
-    }
-
-
-    /**
-     * Our transaction state, used to determine when/if a transaction needs additional
-     * processing.
-     */
-    public TransactionUpdate withProcessingStatus(Optional<? extends ProcessingStatusEnum> processingStatus) {
-        Utils.checkNotNull(processingStatus, "processingStatus");
-        this.processingStatus = processingStatus;
-        return this;
-    }
-
-    public TransactionUpdate withDestinationCurrency(CurrencyEnum destinationCurrency) {
-        Utils.checkNotNull(destinationCurrency, "destinationCurrency");
-        this.destinationCurrency = Optional.ofNullable(destinationCurrency);
-        return this;
-    }
-
-
-    public TransactionUpdate withDestinationCurrency(Optional<? extends CurrencyEnum> destinationCurrency) {
-        Utils.checkNotNull(destinationCurrency, "destinationCurrency");
-        this.destinationCurrency = destinationCurrency;
-        return this;
-    }
-
-    /**
-     * Converted total amount.
-     */
-    public TransactionUpdate withConvertedTotalAmount(double convertedTotalAmount) {
-        Utils.checkNotNull(convertedTotalAmount, "convertedTotalAmount");
-        this.convertedTotalAmount = Optional.ofNullable(convertedTotalAmount);
-        return this;
-    }
-
-
-    /**
-     * Converted total amount.
-     */
-    public TransactionUpdate withConvertedTotalAmount(Optional<Double> convertedTotalAmount) {
-        Utils.checkNotNull(convertedTotalAmount, "convertedTotalAmount");
-        this.convertedTotalAmount = convertedTotalAmount;
-        return this;
-    }
-
-    /**
-     * Converted imported tax amount.
-     */
-    public TransactionUpdate withConvertedTotalTaxAmountImported(double convertedTotalTaxAmountImported) {
-        Utils.checkNotNull(convertedTotalTaxAmountImported, "convertedTotalTaxAmountImported");
-        this.convertedTotalTaxAmountImported = Optional.ofNullable(convertedTotalTaxAmountImported);
-        return this;
-    }
-
-
-    /**
-     * Converted imported tax amount.
-     */
-    public TransactionUpdate withConvertedTotalTaxAmountImported(Optional<Double> convertedTotalTaxAmountImported) {
-        Utils.checkNotNull(convertedTotalTaxAmountImported, "convertedTotalTaxAmountImported");
-        this.convertedTotalTaxAmountImported = convertedTotalTaxAmountImported;
-        return this;
-    }
-
-    /**
-     * Converted calculated tax amount.
-     */
-    public TransactionUpdate withConvertedTotalTaxAmountCalculated(double convertedTotalTaxAmountCalculated) {
-        Utils.checkNotNull(convertedTotalTaxAmountCalculated, "convertedTotalTaxAmountCalculated");
-        this.convertedTotalTaxAmountCalculated = Optional.ofNullable(convertedTotalTaxAmountCalculated);
-        return this;
-    }
-
-
-    /**
-     * Converted calculated tax amount.
-     */
-    public TransactionUpdate withConvertedTotalTaxAmountCalculated(Optional<Double> convertedTotalTaxAmountCalculated) {
-        Utils.checkNotNull(convertedTotalTaxAmountCalculated, "convertedTotalTaxAmountCalculated");
-        this.convertedTotalTaxAmountCalculated = convertedTotalTaxAmountCalculated;
-        return this;
-    }
-
-    /**
-     * Currency conversion rate.
-     */
-    public TransactionUpdate withConversionRate(double conversionRate) {
-        Utils.checkNotNull(conversionRate, "conversionRate");
-        this.conversionRate = Optional.ofNullable(conversionRate);
-        return this;
-    }
-
-
-    /**
-     * Currency conversion rate.
-     */
-    public TransactionUpdate withConversionRate(Optional<Double> conversionRate) {
-        Utils.checkNotNull(conversionRate, "conversionRate");
-        this.conversionRate = conversionRate;
-        return this;
-    }
-
-    /**
-     * Converted taxable amount.
-     */
-    public TransactionUpdate withConvertedTaxableAmount(double convertedTaxableAmount) {
-        Utils.checkNotNull(convertedTaxableAmount, "convertedTaxableAmount");
-        this.convertedTaxableAmount = Optional.ofNullable(convertedTaxableAmount);
-        return this;
-    }
-
-
-    /**
-     * Converted taxable amount.
-     */
-    public TransactionUpdate withConvertedTaxableAmount(Optional<Double> convertedTaxableAmount) {
-        Utils.checkNotNull(convertedTaxableAmount, "convertedTaxableAmount");
-        this.convertedTaxableAmount = convertedTaxableAmount;
-        return this;
-    }
-
-    /**
-     * Converted total discount amount.
-     */
-    public TransactionUpdate withConvertedTotalDiscount(double convertedTotalDiscount) {
-        Utils.checkNotNull(convertedTotalDiscount, "convertedTotalDiscount");
-        this.convertedTotalDiscount = Optional.ofNullable(convertedTotalDiscount);
-        return this;
-    }
-
-
-    /**
-     * Converted total discount amount.
-     */
-    public TransactionUpdate withConvertedTotalDiscount(Optional<Double> convertedTotalDiscount) {
-        Utils.checkNotNull(convertedTotalDiscount, "convertedTotalDiscount");
-        this.convertedTotalDiscount = convertedTotalDiscount;
-        return this;
-    }
-
-    /**
-     * Converted subtotal amount.
-     */
-    public TransactionUpdate withConvertedSubtotal(double convertedSubtotal) {
-        Utils.checkNotNull(convertedSubtotal, "convertedSubtotal");
-        this.convertedSubtotal = Optional.ofNullable(convertedSubtotal);
-        return this;
-    }
-
-
-    /**
-     * Converted subtotal amount.
-     */
-    public TransactionUpdate withConvertedSubtotal(Optional<Double> convertedSubtotal) {
-        Utils.checkNotNull(convertedSubtotal, "convertedSubtotal");
-        this.convertedSubtotal = convertedSubtotal;
-        return this;
-    }
-
-    /**
-     * Converted total tax liability amount.
-     */
-    public TransactionUpdate withConvertedTotalTaxLiabilityAmount(double convertedTotalTaxLiabilityAmount) {
-        Utils.checkNotNull(convertedTotalTaxLiabilityAmount, "convertedTotalTaxLiabilityAmount");
-        this.convertedTotalTaxLiabilityAmount = Optional.ofNullable(convertedTotalTaxLiabilityAmount);
-        return this;
-    }
-
-
-    /**
-     * Converted total tax liability amount.
-     */
-    public TransactionUpdate withConvertedTotalTaxLiabilityAmount(Optional<Double> convertedTotalTaxLiabilityAmount) {
-        Utils.checkNotNull(convertedTotalTaxLiabilityAmount, "convertedTotalTaxLiabilityAmount");
-        this.convertedTotalTaxLiabilityAmount = convertedTotalTaxLiabilityAmount;
-        return this;
-    }
-
     public TransactionUpdate withAddresses(List<TransactionAddressBuilder> addresses) {
         Utils.checkNotNull(addresses, "addresses");
         this.addresses = addresses;
@@ -1811,17 +1415,6 @@ public class TransactionUpdate {
             Utils.enhancedDeepEquals(this.country, other.country) &&
             Utils.enhancedDeepEquals(this.postalCode, other.postalCode) &&
             Utils.enhancedDeepEquals(this.taxId, other.taxId) &&
-            Utils.enhancedDeepEquals(this.addressStatus, other.addressStatus) &&
-            Utils.enhancedDeepEquals(this.processingStatus, other.processingStatus) &&
-            Utils.enhancedDeepEquals(this.destinationCurrency, other.destinationCurrency) &&
-            Utils.enhancedDeepEquals(this.convertedTotalAmount, other.convertedTotalAmount) &&
-            Utils.enhancedDeepEquals(this.convertedTotalTaxAmountImported, other.convertedTotalTaxAmountImported) &&
-            Utils.enhancedDeepEquals(this.convertedTotalTaxAmountCalculated, other.convertedTotalTaxAmountCalculated) &&
-            Utils.enhancedDeepEquals(this.conversionRate, other.conversionRate) &&
-            Utils.enhancedDeepEquals(this.convertedTaxableAmount, other.convertedTaxableAmount) &&
-            Utils.enhancedDeepEquals(this.convertedTotalDiscount, other.convertedTotalDiscount) &&
-            Utils.enhancedDeepEquals(this.convertedSubtotal, other.convertedSubtotal) &&
-            Utils.enhancedDeepEquals(this.convertedTotalTaxLiabilityAmount, other.convertedTotalTaxLiabilityAmount) &&
             Utils.enhancedDeepEquals(this.addresses, other.addresses) &&
             Utils.enhancedDeepEquals(this.transactionItems, other.transactionItems) &&
             Utils.enhancedDeepEquals(this.customer, other.customer);
@@ -1842,11 +1435,7 @@ public class TransactionUpdate {
             source, connectionId, filingId,
             city, county, state,
             country, postalCode, taxId,
-            addressStatus, processingStatus, destinationCurrency,
-            convertedTotalAmount, convertedTotalTaxAmountImported, convertedTotalTaxAmountCalculated,
-            conversionRate, convertedTaxableAmount, convertedTotalDiscount,
-            convertedSubtotal, convertedTotalTaxLiabilityAmount, addresses,
-            transactionItems, customer);
+            addresses, transactionItems, customer);
     }
     
     @Override
@@ -1888,17 +1477,6 @@ public class TransactionUpdate {
                 "country", country,
                 "postalCode", postalCode,
                 "taxId", taxId,
-                "addressStatus", addressStatus,
-                "processingStatus", processingStatus,
-                "destinationCurrency", destinationCurrency,
-                "convertedTotalAmount", convertedTotalAmount,
-                "convertedTotalTaxAmountImported", convertedTotalTaxAmountImported,
-                "convertedTotalTaxAmountCalculated", convertedTotalTaxAmountCalculated,
-                "conversionRate", conversionRate,
-                "convertedTaxableAmount", convertedTaxableAmount,
-                "convertedTotalDiscount", convertedTotalDiscount,
-                "convertedSubtotal", convertedSubtotal,
-                "convertedTotalTaxLiabilityAmount", convertedTotalTaxLiabilityAmount,
                 "addresses", addresses,
                 "transactionItems", transactionItems,
                 "customer", customer);
@@ -1978,28 +1556,6 @@ public class TransactionUpdate {
         private Optional<String> postalCode = Optional.empty();
 
         private Optional<String> taxId = Optional.empty();
-
-        private Optional<? extends AddressStatus> addressStatus = Optional.empty();
-
-        private Optional<? extends ProcessingStatusEnum> processingStatus = Optional.empty();
-
-        private Optional<? extends CurrencyEnum> destinationCurrency = Optional.empty();
-
-        private Optional<Double> convertedTotalAmount = Optional.empty();
-
-        private Optional<Double> convertedTotalTaxAmountImported = Optional.empty();
-
-        private Optional<Double> convertedTotalTaxAmountCalculated = Optional.empty();
-
-        private Optional<Double> conversionRate = Optional.empty();
-
-        private Optional<Double> convertedTaxableAmount = Optional.empty();
-
-        private Optional<Double> convertedTotalDiscount = Optional.empty();
-
-        private Optional<Double> convertedSubtotal = Optional.empty();
-
-        private Optional<Double> convertedTotalTaxLiabilityAmount = Optional.empty();
 
         private List<TransactionAddressBuilder> addresses;
 
@@ -2643,205 +2199,6 @@ public class TransactionUpdate {
         }
 
 
-        public Builder addressStatus(AddressStatus addressStatus) {
-            Utils.checkNotNull(addressStatus, "addressStatus");
-            this.addressStatus = Optional.ofNullable(addressStatus);
-            return this;
-        }
-
-        public Builder addressStatus(Optional<? extends AddressStatus> addressStatus) {
-            Utils.checkNotNull(addressStatus, "addressStatus");
-            this.addressStatus = addressStatus;
-            return this;
-        }
-
-
-        /**
-         * Our transaction state, used to determine when/if a transaction needs additional
-         * processing.
-         */
-        public Builder processingStatus(ProcessingStatusEnum processingStatus) {
-            Utils.checkNotNull(processingStatus, "processingStatus");
-            this.processingStatus = Optional.ofNullable(processingStatus);
-            return this;
-        }
-
-        /**
-         * Our transaction state, used to determine when/if a transaction needs additional
-         * processing.
-         */
-        public Builder processingStatus(Optional<? extends ProcessingStatusEnum> processingStatus) {
-            Utils.checkNotNull(processingStatus, "processingStatus");
-            this.processingStatus = processingStatus;
-            return this;
-        }
-
-
-        public Builder destinationCurrency(CurrencyEnum destinationCurrency) {
-            Utils.checkNotNull(destinationCurrency, "destinationCurrency");
-            this.destinationCurrency = Optional.ofNullable(destinationCurrency);
-            return this;
-        }
-
-        public Builder destinationCurrency(Optional<? extends CurrencyEnum> destinationCurrency) {
-            Utils.checkNotNull(destinationCurrency, "destinationCurrency");
-            this.destinationCurrency = destinationCurrency;
-            return this;
-        }
-
-
-        /**
-         * Converted total amount.
-         */
-        public Builder convertedTotalAmount(double convertedTotalAmount) {
-            Utils.checkNotNull(convertedTotalAmount, "convertedTotalAmount");
-            this.convertedTotalAmount = Optional.ofNullable(convertedTotalAmount);
-            return this;
-        }
-
-        /**
-         * Converted total amount.
-         */
-        public Builder convertedTotalAmount(Optional<Double> convertedTotalAmount) {
-            Utils.checkNotNull(convertedTotalAmount, "convertedTotalAmount");
-            this.convertedTotalAmount = convertedTotalAmount;
-            return this;
-        }
-
-
-        /**
-         * Converted imported tax amount.
-         */
-        public Builder convertedTotalTaxAmountImported(double convertedTotalTaxAmountImported) {
-            Utils.checkNotNull(convertedTotalTaxAmountImported, "convertedTotalTaxAmountImported");
-            this.convertedTotalTaxAmountImported = Optional.ofNullable(convertedTotalTaxAmountImported);
-            return this;
-        }
-
-        /**
-         * Converted imported tax amount.
-         */
-        public Builder convertedTotalTaxAmountImported(Optional<Double> convertedTotalTaxAmountImported) {
-            Utils.checkNotNull(convertedTotalTaxAmountImported, "convertedTotalTaxAmountImported");
-            this.convertedTotalTaxAmountImported = convertedTotalTaxAmountImported;
-            return this;
-        }
-
-
-        /**
-         * Converted calculated tax amount.
-         */
-        public Builder convertedTotalTaxAmountCalculated(double convertedTotalTaxAmountCalculated) {
-            Utils.checkNotNull(convertedTotalTaxAmountCalculated, "convertedTotalTaxAmountCalculated");
-            this.convertedTotalTaxAmountCalculated = Optional.ofNullable(convertedTotalTaxAmountCalculated);
-            return this;
-        }
-
-        /**
-         * Converted calculated tax amount.
-         */
-        public Builder convertedTotalTaxAmountCalculated(Optional<Double> convertedTotalTaxAmountCalculated) {
-            Utils.checkNotNull(convertedTotalTaxAmountCalculated, "convertedTotalTaxAmountCalculated");
-            this.convertedTotalTaxAmountCalculated = convertedTotalTaxAmountCalculated;
-            return this;
-        }
-
-
-        /**
-         * Currency conversion rate.
-         */
-        public Builder conversionRate(double conversionRate) {
-            Utils.checkNotNull(conversionRate, "conversionRate");
-            this.conversionRate = Optional.ofNullable(conversionRate);
-            return this;
-        }
-
-        /**
-         * Currency conversion rate.
-         */
-        public Builder conversionRate(Optional<Double> conversionRate) {
-            Utils.checkNotNull(conversionRate, "conversionRate");
-            this.conversionRate = conversionRate;
-            return this;
-        }
-
-
-        /**
-         * Converted taxable amount.
-         */
-        public Builder convertedTaxableAmount(double convertedTaxableAmount) {
-            Utils.checkNotNull(convertedTaxableAmount, "convertedTaxableAmount");
-            this.convertedTaxableAmount = Optional.ofNullable(convertedTaxableAmount);
-            return this;
-        }
-
-        /**
-         * Converted taxable amount.
-         */
-        public Builder convertedTaxableAmount(Optional<Double> convertedTaxableAmount) {
-            Utils.checkNotNull(convertedTaxableAmount, "convertedTaxableAmount");
-            this.convertedTaxableAmount = convertedTaxableAmount;
-            return this;
-        }
-
-
-        /**
-         * Converted total discount amount.
-         */
-        public Builder convertedTotalDiscount(double convertedTotalDiscount) {
-            Utils.checkNotNull(convertedTotalDiscount, "convertedTotalDiscount");
-            this.convertedTotalDiscount = Optional.ofNullable(convertedTotalDiscount);
-            return this;
-        }
-
-        /**
-         * Converted total discount amount.
-         */
-        public Builder convertedTotalDiscount(Optional<Double> convertedTotalDiscount) {
-            Utils.checkNotNull(convertedTotalDiscount, "convertedTotalDiscount");
-            this.convertedTotalDiscount = convertedTotalDiscount;
-            return this;
-        }
-
-
-        /**
-         * Converted subtotal amount.
-         */
-        public Builder convertedSubtotal(double convertedSubtotal) {
-            Utils.checkNotNull(convertedSubtotal, "convertedSubtotal");
-            this.convertedSubtotal = Optional.ofNullable(convertedSubtotal);
-            return this;
-        }
-
-        /**
-         * Converted subtotal amount.
-         */
-        public Builder convertedSubtotal(Optional<Double> convertedSubtotal) {
-            Utils.checkNotNull(convertedSubtotal, "convertedSubtotal");
-            this.convertedSubtotal = convertedSubtotal;
-            return this;
-        }
-
-
-        /**
-         * Converted total tax liability amount.
-         */
-        public Builder convertedTotalTaxLiabilityAmount(double convertedTotalTaxLiabilityAmount) {
-            Utils.checkNotNull(convertedTotalTaxLiabilityAmount, "convertedTotalTaxLiabilityAmount");
-            this.convertedTotalTaxLiabilityAmount = Optional.ofNullable(convertedTotalTaxLiabilityAmount);
-            return this;
-        }
-
-        /**
-         * Converted total tax liability amount.
-         */
-        public Builder convertedTotalTaxLiabilityAmount(Optional<Double> convertedTotalTaxLiabilityAmount) {
-            Utils.checkNotNull(convertedTotalTaxLiabilityAmount, "convertedTotalTaxLiabilityAmount");
-            this.convertedTotalTaxLiabilityAmount = convertedTotalTaxLiabilityAmount;
-            return this;
-        }
-
-
         public Builder addresses(List<TransactionAddressBuilder> addresses) {
             Utils.checkNotNull(addresses, "addresses");
             this.addresses = addresses;
@@ -2904,11 +2261,7 @@ public class TransactionUpdate {
                 source, connectionId, filingId,
                 city, county, state,
                 country, postalCode, taxId,
-                addressStatus, processingStatus, destinationCurrency,
-                convertedTotalAmount, convertedTotalTaxAmountImported, convertedTotalTaxAmountCalculated,
-                conversionRate, convertedTaxableAmount, convertedTotalDiscount,
-                convertedSubtotal, convertedTotalTaxLiabilityAmount, addresses,
-                transactionItems, customer);
+                addresses, transactionItems, customer);
         }
 
 

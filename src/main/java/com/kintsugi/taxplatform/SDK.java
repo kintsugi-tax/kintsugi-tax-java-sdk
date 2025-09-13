@@ -97,6 +97,7 @@ public class SDK {
     }
 
     private final SDKConfiguration sdkConfiguration;
+    private final AsyncSDK asyncSDK;
 
     /**
      * The Builder class allows the configuration of a new instance of the SDK.
@@ -243,5 +244,16 @@ public class SDK {
         this.registrations = new Registrations(sdkConfiguration);
         this.transactions = new Transactions(sdkConfiguration);
         this.taxEstimation = new TaxEstimation(sdkConfiguration);
+        this.asyncSDK = new AsyncSDK(this, sdkConfiguration);
     }
+
+    /**
+     * Switches to the async SDK.
+     * 
+     * @return The async SDK
+     */
+    public AsyncSDK async() {
+        return asyncSDK;
+    }
+
 }

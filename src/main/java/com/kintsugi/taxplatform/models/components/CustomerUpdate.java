@@ -113,6 +113,13 @@ public class CustomerUpdate {
     @JsonProperty("external_id")
     private Optional<String> externalId;
 
+    /**
+     * External friendly identifier associated with the customer. We need it for netsuite.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("external_friendly_id")
+    private Optional<String> externalFriendlyId;
+
     @JsonCreator
     public CustomerUpdate(
             @JsonProperty("phone") Optional<String> phone,
@@ -129,7 +136,8 @@ public class CustomerUpdate {
             @JsonProperty("email") Optional<String> email,
             @JsonProperty("source") Optional<? extends SourceEnum> source,
             @JsonProperty("address_status") Optional<? extends AddressStatus> addressStatus,
-            @JsonProperty("external_id") Optional<String> externalId) {
+            @JsonProperty("external_id") Optional<String> externalId,
+            @JsonProperty("external_friendly_id") Optional<String> externalFriendlyId) {
         Utils.checkNotNull(phone, "phone");
         Utils.checkNotNull(street1, "street1");
         Utils.checkNotNull(street2, "street2");
@@ -145,6 +153,7 @@ public class CustomerUpdate {
         Utils.checkNotNull(source, "source");
         Utils.checkNotNull(addressStatus, "addressStatus");
         Utils.checkNotNull(externalId, "externalId");
+        Utils.checkNotNull(externalFriendlyId, "externalFriendlyId");
         this.phone = phone;
         this.street1 = street1;
         this.street2 = street2;
@@ -160,6 +169,7 @@ public class CustomerUpdate {
         this.source = source;
         this.addressStatus = addressStatus;
         this.externalId = externalId;
+        this.externalFriendlyId = externalFriendlyId;
     }
     
     public CustomerUpdate() {
@@ -167,7 +177,8 @@ public class CustomerUpdate {
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty());
+            Optional.empty(), Optional.empty(), Optional.empty(),
+            Optional.empty());
     }
 
     /**
@@ -280,6 +291,14 @@ public class CustomerUpdate {
     @JsonIgnore
     public Optional<String> externalId() {
         return externalId;
+    }
+
+    /**
+     * External friendly identifier associated with the customer. We need it for netsuite.
+     */
+    @JsonIgnore
+    public Optional<String> externalFriendlyId() {
+        return externalFriendlyId;
     }
 
     public static Builder builder() {
@@ -548,6 +567,25 @@ public class CustomerUpdate {
         return this;
     }
 
+    /**
+     * External friendly identifier associated with the customer. We need it for netsuite.
+     */
+    public CustomerUpdate withExternalFriendlyId(String externalFriendlyId) {
+        Utils.checkNotNull(externalFriendlyId, "externalFriendlyId");
+        this.externalFriendlyId = Optional.ofNullable(externalFriendlyId);
+        return this;
+    }
+
+
+    /**
+     * External friendly identifier associated with the customer. We need it for netsuite.
+     */
+    public CustomerUpdate withExternalFriendlyId(Optional<String> externalFriendlyId) {
+        Utils.checkNotNull(externalFriendlyId, "externalFriendlyId");
+        this.externalFriendlyId = externalFriendlyId;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -572,7 +610,8 @@ public class CustomerUpdate {
             Utils.enhancedDeepEquals(this.email, other.email) &&
             Utils.enhancedDeepEquals(this.source, other.source) &&
             Utils.enhancedDeepEquals(this.addressStatus, other.addressStatus) &&
-            Utils.enhancedDeepEquals(this.externalId, other.externalId);
+            Utils.enhancedDeepEquals(this.externalId, other.externalId) &&
+            Utils.enhancedDeepEquals(this.externalFriendlyId, other.externalFriendlyId);
     }
     
     @Override
@@ -582,7 +621,8 @@ public class CustomerUpdate {
             city, county, state,
             postalCode, country, fullAddress,
             name, status, email,
-            source, addressStatus, externalId);
+            source, addressStatus, externalId,
+            externalFriendlyId);
     }
     
     @Override
@@ -602,7 +642,8 @@ public class CustomerUpdate {
                 "email", email,
                 "source", source,
                 "addressStatus", addressStatus,
-                "externalId", externalId);
+                "externalId", externalId,
+                "externalFriendlyId", externalFriendlyId);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -637,6 +678,8 @@ public class CustomerUpdate {
         private Optional<? extends AddressStatus> addressStatus = Optional.empty();
 
         private Optional<String> externalId = Optional.empty();
+
+        private Optional<String> externalFriendlyId = Optional.empty();
 
         private Builder() {
           // force use of static builder() method
@@ -903,6 +946,25 @@ public class CustomerUpdate {
             return this;
         }
 
+
+        /**
+         * External friendly identifier associated with the customer. We need it for netsuite.
+         */
+        public Builder externalFriendlyId(String externalFriendlyId) {
+            Utils.checkNotNull(externalFriendlyId, "externalFriendlyId");
+            this.externalFriendlyId = Optional.ofNullable(externalFriendlyId);
+            return this;
+        }
+
+        /**
+         * External friendly identifier associated with the customer. We need it for netsuite.
+         */
+        public Builder externalFriendlyId(Optional<String> externalFriendlyId) {
+            Utils.checkNotNull(externalFriendlyId, "externalFriendlyId");
+            this.externalFriendlyId = externalFriendlyId;
+            return this;
+        }
+
         public CustomerUpdate build() {
 
             return new CustomerUpdate(
@@ -910,7 +972,8 @@ public class CustomerUpdate {
                 city, county, state,
                 postalCode, country, fullAddress,
                 name, status, email,
-                source, addressStatus, externalId);
+                source, addressStatus, externalId,
+                externalFriendlyId);
         }
 
     }

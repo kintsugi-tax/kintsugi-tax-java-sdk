@@ -16,24 +16,26 @@ generation:
   auth:
     oAuth2ClientCredentialsEnabled: false
     oAuth2PasswordEnabled: false
+    hoistGlobalSecurity: true
   sdkHooksConfigAccess: true
   tests:
     generateTests: false
     generateNewTests: true
     skipResponseBodyAssertions: false
 java:
-  version: 0.10.0
+  version: 0.11.0
   additionalDependencies: []
   additionalPlugins: []
   artifactID: kintsugi-tax-java-sdk
+  asyncMode: enabled
   baseErrorName: SDKError
   clientServerStatusCodesAsErrors: true
   companyEmail: support@trykintsugi.com
   companyName: Kintsugi
   companyURL: https://trykintsugi.com
   defaultErrorName: APIException
-  enableAsync: false
   enableCustomCodeRegions: false
+  enableStreamingUploads: false
   flattenGlobalSecurity: true
   githubURL: https://github.com/kintsugi-tax/kintsugi-tax-java-sdk
   groupID: com.trykintsugi

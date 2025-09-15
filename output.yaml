@@ -170,7 +170,7 @@ paths:
           content:
             "application/json":
               schema: {"$ref": "#/components/schemas/Page_CustomerRead_"}
-              example: {"items": [{"id": "cust_123abc", "organization_id": "org_456xyz", "name": "John Doe", "external_id": "cust_123", "status": "ACTIVE", "email": "john.doe@example.com", "phone": "+1234567890", "street_1": "123 Main Street", "street_2": "Apt 4B", "city": "San Francisco", "county": "San Francisco County", "state": "CA", "postal_code": "94105", "country": "US", "full_address": "123 Main Street, Apt 4B, San Francisco, CA 94105", "source": "BIGCOMMERCE", "connection_id": "conn_12345", "address_status": "UNVERIFIED"}], "total": 1, "page": 1, "size": 50, "pages": 1}
+              example: {"items": [{"id": "cust_123abc", "organization_id": "org_456xyz", "name": "John Doe", "external_id": "cust_123", "status": "ACTIVE", "email": "john.doe@example.com", "phone": "+1234567890", "street_1": "123 Main Street", "street_2": "Apt 4B", "city": "San Francisco", "county": "San Francisco County", "state": "CA", "postal_code": "94105", "country": "US", "full_address": "123 Main Street, Apt 4B, San Francisco, CA 94105", "source": "BIGCOMMERCE", "connection_id": "conn_12345", "address_status": "UNVERIFIED", "external_friendly_id": "1234567890"}], "total": 1, "page": 1, "size": 50, "pages": 1}
         "404":
           description: "Entered an incorrect URL."
           content:
@@ -3349,6 +3349,16 @@ components:
       required:
         - "store_hash"
       title: "BigcommerceTaxCalculation"
+    "BillingCustomerDetails":
+      properties:
+        "email":
+          type: "string"
+          format: "email"
+          title: "Email"
+      type: "object"
+      required:
+        - "email"
+      title: "BillingCustomerDetails"
     "BillingFrequencyEnum":
       type: "string"
       enum:
@@ -3623,6 +3633,52 @@ components:
         - "total_failed"
         - "total_requested"
       title: "BulkFilingResult"
+    "BulkTaskUpdate":
+      properties:
+        "status":
+          type: "string"
+        "assignee":
+          type: "string"
+        "waiting_on":
+          type: "string"
+        "task_ids":
+          items:
+            type: "string"
+          type: "array"
+          title: "Task Ids"
+      type: "object"
+      required:
+        - "task_ids"
+      title: "BulkTaskUpdate"
+    "BulkTaskUpdateResponse":
+      properties:
+        "updated_tasks":
+          items: {"$ref": "#/components/schemas/TaskRead"}
+          type: "array"
+          title: "Updated Tasks"
+        "failed_updates":
+          items:
+            additionalProperties: true
+            type: "object"
+          type: "array"
+          title: "Failed Updates"
+        "total_requested":
+          type: "integer"
+          title: "Total Requested"
+        "total_updated":
+          type: "integer"
+          title: "Total Updated"
+        "total_failed":
+          type: "integer"
+          title: "Total Failed"
+      type: "object"
+      required:
+        - "updated_tasks"
+        - "failed_updates"
+        - "total_requested"
+        - "total_updated"
+        - "total_failed"
+      title: "BulkTaskUpdateResponse"
     "CanadaRule":
       properties:
         "id":
@@ -4490,6 +4546,32 @@ components:
         - "currency"
         - "has_registration"
       title: "CheckoutOrderEstimateResponse"
+    "ClassificationStatusRead":
+      properties:
+        "can_classify":
+          type: "boolean"
+          title: "Can Classify"
+          description: "Whether bulk classification can be run for the organization"
+        "total_products":
+          type: "integer"
+          title: "Total Products"
+          description: "Total number of products in the organization"
+        "has_pending_products":
+          type: "boolean"
+          title: "Has Pending Products"
+          description: "Whether the organization has any products in pending status"
+        "min_products":
+          type: "integer"
+          title: "Min Products"
+          description: "Minimum number of products required for classification to be enabled"
+      type: "object"
+      required:
+        - "can_classify"
+        - "total_products"
+        - "has_pending_products"
+        - "min_products"
+      title: "ClassificationStatusRead"
+      description: "Response model for product classification status."
     "ConnectionRead":
       properties:
         "id":
@@ -4527,6 +4609,9 @@ components:
         "needs_update":
           default: false
           type: "boolean"
+        "vertex_enabled":
+          default: false
+          type: "boolean"
         "default_country": {"$ref": "#/components/schemas/CountryCodeEnum"}
         "marketplace_id":
           type: "string"
@@ -4556,6 +4641,8 @@ components:
         "shop_id":
           type: "string"
         "needs_update":
+          type: "boolean"
+        "vertex_enabled":
           type: "boolean"
       type: "object"
       title: "ConnectionUpdate"
@@ -5459,6 +5546,9 @@ components:
           type: "boolean"
           title: "Is Test Data"
           default: false
+        "external_friendly_id":
+          description: "External friendly identifier associated with the customer."
+          type: "string"
       type: "object"
       required:
         - "organization_id"
@@ -5754,6 +5844,9 @@ components:
         "registration_number":
           description: "Registration number of the customer."
           type: "string"
+        "external_friendly_id":
+          description: "External friendly identifier associated with the customer. We need it for netsuite."
+          type: "string"
       type: "object"
       title: "CustomerCreate"
     "CustomerRead":
@@ -5800,6 +5893,9 @@ components:
         "address_status": {"$ref": "#/components/schemas/AddressStatus", "description": "Status of address verification", "default": "UNVERIFIED"}
         "registration_number":
           description: "Registration number of the customer."
+          type: "string"
+        "external_friendly_id":
+          description: "External friendly identifier associated with the customer. We need it for netsuite."
           type: "string"
         "id":
           type: "string"
@@ -5852,6 +5948,9 @@ components:
         "address_status": {"$ref": "#/components/schemas/AddressStatus", "description": "Address verification status.", "default": "UNVERIFIED"}
         "external_id":
           description: "External identifier associated with the customer"
+          type: "string"
+        "external_friendly_id":
+          description: "External friendly identifier associated with the customer. We need it for netsuite."
           type: "string"
       type: "object"
       title: "CustomerUpdate"
@@ -8164,10 +8263,6 @@ components:
           type: "boolean"
         "collected_tax_nexus_met_date":
           type: "string"
-        "collected_tax_enabled":
-          type: "boolean"
-          title: "Collected Tax Enabled"
-          default: true
         "period_model": {"$ref": "#/components/schemas/PeriodModelEnum"}
         "period_start_date":
           type: "string"
@@ -8528,17 +8623,7 @@ components:
         - "name"
         - "org_id"
       title: "OrgCreated"
-    "OrgMetadata":
-      properties:
-        "is_test":
-          type: "boolean"
-        "env":
-          type: "string"
-        "organization_id":
-          type: "string"
-      type: "object"
-      title: "OrgMetadata"
-    "OrgUpdatedDeleted":
+    "OrgDeleted":
       properties:
         "event_type":
           type: "string"
@@ -8550,7 +8635,30 @@ components:
       required:
         - "event_type"
         - "org_id"
-      title: "OrgUpdatedDeleted"
+      title: "OrgDeleted"
+    "OrgMetadata":
+      properties:
+        "is_test":
+          type: "boolean"
+        "env":
+          type: "string"
+        "organization_id":
+          type: "string"
+      type: "object"
+      title: "OrgMetadata"
+    "OrgUpdated":
+      properties:
+        "event_type":
+          type: "string"
+          title: "Event Type"
+        "org_id":
+          type: "string"
+          title: "Org Id"
+      type: "object"
+      required:
+        - "event_type"
+        - "org_id"
+      title: "OrgUpdated"
     "OrganizationBillingDetails":
       properties:
         "billing_plan": {"$ref": "#/components/schemas/BillingPlanEnum"}
@@ -8676,6 +8784,8 @@ components:
         "home_state_registration":
           type: "string"
           title: "Home State Registration"
+        "naics":
+          type: "string"
         "first_operations_date":
           type: "string"
           format: "date"
@@ -8957,6 +9067,8 @@ components:
           type: "string"
         "first_operations_date":
           type: "string"
+        "naics":
+          type: "string"
         "business_phone":
           type: "string"
         "business_email":
@@ -9151,6 +9263,8 @@ components:
           type: "string"
         "home_state_registration":
           type: "string"
+        "naics":
+          type: "string"
         "first_operations_date":
           type: "string"
         "business_phone":
@@ -9334,6 +9448,7 @@ components:
         - "company_country_code"
         - "business_description"
         - "home_state_registration"
+        - "naics"
         - "first_operations_date"
         - "business_phone"
         - "business_email"
@@ -9474,10 +9589,6 @@ components:
           type: "string"
         "scheduled_deletion":
           type: "string"
-        "collected_tax_enabled":
-          type: "boolean"
-          title: "Collected Tax Enabled"
-          default: false
         "email_group":
           type: "string"
         "internal_use":
@@ -9521,10 +9632,6 @@ components:
           type: "string"
         "scheduled_deletion":
           type: "string"
-        "collected_tax_enabled":
-          type: "boolean"
-          title: "Collected Tax Enabled"
-          default: false
         "email_group":
           type: "string"
         "internal_use":
@@ -11052,21 +11159,27 @@ components:
       title: "ProductConfigCreate"
     "ProductConfigCreateUpdate":
       properties:
-        "primary_product_category": {"$ref": "#/components/schemas/ProductCategoryEnum"}
-        "primary_product_subcategory": {"$ref": "#/components/schemas/ProductSubCategoryEnum"}
+        "id":
+          description: "The ID of the config to update (if provided, updates existing config)"
+          type: "string"
+        "primary_product_category":
+          description: "The high-level category of the product (supports both V1 and V2 formats)"
+          type: "string"
+        "primary_product_subcategory":
+          description: "The specific subcategory of the product (supports both V1 and V2 formats)"
+          type: "string"
         "ai_enabled":
           type: "boolean"
           title: "Ai Enabled"
+          description: "Indicates whether AI classification is enabled"
           default: false
         "product_description":
+          description: "The description of the product configuration"
           type: "string"
         "primary_product_code_name":
-          description: "The name of the product code."
+          description: "The name of the product code"
           type: "string"
       type: "object"
-      required:
-        - "primary_product_category"
-        - "primary_product_subcategory"
       title: "ProductConfigCreateUpdate"
     "ProductConfigRead":
       properties:
@@ -11103,6 +11216,27 @@ components:
         - "product_description"
         - "primary_product_code_name"
       title: "ProductConfigRead"
+    "ProductConfigUpdate":
+      properties:
+        "ai_enabled":
+          type: "boolean"
+          title: "Ai Enabled"
+          default: false
+        "primary_product_category":
+          type: "string"
+        "primary_product_subcategory":
+          type: "string"
+        "product_description":
+          type: "string"
+        "primary_product_code_name":
+          type: "string"
+        "id":
+          type: "string"
+          title: "Id"
+      type: "object"
+      required:
+        - "id"
+      title: "ProductConfigUpdate"
     "ProductConfigsCreate":
       properties:
         "product_configs":
@@ -11113,6 +11247,16 @@ components:
       required:
         - "product_configs"
       title: "ProductConfigsCreate"
+    "ProductConfigsUpdate":
+      properties:
+        "product_configs":
+          items: {"$ref": "#/components/schemas/ProductConfigUpdate"}
+          type: "array"
+          title: "Product Configs"
+      type: "object"
+      required:
+        - "product_configs"
+      title: "ProductConfigsUpdate"
     "ProductCreateManual":
       properties:
         "external_id":
@@ -12590,7 +12734,8 @@ components:
         - "FAIRE"
         - "SHOPWARE"
         - "ZOHO"
-        - "SAGE_INTACCT"
+        - "SAGE-INTACCT"
+        - "AIRWALLEX"
       title: "SourceEnum"
     "StatusEnum":
       type: "string"
@@ -12805,6 +12950,7 @@ components:
         "organization_name":
           type: "string"
         "filing": {"$ref": "#/components/schemas/FilingRead"}
+        "filing_frequency": {"$ref": "#/components/schemas/FilingFrequencyEnum"}
       type: "object"
       title: "TaskFilingRead"
     "TaskRead":
@@ -12858,6 +13004,16 @@ components:
         "registration": {"$ref": "#/components/schemas/RegistrationRead"}
       type: "object"
       title: "TaskRegistrationRead"
+    "TaskUpdate":
+      properties:
+        "status":
+          type: "string"
+        "assignee":
+          type: "string"
+        "waiting_on":
+          type: "string"
+      type: "object"
+      title: "TaskUpdate"
     "TaxBreakdownByJurisdiction":
       properties:
         "jurisdiction":
@@ -14217,6 +14373,8 @@ components:
         "registration_number":
           type: "string"
         "address_status": {"$ref": "#/components/schemas/AddressStatus", "default": "UNVERIFIED"}
+        "external_friendly_id":
+          type: "string"
       type: "object"
       title: "TransactionImportCustomer"
     "TransactionImportResponse":
@@ -15163,33 +15321,6 @@ components:
         "tax_id":
           description: "Tax ID associated with the transaction"
           type: "string"
-        "address_status": {"$ref": "#/components/schemas/AddressStatus", "description": "Address verification status (e.g., VERIFIED).", "default": "UNVERIFIED"}
-        "processing_status": {"$ref": "#/components/schemas/ProcessingStatusEnum", "description": "Status of processing (e.g., ADDRESS_DONE)", "default": "QUEUED"}
-        "destination_currency": {"description": "Destination currency code (ISO 4217, e.g., USD)", "$ref": "#/components/schemas/CurrencyEnum"}
-        "converted_total_amount":
-          description: "Converted total amount."
-          type: "number"
-        "converted_total_tax_amount_imported":
-          description: "Converted imported tax amount."
-          type: "number"
-        "converted_total_tax_amount_calculated":
-          description: "Converted calculated tax amount."
-          type: "number"
-        "conversion_rate":
-          description: "Currency conversion rate."
-          type: "number"
-        "converted_taxable_amount":
-          description: "Converted taxable amount."
-          type: "number"
-        "converted_total_discount":
-          description: "Converted total discount amount."
-          type: "number"
-        "converted_subtotal":
-          description: "Converted subtotal amount."
-          type: "number"
-        "converted_total_tax_liability_amount":
-          description: "Converted total tax liability amount."
-          type: "number"
         "addresses":
           type: "array"
           items: {"$ref": "#/components/schemas/TransactionAddressBuilder"}
@@ -15319,27 +15450,24 @@ components:
       title: "UpsertBillingMatrix"
     "UserCreated":
       properties:
-        "email":
-          type: "string"
-          title: "Email"
-        "email_confirmed":
-          type: "boolean"
-          title: "Email Confirmed"
         "event_type":
           type: "string"
           title: "Event Type"
-        "picture_url":
+        "email":
           type: "string"
-          title: "Picture Url"
+          title: "Email"
         "user_id":
           type: "string"
           title: "User Id"
+        "email_confirmed":
+          default: false
+          type: "boolean"
+        "picture_url":
+          type: "string"
       type: "object"
       required:
-        - "email"
-        - "email_confirmed"
         - "event_type"
-        - "picture_url"
+        - "email"
         - "user_id"
       title: "UserCreated"
     "UserRead":
@@ -15585,6 +15713,27 @@ components:
         - "partially_valid"
         - "invalid"
       title: "ValidationStatus"
+    "VertexPartitionRead":
+      properties:
+        "id":
+          type: "string"
+          title: "Id"
+        "customer_client_id":
+          type: "string"
+          title: "Customer Client Id"
+        "customer_client_secret":
+          type: "string"
+          title: "Customer Client Secret"
+        "organization_id":
+          type: "string"
+        "connection_id":
+          type: "string"
+      type: "object"
+      required:
+        - "id"
+        - "customer_client_id"
+        - "customer_client_secret"
+      title: "VertexPartitionRead"
     "Webhook":
       properties:
         "id":

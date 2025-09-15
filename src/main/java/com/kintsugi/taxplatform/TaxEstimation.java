@@ -17,9 +17,20 @@ import java.util.Optional;
 
 public class TaxEstimation {
     private final SDKConfiguration sdkConfiguration;
+    private final AsyncTaxEstimation asyncSDK;
 
     TaxEstimation(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
+        this.asyncSDK = new AsyncTaxEstimation(this, sdkConfiguration);
+    }
+
+    /**
+     * Switches to the async SDK.
+     * 
+     * @return The async SDK
+     */
+    public AsyncTaxEstimation async() {
+        return asyncSDK;
     }
 
     /**

@@ -32,9 +32,20 @@ import java.lang.String;
 
 public class Exemptions {
     private final SDKConfiguration sdkConfiguration;
+    private final AsyncExemptions asyncSDK;
 
     Exemptions(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
+        this.asyncSDK = new AsyncExemptions(this, sdkConfiguration);
+    }
+
+    /**
+     * Switches to the async SDK.
+     * 
+     * @return The async SDK
+     */
+    public AsyncExemptions async() {
+        return asyncSDK;
     }
 
     /**

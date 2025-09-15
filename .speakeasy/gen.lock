@@ -1,22 +1,22 @@
 lockVersion: 2.0.0
 id: 13bfb8e3-2795-4089-a96d-9ab7fcceafd9
 management:
-  docChecksum: 6cec13c0770aa3ade026a7321dbfef05
+  docChecksum: e8de5e461fde4c9e796974911fbbc31a
   docVersion: 1.0.0
-  speakeasyVersion: 1.606.8
-  generationVersion: 2.687.13
-  releaseVersion: 0.10.0
-  configChecksum: b7d41050ad79cfb11243b35e7f1e65c3
+  speakeasyVersion: 1.615.2
+  generationVersion: 2.698.4
+  releaseVersion: 0.11.0
+  configChecksum: 84d5d411bc3ab181f46fd5388302cbb4
   repoURL: https://github.com/kintsugi-tax/kintsugi-tax-java-sdk.git
   published: true
 features:
   java:
     additionalDependencies: 0.1.0
     constsAndDefaults: 0.1.1
-    core: 3.46.0
+    core: 3.47.2
     deprecations: 2.81.1
     flattening: 2.81.1
-    globalSecurity: 2.83.0
+    globalSecurity: 2.83.1
     globalSecurityCallbacks: 0.1.0
     globalServerURLs: 2.82.2
     groups: 2.81.2
@@ -24,6 +24,7 @@ features:
     nameOverrides: 2.81.3
     sdkHooks: 1.1.0
     unions: 0.0.6
+    uploadStreams: 0.1.0
 generatedFiles:
   - .gitattributes
   - USAGE.md
@@ -248,6 +249,7 @@ generatedFiles:
   - docs/sdks/sdk/README.md
   - docs/sdks/taxestimation/README.md
   - docs/sdks/transactions/README.md
+  - docs/utils/Blob.md
   - gradle.properties
   - gradle/wrapper/gradle-wrapper.jar
   - gradle/wrapper/gradle-wrapper.properties
@@ -255,6 +257,18 @@ generatedFiles:
   - gradlew.bat
   - settings.gradle
   - src/main/java/com/kintsugi/taxplatform/AddressValidation.java
+  - src/main/java/com/kintsugi/taxplatform/AsyncAddressValidation.java
+  - src/main/java/com/kintsugi/taxplatform/AsyncCreditNotes.java
+  - src/main/java/com/kintsugi/taxplatform/AsyncCustomers.java
+  - src/main/java/com/kintsugi/taxplatform/AsyncCustomersTransactions.java
+  - src/main/java/com/kintsugi/taxplatform/AsyncExemptions.java
+  - src/main/java/com/kintsugi/taxplatform/AsyncFilings.java
+  - src/main/java/com/kintsugi/taxplatform/AsyncNexus.java
+  - src/main/java/com/kintsugi/taxplatform/AsyncProducts.java
+  - src/main/java/com/kintsugi/taxplatform/AsyncRegistrations.java
+  - src/main/java/com/kintsugi/taxplatform/AsyncSDK.java
+  - src/main/java/com/kintsugi/taxplatform/AsyncTaxEstimation.java
+  - src/main/java/com/kintsugi/taxplatform/AsyncTransactions.java
   - src/main/java/com/kintsugi/taxplatform/CreditNotes.java
   - src/main/java/com/kintsugi/taxplatform/Customers.java
   - src/main/java/com/kintsugi/taxplatform/CustomersTransactions.java
@@ -403,6 +417,59 @@ generatedFiles:
   - src/main/java/com/kintsugi/taxplatform/models/errors/BackendSrcTransactionsResponsesValidationErrorResponse.java
   - src/main/java/com/kintsugi/taxplatform/models/errors/ErrorResponse.java
   - src/main/java/com/kintsugi/taxplatform/models/errors/HTTPValidationError.java
+  - src/main/java/com/kintsugi/taxplatform/models/errors/UncheckedAPIException.java
+  - src/main/java/com/kintsugi/taxplatform/models/errors/async/BackendSrcAddressValidationResponsesValidationErrorResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/errors/async/BackendSrcCustomersResponsesValidationErrorResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/errors/async/BackendSrcExemptionsResponsesValidationErrorResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/errors/async/BackendSrcFilingsResponsesValidationErrorResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/errors/async/BackendSrcNexusResponsesValidationErrorResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/errors/async/BackendSrcProductsResponsesValidationErrorResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/errors/async/BackendSrcRegistrationsResponsesValidationErrorResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/errors/async/BackendSrcTaxEstimationResponsesValidationErrorResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/errors/async/BackendSrcTransactionsResponsesValidationErrorResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/errors/async/ErrorResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/errors/async/HTTPValidationError.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations//async/CreateCustomerV1CustomersPostRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations//async/CreateExemptionV1ExemptionsPostRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations//async/CreatePhysicalNexusV1NexusPhysicalNexusPostRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations//async/CreateProductV1ProductsPostRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations//async/CreateRegistrationV1RegistrationsPostRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations//async/CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations//async/CreateTransactionV1TransactionsPostRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations//async/DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations//async/DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations//async/EstimateTaxV1TaxEstimatePostRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations//async/GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations//async/GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations//async/GetCustomerByIdV1CustomersCustomerIdGetRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations//async/GetCustomersV1RequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations//async/GetExemptionByIdV1ExemptionsExemptionIdGetRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations//async/GetExemptionsV1ExemptionsGetRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations//async/GetFilingByIdV1FilingsFilingIdGetRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations//async/GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations//async/GetFilingsV1FilingsGetRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations//async/GetNexusForOrgV1NexusGetRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations//async/GetPhysicalNexusV1NexusPhysicalNexusGetRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations//async/GetProductByIdV1ProductsProductIdGetRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations//async/GetProductCategoriesV1ProductsCategoriesGetRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations//async/GetProductsV1ProductsGetRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations//async/GetRegistrationByIdV1RegistrationsRegistrationIdGetRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations//async/GetRegistrationsV1RegistrationsGetRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations//async/GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations//async/GetTransactionByIdV1TransactionsTransactionIdGetRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations//async/GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations//async/GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations//async/GetTransactionsV1TransactionsGetRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations//async/POSTCreateCreditNoteByTransactionIdRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations//async/PUTUpdateCreditNoteByTransactionIdRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations//async/SearchV1AddressValidationSearchPostRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations//async/SuggestionsV1AddressValidationSuggestionsPostRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations//async/UpdateCustomerV1CustomersCustomerIdPutRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations//async/UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations//async/UpdateProductV1ProductsProductIdPutRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations//async/UpdateRegistrationV1RegistrationsRegistrationIdPutRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations//async/UpdateTransactionV1TransactionsTransactionIdPutRequestBuilder.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations//async/UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequestBuilder.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/CreateCustomerV1CustomersPostRequestBuilder.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/CreateCustomerV1CustomersPostResponse.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/CreateExemptionV1ExemptionsPostRequestBuilder.java
@@ -519,6 +586,47 @@ generatedFiles:
   - src/main/java/com/kintsugi/taxplatform/models/operations/UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequestBuilder.java
   - src/main/java/com/kintsugi/taxplatform/models/operations/UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/async/CreateCustomerV1CustomersPostResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/async/CreateExemptionV1ExemptionsPostResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/async/CreatePhysicalNexusV1NexusPhysicalNexusPostResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/async/CreateProductV1ProductsPostResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/async/CreateRegistrationV1RegistrationsPostResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/async/CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/async/CreateTransactionV1TransactionsPostResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/async/DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/async/DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/async/EstimateTaxV1TaxEstimatePostResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/async/GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/async/GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/async/GetCustomerByIdV1CustomersCustomerIdGetResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/async/GetCustomersV1Response.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/async/GetExemptionByIdV1ExemptionsExemptionIdGetResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/async/GetExemptionsV1ExemptionsGetResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/async/GetFilingByIdV1FilingsFilingIdGetResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/async/GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/async/GetFilingsV1FilingsGetResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/async/GetNexusForOrgV1NexusGetResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/async/GetPhysicalNexusV1NexusPhysicalNexusGetResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/async/GetProductByIdV1ProductsProductIdGetResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/async/GetProductCategoriesV1ProductsCategoriesGetResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/async/GetProductsV1ProductsGetResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/async/GetRegistrationByIdV1RegistrationsRegistrationIdGetResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/async/GetRegistrationsV1RegistrationsGetResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/async/GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/async/GetTransactionByIdV1TransactionsTransactionIdGetResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/async/GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/async/GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/async/GetTransactionsV1TransactionsGetResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/async/POSTCreateCreditNoteByTransactionIdResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/async/PUTUpdateCreditNoteByTransactionIdResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/async/SearchV1AddressValidationSearchPostResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/async/SuggestionsV1AddressValidationSuggestionsPostResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/async/UpdateCustomerV1CustomersCustomerIdPutResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/async/UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/async/UpdateProductV1ProductsProductIdPutResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/async/UpdateRegistrationV1RegistrationsRegistrationIdPutResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/async/UpdateTransactionV1TransactionsTransactionIdPutResponse.java
+  - src/main/java/com/kintsugi/taxplatform/models/operations/async/UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse.java
   - src/main/java/com/kintsugi/taxplatform/operations/CreateCustomerV1CustomersPost.java
   - src/main/java/com/kintsugi/taxplatform/operations/CreateExemptionV1ExemptionsPost.java
   - src/main/java/com/kintsugi/taxplatform/operations/CreatePhysicalNexusV1NexusPhysicalNexusPost.java
@@ -561,9 +669,15 @@ generatedFiles:
   - src/main/java/com/kintsugi/taxplatform/operations/UpdateRegistrationV1RegistrationsRegistrationIdPut.java
   - src/main/java/com/kintsugi/taxplatform/operations/UpdateTransactionV1TransactionsTransactionIdPut.java
   - src/main/java/com/kintsugi/taxplatform/operations/UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost.java
+  - src/main/java/com/kintsugi/taxplatform/utils/AsyncHook.java
+  - src/main/java/com/kintsugi/taxplatform/utils/AsyncHooks.java
+  - src/main/java/com/kintsugi/taxplatform/utils/AsyncResponse.java
+  - src/main/java/com/kintsugi/taxplatform/utils/AsyncRetries.java
+  - src/main/java/com/kintsugi/taxplatform/utils/AsyncRetryableException.java
   - src/main/java/com/kintsugi/taxplatform/utils/BackoffStrategy.java
   - src/main/java/com/kintsugi/taxplatform/utils/BigDecimalString.java
   - src/main/java/com/kintsugi/taxplatform/utils/BigIntegerString.java
+  - src/main/java/com/kintsugi/taxplatform/utils/Blob.java
   - src/main/java/com/kintsugi/taxplatform/utils/BlockingParser.java
   - src/main/java/com/kintsugi/taxplatform/utils/Constants.java
   - src/main/java/com/kintsugi/taxplatform/utils/CopiableInputStream.java
@@ -579,6 +693,7 @@ generatedFiles:
   - src/main/java/com/kintsugi/taxplatform/utils/HeaderMetadata.java
   - src/main/java/com/kintsugi/taxplatform/utils/Helpers.java
   - src/main/java/com/kintsugi/taxplatform/utils/Hook.java
+  - src/main/java/com/kintsugi/taxplatform/utils/HookAdapters.java
   - src/main/java/com/kintsugi/taxplatform/utils/Hooks.java
   - src/main/java/com/kintsugi/taxplatform/utils/JSON.java
   - src/main/java/com/kintsugi/taxplatform/utils/LazySingletonValue.java
@@ -586,6 +701,7 @@ generatedFiles:
   - src/main/java/com/kintsugi/taxplatform/utils/Multipart.java
   - src/main/java/com/kintsugi/taxplatform/utils/MultipartFormMetadata.java
   - src/main/java/com/kintsugi/taxplatform/utils/NameValue.java
+  - src/main/java/com/kintsugi/taxplatform/utils/NonRetryableException.java
   - src/main/java/com/kintsugi/taxplatform/utils/OneOfDeserializer.java
   - src/main/java/com/kintsugi/taxplatform/utils/Options.java
   - src/main/java/com/kintsugi/taxplatform/utils/PathParamsMetadata.java
@@ -601,6 +717,7 @@ generatedFiles:
   - src/main/java/com/kintsugi/taxplatform/utils/ResponseWithBody.java
   - src/main/java/com/kintsugi/taxplatform/utils/Retries.java
   - src/main/java/com/kintsugi/taxplatform/utils/RetryConfig.java
+  - src/main/java/com/kintsugi/taxplatform/utils/RetryableException.java
   - src/main/java/com/kintsugi/taxplatform/utils/Security.java
   - src/main/java/com/kintsugi/taxplatform/utils/SecurityMetadata.java
   - src/main/java/com/kintsugi/taxplatform/utils/SerializedBody.java
@@ -612,6 +729,8 @@ generatedFiles:
   - src/main/java/com/kintsugi/taxplatform/utils/Types.java
   - src/main/java/com/kintsugi/taxplatform/utils/Utf8UrlEncoder.java
   - src/main/java/com/kintsugi/taxplatform/utils/Utils.java
+  - src/main/java/com/kintsugi/taxplatform/utils/reactive/EventStream.java
+  - src/main/java/com/kintsugi/taxplatform/utils/reactive/ReactiveUtils.java
 examples:
   search_v1_address_validation_search_post:
     speakeasy-default-search-v1-address-validation-search-post:
@@ -850,7 +969,7 @@ examples:
           x-organization-id: "org_12345"
       responses:
         "200":
-          application/json: {"items": [{"country_code": "CN", "state_code": "<value>", "state_name": "<value>", "treatment_of_exempt_transactions": "YES_SALES_NO_TRANSACTIONS", "trigger": "<value>", "sales_or_transactions": "SALES", "threshold_sales": 476092, "threshold_transactions": 144398, "start_date": "2025-03-09", "transaction_count": 0, "transactions_amount": "0.00", "previous_transaction_count": 0, "previous_transactions_amount": "0.00", "calculated_tax_liability": "0.00", "imported_tax_liability": "0.00", "tax_liability": "0.00", "nexus_met": false, "economic_nexus_met": false, "physical_nexus_met": false, "collected_tax_nexus_met": false, "collected_tax_enabled": false, "period_model": "PRECEDING_YEAR_QUARTERLY_OFFSET", "period_start_date": "2024-12-20", "period_end_date": "2023-10-25", "previous_period_start_date": "2023-02-23", "previous_period_end_date": "2023-05-08", "earliest_collected_date": "2018-01-01T00:00:00", "vda_eligible": false, "id": "<id>", "created_at": "2025-07-27T10:58:50.049Z", "updated_at": "2024-12-31T08:38:28.993Z", "organization_id": "<id>", "is_vda_eligible": false, "nexus_type": "STATE", "total_transactions": 218796, "total_transactions_included": 800733, "total_transactions_exempted": 990975, "total_transactions_marketplace": 980208, "marketplace_included": true}], "total": 825206, "page": 886833, "size": 272984}
+          application/json: {"items": [{"country_code": "CN", "state_code": "<value>", "state_name": "<value>", "treatment_of_exempt_transactions": "YES_SALES_NO_TRANSACTIONS", "trigger": "<value>", "sales_or_transactions": "SALES", "threshold_sales": 476092, "threshold_transactions": 144398, "start_date": "2025-03-09", "transaction_count": 0, "transactions_amount": "0.00", "previous_transaction_count": 0, "previous_transactions_amount": "0.00", "calculated_tax_liability": "0.00", "imported_tax_liability": "0.00", "tax_liability": "0.00", "nexus_met": false, "economic_nexus_met": false, "physical_nexus_met": false, "collected_tax_nexus_met": false, "period_model": "PRECEDING_YEAR_QUARTERLY_OFFSET", "period_start_date": "2024-12-20", "period_end_date": "2023-10-25", "previous_period_start_date": "2023-02-23", "previous_period_end_date": "2023-05-08", "earliest_collected_date": "2018-01-01T00:00:00", "vda_eligible": false, "id": "<id>", "created_at": "2025-07-27T10:58:50.049Z", "updated_at": "2024-12-31T08:38:28.993Z", "organization_id": "<id>", "is_vda_eligible": false, "nexus_type": "STATE", "total_transactions": 218796, "total_transactions_included": 800733, "total_transactions_exempted": 990975, "total_transactions_marketplace": 980208, "marketplace_included": true}], "total": 825206, "page": 886833, "size": 272984}
         "422":
           application/json: {}
   get_products_v1_products__get:
@@ -1416,4 +1535,4 @@ examples:
         "500":
           application/json: {"detail": "<value>"}
 examplesVersion: 1.0.2
-releaseNotes: "## SDK Changes Detected:\n* `sdk.nexus.getPhysical()`:  `response.items.[].source` **Added**\n* `sdk.nexus.createPhysical()`: \n  *  `request.source` **Added**\n  *  `response.source` **Added**\n* `sdk.nexus.updatePhysical()`:  `response.source` **Added**\n"
+releaseNotes: "## Java SDK Changes Detected:\n* `sdk.transactions.update()`: \n  *  `request.transactionupdate` **Changed** **Breaking** :warning:\n  *  `response.customer.externalFriendlyId` **Added**\n* `sdk.nexus.get()`:  `response.items.[].collectedTaxEnabled` **Removed** **Breaking** :warning:\n* `sdk.transactions.get()`:  `response.items.[].customer.externalFriendlyId` **Added**\n* `sdk.exemptions.create()`:  `response.customer.externalFriendlyId` **Added**\n* `sdk.customers.getByExternalId()`:  `response.external_friendly_id` **Added**\n* `sdk.customers.createTransaction()`: \n  *  `request.transactioncreate.customer.externalFriendlyId` **Added**\n  *  `response.customer.externalFriendlyId` **Added**\n* `sdk.customers.create()`: \n  *  `request.externalFriendlyId` **Added**\n  *  `response.external_friendly_id` **Added**\n* `sdk.customers.transactions.getByCustomerId()`:  `response.[].customer.externalFriendlyId` **Added**\n* `sdk.customers.getById()`:  `response.external_friendly_id` **Added**\n* `sdk.customers.update()`: \n  *  `request.customerupdate.externalFriendlyId` **Added**\n  *  `response.external_friendly_id` **Added**\n* `sdk.transactions.create()`:  `response.customer.externalFriendlyId` **Added**\n* `sdk.transactions.getByExternalId()`:  `response.customer.externalFriendlyId` **Added**\n* `sdk.customers.get()`:  `response.items.[].externalFriendlyId` **Added**\n* `sdk.transactions.getById()`:  `response.customer.externalFriendlyId` **Added**\n* `sdk.transactions.getByFilingId()`:  `response.[].customer.externalFriendlyId` **Added**\n* `sdk.transactions.creditNotes.create()`:  `response.customer.externalFriendlyId` **Added**\n"

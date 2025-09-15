@@ -41,15 +41,26 @@ import java.lang.String;
 
 public class Transactions {
     private final SDKConfiguration sdkConfiguration;
+    private final AsyncTransactions asyncSDK;
     private final CreditNotes creditNotes;
 
     Transactions(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
         this.creditNotes = new CreditNotes(this.sdkConfiguration);
+        this.asyncSDK = new AsyncTransactions(this, sdkConfiguration);
     }
 
     public final CreditNotes creditNotes() {
         return creditNotes;
+    }
+
+    /**
+     * Switches to the async SDK.
+     * 
+     * @return The async SDK
+     */
+    public AsyncTransactions async() {
+        return asyncSDK;
     }
 
     /**

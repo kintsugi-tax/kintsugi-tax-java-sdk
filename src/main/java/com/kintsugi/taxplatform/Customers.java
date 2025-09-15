@@ -37,15 +37,26 @@ import java.lang.String;
 
 public class Customers {
     private final SDKConfiguration sdkConfiguration;
+    private final AsyncCustomers asyncSDK;
     private final CustomersTransactions transactions;
 
     Customers(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
         this.transactions = new CustomersTransactions(this.sdkConfiguration);
+        this.asyncSDK = new AsyncCustomers(this, sdkConfiguration);
     }
 
     public final CustomersTransactions transactions() {
         return transactions;
+    }
+
+    /**
+     * Switches to the async SDK.
+     * 
+     * @return The async SDK
+     */
+    public AsyncCustomers async() {
+        return asyncSDK;
     }
 
     /**

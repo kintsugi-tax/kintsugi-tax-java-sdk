@@ -25,9 +25,20 @@ import java.util.Optional;
 
 public class Filings {
     private final SDKConfiguration sdkConfiguration;
+    private final AsyncFilings asyncSDK;
 
     Filings(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
+        this.asyncSDK = new AsyncFilings(this, sdkConfiguration);
+    }
+
+    /**
+     * Switches to the async SDK.
+     * 
+     * @return The async SDK
+     */
+    public AsyncFilings async() {
+        return asyncSDK;
     }
 
     /**

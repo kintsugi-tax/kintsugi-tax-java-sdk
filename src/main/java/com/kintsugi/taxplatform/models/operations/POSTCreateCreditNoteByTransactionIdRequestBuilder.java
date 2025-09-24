@@ -8,6 +8,7 @@ import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.components.CreditNoteCreate;
 import com.kintsugi.taxplatform.operations.POSTCreateCreditNoteByTransactionId;
+import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
 import java.lang.String;
@@ -17,6 +18,7 @@ public class POSTCreateCreditNoteByTransactionIdRequestBuilder {
     private String originalTransactionId;
     private CreditNoteCreate creditNoteCreate;
     private final SDKConfiguration sdkConfiguration;
+    private final Headers _headers = new Headers(); 
 
     public POSTCreateCreditNoteByTransactionIdRequestBuilder(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
@@ -46,7 +48,7 @@ public class POSTCreateCreditNoteByTransactionIdRequestBuilder {
     public POSTCreateCreditNoteByTransactionIdResponse call() throws Exception {
         
         RequestOperation<POSTCreateCreditNoteByTransactionIdRequest, POSTCreateCreditNoteByTransactionIdResponse> operation
-              = new POSTCreateCreditNoteByTransactionId.Sync(sdkConfiguration);
+              = new POSTCreateCreditNoteByTransactionId.Sync(sdkConfiguration, _headers);
         POSTCreateCreditNoteByTransactionIdRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

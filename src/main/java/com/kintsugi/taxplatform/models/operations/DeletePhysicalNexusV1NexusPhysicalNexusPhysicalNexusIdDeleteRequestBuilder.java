@@ -7,6 +7,7 @@ import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.operations.DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDelete;
+import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
 import java.lang.String;
@@ -15,6 +16,7 @@ public class DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest
 
     private String physicalNexusId;
     private final SDKConfiguration sdkConfiguration;
+    private final Headers _headers = new Headers(); 
 
     public DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequestBuilder(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
@@ -37,7 +39,7 @@ public class DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest
     public DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteResponse call() throws Exception {
         
         RequestOperation<DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest, DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteResponse> operation
-              = new DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDelete.Sync(sdkConfiguration);
+              = new DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDelete.Sync(sdkConfiguration, _headers);
         DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

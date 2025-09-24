@@ -5847,6 +5847,11 @@ components:
         "external_friendly_id":
           description: "External friendly identifier associated with the customer. We need it for netsuite."
           type: "string"
+        "customer_tax_registrations":
+          items: {"$ref": "#/components/schemas/CustomerTaxRegistrationRead"}
+          type: "array"
+          title: "Customer Tax Registrations"
+          description: "Customer tax registrations associated with the customer."
       type: "object"
       title: "CustomerCreate"
     "CustomerRead":
@@ -5897,6 +5902,11 @@ components:
         "external_friendly_id":
           description: "External friendly identifier associated with the customer. We need it for netsuite."
           type: "string"
+        "customer_tax_registrations":
+          items: {"$ref": "#/components/schemas/CustomerTaxRegistrationRead"}
+          type: "array"
+          title: "Customer Tax Registrations"
+          description: "Customer tax registrations associated with the customer."
         "id":
           type: "string"
           title: "Id"
@@ -5910,6 +5920,53 @@ components:
         - "id"
         - "organization_id"
       title: "CustomerRead"
+    "CustomerTaxRegistrationCreateUpdate":
+      properties:
+        "tax_id":
+          type: "string"
+          title: "Tax Id"
+      type: "object"
+      required:
+        - "tax_id"
+      title: "CustomerTaxRegistrationCreateUpdate"
+    "CustomerTaxRegistrationRead":
+      properties:
+        "id":
+          type: "string"
+          title: "Id"
+        "customer_id":
+          type: "string"
+          title: "Customer Id"
+        "country_code": {"$ref": "#/components/schemas/CountryCodeEnum"}
+        "tax_type": {"$ref": "#/components/schemas/CustomerTaxTypeEnum"}
+        "tax_id":
+          type: "string"
+          title: "Tax Id"
+        "is_valid":
+          type: "boolean"
+          title: "Is Valid"
+      type: "object"
+      required:
+        - "id"
+        - "customer_id"
+        - "country_code"
+        - "tax_type"
+        - "tax_id"
+        - "is_valid"
+      title: "CustomerTaxRegistrationRead"
+    "CustomerTaxTypeEnum":
+      type: "string"
+      enum:
+        - "gst"
+        - "hst"
+        - "gst_hst"
+        - "qst"
+        - "pst"
+        - "rst"
+        - "vat"
+        - "unknown"
+      title: "CustomerTaxTypeEnum"
+      description: "Enum for customer tax registration types."
     "CustomerUpdate":
       properties:
         "phone":
@@ -5954,6 +6011,56 @@ components:
           type: "string"
       type: "object"
       title: "CustomerUpdate"
+    "DNSDebugResponse":
+      properties:
+        "timestamp":
+          type: "string"
+          title: "Timestamp"
+        "url_tests":
+          items: {"$ref": "#/components/schemas/URLTestResult"}
+          type: "array"
+          title: "Url Tests"
+        "dns_tests":
+          items: {"$ref": "#/components/schemas/DNSResult"}
+          type: "array"
+          title: "Dns Tests"
+        "summary":
+          additionalProperties: true
+          type: "object"
+          title: "Summary"
+      type: "object"
+      required:
+        - "timestamp"
+        - "url_tests"
+        - "dns_tests"
+        - "summary"
+      title: "DNSDebugResponse"
+      description: "Complete response for DNS debugging endpoint"
+    "DNSResult":
+      properties:
+        "hostname":
+          type: "string"
+          title: "Hostname"
+        "success":
+          type: "boolean"
+          title: "Success"
+        "records":
+          items:
+            type: "string"
+          type: "array"
+          title: "Records"
+        "error":
+          type: "string"
+        "method":
+          type: "string"
+          title: "Method"
+      type: "object"
+      required:
+        - "hostname"
+        - "success"
+        - "method"
+      title: "DNSResult"
+      description: "Result of a DNS lookup operation"
     "DashboardOverviewChartType":
       type: "string"
       enum:
@@ -8397,6 +8504,55 @@ components:
         - "STATE"
         - "EU_MEMBER_STATE"
       title: "NexusTypeEnum"
+    "NoteCreateRequest":
+      properties:
+        "reference_id":
+          type: "string"
+          title: "Reference Id"
+        "note_type":
+          type: "string"
+          title: "Note Type"
+        "content":
+          type: "string"
+          title: "Content"
+      type: "object"
+      required:
+        - "reference_id"
+        - "note_type"
+        - "content"
+      title: "NoteCreateRequest"
+    "NoteRead":
+      properties:
+        "id":
+          type: "string"
+          title: "Id"
+        "reference_id":
+          type: "string"
+          title: "Reference Id"
+        "organization_id":
+          type: "string"
+          title: "Organization Id"
+        "author_user_id":
+          type: "string"
+        "content":
+          type: "string"
+          title: "Content"
+        "note_type":
+          type: "string"
+          title: "Note Type"
+        "created_at":
+          type: "string"
+          format: "date-time"
+          title: "Created At"
+      type: "object"
+      required:
+        - "id"
+        - "reference_id"
+        - "organization_id"
+        - "content"
+        - "note_type"
+        - "created_at"
+      title: "NoteRead"
     "NotificationBatchStages":
       type: "string"
       enum:
@@ -12685,6 +12841,7 @@ components:
       type: "string"
       enum:
         - "BIGCOMMERCE"
+        - "BUNNY"
         - "CHARGEBEE"
         - "SHOPIFY"
         - "STRIPE"
@@ -13464,6 +13621,51 @@ components:
         - "taxable"
         - "exempt"
       title: "Taxability"
+    "TestMessageRequest":
+      properties:
+        "test_message":
+          type: "string"
+          title: "Test Message"
+          description: "The test message to send"
+        "test_data":
+          additionalProperties: true
+          type: "object"
+          title: "Test Data"
+          description: "Additional test data"
+        "message_count":
+          type: "integer"
+          maximum: 100
+          minimum: 1
+          title: "Message Count"
+          description: "Number of messages to send (1-100)"
+          default: 1
+      type: "object"
+      required:
+        - "test_message"
+      title: "TestMessageRequest"
+      description: "Request model for sending test messages to SQS"
+    "TestMessageResponse":
+      properties:
+        "status":
+          type: "string"
+          title: "Status"
+        "message":
+          type: "string"
+          title: "Message"
+        "messages_sent":
+          type: "integer"
+          title: "Messages Sent"
+        "queue_name":
+          type: "string"
+          title: "Queue Name"
+      type: "object"
+      required:
+        - "status"
+        - "message"
+        - "messages_sent"
+        - "queue_name"
+      title: "TestMessageResponse"
+      description: "Response model for test message requests"
     "TokenData":
       properties:
         "token_type":
@@ -15347,6 +15549,31 @@ components:
         - "INCLUDE_IF_PRESENCE"
         - "YES_SALES_NO_TRANSACTIONS"
       title: "TreatmentEnum"
+    "URLTestResult":
+      properties:
+        "url":
+          type: "string"
+          title: "Url"
+        "success":
+          type: "boolean"
+          title: "Success"
+        "status_code":
+          type: "integer"
+        "response_time_ms":
+          type: "number"
+        "error":
+          type: "string"
+        "headers":
+          additionalProperties:
+            type: "string"
+          type: "object"
+          title: "Headers"
+      type: "object"
+      required:
+        - "url"
+        - "success"
+      title: "URLTestResult"
+      description: "Result of testing a URL endpoint"
     "UiOrganizationCreate":
       properties:
         "name":

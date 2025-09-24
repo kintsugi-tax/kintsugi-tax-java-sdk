@@ -9,6 +9,7 @@ import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.components.CreditNoteCreate;
 import com.kintsugi.taxplatform.models.operations.PUTUpdateCreditNoteByTransactionIdRequest;
 import com.kintsugi.taxplatform.operations.PUTUpdateCreditNoteByTransactionId;
+import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
 import java.lang.String;
@@ -20,6 +21,7 @@ public class PUTUpdateCreditNoteByTransactionIdRequestBuilder {
     private String creditNoteId;
     private CreditNoteCreate creditNoteCreate;
     private final SDKConfiguration sdkConfiguration;
+    private final Headers _headers = new Headers(); 
 
     public PUTUpdateCreditNoteByTransactionIdRequestBuilder(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
@@ -56,7 +58,7 @@ public class PUTUpdateCreditNoteByTransactionIdRequestBuilder {
     public CompletableFuture<PUTUpdateCreditNoteByTransactionIdResponse> call() throws Exception {
         
         AsyncRequestOperation<PUTUpdateCreditNoteByTransactionIdRequest, PUTUpdateCreditNoteByTransactionIdResponse> operation
-              = new PUTUpdateCreditNoteByTransactionId.Async(sdkConfiguration);
+              = new PUTUpdateCreditNoteByTransactionId.Async(sdkConfiguration, _headers);
         PUTUpdateCreditNoteByTransactionIdRequest request = buildRequest();
 
         return operation.doRequest(request)

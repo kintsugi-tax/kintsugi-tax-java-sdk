@@ -17,6 +17,7 @@ import com.kintsugi.taxplatform.models.operations.async.GetFilingsV1FilingsGetRe
 import com.kintsugi.taxplatform.operations.GetFilingByIdV1FilingsFilingIdGet;
 import com.kintsugi.taxplatform.operations.GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGet;
 import com.kintsugi.taxplatform.operations.GetFilingsV1FilingsGet;
+import com.kintsugi.taxplatform.utils.Headers;
 import java.lang.Long;
 import java.lang.String;
 import java.util.Optional;
@@ -24,6 +25,7 @@ import java.util.concurrent.CompletableFuture;
 
 
 public class AsyncFilings {
+    private static final Headers _headers = Headers.EMPTY;
     private final SDKConfiguration sdkConfiguration;
     private final Filings syncSDK;
 
@@ -67,7 +69,7 @@ public class AsyncFilings {
      */
     public CompletableFuture<GetFilingsV1FilingsGetResponse> get(GetFilingsV1FilingsGetRequest request) {
         AsyncRequestOperation<GetFilingsV1FilingsGetRequest, GetFilingsV1FilingsGetResponse> operation
-              = new GetFilingsV1FilingsGet.Async(sdkConfiguration);
+              = new GetFilingsV1FilingsGet.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -101,7 +103,7 @@ public class AsyncFilings {
                 .filingId(filingId)
                 .build();
         AsyncRequestOperation<GetFilingByIdV1FilingsFilingIdGetRequest, GetFilingByIdV1FilingsFilingIdGetResponse> operation
-              = new GetFilingByIdV1FilingsFilingIdGet.Async(sdkConfiguration);
+              = new GetFilingByIdV1FilingsFilingIdGet.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -165,7 +167,7 @@ public class AsyncFilings {
                 .size(size)
                 .build();
         AsyncRequestOperation<GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequest, GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetResponse> operation
-              = new GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGet.Async(sdkConfiguration);
+              = new GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGet.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }

@@ -17,6 +17,7 @@ import com.kintsugi.taxplatform.models.operations.GetFilingsV1FilingsGetResponse
 import com.kintsugi.taxplatform.operations.GetFilingByIdV1FilingsFilingIdGet;
 import com.kintsugi.taxplatform.operations.GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGet;
 import com.kintsugi.taxplatform.operations.GetFilingsV1FilingsGet;
+import com.kintsugi.taxplatform.utils.Headers;
 import java.lang.Exception;
 import java.lang.Long;
 import java.lang.String;
@@ -24,6 +25,7 @@ import java.util.Optional;
 
 
 public class Filings {
+    private static final Headers _headers = Headers.EMPTY;
     private final SDKConfiguration sdkConfiguration;
     private final AsyncFilings asyncSDK;
 
@@ -67,7 +69,7 @@ public class Filings {
      */
     public GetFilingsV1FilingsGetResponse get(GetFilingsV1FilingsGetRequest request) throws Exception {
         RequestOperation<GetFilingsV1FilingsGetRequest, GetFilingsV1FilingsGetResponse> operation
-              = new GetFilingsV1FilingsGet.Sync(sdkConfiguration);
+              = new GetFilingsV1FilingsGet.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -100,7 +102,7 @@ public class Filings {
                 .filingId(filingId)
                 .build();
         RequestOperation<GetFilingByIdV1FilingsFilingIdGetRequest, GetFilingByIdV1FilingsFilingIdGetResponse> operation
-              = new GetFilingByIdV1FilingsFilingIdGet.Sync(sdkConfiguration);
+              = new GetFilingByIdV1FilingsFilingIdGet.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -164,7 +166,7 @@ public class Filings {
                 .size(size)
                 .build();
         RequestOperation<GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequest, GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetResponse> operation
-              = new GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGet.Sync(sdkConfiguration);
+              = new GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGet.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 

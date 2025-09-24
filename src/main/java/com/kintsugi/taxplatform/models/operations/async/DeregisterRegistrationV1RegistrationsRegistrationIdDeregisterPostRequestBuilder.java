@@ -8,6 +8,7 @@ import static com.kintsugi.taxplatform.operations.Operations.AsyncRequestOperati
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.operations.DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest;
 import com.kintsugi.taxplatform.operations.DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPost;
+import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
 import java.lang.String;
@@ -17,6 +18,7 @@ public class DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRe
 
     private String registrationId;
     private final SDKConfiguration sdkConfiguration;
+    private final Headers _headers = new Headers(); 
 
     public DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequestBuilder(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
@@ -39,7 +41,7 @@ public class DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRe
     public CompletableFuture<DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse> call() throws Exception {
         
         AsyncRequestOperation<DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest, DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse> operation
-              = new DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPost.Async(sdkConfiguration);
+              = new DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPost.Async(sdkConfiguration, _headers);
         DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest request = buildRequest();
 
         return operation.doRequest(request)

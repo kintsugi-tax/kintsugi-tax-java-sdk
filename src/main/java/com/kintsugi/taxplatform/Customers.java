@@ -31,11 +31,13 @@ import com.kintsugi.taxplatform.operations.GetCustomerByExternalIdV1CustomersExt
 import com.kintsugi.taxplatform.operations.GetCustomerByIdV1CustomersCustomerIdGet;
 import com.kintsugi.taxplatform.operations.GetCustomersV1;
 import com.kintsugi.taxplatform.operations.UpdateCustomerV1CustomersCustomerIdPut;
+import com.kintsugi.taxplatform.utils.Headers;
 import java.lang.Exception;
 import java.lang.String;
 
 
 public class Customers {
+    private static final Headers _headers = Headers.EMPTY;
     private final SDKConfiguration sdkConfiguration;
     private final AsyncCustomers asyncSDK;
     private final CustomersTransactions transactions;
@@ -85,7 +87,7 @@ public class Customers {
      */
     public GetCustomersV1Response get(GetCustomersV1Request request) throws Exception {
         RequestOperation<GetCustomersV1Request, GetCustomersV1Response> operation
-              = new GetCustomersV1.Sync(sdkConfiguration);
+              = new GetCustomersV1.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -113,7 +115,7 @@ public class Customers {
      */
     public CreateCustomerV1CustomersPostResponse create(CustomerCreate request) throws Exception {
         RequestOperation<CustomerCreate, CreateCustomerV1CustomersPostResponse> operation
-              = new CreateCustomerV1CustomersPost.Sync(sdkConfiguration);
+              = new CreateCustomerV1CustomersPost.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -148,7 +150,7 @@ public class Customers {
                 .customerId(customerId)
                 .build();
         RequestOperation<GetCustomerByIdV1CustomersCustomerIdGetRequest, GetCustomerByIdV1CustomersCustomerIdGetResponse> operation
-              = new GetCustomerByIdV1CustomersCustomerIdGet.Sync(sdkConfiguration);
+              = new GetCustomerByIdV1CustomersCustomerIdGet.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -185,7 +187,7 @@ public class Customers {
                 .customerUpdate(customerUpdate)
                 .build();
         RequestOperation<UpdateCustomerV1CustomersCustomerIdPutRequest, UpdateCustomerV1CustomersCustomerIdPutResponse> operation
-              = new UpdateCustomerV1CustomersCustomerIdPut.Sync(sdkConfiguration);
+              = new UpdateCustomerV1CustomersCustomerIdPut.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -220,7 +222,7 @@ public class Customers {
                 .externalId(externalId)
                 .build();
         RequestOperation<GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest, GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse> operation
-              = new GetCustomerByExternalIdV1CustomersExternalExternalIdGet.Sync(sdkConfiguration);
+              = new GetCustomerByExternalIdV1CustomersExternalExternalIdGet.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -253,7 +255,7 @@ public class Customers {
                 .transactionCreate(transactionCreate)
                 .build();
         RequestOperation<CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest, CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostResponse> operation
-              = new CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPost.Sync(sdkConfiguration);
+              = new CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPost.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 

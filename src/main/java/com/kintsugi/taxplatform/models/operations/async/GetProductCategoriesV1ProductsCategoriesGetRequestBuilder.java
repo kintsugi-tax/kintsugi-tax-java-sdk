@@ -7,12 +7,14 @@ import static com.kintsugi.taxplatform.operations.Operations.AsyncRequestlessOpe
 
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.operations.GetProductCategoriesV1ProductsCategoriesGet;
+import com.kintsugi.taxplatform.utils.Headers;
 import java.lang.Exception;
 import java.util.concurrent.CompletableFuture;
 
 public class GetProductCategoriesV1ProductsCategoriesGetRequestBuilder {
 
     private final SDKConfiguration sdkConfiguration;
+    private final Headers _headers = new Headers(); 
 
     public GetProductCategoriesV1ProductsCategoriesGetRequestBuilder(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
@@ -21,7 +23,7 @@ public class GetProductCategoriesV1ProductsCategoriesGetRequestBuilder {
     public CompletableFuture<GetProductCategoriesV1ProductsCategoriesGetResponse> call() throws Exception {
         
         AsyncRequestlessOperation<GetProductCategoriesV1ProductsCategoriesGetResponse> operation
-            = new GetProductCategoriesV1ProductsCategoriesGet.Async(sdkConfiguration);
+            = new GetProductCategoriesV1ProductsCategoriesGet.Async(sdkConfiguration, _headers);
 
         return operation.doRequest()
             .thenCompose(operation::handleResponse);

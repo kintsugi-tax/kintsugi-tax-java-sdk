@@ -8,6 +8,7 @@ import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.components.CustomerUpdate;
 import com.kintsugi.taxplatform.operations.UpdateCustomerV1CustomersCustomerIdPut;
+import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
 import java.lang.String;
@@ -17,6 +18,7 @@ public class UpdateCustomerV1CustomersCustomerIdPutRequestBuilder {
     private String customerId;
     private CustomerUpdate customerUpdate;
     private final SDKConfiguration sdkConfiguration;
+    private final Headers _headers = new Headers(); 
 
     public UpdateCustomerV1CustomersCustomerIdPutRequestBuilder(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
@@ -46,7 +48,7 @@ public class UpdateCustomerV1CustomersCustomerIdPutRequestBuilder {
     public UpdateCustomerV1CustomersCustomerIdPutResponse call() throws Exception {
         
         RequestOperation<UpdateCustomerV1CustomersCustomerIdPutRequest, UpdateCustomerV1CustomersCustomerIdPutResponse> operation
-              = new UpdateCustomerV1CustomersCustomerIdPut.Sync(sdkConfiguration);
+              = new UpdateCustomerV1CustomersCustomerIdPut.Sync(sdkConfiguration, _headers);
         UpdateCustomerV1CustomersCustomerIdPutRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

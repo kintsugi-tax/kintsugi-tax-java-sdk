@@ -20,6 +20,7 @@ import com.kintsugi.taxplatform.utils.Blob;
 import com.kintsugi.taxplatform.utils.Exceptions;
 import com.kintsugi.taxplatform.utils.HTTPClient;
 import com.kintsugi.taxplatform.utils.HTTPRequest;
+import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Hook.AfterErrorContextImpl;
 import com.kintsugi.taxplatform.utils.Hook.AfterSuccessContextImpl;
 import com.kintsugi.taxplatform.utils.Hook.BeforeRequestContextImpl;
@@ -48,9 +49,13 @@ public class SearchV1AddressValidationSearchPost {
         final SearchV1AddressValidationSearchPostSecurity security;
         final SecuritySource securitySource;
         final HTTPClient client;
+        final Headers _headers;
 
-        public Base(SDKConfiguration sdkConfiguration, SearchV1AddressValidationSearchPostSecurity security) {
+        public Base(
+                SDKConfiguration sdkConfiguration, SearchV1AddressValidationSearchPostSecurity security,
+                Headers _headers) {
             this.sdkConfiguration = sdkConfiguration;
+            this._headers =_headers;
             this.baseUrl = this.sdkConfiguration.serverUrl();
             this.security = security;
             // hooks will be passed method level security only
@@ -108,6 +113,7 @@ public class SearchV1AddressValidationSearchPost {
             req.setBody(Optional.ofNullable(serializedRequestBody));
             req.addHeader("Accept", "application/json")
                     .addHeader("user-agent", SDKConfiguration.USER_AGENT);
+            _headers.forEach((k, list) -> list.forEach(v -> req.addHeader(k, v)));
             Utils.configureSecurity(req, security);
 
             return req.build();
@@ -116,8 +122,12 @@ public class SearchV1AddressValidationSearchPost {
 
     public static class Sync extends Base
             implements RequestOperation<AddressBase, SearchV1AddressValidationSearchPostResponse> {
-        public Sync(SDKConfiguration sdkConfiguration, SearchV1AddressValidationSearchPostSecurity security) {
-            super(sdkConfiguration, security);
+        public Sync(
+                SDKConfiguration sdkConfiguration, SearchV1AddressValidationSearchPostSecurity security,
+                Headers _headers) {
+            super(
+                  sdkConfiguration, security,
+                  _headers);
         }
 
         private HttpRequest onBuildRequest(AddressBase request) throws Exception {
@@ -269,8 +279,12 @@ public class SearchV1AddressValidationSearchPost {
     public static class Async extends Base
             implements AsyncRequestOperation<AddressBase, com.kintsugi.taxplatform.models.operations.async.SearchV1AddressValidationSearchPostResponse> {
 
-        public Async(SDKConfiguration sdkConfiguration, SearchV1AddressValidationSearchPostSecurity security) {
-            super(sdkConfiguration, security);
+        public Async(
+                SDKConfiguration sdkConfiguration, SearchV1AddressValidationSearchPostSecurity security,
+                Headers _headers) {
+            super(
+                  sdkConfiguration, security,
+                  _headers);
         }
 
         private CompletableFuture<HttpRequest> onBuildRequest(AddressBase request) throws Exception {

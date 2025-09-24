@@ -26,11 +26,13 @@ import com.kintsugi.taxplatform.operations.GetProductByIdV1ProductsProductIdGet;
 import com.kintsugi.taxplatform.operations.GetProductCategoriesV1ProductsCategoriesGet;
 import com.kintsugi.taxplatform.operations.GetProductsV1ProductsGet;
 import com.kintsugi.taxplatform.operations.UpdateProductV1ProductsProductIdPut;
+import com.kintsugi.taxplatform.utils.Headers;
 import java.lang.Exception;
 import java.lang.String;
 
 
 public class Products {
+    private static final Headers _headers = Headers.EMPTY;
     private final SDKConfiguration sdkConfiguration;
     private final AsyncProducts asyncSDK;
 
@@ -70,7 +72,7 @@ public class Products {
      */
     public GetProductsV1ProductsGetResponse get(GetProductsV1ProductsGetRequest request) throws Exception {
         RequestOperation<GetProductsV1ProductsGetRequest, GetProductsV1ProductsGetResponse> operation
-              = new GetProductsV1ProductsGet.Sync(sdkConfiguration);
+              = new GetProductsV1ProductsGet.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -100,7 +102,7 @@ public class Products {
      */
     public CreateProductV1ProductsPostResponse create(ProductCreateManual request) throws Exception {
         RequestOperation<ProductCreateManual, CreateProductV1ProductsPostResponse> operation
-              = new CreateProductV1ProductsPost.Sync(sdkConfiguration);
+              = new CreateProductV1ProductsPost.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -135,7 +137,7 @@ public class Products {
                 .productId(productId)
                 .build();
         RequestOperation<GetProductByIdV1ProductsProductIdGetRequest, GetProductByIdV1ProductsProductIdGetResponse> operation
-              = new GetProductByIdV1ProductsProductIdGet.Sync(sdkConfiguration);
+              = new GetProductByIdV1ProductsProductIdGet.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -170,7 +172,7 @@ public class Products {
                 .productUpdate(productUpdate)
                 .build();
         RequestOperation<UpdateProductV1ProductsProductIdPutRequest, UpdateProductV1ProductsProductIdPutResponse> operation
-              = new UpdateProductV1ProductsProductIdPut.Sync(sdkConfiguration);
+              = new UpdateProductV1ProductsProductIdPut.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -199,7 +201,7 @@ public class Products {
      */
     public GetProductCategoriesV1ProductsCategoriesGetResponse getCategoriesDirect() throws Exception {
         RequestlessOperation<GetProductCategoriesV1ProductsCategoriesGetResponse> operation
-            = new GetProductCategoriesV1ProductsCategoriesGet.Sync(sdkConfiguration);
+            = new GetProductCategoriesV1ProductsCategoriesGet.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest());
     }
 

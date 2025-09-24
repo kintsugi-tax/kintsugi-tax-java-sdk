@@ -9,11 +9,13 @@ import com.kintsugi.taxplatform.models.operations.GetTransactionsByCustomerIdV1C
 import com.kintsugi.taxplatform.models.operations.async.GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.async.GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse;
 import com.kintsugi.taxplatform.operations.GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet;
+import com.kintsugi.taxplatform.utils.Headers;
 import java.lang.String;
 import java.util.concurrent.CompletableFuture;
 
 
 public class AsyncCustomersTransactions {
+    private static final Headers _headers = Headers.EMPTY;
     private final SDKConfiguration sdkConfiguration;
     private final CustomersTransactions syncSDK;
 
@@ -58,7 +60,7 @@ public class AsyncCustomersTransactions {
                 .customerId(customerId)
                 .build();
         AsyncRequestOperation<GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest, GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse> operation
-              = new GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet.Async(sdkConfiguration);
+              = new GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }

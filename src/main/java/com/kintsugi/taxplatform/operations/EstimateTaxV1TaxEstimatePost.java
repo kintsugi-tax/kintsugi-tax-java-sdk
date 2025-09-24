@@ -19,6 +19,7 @@ import com.kintsugi.taxplatform.utils.Blob;
 import com.kintsugi.taxplatform.utils.Exceptions;
 import com.kintsugi.taxplatform.utils.HTTPClient;
 import com.kintsugi.taxplatform.utils.HTTPRequest;
+import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Hook.AfterErrorContextImpl;
 import com.kintsugi.taxplatform.utils.Hook.AfterSuccessContextImpl;
 import com.kintsugi.taxplatform.utils.Hook.BeforeRequestContextImpl;
@@ -45,9 +46,11 @@ public class EstimateTaxV1TaxEstimatePost {
         final String baseUrl;
         final SecuritySource securitySource;
         final HTTPClient client;
+        final Headers _headers;
 
-        public Base(SDKConfiguration sdkConfiguration) {
+        public Base(SDKConfiguration sdkConfiguration, Headers _headers) {
             this.sdkConfiguration = sdkConfiguration;
+            this._headers =_headers;
             this.baseUrl = this.sdkConfiguration.serverUrl();
             this.securitySource = this.sdkConfiguration.securitySource();
             this.client = this.sdkConfiguration.client();
@@ -103,6 +106,7 @@ public class EstimateTaxV1TaxEstimatePost {
             req.setBody(Optional.ofNullable(serializedRequestBody));
             req.addHeader("Accept", "application/json")
                     .addHeader("user-agent", SDKConfiguration.USER_AGENT);
+            _headers.forEach((k, list) -> list.forEach(v -> req.addHeader(k, v)));
 
             req.addQueryParams(Utils.getQueryParams(
                     klass,
@@ -116,8 +120,8 @@ public class EstimateTaxV1TaxEstimatePost {
 
     public static class Sync extends Base
             implements RequestOperation<EstimateTaxV1TaxEstimatePostRequest, EstimateTaxV1TaxEstimatePostResponse> {
-        public Sync(SDKConfiguration sdkConfiguration) {
-            super(sdkConfiguration);
+        public Sync(SDKConfiguration sdkConfiguration, Headers _headers) {
+            super(sdkConfiguration, _headers);
         }
 
         private HttpRequest onBuildRequest(EstimateTaxV1TaxEstimatePostRequest request) throws Exception {
@@ -269,8 +273,8 @@ public class EstimateTaxV1TaxEstimatePost {
     public static class Async extends Base
             implements AsyncRequestOperation<EstimateTaxV1TaxEstimatePostRequest, com.kintsugi.taxplatform.models.operations.async.EstimateTaxV1TaxEstimatePostResponse> {
 
-        public Async(SDKConfiguration sdkConfiguration) {
-            super(sdkConfiguration);
+        public Async(SDKConfiguration sdkConfiguration, Headers _headers) {
+            super(sdkConfiguration, _headers);
         }
 
         private CompletableFuture<HttpRequest> onBuildRequest(EstimateTaxV1TaxEstimatePostRequest request) throws Exception {

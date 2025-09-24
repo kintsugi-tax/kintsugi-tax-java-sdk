@@ -7,6 +7,7 @@ import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.operations.GetCustomerByExternalIdV1CustomersExternalExternalIdGet;
+import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
 import java.lang.String;
@@ -15,6 +16,7 @@ public class GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequestBuild
 
     private String externalId;
     private final SDKConfiguration sdkConfiguration;
+    private final Headers _headers = new Headers(); 
 
     public GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequestBuilder(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
@@ -37,7 +39,7 @@ public class GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequestBuild
     public GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse call() throws Exception {
         
         RequestOperation<GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest, GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse> operation
-              = new GetCustomerByExternalIdV1CustomersExternalExternalIdGet.Sync(sdkConfiguration);
+              = new GetCustomerByExternalIdV1CustomersExternalExternalIdGet.Sync(sdkConfiguration, _headers);
         GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

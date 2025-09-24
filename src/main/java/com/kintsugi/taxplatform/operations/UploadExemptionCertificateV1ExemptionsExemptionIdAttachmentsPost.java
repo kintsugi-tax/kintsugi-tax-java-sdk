@@ -19,6 +19,7 @@ import com.kintsugi.taxplatform.utils.Blob;
 import com.kintsugi.taxplatform.utils.Exceptions;
 import com.kintsugi.taxplatform.utils.HTTPClient;
 import com.kintsugi.taxplatform.utils.HTTPRequest;
+import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Hook.AfterErrorContextImpl;
 import com.kintsugi.taxplatform.utils.Hook.AfterSuccessContextImpl;
 import com.kintsugi.taxplatform.utils.Hook.BeforeRequestContextImpl;
@@ -45,9 +46,11 @@ public class UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost {
         final String baseUrl;
         final SecuritySource securitySource;
         final HTTPClient client;
+        final Headers _headers;
 
-        public Base(SDKConfiguration sdkConfiguration) {
+        public Base(SDKConfiguration sdkConfiguration, Headers _headers) {
             this.sdkConfiguration = sdkConfiguration;
+            this._headers =_headers;
             this.baseUrl = this.sdkConfiguration.serverUrl();
             this.securitySource = this.sdkConfiguration.securitySource();
             this.client = this.sdkConfiguration.client();
@@ -105,6 +108,7 @@ public class UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost {
             req.setBody(Optional.ofNullable(serializedRequestBody));
             req.addHeader("Accept", "application/json")
                     .addHeader("user-agent", SDKConfiguration.USER_AGENT);
+            _headers.forEach((k, list) -> list.forEach(v -> req.addHeader(k, v)));
             Utils.configureSecurity(req, this.sdkConfiguration.securitySource().getSecurity());
 
             return req.build();
@@ -113,8 +117,8 @@ public class UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost {
 
     public static class Sync extends Base
             implements RequestOperation<UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest, UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse> {
-        public Sync(SDKConfiguration sdkConfiguration) {
-            super(sdkConfiguration);
+        public Sync(SDKConfiguration sdkConfiguration, Headers _headers) {
+            super(sdkConfiguration, _headers);
         }
 
         private HttpRequest onBuildRequest(UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest request) throws Exception {
@@ -266,8 +270,8 @@ public class UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost {
     public static class Async extends Base
             implements AsyncRequestOperation<UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest, com.kintsugi.taxplatform.models.operations.async.UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse> {
 
-        public Async(SDKConfiguration sdkConfiguration) {
-            super(sdkConfiguration);
+        public Async(SDKConfiguration sdkConfiguration, Headers _headers) {
+            super(sdkConfiguration, _headers);
         }
 
         private CompletableFuture<HttpRequest> onBuildRequest(UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest request) throws Exception {

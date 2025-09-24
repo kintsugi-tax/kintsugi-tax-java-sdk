@@ -9,6 +9,7 @@ import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.components.PhysicalNexusUpdate;
 import com.kintsugi.taxplatform.models.operations.UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest;
 import com.kintsugi.taxplatform.operations.UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPut;
+import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
 import java.lang.String;
@@ -19,6 +20,7 @@ public class UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequestBui
     private String physicalNexusId;
     private PhysicalNexusUpdate physicalNexusUpdate;
     private final SDKConfiguration sdkConfiguration;
+    private final Headers _headers = new Headers(); 
 
     public UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequestBuilder(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
@@ -48,7 +50,7 @@ public class UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequestBui
     public CompletableFuture<UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutResponse> call() throws Exception {
         
         AsyncRequestOperation<UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest, UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutResponse> operation
-              = new UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPut.Async(sdkConfiguration);
+              = new UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPut.Async(sdkConfiguration, _headers);
         UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest request = buildRequest();
 
         return operation.doRequest(request)

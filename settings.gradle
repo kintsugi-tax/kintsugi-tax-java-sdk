@@ -8,3 +8,9 @@
  */
 
 rootProject.name = 'kintsugi-tax-java-sdk'
+
+include 'kintsugi-tax-java-sdk-spring-boot-autoconfigure'
+include 'kintsugi-tax-java-sdk-spring-boot-starter'
+
+project(':kintsugi-tax-java-sdk-spring-boot-autoconfigure').projectDir = file('spring/kintsugi-tax-java-sdk-spring-boot-autoconfigure')
+project(':kintsugi-tax-java-sdk-spring-boot-starter').projectDir = file('spring/kintsugi-tax-java-sdk-spring-boot-starter')

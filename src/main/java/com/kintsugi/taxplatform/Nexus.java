@@ -26,11 +26,13 @@ import com.kintsugi.taxplatform.operations.DeletePhysicalNexusV1NexusPhysicalNex
 import com.kintsugi.taxplatform.operations.GetNexusForOrgV1NexusGet;
 import com.kintsugi.taxplatform.operations.GetPhysicalNexusV1NexusPhysicalNexusGet;
 import com.kintsugi.taxplatform.operations.UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPut;
+import com.kintsugi.taxplatform.utils.Headers;
 import java.lang.Exception;
 import java.lang.String;
 
 
 public class Nexus {
+    private static final Headers _headers = Headers.EMPTY;
     private final SDKConfiguration sdkConfiguration;
     private final AsyncNexus asyncSDK;
 
@@ -72,7 +74,7 @@ public class Nexus {
      */
     public GetPhysicalNexusV1NexusPhysicalNexusGetResponse getPhysical(GetPhysicalNexusV1NexusPhysicalNexusGetRequest request) throws Exception {
         RequestOperation<GetPhysicalNexusV1NexusPhysicalNexusGetRequest, GetPhysicalNexusV1NexusPhysicalNexusGetResponse> operation
-              = new GetPhysicalNexusV1NexusPhysicalNexusGet.Sync(sdkConfiguration);
+              = new GetPhysicalNexusV1NexusPhysicalNexusGet.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -102,7 +104,7 @@ public class Nexus {
      */
     public CreatePhysicalNexusV1NexusPhysicalNexusPostResponse createPhysical(PhysicalNexusCreate request) throws Exception {
         RequestOperation<PhysicalNexusCreate, CreatePhysicalNexusV1NexusPhysicalNexusPostResponse> operation
-              = new CreatePhysicalNexusV1NexusPhysicalNexusPost.Sync(sdkConfiguration);
+              = new CreatePhysicalNexusV1NexusPhysicalNexusPost.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -138,7 +140,7 @@ public class Nexus {
                 .physicalNexusUpdate(physicalNexusUpdate)
                 .build();
         RequestOperation<UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest, UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutResponse> operation
-              = new UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPut.Sync(sdkConfiguration);
+              = new UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPut.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -172,7 +174,7 @@ public class Nexus {
                 .physicalNexusId(physicalNexusId)
                 .build();
         RequestOperation<DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest, DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteResponse> operation
-              = new DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDelete.Sync(sdkConfiguration);
+              = new DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDelete.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -198,7 +200,7 @@ public class Nexus {
      */
     public GetNexusForOrgV1NexusGetResponse get(GetNexusForOrgV1NexusGetRequest request) throws Exception {
         RequestOperation<GetNexusForOrgV1NexusGetRequest, GetNexusForOrgV1NexusGetResponse> operation
-              = new GetNexusForOrgV1NexusGet.Sync(sdkConfiguration);
+              = new GetNexusForOrgV1NexusGet.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 

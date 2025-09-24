@@ -9,6 +9,7 @@ import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.components.AddressBase;
 import com.kintsugi.taxplatform.models.operations.SearchV1AddressValidationSearchPostSecurity;
 import com.kintsugi.taxplatform.operations.SearchV1AddressValidationSearchPost;
+import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
 import java.util.concurrent.CompletableFuture;
@@ -18,6 +19,7 @@ public class SearchV1AddressValidationSearchPostRequestBuilder {
     private AddressBase request;
     private SearchV1AddressValidationSearchPostSecurity security;
     private final SDKConfiguration sdkConfiguration;
+    private final Headers _headers = new Headers(); 
 
     public SearchV1AddressValidationSearchPostRequestBuilder(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
@@ -38,7 +40,7 @@ public class SearchV1AddressValidationSearchPostRequestBuilder {
     public CompletableFuture<SearchV1AddressValidationSearchPostResponse> call() throws Exception {
         
         AsyncRequestOperation<AddressBase, SearchV1AddressValidationSearchPostResponse> operation
-              = new SearchV1AddressValidationSearchPost.Async(sdkConfiguration, security);
+              = new SearchV1AddressValidationSearchPost.Async(sdkConfiguration, security, _headers);
 
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);

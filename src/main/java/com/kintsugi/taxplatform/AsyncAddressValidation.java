@@ -14,10 +14,12 @@ import com.kintsugi.taxplatform.models.operations.async.SuggestionsV1AddressVali
 import com.kintsugi.taxplatform.models.operations.async.SuggestionsV1AddressValidationSuggestionsPostResponse;
 import com.kintsugi.taxplatform.operations.SearchV1AddressValidationSearchPost;
 import com.kintsugi.taxplatform.operations.SuggestionsV1AddressValidationSuggestionsPost;
+import com.kintsugi.taxplatform.utils.Headers;
 import java.util.concurrent.CompletableFuture;
 
 
 public class AsyncAddressValidation {
+    private static final Headers _headers = Headers.EMPTY;
     private final SDKConfiguration sdkConfiguration;
     private final AddressValidation syncSDK;
 
@@ -64,7 +66,7 @@ public class AsyncAddressValidation {
      */
     public CompletableFuture<SearchV1AddressValidationSearchPostResponse> search(AddressBase request, SearchV1AddressValidationSearchPostSecurity security) {
         AsyncRequestOperation<AddressBase, SearchV1AddressValidationSearchPostResponse> operation
-              = new SearchV1AddressValidationSearchPost.Async(sdkConfiguration, security);
+              = new SearchV1AddressValidationSearchPost.Async(sdkConfiguration, security, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -99,7 +101,7 @@ public class AsyncAddressValidation {
      */
     public CompletableFuture<SuggestionsV1AddressValidationSuggestionsPostResponse> suggest(ValidationAddress request) {
         AsyncRequestOperation<ValidationAddress, SuggestionsV1AddressValidationSuggestionsPostResponse> operation
-              = new SuggestionsV1AddressValidationSuggestionsPost.Async(sdkConfiguration);
+              = new SuggestionsV1AddressValidationSuggestionsPost.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }

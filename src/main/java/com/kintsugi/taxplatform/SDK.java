@@ -4,6 +4,7 @@
 package com.kintsugi.taxplatform;
 
 import com.kintsugi.taxplatform.utils.HTTPClient;
+import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.RetryConfig;
 import com.kintsugi.taxplatform.utils.SpeakeasyHTTPClient;
 import com.kintsugi.taxplatform.utils.Utils;
@@ -12,13 +13,14 @@ import java.util.Map;
 import java.util.Optional;
 
 public class SDK {
+    private static final Headers _headers = Headers.EMPTY;
 
 
     /**
      * SERVERS contains the list of server urls available to the SDK.
      */
     public static final String[] SERVERS = {
-        /**
+        /*
          * Production API server URL
          */
         "https://api.trykintsugi.com",
@@ -208,6 +210,7 @@ public class SDK {
             return this;
         }
 
+
         /**
          * Builds a new instance of the SDK.
          *
@@ -222,7 +225,7 @@ public class SDK {
             return new SDK(sdkConfiguration);
         }
     }
-    
+
     /**
      * Get a new instance of the SDK builder to configure a new instance of the SDK.
      *
@@ -232,7 +235,7 @@ public class SDK {
         return new Builder();
     }
 
-    private SDK(SDKConfiguration sdkConfiguration) {
+    public SDK(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
         this.sdkConfiguration.initialize();
         this.addressValidation = new AddressValidation(sdkConfiguration);

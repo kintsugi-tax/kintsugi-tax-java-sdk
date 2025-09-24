@@ -26,11 +26,13 @@ import com.kintsugi.taxplatform.operations.DeletePhysicalNexusV1NexusPhysicalNex
 import com.kintsugi.taxplatform.operations.GetNexusForOrgV1NexusGet;
 import com.kintsugi.taxplatform.operations.GetPhysicalNexusV1NexusPhysicalNexusGet;
 import com.kintsugi.taxplatform.operations.UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPut;
+import com.kintsugi.taxplatform.utils.Headers;
 import java.lang.String;
 import java.util.concurrent.CompletableFuture;
 
 
 public class AsyncNexus {
+    private static final Headers _headers = Headers.EMPTY;
     private final SDKConfiguration sdkConfiguration;
     private final Nexus syncSDK;
 
@@ -72,7 +74,7 @@ public class AsyncNexus {
      */
     public CompletableFuture<GetPhysicalNexusV1NexusPhysicalNexusGetResponse> getPhysical(GetPhysicalNexusV1NexusPhysicalNexusGetRequest request) {
         AsyncRequestOperation<GetPhysicalNexusV1NexusPhysicalNexusGetRequest, GetPhysicalNexusV1NexusPhysicalNexusGetResponse> operation
-              = new GetPhysicalNexusV1NexusPhysicalNexusGet.Async(sdkConfiguration);
+              = new GetPhysicalNexusV1NexusPhysicalNexusGet.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -103,7 +105,7 @@ public class AsyncNexus {
      */
     public CompletableFuture<CreatePhysicalNexusV1NexusPhysicalNexusPostResponse> createPhysical(PhysicalNexusCreate request) {
         AsyncRequestOperation<PhysicalNexusCreate, CreatePhysicalNexusV1NexusPhysicalNexusPostResponse> operation
-              = new CreatePhysicalNexusV1NexusPhysicalNexusPost.Async(sdkConfiguration);
+              = new CreatePhysicalNexusV1NexusPhysicalNexusPost.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -140,7 +142,7 @@ public class AsyncNexus {
                 .physicalNexusUpdate(physicalNexusUpdate)
                 .build();
         AsyncRequestOperation<UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest, UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutResponse> operation
-              = new UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPut.Async(sdkConfiguration);
+              = new UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPut.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -175,7 +177,7 @@ public class AsyncNexus {
                 .physicalNexusId(physicalNexusId)
                 .build();
         AsyncRequestOperation<DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest, DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteResponse> operation
-              = new DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDelete.Async(sdkConfiguration);
+              = new DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDelete.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -202,7 +204,7 @@ public class AsyncNexus {
      */
     public CompletableFuture<GetNexusForOrgV1NexusGetResponse> get(GetNexusForOrgV1NexusGetRequest request) {
         AsyncRequestOperation<GetNexusForOrgV1NexusGetRequest, GetNexusForOrgV1NexusGetResponse> operation
-              = new GetNexusForOrgV1NexusGet.Async(sdkConfiguration);
+              = new GetNexusForOrgV1NexusGet.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }

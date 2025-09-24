@@ -8,6 +8,7 @@ import static com.kintsugi.taxplatform.operations.Operations.AsyncRequestOperati
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.operations.GetTransactionByIdV1TransactionsTransactionIdGetRequest;
 import com.kintsugi.taxplatform.operations.GetTransactionByIdV1TransactionsTransactionIdGet;
+import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
 import java.lang.String;
@@ -17,6 +18,7 @@ public class GetTransactionByIdV1TransactionsTransactionIdGetRequestBuilder {
 
     private String transactionId;
     private final SDKConfiguration sdkConfiguration;
+    private final Headers _headers = new Headers(); 
 
     public GetTransactionByIdV1TransactionsTransactionIdGetRequestBuilder(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
@@ -39,7 +41,7 @@ public class GetTransactionByIdV1TransactionsTransactionIdGetRequestBuilder {
     public CompletableFuture<GetTransactionByIdV1TransactionsTransactionIdGetResponse> call() throws Exception {
         
         AsyncRequestOperation<GetTransactionByIdV1TransactionsTransactionIdGetRequest, GetTransactionByIdV1TransactionsTransactionIdGetResponse> operation
-              = new GetTransactionByIdV1TransactionsTransactionIdGet.Async(sdkConfiguration);
+              = new GetTransactionByIdV1TransactionsTransactionIdGet.Async(sdkConfiguration, _headers);
         GetTransactionByIdV1TransactionsTransactionIdGetRequest request = buildRequest();
 
         return operation.doRequest(request)

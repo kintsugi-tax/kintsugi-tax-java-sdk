@@ -1,19 +1,19 @@
 lockVersion: 2.0.0
 id: 13bfb8e3-2795-4089-a96d-9ab7fcceafd9
 management:
-  docChecksum: e8de5e461fde4c9e796974911fbbc31a
+  docChecksum: ad3176bbdbb170168d7a92d4de9abaf0
   docVersion: 1.0.0
-  speakeasyVersion: 1.615.2
-  generationVersion: 2.698.4
-  releaseVersion: 0.11.0
-  configChecksum: 84d5d411bc3ab181f46fd5388302cbb4
+  speakeasyVersion: 1.623.0
+  generationVersion: 2.713.0
+  releaseVersion: 0.12.0
+  configChecksum: 83dd2b1c457ed927c0d85b6643a923e5
   repoURL: https://github.com/kintsugi-tax/kintsugi-tax-java-sdk.git
   published: true
 features:
   java:
     additionalDependencies: 0.1.0
     constsAndDefaults: 0.1.1
-    core: 3.47.2
+    core: 3.50.1
     deprecations: 2.81.1
     flattening: 2.81.1
     globalSecurity: 2.83.1
@@ -60,6 +60,8 @@ generatedFiles:
   - docs/models/components/CustomerBasePublic.md
   - docs/models/components/CustomerCreate.md
   - docs/models/components/CustomerRead.md
+  - docs/models/components/CustomerTaxRegistrationRead.md
+  - docs/models/components/CustomerTaxTypeEnum.md
   - docs/models/components/CustomerUpdate.md
   - docs/models/components/DiscountBuilder.md
   - docs/models/components/Exemption.md
@@ -255,7 +257,15 @@ generatedFiles:
   - gradle/wrapper/gradle-wrapper.properties
   - gradlew
   - gradlew.bat
+  - publishing.gradle
   - settings.gradle
+  - spring/kintsugi-tax-java-sdk-spring-boot-autoconfigure/build.gradle
+  - spring/kintsugi-tax-java-sdk-spring-boot-autoconfigure/src/main/java/com/kintsugi/taxplatform/ConditionalOnPropertyPrefix.java
+  - spring/kintsugi-tax-java-sdk-spring-boot-autoconfigure/src/main/java/com/kintsugi/taxplatform/KintsugiTaxJavaSDKAutoConfig.java
+  - spring/kintsugi-tax-java-sdk-spring-boot-autoconfigure/src/main/java/com/kintsugi/taxplatform/KintsugiTaxJavaSDKAutoConfigProperties.java
+  - spring/kintsugi-tax-java-sdk-spring-boot-autoconfigure/src/main/java/com/kintsugi/taxplatform/OnPropertyPrefixCondition.java
+  - spring/kintsugi-tax-java-sdk-spring-boot-autoconfigure/src/main/resources/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports
+  - spring/kintsugi-tax-java-sdk-spring-boot-starter/build.gradle
   - src/main/java/com/kintsugi/taxplatform/AddressValidation.java
   - src/main/java/com/kintsugi/taxplatform/AsyncAddressValidation.java
   - src/main/java/com/kintsugi/taxplatform/AsyncCreditNotes.java
@@ -313,6 +323,8 @@ generatedFiles:
   - src/main/java/com/kintsugi/taxplatform/models/components/CustomerBasePublic.java
   - src/main/java/com/kintsugi/taxplatform/models/components/CustomerCreate.java
   - src/main/java/com/kintsugi/taxplatform/models/components/CustomerRead.java
+  - src/main/java/com/kintsugi/taxplatform/models/components/CustomerTaxRegistrationRead.java
+  - src/main/java/com/kintsugi/taxplatform/models/components/CustomerTaxTypeEnum.java
   - src/main/java/com/kintsugi/taxplatform/models/components/CustomerUpdate.java
   - src/main/java/com/kintsugi/taxplatform/models/components/DiscountBuilder.java
   - src/main/java/com/kintsugi/taxplatform/models/components/Exemption.java
@@ -691,6 +703,7 @@ generatedFiles:
   - src/main/java/com/kintsugi/taxplatform/utils/HTTPRequest.java
   - src/main/java/com/kintsugi/taxplatform/utils/HasSecurity.java
   - src/main/java/com/kintsugi/taxplatform/utils/HeaderMetadata.java
+  - src/main/java/com/kintsugi/taxplatform/utils/Headers.java
   - src/main/java/com/kintsugi/taxplatform/utils/Helpers.java
   - src/main/java/com/kintsugi/taxplatform/utils/Hook.java
   - src/main/java/com/kintsugi/taxplatform/utils/HookAdapters.java
@@ -1535,4 +1548,4 @@ examples:
         "500":
           application/json: {"detail": "<value>"}
 examplesVersion: 1.0.2
-releaseNotes: "## Java SDK Changes Detected:\n* `sdk.transactions.update()`: \n  *  `request.transactionupdate` **Changed** **Breaking** :warning:\n  *  `response.customer.externalFriendlyId` **Added**\n* `sdk.nexus.get()`:  `response.items.[].collectedTaxEnabled` **Removed** **Breaking** :warning:\n* `sdk.transactions.get()`:  `response.items.[].customer.externalFriendlyId` **Added**\n* `sdk.exemptions.create()`:  `response.customer.externalFriendlyId` **Added**\n* `sdk.customers.getByExternalId()`:  `response.external_friendly_id` **Added**\n* `sdk.customers.createTransaction()`: \n  *  `request.transactioncreate.customer.externalFriendlyId` **Added**\n  *  `response.customer.externalFriendlyId` **Added**\n* `sdk.customers.create()`: \n  *  `request.externalFriendlyId` **Added**\n  *  `response.external_friendly_id` **Added**\n* `sdk.customers.transactions.getByCustomerId()`:  `response.[].customer.externalFriendlyId` **Added**\n* `sdk.customers.getById()`:  `response.external_friendly_id` **Added**\n* `sdk.customers.update()`: \n  *  `request.customerupdate.externalFriendlyId` **Added**\n  *  `response.external_friendly_id` **Added**\n* `sdk.transactions.create()`:  `response.customer.externalFriendlyId` **Added**\n* `sdk.transactions.getByExternalId()`:  `response.customer.externalFriendlyId` **Added**\n* `sdk.customers.get()`:  `response.items.[].externalFriendlyId` **Added**\n* `sdk.transactions.getById()`:  `response.customer.externalFriendlyId` **Added**\n* `sdk.transactions.getByFilingId()`:  `response.[].customer.externalFriendlyId` **Added**\n* `sdk.transactions.creditNotes.create()`:  `response.customer.externalFriendlyId` **Added**\n"
+releaseNotes: "## Java SDK Changes Detected:\n* `sdk.customers.get()`:  `response.items.[].customerTaxRegistrations` **Added**\n* `sdk.customers.create()`: \n  *  `request.customerTaxRegistrations` **Added**\n  *  `response.customer_tax_registrations` **Added**\n* `sdk.customers.getById()`:  `response.customer_tax_registrations` **Added**\n* `sdk.customers.update()`:  `response.customer_tax_registrations` **Added**\n* `sdk.customers.getByExternalId()`:  `response.customer_tax_registrations` **Added**\n* `sdk.customers.createTransaction()`: \n  *  `request.transactioncreate.customer.customerTaxRegistrations` **Added**\n  *  `response.customer.customerTaxRegistrations` **Added**\n* `sdk.customers.transactions.getByCustomerId()`:  `response.[].customer.customerTaxRegistrations` **Added**\n* `sdk.exemptions.create()`:  `response.customer.customerTaxRegistrations` **Added**\n* `sdk.transactions.get()`:  `response.items.[].customer.customerTaxRegistrations` **Added**\n* `sdk.transactions.create()`:  `response.customer.customerTaxRegistrations` **Added**\n* `sdk.transactions.getByExternalId()`:  `response.customer.customerTaxRegistrations` **Added**\n* `sdk.transactions.update()`:  `response.customer.customerTaxRegistrations` **Added**\n* `sdk.transactions.getById()`:  `response.customer.customerTaxRegistrations` **Added**\n* `sdk.transactions.getByFilingId()`:  `response.[].customer.customerTaxRegistrations` **Added**\n* `sdk.transactions.creditNotes.create()`:  `response.customer.customerTaxRegistrations` **Added**\n"

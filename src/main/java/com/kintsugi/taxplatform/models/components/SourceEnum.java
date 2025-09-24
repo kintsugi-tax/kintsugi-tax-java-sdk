@@ -10,6 +10,7 @@ import java.util.Optional;
 
 public enum SourceEnum {
     BIGCOMMERCE("BIGCOMMERCE"),
+    BUNNY("BUNNY"),
     CHARGEBEE("CHARGEBEE"),
     SHOPIFY("SHOPIFY"),
     STRIPE("STRIPE"),

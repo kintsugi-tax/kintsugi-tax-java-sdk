@@ -8,6 +8,7 @@ import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.components.ValidationAddress;
 import com.kintsugi.taxplatform.operations.SuggestionsV1AddressValidationSuggestionsPost;
+import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
 
@@ -15,6 +16,7 @@ public class SuggestionsV1AddressValidationSuggestionsPostRequestBuilder {
 
     private ValidationAddress request;
     private final SDKConfiguration sdkConfiguration;
+    private final Headers _headers = new Headers(); 
 
     public SuggestionsV1AddressValidationSuggestionsPostRequestBuilder(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
@@ -29,7 +31,7 @@ public class SuggestionsV1AddressValidationSuggestionsPostRequestBuilder {
     public SuggestionsV1AddressValidationSuggestionsPostResponse call() throws Exception {
         
         RequestOperation<ValidationAddress, SuggestionsV1AddressValidationSuggestionsPostResponse> operation
-              = new SuggestionsV1AddressValidationSuggestionsPost.Sync(sdkConfiguration);
+              = new SuggestionsV1AddressValidationSuggestionsPost.Sync(sdkConfiguration, _headers);
 
         return operation.handleResponse(operation.doRequest(request));
     }

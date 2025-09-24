@@ -7,6 +7,7 @@ import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.operations.GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGet;
+import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
 import java.lang.String;
@@ -15,6 +16,7 @@ public class GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequ
 
     private String exemptionId;
     private final SDKConfiguration sdkConfiguration;
+    private final Headers _headers = new Headers(); 
 
     public GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequestBuilder(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
@@ -37,7 +39,7 @@ public class GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequ
     public GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetResponse call() throws Exception {
         
         RequestOperation<GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest, GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetResponse> operation
-              = new GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGet.Sync(sdkConfiguration);
+              = new GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGet.Sync(sdkConfiguration, _headers);
         GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

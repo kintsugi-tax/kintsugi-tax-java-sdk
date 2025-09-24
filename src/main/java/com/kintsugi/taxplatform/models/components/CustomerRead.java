@@ -12,6 +12,7 @@ import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Override;
 import java.lang.String;
 import java.lang.SuppressWarnings;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -135,6 +136,13 @@ public class CustomerRead {
     private Optional<String> externalFriendlyId;
 
     /**
+     * Customer tax registrations associated with the customer.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("customer_tax_registrations")
+    private Optional<? extends List<CustomerTaxRegistrationRead>> customerTaxRegistrations;
+
+    /**
      * Unique identifier for the customer required.
      */
     @JsonProperty("id")
@@ -166,6 +174,7 @@ public class CustomerRead {
             @JsonProperty("address_status") Optional<? extends AddressStatus> addressStatus,
             @JsonProperty("registration_number") Optional<String> registrationNumber,
             @JsonProperty("external_friendly_id") Optional<String> externalFriendlyId,
+            @JsonProperty("customer_tax_registrations") Optional<? extends List<CustomerTaxRegistrationRead>> customerTaxRegistrations,
             @JsonProperty("id") String id,
             @JsonProperty("organization_id") String organizationId) {
         Utils.checkNotNull(phone, "phone");
@@ -186,6 +195,7 @@ public class CustomerRead {
         Utils.checkNotNull(addressStatus, "addressStatus");
         Utils.checkNotNull(registrationNumber, "registrationNumber");
         Utils.checkNotNull(externalFriendlyId, "externalFriendlyId");
+        Utils.checkNotNull(customerTaxRegistrations, "customerTaxRegistrations");
         Utils.checkNotNull(id, "id");
         Utils.checkNotNull(organizationId, "organizationId");
         this.phone = phone;
@@ -206,6 +216,7 @@ public class CustomerRead {
         this.addressStatus = addressStatus;
         this.registrationNumber = registrationNumber;
         this.externalFriendlyId = externalFriendlyId;
+        this.customerTaxRegistrations = customerTaxRegistrations;
         this.id = id;
         this.organizationId = organizationId;
     }
@@ -219,7 +230,7 @@ public class CustomerRead {
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
-            id, organizationId);
+            Optional.empty(), id, organizationId);
     }
 
     /**
@@ -356,6 +367,15 @@ public class CustomerRead {
     @JsonIgnore
     public Optional<String> externalFriendlyId() {
         return externalFriendlyId;
+    }
+
+    /**
+     * Customer tax registrations associated with the customer.
+     */
+    @SuppressWarnings("unchecked")
+    @JsonIgnore
+    public Optional<List<CustomerTaxRegistrationRead>> customerTaxRegistrations() {
+        return (Optional<List<CustomerTaxRegistrationRead>>) customerTaxRegistrations;
     }
 
     /**
@@ -698,6 +718,25 @@ public class CustomerRead {
     }
 
     /**
+     * Customer tax registrations associated with the customer.
+     */
+    public CustomerRead withCustomerTaxRegistrations(List<CustomerTaxRegistrationRead> customerTaxRegistrations) {
+        Utils.checkNotNull(customerTaxRegistrations, "customerTaxRegistrations");
+        this.customerTaxRegistrations = Optional.ofNullable(customerTaxRegistrations);
+        return this;
+    }
+
+
+    /**
+     * Customer tax registrations associated with the customer.
+     */
+    public CustomerRead withCustomerTaxRegistrations(Optional<? extends List<CustomerTaxRegistrationRead>> customerTaxRegistrations) {
+        Utils.checkNotNull(customerTaxRegistrations, "customerTaxRegistrations");
+        this.customerTaxRegistrations = customerTaxRegistrations;
+        return this;
+    }
+
+    /**
      * Unique identifier for the customer required.
      */
     public CustomerRead withId(String id) {
@@ -743,6 +782,7 @@ public class CustomerRead {
             Utils.enhancedDeepEquals(this.addressStatus, other.addressStatus) &&
             Utils.enhancedDeepEquals(this.registrationNumber, other.registrationNumber) &&
             Utils.enhancedDeepEquals(this.externalFriendlyId, other.externalFriendlyId) &&
+            Utils.enhancedDeepEquals(this.customerTaxRegistrations, other.customerTaxRegistrations) &&
             Utils.enhancedDeepEquals(this.id, other.id) &&
             Utils.enhancedDeepEquals(this.organizationId, other.organizationId);
     }
@@ -756,7 +796,7 @@ public class CustomerRead {
             name, externalId, status,
             email, source, connectionId,
             addressStatus, registrationNumber, externalFriendlyId,
-            id, organizationId);
+            customerTaxRegistrations, id, organizationId);
     }
     
     @Override
@@ -780,6 +820,7 @@ public class CustomerRead {
                 "addressStatus", addressStatus,
                 "registrationNumber", registrationNumber,
                 "externalFriendlyId", externalFriendlyId,
+                "customerTaxRegistrations", customerTaxRegistrations,
                 "id", id,
                 "organizationId", organizationId);
     }
@@ -822,6 +863,8 @@ public class CustomerRead {
         private Optional<String> registrationNumber = Optional.empty();
 
         private Optional<String> externalFriendlyId = Optional.empty();
+
+        private Optional<? extends List<CustomerTaxRegistrationRead>> customerTaxRegistrations = Optional.empty();
 
         private String id;
 
@@ -1151,6 +1194,25 @@ public class CustomerRead {
 
 
         /**
+         * Customer tax registrations associated with the customer.
+         */
+        public Builder customerTaxRegistrations(List<CustomerTaxRegistrationRead> customerTaxRegistrations) {
+            Utils.checkNotNull(customerTaxRegistrations, "customerTaxRegistrations");
+            this.customerTaxRegistrations = Optional.ofNullable(customerTaxRegistrations);
+            return this;
+        }
+
+        /**
+         * Customer tax registrations associated with the customer.
+         */
+        public Builder customerTaxRegistrations(Optional<? extends List<CustomerTaxRegistrationRead>> customerTaxRegistrations) {
+            Utils.checkNotNull(customerTaxRegistrations, "customerTaxRegistrations");
+            this.customerTaxRegistrations = customerTaxRegistrations;
+            return this;
+        }
+
+
+        /**
          * Unique identifier for the customer required.
          */
         public Builder id(String id) {
@@ -1178,7 +1240,7 @@ public class CustomerRead {
                 name, externalId, status,
                 email, source, connectionId,
                 addressStatus, registrationNumber, externalFriendlyId,
-                id, organizationId);
+                customerTaxRegistrations, id, organizationId);
         }
 
     }

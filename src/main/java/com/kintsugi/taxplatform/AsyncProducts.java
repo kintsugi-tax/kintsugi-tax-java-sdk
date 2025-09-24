@@ -26,11 +26,13 @@ import com.kintsugi.taxplatform.operations.GetProductByIdV1ProductsProductIdGet;
 import com.kintsugi.taxplatform.operations.GetProductCategoriesV1ProductsCategoriesGet;
 import com.kintsugi.taxplatform.operations.GetProductsV1ProductsGet;
 import com.kintsugi.taxplatform.operations.UpdateProductV1ProductsProductIdPut;
+import com.kintsugi.taxplatform.utils.Headers;
 import java.lang.String;
 import java.util.concurrent.CompletableFuture;
 
 
 public class AsyncProducts {
+    private static final Headers _headers = Headers.EMPTY;
     private final SDKConfiguration sdkConfiguration;
     private final Products syncSDK;
 
@@ -70,7 +72,7 @@ public class AsyncProducts {
      */
     public CompletableFuture<GetProductsV1ProductsGetResponse> get(GetProductsV1ProductsGetRequest request) {
         AsyncRequestOperation<GetProductsV1ProductsGetRequest, GetProductsV1ProductsGetResponse> operation
-              = new GetProductsV1ProductsGet.Async(sdkConfiguration);
+              = new GetProductsV1ProductsGet.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -101,7 +103,7 @@ public class AsyncProducts {
      */
     public CompletableFuture<CreateProductV1ProductsPostResponse> create(ProductCreateManual request) {
         AsyncRequestOperation<ProductCreateManual, CreateProductV1ProductsPostResponse> operation
-              = new CreateProductV1ProductsPost.Async(sdkConfiguration);
+              = new CreateProductV1ProductsPost.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -137,7 +139,7 @@ public class AsyncProducts {
                 .productId(productId)
                 .build();
         AsyncRequestOperation<GetProductByIdV1ProductsProductIdGetRequest, GetProductByIdV1ProductsProductIdGetResponse> operation
-              = new GetProductByIdV1ProductsProductIdGet.Async(sdkConfiguration);
+              = new GetProductByIdV1ProductsProductIdGet.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -173,7 +175,7 @@ public class AsyncProducts {
                 .productUpdate(productUpdate)
                 .build();
         AsyncRequestOperation<UpdateProductV1ProductsProductIdPutRequest, UpdateProductV1ProductsProductIdPutResponse> operation
-              = new UpdateProductV1ProductsProductIdPut.Async(sdkConfiguration);
+              = new UpdateProductV1ProductsProductIdPut.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -203,7 +205,7 @@ public class AsyncProducts {
      */
     public CompletableFuture<GetProductCategoriesV1ProductsCategoriesGetResponse> getCategoriesDirect() {
         AsyncRequestlessOperation<GetProductCategoriesV1ProductsCategoriesGetResponse> operation
-            = new GetProductCategoriesV1ProductsCategoriesGet.Async(sdkConfiguration);
+            = new GetProductCategoriesV1ProductsCategoriesGet.Async(sdkConfiguration, _headers);
         return operation.doRequest()
             .thenCompose(operation::handleResponse);
     }

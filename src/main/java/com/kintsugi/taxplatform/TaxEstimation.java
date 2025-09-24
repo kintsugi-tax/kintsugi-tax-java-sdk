@@ -10,12 +10,14 @@ import com.kintsugi.taxplatform.models.operations.EstimateTaxV1TaxEstimatePostRe
 import com.kintsugi.taxplatform.models.operations.EstimateTaxV1TaxEstimatePostRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.EstimateTaxV1TaxEstimatePostResponse;
 import com.kintsugi.taxplatform.operations.EstimateTaxV1TaxEstimatePost;
+import com.kintsugi.taxplatform.utils.Headers;
 import java.lang.Boolean;
 import java.lang.Exception;
 import java.util.Optional;
 
 
 public class TaxEstimation {
+    private static final Headers _headers = Headers.EMPTY;
     private final SDKConfiguration sdkConfiguration;
     private final AsyncTaxEstimation asyncSDK;
 
@@ -83,7 +85,7 @@ public class TaxEstimation {
                 .transactionEstimatePublicRequest(transactionEstimatePublicRequest)
                 .build();
         RequestOperation<EstimateTaxV1TaxEstimatePostRequest, EstimateTaxV1TaxEstimatePostResponse> operation
-              = new EstimateTaxV1TaxEstimatePost.Sync(sdkConfiguration);
+              = new EstimateTaxV1TaxEstimatePost.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 

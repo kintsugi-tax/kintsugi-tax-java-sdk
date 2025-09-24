@@ -23,7 +23,7 @@ generation:
     generateNewTests: true
     skipResponseBodyAssertions: false
 java:
-  version: 0.11.0
+  version: 0.12.0
   additionalDependencies: []
   additionalPlugins: []
   artifactID: kintsugi-tax-java-sdk
@@ -37,6 +37,7 @@ java:
   enableCustomCodeRegions: false
   enableStreamingUploads: false
   flattenGlobalSecurity: true
+  generateSpringBootStarter: true
   githubURL: https://github.com/kintsugi-tax/kintsugi-tax-java-sdk
   groupID: com.trykintsugi
   imports:

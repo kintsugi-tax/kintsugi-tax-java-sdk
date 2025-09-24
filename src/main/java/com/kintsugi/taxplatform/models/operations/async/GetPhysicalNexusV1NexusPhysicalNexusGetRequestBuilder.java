@@ -8,6 +8,7 @@ import static com.kintsugi.taxplatform.operations.Operations.AsyncRequestOperati
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.operations.GetPhysicalNexusV1NexusPhysicalNexusGetRequest;
 import com.kintsugi.taxplatform.operations.GetPhysicalNexusV1NexusPhysicalNexusGet;
+import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
 import java.util.concurrent.CompletableFuture;
@@ -16,6 +17,7 @@ public class GetPhysicalNexusV1NexusPhysicalNexusGetRequestBuilder {
 
     private GetPhysicalNexusV1NexusPhysicalNexusGetRequest request;
     private final SDKConfiguration sdkConfiguration;
+    private final Headers _headers = new Headers(); 
 
     public GetPhysicalNexusV1NexusPhysicalNexusGetRequestBuilder(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
@@ -30,7 +32,7 @@ public class GetPhysicalNexusV1NexusPhysicalNexusGetRequestBuilder {
     public CompletableFuture<GetPhysicalNexusV1NexusPhysicalNexusGetResponse> call() throws Exception {
         
         AsyncRequestOperation<GetPhysicalNexusV1NexusPhysicalNexusGetRequest, GetPhysicalNexusV1NexusPhysicalNexusGetResponse> operation
-              = new GetPhysicalNexusV1NexusPhysicalNexusGet.Async(sdkConfiguration);
+              = new GetPhysicalNexusV1NexusPhysicalNexusGet.Async(sdkConfiguration, _headers);
 
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);

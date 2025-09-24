@@ -8,6 +8,7 @@ import static com.kintsugi.taxplatform.operations.Operations.AsyncRequestOperati
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.components.ExemptionCreate;
 import com.kintsugi.taxplatform.operations.CreateExemptionV1ExemptionsPost;
+import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
 import java.util.concurrent.CompletableFuture;
@@ -16,6 +17,7 @@ public class CreateExemptionV1ExemptionsPostRequestBuilder {
 
     private ExemptionCreate request;
     private final SDKConfiguration sdkConfiguration;
+    private final Headers _headers = new Headers(); 
 
     public CreateExemptionV1ExemptionsPostRequestBuilder(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
@@ -30,7 +32,7 @@ public class CreateExemptionV1ExemptionsPostRequestBuilder {
     public CompletableFuture<CreateExemptionV1ExemptionsPostResponse> call() throws Exception {
         
         AsyncRequestOperation<ExemptionCreate, CreateExemptionV1ExemptionsPostResponse> operation
-              = new CreateExemptionV1ExemptionsPost.Async(sdkConfiguration);
+              = new CreateExemptionV1ExemptionsPost.Async(sdkConfiguration, _headers);
 
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);

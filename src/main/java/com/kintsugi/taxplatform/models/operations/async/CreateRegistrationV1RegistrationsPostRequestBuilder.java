@@ -8,6 +8,7 @@ import static com.kintsugi.taxplatform.operations.Operations.AsyncRequestOperati
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.operations.CreateRegistration;
 import com.kintsugi.taxplatform.operations.CreateRegistrationV1RegistrationsPost;
+import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
 import java.util.concurrent.CompletableFuture;
@@ -16,6 +17,7 @@ public class CreateRegistrationV1RegistrationsPostRequestBuilder {
 
     private CreateRegistration request;
     private final SDKConfiguration sdkConfiguration;
+    private final Headers _headers = new Headers(); 
 
     public CreateRegistrationV1RegistrationsPostRequestBuilder(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
@@ -30,7 +32,7 @@ public class CreateRegistrationV1RegistrationsPostRequestBuilder {
     public CompletableFuture<CreateRegistrationV1RegistrationsPostResponse> call() throws Exception {
         
         AsyncRequestOperation<CreateRegistration, CreateRegistrationV1RegistrationsPostResponse> operation
-              = new CreateRegistrationV1RegistrationsPost.Async(sdkConfiguration);
+              = new CreateRegistrationV1RegistrationsPost.Async(sdkConfiguration, _headers);
 
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);

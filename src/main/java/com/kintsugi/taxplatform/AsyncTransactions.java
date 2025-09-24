@@ -35,11 +35,13 @@ import com.kintsugi.taxplatform.operations.GetTransactionsByFilingIdV1Transactio
 import com.kintsugi.taxplatform.operations.GetTransactionsV1TransactionsGet;
 import com.kintsugi.taxplatform.operations.PUTUpdateCreditNoteByTransactionId;
 import com.kintsugi.taxplatform.operations.UpdateTransactionV1TransactionsTransactionIdPut;
+import com.kintsugi.taxplatform.utils.Headers;
 import java.lang.String;
 import java.util.concurrent.CompletableFuture;
 
 
 public class AsyncTransactions {
+    private static final Headers _headers = Headers.EMPTY;
     private final SDKConfiguration sdkConfiguration;
     private final AsyncCreditNotes creditNotes;
     private final Transactions syncSDK;
@@ -87,7 +89,7 @@ public class AsyncTransactions {
      */
     public CompletableFuture<GetTransactionsV1TransactionsGetResponse> get(GetTransactionsV1TransactionsGetRequest request) {
         AsyncRequestOperation<GetTransactionsV1TransactionsGetRequest, GetTransactionsV1TransactionsGetResponse> operation
-              = new GetTransactionsV1TransactionsGet.Async(sdkConfiguration);
+              = new GetTransactionsV1TransactionsGet.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -114,7 +116,7 @@ public class AsyncTransactions {
      */
     public CompletableFuture<CreateTransactionV1TransactionsPostResponse> create(TransactionPublicRequest request) {
         AsyncRequestOperation<TransactionPublicRequest, CreateTransactionV1TransactionsPostResponse> operation
-              = new CreateTransactionV1TransactionsPost.Async(sdkConfiguration);
+              = new CreateTransactionV1TransactionsPost.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -148,7 +150,7 @@ public class AsyncTransactions {
                 .externalId(externalId)
                 .build();
         AsyncRequestOperation<GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest, GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse> operation
-              = new GetTransactionByExternalIdV1TransactionsExternalExternalIdGet.Async(sdkConfiguration);
+              = new GetTransactionByExternalIdV1TransactionsExternalExternalIdGet.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -182,7 +184,7 @@ public class AsyncTransactions {
                 .transactionUpdate(transactionUpdate)
                 .build();
         AsyncRequestOperation<UpdateTransactionV1TransactionsTransactionIdPutRequest, UpdateTransactionV1TransactionsTransactionIdPutResponse> operation
-              = new UpdateTransactionV1TransactionsTransactionIdPut.Async(sdkConfiguration);
+              = new UpdateTransactionV1TransactionsTransactionIdPut.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -216,7 +218,7 @@ public class AsyncTransactions {
                 .transactionId(transactionId)
                 .build();
         AsyncRequestOperation<GetTransactionByIdV1TransactionsTransactionIdGetRequest, GetTransactionByIdV1TransactionsTransactionIdGetResponse> operation
-              = new GetTransactionByIdV1TransactionsTransactionIdGet.Async(sdkConfiguration);
+              = new GetTransactionByIdV1TransactionsTransactionIdGet.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -250,7 +252,7 @@ public class AsyncTransactions {
                 .filingId(filingId)
                 .build();
         AsyncRequestOperation<GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest, GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetResponse> operation
-              = new GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGet.Async(sdkConfiguration);
+              = new GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGet.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -288,7 +290,7 @@ public class AsyncTransactions {
                 .creditNoteCreate(creditNoteCreate)
                 .build();
         AsyncRequestOperation<PUTUpdateCreditNoteByTransactionIdRequest, PUTUpdateCreditNoteByTransactionIdResponse> operation
-              = new PUTUpdateCreditNoteByTransactionId.Async(sdkConfiguration);
+              = new PUTUpdateCreditNoteByTransactionId.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }

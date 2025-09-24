@@ -9,6 +9,7 @@ import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.components.ProductUpdate;
 import com.kintsugi.taxplatform.models.operations.UpdateProductV1ProductsProductIdPutRequest;
 import com.kintsugi.taxplatform.operations.UpdateProductV1ProductsProductIdPut;
+import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
 import java.lang.String;
@@ -19,6 +20,7 @@ public class UpdateProductV1ProductsProductIdPutRequestBuilder {
     private String productId;
     private ProductUpdate productUpdate;
     private final SDKConfiguration sdkConfiguration;
+    private final Headers _headers = new Headers(); 
 
     public UpdateProductV1ProductsProductIdPutRequestBuilder(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
@@ -48,7 +50,7 @@ public class UpdateProductV1ProductsProductIdPutRequestBuilder {
     public CompletableFuture<UpdateProductV1ProductsProductIdPutResponse> call() throws Exception {
         
         AsyncRequestOperation<UpdateProductV1ProductsProductIdPutRequest, UpdateProductV1ProductsProductIdPutResponse> operation
-              = new UpdateProductV1ProductsProductIdPut.Async(sdkConfiguration);
+              = new UpdateProductV1ProductsProductIdPut.Async(sdkConfiguration, _headers);
         UpdateProductV1ProductsProductIdPutRequest request = buildRequest();
 
         return operation.doRequest(request)

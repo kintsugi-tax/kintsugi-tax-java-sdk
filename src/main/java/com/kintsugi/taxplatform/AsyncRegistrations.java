@@ -26,11 +26,13 @@ import com.kintsugi.taxplatform.operations.DeregisterRegistrationV1Registrations
 import com.kintsugi.taxplatform.operations.GetRegistrationByIdV1RegistrationsRegistrationIdGet;
 import com.kintsugi.taxplatform.operations.GetRegistrationsV1RegistrationsGet;
 import com.kintsugi.taxplatform.operations.UpdateRegistrationV1RegistrationsRegistrationIdPut;
+import com.kintsugi.taxplatform.utils.Headers;
 import java.lang.String;
 import java.util.concurrent.CompletableFuture;
 
 
 public class AsyncRegistrations {
+    private static final Headers _headers = Headers.EMPTY;
     private final SDKConfiguration sdkConfiguration;
     private final Registrations syncSDK;
 
@@ -76,7 +78,7 @@ public class AsyncRegistrations {
      */
     public CompletableFuture<GetRegistrationsV1RegistrationsGetResponse> get(GetRegistrationsV1RegistrationsGetRequest request) {
         AsyncRequestOperation<GetRegistrationsV1RegistrationsGetRequest, GetRegistrationsV1RegistrationsGetResponse> operation
-              = new GetRegistrationsV1RegistrationsGet.Async(sdkConfiguration);
+              = new GetRegistrationsV1RegistrationsGet.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -105,7 +107,7 @@ public class AsyncRegistrations {
      */
     public CompletableFuture<CreateRegistrationV1RegistrationsPostResponse> create(CreateRegistration request) {
         AsyncRequestOperation<CreateRegistration, CreateRegistrationV1RegistrationsPostResponse> operation
-              = new CreateRegistrationV1RegistrationsPost.Async(sdkConfiguration);
+              = new CreateRegistrationV1RegistrationsPost.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -140,7 +142,7 @@ public class AsyncRegistrations {
                 .registrationId(registrationId)
                 .build();
         AsyncRequestOperation<GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest, GetRegistrationByIdV1RegistrationsRegistrationIdGetResponse> operation
-              = new GetRegistrationByIdV1RegistrationsRegistrationIdGet.Async(sdkConfiguration);
+              = new GetRegistrationByIdV1RegistrationsRegistrationIdGet.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -176,7 +178,7 @@ public class AsyncRegistrations {
                 .registrationUpdateAPI(registrationUpdateAPI)
                 .build();
         AsyncRequestOperation<UpdateRegistrationV1RegistrationsRegistrationIdPutRequest, UpdateRegistrationV1RegistrationsRegistrationIdPutResponse> operation
-              = new UpdateRegistrationV1RegistrationsRegistrationIdPut.Async(sdkConfiguration);
+              = new UpdateRegistrationV1RegistrationsRegistrationIdPut.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -208,7 +210,7 @@ public class AsyncRegistrations {
                 .registrationId(registrationId)
                 .build();
         AsyncRequestOperation<DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest, DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse> operation
-              = new DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPost.Async(sdkConfiguration);
+              = new DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPost.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }

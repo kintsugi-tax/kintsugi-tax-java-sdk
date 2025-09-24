@@ -10,11 +10,13 @@ import com.kintsugi.taxplatform.models.operations.POSTCreateCreditNoteByTransact
 import com.kintsugi.taxplatform.models.operations.async.POSTCreateCreditNoteByTransactionIdRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.async.POSTCreateCreditNoteByTransactionIdResponse;
 import com.kintsugi.taxplatform.operations.POSTCreateCreditNoteByTransactionId;
+import com.kintsugi.taxplatform.utils.Headers;
 import java.lang.String;
 import java.util.concurrent.CompletableFuture;
 
 
 public class AsyncCreditNotes {
+    private static final Headers _headers = Headers.EMPTY;
     private final SDKConfiguration sdkConfiguration;
     private final CreditNotes syncSDK;
 
@@ -61,7 +63,7 @@ public class AsyncCreditNotes {
                 .creditNoteCreate(creditNoteCreate)
                 .build();
         AsyncRequestOperation<POSTCreateCreditNoteByTransactionIdRequest, POSTCreateCreditNoteByTransactionIdResponse> operation
-              = new POSTCreateCreditNoteByTransactionId.Async(sdkConfiguration);
+              = new POSTCreateCreditNoteByTransactionId.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }

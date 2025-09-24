@@ -8,6 +8,7 @@ import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.components.BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost;
 import com.kintsugi.taxplatform.operations.UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost;
+import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
 import java.lang.String;
@@ -17,6 +18,7 @@ public class UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostReq
     private String exemptionId;
     private BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost;
     private final SDKConfiguration sdkConfiguration;
+    private final Headers _headers = new Headers(); 
 
     public UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequestBuilder(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
@@ -46,7 +48,7 @@ public class UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostReq
     public UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse call() throws Exception {
         
         RequestOperation<UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest, UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse> operation
-              = new UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost.Sync(sdkConfiguration);
+              = new UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost.Sync(sdkConfiguration, _headers);
         UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

@@ -14,10 +14,12 @@ import com.kintsugi.taxplatform.models.operations.SuggestionsV1AddressValidation
 import com.kintsugi.taxplatform.models.operations.SuggestionsV1AddressValidationSuggestionsPostResponse;
 import com.kintsugi.taxplatform.operations.SearchV1AddressValidationSearchPost;
 import com.kintsugi.taxplatform.operations.SuggestionsV1AddressValidationSuggestionsPost;
+import com.kintsugi.taxplatform.utils.Headers;
 import java.lang.Exception;
 
 
 public class AddressValidation {
+    private static final Headers _headers = Headers.EMPTY;
     private final SDKConfiguration sdkConfiguration;
     private final AsyncAddressValidation asyncSDK;
 
@@ -64,7 +66,7 @@ public class AddressValidation {
      */
     public SearchV1AddressValidationSearchPostResponse search(AddressBase request, SearchV1AddressValidationSearchPostSecurity security) throws Exception {
         RequestOperation<AddressBase, SearchV1AddressValidationSearchPostResponse> operation
-              = new SearchV1AddressValidationSearchPost.Sync(sdkConfiguration, security);
+              = new SearchV1AddressValidationSearchPost.Sync(sdkConfiguration, security, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -98,7 +100,7 @@ public class AddressValidation {
      */
     public SuggestionsV1AddressValidationSuggestionsPostResponse suggest(ValidationAddress request) throws Exception {
         RequestOperation<ValidationAddress, SuggestionsV1AddressValidationSuggestionsPostResponse> operation
-              = new SuggestionsV1AddressValidationSuggestionsPost.Sync(sdkConfiguration);
+              = new SuggestionsV1AddressValidationSuggestionsPost.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 

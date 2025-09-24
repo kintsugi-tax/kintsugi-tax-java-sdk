@@ -8,6 +8,7 @@ import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.components.RegistrationUpdateAPI;
 import com.kintsugi.taxplatform.operations.UpdateRegistrationV1RegistrationsRegistrationIdPut;
+import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
 import java.lang.String;
@@ -17,6 +18,7 @@ public class UpdateRegistrationV1RegistrationsRegistrationIdPutRequestBuilder {
     private String registrationId;
     private RegistrationUpdateAPI registrationUpdateAPI;
     private final SDKConfiguration sdkConfiguration;
+    private final Headers _headers = new Headers(); 
 
     public UpdateRegistrationV1RegistrationsRegistrationIdPutRequestBuilder(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
@@ -46,7 +48,7 @@ public class UpdateRegistrationV1RegistrationsRegistrationIdPutRequestBuilder {
     public UpdateRegistrationV1RegistrationsRegistrationIdPutResponse call() throws Exception {
         
         RequestOperation<UpdateRegistrationV1RegistrationsRegistrationIdPutRequest, UpdateRegistrationV1RegistrationsRegistrationIdPutResponse> operation
-              = new UpdateRegistrationV1RegistrationsRegistrationIdPut.Sync(sdkConfiguration);
+              = new UpdateRegistrationV1RegistrationsRegistrationIdPut.Sync(sdkConfiguration, _headers);
         UpdateRegistrationV1RegistrationsRegistrationIdPutRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

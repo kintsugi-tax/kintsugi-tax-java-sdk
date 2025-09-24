@@ -8,6 +8,7 @@ import static com.kintsugi.taxplatform.operations.Operations.AsyncRequestOperati
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.operations.GetNexusForOrgV1NexusGetRequest;
 import com.kintsugi.taxplatform.operations.GetNexusForOrgV1NexusGet;
+import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
 import java.util.concurrent.CompletableFuture;
@@ -16,6 +17,7 @@ public class GetNexusForOrgV1NexusGetRequestBuilder {
 
     private GetNexusForOrgV1NexusGetRequest request;
     private final SDKConfiguration sdkConfiguration;
+    private final Headers _headers = new Headers(); 
 
     public GetNexusForOrgV1NexusGetRequestBuilder(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
@@ -30,7 +32,7 @@ public class GetNexusForOrgV1NexusGetRequestBuilder {
     public CompletableFuture<GetNexusForOrgV1NexusGetResponse> call() throws Exception {
         
         AsyncRequestOperation<GetNexusForOrgV1NexusGetRequest, GetNexusForOrgV1NexusGetResponse> operation
-              = new GetNexusForOrgV1NexusGet.Async(sdkConfiguration);
+              = new GetNexusForOrgV1NexusGet.Async(sdkConfiguration, _headers);
 
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);

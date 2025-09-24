@@ -8,6 +8,7 @@ import static com.kintsugi.taxplatform.operations.Operations.AsyncRequestOperati
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.operations.GetFilingByIdV1FilingsFilingIdGetRequest;
 import com.kintsugi.taxplatform.operations.GetFilingByIdV1FilingsFilingIdGet;
+import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
 import java.lang.String;
@@ -17,6 +18,7 @@ public class GetFilingByIdV1FilingsFilingIdGetRequestBuilder {
 
     private String filingId;
     private final SDKConfiguration sdkConfiguration;
+    private final Headers _headers = new Headers(); 
 
     public GetFilingByIdV1FilingsFilingIdGetRequestBuilder(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
@@ -39,7 +41,7 @@ public class GetFilingByIdV1FilingsFilingIdGetRequestBuilder {
     public CompletableFuture<GetFilingByIdV1FilingsFilingIdGetResponse> call() throws Exception {
         
         AsyncRequestOperation<GetFilingByIdV1FilingsFilingIdGetRequest, GetFilingByIdV1FilingsFilingIdGetResponse> operation
-              = new GetFilingByIdV1FilingsFilingIdGet.Async(sdkConfiguration);
+              = new GetFilingByIdV1FilingsFilingIdGet.Async(sdkConfiguration, _headers);
         GetFilingByIdV1FilingsFilingIdGetRequest request = buildRequest();
 
         return operation.doRequest(request)

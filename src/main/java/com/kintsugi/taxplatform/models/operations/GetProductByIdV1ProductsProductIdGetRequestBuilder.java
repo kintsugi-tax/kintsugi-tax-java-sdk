@@ -7,6 +7,7 @@ import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.operations.GetProductByIdV1ProductsProductIdGet;
+import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
 import java.lang.String;
@@ -15,6 +16,7 @@ public class GetProductByIdV1ProductsProductIdGetRequestBuilder {
 
     private String productId;
     private final SDKConfiguration sdkConfiguration;
+    private final Headers _headers = new Headers(); 
 
     public GetProductByIdV1ProductsProductIdGetRequestBuilder(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
@@ -37,7 +39,7 @@ public class GetProductByIdV1ProductsProductIdGetRequestBuilder {
     public GetProductByIdV1ProductsProductIdGetResponse call() throws Exception {
         
         RequestOperation<GetProductByIdV1ProductsProductIdGetRequest, GetProductByIdV1ProductsProductIdGetResponse> operation
-              = new GetProductByIdV1ProductsProductIdGet.Sync(sdkConfiguration);
+              = new GetProductByIdV1ProductsProductIdGet.Sync(sdkConfiguration, _headers);
         GetProductByIdV1ProductsProductIdGetRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

@@ -31,11 +31,13 @@ import com.kintsugi.taxplatform.operations.GetCustomerByExternalIdV1CustomersExt
 import com.kintsugi.taxplatform.operations.GetCustomerByIdV1CustomersCustomerIdGet;
 import com.kintsugi.taxplatform.operations.GetCustomersV1;
 import com.kintsugi.taxplatform.operations.UpdateCustomerV1CustomersCustomerIdPut;
+import com.kintsugi.taxplatform.utils.Headers;
 import java.lang.String;
 import java.util.concurrent.CompletableFuture;
 
 
 public class AsyncCustomers {
+    private static final Headers _headers = Headers.EMPTY;
     private final SDKConfiguration sdkConfiguration;
     private final AsyncCustomersTransactions transactions;
     private final Customers syncSDK;
@@ -85,7 +87,7 @@ public class AsyncCustomers {
      */
     public CompletableFuture<GetCustomersV1Response> get(GetCustomersV1Request request) {
         AsyncRequestOperation<GetCustomersV1Request, GetCustomersV1Response> operation
-              = new GetCustomersV1.Async(sdkConfiguration);
+              = new GetCustomersV1.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -114,7 +116,7 @@ public class AsyncCustomers {
      */
     public CompletableFuture<CreateCustomerV1CustomersPostResponse> create(CustomerCreate request) {
         AsyncRequestOperation<CustomerCreate, CreateCustomerV1CustomersPostResponse> operation
-              = new CreateCustomerV1CustomersPost.Async(sdkConfiguration);
+              = new CreateCustomerV1CustomersPost.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -150,7 +152,7 @@ public class AsyncCustomers {
                 .customerId(customerId)
                 .build();
         AsyncRequestOperation<GetCustomerByIdV1CustomersCustomerIdGetRequest, GetCustomerByIdV1CustomersCustomerIdGetResponse> operation
-              = new GetCustomerByIdV1CustomersCustomerIdGet.Async(sdkConfiguration);
+              = new GetCustomerByIdV1CustomersCustomerIdGet.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -188,7 +190,7 @@ public class AsyncCustomers {
                 .customerUpdate(customerUpdate)
                 .build();
         AsyncRequestOperation<UpdateCustomerV1CustomersCustomerIdPutRequest, UpdateCustomerV1CustomersCustomerIdPutResponse> operation
-              = new UpdateCustomerV1CustomersCustomerIdPut.Async(sdkConfiguration);
+              = new UpdateCustomerV1CustomersCustomerIdPut.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -224,7 +226,7 @@ public class AsyncCustomers {
                 .externalId(externalId)
                 .build();
         AsyncRequestOperation<GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest, GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse> operation
-              = new GetCustomerByExternalIdV1CustomersExternalExternalIdGet.Async(sdkConfiguration);
+              = new GetCustomerByExternalIdV1CustomersExternalExternalIdGet.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -258,7 +260,7 @@ public class AsyncCustomers {
                 .transactionCreate(transactionCreate)
                 .build();
         AsyncRequestOperation<CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest, CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostResponse> operation
-              = new CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPost.Async(sdkConfiguration);
+              = new CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPost.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }

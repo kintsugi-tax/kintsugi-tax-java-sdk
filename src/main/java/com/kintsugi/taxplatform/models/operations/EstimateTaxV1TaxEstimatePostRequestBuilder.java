@@ -8,6 +8,7 @@ import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.components.TransactionEstimatePublicRequest;
 import com.kintsugi.taxplatform.operations.EstimateTaxV1TaxEstimatePost;
+import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Boolean;
 import java.lang.Exception;
@@ -18,6 +19,7 @@ public class EstimateTaxV1TaxEstimatePostRequestBuilder {
     private Optional<Boolean> simulateNexusMet = Optional.empty();
     private TransactionEstimatePublicRequest transactionEstimatePublicRequest;
     private final SDKConfiguration sdkConfiguration;
+    private final Headers _headers = new Headers(); 
 
     public EstimateTaxV1TaxEstimatePostRequestBuilder(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
@@ -53,7 +55,7 @@ public class EstimateTaxV1TaxEstimatePostRequestBuilder {
     public EstimateTaxV1TaxEstimatePostResponse call() throws Exception {
         
         RequestOperation<EstimateTaxV1TaxEstimatePostRequest, EstimateTaxV1TaxEstimatePostResponse> operation
-              = new EstimateTaxV1TaxEstimatePost.Sync(sdkConfiguration);
+              = new EstimateTaxV1TaxEstimatePost.Sync(sdkConfiguration, _headers);
         EstimateTaxV1TaxEstimatePostRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

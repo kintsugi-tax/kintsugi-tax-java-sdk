@@ -26,11 +26,13 @@ import com.kintsugi.taxplatform.operations.GetAttachmentsForExemptionV1Exemption
 import com.kintsugi.taxplatform.operations.GetExemptionByIdV1ExemptionsExemptionIdGet;
 import com.kintsugi.taxplatform.operations.GetExemptionsV1ExemptionsGet;
 import com.kintsugi.taxplatform.operations.UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost;
+import com.kintsugi.taxplatform.utils.Headers;
 import java.lang.String;
 import java.util.concurrent.CompletableFuture;
 
 
 public class AsyncExemptions {
+    private static final Headers _headers = Headers.EMPTY;
     private final SDKConfiguration sdkConfiguration;
     private final Exemptions syncSDK;
 
@@ -70,7 +72,7 @@ public class AsyncExemptions {
      */
     public CompletableFuture<GetExemptionsV1ExemptionsGetResponse> get(GetExemptionsV1ExemptionsGetRequest request) {
         AsyncRequestOperation<GetExemptionsV1ExemptionsGetRequest, GetExemptionsV1ExemptionsGetResponse> operation
-              = new GetExemptionsV1ExemptionsGet.Async(sdkConfiguration);
+              = new GetExemptionsV1ExemptionsGet.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -101,7 +103,7 @@ public class AsyncExemptions {
      */
     public CompletableFuture<CreateExemptionV1ExemptionsPostResponse> create(ExemptionCreate request) {
         AsyncRequestOperation<ExemptionCreate, CreateExemptionV1ExemptionsPostResponse> operation
-              = new CreateExemptionV1ExemptionsPost.Async(sdkConfiguration);
+              = new CreateExemptionV1ExemptionsPost.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -139,7 +141,7 @@ public class AsyncExemptions {
                 .exemptionId(exemptionId)
                 .build();
         AsyncRequestOperation<GetExemptionByIdV1ExemptionsExemptionIdGetRequest, GetExemptionByIdV1ExemptionsExemptionIdGetResponse> operation
-              = new GetExemptionByIdV1ExemptionsExemptionIdGet.Async(sdkConfiguration);
+              = new GetExemptionByIdV1ExemptionsExemptionIdGet.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -179,7 +181,7 @@ public class AsyncExemptions {
                 .bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost(bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost)
                 .build();
         AsyncRequestOperation<UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest, UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse> operation
-              = new UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost.Async(sdkConfiguration);
+              = new UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -218,7 +220,7 @@ public class AsyncExemptions {
                 .exemptionId(exemptionId)
                 .build();
         AsyncRequestOperation<GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest, GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetResponse> operation
-              = new GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGet.Async(sdkConfiguration);
+              = new GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGet.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }

@@ -8,6 +8,7 @@ import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.components.TransactionUpdate;
 import com.kintsugi.taxplatform.operations.UpdateTransactionV1TransactionsTransactionIdPut;
+import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Exception;
 import java.lang.String;
@@ -17,6 +18,7 @@ public class UpdateTransactionV1TransactionsTransactionIdPutRequestBuilder {
     private String transactionId;
     private TransactionUpdate transactionUpdate;
     private final SDKConfiguration sdkConfiguration;
+    private final Headers _headers = new Headers(); 
 
     public UpdateTransactionV1TransactionsTransactionIdPutRequestBuilder(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
@@ -46,7 +48,7 @@ public class UpdateTransactionV1TransactionsTransactionIdPutRequestBuilder {
     public UpdateTransactionV1TransactionsTransactionIdPutResponse call() throws Exception {
         
         RequestOperation<UpdateTransactionV1TransactionsTransactionIdPutRequest, UpdateTransactionV1TransactionsTransactionIdPutResponse> operation
-              = new UpdateTransactionV1TransactionsTransactionIdPut.Sync(sdkConfiguration);
+              = new UpdateTransactionV1TransactionsTransactionIdPut.Sync(sdkConfiguration, _headers);
         UpdateTransactionV1TransactionsTransactionIdPutRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

@@ -35,11 +35,13 @@ import com.kintsugi.taxplatform.operations.GetTransactionsByFilingIdV1Transactio
 import com.kintsugi.taxplatform.operations.GetTransactionsV1TransactionsGet;
 import com.kintsugi.taxplatform.operations.PUTUpdateCreditNoteByTransactionId;
 import com.kintsugi.taxplatform.operations.UpdateTransactionV1TransactionsTransactionIdPut;
+import com.kintsugi.taxplatform.utils.Headers;
 import java.lang.Exception;
 import java.lang.String;
 
 
 public class Transactions {
+    private static final Headers _headers = Headers.EMPTY;
     private final SDKConfiguration sdkConfiguration;
     private final AsyncTransactions asyncSDK;
     private final CreditNotes creditNotes;
@@ -87,7 +89,7 @@ public class Transactions {
      */
     public GetTransactionsV1TransactionsGetResponse get(GetTransactionsV1TransactionsGetRequest request) throws Exception {
         RequestOperation<GetTransactionsV1TransactionsGetRequest, GetTransactionsV1TransactionsGetResponse> operation
-              = new GetTransactionsV1TransactionsGet.Sync(sdkConfiguration);
+              = new GetTransactionsV1TransactionsGet.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -113,7 +115,7 @@ public class Transactions {
      */
     public CreateTransactionV1TransactionsPostResponse create(TransactionPublicRequest request) throws Exception {
         RequestOperation<TransactionPublicRequest, CreateTransactionV1TransactionsPostResponse> operation
-              = new CreateTransactionV1TransactionsPost.Sync(sdkConfiguration);
+              = new CreateTransactionV1TransactionsPost.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -146,7 +148,7 @@ public class Transactions {
                 .externalId(externalId)
                 .build();
         RequestOperation<GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest, GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse> operation
-              = new GetTransactionByExternalIdV1TransactionsExternalExternalIdGet.Sync(sdkConfiguration);
+              = new GetTransactionByExternalIdV1TransactionsExternalExternalIdGet.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -179,7 +181,7 @@ public class Transactions {
                 .transactionUpdate(transactionUpdate)
                 .build();
         RequestOperation<UpdateTransactionV1TransactionsTransactionIdPutRequest, UpdateTransactionV1TransactionsTransactionIdPutResponse> operation
-              = new UpdateTransactionV1TransactionsTransactionIdPut.Sync(sdkConfiguration);
+              = new UpdateTransactionV1TransactionsTransactionIdPut.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -212,7 +214,7 @@ public class Transactions {
                 .transactionId(transactionId)
                 .build();
         RequestOperation<GetTransactionByIdV1TransactionsTransactionIdGetRequest, GetTransactionByIdV1TransactionsTransactionIdGetResponse> operation
-              = new GetTransactionByIdV1TransactionsTransactionIdGet.Sync(sdkConfiguration);
+              = new GetTransactionByIdV1TransactionsTransactionIdGet.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -245,7 +247,7 @@ public class Transactions {
                 .filingId(filingId)
                 .build();
         RequestOperation<GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest, GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetResponse> operation
-              = new GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGet.Sync(sdkConfiguration);
+              = new GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGet.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -282,7 +284,7 @@ public class Transactions {
                 .creditNoteCreate(creditNoteCreate)
                 .build();
         RequestOperation<PUTUpdateCreditNoteByTransactionIdRequest, PUTUpdateCreditNoteByTransactionIdResponse> operation
-              = new PUTUpdateCreditNoteByTransactionId.Sync(sdkConfiguration);
+              = new PUTUpdateCreditNoteByTransactionId.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 

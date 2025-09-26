@@ -48,8 +48,8 @@ public class AsyncFilings {
      * Get Filings
      * 
      * <p>The Get Filings API retrieves a paginated list of filings based on
-     *     filters such as dates, jurisdiction, Country, status, etc. This helps track
-     *     and manage tax filings efficiently across multiple jurisdictions.
+     * filters such as dates, jurisdiction, Country, status, etc. This helps track
+     * and manage tax filings efficiently across multiple jurisdictions.
      * 
      * @return The async call builder
      */
@@ -61,11 +61,11 @@ public class AsyncFilings {
      * Get Filings
      * 
      * <p>The Get Filings API retrieves a paginated list of filings based on
-     *     filters such as dates, jurisdiction, Country, status, etc. This helps track
-     *     and manage tax filings efficiently across multiple jurisdictions.
+     * filters such as dates, jurisdiction, Country, status, etc. This helps track
+     * and manage tax filings efficiently across multiple jurisdictions.
      * 
      * @param request The request object containing all the parameters for the API call.
-     * @return CompletableFuture&lt;GetFilingsV1FilingsGetResponse&gt; - The async response
+     * @return {@code CompletableFuture<GetFilingsV1FilingsGetResponse>} - The async response
      */
     public CompletableFuture<GetFilingsV1FilingsGetResponse> get(GetFilingsV1FilingsGetRequest request) {
         AsyncRequestOperation<GetFilingsV1FilingsGetRequest, GetFilingsV1FilingsGetResponse> operation
@@ -79,7 +79,7 @@ public class AsyncFilings {
      * Get Filing By Id
      * 
      * <p>This API retrieves detailed information about a specific
-     *     filing using its unique identifier (filing_id).
+     * filing using its unique identifier (filing_id).
      * 
      * @return The async call builder
      */
@@ -91,10 +91,10 @@ public class AsyncFilings {
      * Get Filing By Id
      * 
      * <p>This API retrieves detailed information about a specific
-     *     filing using its unique identifier (filing_id).
+     * filing using its unique identifier (filing_id).
      * 
      * @param filingId Unique identifier for the filing to retrieve.
-     * @return CompletableFuture&lt;GetFilingByIdV1FilingsFilingIdGetResponse&gt; - The async response
+     * @return {@code CompletableFuture<GetFilingByIdV1FilingsFilingIdGetResponse>} - The async response
      */
     public CompletableFuture<GetFilingByIdV1FilingsFilingIdGetResponse> getById(String filingId) {
         GetFilingByIdV1FilingsFilingIdGetRequest request =
@@ -113,10 +113,10 @@ public class AsyncFilings {
      * Get Filings By Registration Id
      * 
      * <p>The Get Filings By Registration ID API
-     *     retrieves all filings
-     *     associated with a specific registration ID. This allows users to query detailed
-     *     filing information tied to
-     *     a specific registration record.
+     * retrieves all filings
+     * associated with a specific registration ID. This allows users to query detailed
+     * filing information tied to
+     * a specific registration record.
      * 
      * @return The async call builder
      */
@@ -128,14 +128,14 @@ public class AsyncFilings {
      * Get Filings By Registration Id
      * 
      * <p>The Get Filings By Registration ID API
-     *     retrieves all filings
-     *     associated with a specific registration ID. This allows users to query detailed
-     *     filing information tied to
-     *     a specific registration record.
+     * retrieves all filings
+     * associated with a specific registration ID. This allows users to query detailed
+     * filing information tied to
+     * a specific registration record.
      * 
      * @param registrationId Unique identifier for the registration
      *                 associated with the filings.
-     * @return CompletableFuture&lt;GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetResponse&gt; - The async response
+     * @return {@code CompletableFuture<GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetResponse>} - The async response
      */
     public CompletableFuture<GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetResponse> getByRegistrationId(String registrationId) {
         return getByRegistrationId(registrationId, Optional.empty(), Optional.empty());
@@ -145,16 +145,16 @@ public class AsyncFilings {
      * Get Filings By Registration Id
      * 
      * <p>The Get Filings By Registration ID API
-     *     retrieves all filings
-     *     associated with a specific registration ID. This allows users to query detailed
-     *     filing information tied to
-     *     a specific registration record.
+     * retrieves all filings
+     * associated with a specific registration ID. This allows users to query detailed
+     * filing information tied to
+     * a specific registration record.
      * 
      * @param registrationId Unique identifier for the registration
      *                 associated with the filings.
      * @param page Page number
      * @param size Page size
-     * @return CompletableFuture&lt;GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetResponse&gt; - The async response
+     * @return {@code CompletableFuture<GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetResponse>} - The async response
      */
     public CompletableFuture<GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetResponse> getByRegistrationId(
             String registrationId, Optional<Long> page,

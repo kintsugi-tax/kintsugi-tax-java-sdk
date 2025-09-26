@@ -14,7 +14,7 @@ import java.lang.String;
 public class GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest {
     /**
      * The unique identifier of the
-     *                                 registration to retrieve.
+     * registration to retrieve.
      */
     @SpeakeasyMetadata("pathParam:style=simple,explode=false,name=registration_id")
     private String registrationId;
@@ -28,7 +28,7 @@ public class GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest {
 
     /**
      * The unique identifier of the
-     *                                 registration to retrieve.
+     * registration to retrieve.
      */
     @JsonIgnore
     public String registrationId() {
@@ -42,7 +42,7 @@ public class GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest {
 
     /**
      * The unique identifier of the
-     *                                 registration to retrieve.
+     * registration to retrieve.
      */
     public GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest withRegistrationId(String registrationId) {
         Utils.checkNotNull(registrationId, "registrationId");
@@ -87,7 +87,7 @@ public class GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest {
 
         /**
          * The unique identifier of the
-         *                                 registration to retrieve.
+         * registration to retrieve.
          */
         public Builder registrationId(String registrationId) {
             Utils.checkNotNull(registrationId, "registrationId");

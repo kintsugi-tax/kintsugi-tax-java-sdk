@@ -58,7 +58,7 @@ public class BackendSrcExemptionsModelsExemptionRead {
 
     /**
      * Unique identifier for the transaction
-     *         associated with the exemption, if applicable.
+     * associated with the exemption, if applicable.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("transaction_id")
@@ -73,7 +73,7 @@ public class BackendSrcExemptionsModelsExemptionRead {
 
     /**
      * Federal Employer Identification Number
-     *         associated with the exemption.
+     * associated with the exemption.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("FEIN")
@@ -207,7 +207,7 @@ public class BackendSrcExemptionsModelsExemptionRead {
 
     /**
      * Unique identifier for the transaction
-     *         associated with the exemption, if applicable.
+     * associated with the exemption, if applicable.
      */
     @JsonIgnore
     public Optional<String> transactionId() {
@@ -224,7 +224,7 @@ public class BackendSrcExemptionsModelsExemptionRead {
 
     /**
      * Federal Employer Identification Number
-     *         associated with the exemption.
+     * associated with the exemption.
      */
     @JsonIgnore
     public Optional<String> fein() {
@@ -352,7 +352,7 @@ public class BackendSrcExemptionsModelsExemptionRead {
 
     /**
      * Unique identifier for the transaction
-     *         associated with the exemption, if applicable.
+     * associated with the exemption, if applicable.
      */
     public BackendSrcExemptionsModelsExemptionRead withTransactionId(String transactionId) {
         Utils.checkNotNull(transactionId, "transactionId");
@@ -363,7 +363,7 @@ public class BackendSrcExemptionsModelsExemptionRead {
 
     /**
      * Unique identifier for the transaction
-     *         associated with the exemption, if applicable.
+     * associated with the exemption, if applicable.
      */
     public BackendSrcExemptionsModelsExemptionRead withTransactionId(Optional<String> transactionId) {
         Utils.checkNotNull(transactionId, "transactionId");
@@ -392,7 +392,7 @@ public class BackendSrcExemptionsModelsExemptionRead {
 
     /**
      * Federal Employer Identification Number
-     *         associated with the exemption.
+     * associated with the exemption.
      */
     public BackendSrcExemptionsModelsExemptionRead withFein(String fein) {
         Utils.checkNotNull(fein, "fein");
@@ -403,7 +403,7 @@ public class BackendSrcExemptionsModelsExemptionRead {
 
     /**
      * Federal Employer Identification Number
-     *         associated with the exemption.
+     * associated with the exemption.
      */
     public BackendSrcExemptionsModelsExemptionRead withFein(Optional<String> fein) {
         Utils.checkNotNull(fein, "fein");
@@ -655,7 +655,7 @@ public class BackendSrcExemptionsModelsExemptionRead {
 
         /**
          * Unique identifier for the transaction
-         *         associated with the exemption, if applicable.
+         * associated with the exemption, if applicable.
          */
         public Builder transactionId(String transactionId) {
             Utils.checkNotNull(transactionId, "transactionId");
@@ -665,7 +665,7 @@ public class BackendSrcExemptionsModelsExemptionRead {
 
         /**
          * Unique identifier for the transaction
-         *         associated with the exemption, if applicable.
+         * associated with the exemption, if applicable.
          */
         public Builder transactionId(Optional<String> transactionId) {
             Utils.checkNotNull(transactionId, "transactionId");
@@ -695,7 +695,7 @@ public class BackendSrcExemptionsModelsExemptionRead {
 
         /**
          * Federal Employer Identification Number
-         *         associated with the exemption.
+         * associated with the exemption.
          */
         public Builder fein(String fein) {
             Utils.checkNotNull(fein, "fein");
@@ -705,7 +705,7 @@ public class BackendSrcExemptionsModelsExemptionRead {
 
         /**
          * Federal Employer Identification Number
-         *         associated with the exemption.
+         * associated with the exemption.
          */
         public Builder fein(Optional<String> fein) {
             Utils.checkNotNull(fein, "fein");

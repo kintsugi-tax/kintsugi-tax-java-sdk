@@ -23,21 +23,21 @@ public class PhysicalNexusCreate {
 
     /**
      * The state or province code in
-     *                             ISO 3166-2 format (e.g., CA).
+     * ISO 3166-2 format (e.g., CA).
      */
     @JsonProperty("state_code")
     private String stateCode;
 
     /**
      * The date when the nexus became
-     *                             effective (YYYY-MM-DD).
+     * effective (YYYY-MM-DD).
      */
     @JsonProperty("start_date")
     private LocalDate startDate;
 
     /**
      * The date when the
-     *                                         nexus ended, if applicable.
+     * nexus ended, if applicable.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("end_date")
@@ -49,7 +49,7 @@ public class PhysicalNexusCreate {
 
     /**
      * Optional
-     *                                         external identifier for the nexus.
+     * external identifier for the nexus.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("external_id")
@@ -102,7 +102,7 @@ public class PhysicalNexusCreate {
 
     /**
      * The state or province code in
-     *                             ISO 3166-2 format (e.g., CA).
+     * ISO 3166-2 format (e.g., CA).
      */
     @JsonIgnore
     public String stateCode() {
@@ -111,7 +111,7 @@ public class PhysicalNexusCreate {
 
     /**
      * The date when the nexus became
-     *                             effective (YYYY-MM-DD).
+     * effective (YYYY-MM-DD).
      */
     @JsonIgnore
     public LocalDate startDate() {
@@ -120,7 +120,7 @@ public class PhysicalNexusCreate {
 
     /**
      * The date when the
-     *                                         nexus ended, if applicable.
+     * nexus ended, if applicable.
      */
     @JsonIgnore
     public Optional<String> endDate() {
@@ -134,7 +134,7 @@ public class PhysicalNexusCreate {
 
     /**
      * Optional
-     *                                         external identifier for the nexus.
+     * external identifier for the nexus.
      */
     @JsonIgnore
     public Optional<String> externalId() {
@@ -160,7 +160,7 @@ public class PhysicalNexusCreate {
 
     /**
      * The state or province code in
-     *                             ISO 3166-2 format (e.g., CA).
+     * ISO 3166-2 format (e.g., CA).
      */
     public PhysicalNexusCreate withStateCode(String stateCode) {
         Utils.checkNotNull(stateCode, "stateCode");
@@ -170,7 +170,7 @@ public class PhysicalNexusCreate {
 
     /**
      * The date when the nexus became
-     *                             effective (YYYY-MM-DD).
+     * effective (YYYY-MM-DD).
      */
     public PhysicalNexusCreate withStartDate(LocalDate startDate) {
         Utils.checkNotNull(startDate, "startDate");
@@ -180,7 +180,7 @@ public class PhysicalNexusCreate {
 
     /**
      * The date when the
-     *                                         nexus ended, if applicable.
+     * nexus ended, if applicable.
      */
     public PhysicalNexusCreate withEndDate(String endDate) {
         Utils.checkNotNull(endDate, "endDate");
@@ -191,7 +191,7 @@ public class PhysicalNexusCreate {
 
     /**
      * The date when the
-     *                                         nexus ended, if applicable.
+     * nexus ended, if applicable.
      */
     public PhysicalNexusCreate withEndDate(Optional<String> endDate) {
         Utils.checkNotNull(endDate, "endDate");
@@ -207,7 +207,7 @@ public class PhysicalNexusCreate {
 
     /**
      * Optional
-     *                                         external identifier for the nexus.
+     * external identifier for the nexus.
      */
     public PhysicalNexusCreate withExternalId(String externalId) {
         Utils.checkNotNull(externalId, "externalId");
@@ -218,7 +218,7 @@ public class PhysicalNexusCreate {
 
     /**
      * Optional
-     *                                         external identifier for the nexus.
+     * external identifier for the nexus.
      */
     public PhysicalNexusCreate withExternalId(Optional<String> externalId) {
         Utils.checkNotNull(externalId, "externalId");
@@ -309,7 +309,7 @@ public class PhysicalNexusCreate {
 
         /**
          * The state or province code in
-         *                             ISO 3166-2 format (e.g., CA).
+         * ISO 3166-2 format (e.g., CA).
          */
         public Builder stateCode(String stateCode) {
             Utils.checkNotNull(stateCode, "stateCode");
@@ -320,7 +320,7 @@ public class PhysicalNexusCreate {
 
         /**
          * The date when the nexus became
-         *                             effective (YYYY-MM-DD).
+         * effective (YYYY-MM-DD).
          */
         public Builder startDate(LocalDate startDate) {
             Utils.checkNotNull(startDate, "startDate");
@@ -331,7 +331,7 @@ public class PhysicalNexusCreate {
 
         /**
          * The date when the
-         *                                         nexus ended, if applicable.
+         * nexus ended, if applicable.
          */
         public Builder endDate(String endDate) {
             Utils.checkNotNull(endDate, "endDate");
@@ -341,7 +341,7 @@ public class PhysicalNexusCreate {
 
         /**
          * The date when the
-         *                                         nexus ended, if applicable.
+         * nexus ended, if applicable.
          */
         public Builder endDate(Optional<String> endDate) {
             Utils.checkNotNull(endDate, "endDate");
@@ -359,7 +359,7 @@ public class PhysicalNexusCreate {
 
         /**
          * Optional
-         *                                         external identifier for the nexus.
+         * external identifier for the nexus.
          */
         public Builder externalId(String externalId) {
             Utils.checkNotNull(externalId, "externalId");
@@ -369,7 +369,7 @@ public class PhysicalNexusCreate {
 
         /**
          * Optional
-         *                                         external identifier for the nexus.
+         * external identifier for the nexus.
          */
         public Builder externalId(Optional<String> externalId) {
             Utils.checkNotNull(externalId, "externalId");

@@ -40,6 +40,7 @@
 | `GUSTO`            | GUSTO              |
 | `FACEBOOK`         | FACEBOOK           |
 | `OTHER`            | OTHER              |
+| `ORDWAY`           | ORDWAY             |
 | `INSTAGRAM`        | INSTAGRAM          |
 | `PINTEREST`        | PINTEREST          |
 | `WAYFAIR`          | WAYFAIR            |

@@ -51,7 +51,7 @@ public class AsyncCustomersTransactions {
      * <p>Get a list of transactions for a customer by their unique ID.
      * 
      * @param customerId 
-     * @return CompletableFuture&lt;GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse&gt; - The async response
+     * @return {@code CompletableFuture<GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse>} - The async response
      */
     public CompletableFuture<GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse> getByCustomerId(String customerId) {
         GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest request =

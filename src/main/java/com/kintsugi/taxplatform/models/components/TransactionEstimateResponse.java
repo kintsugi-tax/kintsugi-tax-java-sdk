@@ -74,7 +74,13 @@ public class TransactionEstimateResponse {
     private Optional<? extends CustomerBase> customer;
 
     /**
-     * List of addresses related to the transaction. At least one BILL_TO or SHIP_TO address must be provided. The address will be validated during estimation, and the transaction may be rejected if the address does not pass validation. The SHIP_TO will be preferred to use for determining tax liability. **Deprecated:** Use of `address.status` in estimate api is ignored and will be removed in the future status will be considered UNVERIFIED by default and always validated
+     * List of addresses related to the transaction. At least one BILL_TO or SHIP_TO address must be
+     * provided. The address will be validated during estimation, and the transaction may be rejected if
+     * the address does not pass validation.
+     * 
+     * <p>The SHIP_TO will be preferred to use for determining tax liability. **Deprecated:** Use of
+     * `address.status` in estimate api is ignored and will be removed in the future status will be
+     * considered UNVERIFIED by default and always validated
      */
     @JsonProperty("addresses")
     private List<TransactionEstimateResponseAddress> addresses;
@@ -101,7 +107,8 @@ public class TransactionEstimateResponse {
     private Optional<String> taxRateCalculated;
 
     /**
-     * Indicates if nexus was met for the transaction.**Deprecated:** Use `has_active_registration` instead.
+     * Indicates if nexus was met for the transaction.**Deprecated:** Use `has_active_registration`
+     * instead.
      * 
      * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
      */
@@ -242,7 +249,13 @@ public class TransactionEstimateResponse {
     }
 
     /**
-     * List of addresses related to the transaction. At least one BILL_TO or SHIP_TO address must be provided. The address will be validated during estimation, and the transaction may be rejected if the address does not pass validation. The SHIP_TO will be preferred to use for determining tax liability. **Deprecated:** Use of `address.status` in estimate api is ignored and will be removed in the future status will be considered UNVERIFIED by default and always validated
+     * List of addresses related to the transaction. At least one BILL_TO or SHIP_TO address must be
+     * provided. The address will be validated during estimation, and the transaction may be rejected if
+     * the address does not pass validation.
+     * 
+     * <p>The SHIP_TO will be preferred to use for determining tax liability. **Deprecated:** Use of
+     * `address.status` in estimate api is ignored and will be removed in the future status will be
+     * considered UNVERIFIED by default and always validated
      */
     @JsonIgnore
     public List<TransactionEstimateResponseAddress> addresses() {
@@ -274,7 +287,8 @@ public class TransactionEstimateResponse {
     }
 
     /**
-     * Indicates if nexus was met for the transaction.**Deprecated:** Use `has_active_registration` instead.
+     * Indicates if nexus was met for the transaction.**Deprecated:** Use `has_active_registration`
+     * instead.
      * 
      * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
      */
@@ -411,7 +425,13 @@ public class TransactionEstimateResponse {
     }
 
     /**
-     * List of addresses related to the transaction. At least one BILL_TO or SHIP_TO address must be provided. The address will be validated during estimation, and the transaction may be rejected if the address does not pass validation. The SHIP_TO will be preferred to use for determining tax liability. **Deprecated:** Use of `address.status` in estimate api is ignored and will be removed in the future status will be considered UNVERIFIED by default and always validated
+     * List of addresses related to the transaction. At least one BILL_TO or SHIP_TO address must be
+     * provided. The address will be validated during estimation, and the transaction may be rejected if
+     * the address does not pass validation.
+     * 
+     * <p>The SHIP_TO will be preferred to use for determining tax liability. **Deprecated:** Use of
+     * `address.status` in estimate api is ignored and will be removed in the future status will be
+     * considered UNVERIFIED by default and always validated
      */
     public TransactionEstimateResponse withAddresses(List<TransactionEstimateResponseAddress> addresses) {
         Utils.checkNotNull(addresses, "addresses");
@@ -477,7 +497,8 @@ public class TransactionEstimateResponse {
     }
 
     /**
-     * Indicates if nexus was met for the transaction.**Deprecated:** Use `has_active_registration` instead.
+     * Indicates if nexus was met for the transaction.**Deprecated:** Use `has_active_registration`
+     * instead.
      * 
      * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
      */
@@ -490,7 +511,8 @@ public class TransactionEstimateResponse {
 
 
     /**
-     * Indicates if nexus was met for the transaction.**Deprecated:** Use `has_active_registration` instead.
+     * Indicates if nexus was met for the transaction.**Deprecated:** Use `has_active_registration`
+     * instead.
      * 
      * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
      */
@@ -734,7 +756,13 @@ public class TransactionEstimateResponse {
 
 
         /**
-         * List of addresses related to the transaction. At least one BILL_TO or SHIP_TO address must be provided. The address will be validated during estimation, and the transaction may be rejected if the address does not pass validation. The SHIP_TO will be preferred to use for determining tax liability. **Deprecated:** Use of `address.status` in estimate api is ignored and will be removed in the future status will be considered UNVERIFIED by default and always validated
+         * List of addresses related to the transaction. At least one BILL_TO or SHIP_TO address must be
+         * provided. The address will be validated during estimation, and the transaction may be rejected if
+         * the address does not pass validation.
+         * 
+         * <p>The SHIP_TO will be preferred to use for determining tax liability. **Deprecated:** Use of
+         * `address.status` in estimate api is ignored and will be removed in the future status will be
+         * considered UNVERIFIED by default and always validated
          */
         public Builder addresses(List<TransactionEstimateResponseAddress> addresses) {
             Utils.checkNotNull(addresses, "addresses");
@@ -801,7 +829,8 @@ public class TransactionEstimateResponse {
 
 
         /**
-         * Indicates if nexus was met for the transaction.**Deprecated:** Use `has_active_registration` instead.
+         * Indicates if nexus was met for the transaction.**Deprecated:** Use `has_active_registration`
+         * instead.
          * 
          * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
          */
@@ -813,7 +842,8 @@ public class TransactionEstimateResponse {
         }
 
         /**
-         * Indicates if nexus was met for the transaction.**Deprecated:** Use `has_active_registration` instead.
+         * Indicates if nexus was met for the transaction.**Deprecated:** Use `has_active_registration`
+         * instead.
          * 
          * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
          */

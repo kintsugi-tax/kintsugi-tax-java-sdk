@@ -68,7 +68,7 @@ public class FilingDetailsRead {
 
     /**
      * The name of the state associated with the filing
-     *         (e.g., Iowa, New York).
+     * (e.g., Iowa, New York).
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("state_name")
@@ -80,7 +80,7 @@ public class FilingDetailsRead {
 
     /**
      * The associated JIRA issue key for tracking the filing,
-     *         if available. Can be null.
+     * if available. Can be null.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("jira_issue_key")
@@ -448,7 +448,7 @@ public class FilingDetailsRead {
 
     /**
      * The name of the state associated with the filing
-     *         (e.g., Iowa, New York).
+     * (e.g., Iowa, New York).
      */
     @JsonIgnore
     public Optional<String> stateName() {
@@ -462,7 +462,7 @@ public class FilingDetailsRead {
 
     /**
      * The associated JIRA issue key for tracking the filing,
-     *         if available. Can be null.
+     * if available. Can be null.
      */
     @JsonIgnore
     public Optional<String> jiraIssueKey() {
@@ -784,7 +784,7 @@ public class FilingDetailsRead {
 
     /**
      * The name of the state associated with the filing
-     *         (e.g., Iowa, New York).
+     * (e.g., Iowa, New York).
      */
     public FilingDetailsRead withStateName(String stateName) {
         Utils.checkNotNull(stateName, "stateName");
@@ -795,7 +795,7 @@ public class FilingDetailsRead {
 
     /**
      * The name of the state associated with the filing
-     *         (e.g., Iowa, New York).
+     * (e.g., Iowa, New York).
      */
     public FilingDetailsRead withStateName(Optional<String> stateName) {
         Utils.checkNotNull(stateName, "stateName");
@@ -811,7 +811,7 @@ public class FilingDetailsRead {
 
     /**
      * The associated JIRA issue key for tracking the filing,
-     *         if available. Can be null.
+     * if available. Can be null.
      */
     public FilingDetailsRead withJiraIssueKey(String jiraIssueKey) {
         Utils.checkNotNull(jiraIssueKey, "jiraIssueKey");
@@ -822,7 +822,7 @@ public class FilingDetailsRead {
 
     /**
      * The associated JIRA issue key for tracking the filing,
-     *         if available. Can be null.
+     * if available. Can be null.
      */
     public FilingDetailsRead withJiraIssueKey(Optional<String> jiraIssueKey) {
         Utils.checkNotNull(jiraIssueKey, "jiraIssueKey");
@@ -1583,7 +1583,7 @@ public class FilingDetailsRead {
 
         /**
          * The name of the state associated with the filing
-         *         (e.g., Iowa, New York).
+         * (e.g., Iowa, New York).
          */
         public Builder stateName(String stateName) {
             Utils.checkNotNull(stateName, "stateName");
@@ -1593,7 +1593,7 @@ public class FilingDetailsRead {
 
         /**
          * The name of the state associated with the filing
-         *         (e.g., Iowa, New York).
+         * (e.g., Iowa, New York).
          */
         public Builder stateName(Optional<String> stateName) {
             Utils.checkNotNull(stateName, "stateName");
@@ -1611,7 +1611,7 @@ public class FilingDetailsRead {
 
         /**
          * The associated JIRA issue key for tracking the filing,
-         *         if available. Can be null.
+         * if available. Can be null.
          */
         public Builder jiraIssueKey(String jiraIssueKey) {
             Utils.checkNotNull(jiraIssueKey, "jiraIssueKey");
@@ -1621,7 +1621,7 @@ public class FilingDetailsRead {
 
         /**
          * The associated JIRA issue key for tracking the filing,
-         *         if available. Can be null.
+         * if available. Can be null.
          */
         public Builder jiraIssueKey(Optional<String> jiraIssueKey) {
             Utils.checkNotNull(jiraIssueKey, "jiraIssueKey");

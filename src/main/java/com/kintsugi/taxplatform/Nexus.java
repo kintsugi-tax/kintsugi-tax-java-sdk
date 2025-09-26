@@ -54,7 +54,7 @@ public class Nexus {
      * Get Physical Nexus
      * 
      * <p>Retrieve a paginated list of
-     *     physical nexuses for a specific organization.
+     * physical nexuses for a specific organization.
      * 
      * @return The call builder
      */
@@ -66,7 +66,7 @@ public class Nexus {
      * Get Physical Nexus
      * 
      * <p>Retrieve a paginated list of
-     *     physical nexuses for a specific organization.
+     * physical nexuses for a specific organization.
      * 
      * @param request The request object containing all the parameters for the API call.
      * @return The response from the API call
@@ -82,8 +82,8 @@ public class Nexus {
      * Create Physical Nexus
      * 
      * <p>The Create Physical Nexus API allows you to create a new physical
-     *     nexus by specifying its attributes, including the location,
-     *     start date, end date, etc.
+     * nexus by specifying its attributes, including the location,
+     * start date, end date, etc.
      * 
      * @return The call builder
      */
@@ -95,8 +95,8 @@ public class Nexus {
      * Create Physical Nexus
      * 
      * <p>The Create Physical Nexus API allows you to create a new physical
-     *     nexus by specifying its attributes, including the location,
-     *     start date, end date, etc.
+     * nexus by specifying its attributes, including the location,
+     * start date, end date, etc.
      * 
      * @param request The request object containing all the parameters for the API call.
      * @return The response from the API call
@@ -112,7 +112,7 @@ public class Nexus {
      * Update Physical Nexus
      * 
      * <p>The Update Physical Nexus API allows you to modify the details of
-     *     an existing physical nexus by its unique ID.
+     * an existing physical nexus by its unique ID.
      * 
      * @return The call builder
      */
@@ -124,7 +124,7 @@ public class Nexus {
      * Update Physical Nexus
      * 
      * <p>The Update Physical Nexus API allows you to modify the details of
-     *     an existing physical nexus by its unique ID.
+     * an existing physical nexus by its unique ID.
      * 
      * @param physicalNexusId The unique identifier of the physical
      *                                         nexus to update.
@@ -148,7 +148,7 @@ public class Nexus {
      * Delete Physical Nexus
      * 
      * <p>The Delete Physical Nexus API allows you to remove an existing
-     *     physical nexus by its unique ID.
+     * physical nexus by its unique ID.
      * 
      * @return The call builder
      */
@@ -160,7 +160,7 @@ public class Nexus {
      * Delete Physical Nexus
      * 
      * <p>The Delete Physical Nexus API allows you to remove an existing
-     *     physical nexus by its unique ID.
+     * physical nexus by its unique ID.
      * 
      * @param physicalNexusId The unique identifier of the physical
      *                                         nexus to delete.

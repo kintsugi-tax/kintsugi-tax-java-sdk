@@ -18,7 +18,7 @@ import java.util.Optional;
 public class GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequest {
     /**
      * Unique identifier for the registration
-     *         associated with the filings.
+     * associated with the filings.
      */
     @SpeakeasyMetadata("pathParam:style=simple,explode=false,name=registration_id")
     private String registrationId;
@@ -55,7 +55,7 @@ public class GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetReq
 
     /**
      * Unique identifier for the registration
-     *         associated with the filings.
+     * associated with the filings.
      */
     @JsonIgnore
     public String registrationId() {
@@ -85,7 +85,7 @@ public class GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetReq
 
     /**
      * Unique identifier for the registration
-     *         associated with the filings.
+     * associated with the filings.
      */
     public GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequest withRegistrationId(String registrationId) {
         Utils.checkNotNull(registrationId, "registrationId");
@@ -176,7 +176,7 @@ public class GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetReq
 
         /**
          * Unique identifier for the registration
-         *         associated with the filings.
+         * associated with the filings.
          */
         public Builder registrationId(String registrationId) {
             Utils.checkNotNull(registrationId, "registrationId");

@@ -18,7 +18,7 @@ import java.util.Optional;
 public class TransactionEstimateResponseAddress {
     /**
      * Type of the address. Must be either
-     *                         SHIP_TO or BILL_TO.
+     * SHIP_TO or BILL_TO.
      */
     @JsonProperty("type")
     private TransactionEstimateResponseType type;
@@ -153,7 +153,7 @@ public class TransactionEstimateResponseAddress {
 
     /**
      * Type of the address. Must be either
-     *                         SHIP_TO or BILL_TO.
+     * SHIP_TO or BILL_TO.
      */
     @JsonIgnore
     public TransactionEstimateResponseType type() {
@@ -258,7 +258,7 @@ public class TransactionEstimateResponseAddress {
 
     /**
      * Type of the address. Must be either
-     *                         SHIP_TO or BILL_TO.
+     * SHIP_TO or BILL_TO.
      */
     public TransactionEstimateResponseAddress withType(TransactionEstimateResponseType type) {
         Utils.checkNotNull(type, "type");
@@ -536,7 +536,7 @@ public class TransactionEstimateResponseAddress {
 
         /**
          * Type of the address. Must be either
-         *                         SHIP_TO or BILL_TO.
+         * SHIP_TO or BILL_TO.
          */
         public Builder type(TransactionEstimateResponseType type) {
             Utils.checkNotNull(type, "type");

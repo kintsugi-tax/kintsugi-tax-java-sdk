@@ -1,0 +1,29 @@
+description = 'tax-platform-sdk Spring Boot Starter'
+
+// Publishing configuration overrides
+ext {
+    publishingConfig = [
+        groupId: rootProject.group,
+        artifactId: 'kintsugi-tax-java-sdk-spring-boot-starter',
+        version: rootProject.version,
+        name: 'Kintsugi Java SDK - Spring Boot Starter',
+        description: 'Spring Boot starter for the Kintsugi Java SDK.',
+    ]
+}
+
+dependencies {
+    api project(':')
+    api project(':kintsugi-tax-java-sdk-spring-boot-autoconfigure')
+    api "org.springframework.boot:spring-boot-starter:${rootProject.springBootVersion}"
+}
+
+jar {
+    dependsOn 'generatePomFileForMavenPublication'
+    archiveBaseName = 'kintsugi-tax-java-sdk-spring-boot-starter'
+    into("META-INF/maven/com.trykintsugi/kintsugi-tax-java-sdk-spring-boot-starter") {
+        from(layout.buildDirectory.file("pom.xml")) {
+            // Only include if it exists to avoid build ordering issues
+            duplicatesStrategy = DuplicatesStrategy.INCLUDE
+        }
+    }
+}

@@ -153,7 +153,7 @@ public class RegistrationRead {
 
     /**
      * The date from which filings should be created.
-     *         should start (YYYY-MM-DD).
+     * should start (YYYY-MM-DD).
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("create_filings_from")
@@ -531,7 +531,7 @@ public class RegistrationRead {
 
     /**
      * The date from which filings should be created.
-     *         should start (YYYY-MM-DD).
+     * should start (YYYY-MM-DD).
      */
     @JsonIgnore
     public Optional<String> createFilingsFrom() {
@@ -960,7 +960,7 @@ public class RegistrationRead {
 
     /**
      * The date from which filings should be created.
-     *         should start (YYYY-MM-DD).
+     * should start (YYYY-MM-DD).
      */
     public RegistrationRead withCreateFilingsFrom(String createFilingsFrom) {
         Utils.checkNotNull(createFilingsFrom, "createFilingsFrom");
@@ -971,7 +971,7 @@ public class RegistrationRead {
 
     /**
      * The date from which filings should be created.
-     *         should start (YYYY-MM-DD).
+     * should start (YYYY-MM-DD).
      */
     public RegistrationRead withCreateFilingsFrom(Optional<String> createFilingsFrom) {
         Utils.checkNotNull(createFilingsFrom, "createFilingsFrom");
@@ -1699,7 +1699,7 @@ public class RegistrationRead {
 
         /**
          * The date from which filings should be created.
-         *         should start (YYYY-MM-DD).
+         * should start (YYYY-MM-DD).
          */
         public Builder createFilingsFrom(String createFilingsFrom) {
             Utils.checkNotNull(createFilingsFrom, "createFilingsFrom");
@@ -1709,7 +1709,7 @@ public class RegistrationRead {
 
         /**
          * The date from which filings should be created.
-         *         should start (YYYY-MM-DD).
+         * should start (YYYY-MM-DD).
          */
         public Builder createFilingsFrom(Optional<String> createFilingsFrom) {
             Utils.checkNotNull(createFilingsFrom, "createFilingsFrom");

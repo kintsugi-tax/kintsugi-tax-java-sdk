@@ -40,8 +40,10 @@ public class AsyncTaxEstimation {
      * Estimate Tax
      * 
      * <p>The Estimate Tax API calculates the estimated tax for a specific
-     *     transaction based on the provided details, including organization nexus,
-     *     transaction details, customer details, and addresses. Optionally simulates nexus being met for tax calculation purposes. The `simulate_nexus_met` parameter is deprecated and will be removed in future releases.
+     * transaction based on the provided details, including organization nexus,
+     * transaction details, customer details, and addresses. Optionally simulates nexus being met for tax
+     * calculation purposes. The `simulate_nexus_met` parameter is deprecated and will be removed in future
+     * releases.
      * 
      * @return The async call builder
      */
@@ -53,12 +55,14 @@ public class AsyncTaxEstimation {
      * Estimate Tax
      * 
      * <p>The Estimate Tax API calculates the estimated tax for a specific
-     *     transaction based on the provided details, including organization nexus,
-     *     transaction details, customer details, and addresses. Optionally simulates nexus being met for tax calculation purposes. The `simulate_nexus_met` parameter is deprecated and will be removed in future releases.
+     * transaction based on the provided details, including organization nexus,
+     * transaction details, customer details, and addresses. Optionally simulates nexus being met for tax
+     * calculation purposes. The `simulate_nexus_met` parameter is deprecated and will be removed in future
+     * releases.
      * 
      * @param transactionEstimatePublicRequest Public request model for tax estimation API documentation.
      *         This model excludes internal fields like enriched_fields that should not be exposed in API docs.
-     * @return CompletableFuture&lt;EstimateTaxV1TaxEstimatePostResponse&gt; - The async response
+     * @return {@code CompletableFuture<EstimateTaxV1TaxEstimatePostResponse>} - The async response
      */
     public CompletableFuture<EstimateTaxV1TaxEstimatePostResponse> estimate(TransactionEstimatePublicRequest transactionEstimatePublicRequest) {
         return estimate(Optional.empty(), transactionEstimatePublicRequest);
@@ -68,13 +72,15 @@ public class AsyncTaxEstimation {
      * Estimate Tax
      * 
      * <p>The Estimate Tax API calculates the estimated tax for a specific
-     *     transaction based on the provided details, including organization nexus,
-     *     transaction details, customer details, and addresses. Optionally simulates nexus being met for tax calculation purposes. The `simulate_nexus_met` parameter is deprecated and will be removed in future releases.
+     * transaction based on the provided details, including organization nexus,
+     * transaction details, customer details, and addresses. Optionally simulates nexus being met for tax
+     * calculation purposes. The `simulate_nexus_met` parameter is deprecated and will be removed in future
+     * releases.
      * 
      * @param simulateNexusMet **Deprecated:** Use `simulate_active_registration` in the request body instead.
      * @param transactionEstimatePublicRequest Public request model for tax estimation API documentation.
      *         This model excludes internal fields like enriched_fields that should not be exposed in API docs.
-     * @return CompletableFuture&lt;EstimateTaxV1TaxEstimatePostResponse&gt; - The async response
+     * @return {@code CompletableFuture<EstimateTaxV1TaxEstimatePostResponse>} - The async response
      */
     public CompletableFuture<EstimateTaxV1TaxEstimatePostResponse> estimate(Optional<Boolean> simulateNexusMet, TransactionEstimatePublicRequest transactionEstimatePublicRequest) {
         EstimateTaxV1TaxEstimatePostRequest request =

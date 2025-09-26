@@ -47,8 +47,8 @@ public class Filings {
      * Get Filings
      * 
      * <p>The Get Filings API retrieves a paginated list of filings based on
-     *     filters such as dates, jurisdiction, Country, status, etc. This helps track
-     *     and manage tax filings efficiently across multiple jurisdictions.
+     * filters such as dates, jurisdiction, Country, status, etc. This helps track
+     * and manage tax filings efficiently across multiple jurisdictions.
      * 
      * @return The call builder
      */
@@ -60,8 +60,8 @@ public class Filings {
      * Get Filings
      * 
      * <p>The Get Filings API retrieves a paginated list of filings based on
-     *     filters such as dates, jurisdiction, Country, status, etc. This helps track
-     *     and manage tax filings efficiently across multiple jurisdictions.
+     * filters such as dates, jurisdiction, Country, status, etc. This helps track
+     * and manage tax filings efficiently across multiple jurisdictions.
      * 
      * @param request The request object containing all the parameters for the API call.
      * @return The response from the API call
@@ -77,7 +77,7 @@ public class Filings {
      * Get Filing By Id
      * 
      * <p>This API retrieves detailed information about a specific
-     *     filing using its unique identifier (filing_id).
+     * filing using its unique identifier (filing_id).
      * 
      * @return The call builder
      */
@@ -89,7 +89,7 @@ public class Filings {
      * Get Filing By Id
      * 
      * <p>This API retrieves detailed information about a specific
-     *     filing using its unique identifier (filing_id).
+     * filing using its unique identifier (filing_id).
      * 
      * @param filingId Unique identifier for the filing to retrieve.
      * @return The response from the API call
@@ -110,10 +110,10 @@ public class Filings {
      * Get Filings By Registration Id
      * 
      * <p>The Get Filings By Registration ID API
-     *     retrieves all filings
-     *     associated with a specific registration ID. This allows users to query detailed
-     *     filing information tied to
-     *     a specific registration record.
+     * retrieves all filings
+     * associated with a specific registration ID. This allows users to query detailed
+     * filing information tied to
+     * a specific registration record.
      * 
      * @return The call builder
      */
@@ -125,10 +125,10 @@ public class Filings {
      * Get Filings By Registration Id
      * 
      * <p>The Get Filings By Registration ID API
-     *     retrieves all filings
-     *     associated with a specific registration ID. This allows users to query detailed
-     *     filing information tied to
-     *     a specific registration record.
+     * retrieves all filings
+     * associated with a specific registration ID. This allows users to query detailed
+     * filing information tied to
+     * a specific registration record.
      * 
      * @param registrationId Unique identifier for the registration
      *                 associated with the filings.
@@ -143,10 +143,10 @@ public class Filings {
      * Get Filings By Registration Id
      * 
      * <p>The Get Filings By Registration ID API
-     *     retrieves all filings
-     *     associated with a specific registration ID. This allows users to query detailed
-     *     filing information tied to
-     *     a specific registration record.
+     * retrieves all filings
+     * associated with a specific registration ID. This allows users to query detailed
+     * filing information tied to
+     * a specific registration record.
      * 
      * @param registrationId Unique identifier for the registration
      *                 associated with the filings.

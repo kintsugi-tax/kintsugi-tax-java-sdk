@@ -80,8 +80,8 @@ public class Products {
      * Create Product
      * 
      * <p>The Create Product API allows users to manually create a new product
-     *     in the system. This includes specifying product details such as category,
-     *     subcategory, and tax exemption status, etc.
+     * in the system. This includes specifying product details such as category,
+     * subcategory, and tax exemption status, etc.
      * 
      * @return The call builder
      */
@@ -93,8 +93,8 @@ public class Products {
      * Create Product
      * 
      * <p>The Create Product API allows users to manually create a new product
-     *     in the system. This includes specifying product details such as category,
-     *     subcategory, and tax exemption status, etc.
+     * in the system. This includes specifying product details such as category,
+     * subcategory, and tax exemption status, etc.
      * 
      * @param request The request object containing all the parameters for the API call.
      * @return The response from the API call
@@ -110,8 +110,8 @@ public class Products {
      * Get Product By Id
      * 
      * <p>The Get Product By ID API retrieves detailed information about
-     *     a single product by its unique ID. This API helps in viewing the specific details
-     *     of a product, including its attributes, status, and categorization.
+     * a single product by its unique ID. This API helps in viewing the specific details
+     * of a product, including its attributes, status, and categorization.
      * 
      * @return The call builder
      */
@@ -123,8 +123,8 @@ public class Products {
      * Get Product By Id
      * 
      * <p>The Get Product By ID API retrieves detailed information about
-     *     a single product by its unique ID. This API helps in viewing the specific details
-     *     of a product, including its attributes, status, and categorization.
+     * a single product by its unique ID. This API helps in viewing the specific details
+     * of a product, including its attributes, status, and categorization.
      * 
      * @param productId The unique identifier for the product you want to retrieve.
      * @return The response from the API call
@@ -145,7 +145,7 @@ public class Products {
      * Update Product
      * 
      * <p>The Update Product API allows users to modify the details of
-     *     an existing product identified by its unique product_id
+     * an existing product identified by its unique product_id
      * 
      * @return The call builder
      */
@@ -157,7 +157,7 @@ public class Products {
      * Update Product
      * 
      * <p>The Update Product API allows users to modify the details of
-     *     an existing product identified by its unique product_id
+     * an existing product identified by its unique product_id
      * 
      * @param productId Unique identifier of the product to be updated.
      * @param productUpdate 
@@ -180,8 +180,8 @@ public class Products {
      * Get Product Categories
      * 
      * <p>The Get Product Categories API retrieves all
-     *     product categories.  This endpoint helps users understand and select the
-     *     appropriate categories for their products.
+     * product categories. This endpoint helps users understand and select the
+     * appropriate categories for their products.
      * 
      * @return The call builder
      */
@@ -193,8 +193,8 @@ public class Products {
      * Get Product Categories
      * 
      * <p>The Get Product Categories API retrieves all
-     *     product categories.  This endpoint helps users understand and select the
-     *     appropriate categories for their products.
+     * product categories. This endpoint helps users understand and select the
+     * appropriate categories for their products.
      * 
      * @return The response from the API call
      * @throws Exception if the API call fails

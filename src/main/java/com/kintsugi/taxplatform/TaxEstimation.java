@@ -39,8 +39,10 @@ public class TaxEstimation {
      * Estimate Tax
      * 
      * <p>The Estimate Tax API calculates the estimated tax for a specific
-     *     transaction based on the provided details, including organization nexus,
-     *     transaction details, customer details, and addresses. Optionally simulates nexus being met for tax calculation purposes. The `simulate_nexus_met` parameter is deprecated and will be removed in future releases.
+     * transaction based on the provided details, including organization nexus,
+     * transaction details, customer details, and addresses. Optionally simulates nexus being met for tax
+     * calculation purposes. The `simulate_nexus_met` parameter is deprecated and will be removed in future
+     * releases.
      * 
      * @return The call builder
      */
@@ -52,8 +54,10 @@ public class TaxEstimation {
      * Estimate Tax
      * 
      * <p>The Estimate Tax API calculates the estimated tax for a specific
-     *     transaction based on the provided details, including organization nexus,
-     *     transaction details, customer details, and addresses. Optionally simulates nexus being met for tax calculation purposes. The `simulate_nexus_met` parameter is deprecated and will be removed in future releases.
+     * transaction based on the provided details, including organization nexus,
+     * transaction details, customer details, and addresses. Optionally simulates nexus being met for tax
+     * calculation purposes. The `simulate_nexus_met` parameter is deprecated and will be removed in future
+     * releases.
      * 
      * @param transactionEstimatePublicRequest Public request model for tax estimation API documentation.
      *         This model excludes internal fields like enriched_fields that should not be exposed in API docs.
@@ -68,8 +72,10 @@ public class TaxEstimation {
      * Estimate Tax
      * 
      * <p>The Estimate Tax API calculates the estimated tax for a specific
-     *     transaction based on the provided details, including organization nexus,
-     *     transaction details, customer details, and addresses. Optionally simulates nexus being met for tax calculation purposes. The `simulate_nexus_met` parameter is deprecated and will be removed in future releases.
+     * transaction based on the provided details, including organization nexus,
+     * transaction details, customer details, and addresses. Optionally simulates nexus being met for tax
+     * calculation purposes. The `simulate_nexus_met` parameter is deprecated and will be removed in future
+     * releases.
      * 
      * @param simulateNexusMet **Deprecated:** Use `simulate_active_registration` in the request body instead.
      * @param transactionEstimatePublicRequest Public request model for tax estimation API documentation.

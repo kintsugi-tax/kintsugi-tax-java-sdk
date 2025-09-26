@@ -20,7 +20,7 @@ import java.util.Optional;
 public class ProductSubCategory {
     /**
      * Name of the product subcategory
-     *             (e.g., ORAL_HYGIENE, MEDICAL_DEVICES, etc.)
+     * (e.g., ORAL_HYGIENE, MEDICAL_DEVICES, etc.)
      */
     @JsonProperty("name")
     private String name;
@@ -38,7 +38,8 @@ public class ProductSubCategory {
     private String example;
 
     /**
-     * Indicates if the subcategory is a frequent subcategory used by the organization. This field is deprecated.
+     * Indicates if the subcategory is a frequent subcategory used by the organization. This field is
+     * deprecated.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("is_frequent")
@@ -70,7 +71,7 @@ public class ProductSubCategory {
 
     /**
      * Name of the product subcategory
-     *             (e.g., ORAL_HYGIENE, MEDICAL_DEVICES, etc.)
+     * (e.g., ORAL_HYGIENE, MEDICAL_DEVICES, etc.)
      */
     @JsonIgnore
     public String name() {
@@ -94,7 +95,8 @@ public class ProductSubCategory {
     }
 
     /**
-     * Indicates if the subcategory is a frequent subcategory used by the organization. This field is deprecated.
+     * Indicates if the subcategory is a frequent subcategory used by the organization. This field is
+     * deprecated.
      */
     @JsonIgnore
     public Optional<Boolean> isFrequent() {
@@ -108,7 +110,7 @@ public class ProductSubCategory {
 
     /**
      * Name of the product subcategory
-     *             (e.g., ORAL_HYGIENE, MEDICAL_DEVICES, etc.)
+     * (e.g., ORAL_HYGIENE, MEDICAL_DEVICES, etc.)
      */
     public ProductSubCategory withName(String name) {
         Utils.checkNotNull(name, "name");
@@ -135,7 +137,8 @@ public class ProductSubCategory {
     }
 
     /**
-     * Indicates if the subcategory is a frequent subcategory used by the organization. This field is deprecated.
+     * Indicates if the subcategory is a frequent subcategory used by the organization. This field is
+     * deprecated.
      */
     public ProductSubCategory withIsFrequent(boolean isFrequent) {
         Utils.checkNotNull(isFrequent, "isFrequent");
@@ -145,7 +148,8 @@ public class ProductSubCategory {
 
 
     /**
-     * Indicates if the subcategory is a frequent subcategory used by the organization. This field is deprecated.
+     * Indicates if the subcategory is a frequent subcategory used by the organization. This field is
+     * deprecated.
      */
     public ProductSubCategory withIsFrequent(Optional<Boolean> isFrequent) {
         Utils.checkNotNull(isFrequent, "isFrequent");
@@ -203,7 +207,7 @@ public class ProductSubCategory {
 
         /**
          * Name of the product subcategory
-         *             (e.g., ORAL_HYGIENE, MEDICAL_DEVICES, etc.)
+         * (e.g., ORAL_HYGIENE, MEDICAL_DEVICES, etc.)
          */
         public Builder name(String name) {
             Utils.checkNotNull(name, "name");
@@ -233,7 +237,8 @@ public class ProductSubCategory {
 
 
         /**
-         * Indicates if the subcategory is a frequent subcategory used by the organization. This field is deprecated.
+         * Indicates if the subcategory is a frequent subcategory used by the organization. This field is
+         * deprecated.
          */
         public Builder isFrequent(boolean isFrequent) {
             Utils.checkNotNull(isFrequent, "isFrequent");
@@ -242,7 +247,8 @@ public class ProductSubCategory {
         }
 
         /**
-         * Indicates if the subcategory is a frequent subcategory used by the organization. This field is deprecated.
+         * Indicates if the subcategory is a frequent subcategory used by the organization. This field is
+         * deprecated.
          */
         public Builder isFrequent(Optional<Boolean> isFrequent) {
             Utils.checkNotNull(isFrequent, "isFrequent");

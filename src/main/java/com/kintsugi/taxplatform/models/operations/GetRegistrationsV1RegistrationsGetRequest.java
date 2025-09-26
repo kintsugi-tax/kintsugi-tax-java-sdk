@@ -21,7 +21,7 @@ import java.util.Optional;
 public class GetRegistrationsV1RegistrationsGetRequest {
     /**
      * Filter registrations by status. Multiple statuses can be passed,
-     *         separated by commas.
+     * separated by commas.
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=status__in")
     private Optional<String> statusIn;
@@ -34,14 +34,14 @@ public class GetRegistrationsV1RegistrationsGetRequest {
 
     /**
      * Filter registrations by filing frequency. Multiple filing frequencies
-     *         can be passed, separated by commas.
+     * can be passed, separated by commas.
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=filing_frequency__in")
     private Optional<String> filingFrequencyIn;
 
     /**
      * Filter registrations by country code in ISO 3166-1 alpha-2 format
-     *         (e.g., US, CA).
+     * (e.g., US, CA).
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=country_code__in")
     private Optional<? extends List<CountryCodeEnum>> countryCodeIn;
@@ -97,7 +97,7 @@ public class GetRegistrationsV1RegistrationsGetRequest {
 
     /**
      * Filter registrations by status. Multiple statuses can be passed,
-     *         separated by commas.
+     * separated by commas.
      */
     @JsonIgnore
     public Optional<String> statusIn() {
@@ -114,7 +114,7 @@ public class GetRegistrationsV1RegistrationsGetRequest {
 
     /**
      * Filter registrations by filing frequency. Multiple filing frequencies
-     *         can be passed, separated by commas.
+     * can be passed, separated by commas.
      */
     @JsonIgnore
     public Optional<String> filingFrequencyIn() {
@@ -123,7 +123,7 @@ public class GetRegistrationsV1RegistrationsGetRequest {
 
     /**
      * Filter registrations by country code in ISO 3166-1 alpha-2 format
-     *         (e.g., US, CA).
+     * (e.g., US, CA).
      */
     @SuppressWarnings("unchecked")
     @JsonIgnore
@@ -162,7 +162,7 @@ public class GetRegistrationsV1RegistrationsGetRequest {
 
     /**
      * Filter registrations by status. Multiple statuses can be passed,
-     *         separated by commas.
+     * separated by commas.
      */
     public GetRegistrationsV1RegistrationsGetRequest withStatusIn(String statusIn) {
         Utils.checkNotNull(statusIn, "statusIn");
@@ -173,7 +173,7 @@ public class GetRegistrationsV1RegistrationsGetRequest {
 
     /**
      * Filter registrations by status. Multiple statuses can be passed,
-     *         separated by commas.
+     * separated by commas.
      */
     public GetRegistrationsV1RegistrationsGetRequest withStatusIn(Optional<String> statusIn) {
         Utils.checkNotNull(statusIn, "statusIn");
@@ -202,7 +202,7 @@ public class GetRegistrationsV1RegistrationsGetRequest {
 
     /**
      * Filter registrations by filing frequency. Multiple filing frequencies
-     *         can be passed, separated by commas.
+     * can be passed, separated by commas.
      */
     public GetRegistrationsV1RegistrationsGetRequest withFilingFrequencyIn(String filingFrequencyIn) {
         Utils.checkNotNull(filingFrequencyIn, "filingFrequencyIn");
@@ -213,7 +213,7 @@ public class GetRegistrationsV1RegistrationsGetRequest {
 
     /**
      * Filter registrations by filing frequency. Multiple filing frequencies
-     *         can be passed, separated by commas.
+     * can be passed, separated by commas.
      */
     public GetRegistrationsV1RegistrationsGetRequest withFilingFrequencyIn(Optional<String> filingFrequencyIn) {
         Utils.checkNotNull(filingFrequencyIn, "filingFrequencyIn");
@@ -223,7 +223,7 @@ public class GetRegistrationsV1RegistrationsGetRequest {
 
     /**
      * Filter registrations by country code in ISO 3166-1 alpha-2 format
-     *         (e.g., US, CA).
+     * (e.g., US, CA).
      */
     public GetRegistrationsV1RegistrationsGetRequest withCountryCodeIn(List<CountryCodeEnum> countryCodeIn) {
         Utils.checkNotNull(countryCodeIn, "countryCodeIn");
@@ -234,7 +234,7 @@ public class GetRegistrationsV1RegistrationsGetRequest {
 
     /**
      * Filter registrations by country code in ISO 3166-1 alpha-2 format
-     *         (e.g., US, CA).
+     * (e.g., US, CA).
      */
     public GetRegistrationsV1RegistrationsGetRequest withCountryCodeIn(Optional<? extends List<CountryCodeEnum>> countryCodeIn) {
         Utils.checkNotNull(countryCodeIn, "countryCodeIn");
@@ -362,7 +362,7 @@ public class GetRegistrationsV1RegistrationsGetRequest {
 
         /**
          * Filter registrations by status. Multiple statuses can be passed,
-         *         separated by commas.
+         * separated by commas.
          */
         public Builder statusIn(String statusIn) {
             Utils.checkNotNull(statusIn, "statusIn");
@@ -372,7 +372,7 @@ public class GetRegistrationsV1RegistrationsGetRequest {
 
         /**
          * Filter registrations by status. Multiple statuses can be passed,
-         *         separated by commas.
+         * separated by commas.
          */
         public Builder statusIn(Optional<String> statusIn) {
             Utils.checkNotNull(statusIn, "statusIn");
@@ -402,7 +402,7 @@ public class GetRegistrationsV1RegistrationsGetRequest {
 
         /**
          * Filter registrations by filing frequency. Multiple filing frequencies
-         *         can be passed, separated by commas.
+         * can be passed, separated by commas.
          */
         public Builder filingFrequencyIn(String filingFrequencyIn) {
             Utils.checkNotNull(filingFrequencyIn, "filingFrequencyIn");
@@ -412,7 +412,7 @@ public class GetRegistrationsV1RegistrationsGetRequest {
 
         /**
          * Filter registrations by filing frequency. Multiple filing frequencies
-         *         can be passed, separated by commas.
+         * can be passed, separated by commas.
          */
         public Builder filingFrequencyIn(Optional<String> filingFrequencyIn) {
             Utils.checkNotNull(filingFrequencyIn, "filingFrequencyIn");
@@ -423,7 +423,7 @@ public class GetRegistrationsV1RegistrationsGetRequest {
 
         /**
          * Filter registrations by country code in ISO 3166-1 alpha-2 format
-         *         (e.g., US, CA).
+         * (e.g., US, CA).
          */
         public Builder countryCodeIn(List<CountryCodeEnum> countryCodeIn) {
             Utils.checkNotNull(countryCodeIn, "countryCodeIn");
@@ -433,7 +433,7 @@ public class GetRegistrationsV1RegistrationsGetRequest {
 
         /**
          * Filter registrations by country code in ISO 3166-1 alpha-2 format
-         *         (e.g., US, CA).
+         * (e.g., US, CA).
          */
         public Builder countryCodeIn(Optional<? extends List<CountryCodeEnum>> countryCodeIn) {
             Utils.checkNotNull(countryCodeIn, "countryCodeIn");

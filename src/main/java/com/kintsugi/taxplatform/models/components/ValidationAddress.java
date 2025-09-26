@@ -55,9 +55,9 @@ public class ValidationAddress {
 
     /**
      * Country code in ISO 3166-1 alpha-2 format (e.g., 'US' for the United States).
-     *         Defaults to 'US'.
-     *         should not be empty. Not validating here as the validation
-     *         structure can be different for different providers
+     * Defaults to 'US'.
+     * should not be empty. Not validating here as the validation
+     * structure can be different for different providers
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("country")
@@ -65,7 +65,7 @@ public class ValidationAddress {
 
     /**
      * ZIP or postal code for the address. Can be empty for some locales.
-     *         Not validating here as the validation structure can be different for different providers
+     * Not validating here as the validation structure can be different for different providers
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("postalCode")
@@ -175,9 +175,9 @@ public class ValidationAddress {
 
     /**
      * Country code in ISO 3166-1 alpha-2 format (e.g., 'US' for the United States).
-     *         Defaults to 'US'.
-     *         should not be empty. Not validating here as the validation
-     *         structure can be different for different providers
+     * Defaults to 'US'.
+     * should not be empty. Not validating here as the validation
+     * structure can be different for different providers
      */
     @JsonIgnore
     public Optional<String> country() {
@@ -186,7 +186,7 @@ public class ValidationAddress {
 
     /**
      * ZIP or postal code for the address. Can be empty for some locales.
-     *         Not validating here as the validation structure can be different for different providers
+     * Not validating here as the validation structure can be different for different providers
      */
     @JsonIgnore
     public Optional<String> postalCode() {
@@ -319,9 +319,9 @@ public class ValidationAddress {
 
     /**
      * Country code in ISO 3166-1 alpha-2 format (e.g., 'US' for the United States).
-     *         Defaults to 'US'.
-     *         should not be empty. Not validating here as the validation
-     *         structure can be different for different providers
+     * Defaults to 'US'.
+     * should not be empty. Not validating here as the validation
+     * structure can be different for different providers
      */
     public ValidationAddress withCountry(String country) {
         Utils.checkNotNull(country, "country");
@@ -332,9 +332,9 @@ public class ValidationAddress {
 
     /**
      * Country code in ISO 3166-1 alpha-2 format (e.g., 'US' for the United States).
-     *         Defaults to 'US'.
-     *         should not be empty. Not validating here as the validation
-     *         structure can be different for different providers
+     * Defaults to 'US'.
+     * should not be empty. Not validating here as the validation
+     * structure can be different for different providers
      */
     public ValidationAddress withCountry(Optional<String> country) {
         Utils.checkNotNull(country, "country");
@@ -344,7 +344,7 @@ public class ValidationAddress {
 
     /**
      * ZIP or postal code for the address. Can be empty for some locales.
-     *         Not validating here as the validation structure can be different for different providers
+     * Not validating here as the validation structure can be different for different providers
      */
     public ValidationAddress withPostalCode(String postalCode) {
         Utils.checkNotNull(postalCode, "postalCode");
@@ -355,7 +355,7 @@ public class ValidationAddress {
 
     /**
      * ZIP or postal code for the address. Can be empty for some locales.
-     *         Not validating here as the validation structure can be different for different providers
+     * Not validating here as the validation structure can be different for different providers
      */
     public ValidationAddress withPostalCode(Optional<String> postalCode) {
         Utils.checkNotNull(postalCode, "postalCode");
@@ -591,9 +591,9 @@ public class ValidationAddress {
 
         /**
          * Country code in ISO 3166-1 alpha-2 format (e.g., 'US' for the United States).
-         *         Defaults to 'US'.
-         *         should not be empty. Not validating here as the validation
-         *         structure can be different for different providers
+         * Defaults to 'US'.
+         * should not be empty. Not validating here as the validation
+         * structure can be different for different providers
          */
         public Builder country(String country) {
             Utils.checkNotNull(country, "country");
@@ -603,9 +603,9 @@ public class ValidationAddress {
 
         /**
          * Country code in ISO 3166-1 alpha-2 format (e.g., 'US' for the United States).
-         *         Defaults to 'US'.
-         *         should not be empty. Not validating here as the validation
-         *         structure can be different for different providers
+         * Defaults to 'US'.
+         * should not be empty. Not validating here as the validation
+         * structure can be different for different providers
          */
         public Builder country(Optional<String> country) {
             Utils.checkNotNull(country, "country");
@@ -616,7 +616,7 @@ public class ValidationAddress {
 
         /**
          * ZIP or postal code for the address. Can be empty for some locales.
-         *         Not validating here as the validation structure can be different for different providers
+         * Not validating here as the validation structure can be different for different providers
          */
         public Builder postalCode(String postalCode) {
             Utils.checkNotNull(postalCode, "postalCode");
@@ -626,7 +626,7 @@ public class ValidationAddress {
 
         /**
          * ZIP or postal code for the address. Can be empty for some locales.
-         *         Not validating here as the validation structure can be different for different providers
+         * Not validating here as the validation structure can be different for different providers
          */
         public Builder postalCode(Optional<String> postalCode) {
             Utils.checkNotNull(postalCode, "postalCode");

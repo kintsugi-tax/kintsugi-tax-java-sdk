@@ -84,7 +84,8 @@ public class NexusResponse {
     private Optional<String> transactionsAmount;
 
     /**
-     * Deprecated: transaction_count now includes both current and previous period values when period_model is CURRENT_OR_PREVIOUS
+     * Deprecated: transaction_count now includes both current and previous period values when period_model
+     * is CURRENT_OR_PREVIOUS
      * 
      * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
      */
@@ -94,7 +95,8 @@ public class NexusResponse {
     private Optional<Long> previousTransactionCount;
 
     /**
-     * Deprecated: transactions_amount now includes both current and previous period values when period_model is CURRENT_OR_PREVIOUS
+     * Deprecated: transactions_amount now includes both current and previous period values when
+     * period_model is CURRENT_OR_PREVIOUS
      * 
      * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
      */
@@ -562,7 +564,8 @@ public class NexusResponse {
     }
 
     /**
-     * Deprecated: transaction_count now includes both current and previous period values when period_model is CURRENT_OR_PREVIOUS
+     * Deprecated: transaction_count now includes both current and previous period values when period_model
+     * is CURRENT_OR_PREVIOUS
      * 
      * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
      */
@@ -573,7 +576,8 @@ public class NexusResponse {
     }
 
     /**
-     * Deprecated: transactions_amount now includes both current and previous period values when period_model is CURRENT_OR_PREVIOUS
+     * Deprecated: transactions_amount now includes both current and previous period values when
+     * period_model is CURRENT_OR_PREVIOUS
      * 
      * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
      */
@@ -894,7 +898,8 @@ public class NexusResponse {
     }
 
     /**
-     * Deprecated: transaction_count now includes both current and previous period values when period_model is CURRENT_OR_PREVIOUS
+     * Deprecated: transaction_count now includes both current and previous period values when period_model
+     * is CURRENT_OR_PREVIOUS
      * 
      * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
      */
@@ -907,7 +912,8 @@ public class NexusResponse {
 
 
     /**
-     * Deprecated: transaction_count now includes both current and previous period values when period_model is CURRENT_OR_PREVIOUS
+     * Deprecated: transaction_count now includes both current and previous period values when period_model
+     * is CURRENT_OR_PREVIOUS
      * 
      * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
      */
@@ -919,7 +925,8 @@ public class NexusResponse {
     }
 
     /**
-     * Deprecated: transactions_amount now includes both current and previous period values when period_model is CURRENT_OR_PREVIOUS
+     * Deprecated: transactions_amount now includes both current and previous period values when
+     * period_model is CURRENT_OR_PREVIOUS
      * 
      * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
      */
@@ -932,7 +939,8 @@ public class NexusResponse {
 
 
     /**
-     * Deprecated: transactions_amount now includes both current and previous period values when period_model is CURRENT_OR_PREVIOUS
+     * Deprecated: transactions_amount now includes both current and previous period values when
+     * period_model is CURRENT_OR_PREVIOUS
      * 
      * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
      */
@@ -1720,7 +1728,8 @@ public class NexusResponse {
 
 
         /**
-         * Deprecated: transaction_count now includes both current and previous period values when period_model is CURRENT_OR_PREVIOUS
+         * Deprecated: transaction_count now includes both current and previous period values when period_model
+         * is CURRENT_OR_PREVIOUS
          * 
          * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
          */
@@ -1732,7 +1741,8 @@ public class NexusResponse {
         }
 
         /**
-         * Deprecated: transaction_count now includes both current and previous period values when period_model is CURRENT_OR_PREVIOUS
+         * Deprecated: transaction_count now includes both current and previous period values when period_model
+         * is CURRENT_OR_PREVIOUS
          * 
          * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
          */
@@ -1745,7 +1755,8 @@ public class NexusResponse {
 
 
         /**
-         * Deprecated: transactions_amount now includes both current and previous period values when period_model is CURRENT_OR_PREVIOUS
+         * Deprecated: transactions_amount now includes both current and previous period values when
+         * period_model is CURRENT_OR_PREVIOUS
          * 
          * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
          */
@@ -1757,7 +1768,8 @@ public class NexusResponse {
         }
 
         /**
-         * Deprecated: transactions_amount now includes both current and previous period values when period_model is CURRENT_OR_PREVIOUS
+         * Deprecated: transactions_amount now includes both current and previous period values when
+         * period_model is CURRENT_OR_PREVIOUS
          * 
          * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
          */

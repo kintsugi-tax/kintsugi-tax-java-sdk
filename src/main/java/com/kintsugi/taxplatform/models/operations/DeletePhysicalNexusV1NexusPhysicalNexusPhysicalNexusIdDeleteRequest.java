@@ -14,7 +14,7 @@ import java.lang.String;
 public class DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest {
     /**
      * The unique identifier of the physical
-     *                                 nexus to delete.
+     * nexus to delete.
      */
     @SpeakeasyMetadata("pathParam:style=simple,explode=false,name=physical_nexus_id")
     private String physicalNexusId;
@@ -28,7 +28,7 @@ public class DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest
 
     /**
      * The unique identifier of the physical
-     *                                 nexus to delete.
+     * nexus to delete.
      */
     @JsonIgnore
     public String physicalNexusId() {
@@ -42,7 +42,7 @@ public class DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest
 
     /**
      * The unique identifier of the physical
-     *                                 nexus to delete.
+     * nexus to delete.
      */
     public DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest withPhysicalNexusId(String physicalNexusId) {
         Utils.checkNotNull(physicalNexusId, "physicalNexusId");
@@ -87,7 +87,7 @@ public class DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest
 
         /**
          * The unique identifier of the physical
-         *                                 nexus to delete.
+         * nexus to delete.
          */
         public Builder physicalNexusId(String physicalNexusId) {
             Utils.checkNotNull(physicalNexusId, "physicalNexusId");

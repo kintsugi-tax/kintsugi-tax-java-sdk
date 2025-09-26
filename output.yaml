@@ -1241,6 +1241,15 @@ paths:
         - APIKeyHeader: []
           CustomHeader: []
       parameters:
+        - name: "without_pagination"
+          in: "query"
+          required: false
+          schema:
+            type: "boolean"
+            description: "Return all results without pagination"
+            default: false
+            title: "Without Pagination"
+          description: "Return all results without pagination"
         - name: "status__in"
           in: "query"
           required: false
@@ -1274,10 +1283,8 @@ paths:
           schema:
             type: "integer"
             minimum: 1
-            description: "Page number"
             default: 1
             title: "Page"
-          description: "Page number"
         - name: "size"
           in: "query"
           required: false
@@ -1285,16 +1292,14 @@ paths:
             type: "integer"
             maximum: 100
             minimum: 1
-            description: "Page size"
             default: 50
             title: "Size"
-          description: "Page size"
       responses:
         "200":
           description: "Successful Response"
           content:
             "application/json":
-              schema: {"$ref": "#/components/schemas/Page_NexusResponse_"}
+              schema: {"title": "Response Get Nexus For Org V1 Nexus Get", "$ref": "#/components/schemas/Page_NexusResponse_"}
         "422":
           description: "Validation Error"
           content:
@@ -8515,12 +8520,25 @@ components:
         "content":
           type: "string"
           title: "Content"
+        "is_pinned":
+          type: "boolean"
+          title: "Is Pinned"
+          default: false
       type: "object"
       required:
         - "reference_id"
         - "note_type"
         - "content"
       title: "NoteCreateRequest"
+    "NotePinUpdate":
+      properties:
+        "pinned":
+          type: "boolean"
+          title: "Pinned"
+      type: "object"
+      required:
+        - "pinned"
+      title: "NotePinUpdate"
     "NoteRead":
       properties:
         "id":
@@ -8540,6 +8558,9 @@ components:
         "note_type":
           type: "string"
           title: "Note Type"
+        "is_pinned":
+          type: "boolean"
+          title: "Is Pinned"
         "created_at":
           type: "string"
           format: "date-time"
@@ -8551,6 +8572,7 @@ components:
         - "organization_id"
         - "content"
         - "note_type"
+        - "is_pinned"
         - "created_at"
       title: "NoteRead"
     "NotificationBatchStages":
@@ -12875,6 +12897,7 @@ components:
         - "GUSTO"
         - "FACEBOOK"
         - "OTHER"
+        - "ORDWAY"
         - "INSTAGRAM"
         - "PINTEREST"
         - "WAYFAIR"

@@ -68,7 +68,7 @@ public class AsyncExemptions {
      * <p>Retrieve a list of exemptions based on filters.
      * 
      * @param request The request object containing all the parameters for the API call.
-     * @return CompletableFuture&lt;GetExemptionsV1ExemptionsGetResponse&gt; - The async response
+     * @return {@code CompletableFuture<GetExemptionsV1ExemptionsGetResponse>} - The async response
      */
     public CompletableFuture<GetExemptionsV1ExemptionsGetResponse> get(GetExemptionsV1ExemptionsGetRequest request) {
         AsyncRequestOperation<GetExemptionsV1ExemptionsGetRequest, GetExemptionsV1ExemptionsGetResponse> operation
@@ -82,8 +82,8 @@ public class AsyncExemptions {
      * Create Exemption
      * 
      * <p>The Create Exemption API allows you to create a new exemption record.
-     *     This includes defining details such as exemption type, jurisdiction,
-     *     Country, State, validity dates, etc.
+     * This includes defining details such as exemption type, jurisdiction,
+     * Country, State, validity dates, etc.
      * 
      * @return The async call builder
      */
@@ -95,11 +95,11 @@ public class AsyncExemptions {
      * Create Exemption
      * 
      * <p>The Create Exemption API allows you to create a new exemption record.
-     *     This includes defining details such as exemption type, jurisdiction,
-     *     Country, State, validity dates, etc.
+     * This includes defining details such as exemption type, jurisdiction,
+     * Country, State, validity dates, etc.
      * 
      * @param request The request object containing all the parameters for the API call.
-     * @return CompletableFuture&lt;CreateExemptionV1ExemptionsPostResponse&gt; - The async response
+     * @return {@code CompletableFuture<CreateExemptionV1ExemptionsPostResponse>} - The async response
      */
     public CompletableFuture<CreateExemptionV1ExemptionsPostResponse> create(ExemptionCreate request) {
         AsyncRequestOperation<ExemptionCreate, CreateExemptionV1ExemptionsPostResponse> operation
@@ -113,9 +113,9 @@ public class AsyncExemptions {
      * Get Exemption By Id
      * 
      * <p>The Get Exemption By ID API retrieves a specific exemption record by
-     *     its unique ID. This API is useful for retrieving detailed information
-     *     about a particular exemption, including its associated
-     *     customer, organisation id, status, etc.
+     * its unique ID. This API is useful for retrieving detailed information
+     * about a particular exemption, including its associated
+     * customer, organisation id, status, etc.
      * 
      * @return The async call builder
      */
@@ -127,12 +127,12 @@ public class AsyncExemptions {
      * Get Exemption By Id
      * 
      * <p>The Get Exemption By ID API retrieves a specific exemption record by
-     *     its unique ID. This API is useful for retrieving detailed information
-     *     about a particular exemption, including its associated
-     *     customer, organisation id, status, etc.
+     * its unique ID. This API is useful for retrieving detailed information
+     * about a particular exemption, including its associated
+     * customer, organisation id, status, etc.
      * 
      * @param exemptionId The unique identifier for the exemption being retrieved.
-     * @return CompletableFuture&lt;GetExemptionByIdV1ExemptionsExemptionIdGetResponse&gt; - The async response
+     * @return {@code CompletableFuture<GetExemptionByIdV1ExemptionsExemptionIdGetResponse>} - The async response
      */
     public CompletableFuture<GetExemptionByIdV1ExemptionsExemptionIdGetResponse> getById(String exemptionId) {
         GetExemptionByIdV1ExemptionsExemptionIdGetRequest request =
@@ -151,9 +151,9 @@ public class AsyncExemptions {
      * Upload Exemption Certificate
      * 
      * <p>The Upload Exemption Certificate API allows you
-     *     to upload a file attachment (e.g., exemption certificate) for a specific exemption.
-     *     This is primarily used to associate supporting documents with an exemption record
-     *     to ensure compliance and facilitate verification.
+     * to upload a file attachment (e.g., exemption certificate) for a specific exemption.
+     * This is primarily used to associate supporting documents with an exemption record
+     * to ensure compliance and facilitate verification.
      * 
      * @return The async call builder
      */
@@ -165,13 +165,13 @@ public class AsyncExemptions {
      * Upload Exemption Certificate
      * 
      * <p>The Upload Exemption Certificate API allows you
-     *     to upload a file attachment (e.g., exemption certificate) for a specific exemption.
-     *     This is primarily used to associate supporting documents with an exemption record
-     *     to ensure compliance and facilitate verification.
+     * to upload a file attachment (e.g., exemption certificate) for a specific exemption.
+     * This is primarily used to associate supporting documents with an exemption record
+     * to ensure compliance and facilitate verification.
      * 
      * @param exemptionId The unique identifier for the exemption to which the attachment will be associated.
      * @param bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost 
-     * @return CompletableFuture&lt;UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse&gt; - The async response
+     * @return {@code CompletableFuture<UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse>} - The async response
      */
     public CompletableFuture<UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse> uploadCertificate(String exemptionId, BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost) {
         UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest request =
@@ -191,9 +191,9 @@ public class AsyncExemptions {
      * Get Attachments For Exemption
      * 
      * <p>The Get Attachments for Exemption API retrieves all
-     *     attachments associated with a specific exemption.
-     *     This is used to view and manage supporting documents
-     *     like exemption certificates uploaded for a particular exemption record.
+     * attachments associated with a specific exemption.
+     * This is used to view and manage supporting documents
+     * like exemption certificates uploaded for a particular exemption record.
      * 
      * @return The async call builder
      */
@@ -205,13 +205,13 @@ public class AsyncExemptions {
      * Get Attachments For Exemption
      * 
      * <p>The Get Attachments for Exemption API retrieves all
-     *     attachments associated with a specific exemption.
-     *     This is used to view and manage supporting documents
-     *     like exemption certificates uploaded for a particular exemption record.
+     * attachments associated with a specific exemption.
+     * This is used to view and manage supporting documents
+     * like exemption certificates uploaded for a particular exemption record.
      * 
      * @param exemptionId The unique identifier for the exemption
      *                 whose attachments are being retrieved.
-     * @return CompletableFuture&lt;GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetResponse&gt; - The async response
+     * @return {@code CompletableFuture<GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetResponse>} - The async response
      */
     public CompletableFuture<GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetResponse> getAttachments(String exemptionId) {
         GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest request =

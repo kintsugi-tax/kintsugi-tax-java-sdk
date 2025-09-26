@@ -87,7 +87,8 @@ public class CreditNoteCreate {
     private CurrencyEnum currency;
 
     /**
-     * A list of TransactionAddressBuilder objects or None if no addresses are provided. This field represents the addresses associated with the transaction.
+     * A list of TransactionAddressBuilder objects or None if no addresses are provided. This field
+     * represents the addresses associated with the transaction.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("addresses")
@@ -229,7 +230,8 @@ public class CreditNoteCreate {
     }
 
     /**
-     * A list of TransactionAddressBuilder objects or None if no addresses are provided. This field represents the addresses associated with the transaction.
+     * A list of TransactionAddressBuilder objects or None if no addresses are provided. This field
+     * represents the addresses associated with the transaction.
      */
     @SuppressWarnings("unchecked")
     @JsonIgnore
@@ -398,7 +400,8 @@ public class CreditNoteCreate {
     }
 
     /**
-     * A list of TransactionAddressBuilder objects or None if no addresses are provided. This field represents the addresses associated with the transaction.
+     * A list of TransactionAddressBuilder objects or None if no addresses are provided. This field
+     * represents the addresses associated with the transaction.
      */
     public CreditNoteCreate withAddresses(List<TransactionAddressBuilder> addresses) {
         Utils.checkNotNull(addresses, "addresses");
@@ -408,7 +411,8 @@ public class CreditNoteCreate {
 
 
     /**
-     * A list of TransactionAddressBuilder objects or None if no addresses are provided. This field represents the addresses associated with the transaction.
+     * A list of TransactionAddressBuilder objects or None if no addresses are provided. This field
+     * represents the addresses associated with the transaction.
      */
     public CreditNoteCreate withAddresses(Optional<? extends List<TransactionAddressBuilder>> addresses) {
         Utils.checkNotNull(addresses, "addresses");
@@ -659,7 +663,8 @@ public class CreditNoteCreate {
 
 
         /**
-         * A list of TransactionAddressBuilder objects or None if no addresses are provided. This field represents the addresses associated with the transaction.
+         * A list of TransactionAddressBuilder objects or None if no addresses are provided. This field
+         * represents the addresses associated with the transaction.
          */
         public Builder addresses(List<TransactionAddressBuilder> addresses) {
             Utils.checkNotNull(addresses, "addresses");
@@ -668,7 +673,8 @@ public class CreditNoteCreate {
         }
 
         /**
-         * A list of TransactionAddressBuilder objects or None if no addresses are provided. This field represents the addresses associated with the transaction.
+         * A list of TransactionAddressBuilder objects or None if no addresses are provided. This field
+         * represents the addresses associated with the transaction.
          */
         public Builder addresses(Optional<? extends List<TransactionAddressBuilder>> addresses) {
             Utils.checkNotNull(addresses, "addresses");

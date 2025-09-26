@@ -1,19 +1,19 @@
 lockVersion: 2.0.0
 id: 13bfb8e3-2795-4089-a96d-9ab7fcceafd9
 management:
-  docChecksum: ad3176bbdbb170168d7a92d4de9abaf0
+  docChecksum: 140f1286499642d1463a2346d6541efc
   docVersion: 1.0.0
-  speakeasyVersion: 1.623.0
-  generationVersion: 2.713.0
-  releaseVersion: 0.12.0
-  configChecksum: 83dd2b1c457ed927c0d85b6643a923e5
+  speakeasyVersion: 1.628.7
+  generationVersion: 2.716.9
+  releaseVersion: 0.13.0
+  configChecksum: 66c62e5ddcc0587a166f89d78a1e0e7f
   repoURL: https://github.com/kintsugi-tax/kintsugi-tax-java-sdk.git
   published: true
 features:
   java:
     additionalDependencies: 0.1.0
     constsAndDefaults: 0.1.1
-    core: 3.50.1
+    core: 3.52.1
     deprecations: 2.81.1
     flattening: 2.81.1
     globalSecurity: 2.83.1
@@ -978,6 +978,7 @@ examples:
           size: 50
           status__in: "APPROACHING,NOT_EXPOSED,PENDING_REGISTRATION,EXPOSED,APPROACHING,REGISTERED"
           order_by: "state_code,country_code"
+          without_pagination: false
         header:
           x-organization-id: "org_12345"
       responses:
@@ -1548,4 +1549,4 @@ examples:
         "500":
           application/json: {"detail": "<value>"}
 examplesVersion: 1.0.2
-releaseNotes: "## Java SDK Changes Detected:\n* `sdk.customers.get()`:  `response.items.[].customerTaxRegistrations` **Added**\n* `sdk.customers.create()`: \n  *  `request.customerTaxRegistrations` **Added**\n  *  `response.customer_tax_registrations` **Added**\n* `sdk.customers.getById()`:  `response.customer_tax_registrations` **Added**\n* `sdk.customers.update()`:  `response.customer_tax_registrations` **Added**\n* `sdk.customers.getByExternalId()`:  `response.customer_tax_registrations` **Added**\n* `sdk.customers.createTransaction()`: \n  *  `request.transactioncreate.customer.customerTaxRegistrations` **Added**\n  *  `response.customer.customerTaxRegistrations` **Added**\n* `sdk.customers.transactions.getByCustomerId()`:  `response.[].customer.customerTaxRegistrations` **Added**\n* `sdk.exemptions.create()`:  `response.customer.customerTaxRegistrations` **Added**\n* `sdk.transactions.get()`:  `response.items.[].customer.customerTaxRegistrations` **Added**\n* `sdk.transactions.create()`:  `response.customer.customerTaxRegistrations` **Added**\n* `sdk.transactions.getByExternalId()`:  `response.customer.customerTaxRegistrations` **Added**\n* `sdk.transactions.update()`:  `response.customer.customerTaxRegistrations` **Added**\n* `sdk.transactions.getById()`:  `response.customer.customerTaxRegistrations` **Added**\n* `sdk.transactions.getByFilingId()`:  `response.[].customer.customerTaxRegistrations` **Added**\n* `sdk.transactions.creditNotes.create()`:  `response.customer.customerTaxRegistrations` **Added**\n"
+releaseNotes: "## Java SDK Changes Detected:\n* `sdk.nexus.get()`: \n  *  `request.withoutPagination` **Added**\n"

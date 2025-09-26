@@ -14,3 +14,8 @@ include 'kintsugi-tax-java-sdk-spring-boot-starter'
 
 project(':kintsugi-tax-java-sdk-spring-boot-autoconfigure').projectDir = file('spring/kintsugi-tax-java-sdk-spring-boot-autoconfigure')
 project(':kintsugi-tax-java-sdk-spring-boot-starter').projectDir = file('spring/kintsugi-tax-java-sdk-spring-boot-starter')
+
+// Apply additional settings if the file exists
+if (file('settings-extra.gradle').exists()) {
+    apply from: 'settings-extra.gradle'
+}

@@ -142,7 +142,7 @@ UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest (physical_nexus
 UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutResponse (ContentType: string, StatusCode: int32, RawResponse: response ...)
 DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest (physical_nexus_id: string)
 DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteResponse (ContentType: string, StatusCode: int32, RawResponse: response ...)
-GetNexusForOrgV1NexusGetRequest (status__in: string, state_code: string, country_code__in: string ...)
+GetNexusForOrgV1NexusGetRequest (without_pagination: boolean, status__in: string, state_code: string ...)
 GetNexusForOrgV1NexusGetResponse (ContentType: string, StatusCode: int32, RawResponse: response ...)
  PageNexusResponse (items: array, total: integer, page: integer ...)
    NexusResponse (processing_status: NexusStatusEnum, status: NexusStateEnum, country_code: CountryCodeEnum ...)

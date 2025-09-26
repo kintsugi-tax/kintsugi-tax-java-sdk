@@ -14,7 +14,7 @@ import java.lang.String;
 public class AttachmentRead {
     /**
      * The unique identifier of the exemption associated
-     *         with the attachment.
+     * with the attachment.
      */
     @JsonProperty("related_entity_id")
     private String relatedEntityId;
@@ -44,7 +44,7 @@ public class AttachmentRead {
 
     /**
      * The unique identifier of the exemption associated
-     *         with the attachment.
+     * with the attachment.
      */
     @JsonIgnore
     public String relatedEntityId() {
@@ -71,7 +71,7 @@ public class AttachmentRead {
 
     /**
      * The unique identifier of the exemption associated
-     *         with the attachment.
+     * with the attachment.
      */
     public AttachmentRead withRelatedEntityId(String relatedEntityId) {
         Utils.checkNotNull(relatedEntityId, "relatedEntityId");
@@ -139,7 +139,7 @@ public class AttachmentRead {
 
         /**
          * The unique identifier of the exemption associated
-         *         with the attachment.
+         * with the attachment.
          */
         public Builder relatedEntityId(String relatedEntityId) {
             Utils.checkNotNull(relatedEntityId, "relatedEntityId");

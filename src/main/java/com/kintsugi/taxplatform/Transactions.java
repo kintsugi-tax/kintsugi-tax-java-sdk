@@ -69,7 +69,7 @@ public class Transactions {
      * Get Transactions
      * 
      * <p>The Get Transactions API retrieves a list of transactions with
-     *     optional filtering, sorting, and pagination.
+     * optional filtering, sorting, and pagination.
      * 
      * @return The call builder
      */
@@ -81,7 +81,7 @@ public class Transactions {
      * Get Transactions
      * 
      * <p>The Get Transactions API retrieves a list of transactions with
-     *     optional filtering, sorting, and pagination.
+     * optional filtering, sorting, and pagination.
      * 
      * @param request The request object containing all the parameters for the API call.
      * @return The response from the API call
@@ -123,7 +123,7 @@ public class Transactions {
      * Get Transaction By External Id
      * 
      * <p>Retrieves a specific transaction based on its external ID.
-     *     This allows users to fetch transaction details using an identifier from an external system.
+     * This allows users to fetch transaction details using an identifier from an external system.
      * 
      * @return The call builder
      */
@@ -135,7 +135,7 @@ public class Transactions {
      * Get Transaction By External Id
      * 
      * <p>Retrieves a specific transaction based on its external ID.
-     *     This allows users to fetch transaction details using an identifier from an external system.
+     * This allows users to fetch transaction details using an identifier from an external system.
      * 
      * @param externalId The unique external identifier of the transaction.
      * @return The response from the API call
@@ -189,7 +189,7 @@ public class Transactions {
      * Get Transaction By Id
      * 
      * <p>The Get Transaction By Id API retrieves detailed information
-     *     about a specific transaction by providing its unique transaction ID.
+     * about a specific transaction by providing its unique transaction ID.
      * 
      * @return The call builder
      */
@@ -201,7 +201,7 @@ public class Transactions {
      * Get Transaction By Id
      * 
      * <p>The Get Transaction By Id API retrieves detailed information
-     *     about a specific transaction by providing its unique transaction ID.
+     * about a specific transaction by providing its unique transaction ID.
      * 
      * @param transactionId The unique identifier of the transaction to retrieve.
      * @return The response from the API call

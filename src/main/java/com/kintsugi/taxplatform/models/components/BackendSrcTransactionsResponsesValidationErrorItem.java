@@ -17,7 +17,7 @@ import java.util.Map;
 public class BackendSrcTransactionsResponsesValidationErrorItem {
     /**
      * Validation issues, such as missing required
-     *                     fields or invalid field values.
+     * fields or invalid field values.
      */
     @JsonProperty("type")
     private String type;
@@ -68,7 +68,7 @@ public class BackendSrcTransactionsResponsesValidationErrorItem {
 
     /**
      * Validation issues, such as missing required
-     *                     fields or invalid field values.
+     * fields or invalid field values.
      */
     @JsonIgnore
     public String type() {
@@ -114,7 +114,7 @@ public class BackendSrcTransactionsResponsesValidationErrorItem {
 
     /**
      * Validation issues, such as missing required
-     *                     fields or invalid field values.
+     * fields or invalid field values.
      */
     public BackendSrcTransactionsResponsesValidationErrorItem withType(String type) {
         Utils.checkNotNull(type, "type");
@@ -212,7 +212,7 @@ public class BackendSrcTransactionsResponsesValidationErrorItem {
 
         /**
          * Validation issues, such as missing required
-         *                     fields or invalid field values.
+         * fields or invalid field values.
          */
         public Builder type(String type) {
             Utils.checkNotNull(type, "type");

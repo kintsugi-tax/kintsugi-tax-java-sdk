@@ -12,7 +12,7 @@ import java.util.Optional;
  * TransactionEstimateResponseType
  * 
  * <p>Type of the address. Must be either
- *                         SHIP_TO or BILL_TO.
+ * SHIP_TO or BILL_TO.
  */
 public enum TransactionEstimateResponseType {
     SHIP_TO("SHIP_TO"),

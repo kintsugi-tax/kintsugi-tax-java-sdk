@@ -18,14 +18,14 @@ import java.util.Optional;
 public class PhysicalNexusUpdate {
     /**
      * The date when the nexus became
-     *                                 effective (YYYY-MM-DD).
+     * effective (YYYY-MM-DD).
      */
     @JsonProperty("start_date")
     private LocalDate startDate;
 
     /**
      * The date when the
-     *                                         nexus ends, if applicable (YYYY-MM-DD).
+     * nexus ends, if applicable (YYYY-MM-DD).
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("end_date")
@@ -56,7 +56,7 @@ public class PhysicalNexusUpdate {
 
     /**
      * The date when the nexus became
-     *                                 effective (YYYY-MM-DD).
+     * effective (YYYY-MM-DD).
      */
     @JsonIgnore
     public LocalDate startDate() {
@@ -65,7 +65,7 @@ public class PhysicalNexusUpdate {
 
     /**
      * The date when the
-     *                                         nexus ends, if applicable (YYYY-MM-DD).
+     * nexus ends, if applicable (YYYY-MM-DD).
      */
     @JsonIgnore
     public Optional<String> endDate() {
@@ -84,7 +84,7 @@ public class PhysicalNexusUpdate {
 
     /**
      * The date when the nexus became
-     *                                 effective (YYYY-MM-DD).
+     * effective (YYYY-MM-DD).
      */
     public PhysicalNexusUpdate withStartDate(LocalDate startDate) {
         Utils.checkNotNull(startDate, "startDate");
@@ -94,7 +94,7 @@ public class PhysicalNexusUpdate {
 
     /**
      * The date when the
-     *                                         nexus ends, if applicable (YYYY-MM-DD).
+     * nexus ends, if applicable (YYYY-MM-DD).
      */
     public PhysicalNexusUpdate withEndDate(String endDate) {
         Utils.checkNotNull(endDate, "endDate");
@@ -105,7 +105,7 @@ public class PhysicalNexusUpdate {
 
     /**
      * The date when the
-     *                                         nexus ends, if applicable (YYYY-MM-DD).
+     * nexus ends, if applicable (YYYY-MM-DD).
      */
     public PhysicalNexusUpdate withEndDate(Optional<String> endDate) {
         Utils.checkNotNull(endDate, "endDate");
@@ -164,7 +164,7 @@ public class PhysicalNexusUpdate {
 
         /**
          * The date when the nexus became
-         *                                 effective (YYYY-MM-DD).
+         * effective (YYYY-MM-DD).
          */
         public Builder startDate(LocalDate startDate) {
             Utils.checkNotNull(startDate, "startDate");
@@ -175,7 +175,7 @@ public class PhysicalNexusUpdate {
 
         /**
          * The date when the
-         *                                         nexus ends, if applicable (YYYY-MM-DD).
+         * nexus ends, if applicable (YYYY-MM-DD).
          */
         public Builder endDate(String endDate) {
             Utils.checkNotNull(endDate, "endDate");
@@ -185,7 +185,7 @@ public class PhysicalNexusUpdate {
 
         /**
          * The date when the
-         *                                         nexus ends, if applicable (YYYY-MM-DD).
+         * nexus ends, if applicable (YYYY-MM-DD).
          */
         public Builder endDate(Optional<String> endDate) {
             Utils.checkNotNull(endDate, "endDate");

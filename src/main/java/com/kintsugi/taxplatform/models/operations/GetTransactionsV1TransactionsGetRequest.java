@@ -29,7 +29,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
     /**
      * Filter by transaction type (e.g., SALE, FULL_CREDIT_NOTE,
-     *         PARTIAL_CREDIT_NOTE, ARCHIVE etc.).
+     * PARTIAL_CREDIT_NOTE, ARCHIVE etc.).
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=transaction_type")
     private Optional<String> transactionType;
@@ -42,14 +42,14 @@ public class GetTransactionsV1TransactionsGetRequest {
 
     /**
      * Search for transactions using a general query
-     *         (e.g., order ID, customer name).
+     * (e.g., order ID, customer name).
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=search_query")
     private Optional<String> searchQuery;
 
     /**
      * Filter transactions by country code
-     *         (ISO 3166-1 alpha-2 format, e.g., US).
+     * (ISO 3166-1 alpha-2 format, e.g., US).
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=country")
     private Optional<? extends List<CountryCodeEnum>> country;
@@ -62,14 +62,14 @@ public class GetTransactionsV1TransactionsGetRequest {
 
     /**
      * Filter by address status (e.g., UNVERIFIED, INVALID,
-     *         PARTIALLY_VERIFIED, VERIFIED, UNVERIFIABLE).
+     * PARTIALLY_VERIFIED, VERIFIED, UNVERIFIABLE).
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=address_status__in")
     private Optional<String> addressStatusIn;
 
     /**
      * Filter by transaction status (e.g., PENDING, COMMITTED,
-     *         CANCELLED, FULLY_REFUNDED, PARTIALLY_REFUNDED, ARCHIVED).
+     * CANCELLED, FULLY_REFUNDED, PARTIALLY_REFUNDED, ARCHIVED).
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=status")
     private Optional<? extends TransactionStatusEnum> status;
@@ -82,28 +82,28 @@ public class GetTransactionsV1TransactionsGetRequest {
 
     /**
      * Sort results based on specified fields.
-     *         Prefix with - for descending order (e.g., -date for newest first).
+     * Prefix with - for descending order (e.g., -date for newest first).
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=order_by")
     private Optional<String> orderBy;
 
     /**
      * Retrieve transactions with a date
-     *         greater than or equal to (YYYY-MM-DD).
+     * greater than or equal to (YYYY-MM-DD).
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=date__gte")
     private Optional<String> dateGte;
 
     /**
      * Retrieve transactions with a date
-     *         less than or equal to (YYYY-MM-DD).
+     * less than or equal to (YYYY-MM-DD).
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=date__lte")
     private Optional<String> dateLte;
 
     /**
      * Filter transactions based on processing status.
-     *         Multiple values can be passed as a comma-separated list.
+     * Multiple values can be passed as a comma-separated list.
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=processing_status__in")
     private Optional<String> processingStatusIn;
@@ -116,7 +116,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
     /**
      * Filter transactions by exemption status.
-     *         Multiple values can be passed as a comma-separated list (e.g., EXEMPT,TAXABLE).
+     * Multiple values can be passed as a comma-separated list (e.g., EXEMPT,TAXABLE).
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=exempt__in")
     private Optional<String> exemptIn;
@@ -207,7 +207,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
     /**
      * Filter by transaction type (e.g., SALE, FULL_CREDIT_NOTE,
-     *         PARTIAL_CREDIT_NOTE, ARCHIVE etc.).
+     * PARTIAL_CREDIT_NOTE, ARCHIVE etc.).
      */
     @JsonIgnore
     public Optional<String> transactionType() {
@@ -224,7 +224,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
     /**
      * Search for transactions using a general query
-     *         (e.g., order ID, customer name).
+     * (e.g., order ID, customer name).
      */
     @JsonIgnore
     public Optional<String> searchQuery() {
@@ -233,7 +233,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
     /**
      * Filter transactions by country code
-     *         (ISO 3166-1 alpha-2 format, e.g., US).
+     * (ISO 3166-1 alpha-2 format, e.g., US).
      */
     @SuppressWarnings("unchecked")
     @JsonIgnore
@@ -251,7 +251,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
     /**
      * Filter by address status (e.g., UNVERIFIED, INVALID,
-     *         PARTIALLY_VERIFIED, VERIFIED, UNVERIFIABLE).
+     * PARTIALLY_VERIFIED, VERIFIED, UNVERIFIABLE).
      */
     @JsonIgnore
     public Optional<String> addressStatusIn() {
@@ -260,7 +260,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
     /**
      * Filter by transaction status (e.g., PENDING, COMMITTED,
-     *         CANCELLED, FULLY_REFUNDED, PARTIALLY_REFUNDED, ARCHIVED).
+     * CANCELLED, FULLY_REFUNDED, PARTIALLY_REFUNDED, ARCHIVED).
      */
     @SuppressWarnings("unchecked")
     @JsonIgnore
@@ -278,7 +278,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
     /**
      * Sort results based on specified fields.
-     *         Prefix with - for descending order (e.g., -date for newest first).
+     * Prefix with - for descending order (e.g., -date for newest first).
      */
     @JsonIgnore
     public Optional<String> orderBy() {
@@ -287,7 +287,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
     /**
      * Retrieve transactions with a date
-     *         greater than or equal to (YYYY-MM-DD).
+     * greater than or equal to (YYYY-MM-DD).
      */
     @JsonIgnore
     public Optional<String> dateGte() {
@@ -296,7 +296,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
     /**
      * Retrieve transactions with a date
-     *         less than or equal to (YYYY-MM-DD).
+     * less than or equal to (YYYY-MM-DD).
      */
     @JsonIgnore
     public Optional<String> dateLte() {
@@ -305,7 +305,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
     /**
      * Filter transactions based on processing status.
-     *         Multiple values can be passed as a comma-separated list.
+     * Multiple values can be passed as a comma-separated list.
      */
     @JsonIgnore
     public Optional<String> processingStatusIn() {
@@ -322,7 +322,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
     /**
      * Filter transactions by exemption status.
-     *         Multiple values can be passed as a comma-separated list (e.g., EXEMPT,TAXABLE).
+     * Multiple values can be passed as a comma-separated list (e.g., EXEMPT,TAXABLE).
      */
     @JsonIgnore
     public Optional<String> exemptIn() {
@@ -371,7 +371,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
     /**
      * Filter by transaction type (e.g., SALE, FULL_CREDIT_NOTE,
-     *         PARTIAL_CREDIT_NOTE, ARCHIVE etc.).
+     * PARTIAL_CREDIT_NOTE, ARCHIVE etc.).
      */
     public GetTransactionsV1TransactionsGetRequest withTransactionType(String transactionType) {
         Utils.checkNotNull(transactionType, "transactionType");
@@ -382,7 +382,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
     /**
      * Filter by transaction type (e.g., SALE, FULL_CREDIT_NOTE,
-     *         PARTIAL_CREDIT_NOTE, ARCHIVE etc.).
+     * PARTIAL_CREDIT_NOTE, ARCHIVE etc.).
      */
     public GetTransactionsV1TransactionsGetRequest withTransactionType(Optional<String> transactionType) {
         Utils.checkNotNull(transactionType, "transactionType");
@@ -411,7 +411,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
     /**
      * Search for transactions using a general query
-     *         (e.g., order ID, customer name).
+     * (e.g., order ID, customer name).
      */
     public GetTransactionsV1TransactionsGetRequest withSearchQuery(String searchQuery) {
         Utils.checkNotNull(searchQuery, "searchQuery");
@@ -422,7 +422,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
     /**
      * Search for transactions using a general query
-     *         (e.g., order ID, customer name).
+     * (e.g., order ID, customer name).
      */
     public GetTransactionsV1TransactionsGetRequest withSearchQuery(Optional<String> searchQuery) {
         Utils.checkNotNull(searchQuery, "searchQuery");
@@ -432,7 +432,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
     /**
      * Filter transactions by country code
-     *         (ISO 3166-1 alpha-2 format, e.g., US).
+     * (ISO 3166-1 alpha-2 format, e.g., US).
      */
     public GetTransactionsV1TransactionsGetRequest withCountry(List<CountryCodeEnum> country) {
         Utils.checkNotNull(country, "country");
@@ -443,7 +443,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
     /**
      * Filter transactions by country code
-     *         (ISO 3166-1 alpha-2 format, e.g., US).
+     * (ISO 3166-1 alpha-2 format, e.g., US).
      */
     public GetTransactionsV1TransactionsGetRequest withCountry(Optional<? extends List<CountryCodeEnum>> country) {
         Utils.checkNotNull(country, "country");
@@ -472,7 +472,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
     /**
      * Filter by address status (e.g., UNVERIFIED, INVALID,
-     *         PARTIALLY_VERIFIED, VERIFIED, UNVERIFIABLE).
+     * PARTIALLY_VERIFIED, VERIFIED, UNVERIFIABLE).
      */
     public GetTransactionsV1TransactionsGetRequest withAddressStatusIn(String addressStatusIn) {
         Utils.checkNotNull(addressStatusIn, "addressStatusIn");
@@ -483,7 +483,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
     /**
      * Filter by address status (e.g., UNVERIFIED, INVALID,
-     *         PARTIALLY_VERIFIED, VERIFIED, UNVERIFIABLE).
+     * PARTIALLY_VERIFIED, VERIFIED, UNVERIFIABLE).
      */
     public GetTransactionsV1TransactionsGetRequest withAddressStatusIn(Optional<String> addressStatusIn) {
         Utils.checkNotNull(addressStatusIn, "addressStatusIn");
@@ -493,7 +493,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
     /**
      * Filter by transaction status (e.g., PENDING, COMMITTED,
-     *         CANCELLED, FULLY_REFUNDED, PARTIALLY_REFUNDED, ARCHIVED).
+     * CANCELLED, FULLY_REFUNDED, PARTIALLY_REFUNDED, ARCHIVED).
      */
     public GetTransactionsV1TransactionsGetRequest withStatus(TransactionStatusEnum status) {
         Utils.checkNotNull(status, "status");
@@ -504,7 +504,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
     /**
      * Filter by transaction status (e.g., PENDING, COMMITTED,
-     *         CANCELLED, FULLY_REFUNDED, PARTIALLY_REFUNDED, ARCHIVED).
+     * CANCELLED, FULLY_REFUNDED, PARTIALLY_REFUNDED, ARCHIVED).
      */
     public GetTransactionsV1TransactionsGetRequest withStatus(Optional<? extends TransactionStatusEnum> status) {
         Utils.checkNotNull(status, "status");
@@ -533,7 +533,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
     /**
      * Sort results based on specified fields.
-     *         Prefix with - for descending order (e.g., -date for newest first).
+     * Prefix with - for descending order (e.g., -date for newest first).
      */
     public GetTransactionsV1TransactionsGetRequest withOrderBy(String orderBy) {
         Utils.checkNotNull(orderBy, "orderBy");
@@ -544,7 +544,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
     /**
      * Sort results based on specified fields.
-     *         Prefix with - for descending order (e.g., -date for newest first).
+     * Prefix with - for descending order (e.g., -date for newest first).
      */
     public GetTransactionsV1TransactionsGetRequest withOrderBy(Optional<String> orderBy) {
         Utils.checkNotNull(orderBy, "orderBy");
@@ -554,7 +554,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
     /**
      * Retrieve transactions with a date
-     *         greater than or equal to (YYYY-MM-DD).
+     * greater than or equal to (YYYY-MM-DD).
      */
     public GetTransactionsV1TransactionsGetRequest withDateGte(String dateGte) {
         Utils.checkNotNull(dateGte, "dateGte");
@@ -565,7 +565,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
     /**
      * Retrieve transactions with a date
-     *         greater than or equal to (YYYY-MM-DD).
+     * greater than or equal to (YYYY-MM-DD).
      */
     public GetTransactionsV1TransactionsGetRequest withDateGte(Optional<String> dateGte) {
         Utils.checkNotNull(dateGte, "dateGte");
@@ -575,7 +575,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
     /**
      * Retrieve transactions with a date
-     *         less than or equal to (YYYY-MM-DD).
+     * less than or equal to (YYYY-MM-DD).
      */
     public GetTransactionsV1TransactionsGetRequest withDateLte(String dateLte) {
         Utils.checkNotNull(dateLte, "dateLte");
@@ -586,7 +586,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
     /**
      * Retrieve transactions with a date
-     *         less than or equal to (YYYY-MM-DD).
+     * less than or equal to (YYYY-MM-DD).
      */
     public GetTransactionsV1TransactionsGetRequest withDateLte(Optional<String> dateLte) {
         Utils.checkNotNull(dateLte, "dateLte");
@@ -596,7 +596,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
     /**
      * Filter transactions based on processing status.
-     *         Multiple values can be passed as a comma-separated list.
+     * Multiple values can be passed as a comma-separated list.
      */
     public GetTransactionsV1TransactionsGetRequest withProcessingStatusIn(String processingStatusIn) {
         Utils.checkNotNull(processingStatusIn, "processingStatusIn");
@@ -607,7 +607,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
     /**
      * Filter transactions based on processing status.
-     *         Multiple values can be passed as a comma-separated list.
+     * Multiple values can be passed as a comma-separated list.
      */
     public GetTransactionsV1TransactionsGetRequest withProcessingStatusIn(Optional<String> processingStatusIn) {
         Utils.checkNotNull(processingStatusIn, "processingStatusIn");
@@ -636,7 +636,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
     /**
      * Filter transactions by exemption status.
-     *         Multiple values can be passed as a comma-separated list (e.g., EXEMPT,TAXABLE).
+     * Multiple values can be passed as a comma-separated list (e.g., EXEMPT,TAXABLE).
      */
     public GetTransactionsV1TransactionsGetRequest withExemptIn(String exemptIn) {
         Utils.checkNotNull(exemptIn, "exemptIn");
@@ -647,7 +647,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
     /**
      * Filter transactions by exemption status.
-     *         Multiple values can be passed as a comma-separated list (e.g., EXEMPT,TAXABLE).
+     * Multiple values can be passed as a comma-separated list (e.g., EXEMPT,TAXABLE).
      */
     public GetTransactionsV1TransactionsGetRequest withExemptIn(Optional<String> exemptIn) {
         Utils.checkNotNull(exemptIn, "exemptIn");
@@ -818,7 +818,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
         /**
          * Filter by transaction type (e.g., SALE, FULL_CREDIT_NOTE,
-         *         PARTIAL_CREDIT_NOTE, ARCHIVE etc.).
+         * PARTIAL_CREDIT_NOTE, ARCHIVE etc.).
          */
         public Builder transactionType(String transactionType) {
             Utils.checkNotNull(transactionType, "transactionType");
@@ -828,7 +828,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
         /**
          * Filter by transaction type (e.g., SALE, FULL_CREDIT_NOTE,
-         *         PARTIAL_CREDIT_NOTE, ARCHIVE etc.).
+         * PARTIAL_CREDIT_NOTE, ARCHIVE etc.).
          */
         public Builder transactionType(Optional<String> transactionType) {
             Utils.checkNotNull(transactionType, "transactionType");
@@ -858,7 +858,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
         /**
          * Search for transactions using a general query
-         *         (e.g., order ID, customer name).
+         * (e.g., order ID, customer name).
          */
         public Builder searchQuery(String searchQuery) {
             Utils.checkNotNull(searchQuery, "searchQuery");
@@ -868,7 +868,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
         /**
          * Search for transactions using a general query
-         *         (e.g., order ID, customer name).
+         * (e.g., order ID, customer name).
          */
         public Builder searchQuery(Optional<String> searchQuery) {
             Utils.checkNotNull(searchQuery, "searchQuery");
@@ -879,7 +879,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
         /**
          * Filter transactions by country code
-         *         (ISO 3166-1 alpha-2 format, e.g., US).
+         * (ISO 3166-1 alpha-2 format, e.g., US).
          */
         public Builder country(List<CountryCodeEnum> country) {
             Utils.checkNotNull(country, "country");
@@ -889,7 +889,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
         /**
          * Filter transactions by country code
-         *         (ISO 3166-1 alpha-2 format, e.g., US).
+         * (ISO 3166-1 alpha-2 format, e.g., US).
          */
         public Builder country(Optional<? extends List<CountryCodeEnum>> country) {
             Utils.checkNotNull(country, "country");
@@ -919,7 +919,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
         /**
          * Filter by address status (e.g., UNVERIFIED, INVALID,
-         *         PARTIALLY_VERIFIED, VERIFIED, UNVERIFIABLE).
+         * PARTIALLY_VERIFIED, VERIFIED, UNVERIFIABLE).
          */
         public Builder addressStatusIn(String addressStatusIn) {
             Utils.checkNotNull(addressStatusIn, "addressStatusIn");
@@ -929,7 +929,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
         /**
          * Filter by address status (e.g., UNVERIFIED, INVALID,
-         *         PARTIALLY_VERIFIED, VERIFIED, UNVERIFIABLE).
+         * PARTIALLY_VERIFIED, VERIFIED, UNVERIFIABLE).
          */
         public Builder addressStatusIn(Optional<String> addressStatusIn) {
             Utils.checkNotNull(addressStatusIn, "addressStatusIn");
@@ -940,7 +940,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
         /**
          * Filter by transaction status (e.g., PENDING, COMMITTED,
-         *         CANCELLED, FULLY_REFUNDED, PARTIALLY_REFUNDED, ARCHIVED).
+         * CANCELLED, FULLY_REFUNDED, PARTIALLY_REFUNDED, ARCHIVED).
          */
         public Builder status(TransactionStatusEnum status) {
             Utils.checkNotNull(status, "status");
@@ -950,7 +950,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
         /**
          * Filter by transaction status (e.g., PENDING, COMMITTED,
-         *         CANCELLED, FULLY_REFUNDED, PARTIALLY_REFUNDED, ARCHIVED).
+         * CANCELLED, FULLY_REFUNDED, PARTIALLY_REFUNDED, ARCHIVED).
          */
         public Builder status(Optional<? extends TransactionStatusEnum> status) {
             Utils.checkNotNull(status, "status");
@@ -980,7 +980,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
         /**
          * Sort results based on specified fields.
-         *         Prefix with - for descending order (e.g., -date for newest first).
+         * Prefix with - for descending order (e.g., -date for newest first).
          */
         public Builder orderBy(String orderBy) {
             Utils.checkNotNull(orderBy, "orderBy");
@@ -990,7 +990,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
         /**
          * Sort results based on specified fields.
-         *         Prefix with - for descending order (e.g., -date for newest first).
+         * Prefix with - for descending order (e.g., -date for newest first).
          */
         public Builder orderBy(Optional<String> orderBy) {
             Utils.checkNotNull(orderBy, "orderBy");
@@ -1001,7 +1001,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
         /**
          * Retrieve transactions with a date
-         *         greater than or equal to (YYYY-MM-DD).
+         * greater than or equal to (YYYY-MM-DD).
          */
         public Builder dateGte(String dateGte) {
             Utils.checkNotNull(dateGte, "dateGte");
@@ -1011,7 +1011,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
         /**
          * Retrieve transactions with a date
-         *         greater than or equal to (YYYY-MM-DD).
+         * greater than or equal to (YYYY-MM-DD).
          */
         public Builder dateGte(Optional<String> dateGte) {
             Utils.checkNotNull(dateGte, "dateGte");
@@ -1022,7 +1022,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
         /**
          * Retrieve transactions with a date
-         *         less than or equal to (YYYY-MM-DD).
+         * less than or equal to (YYYY-MM-DD).
          */
         public Builder dateLte(String dateLte) {
             Utils.checkNotNull(dateLte, "dateLte");
@@ -1032,7 +1032,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
         /**
          * Retrieve transactions with a date
-         *         less than or equal to (YYYY-MM-DD).
+         * less than or equal to (YYYY-MM-DD).
          */
         public Builder dateLte(Optional<String> dateLte) {
             Utils.checkNotNull(dateLte, "dateLte");
@@ -1043,7 +1043,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
         /**
          * Filter transactions based on processing status.
-         *         Multiple values can be passed as a comma-separated list.
+         * Multiple values can be passed as a comma-separated list.
          */
         public Builder processingStatusIn(String processingStatusIn) {
             Utils.checkNotNull(processingStatusIn, "processingStatusIn");
@@ -1053,7 +1053,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
         /**
          * Filter transactions based on processing status.
-         *         Multiple values can be passed as a comma-separated list.
+         * Multiple values can be passed as a comma-separated list.
          */
         public Builder processingStatusIn(Optional<String> processingStatusIn) {
             Utils.checkNotNull(processingStatusIn, "processingStatusIn");
@@ -1083,7 +1083,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
         /**
          * Filter transactions by exemption status.
-         *         Multiple values can be passed as a comma-separated list (e.g., EXEMPT,TAXABLE).
+         * Multiple values can be passed as a comma-separated list (e.g., EXEMPT,TAXABLE).
          */
         public Builder exemptIn(String exemptIn) {
             Utils.checkNotNull(exemptIn, "exemptIn");
@@ -1093,7 +1093,7 @@ public class GetTransactionsV1TransactionsGetRequest {
 
         /**
          * Filter transactions by exemption status.
-         *         Multiple values can be passed as a comma-separated list (e.g., EXEMPT,TAXABLE).
+         * Multiple values can be passed as a comma-separated list (e.g., EXEMPT,TAXABLE).
          */
         public Builder exemptIn(Optional<String> exemptIn) {
             Utils.checkNotNull(exemptIn, "exemptIn");

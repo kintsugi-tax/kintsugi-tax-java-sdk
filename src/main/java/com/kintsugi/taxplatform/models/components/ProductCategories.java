@@ -15,7 +15,7 @@ import java.util.List;
 public class ProductCategories {
     /**
      * Name of the product category
-     *             (e.g., PHYSICAL, SERVICE, DIGITAL, MISCELLANEOUS)
+     * (e.g., PHYSICAL, SERVICE, DIGITAL, MISCELLANEOUS)
      */
     @JsonProperty("name")
     private String name;
@@ -38,7 +38,7 @@ public class ProductCategories {
 
     /**
      * Name of the product category
-     *             (e.g., PHYSICAL, SERVICE, DIGITAL, MISCELLANEOUS)
+     * (e.g., PHYSICAL, SERVICE, DIGITAL, MISCELLANEOUS)
      */
     @JsonIgnore
     public String name() {
@@ -60,7 +60,7 @@ public class ProductCategories {
 
     /**
      * Name of the product category
-     *             (e.g., PHYSICAL, SERVICE, DIGITAL, MISCELLANEOUS)
+     * (e.g., PHYSICAL, SERVICE, DIGITAL, MISCELLANEOUS)
      */
     public ProductCategories withName(String name) {
         Utils.checkNotNull(name, "name");
@@ -118,7 +118,7 @@ public class ProductCategories {
 
         /**
          * Name of the product category
-         *             (e.g., PHYSICAL, SERVICE, DIGITAL, MISCELLANEOUS)
+         * (e.g., PHYSICAL, SERVICE, DIGITAL, MISCELLANEOUS)
          */
         public Builder name(String name) {
             Utils.checkNotNull(name, "name");

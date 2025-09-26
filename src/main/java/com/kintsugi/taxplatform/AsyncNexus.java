@@ -55,7 +55,7 @@ public class AsyncNexus {
      * Get Physical Nexus
      * 
      * <p>Retrieve a paginated list of
-     *     physical nexuses for a specific organization.
+     * physical nexuses for a specific organization.
      * 
      * @return The async call builder
      */
@@ -67,10 +67,10 @@ public class AsyncNexus {
      * Get Physical Nexus
      * 
      * <p>Retrieve a paginated list of
-     *     physical nexuses for a specific organization.
+     * physical nexuses for a specific organization.
      * 
      * @param request The request object containing all the parameters for the API call.
-     * @return CompletableFuture&lt;GetPhysicalNexusV1NexusPhysicalNexusGetResponse&gt; - The async response
+     * @return {@code CompletableFuture<GetPhysicalNexusV1NexusPhysicalNexusGetResponse>} - The async response
      */
     public CompletableFuture<GetPhysicalNexusV1NexusPhysicalNexusGetResponse> getPhysical(GetPhysicalNexusV1NexusPhysicalNexusGetRequest request) {
         AsyncRequestOperation<GetPhysicalNexusV1NexusPhysicalNexusGetRequest, GetPhysicalNexusV1NexusPhysicalNexusGetResponse> operation
@@ -84,8 +84,8 @@ public class AsyncNexus {
      * Create Physical Nexus
      * 
      * <p>The Create Physical Nexus API allows you to create a new physical
-     *     nexus by specifying its attributes, including the location,
-     *     start date, end date, etc.
+     * nexus by specifying its attributes, including the location,
+     * start date, end date, etc.
      * 
      * @return The async call builder
      */
@@ -97,11 +97,11 @@ public class AsyncNexus {
      * Create Physical Nexus
      * 
      * <p>The Create Physical Nexus API allows you to create a new physical
-     *     nexus by specifying its attributes, including the location,
-     *     start date, end date, etc.
+     * nexus by specifying its attributes, including the location,
+     * start date, end date, etc.
      * 
      * @param request The request object containing all the parameters for the API call.
-     * @return CompletableFuture&lt;CreatePhysicalNexusV1NexusPhysicalNexusPostResponse&gt; - The async response
+     * @return {@code CompletableFuture<CreatePhysicalNexusV1NexusPhysicalNexusPostResponse>} - The async response
      */
     public CompletableFuture<CreatePhysicalNexusV1NexusPhysicalNexusPostResponse> createPhysical(PhysicalNexusCreate request) {
         AsyncRequestOperation<PhysicalNexusCreate, CreatePhysicalNexusV1NexusPhysicalNexusPostResponse> operation
@@ -115,7 +115,7 @@ public class AsyncNexus {
      * Update Physical Nexus
      * 
      * <p>The Update Physical Nexus API allows you to modify the details of
-     *     an existing physical nexus by its unique ID.
+     * an existing physical nexus by its unique ID.
      * 
      * @return The async call builder
      */
@@ -127,12 +127,12 @@ public class AsyncNexus {
      * Update Physical Nexus
      * 
      * <p>The Update Physical Nexus API allows you to modify the details of
-     *     an existing physical nexus by its unique ID.
+     * an existing physical nexus by its unique ID.
      * 
      * @param physicalNexusId The unique identifier of the physical
      *                                         nexus to update.
      * @param physicalNexusUpdate 
-     * @return CompletableFuture&lt;UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutResponse&gt; - The async response
+     * @return {@code CompletableFuture<UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutResponse>} - The async response
      */
     public CompletableFuture<UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutResponse> updatePhysical(String physicalNexusId, PhysicalNexusUpdate physicalNexusUpdate) {
         UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest request =
@@ -152,7 +152,7 @@ public class AsyncNexus {
      * Delete Physical Nexus
      * 
      * <p>The Delete Physical Nexus API allows you to remove an existing
-     *     physical nexus by its unique ID.
+     * physical nexus by its unique ID.
      * 
      * @return The async call builder
      */
@@ -164,11 +164,11 @@ public class AsyncNexus {
      * Delete Physical Nexus
      * 
      * <p>The Delete Physical Nexus API allows you to remove an existing
-     *     physical nexus by its unique ID.
+     * physical nexus by its unique ID.
      * 
      * @param physicalNexusId The unique identifier of the physical
      *                                         nexus to delete.
-     * @return CompletableFuture&lt;DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteResponse&gt; - The async response
+     * @return {@code CompletableFuture<DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteResponse>} - The async response
      */
     public CompletableFuture<DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteResponse> deletePhysical(String physicalNexusId) {
         DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest request =
@@ -200,7 +200,7 @@ public class AsyncNexus {
      * <p>Get a list of all nexuses for the organization.
      * 
      * @param request The request object containing all the parameters for the API call.
-     * @return CompletableFuture&lt;GetNexusForOrgV1NexusGetResponse&gt; - The async response
+     * @return {@code CompletableFuture<GetNexusForOrgV1NexusGetResponse>} - The async response
      */
     public CompletableFuture<GetNexusForOrgV1NexusGetResponse> get(GetNexusForOrgV1NexusGetRequest request) {
         AsyncRequestOperation<GetNexusForOrgV1NexusGetRequest, GetNexusForOrgV1NexusGetResponse> operation

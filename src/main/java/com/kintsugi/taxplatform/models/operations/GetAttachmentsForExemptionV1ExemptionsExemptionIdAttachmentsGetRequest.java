@@ -14,7 +14,7 @@ import java.lang.String;
 public class GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest {
     /**
      * The unique identifier for the exemption
-     *         whose attachments are being retrieved.
+     * whose attachments are being retrieved.
      */
     @SpeakeasyMetadata("pathParam:style=simple,explode=false,name=exemption_id")
     private String exemptionId;
@@ -28,7 +28,7 @@ public class GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequ
 
     /**
      * The unique identifier for the exemption
-     *         whose attachments are being retrieved.
+     * whose attachments are being retrieved.
      */
     @JsonIgnore
     public String exemptionId() {
@@ -42,7 +42,7 @@ public class GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequ
 
     /**
      * The unique identifier for the exemption
-     *         whose attachments are being retrieved.
+     * whose attachments are being retrieved.
      */
     public GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest withExemptionId(String exemptionId) {
         Utils.checkNotNull(exemptionId, "exemptionId");
@@ -87,7 +87,7 @@ public class GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequ
 
         /**
          * The unique identifier for the exemption
-         *         whose attachments are being retrieved.
+         * whose attachments are being retrieved.
          */
         public Builder exemptionId(String exemptionId) {
             Utils.checkNotNull(exemptionId, "exemptionId");

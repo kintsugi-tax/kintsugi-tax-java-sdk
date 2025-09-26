@@ -29,7 +29,7 @@ public class ProductUpdate {
 
     /**
      * External identifier provided for the product,
-     *         typically by the source system.
+     * typically by the source system.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("external_id")
@@ -134,7 +134,7 @@ public class ProductUpdate {
 
     /**
      * External identifier provided for the product,
-     *         typically by the source system.
+     * typically by the source system.
      */
     @JsonIgnore
     public Optional<String> externalId() {
@@ -221,7 +221,7 @@ public class ProductUpdate {
 
     /**
      * External identifier provided for the product,
-     *         typically by the source system.
+     * typically by the source system.
      */
     public ProductUpdate withExternalId(String externalId) {
         Utils.checkNotNull(externalId, "externalId");
@@ -232,7 +232,7 @@ public class ProductUpdate {
 
     /**
      * External identifier provided for the product,
-     *         typically by the source system.
+     * typically by the source system.
      */
     public ProductUpdate withExternalId(Optional<String> externalId) {
         Utils.checkNotNull(externalId, "externalId");
@@ -429,7 +429,7 @@ public class ProductUpdate {
 
         /**
          * External identifier provided for the product,
-         *         typically by the source system.
+         * typically by the source system.
          */
         public Builder externalId(String externalId) {
             Utils.checkNotNull(externalId, "externalId");
@@ -439,7 +439,7 @@ public class ProductUpdate {
 
         /**
          * External identifier provided for the product,
-         *         typically by the source system.
+         * typically by the source system.
          */
         public Builder externalId(Optional<String> externalId) {
             Utils.checkNotNull(externalId, "externalId");

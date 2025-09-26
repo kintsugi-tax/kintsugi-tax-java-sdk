@@ -81,7 +81,11 @@ public class TransactionEstimatePublicRequest {
     private Optional<? extends CustomerBasePublic> customer;
 
     /**
-     * List of addresses related to the transaction. At least one BILL_TO or SHIP_TO address must be provided. The address will be validated during estimation, and the transaction may be rejected if the address does not pass validation. The SHIP_TO will be preferred to use for determining tax liability.
+     * List of addresses related to the transaction. At least one BILL_TO or SHIP_TO address must be
+     * provided. The address will be validated during estimation, and the transaction may be rejected if
+     * the address does not pass validation.
+     * 
+     * <p>The SHIP_TO will be preferred to use for determining tax liability.
      */
     @JsonProperty("addresses")
     private List<TransactionEstimatePublicRequestAddress> addresses;
@@ -198,7 +202,11 @@ public class TransactionEstimatePublicRequest {
     }
 
     /**
-     * List of addresses related to the transaction. At least one BILL_TO or SHIP_TO address must be provided. The address will be validated during estimation, and the transaction may be rejected if the address does not pass validation. The SHIP_TO will be preferred to use for determining tax liability.
+     * List of addresses related to the transaction. At least one BILL_TO or SHIP_TO address must be
+     * provided. The address will be validated during estimation, and the transaction may be rejected if
+     * the address does not pass validation.
+     * 
+     * <p>The SHIP_TO will be preferred to use for determining tax liability.
      */
     @JsonIgnore
     public List<TransactionEstimatePublicRequestAddress> addresses() {
@@ -327,7 +335,11 @@ public class TransactionEstimatePublicRequest {
     }
 
     /**
-     * List of addresses related to the transaction. At least one BILL_TO or SHIP_TO address must be provided. The address will be validated during estimation, and the transaction may be rejected if the address does not pass validation. The SHIP_TO will be preferred to use for determining tax liability.
+     * List of addresses related to the transaction. At least one BILL_TO or SHIP_TO address must be
+     * provided. The address will be validated during estimation, and the transaction may be rejected if
+     * the address does not pass validation.
+     * 
+     * <p>The SHIP_TO will be preferred to use for determining tax liability.
      */
     public TransactionEstimatePublicRequest withAddresses(List<TransactionEstimatePublicRequestAddress> addresses) {
         Utils.checkNotNull(addresses, "addresses");
@@ -530,7 +542,11 @@ public class TransactionEstimatePublicRequest {
 
 
         /**
-         * List of addresses related to the transaction. At least one BILL_TO or SHIP_TO address must be provided. The address will be validated during estimation, and the transaction may be rejected if the address does not pass validation. The SHIP_TO will be preferred to use for determining tax liability.
+         * List of addresses related to the transaction. At least one BILL_TO or SHIP_TO address must be
+         * provided. The address will be validated during estimation, and the transaction may be rejected if
+         * the address does not pass validation.
+         * 
+         * <p>The SHIP_TO will be preferred to use for determining tax liability.
          */
         public Builder addresses(List<TransactionEstimatePublicRequestAddress> addresses) {
             Utils.checkNotNull(addresses, "addresses");

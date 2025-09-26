@@ -66,8 +66,8 @@ public class AsyncCustomers {
      * Get Customers
      * 
      * <p>The Get Customers API retrieves
-     *     a paginated list of customers based on specified filters.
-     *     This API allows searching, filtering by country and state, and sorting the results.
+     * a paginated list of customers based on specified filters.
+     * This API allows searching, filtering by country and state, and sorting the results.
      * 
      * @return The async call builder
      */
@@ -79,11 +79,11 @@ public class AsyncCustomers {
      * Get Customers
      * 
      * <p>The Get Customers API retrieves
-     *     a paginated list of customers based on specified filters.
-     *     This API allows searching, filtering by country and state, and sorting the results.
+     * a paginated list of customers based on specified filters.
+     * This API allows searching, filtering by country and state, and sorting the results.
      * 
      * @param request The request object containing all the parameters for the API call.
-     * @return CompletableFuture&lt;GetCustomersV1Response&gt; - The async response
+     * @return {@code CompletableFuture<GetCustomersV1Response>} - The async response
      */
     public CompletableFuture<GetCustomersV1Response> get(GetCustomersV1Request request) {
         AsyncRequestOperation<GetCustomersV1Request, GetCustomersV1Response> operation
@@ -112,7 +112,7 @@ public class AsyncCustomers {
      * details like name, contact information, and address, along with optional metadata.
      * 
      * @param request The request object containing all the parameters for the API call.
-     * @return CompletableFuture&lt;CreateCustomerV1CustomersPostResponse&gt; - The async response
+     * @return {@code CompletableFuture<CreateCustomerV1CustomersPostResponse>} - The async response
      */
     public CompletableFuture<CreateCustomerV1CustomersPostResponse> create(CustomerCreate request) {
         AsyncRequestOperation<CustomerCreate, CreateCustomerV1CustomersPostResponse> operation
@@ -126,8 +126,8 @@ public class AsyncCustomers {
      * Get Customer By Id
      * 
      * <p>The Get Customer By ID API retrieves the details of a single customer
-     *     using their unique identifier. It returns customer-specific data,
-     *     including contact information, address, name and metadata, etc.
+     * using their unique identifier. It returns customer-specific data,
+     * including contact information, address, name and metadata, etc.
      * 
      * @return The async call builder
      */
@@ -139,11 +139,11 @@ public class AsyncCustomers {
      * Get Customer By Id
      * 
      * <p>The Get Customer By ID API retrieves the details of a single customer
-     *     using their unique identifier. It returns customer-specific data,
-     *     including contact information, address, name and metadata, etc.
+     * using their unique identifier. It returns customer-specific data,
+     * including contact information, address, name and metadata, etc.
      * 
      * @param customerId Unique identifier of the customer
-     * @return CompletableFuture&lt;GetCustomerByIdV1CustomersCustomerIdGetResponse&gt; - The async response
+     * @return {@code CompletableFuture<GetCustomerByIdV1CustomersCustomerIdGetResponse>} - The async response
      */
     public CompletableFuture<GetCustomerByIdV1CustomersCustomerIdGetResponse> getById(String customerId) {
         GetCustomerByIdV1CustomersCustomerIdGetRequest request =
@@ -162,8 +162,8 @@ public class AsyncCustomers {
      * Update Customer
      * 
      * <p>The Update Customer API allows you to modify an existing customer's
-     *     information using their unique identifier,
-     *     enabling updates to their details as needed.
+     * information using their unique identifier,
+     * enabling updates to their details as needed.
      * 
      * @return The async call builder
      */
@@ -175,12 +175,12 @@ public class AsyncCustomers {
      * Update Customer
      * 
      * <p>The Update Customer API allows you to modify an existing customer's
-     *     information using their unique identifier,
-     *     enabling updates to their details as needed.
+     * information using their unique identifier,
+     * enabling updates to their details as needed.
      * 
      * @param customerId Unique identifier of the customer to be retrieved.
      * @param customerUpdate 
-     * @return CompletableFuture&lt;UpdateCustomerV1CustomersCustomerIdPutResponse&gt; - The async response
+     * @return {@code CompletableFuture<UpdateCustomerV1CustomersCustomerIdPutResponse>} - The async response
      */
     public CompletableFuture<UpdateCustomerV1CustomersCustomerIdPutResponse> update(String customerId, CustomerUpdate customerUpdate) {
         UpdateCustomerV1CustomersCustomerIdPutRequest request =
@@ -217,7 +217,7 @@ public class AsyncCustomers {
      * an external ID is available.
      * 
      * @param externalId The external identifier of the customer to retrieve.
-     * @return CompletableFuture&lt;GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse&gt; - The async response
+     * @return {@code CompletableFuture<GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse>} - The async response
      */
     public CompletableFuture<GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse> getByExternalId(String externalId) {
         GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest request =
@@ -250,7 +250,7 @@ public class AsyncCustomers {
      * 
      * @param customerId 
      * @param transactionCreate 
-     * @return CompletableFuture&lt;CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostResponse&gt; - The async response
+     * @return {@code CompletableFuture<CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostResponse>} - The async response
      */
     public CompletableFuture<CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostResponse> createTransaction(String customerId, TransactionCreate transactionCreate) {
         CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest request =

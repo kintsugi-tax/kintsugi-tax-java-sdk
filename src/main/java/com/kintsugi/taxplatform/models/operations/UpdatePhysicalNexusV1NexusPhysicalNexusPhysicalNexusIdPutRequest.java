@@ -15,7 +15,7 @@ import java.lang.String;
 public class UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest {
     /**
      * The unique identifier of the physical
-     *                                 nexus to update.
+     * nexus to update.
      */
     @SpeakeasyMetadata("pathParam:style=simple,explode=false,name=physical_nexus_id")
     private String physicalNexusId;
@@ -36,7 +36,7 @@ public class UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest {
 
     /**
      * The unique identifier of the physical
-     *                                 nexus to update.
+     * nexus to update.
      */
     @JsonIgnore
     public String physicalNexusId() {
@@ -55,7 +55,7 @@ public class UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest {
 
     /**
      * The unique identifier of the physical
-     *                                 nexus to update.
+     * nexus to update.
      */
     public UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest withPhysicalNexusId(String physicalNexusId) {
         Utils.checkNotNull(physicalNexusId, "physicalNexusId");
@@ -110,7 +110,7 @@ public class UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest {
 
         /**
          * The unique identifier of the physical
-         *                                 nexus to update.
+         * nexus to update.
          */
         public Builder physicalNexusId(String physicalNexusId) {
             Utils.checkNotNull(physicalNexusId, "physicalNexusId");

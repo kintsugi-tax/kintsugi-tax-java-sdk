@@ -53,7 +53,7 @@ public class AsyncCreditNotes {
      * 
      * @param originalTransactionId 
      * @param creditNoteCreate 
-     * @return CompletableFuture&lt;POSTCreateCreditNoteByTransactionIdResponse&gt; - The async response
+     * @return {@code CompletableFuture<POSTCreateCreditNoteByTransactionIdResponse>} - The async response
      */
     public CompletableFuture<POSTCreateCreditNoteByTransactionIdResponse> create(String originalTransactionId, CreditNoteCreate creditNoteCreate) {
         POSTCreateCreditNoteByTransactionIdRequest request =

@@ -42,9 +42,9 @@ public class AsyncAddressValidation {
      * Search
      * 
      * <p>This API validates and enriches address information
-     *     submitted by the user. It ensures that the address is standardized, accurate,
-     *     and compliant with geographical and postal standards.
-     *     The API also adds additional fields, such as county, when possible.
+     * submitted by the user. It ensures that the address is standardized, accurate,
+     * and compliant with geographical and postal standards.
+     * The API also adds additional fields, such as county, when possible.
      * 
      * @return The async call builder
      */
@@ -56,13 +56,13 @@ public class AsyncAddressValidation {
      * Search
      * 
      * <p>This API validates and enriches address information
-     *     submitted by the user. It ensures that the address is standardized, accurate,
-     *     and compliant with geographical and postal standards.
-     *     The API also adds additional fields, such as county, when possible.
+     * submitted by the user. It ensures that the address is standardized, accurate,
+     * and compliant with geographical and postal standards.
+     * The API also adds additional fields, such as county, when possible.
      * 
      * @param request The request object containing all the parameters for the API call.
      * @param security The security details to use for authentication.
-     * @return CompletableFuture&lt;SearchV1AddressValidationSearchPostResponse&gt; - The async response
+     * @return {@code CompletableFuture<SearchV1AddressValidationSearchPostResponse>} - The async response
      */
     public CompletableFuture<SearchV1AddressValidationSearchPostResponse> search(AddressBase request, SearchV1AddressValidationSearchPostSecurity security) {
         AsyncRequestOperation<AddressBase, SearchV1AddressValidationSearchPostResponse> operation
@@ -76,10 +76,10 @@ public class AsyncAddressValidation {
      * Suggestions
      * 
      * <p>This API endpoint provides address suggestions based on
-     *     partial input data. It helps users auto-complete and validate addresses efficiently
-     *     by returning a list of suggested addresses that match the input criteria.
-     *     This improves accuracy, increases speed, reduces errors,
-     *     and streamlines the data entry process.
+     * partial input data. It helps users auto-complete and validate addresses efficiently
+     * by returning a list of suggested addresses that match the input criteria.
+     * This improves accuracy, increases speed, reduces errors,
+     * and streamlines the data entry process.
      * 
      * @return The async call builder
      */
@@ -91,13 +91,13 @@ public class AsyncAddressValidation {
      * Suggestions
      * 
      * <p>This API endpoint provides address suggestions based on
-     *     partial input data. It helps users auto-complete and validate addresses efficiently
-     *     by returning a list of suggested addresses that match the input criteria.
-     *     This improves accuracy, increases speed, reduces errors,
-     *     and streamlines the data entry process.
+     * partial input data. It helps users auto-complete and validate addresses efficiently
+     * by returning a list of suggested addresses that match the input criteria.
+     * This improves accuracy, increases speed, reduces errors,
+     * and streamlines the data entry process.
      * 
      * @param request The request object containing all the parameters for the API call.
-     * @return CompletableFuture&lt;SuggestionsV1AddressValidationSuggestionsPostResponse&gt; - The async response
+     * @return {@code CompletableFuture<SuggestionsV1AddressValidationSuggestionsPostResponse>} - The async response
      */
     public CompletableFuture<SuggestionsV1AddressValidationSuggestionsPostResponse> suggest(ValidationAddress request) {
         AsyncRequestOperation<ValidationAddress, SuggestionsV1AddressValidationSuggestionsPostResponse> operation

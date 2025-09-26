@@ -65,8 +65,8 @@ public class Customers {
      * Get Customers
      * 
      * <p>The Get Customers API retrieves
-     *     a paginated list of customers based on specified filters.
-     *     This API allows searching, filtering by country and state, and sorting the results.
+     * a paginated list of customers based on specified filters.
+     * This API allows searching, filtering by country and state, and sorting the results.
      * 
      * @return The call builder
      */
@@ -78,8 +78,8 @@ public class Customers {
      * Get Customers
      * 
      * <p>The Get Customers API retrieves
-     *     a paginated list of customers based on specified filters.
-     *     This API allows searching, filtering by country and state, and sorting the results.
+     * a paginated list of customers based on specified filters.
+     * This API allows searching, filtering by country and state, and sorting the results.
      * 
      * @param request The request object containing all the parameters for the API call.
      * @return The response from the API call
@@ -123,8 +123,8 @@ public class Customers {
      * Get Customer By Id
      * 
      * <p>The Get Customer By ID API retrieves the details of a single customer
-     *     using their unique identifier. It returns customer-specific data,
-     *     including contact information, address, name and metadata, etc.
+     * using their unique identifier. It returns customer-specific data,
+     * including contact information, address, name and metadata, etc.
      * 
      * @return The call builder
      */
@@ -136,8 +136,8 @@ public class Customers {
      * Get Customer By Id
      * 
      * <p>The Get Customer By ID API retrieves the details of a single customer
-     *     using their unique identifier. It returns customer-specific data,
-     *     including contact information, address, name and metadata, etc.
+     * using their unique identifier. It returns customer-specific data,
+     * including contact information, address, name and metadata, etc.
      * 
      * @param customerId Unique identifier of the customer
      * @return The response from the API call
@@ -158,8 +158,8 @@ public class Customers {
      * Update Customer
      * 
      * <p>The Update Customer API allows you to modify an existing customer's
-     *     information using their unique identifier,
-     *     enabling updates to their details as needed.
+     * information using their unique identifier,
+     * enabling updates to their details as needed.
      * 
      * @return The call builder
      */
@@ -171,8 +171,8 @@ public class Customers {
      * Update Customer
      * 
      * <p>The Update Customer API allows you to modify an existing customer's
-     *     information using their unique identifier,
-     *     enabling updates to their details as needed.
+     * information using their unique identifier,
+     * enabling updates to their details as needed.
      * 
      * @param customerId Unique identifier of the customer to be retrieved.
      * @param customerUpdate 

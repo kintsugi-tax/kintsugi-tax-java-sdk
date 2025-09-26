@@ -153,7 +153,7 @@ public class RegistrationReadWithPassword {
 
     /**
      * The date from which filings should be created.
-     *         should start (YYYY-MM-DD).
+     * should start (YYYY-MM-DD).
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("create_filings_from")
@@ -240,7 +240,7 @@ public class RegistrationReadWithPassword {
 
     /**
      * Encrypted password for accessing the registration,
-     *         if applicable.
+     * if applicable.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("password_encrypted")
@@ -553,7 +553,7 @@ public class RegistrationReadWithPassword {
 
     /**
      * The date from which filings should be created.
-     *         should start (YYYY-MM-DD).
+     * should start (YYYY-MM-DD).
      */
     @JsonIgnore
     public Optional<String> createFilingsFrom() {
@@ -654,7 +654,7 @@ public class RegistrationReadWithPassword {
 
     /**
      * Encrypted password for accessing the registration,
-     *         if applicable.
+     * if applicable.
      */
     @JsonIgnore
     public Optional<String> passwordEncrypted() {
@@ -999,7 +999,7 @@ public class RegistrationReadWithPassword {
 
     /**
      * The date from which filings should be created.
-     *         should start (YYYY-MM-DD).
+     * should start (YYYY-MM-DD).
      */
     public RegistrationReadWithPassword withCreateFilingsFrom(String createFilingsFrom) {
         Utils.checkNotNull(createFilingsFrom, "createFilingsFrom");
@@ -1010,7 +1010,7 @@ public class RegistrationReadWithPassword {
 
     /**
      * The date from which filings should be created.
-     *         should start (YYYY-MM-DD).
+     * should start (YYYY-MM-DD).
      */
     public RegistrationReadWithPassword withCreateFilingsFrom(Optional<String> createFilingsFrom) {
         Utils.checkNotNull(createFilingsFrom, "createFilingsFrom");
@@ -1226,7 +1226,7 @@ public class RegistrationReadWithPassword {
 
     /**
      * Encrypted password for accessing the registration,
-     *         if applicable.
+     * if applicable.
      */
     public RegistrationReadWithPassword withPasswordEncrypted(String passwordEncrypted) {
         Utils.checkNotNull(passwordEncrypted, "passwordEncrypted");
@@ -1237,7 +1237,7 @@ public class RegistrationReadWithPassword {
 
     /**
      * Encrypted password for accessing the registration,
-     *         if applicable.
+     * if applicable.
      */
     public RegistrationReadWithPassword withPasswordEncrypted(Optional<String> passwordEncrypted) {
         Utils.checkNotNull(passwordEncrypted, "passwordEncrypted");
@@ -1787,7 +1787,7 @@ public class RegistrationReadWithPassword {
 
         /**
          * The date from which filings should be created.
-         *         should start (YYYY-MM-DD).
+         * should start (YYYY-MM-DD).
          */
         public Builder createFilingsFrom(String createFilingsFrom) {
             Utils.checkNotNull(createFilingsFrom, "createFilingsFrom");
@@ -1797,7 +1797,7 @@ public class RegistrationReadWithPassword {
 
         /**
          * The date from which filings should be created.
-         *         should start (YYYY-MM-DD).
+         * should start (YYYY-MM-DD).
          */
         public Builder createFilingsFrom(Optional<String> createFilingsFrom) {
             Utils.checkNotNull(createFilingsFrom, "createFilingsFrom");
@@ -2015,7 +2015,7 @@ public class RegistrationReadWithPassword {
 
         /**
          * Encrypted password for accessing the registration,
-         *         if applicable.
+         * if applicable.
          */
         public Builder passwordEncrypted(String passwordEncrypted) {
             Utils.checkNotNull(passwordEncrypted, "passwordEncrypted");
@@ -2025,7 +2025,7 @@ public class RegistrationReadWithPassword {
 
         /**
          * Encrypted password for accessing the registration,
-         *         if applicable.
+         * if applicable.
          */
         public Builder passwordEncrypted(Optional<String> passwordEncrypted) {
             Utils.checkNotNull(passwordEncrypted, "passwordEncrypted");

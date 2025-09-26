@@ -80,8 +80,8 @@ public class Exemptions {
      * Create Exemption
      * 
      * <p>The Create Exemption API allows you to create a new exemption record.
-     *     This includes defining details such as exemption type, jurisdiction,
-     *     Country, State, validity dates, etc.
+     * This includes defining details such as exemption type, jurisdiction,
+     * Country, State, validity dates, etc.
      * 
      * @return The call builder
      */
@@ -93,8 +93,8 @@ public class Exemptions {
      * Create Exemption
      * 
      * <p>The Create Exemption API allows you to create a new exemption record.
-     *     This includes defining details such as exemption type, jurisdiction,
-     *     Country, State, validity dates, etc.
+     * This includes defining details such as exemption type, jurisdiction,
+     * Country, State, validity dates, etc.
      * 
      * @param request The request object containing all the parameters for the API call.
      * @return The response from the API call
@@ -110,9 +110,9 @@ public class Exemptions {
      * Get Exemption By Id
      * 
      * <p>The Get Exemption By ID API retrieves a specific exemption record by
-     *     its unique ID. This API is useful for retrieving detailed information
-     *     about a particular exemption, including its associated
-     *     customer, organisation id, status, etc.
+     * its unique ID. This API is useful for retrieving detailed information
+     * about a particular exemption, including its associated
+     * customer, organisation id, status, etc.
      * 
      * @return The call builder
      */
@@ -124,9 +124,9 @@ public class Exemptions {
      * Get Exemption By Id
      * 
      * <p>The Get Exemption By ID API retrieves a specific exemption record by
-     *     its unique ID. This API is useful for retrieving detailed information
-     *     about a particular exemption, including its associated
-     *     customer, organisation id, status, etc.
+     * its unique ID. This API is useful for retrieving detailed information
+     * about a particular exemption, including its associated
+     * customer, organisation id, status, etc.
      * 
      * @param exemptionId The unique identifier for the exemption being retrieved.
      * @return The response from the API call
@@ -147,9 +147,9 @@ public class Exemptions {
      * Upload Exemption Certificate
      * 
      * <p>The Upload Exemption Certificate API allows you
-     *     to upload a file attachment (e.g., exemption certificate) for a specific exemption.
-     *     This is primarily used to associate supporting documents with an exemption record
-     *     to ensure compliance and facilitate verification.
+     * to upload a file attachment (e.g., exemption certificate) for a specific exemption.
+     * This is primarily used to associate supporting documents with an exemption record
+     * to ensure compliance and facilitate verification.
      * 
      * @return The call builder
      */
@@ -161,9 +161,9 @@ public class Exemptions {
      * Upload Exemption Certificate
      * 
      * <p>The Upload Exemption Certificate API allows you
-     *     to upload a file attachment (e.g., exemption certificate) for a specific exemption.
-     *     This is primarily used to associate supporting documents with an exemption record
-     *     to ensure compliance and facilitate verification.
+     * to upload a file attachment (e.g., exemption certificate) for a specific exemption.
+     * This is primarily used to associate supporting documents with an exemption record
+     * to ensure compliance and facilitate verification.
      * 
      * @param exemptionId The unique identifier for the exemption to which the attachment will be associated.
      * @param bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost 
@@ -186,9 +186,9 @@ public class Exemptions {
      * Get Attachments For Exemption
      * 
      * <p>The Get Attachments for Exemption API retrieves all
-     *     attachments associated with a specific exemption.
-     *     This is used to view and manage supporting documents
-     *     like exemption certificates uploaded for a particular exemption record.
+     * attachments associated with a specific exemption.
+     * This is used to view and manage supporting documents
+     * like exemption certificates uploaded for a particular exemption record.
      * 
      * @return The call builder
      */
@@ -200,9 +200,9 @@ public class Exemptions {
      * Get Attachments For Exemption
      * 
      * <p>The Get Attachments for Exemption API retrieves all
-     *     attachments associated with a specific exemption.
-     *     This is used to view and manage supporting documents
-     *     like exemption certificates uploaded for a particular exemption record.
+     * attachments associated with a specific exemption.
+     * This is used to view and manage supporting documents
+     * like exemption certificates uploaded for a particular exemption record.
      * 
      * @param exemptionId The unique identifier for the exemption
      *                 whose attachments are being retrieved.

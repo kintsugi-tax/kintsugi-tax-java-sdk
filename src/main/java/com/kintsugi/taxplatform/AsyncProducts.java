@@ -68,7 +68,7 @@ public class AsyncProducts {
      * <p>Retrieve a paginated list of products based on filters and search query.
      * 
      * @param request The request object containing all the parameters for the API call.
-     * @return CompletableFuture&lt;GetProductsV1ProductsGetResponse&gt; - The async response
+     * @return {@code CompletableFuture<GetProductsV1ProductsGetResponse>} - The async response
      */
     public CompletableFuture<GetProductsV1ProductsGetResponse> get(GetProductsV1ProductsGetRequest request) {
         AsyncRequestOperation<GetProductsV1ProductsGetRequest, GetProductsV1ProductsGetResponse> operation
@@ -82,8 +82,8 @@ public class AsyncProducts {
      * Create Product
      * 
      * <p>The Create Product API allows users to manually create a new product
-     *     in the system. This includes specifying product details such as category,
-     *     subcategory, and tax exemption status, etc.
+     * in the system. This includes specifying product details such as category,
+     * subcategory, and tax exemption status, etc.
      * 
      * @return The async call builder
      */
@@ -95,11 +95,11 @@ public class AsyncProducts {
      * Create Product
      * 
      * <p>The Create Product API allows users to manually create a new product
-     *     in the system. This includes specifying product details such as category,
-     *     subcategory, and tax exemption status, etc.
+     * in the system. This includes specifying product details such as category,
+     * subcategory, and tax exemption status, etc.
      * 
      * @param request The request object containing all the parameters for the API call.
-     * @return CompletableFuture&lt;CreateProductV1ProductsPostResponse&gt; - The async response
+     * @return {@code CompletableFuture<CreateProductV1ProductsPostResponse>} - The async response
      */
     public CompletableFuture<CreateProductV1ProductsPostResponse> create(ProductCreateManual request) {
         AsyncRequestOperation<ProductCreateManual, CreateProductV1ProductsPostResponse> operation
@@ -113,8 +113,8 @@ public class AsyncProducts {
      * Get Product By Id
      * 
      * <p>The Get Product By ID API retrieves detailed information about
-     *     a single product by its unique ID. This API helps in viewing the specific details
-     *     of a product, including its attributes, status, and categorization.
+     * a single product by its unique ID. This API helps in viewing the specific details
+     * of a product, including its attributes, status, and categorization.
      * 
      * @return The async call builder
      */
@@ -126,11 +126,11 @@ public class AsyncProducts {
      * Get Product By Id
      * 
      * <p>The Get Product By ID API retrieves detailed information about
-     *     a single product by its unique ID. This API helps in viewing the specific details
-     *     of a product, including its attributes, status, and categorization.
+     * a single product by its unique ID. This API helps in viewing the specific details
+     * of a product, including its attributes, status, and categorization.
      * 
      * @param productId The unique identifier for the product you want to retrieve.
-     * @return CompletableFuture&lt;GetProductByIdV1ProductsProductIdGetResponse&gt; - The async response
+     * @return {@code CompletableFuture<GetProductByIdV1ProductsProductIdGetResponse>} - The async response
      */
     public CompletableFuture<GetProductByIdV1ProductsProductIdGetResponse> getById(String productId) {
         GetProductByIdV1ProductsProductIdGetRequest request =
@@ -149,7 +149,7 @@ public class AsyncProducts {
      * Update Product
      * 
      * <p>The Update Product API allows users to modify the details of
-     *     an existing product identified by its unique product_id
+     * an existing product identified by its unique product_id
      * 
      * @return The async call builder
      */
@@ -161,11 +161,11 @@ public class AsyncProducts {
      * Update Product
      * 
      * <p>The Update Product API allows users to modify the details of
-     *     an existing product identified by its unique product_id
+     * an existing product identified by its unique product_id
      * 
      * @param productId Unique identifier of the product to be updated.
      * @param productUpdate 
-     * @return CompletableFuture&lt;UpdateProductV1ProductsProductIdPutResponse&gt; - The async response
+     * @return {@code CompletableFuture<UpdateProductV1ProductsProductIdPutResponse>} - The async response
      */
     public CompletableFuture<UpdateProductV1ProductsProductIdPutResponse> update(String productId, ProductUpdate productUpdate) {
         UpdateProductV1ProductsProductIdPutRequest request =
@@ -185,8 +185,8 @@ public class AsyncProducts {
      * Get Product Categories
      * 
      * <p>The Get Product Categories API retrieves all
-     *     product categories.  This endpoint helps users understand and select the
-     *     appropriate categories for their products.
+     * product categories. This endpoint helps users understand and select the
+     * appropriate categories for their products.
      * 
      * @return The async call builder
      */
@@ -198,10 +198,10 @@ public class AsyncProducts {
      * Get Product Categories
      * 
      * <p>The Get Product Categories API retrieves all
-     *     product categories.  This endpoint helps users understand and select the
-     *     appropriate categories for their products.
+     * product categories. This endpoint helps users understand and select the
+     * appropriate categories for their products.
      * 
-     * @return CompletableFuture&lt;GetProductCategoriesV1ProductsCategoriesGetResponse&gt; - The async response
+     * @return {@code CompletableFuture<GetProductCategoriesV1ProductsCategoriesGetResponse>} - The async response
      */
     public CompletableFuture<GetProductCategoriesV1ProductsCategoriesGetResponse> getCategoriesDirect() {
         AsyncRequestlessOperation<GetProductCategoriesV1ProductsCategoriesGetResponse> operation

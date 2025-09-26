@@ -14,7 +14,7 @@ import java.lang.String;
 public class GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest {
     /**
      * The unique identifier of the filing
-     *         whose transactions you wish to retrieve.
+     * whose transactions you wish to retrieve.
      */
     @SpeakeasyMetadata("pathParam:style=simple,explode=false,name=filing_id")
     private String filingId;
@@ -28,7 +28,7 @@ public class GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest {
 
     /**
      * The unique identifier of the filing
-     *         whose transactions you wish to retrieve.
+     * whose transactions you wish to retrieve.
      */
     @JsonIgnore
     public String filingId() {
@@ -42,7 +42,7 @@ public class GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest {
 
     /**
      * The unique identifier of the filing
-     *         whose transactions you wish to retrieve.
+     * whose transactions you wish to retrieve.
      */
     public GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest withFilingId(String filingId) {
         Utils.checkNotNull(filingId, "filingId");
@@ -87,7 +87,7 @@ public class GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest {
 
         /**
          * The unique identifier of the filing
-         *         whose transactions you wish to retrieve.
+         * whose transactions you wish to retrieve.
          */
         public Builder filingId(String filingId) {
             Utils.checkNotNull(filingId, "filingId");

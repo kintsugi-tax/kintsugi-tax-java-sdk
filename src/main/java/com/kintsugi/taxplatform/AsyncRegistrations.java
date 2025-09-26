@@ -55,9 +55,9 @@ public class AsyncRegistrations {
      * Get Registrations
      * 
      * <p>The Get Registrations API retrieves a
-     *     paginated list of registrations.
-     *     This API helps in tracking and managing registrations efficiently across multiple
-     *     jurisdictions.
+     * paginated list of registrations.
+     * This API helps in tracking and managing registrations efficiently across multiple
+     * jurisdictions.
      * 
      * @return The async call builder
      */
@@ -69,12 +69,12 @@ public class AsyncRegistrations {
      * Get Registrations
      * 
      * <p>The Get Registrations API retrieves a
-     *     paginated list of registrations.
-     *     This API helps in tracking and managing registrations efficiently across multiple
-     *     jurisdictions.
+     * paginated list of registrations.
+     * This API helps in tracking and managing registrations efficiently across multiple
+     * jurisdictions.
      * 
      * @param request The request object containing all the parameters for the API call.
-     * @return CompletableFuture&lt;GetRegistrationsV1RegistrationsGetResponse&gt; - The async response
+     * @return {@code CompletableFuture<GetRegistrationsV1RegistrationsGetResponse>} - The async response
      */
     public CompletableFuture<GetRegistrationsV1RegistrationsGetResponse> get(GetRegistrationsV1RegistrationsGetRequest request) {
         AsyncRequestOperation<GetRegistrationsV1RegistrationsGetRequest, GetRegistrationsV1RegistrationsGetResponse> operation
@@ -88,7 +88,7 @@ public class AsyncRegistrations {
      * Create Registration
      * 
      * <p>The Create Registration API allows users to create a new registration
-     *     for tracking and managing tax filings efficiently across multiple jurisdictions.
+     * for tracking and managing tax filings efficiently across multiple jurisdictions.
      * 
      * @return The async call builder
      */
@@ -100,10 +100,10 @@ public class AsyncRegistrations {
      * Create Registration
      * 
      * <p>The Create Registration API allows users to create a new registration
-     *     for tracking and managing tax filings efficiently across multiple jurisdictions.
+     * for tracking and managing tax filings efficiently across multiple jurisdictions.
      * 
      * @param request The request object containing all the parameters for the API call.
-     * @return CompletableFuture&lt;CreateRegistrationV1RegistrationsPostResponse&gt; - The async response
+     * @return {@code CompletableFuture<CreateRegistrationV1RegistrationsPostResponse>} - The async response
      */
     public CompletableFuture<CreateRegistrationV1RegistrationsPostResponse> create(CreateRegistration request) {
         AsyncRequestOperation<CreateRegistration, CreateRegistrationV1RegistrationsPostResponse> operation
@@ -117,7 +117,7 @@ public class AsyncRegistrations {
      * Get Registration By Id
      * 
      * <p>The Get Registration By ID API retrieves a single registration record
-     *     based on its unique identifier.
+     * based on its unique identifier.
      * 
      * @return The async call builder
      */
@@ -129,11 +129,11 @@ public class AsyncRegistrations {
      * Get Registration By Id
      * 
      * <p>The Get Registration By ID API retrieves a single registration record
-     *     based on its unique identifier.
+     * based on its unique identifier.
      * 
      * @param registrationId The unique identifier of the
      *                                         registration to retrieve.
-     * @return CompletableFuture&lt;GetRegistrationByIdV1RegistrationsRegistrationIdGetResponse&gt; - The async response
+     * @return {@code CompletableFuture<GetRegistrationByIdV1RegistrationsRegistrationIdGetResponse>} - The async response
      */
     public CompletableFuture<GetRegistrationByIdV1RegistrationsRegistrationIdGetResponse> getById(String registrationId) {
         GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest request =
@@ -152,7 +152,7 @@ public class AsyncRegistrations {
      * Update Registration
      * 
      * <p>The Update Registration API allows you to modify
-     *     an existing registration using its unique registration_id.
+     * an existing registration using its unique registration_id.
      * 
      * @return The async call builder
      */
@@ -164,11 +164,11 @@ public class AsyncRegistrations {
      * Update Registration
      * 
      * <p>The Update Registration API allows you to modify
-     *     an existing registration using its unique registration_id.
+     * an existing registration using its unique registration_id.
      * 
      * @param registrationId The unique identifier of the registration to be updated.
      * @param registrationUpdateAPI 
-     * @return CompletableFuture&lt;UpdateRegistrationV1RegistrationsRegistrationIdPutResponse&gt; - The async response
+     * @return {@code CompletableFuture<UpdateRegistrationV1RegistrationsRegistrationIdPutResponse>} - The async response
      */
     public CompletableFuture<UpdateRegistrationV1RegistrationsRegistrationIdPutResponse> update(String registrationId, RegistrationUpdateAPI registrationUpdateAPI) {
         UpdateRegistrationV1RegistrationsRegistrationIdPutRequest request =
@@ -201,7 +201,7 @@ public class AsyncRegistrations {
      * <p>Deregister an existing registration.
      * 
      * @param registrationId The unique identifier of the registration to deregister.
-     * @return CompletableFuture&lt;DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse&gt; - The async response
+     * @return {@code CompletableFuture<DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse>} - The async response
      */
     public CompletableFuture<DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse> deregister(String registrationId) {
         DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest request =

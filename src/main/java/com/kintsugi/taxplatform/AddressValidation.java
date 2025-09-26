@@ -41,9 +41,9 @@ public class AddressValidation {
      * Search
      * 
      * <p>This API validates and enriches address information
-     *     submitted by the user. It ensures that the address is standardized, accurate,
-     *     and compliant with geographical and postal standards.
-     *     The API also adds additional fields, such as county, when possible.
+     * submitted by the user. It ensures that the address is standardized, accurate,
+     * and compliant with geographical and postal standards.
+     * The API also adds additional fields, such as county, when possible.
      * 
      * @return The call builder
      */
@@ -55,9 +55,9 @@ public class AddressValidation {
      * Search
      * 
      * <p>This API validates and enriches address information
-     *     submitted by the user. It ensures that the address is standardized, accurate,
-     *     and compliant with geographical and postal standards.
-     *     The API also adds additional fields, such as county, when possible.
+     * submitted by the user. It ensures that the address is standardized, accurate,
+     * and compliant with geographical and postal standards.
+     * The API also adds additional fields, such as county, when possible.
      * 
      * @param request The request object containing all the parameters for the API call.
      * @param security The security details to use for authentication.
@@ -74,10 +74,10 @@ public class AddressValidation {
      * Suggestions
      * 
      * <p>This API endpoint provides address suggestions based on
-     *     partial input data. It helps users auto-complete and validate addresses efficiently
-     *     by returning a list of suggested addresses that match the input criteria.
-     *     This improves accuracy, increases speed, reduces errors,
-     *     and streamlines the data entry process.
+     * partial input data. It helps users auto-complete and validate addresses efficiently
+     * by returning a list of suggested addresses that match the input criteria.
+     * This improves accuracy, increases speed, reduces errors,
+     * and streamlines the data entry process.
      * 
      * @return The call builder
      */
@@ -89,10 +89,10 @@ public class AddressValidation {
      * Suggestions
      * 
      * <p>This API endpoint provides address suggestions based on
-     *     partial input data. It helps users auto-complete and validate addresses efficiently
-     *     by returning a list of suggested addresses that match the input criteria.
-     *     This improves accuracy, increases speed, reduces errors,
-     *     and streamlines the data entry process.
+     * partial input data. It helps users auto-complete and validate addresses efficiently
+     * by returning a list of suggested addresses that match the input criteria.
+     * This improves accuracy, increases speed, reduces errors,
+     * and streamlines the data entry process.
      * 
      * @param request The request object containing all the parameters for the API call.
      * @return The response from the API call

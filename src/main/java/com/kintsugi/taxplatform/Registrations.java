@@ -54,9 +54,9 @@ public class Registrations {
      * Get Registrations
      * 
      * <p>The Get Registrations API retrieves a
-     *     paginated list of registrations.
-     *     This API helps in tracking and managing registrations efficiently across multiple
-     *     jurisdictions.
+     * paginated list of registrations.
+     * This API helps in tracking and managing registrations efficiently across multiple
+     * jurisdictions.
      * 
      * @return The call builder
      */
@@ -68,9 +68,9 @@ public class Registrations {
      * Get Registrations
      * 
      * <p>The Get Registrations API retrieves a
-     *     paginated list of registrations.
-     *     This API helps in tracking and managing registrations efficiently across multiple
-     *     jurisdictions.
+     * paginated list of registrations.
+     * This API helps in tracking and managing registrations efficiently across multiple
+     * jurisdictions.
      * 
      * @param request The request object containing all the parameters for the API call.
      * @return The response from the API call
@@ -86,7 +86,7 @@ public class Registrations {
      * Create Registration
      * 
      * <p>The Create Registration API allows users to create a new registration
-     *     for tracking and managing tax filings efficiently across multiple jurisdictions.
+     * for tracking and managing tax filings efficiently across multiple jurisdictions.
      * 
      * @return The call builder
      */
@@ -98,7 +98,7 @@ public class Registrations {
      * Create Registration
      * 
      * <p>The Create Registration API allows users to create a new registration
-     *     for tracking and managing tax filings efficiently across multiple jurisdictions.
+     * for tracking and managing tax filings efficiently across multiple jurisdictions.
      * 
      * @param request The request object containing all the parameters for the API call.
      * @return The response from the API call
@@ -114,7 +114,7 @@ public class Registrations {
      * Get Registration By Id
      * 
      * <p>The Get Registration By ID API retrieves a single registration record
-     *     based on its unique identifier.
+     * based on its unique identifier.
      * 
      * @return The call builder
      */
@@ -126,7 +126,7 @@ public class Registrations {
      * Get Registration By Id
      * 
      * <p>The Get Registration By ID API retrieves a single registration record
-     *     based on its unique identifier.
+     * based on its unique identifier.
      * 
      * @param registrationId The unique identifier of the
      *                                         registration to retrieve.
@@ -148,7 +148,7 @@ public class Registrations {
      * Update Registration
      * 
      * <p>The Update Registration API allows you to modify
-     *     an existing registration using its unique registration_id.
+     * an existing registration using its unique registration_id.
      * 
      * @return The call builder
      */
@@ -160,7 +160,7 @@ public class Registrations {
      * Update Registration
      * 
      * <p>The Update Registration API allows you to modify
-     *     an existing registration using its unique registration_id.
+     * an existing registration using its unique registration_id.
      * 
      * @param registrationId The unique identifier of the registration to be updated.
      * @param registrationUpdateAPI 

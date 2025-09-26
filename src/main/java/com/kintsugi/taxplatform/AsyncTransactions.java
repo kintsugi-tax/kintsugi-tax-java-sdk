@@ -70,7 +70,7 @@ public class AsyncTransactions {
      * Get Transactions
      * 
      * <p>The Get Transactions API retrieves a list of transactions with
-     *     optional filtering, sorting, and pagination.
+     * optional filtering, sorting, and pagination.
      * 
      * @return The async call builder
      */
@@ -82,10 +82,10 @@ public class AsyncTransactions {
      * Get Transactions
      * 
      * <p>The Get Transactions API retrieves a list of transactions with
-     *     optional filtering, sorting, and pagination.
+     * optional filtering, sorting, and pagination.
      * 
      * @param request The request object containing all the parameters for the API call.
-     * @return CompletableFuture&lt;GetTransactionsV1TransactionsGetResponse&gt; - The async response
+     * @return {@code CompletableFuture<GetTransactionsV1TransactionsGetResponse>} - The async response
      */
     public CompletableFuture<GetTransactionsV1TransactionsGetResponse> get(GetTransactionsV1TransactionsGetRequest request) {
         AsyncRequestOperation<GetTransactionsV1TransactionsGetRequest, GetTransactionsV1TransactionsGetResponse> operation
@@ -112,7 +112,7 @@ public class AsyncTransactions {
      * <p>Create a transaction.
      * 
      * @param request The request object containing all the parameters for the API call.
-     * @return CompletableFuture&lt;CreateTransactionV1TransactionsPostResponse&gt; - The async response
+     * @return {@code CompletableFuture<CreateTransactionV1TransactionsPostResponse>} - The async response
      */
     public CompletableFuture<CreateTransactionV1TransactionsPostResponse> create(TransactionPublicRequest request) {
         AsyncRequestOperation<TransactionPublicRequest, CreateTransactionV1TransactionsPostResponse> operation
@@ -126,7 +126,7 @@ public class AsyncTransactions {
      * Get Transaction By External Id
      * 
      * <p>Retrieves a specific transaction based on its external ID.
-     *     This allows users to fetch transaction details using an identifier from an external system.
+     * This allows users to fetch transaction details using an identifier from an external system.
      * 
      * @return The async call builder
      */
@@ -138,10 +138,10 @@ public class AsyncTransactions {
      * Get Transaction By External Id
      * 
      * <p>Retrieves a specific transaction based on its external ID.
-     *     This allows users to fetch transaction details using an identifier from an external system.
+     * This allows users to fetch transaction details using an identifier from an external system.
      * 
      * @param externalId The unique external identifier of the transaction.
-     * @return CompletableFuture&lt;GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse&gt; - The async response
+     * @return {@code CompletableFuture<GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse>} - The async response
      */
     public CompletableFuture<GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse> getByExternalId(String externalId) {
         GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest request =
@@ -174,7 +174,7 @@ public class AsyncTransactions {
      * 
      * @param transactionId 
      * @param transactionUpdate 
-     * @return CompletableFuture&lt;UpdateTransactionV1TransactionsTransactionIdPutResponse&gt; - The async response
+     * @return {@code CompletableFuture<UpdateTransactionV1TransactionsTransactionIdPutResponse>} - The async response
      */
     public CompletableFuture<UpdateTransactionV1TransactionsTransactionIdPutResponse> update(String transactionId, TransactionUpdate transactionUpdate) {
         UpdateTransactionV1TransactionsTransactionIdPutRequest request =
@@ -194,7 +194,7 @@ public class AsyncTransactions {
      * Get Transaction By Id
      * 
      * <p>The Get Transaction By Id API retrieves detailed information
-     *     about a specific transaction by providing its unique transaction ID.
+     * about a specific transaction by providing its unique transaction ID.
      * 
      * @return The async call builder
      */
@@ -206,10 +206,10 @@ public class AsyncTransactions {
      * Get Transaction By Id
      * 
      * <p>The Get Transaction By Id API retrieves detailed information
-     *     about a specific transaction by providing its unique transaction ID.
+     * about a specific transaction by providing its unique transaction ID.
      * 
      * @param transactionId The unique identifier of the transaction to retrieve.
-     * @return CompletableFuture&lt;GetTransactionByIdV1TransactionsTransactionIdGetResponse&gt; - The async response
+     * @return {@code CompletableFuture<GetTransactionByIdV1TransactionsTransactionIdGetResponse>} - The async response
      */
     public CompletableFuture<GetTransactionByIdV1TransactionsTransactionIdGetResponse> getById(String transactionId) {
         GetTransactionByIdV1TransactionsTransactionIdGetRequest request =
@@ -243,7 +243,7 @@ public class AsyncTransactions {
      * @param filingId The unique identifier of the filing
      *                 whose transactions you wish to retrieve.
      *                 
-     * @return CompletableFuture&lt;GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetResponse&gt; - The async response
+     * @return {@code CompletableFuture<GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetResponse>} - The async response
      */
     public CompletableFuture<GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetResponse> getByFilingId(String filingId) {
         GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest request =
@@ -277,7 +277,7 @@ public class AsyncTransactions {
      * @param originalTransactionId 
      * @param creditNoteId 
      * @param creditNoteCreate 
-     * @return CompletableFuture&lt;PUTUpdateCreditNoteByTransactionIdResponse&gt; - The async response
+     * @return {@code CompletableFuture<PUTUpdateCreditNoteByTransactionIdResponse>} - The async response
      */
     public CompletableFuture<PUTUpdateCreditNoteByTransactionIdResponse> updateCreditNote(
             String originalTransactionId, String creditNoteId,

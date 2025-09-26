@@ -43,7 +43,7 @@ public class TransactionItemEstimateBase {
 
     /**
      * External product identifier. If not found and product_subcategory
-     *         and product_category are not provided, an error occurs.
+     * and product_category are not provided, an error occurs.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("external_product_id")
@@ -70,7 +70,7 @@ public class TransactionItemEstimateBase {
 
     /**
      * Subcategory of the product. Required if product_category is used
-     *         in place of external_product_id.
+     * in place of external_product_id.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("product_subcategory")
@@ -78,7 +78,7 @@ public class TransactionItemEstimateBase {
 
     /**
      * Category of the product. Required if product_subcategory is used
-     *         in place of external_product_id.
+     * in place of external_product_id.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("product_category")
@@ -179,7 +179,7 @@ public class TransactionItemEstimateBase {
 
     /**
      * External product identifier. If not found and product_subcategory
-     *         and product_category are not provided, an error occurs.
+     * and product_category are not provided, an error occurs.
      */
     @JsonIgnore
     public Optional<String> externalProductId() {
@@ -210,7 +210,7 @@ public class TransactionItemEstimateBase {
 
     /**
      * Subcategory of the product. Required if product_category is used
-     *         in place of external_product_id.
+     * in place of external_product_id.
      */
     @JsonIgnore
     public Optional<String> productSubcategory() {
@@ -219,7 +219,7 @@ public class TransactionItemEstimateBase {
 
     /**
      * Category of the product. Required if product_subcategory is used
-     *         in place of external_product_id.
+     * in place of external_product_id.
      */
     @JsonIgnore
     public Optional<String> productCategory() {
@@ -304,7 +304,7 @@ public class TransactionItemEstimateBase {
 
     /**
      * External product identifier. If not found and product_subcategory
-     *         and product_category are not provided, an error occurs.
+     * and product_category are not provided, an error occurs.
      */
     public TransactionItemEstimateBase withExternalProductId(String externalProductId) {
         Utils.checkNotNull(externalProductId, "externalProductId");
@@ -315,7 +315,7 @@ public class TransactionItemEstimateBase {
 
     /**
      * External product identifier. If not found and product_subcategory
-     *         and product_category are not provided, an error occurs.
+     * and product_category are not provided, an error occurs.
      */
     public TransactionItemEstimateBase withExternalProductId(Optional<String> externalProductId) {
         Utils.checkNotNull(externalProductId, "externalProductId");
@@ -376,7 +376,7 @@ public class TransactionItemEstimateBase {
 
     /**
      * Subcategory of the product. Required if product_category is used
-     *         in place of external_product_id.
+     * in place of external_product_id.
      */
     public TransactionItemEstimateBase withProductSubcategory(String productSubcategory) {
         Utils.checkNotNull(productSubcategory, "productSubcategory");
@@ -387,7 +387,7 @@ public class TransactionItemEstimateBase {
 
     /**
      * Subcategory of the product. Required if product_category is used
-     *         in place of external_product_id.
+     * in place of external_product_id.
      */
     public TransactionItemEstimateBase withProductSubcategory(Optional<String> productSubcategory) {
         Utils.checkNotNull(productSubcategory, "productSubcategory");
@@ -397,7 +397,7 @@ public class TransactionItemEstimateBase {
 
     /**
      * Category of the product. Required if product_subcategory is used
-     *         in place of external_product_id.
+     * in place of external_product_id.
      */
     public TransactionItemEstimateBase withProductCategory(String productCategory) {
         Utils.checkNotNull(productCategory, "productCategory");
@@ -408,7 +408,7 @@ public class TransactionItemEstimateBase {
 
     /**
      * Category of the product. Required if product_subcategory is used
-     *         in place of external_product_id.
+     * in place of external_product_id.
      */
     public TransactionItemEstimateBase withProductCategory(Optional<String> productCategory) {
         Utils.checkNotNull(productCategory, "productCategory");
@@ -595,7 +595,7 @@ public class TransactionItemEstimateBase {
 
         /**
          * External product identifier. If not found and product_subcategory
-         *         and product_category are not provided, an error occurs.
+         * and product_category are not provided, an error occurs.
          */
         public Builder externalProductId(String externalProductId) {
             Utils.checkNotNull(externalProductId, "externalProductId");
@@ -605,7 +605,7 @@ public class TransactionItemEstimateBase {
 
         /**
          * External product identifier. If not found and product_subcategory
-         *         and product_category are not provided, an error occurs.
+         * and product_category are not provided, an error occurs.
          */
         public Builder externalProductId(Optional<String> externalProductId) {
             Utils.checkNotNull(externalProductId, "externalProductId");
@@ -667,7 +667,7 @@ public class TransactionItemEstimateBase {
 
         /**
          * Subcategory of the product. Required if product_category is used
-         *         in place of external_product_id.
+         * in place of external_product_id.
          */
         public Builder productSubcategory(String productSubcategory) {
             Utils.checkNotNull(productSubcategory, "productSubcategory");
@@ -677,7 +677,7 @@ public class TransactionItemEstimateBase {
 
         /**
          * Subcategory of the product. Required if product_category is used
-         *         in place of external_product_id.
+         * in place of external_product_id.
          */
         public Builder productSubcategory(Optional<String> productSubcategory) {
             Utils.checkNotNull(productSubcategory, "productSubcategory");
@@ -688,7 +688,7 @@ public class TransactionItemEstimateBase {
 
         /**
          * Category of the product. Required if product_subcategory is used
-         *         in place of external_product_id.
+         * in place of external_product_id.
          */
         public Builder productCategory(String productCategory) {
             Utils.checkNotNull(productCategory, "productCategory");
@@ -698,7 +698,7 @@ public class TransactionItemEstimateBase {
 
         /**
          * Category of the product. Required if product_subcategory is used
-         *         in place of external_product_id.
+         * in place of external_product_id.
          */
         public Builder productCategory(Optional<String> productCategory) {
             Utils.checkNotNull(productCategory, "productCategory");

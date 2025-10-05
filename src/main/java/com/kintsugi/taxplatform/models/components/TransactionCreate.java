@@ -59,11 +59,6 @@ public class TransactionCreate {
     @JsonProperty("shop_date_tz")
     private Optional<String> shopDateTz;
 
-
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("status")
-    private Optional<? extends TransactionStatusEnum> status;
-
     /**
      * Description of the transaction.
      */
@@ -339,6 +334,11 @@ public class TransactionCreate {
     private Optional<Double> convertedTotalTaxLiabilityAmount;
 
 
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("status")
+    private Optional<? extends TransactionStatusEnum> status;
+
+
     @JsonProperty("addresses")
     private List<TransactionAddressBuilder> addresses;
 
@@ -359,7 +359,6 @@ public class TransactionCreate {
             @JsonProperty("date") OffsetDateTime date,
             @JsonProperty("shop_date") Optional<String> shopDate,
             @JsonProperty("shop_date_tz") Optional<String> shopDateTz,
-            @JsonProperty("status") Optional<? extends TransactionStatusEnum> status,
             @JsonProperty("description") Optional<String> description,
             @JsonProperty("refund_status") Optional<? extends TransactionRefundStatus> refundStatus,
             @JsonProperty("total_amount") Optional<Double> totalAmount,
@@ -400,6 +399,7 @@ public class TransactionCreate {
             @JsonProperty("converted_total_discount") Optional<Double> convertedTotalDiscount,
             @JsonProperty("converted_subtotal") Optional<Double> convertedSubtotal,
             @JsonProperty("converted_total_tax_liability_amount") Optional<Double> convertedTotalTaxLiabilityAmount,
+            @JsonProperty("status") Optional<? extends TransactionStatusEnum> status,
             @JsonProperty("addresses") List<TransactionAddressBuilder> addresses,
             @JsonProperty("transaction_items") List<TransactionItemCreateUpdate> transactionItems,
             @JsonProperty("customer") Optional<? extends CustomerCreate> customer) {
@@ -409,7 +409,6 @@ public class TransactionCreate {
         Utils.checkNotNull(date, "date");
         Utils.checkNotNull(shopDate, "shopDate");
         Utils.checkNotNull(shopDateTz, "shopDateTz");
-        Utils.checkNotNull(status, "status");
         Utils.checkNotNull(description, "description");
         Utils.checkNotNull(refundStatus, "refundStatus");
         Utils.checkNotNull(totalAmount, "totalAmount");
@@ -450,6 +449,7 @@ public class TransactionCreate {
         Utils.checkNotNull(convertedTotalDiscount, "convertedTotalDiscount");
         Utils.checkNotNull(convertedSubtotal, "convertedSubtotal");
         Utils.checkNotNull(convertedTotalTaxLiabilityAmount, "convertedTotalTaxLiabilityAmount");
+        Utils.checkNotNull(status, "status");
         Utils.checkNotNull(addresses, "addresses");
         Utils.checkNotNull(transactionItems, "transactionItems");
         Utils.checkNotNull(customer, "customer");
@@ -459,7 +459,6 @@ public class TransactionCreate {
         this.date = date;
         this.shopDate = shopDate;
         this.shopDateTz = shopDateTz;
-        this.status = status;
         this.description = description;
         this.refundStatus = refundStatus;
         this.totalAmount = totalAmount;
@@ -500,6 +499,7 @@ public class TransactionCreate {
         this.convertedTotalDiscount = convertedTotalDiscount;
         this.convertedSubtotal = convertedSubtotal;
         this.convertedTotalTaxLiabilityAmount = convertedTotalTaxLiabilityAmount;
+        this.status = status;
         this.addresses = addresses;
         this.transactionItems = transactionItems;
         this.customer = customer;
@@ -574,12 +574,6 @@ public class TransactionCreate {
     @JsonIgnore
     public Optional<String> shopDateTz() {
         return shopDateTz;
-    }
-
-    @SuppressWarnings("unchecked")
-    @JsonIgnore
-    public Optional<TransactionStatusEnum> status() {
-        return (Optional<TransactionStatusEnum>) status;
     }
 
     /**
@@ -900,6 +894,12 @@ public class TransactionCreate {
         return convertedTotalTaxLiabilityAmount;
     }
 
+    @SuppressWarnings("unchecked")
+    @JsonIgnore
+    public Optional<TransactionStatusEnum> status() {
+        return (Optional<TransactionStatusEnum>) status;
+    }
+
     @JsonIgnore
     public List<TransactionAddressBuilder> addresses() {
         return addresses;
@@ -996,19 +996,6 @@ public class TransactionCreate {
     public TransactionCreate withShopDateTz(Optional<String> shopDateTz) {
         Utils.checkNotNull(shopDateTz, "shopDateTz");
         this.shopDateTz = shopDateTz;
-        return this;
-    }
-
-    public TransactionCreate withStatus(TransactionStatusEnum status) {
-        Utils.checkNotNull(status, "status");
-        this.status = Optional.ofNullable(status);
-        return this;
-    }
-
-
-    public TransactionCreate withStatus(Optional<? extends TransactionStatusEnum> status) {
-        Utils.checkNotNull(status, "status");
-        this.status = status;
         return this;
     }
 
@@ -1748,6 +1735,19 @@ public class TransactionCreate {
         return this;
     }
 
+    public TransactionCreate withStatus(TransactionStatusEnum status) {
+        Utils.checkNotNull(status, "status");
+        this.status = Optional.ofNullable(status);
+        return this;
+    }
+
+
+    public TransactionCreate withStatus(Optional<? extends TransactionStatusEnum> status) {
+        Utils.checkNotNull(status, "status");
+        this.status = status;
+        return this;
+    }
+
     public TransactionCreate withAddresses(List<TransactionAddressBuilder> addresses) {
         Utils.checkNotNull(addresses, "addresses");
         this.addresses = addresses;
@@ -1789,7 +1789,6 @@ public class TransactionCreate {
             Utils.enhancedDeepEquals(this.date, other.date) &&
             Utils.enhancedDeepEquals(this.shopDate, other.shopDate) &&
             Utils.enhancedDeepEquals(this.shopDateTz, other.shopDateTz) &&
-            Utils.enhancedDeepEquals(this.status, other.status) &&
             Utils.enhancedDeepEquals(this.description, other.description) &&
             Utils.enhancedDeepEquals(this.refundStatus, other.refundStatus) &&
             Utils.enhancedDeepEquals(this.totalAmount, other.totalAmount) &&
@@ -1830,6 +1829,7 @@ public class TransactionCreate {
             Utils.enhancedDeepEquals(this.convertedTotalDiscount, other.convertedTotalDiscount) &&
             Utils.enhancedDeepEquals(this.convertedSubtotal, other.convertedSubtotal) &&
             Utils.enhancedDeepEquals(this.convertedTotalTaxLiabilityAmount, other.convertedTotalTaxLiabilityAmount) &&
+            Utils.enhancedDeepEquals(this.status, other.status) &&
             Utils.enhancedDeepEquals(this.addresses, other.addresses) &&
             Utils.enhancedDeepEquals(this.transactionItems, other.transactionItems) &&
             Utils.enhancedDeepEquals(this.customer, other.customer);
@@ -1840,20 +1840,20 @@ public class TransactionCreate {
         return Utils.enhancedHash(
             requiresExemption, organizationId, externalId,
             date, shopDate, shopDateTz,
-            status, description, refundStatus,
-            totalAmount, customerId, marketplace,
-            exempt, exemptions, relatedTo,
-            secondaryExternalId, secondarySource, externalFriendlyId,
-            totalTaxAmountImported, taxRateImported, totalTaxAmountCalculated,
-            taxRateCalculated, totalTaxLiabilityAmount, taxLiabilitySource,
-            taxableAmount, currency, locked,
-            source, connectionId, filingId,
-            city, county, state,
-            country, postalCode, taxId,
-            addressStatus, processingStatus, destinationCurrency,
-            convertedTotalAmount, convertedTotalTaxAmountImported, convertedTotalTaxAmountCalculated,
-            conversionRate, convertedTaxableAmount, convertedTotalDiscount,
-            convertedSubtotal, convertedTotalTaxLiabilityAmount, addresses,
+            description, refundStatus, totalAmount,
+            customerId, marketplace, exempt,
+            exemptions, relatedTo, secondaryExternalId,
+            secondarySource, externalFriendlyId, totalTaxAmountImported,
+            taxRateImported, totalTaxAmountCalculated, taxRateCalculated,
+            totalTaxLiabilityAmount, taxLiabilitySource, taxableAmount,
+            currency, locked, source,
+            connectionId, filingId, city,
+            county, state, country,
+            postalCode, taxId, addressStatus,
+            processingStatus, destinationCurrency, convertedTotalAmount,
+            convertedTotalTaxAmountImported, convertedTotalTaxAmountCalculated, conversionRate,
+            convertedTaxableAmount, convertedTotalDiscount, convertedSubtotal,
+            convertedTotalTaxLiabilityAmount, status, addresses,
             transactionItems, customer);
     }
     
@@ -1866,7 +1866,6 @@ public class TransactionCreate {
                 "date", date,
                 "shopDate", shopDate,
                 "shopDateTz", shopDateTz,
-                "status", status,
                 "description", description,
                 "refundStatus", refundStatus,
                 "totalAmount", totalAmount,
@@ -1907,6 +1906,7 @@ public class TransactionCreate {
                 "convertedTotalDiscount", convertedTotalDiscount,
                 "convertedSubtotal", convertedSubtotal,
                 "convertedTotalTaxLiabilityAmount", convertedTotalTaxLiabilityAmount,
+                "status", status,
                 "addresses", addresses,
                 "transactionItems", transactionItems,
                 "customer", customer);
@@ -1926,8 +1926,6 @@ public class TransactionCreate {
         private Optional<String> shopDate = Optional.empty();
 
         private Optional<String> shopDateTz = Optional.empty();
-
-        private Optional<? extends TransactionStatusEnum> status = Optional.empty();
 
         private Optional<String> description = Optional.empty();
 
@@ -2008,6 +2006,8 @@ public class TransactionCreate {
         private Optional<Double> convertedSubtotal = Optional.empty();
 
         private Optional<Double> convertedTotalTaxLiabilityAmount = Optional.empty();
+
+        private Optional<? extends TransactionStatusEnum> status = Optional.empty();
 
         private List<TransactionAddressBuilder> addresses;
 
@@ -2097,19 +2097,6 @@ public class TransactionCreate {
         public Builder shopDateTz(Optional<String> shopDateTz) {
             Utils.checkNotNull(shopDateTz, "shopDateTz");
             this.shopDateTz = shopDateTz;
-            return this;
-        }
-
-
-        public Builder status(TransactionStatusEnum status) {
-            Utils.checkNotNull(status, "status");
-            this.status = Optional.ofNullable(status);
-            return this;
-        }
-
-        public Builder status(Optional<? extends TransactionStatusEnum> status) {
-            Utils.checkNotNull(status, "status");
-            this.status = status;
             return this;
         }
 
@@ -2850,6 +2837,19 @@ public class TransactionCreate {
         }
 
 
+        public Builder status(TransactionStatusEnum status) {
+            Utils.checkNotNull(status, "status");
+            this.status = Optional.ofNullable(status);
+            return this;
+        }
+
+        public Builder status(Optional<? extends TransactionStatusEnum> status) {
+            Utils.checkNotNull(status, "status");
+            this.status = status;
+            return this;
+        }
+
+
         public Builder addresses(List<TransactionAddressBuilder> addresses) {
             Utils.checkNotNull(addresses, "addresses");
             this.addresses = addresses;
@@ -2908,20 +2908,20 @@ public class TransactionCreate {
             return new TransactionCreate(
                 requiresExemption, organizationId, externalId,
                 date, shopDate, shopDateTz,
-                status, description, refundStatus,
-                totalAmount, customerId, marketplace,
-                exempt, exemptions, relatedTo,
-                secondaryExternalId, secondarySource, externalFriendlyId,
-                totalTaxAmountImported, taxRateImported, totalTaxAmountCalculated,
-                taxRateCalculated, totalTaxLiabilityAmount, taxLiabilitySource,
-                taxableAmount, currency, locked,
-                source, connectionId, filingId,
-                city, county, state,
-                country, postalCode, taxId,
-                addressStatus, processingStatus, destinationCurrency,
-                convertedTotalAmount, convertedTotalTaxAmountImported, convertedTotalTaxAmountCalculated,
-                conversionRate, convertedTaxableAmount, convertedTotalDiscount,
-                convertedSubtotal, convertedTotalTaxLiabilityAmount, addresses,
+                description, refundStatus, totalAmount,
+                customerId, marketplace, exempt,
+                exemptions, relatedTo, secondaryExternalId,
+                secondarySource, externalFriendlyId, totalTaxAmountImported,
+                taxRateImported, totalTaxAmountCalculated, taxRateCalculated,
+                totalTaxLiabilityAmount, taxLiabilitySource, taxableAmount,
+                currency, locked, source,
+                connectionId, filingId, city,
+                county, state, country,
+                postalCode, taxId, addressStatus,
+                processingStatus, destinationCurrency, convertedTotalAmount,
+                convertedTotalTaxAmountImported, convertedTotalTaxAmountCalculated, conversionRate,
+                convertedTaxableAmount, convertedTotalDiscount, convertedSubtotal,
+                convertedTotalTaxLiabilityAmount, status, addresses,
                 transactionItems, customer);
         }
 

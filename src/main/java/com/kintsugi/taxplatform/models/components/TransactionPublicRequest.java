@@ -59,11 +59,6 @@ public class TransactionPublicRequest {
     @JsonProperty("shop_date_tz")
     private Optional<String> shopDateTz;
 
-
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("status")
-    private Optional<? extends TransactionStatusEnum> status;
-
     /**
      * Description of the transaction.
      */
@@ -288,7 +283,6 @@ public class TransactionPublicRequest {
             @JsonProperty("date") OffsetDateTime date,
             @JsonProperty("shop_date") Optional<String> shopDate,
             @JsonProperty("shop_date_tz") Optional<String> shopDateTz,
-            @JsonProperty("status") Optional<? extends TransactionStatusEnum> status,
             @JsonProperty("description") Optional<String> description,
             @JsonProperty("refund_status") Optional<? extends TransactionRefundStatus> refundStatus,
             @JsonProperty("total_amount") Optional<Double> totalAmount,
@@ -328,7 +322,6 @@ public class TransactionPublicRequest {
         Utils.checkNotNull(date, "date");
         Utils.checkNotNull(shopDate, "shopDate");
         Utils.checkNotNull(shopDateTz, "shopDateTz");
-        Utils.checkNotNull(status, "status");
         Utils.checkNotNull(description, "description");
         Utils.checkNotNull(refundStatus, "refundStatus");
         Utils.checkNotNull(totalAmount, "totalAmount");
@@ -368,7 +361,6 @@ public class TransactionPublicRequest {
         this.date = date;
         this.shopDate = shopDate;
         this.shopDateTz = shopDateTz;
-        this.status = status;
         this.description = description;
         this.refundStatus = refundStatus;
         this.totalAmount = totalAmount;
@@ -423,9 +415,8 @@ public class TransactionPublicRequest {
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            addresses, transactionItems, customer,
-            type);
+            Optional.empty(), Optional.empty(), addresses,
+            transactionItems, customer, type);
     }
 
     @SuppressWarnings("unchecked")
@@ -472,12 +463,6 @@ public class TransactionPublicRequest {
     @JsonIgnore
     public Optional<String> shopDateTz() {
         return shopDateTz;
-    }
-
-    @SuppressWarnings("unchecked")
-    @JsonIgnore
-    public Optional<TransactionStatusEnum> status() {
-        return (Optional<TransactionStatusEnum>) status;
     }
 
     /**
@@ -812,19 +797,6 @@ public class TransactionPublicRequest {
     public TransactionPublicRequest withShopDateTz(Optional<String> shopDateTz) {
         Utils.checkNotNull(shopDateTz, "shopDateTz");
         this.shopDateTz = shopDateTz;
-        return this;
-    }
-
-    public TransactionPublicRequest withStatus(TransactionStatusEnum status) {
-        Utils.checkNotNull(status, "status");
-        this.status = Optional.ofNullable(status);
-        return this;
-    }
-
-
-    public TransactionPublicRequest withStatus(Optional<? extends TransactionStatusEnum> status) {
-        Utils.checkNotNull(status, "status");
-        this.status = status;
         return this;
     }
 
@@ -1405,7 +1377,6 @@ public class TransactionPublicRequest {
             Utils.enhancedDeepEquals(this.date, other.date) &&
             Utils.enhancedDeepEquals(this.shopDate, other.shopDate) &&
             Utils.enhancedDeepEquals(this.shopDateTz, other.shopDateTz) &&
-            Utils.enhancedDeepEquals(this.status, other.status) &&
             Utils.enhancedDeepEquals(this.description, other.description) &&
             Utils.enhancedDeepEquals(this.refundStatus, other.refundStatus) &&
             Utils.enhancedDeepEquals(this.totalAmount, other.totalAmount) &&
@@ -1446,18 +1417,17 @@ public class TransactionPublicRequest {
         return Utils.enhancedHash(
             requiresExemption, organizationId, externalId,
             date, shopDate, shopDateTz,
-            status, description, refundStatus,
-            totalAmount, customerId, marketplace,
-            exempt, exemptions, relatedTo,
-            secondaryExternalId, secondarySource, externalFriendlyId,
-            totalTaxAmountImported, taxRateImported, totalTaxAmountCalculated,
-            taxRateCalculated, totalTaxLiabilityAmount, taxLiabilitySource,
-            taxableAmount, currency, locked,
-            source, connectionId, filingId,
-            city, county, state,
-            country, postalCode, taxId,
-            addresses, transactionItems, customer,
-            type);
+            description, refundStatus, totalAmount,
+            customerId, marketplace, exempt,
+            exemptions, relatedTo, secondaryExternalId,
+            secondarySource, externalFriendlyId, totalTaxAmountImported,
+            taxRateImported, totalTaxAmountCalculated, taxRateCalculated,
+            totalTaxLiabilityAmount, taxLiabilitySource, taxableAmount,
+            currency, locked, source,
+            connectionId, filingId, city,
+            county, state, country,
+            postalCode, taxId, addresses,
+            transactionItems, customer, type);
     }
     
     @Override
@@ -1469,7 +1439,6 @@ public class TransactionPublicRequest {
                 "date", date,
                 "shopDate", shopDate,
                 "shopDateTz", shopDateTz,
-                "status", status,
                 "description", description,
                 "refundStatus", refundStatus,
                 "totalAmount", totalAmount,
@@ -1519,8 +1488,6 @@ public class TransactionPublicRequest {
         private Optional<String> shopDate = Optional.empty();
 
         private Optional<String> shopDateTz = Optional.empty();
-
-        private Optional<? extends TransactionStatusEnum> status = Optional.empty();
 
         private Optional<String> description = Optional.empty();
 
@@ -1670,19 +1637,6 @@ public class TransactionPublicRequest {
         public Builder shopDateTz(Optional<String> shopDateTz) {
             Utils.checkNotNull(shopDateTz, "shopDateTz");
             this.shopDateTz = shopDateTz;
-            return this;
-        }
-
-
-        public Builder status(TransactionStatusEnum status) {
-            Utils.checkNotNull(status, "status");
-            this.status = Optional.ofNullable(status);
-            return this;
-        }
-
-        public Builder status(Optional<? extends TransactionStatusEnum> status) {
-            Utils.checkNotNull(status, "status");
-            this.status = status;
             return this;
         }
 
@@ -2283,18 +2237,17 @@ public class TransactionPublicRequest {
             return new TransactionPublicRequest(
                 requiresExemption, organizationId, externalId,
                 date, shopDate, shopDateTz,
-                status, description, refundStatus,
-                totalAmount, customerId, marketplace,
-                exempt, exemptions, relatedTo,
-                secondaryExternalId, secondarySource, externalFriendlyId,
-                totalTaxAmountImported, taxRateImported, totalTaxAmountCalculated,
-                taxRateCalculated, totalTaxLiabilityAmount, taxLiabilitySource,
-                taxableAmount, currency, locked,
-                source, connectionId, filingId,
-                city, county, state,
-                country, postalCode, taxId,
-                addresses, transactionItems, customer,
-                type);
+                description, refundStatus, totalAmount,
+                customerId, marketplace, exempt,
+                exemptions, relatedTo, secondaryExternalId,
+                secondarySource, externalFriendlyId, totalTaxAmountImported,
+                taxRateImported, totalTaxAmountCalculated, taxRateCalculated,
+                totalTaxLiabilityAmount, taxLiabilitySource, taxableAmount,
+                currency, locked, source,
+                connectionId, filingId, city,
+                county, state, country,
+                postalCode, taxId, addresses,
+                transactionItems, customer, type);
         }
 
 

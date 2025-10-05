@@ -3144,7 +3144,7 @@ components:
         "id":
           type: "string"
           title: "Id"
-        "product_code": {"title": "Product Code", "$ref": "#/components/schemas/ProductCodeEnum"}
+        "product_code": {"title": "Product Code", "$ref": "#/components/schemas/ProductCodeByCategoryEnum"}
         "start_date":
           type: "string"
           format: "date"
@@ -3684,12 +3684,148 @@ components:
         - "total_updated"
         - "total_failed"
       title: "BulkTaskUpdateResponse"
+    "BunnyConnectionRequest":
+      properties:
+        "subdomain":
+          type: "string"
+          title: "Subdomain"
+          description: "Bunny subdomain (e.g., 'mycompany' for mycompany.bunny.com)"
+        "client_id":
+          type: "string"
+          title: "Client Id"
+          description: "Bunny API Client ID"
+        "client_secret":
+          type: "string"
+          title: "Client Secret"
+          description: "Bunny API Client Secret"
+        "name":
+          description: "Custom name for this connection"
+          type: "string"
+      type: "object"
+      required:
+        - "subdomain"
+        - "client_id"
+        - "client_secret"
+      title: "BunnyConnectionRequest"
+      description: "Request model for creating a Bunny connection."
+    "BunnyConnectionResponse":
+      properties:
+        "success":
+          type: "boolean"
+          title: "Success"
+        "message":
+          type: "string"
+          title: "Message"
+        "connection_id":
+          type: "string"
+        "data":
+          type: "object"
+      type: "object"
+      required:
+        - "success"
+        - "message"
+      title: "BunnyConnectionResponse"
+      description: "Response model for Bunny connection operations."
+    "BunnyConnectionStatus":
+      properties:
+        "connection_id":
+          type: "string"
+          title: "Connection Id"
+        "subdomain":
+          type: "string"
+          title: "Subdomain"
+        "name":
+          type: "string"
+          title: "Name"
+        "status":
+          type: "string"
+          title: "Status"
+        "last_sync":
+          type: "string"
+        "created_at":
+          type: "string"
+          format: "date-time"
+          title: "Created At"
+        "error_message":
+          type: "string"
+      type: "object"
+      required:
+        - "connection_id"
+        - "subdomain"
+        - "name"
+        - "status"
+        - "created_at"
+      title: "BunnyConnectionStatus"
+      description: "Model for connection status information."
+    "BunnyHealthCheckResponse":
+      properties:
+        "healthy":
+          type: "boolean"
+          title: "Healthy"
+        "subdomain":
+          type: "string"
+          title: "Subdomain"
+        "message":
+          type: "string"
+          title: "Message"
+        "last_checked":
+          type: "string"
+          format: "date-time"
+          title: "Last Checked"
+      type: "object"
+      required:
+        - "healthy"
+        - "subdomain"
+        - "message"
+        - "last_checked"
+      title: "BunnyHealthCheckResponse"
+      description: "Response model for health check."
+    "BunnySyncRequest":
+      properties:
+        "connection_id":
+          type: "string"
+          title: "Connection Id"
+        "entity_types":
+          description: "Specific entity types to sync (accounts, invoices, products, subscriptions)"
+          type: "array"
+          items:
+            type: "string"
+        "full_sync":
+          type: "boolean"
+          title: "Full Sync"
+          description: "Perform full sync instead of incremental"
+          default: false
+      type: "object"
+      required:
+        - "connection_id"
+      title: "BunnySyncRequest"
+      description: "Request model for triggering sync."
+    "BunnySyncResponse":
+      properties:
+        "sync_id":
+          type: "string"
+          title: "Sync Id"
+        "status":
+          type: "string"
+          title: "Status"
+        "message":
+          type: "string"
+          title: "Message"
+        "stats":
+          type: "object"
+      type: "object"
+      required:
+        - "sync_id"
+        - "status"
+        - "message"
+      title: "BunnySyncResponse"
+      description: "Response model for sync operations."
     "CanadaRule":
       properties:
         "id":
           type: "string"
           title: "Id"
-        "product_code": {"title": "Product Code", "$ref": "#/components/schemas/ProductCodeEnum"}
+        "product_code": {"title": "Product Code", "$ref": "#/components/schemas/ProductCodeByCategoryEnum"}
         "start_date":
           type: "string"
           format: "date"
@@ -6203,7 +6339,7 @@ components:
         "id":
           type: "string"
           title: "Id"
-        "product_code": {"title": "Product Code", "$ref": "#/components/schemas/ProductCodeEnum"}
+        "product_code": {"title": "Product Code", "$ref": "#/components/schemas/ProductCodeByCategoryEnum"}
         "start_date":
           type: "string"
           format: "date"
@@ -7607,7 +7743,7 @@ components:
         "id":
           type: "string"
           title: "Id"
-        "product_code": {"title": "Product Code", "$ref": "#/components/schemas/ProductCodeEnum"}
+        "product_code": {"title": "Product Code", "$ref": "#/components/schemas/ProductCodeByCategoryEnum"}
         "start_date":
           type: "string"
           format: "date"
@@ -8013,7 +8149,7 @@ components:
         "id":
           type: "string"
           title: "Id"
-        "product_code": {"title": "Product Code", "$ref": "#/components/schemas/ProductCodeEnum"}
+        "product_code": {"title": "Product Code", "$ref": "#/components/schemas/ProductCodeByCategoryEnum"}
         "start_date":
           type: "string"
           format: "date"
@@ -8253,10 +8389,18 @@ components:
       title: "MigrationRequest"
     "ModifyProductCategorySubcategory":
       properties:
-        "existing_category": {"title": "Existing Category", "$ref": "#/components/schemas/ProductCategoryEnum"}
-        "existing_subcategory": {"title": "Existing Subcategory", "$ref": "#/components/schemas/ProductSubCategoryEnum"}
-        "new_category": {"title": "New Category", "$ref": "#/components/schemas/ProductCategoryEnum"}
-        "new_subcategory": {"title": "New Subcategory", "$ref": "#/components/schemas/ProductSubCategoryEnum"}
+        "existing_category":
+          type: "string"
+          title: "Existing Category"
+        "existing_subcategory":
+          type: "string"
+          title: "Existing Subcategory"
+        "new_category":
+          type: "string"
+          title: "New Category"
+        "new_subcategory":
+          type: "string"
+          title: "New Subcategory"
         "status_list":
           items: {"$ref": "#/components/schemas/ProductStatusEnum"}
           type: "array"
@@ -8274,7 +8418,7 @@ components:
         "id":
           type: "string"
           title: "Id"
-        "product_code": {"title": "Product Code", "$ref": "#/components/schemas/ProductCodeEnum"}
+        "product_code": {"title": "Product Code", "$ref": "#/components/schemas/ProductCodeByCategoryEnum"}
         "start_date":
           type: "string"
           format: "date"
@@ -8558,6 +8702,9 @@ components:
         "note_type":
           type: "string"
           title: "Note Type"
+        "note_source":
+          type: "string"
+          title: "Note Source"
         "is_pinned":
           type: "boolean"
           title: "Is Pinned"
@@ -8572,6 +8719,7 @@ components:
         - "organization_id"
         - "content"
         - "note_type"
+        - "note_source"
         - "is_pinned"
         - "created_at"
       title: "NoteRead"
@@ -8784,6 +8932,27 @@ components:
         - "id"
         - "product_id"
       title: "OrderLineItem"
+    "OrdwayCreateUpdate":
+      properties:
+        "user_company":
+          type: "string"
+          title: "User Company"
+        "user_email":
+          type: "string"
+          title: "User Email"
+        "user_token":
+          type: "string"
+          title: "User Token"
+        "api_key":
+          type: "string"
+          title: "Api Key"
+      type: "object"
+      required:
+        - "user_company"
+        - "user_email"
+        - "user_token"
+        - "api_key"
+      title: "OrdwayCreateUpdate"
     "OrgCreated":
       properties:
         "event_type":
@@ -10178,6 +10347,27 @@ components:
         - "page"
         - "size"
       title: "Page[NexusResponse]"
+    "Page_NoteRead_":
+      properties:
+        "items":
+          items: {"$ref": "#/components/schemas/NoteRead"}
+          type: "array"
+          title: "Items"
+        "total":
+          type: "integer"
+        "page":
+          type: "integer"
+        "size":
+          type: "integer"
+        "pages":
+          type: "integer"
+      type: "object"
+      required:
+        - "items"
+        - "total"
+        - "page"
+        - "size"
+      title: "Page[NoteRead]"
     "Page_OrganizationExperienceTasks_":
       properties:
         "items":
@@ -11466,8 +11656,12 @@ components:
       title: "ProductCreateManual"
     "ProductOverview":
       properties:
-        "category": {"title": "Category", "$ref": "#/components/schemas/ProductCategoryEnum"}
-        "subcategory": {"title": "Subcategory", "$ref": "#/components/schemas/ProductSubCategoryEnum"}
+        "category":
+          type: "string"
+          title: "Category"
+        "subcategory":
+          type: "string"
+          title: "Subcategory"
         "total_products":
           type: "integer"
           title: "Total Products"
@@ -11489,15 +11683,21 @@ components:
           type: "array"
           items:
             type: "string"
-        "code": {"title": "Code", "$ref": "#/components/schemas/ProductCodeEnum"}
+        "code":
+          type: "string"
+          title: "Code"
         "name":
           type: "string"
           title: "Name"
         "description":
           type: "string"
         "status": {"$ref": "#/components/schemas/ProductStatusEnum"}
-        "product_category": {"title": "Product Category", "$ref": "#/components/schemas/ProductCategoryEnum"}
-        "product_subcategory": {"title": "Product Subcategory", "$ref": "#/components/schemas/ProductSubCategoryEnum"}
+        "product_category":
+          type: "string"
+          title: "Product Category"
+        "product_subcategory":
+          type: "string"
+          title: "Product Subcategory"
         "tax_exempt":
           type: "boolean"
           title: "Tax Exempt"
@@ -12290,7 +12490,7 @@ components:
         "id":
           type: "string"
           title: "Id"
-        "product_code": {"title": "Product Code", "$ref": "#/components/schemas/ProductCodeEnum"}
+        "product_code": {"title": "Product Code", "$ref": "#/components/schemas/ProductCodeByCategoryEnum"}
         "start_date":
           type: "string"
           format: "date"
@@ -12351,72 +12551,6 @@ components:
         - "special_rate"
         - "taxable_rate"
       title: "Rule"
-    "RuleRead":
-      properties:
-        "id":
-          type: "string"
-          title: "Id"
-        "product_code": {"title": "Product Code", "$ref": "#/components/schemas/ProductCodeEnum"}
-        "start_date":
-          type: "string"
-          format: "date"
-          title: "Start Date"
-        "end_date":
-          type: "string"
-        "country": {"$ref": "#/components/schemas/CountryCodeEnum", "default": "US"}
-        "state":
-          type: "string"
-          title: "State"
-        "derived_rule_id":
-          type: "string"
-        "postal_code":
-          type: "string"
-          title: "Postal Code"
-        "city":
-          type: "string"
-          title: "City"
-        "county":
-          default: ""
-          type: "string"
-        "combined_rate":
-          type: "string"
-          title: "Combined Rate"
-        "state_rate":
-          type: "string"
-          title: "State Rate"
-        "county_rate":
-          type: "string"
-          title: "County Rate"
-        "city_rate":
-          type: "string"
-          title: "City Rate"
-        "special_rate":
-          type: "string"
-          title: "Special Rate"
-        "threshold":
-          type: "string"
-          title: "Threshold"
-          default: "0.0"
-        "treatment": {"$ref": "#/components/schemas/TaxTreatment", "default": "FULL_AMOUNT"}
-        "taxable_rate":
-          type: "string"
-          title: "Taxable Rate"
-      type: "object"
-      required:
-        - "id"
-        - "product_code"
-        - "start_date"
-        - "end_date"
-        - "state"
-        - "postal_code"
-        - "city"
-        - "combined_rate"
-        - "state_rate"
-        - "county_rate"
-        - "city_rate"
-        - "special_rate"
-        - "taxable_rate"
-      title: "RuleRead"
     "SSTRegistrationCreatePayload":
       properties:
         "registration_import_type":
@@ -14059,7 +14193,6 @@ components:
         "shop_date_tz":
           description: "Timezone of the shop"
           type: "string"
-        "status": {"$ref": "#/components/schemas/TransactionStatusEnum", "description": "Transaction status (e.g., COMMITTED)", "default": "COMMITTED"}
         "description":
           description: "Description of the transaction."
           type: "string"
@@ -14173,6 +14306,7 @@ components:
         "converted_total_tax_liability_amount":
           description: "Converted total tax liability amount."
           type: "number"
+        "status": {"$ref": "#/components/schemas/TransactionStatusEnum", "description": "Transaction status (e.g., COMMITTED)", "default": "COMMITTED"}
         "addresses":
           type: "array"
           items: {"$ref": "#/components/schemas/TransactionAddressBuilder"}
@@ -14215,7 +14349,6 @@ components:
         "shop_date_tz":
           description: "Timezone of the shop"
           type: "string"
-        "status": {"$ref": "#/components/schemas/TransactionStatusEnum", "description": "Transaction status (e.g., COMMITTED)", "default": "COMMITTED"}
         "description":
           description: "Description of the transaction."
           type: "string"
@@ -14329,6 +14462,7 @@ components:
         "converted_total_tax_liability_amount":
           description: "Converted total tax liability amount."
           type: "number"
+        "status": {"$ref": "#/components/schemas/TransactionStatusEnum", "description": "Transaction status (e.g., COMMITTED)", "default": "COMMITTED"}
         "addresses":
           type: "array"
           items: {"$ref": "#/components/schemas/TransactionAddressBuilder"}
@@ -15122,7 +15256,6 @@ components:
         "shop_date_tz":
           description: "Timezone of the shop"
           type: "string"
-        "status": {"$ref": "#/components/schemas/TransactionStatusEnum", "description": "Transaction status (e.g., COMMITTED)", "default": "COMMITTED"}
         "description":
           description: "Description of the transaction."
           type: "string"
@@ -15251,7 +15384,6 @@ components:
         "shop_date_tz":
           description: "Timezone of the shop"
           type: "string"
-        "status": {"$ref": "#/components/schemas/TransactionStatusEnum", "description": "Transaction status (e.g., COMMITTED)", "default": "COMMITTED"}
         "description":
           description: "Description of the transaction."
           type: "string"
@@ -15372,6 +15504,7 @@ components:
         "converted_total_tax_liability_amount":
           description: "Converted total tax liability amount."
           type: "string"
+        "status": {"$ref": "#/components/schemas/TransactionStatusEnum", "description": "Transaction status (e.g., COMMITTED)", "default": "COMMITTED"}
         "id":
           type: "string"
           title: "Id"
@@ -15459,7 +15592,6 @@ components:
         "shop_date_tz":
           description: "Timezone of the shop"
           type: "string"
-        "status": {"$ref": "#/components/schemas/TransactionStatusEnum", "description": "Transaction status (e.g., COMMITTED)", "default": "COMMITTED"}
         "description":
           description: "Description of the transaction."
           type: "string"

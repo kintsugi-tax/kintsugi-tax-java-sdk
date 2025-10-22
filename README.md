@@ -29,6 +29,7 @@ Developer-friendly & type-safe Java SDK specifically catered to leverage *tax-pl
   * [Available Resources and Operations](#available-resources-and-operations)
   * [Error Handling](#error-handling)
   * [Server Selection](#server-selection)
+  * [Custom HTTP Client](#custom-http-client)
   * [Debugging](#debugging)
 * [Development](#development)
   * [Maturity](#maturity)
@@ -48,7 +49,7 @@ The samples below show how a published SDK artifact is used:
 
 Gradle:
 ```groovy
-implementation 'com.trykintsugi:kintsugi-tax-java-sdk:0.13.0'
+implementation 'com.trykintsugi:kintsugi-tax-java-sdk:0.14.0'
 ```
 
 Maven:
@@ -56,7 +57,7 @@ Maven:
 <dependency>
     <groupId>com.trykintsugi</groupId>
     <artifactId>kintsugi-tax-java-sdk</artifactId>
-    <version>0.13.0</version>
+    <version>0.14.0</version>
 </dependency>
 ```
 
@@ -411,7 +412,6 @@ public class Application {
 * [update](docs/sdks/registrations/README.md#update) - Update Registration
 * [deregister](docs/sdks/registrations/README.md#deregister) - Deregister Registration
 
-
 ### [taxEstimation()](docs/sdks/taxestimation/README.md)
 
 * [estimate](docs/sdks/taxestimation/README.md#estimate) - Estimate Tax
@@ -438,17 +438,19 @@ public class Application {
 
 Handling errors in this SDK should largely match your expectations. All operations return a response object or raise an exception.
 
-By default, an API error will throw a `models/errors/APIException` exception. When custom error responses are specified for an operation, the SDK may also throw their associated exception. You can refer to respective *Errors* tables in SDK docs for more details on possible exception types for each operation. For example, the `search` method throws the following exceptions:
 
-| Error Type                                                                | Status Code | Content Type     |
-| ------------------------------------------------------------------------- | ----------- | ---------------- |
-| models/errors/ErrorResponse                                               | 401         | application/json |
-| models/errors/BackendSrcAddressValidationResponsesValidationErrorResponse | 422         | application/json |
-| models/errors/ErrorResponse                                               | 500         | application/json |
-| models/errors/APIException                                                | 4XX, 5XX    | \*/\*            |
+[`SDKError`](./src/main/java/models/errors/SDKError.java) is the base class for all HTTP error responses. It has the following properties:
+
+| Method           | Type                        | Description                                                              |
+| ---------------- | --------------------------- | ------------------------------------------------------------------------ |
+| `message()`      | `String`                    | Error message                                                            |
+| `code()`         | `int`                       | HTTP response status code eg `404`                                       |
+| `headers`        | `Map<String, List<String>>` | HTTP response headers                                                    |
+| `body()`         | `byte[]`                    | HTTP body as a byte array. Can be empty array if no body is returned.    |
+| `bodyAsString()` | `String`                    | HTTP body as a UTF-8 string. Can be empty string if no body is returned. |
+| `rawResponse()`  | `HttpResponse<?>`           | Raw HTTP response (body already read and not available for re-read)      |
 
 ### Example
-
 ```java
 package hello.world;
 
@@ -493,6 +495,37 @@ public class Application {
     }
 }
 ```
+
+### Error Classes
+**Primary error:**
+* [`SDKError`](./src/main/java/models/errors/SDKError.java): The base class for HTTP error responses.
+
+<details><summary>Less common errors (17)</summary>
+
+<br />
+
+**Network errors:**
+* `java.io.IOException` (always wrapped by `java.io.UncheckedIOException`). Commonly encountered subclasses of
+`IOException` include `java.net.ConnectException`, `java.net.SocketTimeoutException`, `EOFException` (there are
+many more subclasses in the JDK platform).
+
+**Inherit from [`SDKError`](./src/main/java/models/errors/SDKError.java)**:
+* [`com.kintsugi.taxplatform.models.errors.ErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.ErrorResponse.java): Applicable to 32 of 41 methods.*
+* [`com.kintsugi.taxplatform.models.errors.HTTPValidationError`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.HTTPValidationError.java): Validation Error. Status code `422`. Applicable to 9 of 41 methods.*
+* [`com.kintsugi.taxplatform.models.errors.BackendSrcExemptionsResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcExemptionsResponsesValidationErrorResponse.java): Validation issues, such as missing required fields or invalid field values. Status code `422`. Applicable to 5 of 41 methods.*
+* [`com.kintsugi.taxplatform.models.errors.BackendSrcRegistrationsResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcRegistrationsResponsesValidationErrorResponse.java): Validation error. Status code `422`. Applicable to 5 of 41 methods.*
+* [`com.kintsugi.taxplatform.models.errors.BackendSrcTransactionsResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcTransactionsResponsesValidationErrorResponse.java): Status code `422`. Applicable to 5 of 41 methods.*
+* [`com.kintsugi.taxplatform.models.errors.BackendSrcNexusResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcNexusResponsesValidationErrorResponse.java): Validation error. Status code `422`. Applicable to 4 of 41 methods.*
+* [`com.kintsugi.taxplatform.models.errors.BackendSrcProductsResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcProductsResponsesValidationErrorResponse.java): Validation error. Status code `422`. Applicable to 4 of 41 methods.*
+* [`com.kintsugi.taxplatform.models.errors.BackendSrcCustomersResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcCustomersResponsesValidationErrorResponse.java): Query parameters failed validation, such as an out-of-range page number. Status code `422`. Applicable to 3 of 41 methods.*
+* [`com.kintsugi.taxplatform.models.errors.BackendSrcFilingsResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcFilingsResponsesValidationErrorResponse.java): Validation error. Status code `422`. Applicable to 3 of 41 methods.*
+* [`com.kintsugi.taxplatform.models.errors.BackendSrcAddressValidationResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcAddressValidationResponsesValidationErrorResponse.java): Validation error - Address fields failed validation or are incomplete. Status code `422`. Applicable to 2 of 41 methods.*
+* [`com.kintsugi.taxplatform.models.errors.BackendSrcTaxEstimationResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcTaxEstimationResponsesValidationErrorResponse.java): Validation Error. Status code `422`. Applicable to 1 of 41 methods.*
+
+
+</details>
+
+\* Check [the method documentation](#available-resources-and-operations) to see if the error is applicable.
 <!-- End Error Handling [errors] -->
 
 <!-- Start Server Selection [server] -->
@@ -547,6 +580,142 @@ public class Application {
 }
 ```
 <!-- End Server Selection [server] -->
+
+<!-- Start Custom HTTP Client [http-client] -->
+## Custom HTTP Client
+
+The Java SDK makes API calls using an `HTTPClient` that wraps the native
+[HttpClient](https://docs.oracle.com/en/java/javase/11/docs/api/java.net.http/java/net/http/HttpClient.html). This
+client provides the ability to attach hooks around the request lifecycle that can be used to modify the request or handle
+errors and response.
+
+The `HTTPClient` interface allows you to either use the default `SpeakeasyHTTPClient` that comes with the SDK,
+or provide your own custom implementation with customized configuration such as custom executors, SSL context,
+connection pools, and other HTTP client settings.
+
+The interface provides synchronous (`send`) methods and asynchronous (`sendAsync`) methods. The `sendAsync` method
+is used to power the async SDK methods and returns a `CompletableFuture<HttpResponse<Blob>>` for non-blocking operations.
+
+The following example shows how to add a custom header and handle errors:
+
+```java
+import com.kintsugi.taxplatform.SDK;
+import com.kintsugi.taxplatform.utils.HTTPClient;
+import com.kintsugi.taxplatform.utils.SpeakeasyHTTPClient;
+import com.kintsugi.taxplatform.utils.Utils;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.io.InputStream;
+import java.time.Duration;
+
+public class Application {
+    public static void main(String[] args) {
+        // Create a custom HTTP client with hooks
+        HTTPClient httpClient = new HTTPClient() {
+            private final HTTPClient defaultClient = new SpeakeasyHTTPClient();
+            
+            @Override
+            public HttpResponse<InputStream> send(HttpRequest request) throws IOException, URISyntaxException, InterruptedException {
+                // Add custom header and timeout using Utils.copy()
+                HttpRequest modifiedRequest = Utils.copy(request)
+                    .header("x-custom-header", "custom value")
+                    .timeout(Duration.ofSeconds(30))
+                    .build();
+                    
+                try {
+                    HttpResponse<InputStream> response = defaultClient.send(modifiedRequest);
+                    // Log successful response
+                    System.out.println("Request successful: " + response.statusCode());
+                    return response;
+                } catch (Exception error) {
+                    // Log error
+                    System.err.println("Request failed: " + error.getMessage());
+                    throw error;
+                }
+            }
+        };
+
+        SDK sdk = SDK.builder()
+            .client(httpClient)
+            .build();
+    }
+}
+```
+
+<details>
+<summary>Custom HTTP Client Configuration</summary>
+
+You can also provide a completely custom HTTP client with your own configuration:
+
+```java
+import com.kintsugi.taxplatform.SDK;
+import com.kintsugi.taxplatform.utils.HTTPClient;
+import com.kintsugi.taxplatform.utils.Blob;
+import com.kintsugi.taxplatform.utils.ResponseWithBody;
+
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.io.InputStream;
+import java.time.Duration;
+import java.util.concurrent.Executors;
+import java.util.concurrent.CompletableFuture;
+
+public class Application {
+    public static void main(String[] args) {
+        // Custom HTTP client with custom configuration
+        HTTPClient customHttpClient = new HTTPClient() {
+            private final HttpClient client = HttpClient.newBuilder()
+                .executor(Executors.newFixedThreadPool(10))
+                .connectTimeout(Duration.ofSeconds(30))
+                // .sslContext(customSslContext) // Add custom SSL context if needed
+                .build();
+
+            @Override
+            public HttpResponse<InputStream> send(HttpRequest request) throws IOException, URISyntaxException, InterruptedException {
+                return client.send(request, HttpResponse.BodyHandlers.ofInputStream());
+            }
+
+            @Override
+            public CompletableFuture<HttpResponse<Blob>> sendAsync(HttpRequest request) {
+                // Convert response to HttpResponse<Blob> for async operations
+                return client.sendAsync(request, HttpResponse.BodyHandlers.ofPublisher())
+                    .thenApply(resp -> new ResponseWithBody<>(resp, Blob::from));
+            }
+        };
+
+        SDK sdk = SDK.builder()
+            .client(customHttpClient)
+            .build();
+    }
+}
+```
+
+</details>
+
+You can also enable debug logging on the default `SpeakeasyHTTPClient`:
+
+```java
+import com.kintsugi.taxplatform.SDK;
+import com.kintsugi.taxplatform.utils.SpeakeasyHTTPClient;
+
+public class Application {
+    public static void main(String[] args) {
+        SpeakeasyHTTPClient httpClient = new SpeakeasyHTTPClient();
+        httpClient.enableDebugLogging(true);
+
+        SDK sdk = SDK.builder()
+            .client(httpClient)
+            .build();
+    }
+}
+```
+<!-- End Custom HTTP Client [http-client] -->
 
 <!-- Start Debugging [debug] -->
 ## Debugging

@@ -11,7 +11,6 @@ import com.kintsugi.taxplatform.models.operations.UpdatePhysicalNexusV1NexusPhys
 import com.kintsugi.taxplatform.operations.UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPut;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
-import java.lang.Exception;
 import java.lang.String;
 import java.util.concurrent.CompletableFuture;
 
@@ -47,7 +46,7 @@ public class UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequestBui
         return request;
     }
 
-    public CompletableFuture<UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutResponse> call() throws Exception {
+    public CompletableFuture<UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutResponse> call() {
         
         AsyncRequestOperation<UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest, UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutResponse> operation
               = new UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPut.Async(sdkConfiguration, _headers);

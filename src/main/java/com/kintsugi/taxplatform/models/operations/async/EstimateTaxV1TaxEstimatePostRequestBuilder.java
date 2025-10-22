@@ -12,7 +12,6 @@ import com.kintsugi.taxplatform.operations.EstimateTaxV1TaxEstimatePost;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Boolean;
-import java.lang.Exception;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
@@ -54,7 +53,7 @@ public class EstimateTaxV1TaxEstimatePostRequestBuilder {
         return request;
     }
 
-    public CompletableFuture<EstimateTaxV1TaxEstimatePostResponse> call() throws Exception {
+    public CompletableFuture<EstimateTaxV1TaxEstimatePostResponse> call() {
         
         AsyncRequestOperation<EstimateTaxV1TaxEstimatePostRequest, EstimateTaxV1TaxEstimatePostResponse> operation
               = new EstimateTaxV1TaxEstimatePost.Async(sdkConfiguration, _headers);

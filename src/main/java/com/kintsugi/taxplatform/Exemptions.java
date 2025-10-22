@@ -27,7 +27,6 @@ import com.kintsugi.taxplatform.operations.GetExemptionByIdV1ExemptionsExemption
 import com.kintsugi.taxplatform.operations.GetExemptionsV1ExemptionsGet;
 import com.kintsugi.taxplatform.operations.UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost;
 import com.kintsugi.taxplatform.utils.Headers;
-import java.lang.Exception;
 import java.lang.String;
 
 
@@ -68,9 +67,9 @@ public class Exemptions {
      * 
      * @param request The request object containing all the parameters for the API call.
      * @return The response from the API call
-     * @throws Exception if the API call fails
+     * @throws RuntimeException subclass if the API call fails
      */
-    public GetExemptionsV1ExemptionsGetResponse get(GetExemptionsV1ExemptionsGetRequest request) throws Exception {
+    public GetExemptionsV1ExemptionsGetResponse get(GetExemptionsV1ExemptionsGetRequest request) {
         RequestOperation<GetExemptionsV1ExemptionsGetRequest, GetExemptionsV1ExemptionsGetResponse> operation
               = new GetExemptionsV1ExemptionsGet.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
@@ -98,9 +97,9 @@ public class Exemptions {
      * 
      * @param request The request object containing all the parameters for the API call.
      * @return The response from the API call
-     * @throws Exception if the API call fails
+     * @throws RuntimeException subclass if the API call fails
      */
-    public CreateExemptionV1ExemptionsPostResponse create(ExemptionCreate request) throws Exception {
+    public CreateExemptionV1ExemptionsPostResponse create(ExemptionCreate request) {
         RequestOperation<ExemptionCreate, CreateExemptionV1ExemptionsPostResponse> operation
               = new CreateExemptionV1ExemptionsPost.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
@@ -130,9 +129,9 @@ public class Exemptions {
      * 
      * @param exemptionId The unique identifier for the exemption being retrieved.
      * @return The response from the API call
-     * @throws Exception if the API call fails
+     * @throws RuntimeException subclass if the API call fails
      */
-    public GetExemptionByIdV1ExemptionsExemptionIdGetResponse getById(String exemptionId) throws Exception {
+    public GetExemptionByIdV1ExemptionsExemptionIdGetResponse getById(String exemptionId) {
         GetExemptionByIdV1ExemptionsExemptionIdGetRequest request =
             GetExemptionByIdV1ExemptionsExemptionIdGetRequest
                 .builder()
@@ -168,9 +167,9 @@ public class Exemptions {
      * @param exemptionId The unique identifier for the exemption to which the attachment will be associated.
      * @param bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost 
      * @return The response from the API call
-     * @throws Exception if the API call fails
+     * @throws RuntimeException subclass if the API call fails
      */
-    public UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse uploadCertificate(String exemptionId, BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost) throws Exception {
+    public UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse uploadCertificate(String exemptionId, BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost) {
         UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest request =
             UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest
                 .builder()
@@ -207,9 +206,9 @@ public class Exemptions {
      * @param exemptionId The unique identifier for the exemption
      *                 whose attachments are being retrieved.
      * @return The response from the API call
-     * @throws Exception if the API call fails
+     * @throws RuntimeException subclass if the API call fails
      */
-    public GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetResponse getAttachments(String exemptionId) throws Exception {
+    public GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetResponse getAttachments(String exemptionId) {
         GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest request =
             GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest
                 .builder()

@@ -10,7 +10,6 @@ import com.kintsugi.taxplatform.models.operations.DeletePhysicalNexusV1NexusPhys
 import com.kintsugi.taxplatform.operations.DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDelete;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
-import java.lang.Exception;
 import java.lang.String;
 import java.util.concurrent.CompletableFuture;
 
@@ -38,7 +37,7 @@ public class DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest
         return request;
     }
 
-    public CompletableFuture<DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteResponse> call() throws Exception {
+    public CompletableFuture<DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteResponse> call() {
         
         AsyncRequestOperation<DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest, DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteResponse> operation
               = new DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDelete.Async(sdkConfiguration, _headers);

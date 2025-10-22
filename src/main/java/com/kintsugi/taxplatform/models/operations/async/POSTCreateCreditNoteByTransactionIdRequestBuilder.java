@@ -11,7 +11,6 @@ import com.kintsugi.taxplatform.models.operations.POSTCreateCreditNoteByTransact
 import com.kintsugi.taxplatform.operations.POSTCreateCreditNoteByTransactionId;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
-import java.lang.Exception;
 import java.lang.String;
 import java.util.concurrent.CompletableFuture;
 
@@ -47,7 +46,7 @@ public class POSTCreateCreditNoteByTransactionIdRequestBuilder {
         return request;
     }
 
-    public CompletableFuture<POSTCreateCreditNoteByTransactionIdResponse> call() throws Exception {
+    public CompletableFuture<POSTCreateCreditNoteByTransactionIdResponse> call() {
         
         AsyncRequestOperation<POSTCreateCreditNoteByTransactionIdRequest, POSTCreateCreditNoteByTransactionIdResponse> operation
               = new POSTCreateCreditNoteByTransactionId.Async(sdkConfiguration, _headers);

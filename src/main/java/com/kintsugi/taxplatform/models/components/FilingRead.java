@@ -101,6 +101,17 @@ public class FilingRead {
     private Optional<String> pausedUntilDate;
 
     /**
+     * Category of filing. Common values:
+     * REGULAR (standard periodic filing),
+     * PREPAYMENT (prepayment or estimated tax),
+     * AMENDMENT (amended return).
+     * Different categories can have overlapping periods.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("filing_category")
+    private Optional<String> filingCategory;
+
+    /**
      * User ID of who approved the filing.
      */
     @JsonInclude(Include.NON_ABSENT)
@@ -248,6 +259,12 @@ public class FilingRead {
     @JsonProperty("registration_id")
     private String registrationId;
 
+    /**
+     * Get the filing website URL for this filing's jurisdiction
+     */
+    @JsonProperty("filing_website_url")
+    private String filingWebsiteUrl;
+
     @JsonCreator
     public FilingRead(
             @JsonProperty("status") Optional<? extends FilingStatusEnum> status,
@@ -262,6 +279,7 @@ public class FilingRead {
             @JsonProperty("jira_issue_key") Optional<String> jiraIssueKey,
             @JsonProperty("auto_approved") Optional<Boolean> autoApproved,
             @JsonProperty("paused_until_date") Optional<String> pausedUntilDate,
+            @JsonProperty("filing_category") Optional<String> filingCategory,
             @JsonProperty("approved_by") Optional<String> approvedBy,
             @JsonProperty("approved_at") Optional<String> approvedAt,
             @JsonProperty("amount_calculated") Optional<String> amountCalculated,
@@ -283,7 +301,8 @@ public class FilingRead {
             @JsonProperty("block_approval") Optional<Boolean> blockApproval,
             @JsonProperty("currency") Optional<? extends CurrencyEnum> currency,
             @JsonProperty("id") String id,
-            @JsonProperty("registration_id") String registrationId) {
+            @JsonProperty("registration_id") String registrationId,
+            @JsonProperty("filing_website_url") String filingWebsiteUrl) {
         Utils.checkNotNull(status, "status");
         Utils.checkNotNull(startDate, "startDate");
         Utils.checkNotNull(endDate, "endDate");
@@ -296,6 +315,7 @@ public class FilingRead {
         Utils.checkNotNull(jiraIssueKey, "jiraIssueKey");
         Utils.checkNotNull(autoApproved, "autoApproved");
         Utils.checkNotNull(pausedUntilDate, "pausedUntilDate");
+        Utils.checkNotNull(filingCategory, "filingCategory");
         Utils.checkNotNull(approvedBy, "approvedBy");
         Utils.checkNotNull(approvedAt, "approvedAt");
         Utils.checkNotNull(amountCalculated, "amountCalculated");
@@ -318,6 +338,7 @@ public class FilingRead {
         Utils.checkNotNull(currency, "currency");
         Utils.checkNotNull(id, "id");
         Utils.checkNotNull(registrationId, "registrationId");
+        Utils.checkNotNull(filingWebsiteUrl, "filingWebsiteUrl");
         this.status = status;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -330,6 +351,7 @@ public class FilingRead {
         this.jiraIssueKey = jiraIssueKey;
         this.autoApproved = autoApproved;
         this.pausedUntilDate = pausedUntilDate;
+        this.filingCategory = filingCategory;
         this.approvedBy = approvedBy;
         this.approvedAt = approvedAt;
         this.amountCalculated = amountCalculated;
@@ -352,6 +374,7 @@ public class FilingRead {
         this.currency = currency;
         this.id = id;
         this.registrationId = registrationId;
+        this.filingWebsiteUrl = filingWebsiteUrl;
     }
     
     public FilingRead(
@@ -359,7 +382,8 @@ public class FilingRead {
             LocalDate endDate,
             CountryCodeEnum countryCode,
             String id,
-            String registrationId) {
+            String registrationId,
+            String filingWebsiteUrl) {
         this(Optional.empty(), startDate, endDate,
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), countryCode,
@@ -370,8 +394,8 @@ public class FilingRead {
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), id,
-            registrationId);
+            Optional.empty(), Optional.empty(), Optional.empty(),
+            id, registrationId, filingWebsiteUrl);
     }
 
     @SuppressWarnings("unchecked")
@@ -465,6 +489,18 @@ public class FilingRead {
     @JsonIgnore
     public Optional<String> pausedUntilDate() {
         return pausedUntilDate;
+    }
+
+    /**
+     * Category of filing. Common values:
+     * REGULAR (standard periodic filing),
+     * PREPAYMENT (prepayment or estimated tax),
+     * AMENDMENT (amended return).
+     * Different categories can have overlapping periods.
+     */
+    @JsonIgnore
+    public Optional<String> filingCategory() {
+        return filingCategory;
     }
 
     /**
@@ -636,6 +672,14 @@ public class FilingRead {
     @JsonIgnore
     public String registrationId() {
         return registrationId;
+    }
+
+    /**
+     * Get the filing website URL for this filing's jurisdiction
+     */
+    @JsonIgnore
+    public String filingWebsiteUrl() {
+        return filingWebsiteUrl;
     }
 
     public static Builder builder() {
@@ -833,6 +877,33 @@ public class FilingRead {
     public FilingRead withPausedUntilDate(Optional<String> pausedUntilDate) {
         Utils.checkNotNull(pausedUntilDate, "pausedUntilDate");
         this.pausedUntilDate = pausedUntilDate;
+        return this;
+    }
+
+    /**
+     * Category of filing. Common values:
+     * REGULAR (standard periodic filing),
+     * PREPAYMENT (prepayment or estimated tax),
+     * AMENDMENT (amended return).
+     * Different categories can have overlapping periods.
+     */
+    public FilingRead withFilingCategory(String filingCategory) {
+        Utils.checkNotNull(filingCategory, "filingCategory");
+        this.filingCategory = Optional.ofNullable(filingCategory);
+        return this;
+    }
+
+
+    /**
+     * Category of filing. Common values:
+     * REGULAR (standard periodic filing),
+     * PREPAYMENT (prepayment or estimated tax),
+     * AMENDMENT (amended return).
+     * Different categories can have overlapping periods.
+     */
+    public FilingRead withFilingCategory(Optional<String> filingCategory) {
+        Utils.checkNotNull(filingCategory, "filingCategory");
+        this.filingCategory = filingCategory;
         return this;
     }
 
@@ -1222,6 +1293,15 @@ public class FilingRead {
         return this;
     }
 
+    /**
+     * Get the filing website URL for this filing's jurisdiction
+     */
+    public FilingRead withFilingWebsiteUrl(String filingWebsiteUrl) {
+        Utils.checkNotNull(filingWebsiteUrl, "filingWebsiteUrl");
+        this.filingWebsiteUrl = filingWebsiteUrl;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -1244,6 +1324,7 @@ public class FilingRead {
             Utils.enhancedDeepEquals(this.jiraIssueKey, other.jiraIssueKey) &&
             Utils.enhancedDeepEquals(this.autoApproved, other.autoApproved) &&
             Utils.enhancedDeepEquals(this.pausedUntilDate, other.pausedUntilDate) &&
+            Utils.enhancedDeepEquals(this.filingCategory, other.filingCategory) &&
             Utils.enhancedDeepEquals(this.approvedBy, other.approvedBy) &&
             Utils.enhancedDeepEquals(this.approvedAt, other.approvedAt) &&
             Utils.enhancedDeepEquals(this.amountCalculated, other.amountCalculated) &&
@@ -1265,7 +1346,8 @@ public class FilingRead {
             Utils.enhancedDeepEquals(this.blockApproval, other.blockApproval) &&
             Utils.enhancedDeepEquals(this.currency, other.currency) &&
             Utils.enhancedDeepEquals(this.id, other.id) &&
-            Utils.enhancedDeepEquals(this.registrationId, other.registrationId);
+            Utils.enhancedDeepEquals(this.registrationId, other.registrationId) &&
+            Utils.enhancedDeepEquals(this.filingWebsiteUrl, other.filingWebsiteUrl);
     }
     
     @Override
@@ -1275,14 +1357,14 @@ public class FilingRead {
             dueDate, dateFiled, isManual,
             stateCode, stateName, countryCode,
             jiraIssueKey, autoApproved, pausedUntilDate,
-            approvedBy, approvedAt, amountCalculated,
-            amountAdjusted, amountDiscounts, amountFees,
-            amountPenalties, amountTaxCollected, amountSales,
-            totalTaxableSales, amount, totalTaxLiability,
-            transactionCount, internalNotes, recentDetailsReportLink,
-            taxRemitted, returnConfirmationId, paymentConfirmationId,
-            blockApproval, currency, id,
-            registrationId);
+            filingCategory, approvedBy, approvedAt,
+            amountCalculated, amountAdjusted, amountDiscounts,
+            amountFees, amountPenalties, amountTaxCollected,
+            amountSales, totalTaxableSales, amount,
+            totalTaxLiability, transactionCount, internalNotes,
+            recentDetailsReportLink, taxRemitted, returnConfirmationId,
+            paymentConfirmationId, blockApproval, currency,
+            id, registrationId, filingWebsiteUrl);
     }
     
     @Override
@@ -1300,6 +1382,7 @@ public class FilingRead {
                 "jiraIssueKey", jiraIssueKey,
                 "autoApproved", autoApproved,
                 "pausedUntilDate", pausedUntilDate,
+                "filingCategory", filingCategory,
                 "approvedBy", approvedBy,
                 "approvedAt", approvedAt,
                 "amountCalculated", amountCalculated,
@@ -1321,7 +1404,8 @@ public class FilingRead {
                 "blockApproval", blockApproval,
                 "currency", currency,
                 "id", id,
-                "registrationId", registrationId);
+                "registrationId", registrationId,
+                "filingWebsiteUrl", filingWebsiteUrl);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -1350,6 +1434,8 @@ public class FilingRead {
         private Optional<Boolean> autoApproved;
 
         private Optional<String> pausedUntilDate = Optional.empty();
+
+        private Optional<String> filingCategory;
 
         private Optional<String> approvedBy = Optional.empty();
 
@@ -1394,6 +1480,8 @@ public class FilingRead {
         private String id;
 
         private String registrationId;
+
+        private String filingWebsiteUrl;
 
         private Builder() {
           // force use of static builder() method
@@ -1592,6 +1680,33 @@ public class FilingRead {
         public Builder pausedUntilDate(Optional<String> pausedUntilDate) {
             Utils.checkNotNull(pausedUntilDate, "pausedUntilDate");
             this.pausedUntilDate = pausedUntilDate;
+            return this;
+        }
+
+
+        /**
+         * Category of filing. Common values:
+         * REGULAR (standard periodic filing),
+         * PREPAYMENT (prepayment or estimated tax),
+         * AMENDMENT (amended return).
+         * Different categories can have overlapping periods.
+         */
+        public Builder filingCategory(String filingCategory) {
+            Utils.checkNotNull(filingCategory, "filingCategory");
+            this.filingCategory = Optional.ofNullable(filingCategory);
+            return this;
+        }
+
+        /**
+         * Category of filing. Common values:
+         * REGULAR (standard periodic filing),
+         * PREPAYMENT (prepayment or estimated tax),
+         * AMENDMENT (amended return).
+         * Different categories can have overlapping periods.
+         */
+        public Builder filingCategory(Optional<String> filingCategory) {
+            Utils.checkNotNull(filingCategory, "filingCategory");
+            this.filingCategory = filingCategory;
             return this;
         }
 
@@ -1983,9 +2098,22 @@ public class FilingRead {
             return this;
         }
 
+
+        /**
+         * Get the filing website URL for this filing's jurisdiction
+         */
+        public Builder filingWebsiteUrl(String filingWebsiteUrl) {
+            Utils.checkNotNull(filingWebsiteUrl, "filingWebsiteUrl");
+            this.filingWebsiteUrl = filingWebsiteUrl;
+            return this;
+        }
+
         public FilingRead build() {
             if (autoApproved == null) {
                 autoApproved = _SINGLETON_VALUE_AutoApproved.value();
+            }
+            if (filingCategory == null) {
+                filingCategory = _SINGLETON_VALUE_FilingCategory.value();
             }
             if (amountCalculated == null) {
                 amountCalculated = _SINGLETON_VALUE_AmountCalculated.value();
@@ -2029,14 +2157,14 @@ public class FilingRead {
                 dueDate, dateFiled, isManual,
                 stateCode, stateName, countryCode,
                 jiraIssueKey, autoApproved, pausedUntilDate,
-                approvedBy, approvedAt, amountCalculated,
-                amountAdjusted, amountDiscounts, amountFees,
-                amountPenalties, amountTaxCollected, amountSales,
-                totalTaxableSales, amount, totalTaxLiability,
-                transactionCount, internalNotes, recentDetailsReportLink,
-                taxRemitted, returnConfirmationId, paymentConfirmationId,
-                blockApproval, currency, id,
-                registrationId);
+                filingCategory, approvedBy, approvedAt,
+                amountCalculated, amountAdjusted, amountDiscounts,
+                amountFees, amountPenalties, amountTaxCollected,
+                amountSales, totalTaxableSales, amount,
+                totalTaxLiability, transactionCount, internalNotes,
+                recentDetailsReportLink, taxRemitted, returnConfirmationId,
+                paymentConfirmationId, blockApproval, currency,
+                id, registrationId, filingWebsiteUrl);
         }
 
 
@@ -2045,6 +2173,12 @@ public class FilingRead {
                         "auto_approved",
                         "false",
                         new TypeReference<Optional<Boolean>>() {});
+
+        private static final LazySingletonValue<Optional<String>> _SINGLETON_VALUE_FilingCategory =
+                new LazySingletonValue<>(
+                        "filing_category",
+                        "\"REGULAR\"",
+                        new TypeReference<Optional<String>>() {});
 
         private static final LazySingletonValue<Optional<String>> _SINGLETON_VALUE_AmountCalculated =
                 new LazySingletonValue<>(

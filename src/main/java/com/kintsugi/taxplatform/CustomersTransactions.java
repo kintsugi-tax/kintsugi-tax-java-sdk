@@ -10,7 +10,6 @@ import com.kintsugi.taxplatform.models.operations.GetTransactionsByCustomerIdV1C
 import com.kintsugi.taxplatform.models.operations.GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse;
 import com.kintsugi.taxplatform.operations.GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet;
 import com.kintsugi.taxplatform.utils.Headers;
-import java.lang.Exception;
 import java.lang.String;
 
 
@@ -51,9 +50,9 @@ public class CustomersTransactions {
      * 
      * @param customerId 
      * @return The response from the API call
-     * @throws Exception if the API call fails
+     * @throws RuntimeException subclass if the API call fails
      */
-    public GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse getByCustomerId(String customerId) throws Exception {
+    public GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse getByCustomerId(String customerId) {
         GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest request =
             GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest
                 .builder()

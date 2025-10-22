@@ -15,7 +15,6 @@ import com.kintsugi.taxplatform.models.operations.SuggestionsV1AddressValidation
 import com.kintsugi.taxplatform.operations.SearchV1AddressValidationSearchPost;
 import com.kintsugi.taxplatform.operations.SuggestionsV1AddressValidationSuggestionsPost;
 import com.kintsugi.taxplatform.utils.Headers;
-import java.lang.Exception;
 
 
 public class AddressValidation {
@@ -62,9 +61,9 @@ public class AddressValidation {
      * @param request The request object containing all the parameters for the API call.
      * @param security The security details to use for authentication.
      * @return The response from the API call
-     * @throws Exception if the API call fails
+     * @throws RuntimeException subclass if the API call fails
      */
-    public SearchV1AddressValidationSearchPostResponse search(AddressBase request, SearchV1AddressValidationSearchPostSecurity security) throws Exception {
+    public SearchV1AddressValidationSearchPostResponse search(AddressBase request, SearchV1AddressValidationSearchPostSecurity security) {
         RequestOperation<AddressBase, SearchV1AddressValidationSearchPostResponse> operation
               = new SearchV1AddressValidationSearchPost.Sync(sdkConfiguration, security, _headers);
         return operation.handleResponse(operation.doRequest(request));
@@ -96,9 +95,9 @@ public class AddressValidation {
      * 
      * @param request The request object containing all the parameters for the API call.
      * @return The response from the API call
-     * @throws Exception if the API call fails
+     * @throws RuntimeException subclass if the API call fails
      */
-    public SuggestionsV1AddressValidationSuggestionsPostResponse suggest(ValidationAddress request) throws Exception {
+    public SuggestionsV1AddressValidationSuggestionsPostResponse suggest(ValidationAddress request) {
         RequestOperation<ValidationAddress, SuggestionsV1AddressValidationSuggestionsPostResponse> operation
               = new SuggestionsV1AddressValidationSuggestionsPost.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));

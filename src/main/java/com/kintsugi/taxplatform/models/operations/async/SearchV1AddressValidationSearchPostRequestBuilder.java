@@ -11,7 +11,6 @@ import com.kintsugi.taxplatform.models.operations.SearchV1AddressValidationSearc
 import com.kintsugi.taxplatform.operations.SearchV1AddressValidationSearchPost;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
-import java.lang.Exception;
 import java.util.concurrent.CompletableFuture;
 
 public class SearchV1AddressValidationSearchPostRequestBuilder {
@@ -37,7 +36,7 @@ public class SearchV1AddressValidationSearchPostRequestBuilder {
         return this;
     }
 
-    public CompletableFuture<SearchV1AddressValidationSearchPostResponse> call() throws Exception {
+    public CompletableFuture<SearchV1AddressValidationSearchPostResponse> call() {
         
         AsyncRequestOperation<AddressBase, SearchV1AddressValidationSearchPostResponse> operation
               = new SearchV1AddressValidationSearchPost.Async(sdkConfiguration, security, _headers);

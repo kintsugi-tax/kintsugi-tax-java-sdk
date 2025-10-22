@@ -10,7 +10,6 @@ import com.kintsugi.taxplatform.models.components.CustomerCreate;
 import com.kintsugi.taxplatform.operations.CreateCustomerV1CustomersPost;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
-import java.lang.Exception;
 
 public class CreateCustomerV1CustomersPostRequestBuilder {
 
@@ -28,7 +27,7 @@ public class CreateCustomerV1CustomersPostRequestBuilder {
         return this;
     }
 
-    public CreateCustomerV1CustomersPostResponse call() throws Exception {
+    public CreateCustomerV1CustomersPostResponse call() {
         
         RequestOperation<CustomerCreate, CreateCustomerV1CustomersPostResponse> operation
               = new CreateCustomerV1CustomersPost.Sync(sdkConfiguration, _headers);

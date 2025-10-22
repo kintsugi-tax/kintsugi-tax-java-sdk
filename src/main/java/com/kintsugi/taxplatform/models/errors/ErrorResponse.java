@@ -5,173 +5,203 @@ package com.kintsugi.taxplatform.models.errors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.kintsugi.taxplatform.utils.Blob;
 import com.kintsugi.taxplatform.utils.Utils;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.io.InputStream;
+import java.lang.Deprecated;
+import java.lang.Exception;
 import java.lang.Override;
-import java.lang.RuntimeException;
 import java.lang.String;
 import java.lang.SuppressWarnings;
+import java.lang.Throwable;
 import java.net.http.HttpResponse;
 import java.util.Optional;
-
+import java.util.concurrent.CompletableFuture;
 
 @SuppressWarnings("serial")
-public class ErrorResponse extends RuntimeException {
-    /**
-     * Error message
-     */
-    @JsonProperty("detail")
-    private String detail;
+public class ErrorResponse extends SDKError {
 
-    /**
-     * Raw HTTP response; suitable for custom response parsing
-     */
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("RawResponse")
-    private Optional<? extends HttpResponse<InputStream>> rawResponse;
+    @Nullable
+    private final Data data;
 
-    @JsonCreator
+    @Nullable
+    private final Throwable deserializationException;
+
     public ErrorResponse(
-            @JsonProperty("detail") String detail,
-            @JsonProperty("RawResponse") Optional<? extends HttpResponse<InputStream>> rawResponse) {
-        super("API error occurred");
-        Utils.checkNotNull(detail, "detail");
-        Utils.checkNotNull(rawResponse, "rawResponse");
-        this.detail = detail;
-        this.rawResponse = rawResponse;
+                int code,
+                byte[] body,
+                HttpResponse<?> rawResponse,
+                @Nullable Data data,
+                @Nullable Throwable deserializationException) {
+        super("API error occurred", code, body, rawResponse, null);
+        this.data = data;
+        this.deserializationException = deserializationException;
     }
-    
-    public ErrorResponse(
-            String detail) {
-        this(detail, Optional.empty());
+
+    /**
+    * Parse a response into an instance of ErrorResponse. If deserialization of the response body fails,
+    * the resulting ErrorResponse instance will have a null data() value and a non-null deserializationException().
+    */
+    public static ErrorResponse from(HttpResponse<InputStream> response) {
+        try {
+            byte[] bytes = Utils.extractByteArrayFromBody(response);
+            Data data = Utils.mapper().readValue(bytes, Data.class);
+            return new ErrorResponse(response.statusCode(), bytes, response, data, null);
+        } catch (Exception e) {
+            return new ErrorResponse(response.statusCode(), null, response, null, e);
+        }
+    }
+
+    /**
+    * Parse a response into an instance of ErrorResponse asynchronously. If deserialization of the response body fails,
+    * the resulting ErrorResponse instance will have a null data() value and a non-null deserializationException().
+    */
+    public static CompletableFuture<ErrorResponse> fromAsync(HttpResponse<Blob> response) {
+        return response.body()
+                .toByteArray()
+                .handle((bytes, err) -> {
+                    // if a body read error occurs, we want to transform the exception
+                    if (err != null) {
+                        throw new AsyncAPIException(
+                                "Error reading response body: " + err.getMessage(),
+                                response.statusCode(),
+                                null,
+                                response,
+                                err);
+                    }
+
+                    try {
+                        return new ErrorResponse(
+                                response.statusCode(),
+                                bytes,
+                                response,
+                                Utils.mapper().readValue(
+                                        bytes,
+                                        new TypeReference<Data>() {
+                                        }),
+                                null);
+                    } catch (Exception e) {
+                        return new ErrorResponse(
+                                response.statusCode(),
+                                bytes,
+                                response,
+                                null,
+                                e);
+                    }
+                });
     }
 
     /**
      * Error message
      */
-    @JsonIgnore
-    public String detail() {
-        return detail;
+    @Deprecated
+    public Optional<String> detail() {
+        return data().map(Data::detail);
+    }
+
+    public Optional<Data> data() {
+        return Optional.ofNullable(data);
     }
 
     /**
-     * Raw HTTP response; suitable for custom response parsing
+     * Returns the exception if an error occurs while deserializing the response body.
      */
-    @SuppressWarnings("unchecked")
-    @JsonIgnore
-    public Optional<HttpResponse<InputStream>> rawResponse() {
-        return (Optional<HttpResponse<InputStream>>) rawResponse;
+    public Optional<Throwable> deserializationException() {
+        return Optional.ofNullable(deserializationException);
     }
 
-    public static Builder builder() {
-        return new Builder();
-    }
-
-
-    /**
-     * Error message
-     */
-    public ErrorResponse withDetail(String detail) {
-        Utils.checkNotNull(detail, "detail");
-        this.detail = detail;
-        return this;
-    }
-
-    /**
-     * Raw HTTP response; suitable for custom response parsing
-     */
-    public ErrorResponse withRawResponse(HttpResponse<InputStream> rawResponse) {
-        Utils.checkNotNull(rawResponse, "rawResponse");
-        this.rawResponse = Optional.ofNullable(rawResponse);
-        return this;
-    }
-
-
-    /**
-     * Raw HTTP response; suitable for custom response parsing
-     */
-    public ErrorResponse withRawResponse(Optional<? extends HttpResponse<InputStream>> rawResponse) {
-        Utils.checkNotNull(rawResponse, "rawResponse");
-        this.rawResponse = rawResponse;
-        return this;
-    }
-
-    @Override
-    public boolean equals(java.lang.Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        ErrorResponse other = (ErrorResponse) o;
-        return 
-            Utils.enhancedDeepEquals(this.detail, other.detail) &&
-            Utils.enhancedDeepEquals(this.rawResponse, other.rawResponse);
-    }
-    
-    @Override
-    public int hashCode() {
-        return Utils.enhancedHash(
-            detail, rawResponse);
-    }
-    
-    @Override
-    public String toString() {
-        return Utils.toString(ErrorResponse.class,
-                "detail", detail,
-                "rawResponse", rawResponse);
-    }
-
-    @SuppressWarnings("UnusedReturnValue")
-    public final static class Builder {
-
+    public static class Data {
+        /**
+         * Error message
+         */
+        @JsonProperty("detail")
         private String detail;
 
-        private Optional<? extends HttpResponse<InputStream>> rawResponse;
+        @JsonCreator
+        public Data(
+                @JsonProperty("detail") String detail) {
+            Utils.checkNotNull(detail, "detail");
+            this.detail = detail;
+        }
 
-        private Builder() {
-          // force use of static builder() method
+        /**
+         * Error message
+         */
+        @JsonIgnore
+        public String detail() {
+            return detail;
+        }
+
+        public static Builder builder() {
+            return new Builder();
         }
 
 
         /**
          * Error message
          */
-        public Builder detail(String detail) {
+        public Data withDetail(String detail) {
             Utils.checkNotNull(detail, "detail");
             this.detail = detail;
             return this;
         }
 
-
-        /**
-         * Raw HTTP response; suitable for custom response parsing
-         */
-        public Builder rawResponse(HttpResponse<InputStream> rawResponse) {
-            Utils.checkNotNull(rawResponse, "rawResponse");
-            this.rawResponse = Optional.ofNullable(rawResponse);
-            return this;
+        @Override
+        public boolean equals(java.lang.Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            Data other = (Data) o;
+            return 
+                Utils.enhancedDeepEquals(this.detail, other.detail);
+        }
+        
+        @Override
+        public int hashCode() {
+            return Utils.enhancedHash(
+                detail);
+        }
+        
+        @Override
+        public String toString() {
+            return Utils.toString(Data.class,
+                    "detail", detail);
         }
 
-        /**
-         * Raw HTTP response; suitable for custom response parsing
-         */
-        public Builder rawResponse(Optional<? extends HttpResponse<InputStream>> rawResponse) {
-            Utils.checkNotNull(rawResponse, "rawResponse");
-            this.rawResponse = rawResponse;
-            return this;
+        @SuppressWarnings("UnusedReturnValue")
+        public final static class Builder {
+
+            private String detail;
+
+            private Builder() {
+              // force use of static builder() method
+            }
+
+
+            /**
+             * Error message
+             */
+            public Builder detail(String detail) {
+                Utils.checkNotNull(detail, "detail");
+                this.detail = detail;
+                return this;
+            }
+
+            public Data build() {
+
+                return new Data(
+                    detail);
+            }
+
         }
-
-        public ErrorResponse build() {
-
-            return new ErrorResponse(
-                detail, rawResponse);
-        }
-
     }
+
 }
 

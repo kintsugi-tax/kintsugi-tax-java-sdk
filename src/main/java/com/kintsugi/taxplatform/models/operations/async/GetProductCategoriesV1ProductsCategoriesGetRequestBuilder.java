@@ -8,7 +8,6 @@ import static com.kintsugi.taxplatform.operations.Operations.AsyncRequestlessOpe
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.operations.GetProductCategoriesV1ProductsCategoriesGet;
 import com.kintsugi.taxplatform.utils.Headers;
-import java.lang.Exception;
 import java.util.concurrent.CompletableFuture;
 
 public class GetProductCategoriesV1ProductsCategoriesGetRequestBuilder {
@@ -20,7 +19,7 @@ public class GetProductCategoriesV1ProductsCategoriesGetRequestBuilder {
         this.sdkConfiguration = sdkConfiguration;
     }
 
-    public CompletableFuture<GetProductCategoriesV1ProductsCategoriesGetResponse> call() throws Exception {
+    public CompletableFuture<GetProductCategoriesV1ProductsCategoriesGetResponse> call() {
         
         AsyncRequestlessOperation<GetProductCategoriesV1ProductsCategoriesGetResponse> operation
             = new GetProductCategoriesV1ProductsCategoriesGet.Async(sdkConfiguration, _headers);

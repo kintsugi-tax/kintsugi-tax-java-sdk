@@ -11,7 +11,6 @@ import com.kintsugi.taxplatform.models.operations.UpdateCustomerV1CustomersCusto
 import com.kintsugi.taxplatform.operations.UpdateCustomerV1CustomersCustomerIdPut;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
-import java.lang.Exception;
 import java.lang.String;
 import java.util.concurrent.CompletableFuture;
 
@@ -47,7 +46,7 @@ public class UpdateCustomerV1CustomersCustomerIdPutRequestBuilder {
         return request;
     }
 
-    public CompletableFuture<UpdateCustomerV1CustomersCustomerIdPutResponse> call() throws Exception {
+    public CompletableFuture<UpdateCustomerV1CustomersCustomerIdPutResponse> call() {
         
         AsyncRequestOperation<UpdateCustomerV1CustomersCustomerIdPutRequest, UpdateCustomerV1CustomersCustomerIdPutResponse> operation
               = new UpdateCustomerV1CustomersCustomerIdPut.Async(sdkConfiguration, _headers);

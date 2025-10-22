@@ -11,7 +11,6 @@ import com.kintsugi.taxplatform.models.operations.CreateTransactionByCustomerIdV
 import com.kintsugi.taxplatform.operations.CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPost;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
-import java.lang.Exception;
 import java.lang.String;
 import java.util.concurrent.CompletableFuture;
 
@@ -47,7 +46,7 @@ public class CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostR
         return request;
     }
 
-    public CompletableFuture<CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostResponse> call() throws Exception {
+    public CompletableFuture<CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostResponse> call() {
         
         AsyncRequestOperation<CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest, CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostResponse> operation
               = new CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPost.Async(sdkConfiguration, _headers);

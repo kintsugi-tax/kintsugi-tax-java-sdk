@@ -9,7 +9,6 @@ import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.operations.GetRegistrationByIdV1RegistrationsRegistrationIdGet;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
-import java.lang.Exception;
 import java.lang.String;
 
 public class GetRegistrationByIdV1RegistrationsRegistrationIdGetRequestBuilder {
@@ -36,7 +35,7 @@ public class GetRegistrationByIdV1RegistrationsRegistrationIdGetRequestBuilder {
         return request;
     }
 
-    public GetRegistrationByIdV1RegistrationsRegistrationIdGetResponse call() throws Exception {
+    public GetRegistrationByIdV1RegistrationsRegistrationIdGetResponse call() {
         
         RequestOperation<GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest, GetRegistrationByIdV1RegistrationsRegistrationIdGetResponse> operation
               = new GetRegistrationByIdV1RegistrationsRegistrationIdGet.Sync(sdkConfiguration, _headers);

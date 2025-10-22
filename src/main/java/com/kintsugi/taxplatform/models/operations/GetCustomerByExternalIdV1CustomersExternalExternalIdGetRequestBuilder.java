@@ -9,7 +9,6 @@ import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.operations.GetCustomerByExternalIdV1CustomersExternalExternalIdGet;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
-import java.lang.Exception;
 import java.lang.String;
 
 public class GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequestBuilder {
@@ -36,7 +35,7 @@ public class GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequestBuild
         return request;
     }
 
-    public GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse call() throws Exception {
+    public GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse call() {
         
         RequestOperation<GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest, GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse> operation
               = new GetCustomerByExternalIdV1CustomersExternalExternalIdGet.Sync(sdkConfiguration, _headers);

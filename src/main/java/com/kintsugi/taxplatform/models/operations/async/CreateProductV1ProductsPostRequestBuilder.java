@@ -10,7 +10,6 @@ import com.kintsugi.taxplatform.models.components.ProductCreateManual;
 import com.kintsugi.taxplatform.operations.CreateProductV1ProductsPost;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
-import java.lang.Exception;
 import java.util.concurrent.CompletableFuture;
 
 public class CreateProductV1ProductsPostRequestBuilder {
@@ -29,7 +28,7 @@ public class CreateProductV1ProductsPostRequestBuilder {
         return this;
     }
 
-    public CompletableFuture<CreateProductV1ProductsPostResponse> call() throws Exception {
+    public CompletableFuture<CreateProductV1ProductsPostResponse> call() {
         
         AsyncRequestOperation<ProductCreateManual, CreateProductV1ProductsPostResponse> operation
               = new CreateProductV1ProductsPost.Async(sdkConfiguration, _headers);

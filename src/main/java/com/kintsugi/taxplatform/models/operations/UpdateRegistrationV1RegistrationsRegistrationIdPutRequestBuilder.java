@@ -10,7 +10,6 @@ import com.kintsugi.taxplatform.models.components.RegistrationUpdateAPI;
 import com.kintsugi.taxplatform.operations.UpdateRegistrationV1RegistrationsRegistrationIdPut;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
-import java.lang.Exception;
 import java.lang.String;
 
 public class UpdateRegistrationV1RegistrationsRegistrationIdPutRequestBuilder {
@@ -45,7 +44,7 @@ public class UpdateRegistrationV1RegistrationsRegistrationIdPutRequestBuilder {
         return request;
     }
 
-    public UpdateRegistrationV1RegistrationsRegistrationIdPutResponse call() throws Exception {
+    public UpdateRegistrationV1RegistrationsRegistrationIdPutResponse call() {
         
         RequestOperation<UpdateRegistrationV1RegistrationsRegistrationIdPutRequest, UpdateRegistrationV1RegistrationsRegistrationIdPutResponse> operation
               = new UpdateRegistrationV1RegistrationsRegistrationIdPut.Sync(sdkConfiguration, _headers);

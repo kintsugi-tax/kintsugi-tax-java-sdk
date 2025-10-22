@@ -10,7 +10,6 @@ import com.kintsugi.taxplatform.models.components.BodyUploadExemptionCertificate
 import com.kintsugi.taxplatform.operations.UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
-import java.lang.Exception;
 import java.lang.String;
 
 public class UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequestBuilder {
@@ -45,7 +44,7 @@ public class UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostReq
         return request;
     }
 
-    public UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse call() throws Exception {
+    public UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse call() {
         
         RequestOperation<UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest, UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse> operation
               = new UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost.Sync(sdkConfiguration, _headers);

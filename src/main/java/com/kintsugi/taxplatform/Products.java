@@ -27,7 +27,6 @@ import com.kintsugi.taxplatform.operations.GetProductCategoriesV1ProductsCategor
 import com.kintsugi.taxplatform.operations.GetProductsV1ProductsGet;
 import com.kintsugi.taxplatform.operations.UpdateProductV1ProductsProductIdPut;
 import com.kintsugi.taxplatform.utils.Headers;
-import java.lang.Exception;
 import java.lang.String;
 
 
@@ -68,9 +67,9 @@ public class Products {
      * 
      * @param request The request object containing all the parameters for the API call.
      * @return The response from the API call
-     * @throws Exception if the API call fails
+     * @throws RuntimeException subclass if the API call fails
      */
-    public GetProductsV1ProductsGetResponse get(GetProductsV1ProductsGetRequest request) throws Exception {
+    public GetProductsV1ProductsGetResponse get(GetProductsV1ProductsGetRequest request) {
         RequestOperation<GetProductsV1ProductsGetRequest, GetProductsV1ProductsGetResponse> operation
               = new GetProductsV1ProductsGet.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
@@ -98,9 +97,9 @@ public class Products {
      * 
      * @param request The request object containing all the parameters for the API call.
      * @return The response from the API call
-     * @throws Exception if the API call fails
+     * @throws RuntimeException subclass if the API call fails
      */
-    public CreateProductV1ProductsPostResponse create(ProductCreateManual request) throws Exception {
+    public CreateProductV1ProductsPostResponse create(ProductCreateManual request) {
         RequestOperation<ProductCreateManual, CreateProductV1ProductsPostResponse> operation
               = new CreateProductV1ProductsPost.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
@@ -128,9 +127,9 @@ public class Products {
      * 
      * @param productId The unique identifier for the product you want to retrieve.
      * @return The response from the API call
-     * @throws Exception if the API call fails
+     * @throws RuntimeException subclass if the API call fails
      */
-    public GetProductByIdV1ProductsProductIdGetResponse getById(String productId) throws Exception {
+    public GetProductByIdV1ProductsProductIdGetResponse getById(String productId) {
         GetProductByIdV1ProductsProductIdGetRequest request =
             GetProductByIdV1ProductsProductIdGetRequest
                 .builder()
@@ -162,9 +161,9 @@ public class Products {
      * @param productId Unique identifier of the product to be updated.
      * @param productUpdate 
      * @return The response from the API call
-     * @throws Exception if the API call fails
+     * @throws RuntimeException subclass if the API call fails
      */
-    public UpdateProductV1ProductsProductIdPutResponse update(String productId, ProductUpdate productUpdate) throws Exception {
+    public UpdateProductV1ProductsProductIdPutResponse update(String productId, ProductUpdate productUpdate) {
         UpdateProductV1ProductsProductIdPutRequest request =
             UpdateProductV1ProductsProductIdPutRequest
                 .builder()
@@ -197,9 +196,9 @@ public class Products {
      * appropriate categories for their products.
      * 
      * @return The response from the API call
-     * @throws Exception if the API call fails
+     * @throws RuntimeException subclass if the API call fails
      */
-    public GetProductCategoriesV1ProductsCategoriesGetResponse getCategoriesDirect() throws Exception {
+    public GetProductCategoriesV1ProductsCategoriesGetResponse getCategoriesDirect() {
         RequestlessOperation<GetProductCategoriesV1ProductsCategoriesGetResponse> operation
             = new GetProductCategoriesV1ProductsCategoriesGet.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest());

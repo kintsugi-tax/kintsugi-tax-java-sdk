@@ -12,6 +12,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.kintsugi.taxplatform.utils.LazySingletonValue;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Boolean;
+import java.lang.Deprecated;
 import java.lang.Double;
 import java.lang.Override;
 import java.lang.String;
@@ -58,11 +59,6 @@ public class TransactionUpdate {
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("shop_date_tz")
     private Optional<String> shopDateTz;
-
-
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("status")
-    private Optional<? extends TransactionStatusEnum> status;
 
     /**
      * Description of the transaction.
@@ -258,11 +254,20 @@ public class TransactionUpdate {
     private Optional<String> postalCode;
 
     /**
-     * Tax ID associated with the transaction
+     * Tax ID associated with the transaction. DEPRECATED: This field is only populated for QuickBooks
+     * integrations and will be removed in a future version.
+     * 
+     * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("tax_id")
+    @Deprecated
     private Optional<String> taxId;
+
+
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("status")
+    private Optional<? extends TransactionStatusEnum> status;
 
 
     @JsonProperty("addresses")
@@ -284,7 +289,6 @@ public class TransactionUpdate {
             @JsonProperty("date") OffsetDateTime date,
             @JsonProperty("shop_date") Optional<String> shopDate,
             @JsonProperty("shop_date_tz") Optional<String> shopDateTz,
-            @JsonProperty("status") Optional<? extends TransactionStatusEnum> status,
             @JsonProperty("description") Optional<String> description,
             @JsonProperty("refund_status") Optional<? extends TransactionRefundStatus> refundStatus,
             @JsonProperty("total_amount") Optional<Double> totalAmount,
@@ -314,6 +318,7 @@ public class TransactionUpdate {
             @JsonProperty("country") Optional<? extends CountryCodeEnum> country,
             @JsonProperty("postal_code") Optional<String> postalCode,
             @JsonProperty("tax_id") Optional<String> taxId,
+            @JsonProperty("status") Optional<? extends TransactionStatusEnum> status,
             @JsonProperty("addresses") List<TransactionAddressBuilder> addresses,
             @JsonProperty("transaction_items") List<TransactionItemCreateUpdate> transactionItems,
             @JsonProperty("customer") CustomerUpdate customer) {
@@ -323,7 +328,6 @@ public class TransactionUpdate {
         Utils.checkNotNull(date, "date");
         Utils.checkNotNull(shopDate, "shopDate");
         Utils.checkNotNull(shopDateTz, "shopDateTz");
-        Utils.checkNotNull(status, "status");
         Utils.checkNotNull(description, "description");
         Utils.checkNotNull(refundStatus, "refundStatus");
         Utils.checkNotNull(totalAmount, "totalAmount");
@@ -353,6 +357,7 @@ public class TransactionUpdate {
         Utils.checkNotNull(country, "country");
         Utils.checkNotNull(postalCode, "postalCode");
         Utils.checkNotNull(taxId, "taxId");
+        Utils.checkNotNull(status, "status");
         Utils.checkNotNull(addresses, "addresses");
         Utils.checkNotNull(transactionItems, "transactionItems");
         Utils.checkNotNull(customer, "customer");
@@ -362,7 +367,6 @@ public class TransactionUpdate {
         this.date = date;
         this.shopDate = shopDate;
         this.shopDateTz = shopDateTz;
-        this.status = status;
         this.description = description;
         this.refundStatus = refundStatus;
         this.totalAmount = totalAmount;
@@ -392,6 +396,7 @@ public class TransactionUpdate {
         this.country = country;
         this.postalCode = postalCode;
         this.taxId = taxId;
+        this.status = status;
         this.addresses = addresses;
         this.transactionItems = transactionItems;
         this.customer = customer;
@@ -463,12 +468,6 @@ public class TransactionUpdate {
     @JsonIgnore
     public Optional<String> shopDateTz() {
         return shopDateTz;
-    }
-
-    @SuppressWarnings("unchecked")
-    @JsonIgnore
-    public Optional<TransactionStatusEnum> status() {
-        return (Optional<TransactionStatusEnum>) status;
     }
 
     /**
@@ -696,11 +695,21 @@ public class TransactionUpdate {
     }
 
     /**
-     * Tax ID associated with the transaction
+     * Tax ID associated with the transaction. DEPRECATED: This field is only populated for QuickBooks
+     * integrations and will be removed in a future version.
+     * 
+     * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
      */
+    @Deprecated
     @JsonIgnore
     public Optional<String> taxId() {
         return taxId;
+    }
+
+    @SuppressWarnings("unchecked")
+    @JsonIgnore
+    public Optional<TransactionStatusEnum> status() {
+        return (Optional<TransactionStatusEnum>) status;
     }
 
     @JsonIgnore
@@ -798,19 +807,6 @@ public class TransactionUpdate {
     public TransactionUpdate withShopDateTz(Optional<String> shopDateTz) {
         Utils.checkNotNull(shopDateTz, "shopDateTz");
         this.shopDateTz = shopDateTz;
-        return this;
-    }
-
-    public TransactionUpdate withStatus(TransactionStatusEnum status) {
-        Utils.checkNotNull(status, "status");
-        this.status = Optional.ofNullable(status);
-        return this;
-    }
-
-
-    public TransactionUpdate withStatus(Optional<? extends TransactionStatusEnum> status) {
-        Utils.checkNotNull(status, "status");
-        this.status = status;
         return this;
     }
 
@@ -1333,8 +1329,12 @@ public class TransactionUpdate {
     }
 
     /**
-     * Tax ID associated with the transaction
+     * Tax ID associated with the transaction. DEPRECATED: This field is only populated for QuickBooks
+     * integrations and will be removed in a future version.
+     * 
+     * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
      */
+    @Deprecated
     public TransactionUpdate withTaxId(String taxId) {
         Utils.checkNotNull(taxId, "taxId");
         this.taxId = Optional.ofNullable(taxId);
@@ -1343,11 +1343,28 @@ public class TransactionUpdate {
 
 
     /**
-     * Tax ID associated with the transaction
+     * Tax ID associated with the transaction. DEPRECATED: This field is only populated for QuickBooks
+     * integrations and will be removed in a future version.
+     * 
+     * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
      */
+    @Deprecated
     public TransactionUpdate withTaxId(Optional<String> taxId) {
         Utils.checkNotNull(taxId, "taxId");
         this.taxId = taxId;
+        return this;
+    }
+
+    public TransactionUpdate withStatus(TransactionStatusEnum status) {
+        Utils.checkNotNull(status, "status");
+        this.status = Optional.ofNullable(status);
+        return this;
+    }
+
+
+    public TransactionUpdate withStatus(Optional<? extends TransactionStatusEnum> status) {
+        Utils.checkNotNull(status, "status");
+        this.status = status;
         return this;
     }
 
@@ -1385,7 +1402,6 @@ public class TransactionUpdate {
             Utils.enhancedDeepEquals(this.date, other.date) &&
             Utils.enhancedDeepEquals(this.shopDate, other.shopDate) &&
             Utils.enhancedDeepEquals(this.shopDateTz, other.shopDateTz) &&
-            Utils.enhancedDeepEquals(this.status, other.status) &&
             Utils.enhancedDeepEquals(this.description, other.description) &&
             Utils.enhancedDeepEquals(this.refundStatus, other.refundStatus) &&
             Utils.enhancedDeepEquals(this.totalAmount, other.totalAmount) &&
@@ -1415,6 +1431,7 @@ public class TransactionUpdate {
             Utils.enhancedDeepEquals(this.country, other.country) &&
             Utils.enhancedDeepEquals(this.postalCode, other.postalCode) &&
             Utils.enhancedDeepEquals(this.taxId, other.taxId) &&
+            Utils.enhancedDeepEquals(this.status, other.status) &&
             Utils.enhancedDeepEquals(this.addresses, other.addresses) &&
             Utils.enhancedDeepEquals(this.transactionItems, other.transactionItems) &&
             Utils.enhancedDeepEquals(this.customer, other.customer);
@@ -1425,16 +1442,16 @@ public class TransactionUpdate {
         return Utils.enhancedHash(
             requiresExemption, organizationId, externalId,
             date, shopDate, shopDateTz,
-            status, description, refundStatus,
-            totalAmount, customerId, marketplace,
-            exempt, exemptions, relatedTo,
-            secondaryExternalId, secondarySource, externalFriendlyId,
-            totalTaxAmountImported, taxRateImported, totalTaxAmountCalculated,
-            taxRateCalculated, totalTaxLiabilityAmount, taxLiabilitySource,
-            taxableAmount, currency, locked,
-            source, connectionId, filingId,
-            city, county, state,
-            country, postalCode, taxId,
+            description, refundStatus, totalAmount,
+            customerId, marketplace, exempt,
+            exemptions, relatedTo, secondaryExternalId,
+            secondarySource, externalFriendlyId, totalTaxAmountImported,
+            taxRateImported, totalTaxAmountCalculated, taxRateCalculated,
+            totalTaxLiabilityAmount, taxLiabilitySource, taxableAmount,
+            currency, locked, source,
+            connectionId, filingId, city,
+            county, state, country,
+            postalCode, taxId, status,
             addresses, transactionItems, customer);
     }
     
@@ -1447,7 +1464,6 @@ public class TransactionUpdate {
                 "date", date,
                 "shopDate", shopDate,
                 "shopDateTz", shopDateTz,
-                "status", status,
                 "description", description,
                 "refundStatus", refundStatus,
                 "totalAmount", totalAmount,
@@ -1477,6 +1493,7 @@ public class TransactionUpdate {
                 "country", country,
                 "postalCode", postalCode,
                 "taxId", taxId,
+                "status", status,
                 "addresses", addresses,
                 "transactionItems", transactionItems,
                 "customer", customer);
@@ -1496,8 +1513,6 @@ public class TransactionUpdate {
         private Optional<String> shopDate = Optional.empty();
 
         private Optional<String> shopDateTz = Optional.empty();
-
-        private Optional<? extends TransactionStatusEnum> status = Optional.empty();
 
         private Optional<String> description = Optional.empty();
 
@@ -1555,7 +1570,10 @@ public class TransactionUpdate {
 
         private Optional<String> postalCode = Optional.empty();
 
+        @Deprecated
         private Optional<String> taxId = Optional.empty();
+
+        private Optional<? extends TransactionStatusEnum> status = Optional.empty();
 
         private List<TransactionAddressBuilder> addresses;
 
@@ -1645,19 +1663,6 @@ public class TransactionUpdate {
         public Builder shopDateTz(Optional<String> shopDateTz) {
             Utils.checkNotNull(shopDateTz, "shopDateTz");
             this.shopDateTz = shopDateTz;
-            return this;
-        }
-
-
-        public Builder status(TransactionStatusEnum status) {
-            Utils.checkNotNull(status, "status");
-            this.status = Optional.ofNullable(status);
-            return this;
-        }
-
-        public Builder status(Optional<? extends TransactionStatusEnum> status) {
-            Utils.checkNotNull(status, "status");
-            this.status = status;
             return this;
         }
 
@@ -2181,8 +2186,12 @@ public class TransactionUpdate {
 
 
         /**
-         * Tax ID associated with the transaction
+         * Tax ID associated with the transaction. DEPRECATED: This field is only populated for QuickBooks
+         * integrations and will be removed in a future version.
+         * 
+         * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
          */
+        @Deprecated
         public Builder taxId(String taxId) {
             Utils.checkNotNull(taxId, "taxId");
             this.taxId = Optional.ofNullable(taxId);
@@ -2190,11 +2199,28 @@ public class TransactionUpdate {
         }
 
         /**
-         * Tax ID associated with the transaction
+         * Tax ID associated with the transaction. DEPRECATED: This field is only populated for QuickBooks
+         * integrations and will be removed in a future version.
+         * 
+         * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
          */
+        @Deprecated
         public Builder taxId(Optional<String> taxId) {
             Utils.checkNotNull(taxId, "taxId");
             this.taxId = taxId;
+            return this;
+        }
+
+
+        public Builder status(TransactionStatusEnum status) {
+            Utils.checkNotNull(status, "status");
+            this.status = Optional.ofNullable(status);
+            return this;
+        }
+
+        public Builder status(Optional<? extends TransactionStatusEnum> status) {
+            Utils.checkNotNull(status, "status");
+            this.status = status;
             return this;
         }
 
@@ -2251,16 +2277,16 @@ public class TransactionUpdate {
             return new TransactionUpdate(
                 requiresExemption, organizationId, externalId,
                 date, shopDate, shopDateTz,
-                status, description, refundStatus,
-                totalAmount, customerId, marketplace,
-                exempt, exemptions, relatedTo,
-                secondaryExternalId, secondarySource, externalFriendlyId,
-                totalTaxAmountImported, taxRateImported, totalTaxAmountCalculated,
-                taxRateCalculated, totalTaxLiabilityAmount, taxLiabilitySource,
-                taxableAmount, currency, locked,
-                source, connectionId, filingId,
-                city, county, state,
-                country, postalCode, taxId,
+                description, refundStatus, totalAmount,
+                customerId, marketplace, exempt,
+                exemptions, relatedTo, secondaryExternalId,
+                secondarySource, externalFriendlyId, totalTaxAmountImported,
+                taxRateImported, totalTaxAmountCalculated, taxRateCalculated,
+                totalTaxLiabilityAmount, taxLiabilitySource, taxableAmount,
+                currency, locked, source,
+                connectionId, filingId, city,
+                county, state, country,
+                postalCode, taxId, status,
                 addresses, transactionItems, customer);
         }
 

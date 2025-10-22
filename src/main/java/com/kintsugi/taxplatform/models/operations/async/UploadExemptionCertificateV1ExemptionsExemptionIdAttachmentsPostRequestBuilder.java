@@ -11,7 +11,6 @@ import com.kintsugi.taxplatform.models.operations.UploadExemptionCertificateV1Ex
 import com.kintsugi.taxplatform.operations.UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
-import java.lang.Exception;
 import java.lang.String;
 import java.util.concurrent.CompletableFuture;
 
@@ -47,7 +46,7 @@ public class UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostReq
         return request;
     }
 
-    public CompletableFuture<UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse> call() throws Exception {
+    public CompletableFuture<UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse> call() {
         
         AsyncRequestOperation<UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest, UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse> operation
               = new UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost.Async(sdkConfiguration, _headers);

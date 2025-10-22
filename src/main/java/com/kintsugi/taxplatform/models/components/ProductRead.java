@@ -28,7 +28,7 @@ public class ProductRead {
 
 
     @JsonProperty("code")
-    private ProductCodeEnum code;
+    private String code;
 
 
     @JsonProperty("name")
@@ -44,11 +44,11 @@ public class ProductRead {
 
 
     @JsonProperty("product_category")
-    private ProductCategoryEnum productCategory;
+    private String productCategory;
 
 
     @JsonProperty("product_subcategory")
-    private ProductSubCategoryEnum productSubcategory;
+    private String productSubcategory;
 
 
     @JsonProperty("tax_exempt")
@@ -71,12 +71,12 @@ public class ProductRead {
             @JsonProperty("id") String id,
             @JsonProperty("external_id") String externalId,
             @JsonProperty("sku") List<String> sku,
-            @JsonProperty("code") ProductCodeEnum code,
+            @JsonProperty("code") String code,
             @JsonProperty("name") String name,
             @JsonProperty("description") String description,
             @JsonProperty("status") ProductStatusEnum status,
-            @JsonProperty("product_category") ProductCategoryEnum productCategory,
-            @JsonProperty("product_subcategory") ProductSubCategoryEnum productSubcategory,
+            @JsonProperty("product_category") String productCategory,
+            @JsonProperty("product_subcategory") String productSubcategory,
             @JsonProperty("tax_exempt") boolean taxExempt,
             @JsonProperty("source") SourceEnum source,
             @JsonProperty("connection_id") String connectionId,
@@ -125,7 +125,7 @@ public class ProductRead {
     }
 
     @JsonIgnore
-    public ProductCodeEnum code() {
+    public String code() {
         return code;
     }
 
@@ -145,12 +145,12 @@ public class ProductRead {
     }
 
     @JsonIgnore
-    public ProductCategoryEnum productCategory() {
+    public String productCategory() {
         return productCategory;
     }
 
     @JsonIgnore
-    public ProductSubCategoryEnum productSubcategory() {
+    public String productSubcategory() {
         return productSubcategory;
     }
 
@@ -197,7 +197,7 @@ public class ProductRead {
         return this;
     }
 
-    public ProductRead withCode(ProductCodeEnum code) {
+    public ProductRead withCode(String code) {
         Utils.checkNotNull(code, "code");
         this.code = code;
         return this;
@@ -221,13 +221,13 @@ public class ProductRead {
         return this;
     }
 
-    public ProductRead withProductCategory(ProductCategoryEnum productCategory) {
+    public ProductRead withProductCategory(String productCategory) {
         Utils.checkNotNull(productCategory, "productCategory");
         this.productCategory = productCategory;
         return this;
     }
 
-    public ProductRead withProductSubcategory(ProductSubCategoryEnum productSubcategory) {
+    public ProductRead withProductSubcategory(String productSubcategory) {
         Utils.checkNotNull(productSubcategory, "productSubcategory");
         this.productSubcategory = productSubcategory;
         return this;
@@ -319,7 +319,7 @@ public class ProductRead {
 
         private List<String> sku;
 
-        private ProductCodeEnum code;
+        private String code;
 
         private String name;
 
@@ -327,9 +327,9 @@ public class ProductRead {
 
         private ProductStatusEnum status;
 
-        private ProductCategoryEnum productCategory;
+        private String productCategory;
 
-        private ProductSubCategoryEnum productSubcategory;
+        private String productSubcategory;
 
         private Boolean taxExempt;
 
@@ -365,7 +365,7 @@ public class ProductRead {
         }
 
 
-        public Builder code(ProductCodeEnum code) {
+        public Builder code(String code) {
             Utils.checkNotNull(code, "code");
             this.code = code;
             return this;
@@ -393,14 +393,14 @@ public class ProductRead {
         }
 
 
-        public Builder productCategory(ProductCategoryEnum productCategory) {
+        public Builder productCategory(String productCategory) {
             Utils.checkNotNull(productCategory, "productCategory");
             this.productCategory = productCategory;
             return this;
         }
 
 
-        public Builder productSubcategory(ProductSubCategoryEnum productSubcategory) {
+        public Builder productSubcategory(String productSubcategory) {
             Utils.checkNotNull(productSubcategory, "productSubcategory");
             this.productSubcategory = productSubcategory;
             return this;

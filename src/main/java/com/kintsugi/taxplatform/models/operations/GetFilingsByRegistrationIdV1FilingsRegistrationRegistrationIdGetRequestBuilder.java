@@ -11,7 +11,6 @@ import com.kintsugi.taxplatform.operations.GetFilingsByRegistrationIdV1FilingsRe
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.LazySingletonValue;
 import com.kintsugi.taxplatform.utils.Utils;
-import java.lang.Exception;
 import java.lang.Long;
 import java.lang.String;
 import java.util.Optional;
@@ -80,7 +79,7 @@ public class GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetReq
         return request;
     }
 
-    public GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetResponse call() throws Exception {
+    public GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetResponse call() {
         
         RequestOperation<GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequest, GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetResponse> operation
               = new GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGet.Sync(sdkConfiguration, _headers);

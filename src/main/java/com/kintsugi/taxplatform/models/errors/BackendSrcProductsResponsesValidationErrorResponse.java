@@ -5,164 +5,191 @@ package com.kintsugi.taxplatform.models.errors;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.kintsugi.taxplatform.models.components.BackendSrcProductsResponsesValidationErrorItem;
+import com.kintsugi.taxplatform.utils.Blob;
 import com.kintsugi.taxplatform.utils.Utils;
+import jakarta.annotation.Nonnull;
+import jakarta.annotation.Nullable;
 import java.io.InputStream;
+import java.lang.Deprecated;
+import java.lang.Exception;
 import java.lang.Override;
-import java.lang.RuntimeException;
 import java.lang.String;
 import java.lang.SuppressWarnings;
+import java.lang.Throwable;
 import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.Optional;
-
+import java.util.concurrent.CompletableFuture;
 
 @SuppressWarnings("serial")
-public class BackendSrcProductsResponsesValidationErrorResponse extends RuntimeException {
+public class BackendSrcProductsResponsesValidationErrorResponse extends SDKError {
 
-    @JsonProperty("detail")
-    private List<BackendSrcProductsResponsesValidationErrorItem> detail;
+    @Nullable
+    private final Data data;
 
-    /**
-     * Raw HTTP response; suitable for custom response parsing
-     */
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("RawResponse")
-    private Optional<? extends HttpResponse<InputStream>> rawResponse;
+    @Nullable
+    private final Throwable deserializationException;
 
-    @JsonCreator
     public BackendSrcProductsResponsesValidationErrorResponse(
-            @JsonProperty("detail") List<BackendSrcProductsResponsesValidationErrorItem> detail,
-            @JsonProperty("RawResponse") Optional<? extends HttpResponse<InputStream>> rawResponse) {
-        super("API error occurred");
-        Utils.checkNotNull(detail, "detail");
-        Utils.checkNotNull(rawResponse, "rawResponse");
-        this.detail = detail;
-        this.rawResponse = rawResponse;
-    }
-    
-    public BackendSrcProductsResponsesValidationErrorResponse(
-            List<BackendSrcProductsResponsesValidationErrorItem> detail) {
-        this(detail, Optional.empty());
-    }
-
-    @JsonIgnore
-    public List<BackendSrcProductsResponsesValidationErrorItem> detail() {
-        return detail;
+                int code,
+                byte[] body,
+                HttpResponse<?> rawResponse,
+                @Nullable Data data,
+                @Nullable Throwable deserializationException) {
+        super("API error occurred", code, body, rawResponse, null);
+        this.data = data;
+        this.deserializationException = deserializationException;
     }
 
     /**
-     * Raw HTTP response; suitable for custom response parsing
-     */
-    @SuppressWarnings("unchecked")
-    @JsonIgnore
-    public Optional<HttpResponse<InputStream>> rawResponse() {
-        return (Optional<HttpResponse<InputStream>>) rawResponse;
-    }
-
-    public static Builder builder() {
-        return new Builder();
-    }
-
-
-    public BackendSrcProductsResponsesValidationErrorResponse withDetail(List<BackendSrcProductsResponsesValidationErrorItem> detail) {
-        Utils.checkNotNull(detail, "detail");
-        this.detail = detail;
-        return this;
-    }
-
-    /**
-     * Raw HTTP response; suitable for custom response parsing
-     */
-    public BackendSrcProductsResponsesValidationErrorResponse withRawResponse(HttpResponse<InputStream> rawResponse) {
-        Utils.checkNotNull(rawResponse, "rawResponse");
-        this.rawResponse = Optional.ofNullable(rawResponse);
-        return this;
-    }
-
-
-    /**
-     * Raw HTTP response; suitable for custom response parsing
-     */
-    public BackendSrcProductsResponsesValidationErrorResponse withRawResponse(Optional<? extends HttpResponse<InputStream>> rawResponse) {
-        Utils.checkNotNull(rawResponse, "rawResponse");
-        this.rawResponse = rawResponse;
-        return this;
-    }
-
-    @Override
-    public boolean equals(java.lang.Object o) {
-        if (this == o) {
-            return true;
+    * Parse a response into an instance of BackendSrcProductsResponsesValidationErrorResponse. If deserialization of the response body fails,
+    * the resulting BackendSrcProductsResponsesValidationErrorResponse instance will have a null data() value and a non-null deserializationException().
+    */
+    public static BackendSrcProductsResponsesValidationErrorResponse from(HttpResponse<InputStream> response) {
+        try {
+            byte[] bytes = Utils.extractByteArrayFromBody(response);
+            Data data = Utils.mapper().readValue(bytes, Data.class);
+            return new BackendSrcProductsResponsesValidationErrorResponse(response.statusCode(), bytes, response, data, null);
+        } catch (Exception e) {
+            return new BackendSrcProductsResponsesValidationErrorResponse(response.statusCode(), null, response, null, e);
         }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
-        BackendSrcProductsResponsesValidationErrorResponse other = (BackendSrcProductsResponsesValidationErrorResponse) o;
-        return 
-            Utils.enhancedDeepEquals(this.detail, other.detail) &&
-            Utils.enhancedDeepEquals(this.rawResponse, other.rawResponse);
-    }
-    
-    @Override
-    public int hashCode() {
-        return Utils.enhancedHash(
-            detail, rawResponse);
-    }
-    
-    @Override
-    public String toString() {
-        return Utils.toString(BackendSrcProductsResponsesValidationErrorResponse.class,
-                "detail", detail,
-                "rawResponse", rawResponse);
     }
 
-    @SuppressWarnings("UnusedReturnValue")
-    public final static class Builder {
+    /**
+    * Parse a response into an instance of BackendSrcProductsResponsesValidationErrorResponse asynchronously. If deserialization of the response body fails,
+    * the resulting BackendSrcProductsResponsesValidationErrorResponse instance will have a null data() value and a non-null deserializationException().
+    */
+    public static CompletableFuture<BackendSrcProductsResponsesValidationErrorResponse> fromAsync(HttpResponse<Blob> response) {
+        return response.body()
+                .toByteArray()
+                .handle((bytes, err) -> {
+                    // if a body read error occurs, we want to transform the exception
+                    if (err != null) {
+                        throw new AsyncAPIException(
+                                "Error reading response body: " + err.getMessage(),
+                                response.statusCode(),
+                                null,
+                                response,
+                                err);
+                    }
 
+                    try {
+                        return new BackendSrcProductsResponsesValidationErrorResponse(
+                                response.statusCode(),
+                                bytes,
+                                response,
+                                Utils.mapper().readValue(
+                                        bytes,
+                                        new TypeReference<Data>() {
+                                        }),
+                                null);
+                    } catch (Exception e) {
+                        return new BackendSrcProductsResponsesValidationErrorResponse(
+                                response.statusCode(),
+                                bytes,
+                                response,
+                                null,
+                                e);
+                    }
+                });
+    }
+
+    @Deprecated
+    public Optional<List<BackendSrcProductsResponsesValidationErrorItem>> detail() {
+        return data().map(Data::detail);
+    }
+
+    public Optional<Data> data() {
+        return Optional.ofNullable(data);
+    }
+
+    /**
+     * Returns the exception if an error occurs while deserializing the response body.
+     */
+    public Optional<Throwable> deserializationException() {
+        return Optional.ofNullable(deserializationException);
+    }
+
+    public static class Data {
+
+        @JsonProperty("detail")
         private List<BackendSrcProductsResponsesValidationErrorItem> detail;
 
-        private Optional<? extends HttpResponse<InputStream>> rawResponse;
+        @JsonCreator
+        public Data(
+                @JsonProperty("detail") List<BackendSrcProductsResponsesValidationErrorItem> detail) {
+            Utils.checkNotNull(detail, "detail");
+            this.detail = detail;
+        }
 
-        private Builder() {
-          // force use of static builder() method
+        @JsonIgnore
+        public List<BackendSrcProductsResponsesValidationErrorItem> detail() {
+            return detail;
+        }
+
+        public static Builder builder() {
+            return new Builder();
         }
 
 
-        public Builder detail(List<BackendSrcProductsResponsesValidationErrorItem> detail) {
+        public Data withDetail(List<BackendSrcProductsResponsesValidationErrorItem> detail) {
             Utils.checkNotNull(detail, "detail");
             this.detail = detail;
             return this;
         }
 
-
-        /**
-         * Raw HTTP response; suitable for custom response parsing
-         */
-        public Builder rawResponse(HttpResponse<InputStream> rawResponse) {
-            Utils.checkNotNull(rawResponse, "rawResponse");
-            this.rawResponse = Optional.ofNullable(rawResponse);
-            return this;
+        @Override
+        public boolean equals(java.lang.Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            Data other = (Data) o;
+            return 
+                Utils.enhancedDeepEquals(this.detail, other.detail);
+        }
+        
+        @Override
+        public int hashCode() {
+            return Utils.enhancedHash(
+                detail);
+        }
+        
+        @Override
+        public String toString() {
+            return Utils.toString(Data.class,
+                    "detail", detail);
         }
 
-        /**
-         * Raw HTTP response; suitable for custom response parsing
-         */
-        public Builder rawResponse(Optional<? extends HttpResponse<InputStream>> rawResponse) {
-            Utils.checkNotNull(rawResponse, "rawResponse");
-            this.rawResponse = rawResponse;
-            return this;
+        @SuppressWarnings("UnusedReturnValue")
+        public final static class Builder {
+
+            private List<BackendSrcProductsResponsesValidationErrorItem> detail;
+
+            private Builder() {
+              // force use of static builder() method
+            }
+
+
+            public Builder detail(List<BackendSrcProductsResponsesValidationErrorItem> detail) {
+                Utils.checkNotNull(detail, "detail");
+                this.detail = detail;
+                return this;
+            }
+
+            public Data build() {
+
+                return new Data(
+                    detail);
+            }
+
         }
-
-        public BackendSrcProductsResponsesValidationErrorResponse build() {
-
-            return new BackendSrcProductsResponsesValidationErrorResponse(
-                detail, rawResponse);
-        }
-
     }
+
 }
 

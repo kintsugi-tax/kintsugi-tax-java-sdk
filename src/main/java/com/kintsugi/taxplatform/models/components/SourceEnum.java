@@ -62,7 +62,8 @@ public enum SourceEnum {
     SHOPWARE("SHOPWARE"),
     ZOHO("ZOHO"),
     SAGE_INTACCT("SAGE-INTACCT"),
-    AIRWALLEX("AIRWALLEX");
+    AIRWALLEX("AIRWALLEX"),
+    ORB("ORB");
 
     @JsonValue
     private final String value;

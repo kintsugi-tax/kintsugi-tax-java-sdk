@@ -36,7 +36,6 @@ import com.kintsugi.taxplatform.operations.GetTransactionsV1TransactionsGet;
 import com.kintsugi.taxplatform.operations.PUTUpdateCreditNoteByTransactionId;
 import com.kintsugi.taxplatform.operations.UpdateTransactionV1TransactionsTransactionIdPut;
 import com.kintsugi.taxplatform.utils.Headers;
-import java.lang.Exception;
 import java.lang.String;
 
 
@@ -85,9 +84,9 @@ public class Transactions {
      * 
      * @param request The request object containing all the parameters for the API call.
      * @return The response from the API call
-     * @throws Exception if the API call fails
+     * @throws RuntimeException subclass if the API call fails
      */
-    public GetTransactionsV1TransactionsGetResponse get(GetTransactionsV1TransactionsGetRequest request) throws Exception {
+    public GetTransactionsV1TransactionsGetResponse get(GetTransactionsV1TransactionsGetRequest request) {
         RequestOperation<GetTransactionsV1TransactionsGetRequest, GetTransactionsV1TransactionsGetResponse> operation
               = new GetTransactionsV1TransactionsGet.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
@@ -111,9 +110,9 @@ public class Transactions {
      * 
      * @param request The request object containing all the parameters for the API call.
      * @return The response from the API call
-     * @throws Exception if the API call fails
+     * @throws RuntimeException subclass if the API call fails
      */
-    public CreateTransactionV1TransactionsPostResponse create(TransactionPublicRequest request) throws Exception {
+    public CreateTransactionV1TransactionsPostResponse create(TransactionPublicRequest request) {
         RequestOperation<TransactionPublicRequest, CreateTransactionV1TransactionsPostResponse> operation
               = new CreateTransactionV1TransactionsPost.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
@@ -139,9 +138,9 @@ public class Transactions {
      * 
      * @param externalId The unique external identifier of the transaction.
      * @return The response from the API call
-     * @throws Exception if the API call fails
+     * @throws RuntimeException subclass if the API call fails
      */
-    public GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse getByExternalId(String externalId) throws Exception {
+    public GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse getByExternalId(String externalId) {
         GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest request =
             GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest
                 .builder()
@@ -171,9 +170,9 @@ public class Transactions {
      * @param transactionId 
      * @param transactionUpdate 
      * @return The response from the API call
-     * @throws Exception if the API call fails
+     * @throws RuntimeException subclass if the API call fails
      */
-    public UpdateTransactionV1TransactionsTransactionIdPutResponse update(String transactionId, TransactionUpdate transactionUpdate) throws Exception {
+    public UpdateTransactionV1TransactionsTransactionIdPutResponse update(String transactionId, TransactionUpdate transactionUpdate) {
         UpdateTransactionV1TransactionsTransactionIdPutRequest request =
             UpdateTransactionV1TransactionsTransactionIdPutRequest
                 .builder()
@@ -205,9 +204,9 @@ public class Transactions {
      * 
      * @param transactionId The unique identifier of the transaction to retrieve.
      * @return The response from the API call
-     * @throws Exception if the API call fails
+     * @throws RuntimeException subclass if the API call fails
      */
-    public GetTransactionByIdV1TransactionsTransactionIdGetResponse getById(String transactionId) throws Exception {
+    public GetTransactionByIdV1TransactionsTransactionIdGetResponse getById(String transactionId) {
         GetTransactionByIdV1TransactionsTransactionIdGetRequest request =
             GetTransactionByIdV1TransactionsTransactionIdGetRequest
                 .builder()
@@ -238,9 +237,9 @@ public class Transactions {
      *                 whose transactions you wish to retrieve.
      *                 
      * @return The response from the API call
-     * @throws Exception if the API call fails
+     * @throws RuntimeException subclass if the API call fails
      */
-    public GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetResponse getByFilingId(String filingId) throws Exception {
+    public GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetResponse getByFilingId(String filingId) {
         GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest request =
             GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest
                 .builder()
@@ -271,11 +270,11 @@ public class Transactions {
      * @param creditNoteId 
      * @param creditNoteCreate 
      * @return The response from the API call
-     * @throws Exception if the API call fails
+     * @throws RuntimeException subclass if the API call fails
      */
     public PUTUpdateCreditNoteByTransactionIdResponse updateCreditNote(
             String originalTransactionId, String creditNoteId,
-            CreditNoteCreate creditNoteCreate) throws Exception {
+            CreditNoteCreate creditNoteCreate) {
         PUTUpdateCreditNoteByTransactionIdRequest request =
             PUTUpdateCreditNoteByTransactionIdRequest
                 .builder()

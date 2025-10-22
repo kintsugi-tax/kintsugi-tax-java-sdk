@@ -10,7 +10,6 @@ import com.kintsugi.taxplatform.models.components.CreditNoteCreate;
 import com.kintsugi.taxplatform.operations.PUTUpdateCreditNoteByTransactionId;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
-import java.lang.Exception;
 import java.lang.String;
 
 public class PUTUpdateCreditNoteByTransactionIdRequestBuilder {
@@ -53,7 +52,7 @@ public class PUTUpdateCreditNoteByTransactionIdRequestBuilder {
         return request;
     }
 
-    public PUTUpdateCreditNoteByTransactionIdResponse call() throws Exception {
+    public PUTUpdateCreditNoteByTransactionIdResponse call() {
         
         RequestOperation<PUTUpdateCreditNoteByTransactionIdRequest, PUTUpdateCreditNoteByTransactionIdResponse> operation
               = new PUTUpdateCreditNoteByTransactionId.Sync(sdkConfiguration, _headers);

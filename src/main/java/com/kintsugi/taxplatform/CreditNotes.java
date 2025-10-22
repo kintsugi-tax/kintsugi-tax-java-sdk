@@ -11,7 +11,6 @@ import com.kintsugi.taxplatform.models.operations.POSTCreateCreditNoteByTransact
 import com.kintsugi.taxplatform.models.operations.POSTCreateCreditNoteByTransactionIdResponse;
 import com.kintsugi.taxplatform.operations.POSTCreateCreditNoteByTransactionId;
 import com.kintsugi.taxplatform.utils.Headers;
-import java.lang.Exception;
 import java.lang.String;
 
 
@@ -53,9 +52,9 @@ public class CreditNotes {
      * @param originalTransactionId 
      * @param creditNoteCreate 
      * @return The response from the API call
-     * @throws Exception if the API call fails
+     * @throws RuntimeException subclass if the API call fails
      */
-    public POSTCreateCreditNoteByTransactionIdResponse create(String originalTransactionId, CreditNoteCreate creditNoteCreate) throws Exception {
+    public POSTCreateCreditNoteByTransactionIdResponse create(String originalTransactionId, CreditNoteCreate creditNoteCreate) {
         POSTCreateCreditNoteByTransactionIdRequest request =
             POSTCreateCreditNoteByTransactionIdRequest
                 .builder()

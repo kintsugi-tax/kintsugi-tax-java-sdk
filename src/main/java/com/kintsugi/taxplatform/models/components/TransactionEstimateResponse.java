@@ -34,13 +34,6 @@ public class TransactionEstimateResponse {
     @JsonProperty("external_id")
     private String externalId;
 
-    /**
-     * Total amount of the transaction.
-     */
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("total_amount")
-    private Optional<String> totalAmount;
-
 
     @JsonProperty("currency")
     private CurrencyEnum currency;
@@ -128,7 +121,6 @@ public class TransactionEstimateResponse {
     public TransactionEstimateResponse(
             @JsonProperty("date") OffsetDateTime date,
             @JsonProperty("external_id") String externalId,
-            @JsonProperty("total_amount") Optional<String> totalAmount,
             @JsonProperty("currency") CurrencyEnum currency,
             @JsonProperty("description") Optional<String> description,
             @JsonProperty("source") Optional<? extends SourceEnum> source,
@@ -143,7 +135,6 @@ public class TransactionEstimateResponse {
             @JsonProperty("has_active_registration") Optional<Boolean> hasActiveRegistration) {
         Utils.checkNotNull(date, "date");
         Utils.checkNotNull(externalId, "externalId");
-        Utils.checkNotNull(totalAmount, "totalAmount");
         Utils.checkNotNull(currency, "currency");
         Utils.checkNotNull(description, "description");
         Utils.checkNotNull(source, "source");
@@ -158,7 +149,6 @@ public class TransactionEstimateResponse {
         Utils.checkNotNull(hasActiveRegistration, "hasActiveRegistration");
         this.date = date;
         this.externalId = externalId;
-        this.totalAmount = totalAmount;
         this.currency = currency;
         this.description = description;
         this.source = source;
@@ -179,11 +169,11 @@ public class TransactionEstimateResponse {
             CurrencyEnum currency,
             List<TransactionItemEstimateResponse> transactionItems,
             List<TransactionEstimateResponseAddress> addresses) {
-        this(date, externalId, Optional.empty(),
-            currency, Optional.empty(), Optional.empty(),
-            Optional.empty(), transactionItems, Optional.empty(),
-            addresses, Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty());
+        this(date, externalId, currency,
+            Optional.empty(), Optional.empty(), Optional.empty(),
+            transactionItems, Optional.empty(), addresses,
+            Optional.empty(), Optional.empty(), Optional.empty(),
+            Optional.empty(), Optional.empty());
     }
 
     /**
@@ -200,14 +190,6 @@ public class TransactionEstimateResponse {
     @JsonIgnore
     public String externalId() {
         return externalId;
-    }
-
-    /**
-     * Total amount of the transaction.
-     */
-    @JsonIgnore
-    public Optional<String> totalAmount() {
-        return totalAmount;
     }
 
     @JsonIgnore
@@ -326,25 +308,6 @@ public class TransactionEstimateResponse {
     public TransactionEstimateResponse withExternalId(String externalId) {
         Utils.checkNotNull(externalId, "externalId");
         this.externalId = externalId;
-        return this;
-    }
-
-    /**
-     * Total amount of the transaction.
-     */
-    public TransactionEstimateResponse withTotalAmount(String totalAmount) {
-        Utils.checkNotNull(totalAmount, "totalAmount");
-        this.totalAmount = Optional.ofNullable(totalAmount);
-        return this;
-    }
-
-
-    /**
-     * Total amount of the transaction.
-     */
-    public TransactionEstimateResponse withTotalAmount(Optional<String> totalAmount) {
-        Utils.checkNotNull(totalAmount, "totalAmount");
-        this.totalAmount = totalAmount;
         return this;
     }
 
@@ -554,7 +517,6 @@ public class TransactionEstimateResponse {
         return 
             Utils.enhancedDeepEquals(this.date, other.date) &&
             Utils.enhancedDeepEquals(this.externalId, other.externalId) &&
-            Utils.enhancedDeepEquals(this.totalAmount, other.totalAmount) &&
             Utils.enhancedDeepEquals(this.currency, other.currency) &&
             Utils.enhancedDeepEquals(this.description, other.description) &&
             Utils.enhancedDeepEquals(this.source, other.source) &&
@@ -572,11 +534,11 @@ public class TransactionEstimateResponse {
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-            date, externalId, totalAmount,
-            currency, description, source,
-            marketplace, transactionItems, customer,
-            addresses, totalTaxAmountCalculated, taxableAmount,
-            taxRateCalculated, nexusMet, hasActiveRegistration);
+            date, externalId, currency,
+            description, source, marketplace,
+            transactionItems, customer, addresses,
+            totalTaxAmountCalculated, taxableAmount, taxRateCalculated,
+            nexusMet, hasActiveRegistration);
     }
     
     @Override
@@ -584,7 +546,6 @@ public class TransactionEstimateResponse {
         return Utils.toString(TransactionEstimateResponse.class,
                 "date", date,
                 "externalId", externalId,
-                "totalAmount", totalAmount,
                 "currency", currency,
                 "description", description,
                 "source", source,
@@ -605,8 +566,6 @@ public class TransactionEstimateResponse {
         private OffsetDateTime date;
 
         private String externalId;
-
-        private Optional<String> totalAmount;
 
         private CurrencyEnum currency;
 
@@ -654,25 +613,6 @@ public class TransactionEstimateResponse {
         public Builder externalId(String externalId) {
             Utils.checkNotNull(externalId, "externalId");
             this.externalId = externalId;
-            return this;
-        }
-
-
-        /**
-         * Total amount of the transaction.
-         */
-        public Builder totalAmount(String totalAmount) {
-            Utils.checkNotNull(totalAmount, "totalAmount");
-            this.totalAmount = Optional.ofNullable(totalAmount);
-            return this;
-        }
-
-        /**
-         * Total amount of the transaction.
-         */
-        public Builder totalAmount(Optional<String> totalAmount) {
-            Utils.checkNotNull(totalAmount, "totalAmount");
-            this.totalAmount = totalAmount;
             return this;
         }
 
@@ -874,9 +814,6 @@ public class TransactionEstimateResponse {
         }
 
         public TransactionEstimateResponse build() {
-            if (totalAmount == null) {
-                totalAmount = _SINGLETON_VALUE_TotalAmount.value();
-            }
             if (marketplace == null) {
                 marketplace = _SINGLETON_VALUE_Marketplace.value();
             }
@@ -897,19 +834,13 @@ public class TransactionEstimateResponse {
             }
 
             return new TransactionEstimateResponse(
-                date, externalId, totalAmount,
-                currency, description, source,
-                marketplace, transactionItems, customer,
-                addresses, totalTaxAmountCalculated, taxableAmount,
-                taxRateCalculated, nexusMet, hasActiveRegistration);
+                date, externalId, currency,
+                description, source, marketplace,
+                transactionItems, customer, addresses,
+                totalTaxAmountCalculated, taxableAmount, taxRateCalculated,
+                nexusMet, hasActiveRegistration);
         }
 
-
-        private static final LazySingletonValue<Optional<String>> _SINGLETON_VALUE_TotalAmount =
-                new LazySingletonValue<>(
-                        "total_amount",
-                        "\"0.0\"",
-                        new TypeReference<Optional<String>>() {});
 
         private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_Marketplace =
                 new LazySingletonValue<>(

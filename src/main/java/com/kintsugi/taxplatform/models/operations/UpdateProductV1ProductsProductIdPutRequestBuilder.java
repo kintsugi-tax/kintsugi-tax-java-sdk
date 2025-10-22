@@ -10,7 +10,6 @@ import com.kintsugi.taxplatform.models.components.ProductUpdate;
 import com.kintsugi.taxplatform.operations.UpdateProductV1ProductsProductIdPut;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
-import java.lang.Exception;
 import java.lang.String;
 
 public class UpdateProductV1ProductsProductIdPutRequestBuilder {
@@ -45,7 +44,7 @@ public class UpdateProductV1ProductsProductIdPutRequestBuilder {
         return request;
     }
 
-    public UpdateProductV1ProductsProductIdPutResponse call() throws Exception {
+    public UpdateProductV1ProductsProductIdPutResponse call() {
         
         RequestOperation<UpdateProductV1ProductsProductIdPutRequest, UpdateProductV1ProductsProductIdPutResponse> operation
               = new UpdateProductV1ProductsProductIdPut.Sync(sdkConfiguration, _headers);

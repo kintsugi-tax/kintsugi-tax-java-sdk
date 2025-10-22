@@ -18,7 +18,6 @@ import com.kintsugi.taxplatform.operations.GetFilingByIdV1FilingsFilingIdGet;
 import com.kintsugi.taxplatform.operations.GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGet;
 import com.kintsugi.taxplatform.operations.GetFilingsV1FilingsGet;
 import com.kintsugi.taxplatform.utils.Headers;
-import java.lang.Exception;
 import java.lang.Long;
 import java.lang.String;
 import java.util.Optional;
@@ -65,9 +64,9 @@ public class Filings {
      * 
      * @param request The request object containing all the parameters for the API call.
      * @return The response from the API call
-     * @throws Exception if the API call fails
+     * @throws RuntimeException subclass if the API call fails
      */
-    public GetFilingsV1FilingsGetResponse get(GetFilingsV1FilingsGetRequest request) throws Exception {
+    public GetFilingsV1FilingsGetResponse get(GetFilingsV1FilingsGetRequest request) {
         RequestOperation<GetFilingsV1FilingsGetRequest, GetFilingsV1FilingsGetResponse> operation
               = new GetFilingsV1FilingsGet.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
@@ -93,9 +92,9 @@ public class Filings {
      * 
      * @param filingId Unique identifier for the filing to retrieve.
      * @return The response from the API call
-     * @throws Exception if the API call fails
+     * @throws RuntimeException subclass if the API call fails
      */
-    public GetFilingByIdV1FilingsFilingIdGetResponse getById(String filingId) throws Exception {
+    public GetFilingByIdV1FilingsFilingIdGetResponse getById(String filingId) {
         GetFilingByIdV1FilingsFilingIdGetRequest request =
             GetFilingByIdV1FilingsFilingIdGetRequest
                 .builder()
@@ -133,9 +132,9 @@ public class Filings {
      * @param registrationId Unique identifier for the registration
      *                 associated with the filings.
      * @return The response from the API call
-     * @throws Exception if the API call fails
+     * @throws RuntimeException subclass if the API call fails
      */
-    public GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetResponse getByRegistrationId(String registrationId) throws Exception {
+    public GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetResponse getByRegistrationId(String registrationId) {
         return getByRegistrationId(registrationId, Optional.empty(), Optional.empty());
     }
 
@@ -153,11 +152,11 @@ public class Filings {
      * @param page Page number
      * @param size Page size
      * @return The response from the API call
-     * @throws Exception if the API call fails
+     * @throws RuntimeException subclass if the API call fails
      */
     public GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetResponse getByRegistrationId(
             String registrationId, Optional<Long> page,
-            Optional<Long> size) throws Exception {
+            Optional<Long> size) {
         GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequest request =
             GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequest
                 .builder()

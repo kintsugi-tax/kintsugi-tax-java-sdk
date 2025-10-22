@@ -9,7 +9,6 @@ import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.operations.GetExemptionsV1ExemptionsGet;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
-import java.lang.Exception;
 
 public class GetExemptionsV1ExemptionsGetRequestBuilder {
 
@@ -27,7 +26,7 @@ public class GetExemptionsV1ExemptionsGetRequestBuilder {
         return this;
     }
 
-    public GetExemptionsV1ExemptionsGetResponse call() throws Exception {
+    public GetExemptionsV1ExemptionsGetResponse call() {
         
         RequestOperation<GetExemptionsV1ExemptionsGetRequest, GetExemptionsV1ExemptionsGetResponse> operation
               = new GetExemptionsV1ExemptionsGet.Sync(sdkConfiguration, _headers);

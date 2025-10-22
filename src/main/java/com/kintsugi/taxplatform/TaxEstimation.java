@@ -12,7 +12,6 @@ import com.kintsugi.taxplatform.models.operations.EstimateTaxV1TaxEstimatePostRe
 import com.kintsugi.taxplatform.operations.EstimateTaxV1TaxEstimatePost;
 import com.kintsugi.taxplatform.utils.Headers;
 import java.lang.Boolean;
-import java.lang.Exception;
 import java.util.Optional;
 
 
@@ -60,11 +59,11 @@ public class TaxEstimation {
      * releases.
      * 
      * @param transactionEstimatePublicRequest Public request model for tax estimation API documentation.
-     *         This model excludes internal fields like enriched_fields that should not be exposed in API docs.
+     *         This model excludes internal fields like enriched_fields and total_amount that should not be exposed in API docs.
      * @return The response from the API call
-     * @throws Exception if the API call fails
+     * @throws RuntimeException subclass if the API call fails
      */
-    public EstimateTaxV1TaxEstimatePostResponse estimate(TransactionEstimatePublicRequest transactionEstimatePublicRequest) throws Exception {
+    public EstimateTaxV1TaxEstimatePostResponse estimate(TransactionEstimatePublicRequest transactionEstimatePublicRequest) {
         return estimate(Optional.empty(), transactionEstimatePublicRequest);
     }
 
@@ -79,11 +78,11 @@ public class TaxEstimation {
      * 
      * @param simulateNexusMet **Deprecated:** Use `simulate_active_registration` in the request body instead.
      * @param transactionEstimatePublicRequest Public request model for tax estimation API documentation.
-     *         This model excludes internal fields like enriched_fields that should not be exposed in API docs.
+     *         This model excludes internal fields like enriched_fields and total_amount that should not be exposed in API docs.
      * @return The response from the API call
-     * @throws Exception if the API call fails
+     * @throws RuntimeException subclass if the API call fails
      */
-    public EstimateTaxV1TaxEstimatePostResponse estimate(Optional<Boolean> simulateNexusMet, TransactionEstimatePublicRequest transactionEstimatePublicRequest) throws Exception {
+    public EstimateTaxV1TaxEstimatePostResponse estimate(Optional<Boolean> simulateNexusMet, TransactionEstimatePublicRequest transactionEstimatePublicRequest) {
         EstimateTaxV1TaxEstimatePostRequest request =
             EstimateTaxV1TaxEstimatePostRequest
                 .builder()

@@ -4,6 +4,7 @@
 package com.kintsugi.taxplatform.operations;
 
 import static com.kintsugi.taxplatform.operations.Operations.RequestlessOperation;
+import static com.kintsugi.taxplatform.utils.Exceptions.unchecked;
 import static com.kintsugi.taxplatform.operations.Operations.AsyncRequestlessOperation;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -14,7 +15,6 @@ import com.kintsugi.taxplatform.models.errors.APIException;
 import com.kintsugi.taxplatform.models.errors.HTTPValidationError;
 import com.kintsugi.taxplatform.models.operations.GetProductCategoriesV1ProductsCategoriesGetResponse;
 import com.kintsugi.taxplatform.utils.Blob;
-import com.kintsugi.taxplatform.utils.Exceptions;
 import com.kintsugi.taxplatform.utils.HTTPClient;
 import com.kintsugi.taxplatform.utils.HTTPRequest;
 import com.kintsugi.taxplatform.utils.Headers;
@@ -24,7 +24,6 @@ import com.kintsugi.taxplatform.utils.Hook.BeforeRequestContextImpl;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.io.InputStream;
 import java.lang.Exception;
-import java.lang.RuntimeException;
 import java.lang.String;
 import java.lang.Throwable;
 import java.net.http.HttpRequest;
@@ -61,7 +60,7 @@ public class GetProductCategoriesV1ProductsCategoriesGet {
                     this.sdkConfiguration,
                     this.baseUrl,
                     "get_product_categories_v1_products_categories__get",
-                    java.util.Optional.of(java.util.List.of()),
+                    java.util.Optional.empty(),
                     securitySource());
         }
 
@@ -70,7 +69,7 @@ public class GetProductCategoriesV1ProductsCategoriesGet {
                     this.sdkConfiguration,
                     this.baseUrl,
                     "get_product_categories_v1_products_categories__get",
-                    java.util.Optional.of(java.util.List.of()),
+                    java.util.Optional.empty(),
                     securitySource());
         }
 
@@ -79,7 +78,7 @@ public class GetProductCategoriesV1ProductsCategoriesGet {
                     this.sdkConfiguration,
                     this.baseUrl,
                     "get_product_categories_v1_products_categories__get",
-                    java.util.Optional.of(java.util.List.of()),
+                    java.util.Optional.empty(),
                     securitySource());
         }
         HttpRequest buildRequest() throws Exception {
@@ -119,8 +118,8 @@ public class GetProductCategoriesV1ProductsCategoriesGet {
         }
 
         @Override
-        public HttpResponse<InputStream> doRequest() throws Exception {
-            HttpRequest r = onBuildRequest();
+        public HttpResponse<InputStream> doRequest() {
+            HttpRequest r = unchecked(() -> onBuildRequest()).get();
             HttpResponse<InputStream> httpRes;
             try {
                 httpRes = client.send(r);
@@ -130,7 +129,7 @@ public class GetProductCategoriesV1ProductsCategoriesGet {
                     httpRes = onSuccess(httpRes);
                 }
             } catch (Exception e) {
-                httpRes = onError(null, e);
+                httpRes = unchecked(() -> onError(null, e)).get();
             }
 
             return httpRes;
@@ -138,7 +137,7 @@ public class GetProductCategoriesV1ProductsCategoriesGet {
 
 
         @Override
-        public GetProductCategoriesV1ProductsCategoriesGetResponse handleResponse(HttpResponse<InputStream> response) throws Exception {
+        public GetProductCategoriesV1ProductsCategoriesGetResponse handleResponse(HttpResponse<InputStream> response) {
             String contentType = response
                     .headers()
                     .firstValue("Content-Type")
@@ -154,62 +153,27 @@ public class GetProductCategoriesV1ProductsCategoriesGet {
             
             if (Utils.statusCodeMatches(response.statusCode(), "200")) {
                 if (Utils.contentTypeMatches(contentType, "application/json")) {
-                    List<ProductCategories> out = Utils.mapper().readValue(
-                            response.body(),
-                            new TypeReference<>() {
-                            });
-                    res.withResponseGetProductCategoriesV1ProductsCategoriesGet(out);
-                    return res;
+                    return res.withResponseGetProductCategoriesV1ProductsCategoriesGet(Utils.unmarshal(response, new TypeReference<List<ProductCategories>>() {}));
                 } else {
-                    throw new APIException(
-                            response,
-                            response.statusCode(),
-                            "Unexpected content-type received: " + contentType,
-                            Utils.extractByteArrayFromBody(response));
+                    throw APIException.from("Unexpected content-type received: " + contentType, response);
                 }
             }
-            
             if (Utils.statusCodeMatches(response.statusCode(), "422")) {
                 if (Utils.contentTypeMatches(contentType, "application/json")) {
-                    HTTPValidationError out = Utils.mapper().readValue(
-                            response.body(),
-                            new TypeReference<>() {
-                            });
-                        out.withRawResponse(response);
-                    
-                    throw out;
+                    throw HTTPValidationError.from(response);
                 } else {
-                    throw new APIException(
-                            response,
-                            response.statusCode(),
-                            "Unexpected content-type received: " + contentType,
-                            Utils.extractByteArrayFromBody(response));
+                    throw APIException.from("Unexpected content-type received: " + contentType, response);
                 }
             }
-            
             if (Utils.statusCodeMatches(response.statusCode(), "4XX")) {
                 // no content
-                throw new APIException(
-                        response,
-                        response.statusCode(),
-                        "API error occurred",
-                        Utils.extractByteArrayFromBody(response));
+                throw APIException.from("API error occurred", response);
             }
-            
             if (Utils.statusCodeMatches(response.statusCode(), "5XX")) {
                 // no content
-                throw new APIException(
-                        response,
-                        response.statusCode(),
-                        "API error occurred",
-                        Utils.extractByteArrayFromBody(response));
+                throw APIException.from("API error occurred", response);
             }
-            
-            throw new APIException(
-                    response,
-                    response.statusCode(),
-                    "Unexpected status code received: " + response.statusCode(),
-                    Utils.extractByteArrayFromBody(response));
+            throw APIException.from("Unexpected status code received: " + response.statusCode(), response);
         }
     }
     public static class Async extends Base
@@ -234,7 +198,7 @@ public class GetProductCategoriesV1ProductsCategoriesGet {
 
         @Override
         public CompletableFuture<HttpResponse<Blob>> doRequest() {
-            return Exceptions.unchecked(() -> onBuildRequest()).get().thenCompose(client::sendAsync)
+            return unchecked(() -> onBuildRequest()).get().thenCompose(client::sendAsync)
                     .handle((resp, err) -> {
                         if (err != null) {
                             return onError(null, err);
@@ -266,53 +230,28 @@ public class GetProductCategoriesV1ProductsCategoriesGet {
             
             if (Utils.statusCodeMatches(response.statusCode(), "200")) {
                 if (Utils.contentTypeMatches(contentType, "application/json")) {
-                    return response.body().toByteArray().thenApply(bodyBytes -> {
-                        try {
-                            List<ProductCategories> out = Utils.mapper().readValue(
-                                    bodyBytes,
-                                    new TypeReference<>() {
-                                    });
-                            res.withResponseGetProductCategoriesV1ProductsCategoriesGet(out);
-                            return res;
-                        } catch (Exception e) {
-                            throw new RuntimeException(e);
-                        }
-                    });
+                    return Utils.unmarshalAsync(response, new TypeReference<List<ProductCategories>>() {})
+                            .thenApply(res::withResponseGetProductCategoriesV1ProductsCategoriesGet);
                 } else {
                     return Utils.createAsyncApiError(response, "Unexpected content-type received: " + contentType);
                 }
             }
-            
             if (Utils.statusCodeMatches(response.statusCode(), "422")) {
                 if (Utils.contentTypeMatches(contentType, "application/json")) {
-                    return response.body().toByteArray().thenApply(bodyBytes -> {
-                        com.kintsugi.taxplatform.models.errors.async.HTTPValidationError out;
-                        try {
-                            out = Utils.mapper().readValue(
-                                    bodyBytes,
-                                    new TypeReference<>() {
-                                    });
-                            out.withRawResponse(response);
-                        } catch (Exception e) {
-                            throw new RuntimeException(e);
-                        }
-                        throw out;
-                    });
+                    return HTTPValidationError.fromAsync(response)
+                            .thenCompose(CompletableFuture::failedFuture);
                 } else {
                     return Utils.createAsyncApiError(response, "Unexpected content-type received: " + contentType);
                 }
             }
-            
             if (Utils.statusCodeMatches(response.statusCode(), "4XX")) {
                 // no content
                 return Utils.createAsyncApiError(response, "API error occurred");
             }
-            
             if (Utils.statusCodeMatches(response.statusCode(), "5XX")) {
                 // no content
                 return Utils.createAsyncApiError(response, "API error occurred");
             }
-            
             return Utils.createAsyncApiError(response, "Unexpected status code received: " + response.statusCode());
         }
     }

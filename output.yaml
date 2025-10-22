@@ -2057,7 +2057,7 @@ paths:
           content:
             "application/json":
               schema: {"$ref": "#/components/schemas/Page_TransactionRead_"}
-              example: {"items": [{"organization_id": "orgn_123456789", "external_id": "TXN-001", "date": "2025-03-01T10:30:00", "status": "COMMITTED", "description": "Order #001 from Example Store", "processing_status": "ADDRESS_DONE", "total_amount": "250.00", "customer_id": "cust_987654321", "marketplace": false, "exempt": "NOT_EXEMPT", "exemptions": [], "secondary_external_id": "Example Store", "secondary_source": "SHOPIFY", "total_tax_amount_imported": "15.00", "tax_rate_imported": "0.06", "total_tax_amount_calculated": "15.00", "tax_rate_calculated": "0.06", "taxable_amount": "250.00", "currency": "USD", "locked": false, "source": "OTHER", "connection_id": "conn_ABC123XYZ", "filing_id": "file_1234567", "destination_currency": "USD", "converted_total_amount": 1000, "converted_total_tax_amount_imported": 1200, "converted_total_tax_amount_calculated": 1200, "conversion_rate": 1, "city": "Los Angeles", "county": "Los Angeles County", "state": "CA", "country": "US", "postal_code": "90001", "address_status": "VERIFIED", "tax_id": "tax_12345", "id": "tran_001ABCDEF", "type": "SALE", "total_discount": "0.00", "subtotal": "250.00", "addresses": [{"phone": "1234567890", "street_1": "123 Main St", "street_2": "Apt 4B", "city": "Los Angeles", "county": "Los Angeles County", "state": "CA", "postal_code": "90001", "country": "US", "full_address": "123 Main St, Apt 4B, Los Angeles, CA, 90001, US", "type": "BILL_TO", "status": "VERIFIED", "id": "addr_123XYZ", "transaction_id": "tran_001ABCDEF"}, {"phone": "9876543210", "street_1": "456 Elm St", "street_2": "", "city": "San Francisco", "county": "San Francisco County", "state": "CA", "postal_code": "94102", "country": "US", "full_address": "456 Elm St, San Francisco, CA, 94102, US", "type": "SHIP_TO", "status": "VERIFIED", "id": "addr_456XYZ", "transaction_id": "tran_001ABCDEF"}], "transaction_items": [{"external_id": "ITEM-001", "organization_id": "orgn_123456789", "date": "2025-03-01T10:30:00", "description": "Blue T-Shirt", "external_product_id": "P001", "product": "Blue T-Shirt", "product_id": "prod_ABC123", "product_name": "Blue T-Shirt - Large", "product_description": "A stylish blue t-shirt, size Large", "quantity": "2", "amount": "50.00", "tax_amount_imported": "3.00", "tax_rate_imported": "0.06", "tax_amount_calculated": "3.00", "tax_rate_calculated": "0.06", "taxable_amount": "50.00", "exempt": false, "id": "txim_ABCDEF123", "tax_items": [{"rule_id": "0000", "rate": "0.00", "amount": "0.00", "converted_amount": "0.00", "currency": "USD", "destination_currency": "USD", "external_id": "ext_1234", "name": "product", "type": "IMPORTED", "jurisdiction_type": "COUNTRY", "jurisdiction_name": "CA"}], "total_discount": "0.00", "subtotal": "100.00"}, {"external_id": "ITEM-002", "organization_id": "orgn_123456789", "date": "2025-03-01T10:30:00", "description": "Wireless Headphones", "external_product_id": "P002", "product": "Wireless Headphones", "product_id": "prod_DEF456", "product_name": "Noise-Cancelling Wireless Headphones", "product_description": "High-quality wireless headphones with noise cancellation", "quantity": "1", "amount": "150.00", "tax_amount_imported": "9.00", "tax_rate_imported": "0.06", "tax_amount_calculated": "9.00", "tax_rate_calculated": "0.06", "taxable_amount": "150.00", "exempt": false, "id": "txim_DEF456", "tax_items": [], "total_discount": "0.00", "subtotal": "150.00"}], "customer": {"phone": "1234567890", "street_1": "123 Main St", "street_2": "Apt 4B", "city": "Los Angeles", "county": "Los Angeles County", "state": "CA", "postal_code": "90001", "country": "US", "full_address": "123 Main St, Apt 4B, Los Angeles, CA, 90001, US", "name": "John Doe", "external_id": "CUST-001", "status": "ACTIVE", "email": "johndoe@example.com", "source": "SHOPIFY", "connection_id": "conn_ABC123XYZ", "address_status": "VERIFIED", "id": "cust_987654321", "organization_id": "orgn_123456789"}}], "total": 1, "page": 1, "size": 1, "pages": 1}
+              example: {"items": [{"organization_id": "orgn_123456789", "external_id": "TXN-001", "date": "2025-03-01T10:30:00", "status": "COMMITTED", "description": "Order #001 from Example Store", "processing_status": "ADDRESS_DONE", "total_amount": "250.00", "customer_id": "cust_987654321", "marketplace": false, "exempt": "NOT_EXEMPT", "exemptions": [], "secondary_external_id": "Example Store", "secondary_source": "SHOPIFY", "total_tax_amount_imported": "15.00", "tax_rate_imported": "0.06", "total_tax_amount_calculated": "15.00", "tax_rate_calculated": "0.06", "taxable_amount": "250.00", "currency": "USD", "locked": false, "source": "OTHER", "connection_id": "conn_ABC123XYZ", "filing_id": "file_1234567", "destination_currency": "USD", "converted_total_amount": 1000, "converted_total_tax_amount_imported": 1200, "converted_total_tax_amount_calculated": 1200, "conversion_rate": 1, "city": "Los Angeles", "county": "Los Angeles County", "state": "CA", "country": "US", "postal_code": "90001", "address_status": "VERIFIED", "id": "tran_001ABCDEF", "type": "SALE", "total_discount": "0.00", "subtotal": "250.00", "addresses": [{"phone": "1234567890", "street_1": "123 Main St", "street_2": "Apt 4B", "city": "Los Angeles", "county": "Los Angeles County", "state": "CA", "postal_code": "90001", "country": "US", "full_address": "123 Main St, Apt 4B, Los Angeles, CA, 90001, US", "type": "BILL_TO", "status": "VERIFIED", "id": "addr_123XYZ", "transaction_id": "tran_001ABCDEF"}, {"phone": "9876543210", "street_1": "456 Elm St", "street_2": "", "city": "San Francisco", "county": "San Francisco County", "state": "CA", "postal_code": "94102", "country": "US", "full_address": "456 Elm St, San Francisco, CA, 94102, US", "type": "SHIP_TO", "status": "VERIFIED", "id": "addr_456XYZ", "transaction_id": "tran_001ABCDEF"}], "transaction_items": [{"external_id": "ITEM-001", "organization_id": "orgn_123456789", "date": "2025-03-01T10:30:00", "description": "Blue T-Shirt", "external_product_id": "P001", "product": "Blue T-Shirt", "product_id": "prod_ABC123", "product_name": "Blue T-Shirt - Large", "product_description": "A stylish blue t-shirt, size Large", "quantity": "2", "amount": "50.00", "tax_amount_imported": "3.00", "tax_rate_imported": "0.06", "tax_amount_calculated": "3.00", "tax_rate_calculated": "0.06", "taxable_amount": "50.00", "exempt": false, "id": "txim_ABCDEF123", "tax_items": [{"rule_id": "0000", "rate": "0.00", "amount": "0.00", "converted_amount": "0.00", "currency": "USD", "destination_currency": "USD", "external_id": "ext_1234", "name": "product", "type": "IMPORTED", "jurisdiction_type": "COUNTRY", "jurisdiction_name": "CA"}], "total_discount": "0.00", "subtotal": "100.00"}, {"external_id": "ITEM-002", "organization_id": "orgn_123456789", "date": "2025-03-01T10:30:00", "description": "Wireless Headphones", "external_product_id": "P002", "product": "Wireless Headphones", "product_id": "prod_DEF456", "product_name": "Noise-Cancelling Wireless Headphones", "product_description": "High-quality wireless headphones with noise cancellation", "quantity": "1", "amount": "150.00", "tax_amount_imported": "9.00", "tax_rate_imported": "0.06", "tax_amount_calculated": "9.00", "tax_rate_calculated": "0.06", "taxable_amount": "150.00", "exempt": false, "id": "txim_DEF456", "tax_items": [], "total_discount": "0.00", "subtotal": "150.00"}], "customer": {"phone": "1234567890", "street_1": "123 Main St", "street_2": "Apt 4B", "city": "Los Angeles", "county": "Los Angeles County", "state": "CA", "postal_code": "90001", "country": "US", "full_address": "123 Main St, Apt 4B, Los Angeles, CA, 90001, US", "name": "John Doe", "external_id": "CUST-001", "status": "ACTIVE", "email": "johndoe@example.com", "source": "SHOPIFY", "connection_id": "conn_ABC123XYZ", "address_status": "VERIFIED", "id": "cust_987654321", "organization_id": "orgn_123456789"}}], "total": 1, "page": 1, "size": 1, "pages": 1}
         "404":
           description: "Resource not found"
           content:
@@ -2336,7 +2336,7 @@ paths:
                 type: "array"
                 items: {"$ref": "#/components/schemas/TransactionRead"}
                 title: "Response 200 Get Transactions By Filing Id V1 Transactions Filings  Filing Id  Get"
-              example: [{"updated_at": "2025-05-20T15:30:45.123456", "refund_status": "NOT_REFUNDED", "total_amount": "250.00", "converted_total_amount": "250.00", "city": "Vancouver", "id": "tran_ABC123XYZ789", "total_tax_amount_imported": "15.00", "converted_total_tax_amount_imported": "15.00", "county": "Metro Vancouver", "address_status": "VERIFIED", "type": "SALE", "tax_rate_imported": "0.0600", "converted_total_tax_amount_calculated": "15.00", "state": "BC", "connection_id": "conn_ExampleConnection01", "status": "COMMITTED", "date": "2025-05-18T12:00:00", "total_tax_amount_calculated": "15.00", "conversion_rate": "1.0000", "country": "CA", "filing_id": "file_ExampleFiling123", "external_id": "EXT_ORDER_456", "tax_rate_calculated": "0.0600", "converted_taxable_amount": "235.00", "postal_code": "V6B 1A1", "created_at": "2025-05-19T09:15:30.987654", "secondary_external_id": "ExternalSystem123", "taxable_amount": "235.00", "locked": false, "marketplace": true, "secondary_source": "SHOPIFY", "currency": "CAD", "description": "Shopify order #456 from Demo Store", "exempt": "NOT_EXEMPT", "customer_id": "cust_ExampleCust789", "organization_id": "orgn_ExampleOrg456", "external_friendly_id": "ORDER456", "destination_currency": "CAD", "source": "SHOPIFY", "tax_id": "123-456-789"}]
+              example: [{"updated_at": "2025-05-20T15:30:45.123456", "refund_status": "NOT_REFUNDED", "total_amount": "250.00", "converted_total_amount": "250.00", "city": "Vancouver", "id": "tran_ABC123XYZ789", "total_tax_amount_imported": "15.00", "converted_total_tax_amount_imported": "15.00", "county": "Metro Vancouver", "address_status": "VERIFIED", "type": "SALE", "tax_rate_imported": "0.0600", "converted_total_tax_amount_calculated": "15.00", "state": "BC", "connection_id": "conn_ExampleConnection01", "status": "COMMITTED", "date": "2025-05-18T12:00:00", "total_tax_amount_calculated": "15.00", "conversion_rate": "1.0000", "country": "CA", "filing_id": "file_ExampleFiling123", "external_id": "EXT_ORDER_456", "tax_rate_calculated": "0.0600", "converted_taxable_amount": "235.00", "postal_code": "V6B 1A1", "created_at": "2025-05-19T09:15:30.987654", "secondary_external_id": "ExternalSystem123", "taxable_amount": "235.00", "locked": false, "marketplace": true, "secondary_source": "SHOPIFY", "currency": "CAD", "description": "Shopify order #456 from Demo Store", "exempt": "NOT_EXEMPT", "customer_id": "cust_ExampleCust789", "organization_id": "orgn_ExampleOrg456", "external_friendly_id": "ORDER456", "destination_currency": "CAD", "source": "SHOPIFY"}]
         "401":
           description: "Unauthenticated request."
           content:
@@ -2465,7 +2465,7 @@ paths:
           content:
             "application/json":
               schema: {"$ref": "#/components/schemas/Page_TransactionEstimateResponse_"}
-              example: {"date": "2025-01-25T13:45:00Z", "external_id": "123456", "total_amount": "500.00", "currency": "USD", "description": "Test transaction for tax calculation", "source": "OTHER", "marketplace": false, "addresses": [{"type": "SHIP_TO", "street_1": "456 Elm Street", "street_2": "Suite 202", "city": "Springfield", "county": "Greene", "state": "MO", "postal_code": "65806", "country": "US", "status": "VERIFIED"}], "transaction_items": [{"external_id": "ITEM123", "date": "2025-01-25T14:00:00Z", "description": "A sample product", "external_product_id": "PROD001", "product_name": "Sample Product", "product_description": "This is a sample product for testing", "product_source": "OTHER", "product_subcategory": "GENERAL_CLOTHING", "product_category": "PHYSICAL", "quantity": "2", "amount": "250.00", "exempt": false, "tax_amount": "20.00", "taxable_amount": "500.00", "tax_rate": "0.08", "tax_items": [{"rate": "0.05", "name": "State Tax", "amount": "12.50", "exempt": false}, {"rate": "0.03", "name": "County Tax", "amount": "7.50", "exempt": false}]}], "total_tax_amount_calculated": "20.00", "taxable_amount": "500.00", "tax_rate_calculated": "0.08", "nexus_met": true, "has_active_registration": true}
+              example: {"date": "2025-01-25T13:45:00Z", "external_id": "123456", "currency": "USD", "description": "Test transaction for tax calculation", "source": "OTHER", "marketplace": false, "addresses": [{"type": "SHIP_TO", "street_1": "456 Elm Street", "street_2": "Suite 202", "city": "Springfield", "county": "Greene", "state": "MO", "postal_code": "65806", "country": "US", "status": "VERIFIED"}], "transaction_items": [{"external_id": "ITEM123", "date": "2025-01-25T14:00:00Z", "description": "A sample product", "external_product_id": "PROD001", "product_name": "Sample Product", "product_description": "This is a sample product for testing", "product_source": "OTHER", "product_subcategory": "GENERAL_CLOTHING", "product_category": "PHYSICAL", "quantity": "2", "amount": "250.00", "exempt": false, "tax_amount": "20.00", "taxable_amount": "500.00", "tax_rate": "0.08", "tax_items": [{"rate": "0.05", "name": "State Tax", "amount": "12.50", "exempt": false}, {"rate": "0.03", "name": "County Tax", "amount": "7.50", "exempt": false}]}], "total_tax_amount_calculated": "20.00", "taxable_amount": "500.00", "tax_rate_calculated": "0.08", "nexus_met": true, "has_active_registration": true}
         "404":
           description: "Resource Not Found"
           content:
@@ -2714,6 +2714,12 @@ components:
         "paused_until_date":
           description: "Indicates the date when filing will be unpaused."
           type: "string"
+        "filing_category":
+          type: "string"
+          maxLength: 50
+          title: "Filing Category"
+          description: "Category of filing. Common values:\n                                    REGULAR (standard periodic filing),\n                                    PREPAYMENT (prepayment or estimated tax),\n                                    AMENDMENT (amended return).\n                                    Different categories can have overlapping periods."
+          default: "REGULAR"
         "approved_by":
           description: "User ID of who approved the filing."
           type: "string"
@@ -2812,6 +2818,10 @@ components:
         "filing_frequency":
           description: "Filing frequency from the associated registration."
           type: "string"
+        "filing_website_url":
+          description: "Get the filing website URL for this filing's jurisdiction"
+          readOnly: true
+          type: "string"
       type: "object"
       required:
         - "start_date"
@@ -2820,6 +2830,7 @@ components:
         - "id"
         - "registration_id"
         - "organization_id"
+        - "filing_website_url"
       title: "AdminAllFilingRead"
     "AdminFilingRegistrationPasswordRead":
       properties:
@@ -3144,7 +3155,7 @@ components:
         "id":
           type: "string"
           title: "Id"
-        "product_code": {"title": "Product Code", "$ref": "#/components/schemas/ProductCodeEnum"}
+        "product_code": {"title": "Product Code", "$ref": "#/components/schemas/ProductCodeByCategoryEnum"}
         "start_date":
           type: "string"
           format: "date"
@@ -3684,12 +3695,108 @@ components:
         - "total_updated"
         - "total_failed"
       title: "BulkTaskUpdateResponse"
+    "BunnyConnectionRequest":
+      properties:
+        "subdomain":
+          type: "string"
+          title: "Subdomain"
+          description: "Bunny subdomain (e.g., 'mycompany' for mycompany.bunny.com)"
+        "client_id":
+          type: "string"
+          title: "Client Id"
+          description: "Bunny API Client ID"
+        "client_secret":
+          type: "string"
+          title: "Client Secret"
+          description: "Bunny API Client Secret"
+        "name":
+          description: "Custom name for this connection"
+          type: "string"
+      type: "object"
+      required:
+        - "subdomain"
+        - "client_id"
+        - "client_secret"
+      title: "BunnyConnectionRequest"
+      description: "Request model for creating a Bunny connection."
+    "BunnyConnectionResponse":
+      properties:
+        "success":
+          type: "boolean"
+          title: "Success"
+        "message":
+          type: "string"
+          title: "Message"
+        "connection_id":
+          type: "string"
+        "data":
+          type: "object"
+      type: "object"
+      required:
+        - "success"
+        - "message"
+      title: "BunnyConnectionResponse"
+      description: "Response model for Bunny connection operations."
+    "BunnyConnectionStatus":
+      properties:
+        "connection_id":
+          type: "string"
+          title: "Connection Id"
+        "subdomain":
+          type: "string"
+          title: "Subdomain"
+        "name":
+          type: "string"
+          title: "Name"
+        "status":
+          type: "string"
+          title: "Status"
+        "last_sync":
+          type: "string"
+        "created_at":
+          type: "string"
+          format: "date-time"
+          title: "Created At"
+        "error_message":
+          type: "string"
+      type: "object"
+      required:
+        - "connection_id"
+        - "subdomain"
+        - "name"
+        - "status"
+        - "created_at"
+      title: "BunnyConnectionStatus"
+      description: "Model for connection status information."
+    "BunnyHealthCheckResponse":
+      properties:
+        "healthy":
+          type: "boolean"
+          title: "Healthy"
+        "subdomain":
+          type: "string"
+          title: "Subdomain"
+        "message":
+          type: "string"
+          title: "Message"
+        "last_checked":
+          type: "string"
+          format: "date-time"
+          title: "Last Checked"
+      type: "object"
+      required:
+        - "healthy"
+        - "subdomain"
+        - "message"
+        - "last_checked"
+      title: "BunnyHealthCheckResponse"
+      description: "Response model for health check."
     "CanadaRule":
       properties:
         "id":
           type: "string"
           title: "Id"
-        "product_code": {"title": "Product Code", "$ref": "#/components/schemas/ProductCodeEnum"}
+        "product_code": {"title": "Product Code", "$ref": "#/components/schemas/ProductCodeByCategoryEnum"}
         "start_date":
           type: "string"
           format: "date"
@@ -6203,7 +6310,7 @@ components:
         "id":
           type: "string"
           title: "Id"
-        "product_code": {"title": "Product Code", "$ref": "#/components/schemas/ProductCodeEnum"}
+        "product_code": {"title": "Product Code", "$ref": "#/components/schemas/ProductCodeByCategoryEnum"}
         "start_date":
           type: "string"
           format: "date"
@@ -6700,6 +6807,241 @@ components:
         "paused_until_date":
           description: "Indicates the date when filing will be unpaused."
           type: "string"
+        "filing_category":
+          type: "string"
+          maxLength: 50
+          title: "Filing Category"
+          description: "Category of filing. Common values:\n                                    REGULAR (standard periodic filing),\n                                    PREPAYMENT (prepayment or estimated tax),\n                                    AMENDMENT (amended return).\n                                    Different categories can have overlapping periods."
+          default: "REGULAR"
+        "approved_by":
+          description: "User ID of who approved the filing."
+          type: "string"
+        "approved_at":
+          description: "Timestamp when the filing was approved."
+          type: "string"
+        "amount_calculated":
+          type: "string"
+          title: "Amount Calculated"
+          description: "The calculated amount for the filing. Defaults to 0.00."
+          default: "0.00"
+        "amount_adjusted":
+          type: "string"
+          title: "Amount Adjusted"
+          description: "Adjusted amount, if any."
+          default: "0.00"
+        "amount_discounts":
+          type: "string"
+          title: "Amount Discounts"
+          description: "Discounts applied to the filing."
+          default: "0.00"
+        "amount_fees":
+          type: "string"
+          title: "Amount Fees"
+          description: "Discounts applied to the amount."
+          default: "0.00"
+        "amount_penalties":
+          type: "string"
+          title: "Amount Penalties"
+          description: "Penalties applied to the filing."
+          default: "0.00"
+        "amount_tax_collected":
+          type: "string"
+          title: "Amount Tax Collected"
+          description: "Total tax collected during the filing period."
+          default: "0.00"
+        "amount_sales":
+          type: "string"
+          title: "Amount Sales"
+          description: "Total sales amount during the filing period."
+          default: "0.00"
+        "total_taxable_sales":
+          description: "Total taxable amount during the filing period."
+          default: "0.00"
+          type: "string"
+        "amount":
+          type: "string"
+          title: "Amount"
+          description: "Final amount due for the filing."
+          default: "0.00"
+        "total_tax_liability":
+          type: "string"
+          title: "Total Tax Liability"
+          description: "Total tax liability for the filing."
+          default: "0.00"
+        "transaction_count":
+          type: "integer"
+          title: "Transaction Count"
+          description: "Total number of transactions associated with the filing."
+          default: 0
+        "internal_notes":
+          description: "Notes or comments related to the filing."
+          type: "string"
+        "recent_details_report_link":
+          type: "string"
+        "tax_remitted":
+          type: "string"
+          title: "Tax Remitted"
+          description: "The amount of tax remitted."
+          default: "0.00"
+        "return_confirmation_id":
+          description: "Return confirmation ID, if applicable."
+          type: "string"
+        "payment_confirmation_id":
+          description: "Payment confirmation ID, if applicable."
+          type: "string"
+        "block_approval":
+          description: "Indicates if the filing can be approved."
+          type: "boolean"
+        "currency": {"description": "Currency code for the filing (e.g., USD, CAD).", "$ref": "#/components/schemas/CurrencyEnum"}
+        "id":
+          type: "string"
+          title: "Id"
+          description: "Unique identifier for the filing."
+        "registration_id":
+          type: "string"
+          title: "Registration Id"
+          description: "Identifier for the registration associated with the filing."
+        "attachments":
+          description: "List of attachments associated with the filing, if any."
+          type: "object"
+        "credits_utilized":
+          type: "string"
+          title: "Credits Utilized"
+          default: "0.00"
+        "sources":
+          items:
+            type: "string"
+          type: "array"
+          title: "Sources"
+          description: "List of sources associated with the filing"
+        "filing_website_url":
+          description: "Get the filing website URL for this filing's jurisdiction"
+          readOnly: true
+          type: "string"
+      type: "object"
+      required:
+        - "start_date"
+        - "end_date"
+        - "country_code"
+        - "id"
+        - "registration_id"
+        - "filing_website_url"
+      title: "FilingAdminDetailsRead"
+    "FilingConfirmationRequest":
+      properties:
+        "payment_confirmation_id":
+          type: "string"
+        "return_confirmation_id":
+          type: "string"
+        "amount_adjusted":
+          type: "number"
+        "amount_fees":
+          type: "number"
+        "amount_penalties":
+          type: "number"
+        "amount_discounts":
+          type: "number"
+      type: "object"
+      title: "FilingConfirmationRequest"
+    "FilingCountByJurisdiction":
+      properties:
+        "country_code": {"$ref": "#/components/schemas/CountryCodeEnum", "description": "Country code"}
+        "state_code":
+          type: "string"
+          title: "State Code"
+          description: "State code"
+        "filing_count":
+          type: "integer"
+          title: "Filing Count"
+          description: "Number of filings in a jurisdiction"
+      type: "object"
+      required:
+        - "country_code"
+        - "state_code"
+        - "filing_count"
+      title: "FilingCountByJurisdiction"
+    "FilingCreate":
+      properties:
+        "registration_id":
+          type: "string"
+          title: "Registration Id"
+        "status": {"$ref": "#/components/schemas/FilingStatusEnum"}
+        "start_date":
+          type: "string"
+          format: "date"
+          title: "Start Date"
+        "end_date":
+          type: "string"
+          format: "date"
+          title: "End Date"
+        "state_code":
+          type: "string"
+          title: "State Code"
+        "state_name":
+          type: "string"
+          title: "State Name"
+        "country_code": {"$ref": "#/components/schemas/CountryCodeEnum"}
+        "date_filed":
+          type: "string"
+        "filing_category":
+          type: "string"
+          title: "Filing Category"
+          default: "REGULAR"
+      type: "object"
+      required:
+        - "registration_id"
+        - "status"
+        - "start_date"
+        - "end_date"
+        - "state_code"
+        - "state_name"
+        - "country_code"
+      title: "FilingCreate"
+    "FilingDetailsRead":
+      properties:
+        "status": {"$ref": "#/components/schemas/FilingStatusEnum", "description": "Filing status. Possible values:\n                                    UNFILED, FILING, FILED.", "default": "UNFILED"}
+        "start_date":
+          type: "string"
+          format: "date"
+          title: "Start Date"
+          description: "The start date of the filing period."
+        "end_date":
+          type: "string"
+          format: "date"
+          title: "End Date"
+          description: "The end date of the filing period."
+        "due_date":
+          description: "The due date of the filing."
+          type: "string"
+        "date_filed":
+          description: "The date the filing was completed, if applicable."
+          type: "string"
+        "is_manual":
+          description: "Indicates if the filing was done manually."
+          type: "boolean"
+        "state_code":
+          description: "The code of the state associated with the filing (e.g., IA, NY)."
+          type: "string"
+        "state_name":
+          description: "The name of the state associated with the filing\n        (e.g., Iowa, New York)."
+          type: "string"
+        "country_code": {"$ref": "#/components/schemas/CountryCodeEnum", "description": "Country code in ISO 3166-1 alpha-2 format (e.g., US)."}
+        "jira_issue_key":
+          description: "The associated JIRA issue key for tracking the filing,\n        if available. Can be null."
+          type: "string"
+        "auto_approved":
+          description: "Indicates if the filing was auto-approved. Defaults to false."
+          default: false
+          type: "boolean"
+        "paused_until_date":
+          description: "Indicates the date when filing will be unpaused."
+          type: "string"
+        "filing_category":
+          type: "string"
+          maxLength: 50
+          title: "Filing Category"
+          description: "Category of filing. Common values:\n                                    REGULAR (standard periodic filing),\n                                    PREPAYMENT (prepayment or estimated tax),\n                                    AMENDMENT (amended return).\n                                    Different categories can have overlapping periods."
+          default: "REGULAR"
         "approved_by":
           description: "User ID of who approved the filing."
           type: "string"
@@ -6796,6 +7138,8 @@ components:
           title: "Credits Utilized"
           default: "0.00"
         "filing_website_url":
+          description: "Get the filing website URL for this filing's jurisdiction"
+          readOnly: true
           type: "string"
       type: "object"
       required:
@@ -6804,214 +7148,7 @@ components:
         - "country_code"
         - "id"
         - "registration_id"
-      title: "FilingAdminDetailsRead"
-    "FilingConfirmationRequest":
-      properties:
-        "payment_confirmation_id":
-          type: "string"
-        "return_confirmation_id":
-          type: "string"
-        "amount_adjusted":
-          type: "number"
-        "amount_fees":
-          type: "number"
-        "amount_penalties":
-          type: "number"
-        "amount_discounts":
-          type: "number"
-      type: "object"
-      title: "FilingConfirmationRequest"
-    "FilingCountByJurisdiction":
-      properties:
-        "country_code": {"$ref": "#/components/schemas/CountryCodeEnum", "description": "Country code"}
-        "state_code":
-          type: "string"
-          title: "State Code"
-          description: "State code"
-        "filing_count":
-          type: "integer"
-          title: "Filing Count"
-          description: "Number of filings in a jurisdiction"
-      type: "object"
-      required:
-        - "country_code"
-        - "state_code"
-        - "filing_count"
-      title: "FilingCountByJurisdiction"
-    "FilingCreate":
-      properties:
-        "registration_id":
-          type: "string"
-          title: "Registration Id"
-        "status": {"$ref": "#/components/schemas/FilingStatusEnum"}
-        "start_date":
-          type: "string"
-          format: "date"
-          title: "Start Date"
-        "end_date":
-          type: "string"
-          format: "date"
-          title: "End Date"
-        "state_code":
-          type: "string"
-          title: "State Code"
-        "state_name":
-          type: "string"
-          title: "State Name"
-        "country_code": {"$ref": "#/components/schemas/CountryCodeEnum"}
-        "date_filed":
-          type: "string"
-      type: "object"
-      required:
-        - "registration_id"
-        - "status"
-        - "start_date"
-        - "end_date"
-        - "state_code"
-        - "state_name"
-        - "country_code"
-      title: "FilingCreate"
-    "FilingDetailsRead":
-      properties:
-        "status": {"$ref": "#/components/schemas/FilingStatusEnum", "description": "Filing status. Possible values:\n                                    UNFILED, FILING, FILED.", "default": "UNFILED"}
-        "start_date":
-          type: "string"
-          format: "date"
-          title: "Start Date"
-          description: "The start date of the filing period."
-        "end_date":
-          type: "string"
-          format: "date"
-          title: "End Date"
-          description: "The end date of the filing period."
-        "due_date":
-          description: "The due date of the filing."
-          type: "string"
-        "date_filed":
-          description: "The date the filing was completed, if applicable."
-          type: "string"
-        "is_manual":
-          description: "Indicates if the filing was done manually."
-          type: "boolean"
-        "state_code":
-          description: "The code of the state associated with the filing (e.g., IA, NY)."
-          type: "string"
-        "state_name":
-          description: "The name of the state associated with the filing\n        (e.g., Iowa, New York)."
-          type: "string"
-        "country_code": {"$ref": "#/components/schemas/CountryCodeEnum", "description": "Country code in ISO 3166-1 alpha-2 format (e.g., US)."}
-        "jira_issue_key":
-          description: "The associated JIRA issue key for tracking the filing,\n        if available. Can be null."
-          type: "string"
-        "auto_approved":
-          description: "Indicates if the filing was auto-approved. Defaults to false."
-          default: false
-          type: "boolean"
-        "paused_until_date":
-          description: "Indicates the date when filing will be unpaused."
-          type: "string"
-        "approved_by":
-          description: "User ID of who approved the filing."
-          type: "string"
-        "approved_at":
-          description: "Timestamp when the filing was approved."
-          type: "string"
-        "amount_calculated":
-          type: "string"
-          title: "Amount Calculated"
-          description: "The calculated amount for the filing. Defaults to 0.00."
-          default: "0.00"
-        "amount_adjusted":
-          type: "string"
-          title: "Amount Adjusted"
-          description: "Adjusted amount, if any."
-          default: "0.00"
-        "amount_discounts":
-          type: "string"
-          title: "Amount Discounts"
-          description: "Discounts applied to the filing."
-          default: "0.00"
-        "amount_fees":
-          type: "string"
-          title: "Amount Fees"
-          description: "Discounts applied to the amount."
-          default: "0.00"
-        "amount_penalties":
-          type: "string"
-          title: "Amount Penalties"
-          description: "Penalties applied to the filing."
-          default: "0.00"
-        "amount_tax_collected":
-          type: "string"
-          title: "Amount Tax Collected"
-          description: "Total tax collected during the filing period."
-          default: "0.00"
-        "amount_sales":
-          type: "string"
-          title: "Amount Sales"
-          description: "Total sales amount during the filing period."
-          default: "0.00"
-        "total_taxable_sales":
-          description: "Total taxable amount during the filing period."
-          default: "0.00"
-          type: "string"
-        "amount":
-          type: "string"
-          title: "Amount"
-          description: "Final amount due for the filing."
-          default: "0.00"
-        "total_tax_liability":
-          type: "string"
-          title: "Total Tax Liability"
-          description: "Total tax liability for the filing."
-          default: "0.00"
-        "transaction_count":
-          type: "integer"
-          title: "Transaction Count"
-          description: "Total number of transactions associated with the filing."
-          default: 0
-        "internal_notes":
-          description: "Notes or comments related to the filing."
-          type: "string"
-        "recent_details_report_link":
-          type: "string"
-        "tax_remitted":
-          type: "string"
-          title: "Tax Remitted"
-          description: "The amount of tax remitted."
-          default: "0.00"
-        "return_confirmation_id":
-          description: "Return confirmation ID, if applicable."
-          type: "string"
-        "payment_confirmation_id":
-          description: "Payment confirmation ID, if applicable."
-          type: "string"
-        "block_approval":
-          description: "Indicates if the filing can be approved."
-          type: "boolean"
-        "currency": {"description": "Currency code for the filing (e.g., USD, CAD).", "$ref": "#/components/schemas/CurrencyEnum"}
-        "id":
-          type: "string"
-          title: "Id"
-          description: "Unique identifier for the filing."
-        "registration_id":
-          type: "string"
-          title: "Registration Id"
-          description: "Identifier for the registration associated with the filing."
-        "attachments":
-          description: "List of attachments associated with the filing, if any."
-          type: "object"
-        "credits_utilized":
-          type: "string"
-          title: "Credits Utilized"
-          default: "0.00"
-      type: "object"
-      required:
-        - "start_date"
-        - "end_date"
-        - "country_code"
-        - "id"
-        - "registration_id"
+        - "filing_website_url"
       title: "FilingDetailsRead"
     "FilingFrequencyEnum":
       type: "string"
@@ -7101,6 +7238,12 @@ components:
         "paused_until_date":
           description: "Indicates the date when filing will be unpaused."
           type: "string"
+        "filing_category":
+          type: "string"
+          maxLength: 50
+          title: "Filing Category"
+          description: "Category of filing. Common values:\n                                    REGULAR (standard periodic filing),\n                                    PREPAYMENT (prepayment or estimated tax),\n                                    AMENDMENT (amended return).\n                                    Different categories can have overlapping periods."
+          default: "REGULAR"
         "approved_by":
           description: "User ID of who approved the filing."
           type: "string"
@@ -7189,6 +7332,10 @@ components:
           type: "string"
           title: "Registration Id"
           description: "Identifier for the registration associated with the filing."
+        "filing_website_url":
+          description: "Get the filing website URL for this filing's jurisdiction"
+          readOnly: true
+          type: "string"
       type: "object"
       required:
         - "start_date"
@@ -7196,6 +7343,7 @@ components:
         - "country_code"
         - "id"
         - "registration_id"
+        - "filing_website_url"
       title: "FilingRead"
     "FilingStatusEnum":
       type: "string"
@@ -7256,6 +7404,12 @@ components:
         "paused_until_date":
           description: "Indicates the date when filing will be unpaused."
           type: "string"
+        "filing_category":
+          type: "string"
+          maxLength: 50
+          title: "Filing Category"
+          description: "Category of filing. Common values:\n                                    REGULAR (standard periodic filing),\n                                    PREPAYMENT (prepayment or estimated tax),\n                                    AMENDMENT (amended return).\n                                    Different categories can have overlapping periods."
+          default: "REGULAR"
         "approved_by":
           description: "User ID of who approved the filing."
           type: "string"
@@ -7607,7 +7761,7 @@ components:
         "id":
           type: "string"
           title: "Id"
-        "product_code": {"title": "Product Code", "$ref": "#/components/schemas/ProductCodeEnum"}
+        "product_code": {"title": "Product Code", "$ref": "#/components/schemas/ProductCodeByCategoryEnum"}
         "start_date":
           type: "string"
           format: "date"
@@ -8013,7 +8167,7 @@ components:
         "id":
           type: "string"
           title: "Id"
-        "product_code": {"title": "Product Code", "$ref": "#/components/schemas/ProductCodeEnum"}
+        "product_code": {"title": "Product Code", "$ref": "#/components/schemas/ProductCodeByCategoryEnum"}
         "start_date":
           type: "string"
           format: "date"
@@ -8253,10 +8407,18 @@ components:
       title: "MigrationRequest"
     "ModifyProductCategorySubcategory":
       properties:
-        "existing_category": {"title": "Existing Category", "$ref": "#/components/schemas/ProductCategoryEnum"}
-        "existing_subcategory": {"title": "Existing Subcategory", "$ref": "#/components/schemas/ProductSubCategoryEnum"}
-        "new_category": {"title": "New Category", "$ref": "#/components/schemas/ProductCategoryEnum"}
-        "new_subcategory": {"title": "New Subcategory", "$ref": "#/components/schemas/ProductSubCategoryEnum"}
+        "existing_category":
+          type: "string"
+          title: "Existing Category"
+        "existing_subcategory":
+          type: "string"
+          title: "Existing Subcategory"
+        "new_category":
+          type: "string"
+          title: "New Category"
+        "new_subcategory":
+          type: "string"
+          title: "New Subcategory"
         "status_list":
           items: {"$ref": "#/components/schemas/ProductStatusEnum"}
           type: "array"
@@ -8274,7 +8436,7 @@ components:
         "id":
           type: "string"
           title: "Id"
-        "product_code": {"title": "Product Code", "$ref": "#/components/schemas/ProductCodeEnum"}
+        "product_code": {"title": "Product Code", "$ref": "#/components/schemas/ProductCodeByCategoryEnum"}
         "start_date":
           type: "string"
           format: "date"
@@ -8558,6 +8720,9 @@ components:
         "note_type":
           type: "string"
           title: "Note Type"
+        "note_source":
+          type: "string"
+          title: "Note Source"
         "is_pinned":
           type: "boolean"
           title: "Is Pinned"
@@ -8572,6 +8737,7 @@ components:
         - "organization_id"
         - "content"
         - "note_type"
+        - "note_source"
         - "is_pinned"
         - "created_at"
       title: "NoteRead"
@@ -8652,6 +8818,81 @@ components:
         - "SKIPPED"
         - "FINISHED"
       title: "OnboardingStatus"
+    "OrbConnectionStatus":
+      properties:
+        "connection_id":
+          type: "string"
+          title: "Connection Id"
+        "site_name":
+          type: "string"
+          title: "Site Name"
+        "api_key_masked":
+          type: "string"
+          title: "Api Key Masked"
+        "name":
+          type: "string"
+          title: "Name"
+        "status":
+          type: "string"
+          title: "Status"
+        "last_sync":
+          type: "string"
+        "created_at":
+          type: "string"
+          format: "date-time"
+          title: "Created At"
+        "error_message":
+          type: "string"
+      type: "object"
+      required:
+        - "connection_id"
+        - "site_name"
+        - "api_key_masked"
+        - "name"
+        - "status"
+        - "created_at"
+      title: "OrbConnectionStatus"
+      description: "Model for connection status information."
+    "OrbCreateUpdate":
+      properties:
+        "api_key":
+          type: "string"
+          title: "Api Key"
+        "site_name":
+          type: "string"
+          title: "Site Name"
+      type: "object"
+      required:
+        - "api_key"
+        - "site_name"
+      title: "OrbCreateUpdate"
+    "OrbHealthCheckResponse":
+      properties:
+        "healthy":
+          type: "boolean"
+          title: "Healthy"
+        "site_name":
+          type: "string"
+          title: "Site Name"
+        "api_key_masked":
+          type: "string"
+          title: "Api Key Masked"
+        "message":
+          type: "string"
+          title: "Message"
+        "last_checked":
+          type: "string"
+          format: "date-time"
+          title: "Last Checked"
+      type: "object"
+      required:
+        - "healthy"
+        - "site_name"
+        - "api_key_masked"
+        - "message"
+        - "last_checked"
+      title: "OrbHealthCheckResponse"
+      description: "Response model for health check."
     "OrderItems-Input":
       properties:
         "line_items":
@@ -8784,6 +9025,27 @@ components:
         - "id"
         - "product_id"
       title: "OrderLineItem"
+    "OrdwayCreateUpdate":
+      properties:
+        "user_company":
+          type: "string"
+          title: "User Company"
+        "user_email":
+          type: "string"
+          title: "User Email"
+        "user_token":
+          type: "string"
+          title: "User Token"
+        "api_key":
+          type: "string"
+          title: "Api Key"
+      type: "object"
+      required:
+        - "user_company"
+        - "user_email"
+        - "user_token"
+        - "api_key"
+      title: "OrdwayCreateUpdate"
     "OrgCreated":
       properties:
         "event_type":
@@ -10178,6 +10440,27 @@ components:
         - "page"
         - "size"
       title: "Page[NexusResponse]"
+    "Page_NoteRead_":
+      properties:
+        "items":
+          items: {"$ref": "#/components/schemas/NoteRead"}
+          type: "array"
+          title: "Items"
+        "total":
+          type: "integer"
+        "page":
+          type: "integer"
+        "size":
+          type: "integer"
+        "pages":
+          type: "integer"
+      type: "object"
+      required:
+        - "items"
+        - "total"
+        - "page"
+        - "size"
+      title: "Page[NoteRead]"
     "Page_OrganizationExperienceTasks_":
       properties:
         "items":
@@ -10817,8 +11100,8 @@ components:
         - {"category": "Misc", "description": "Fees levied by credit card companies for various services.", "example": "Annual fees, late payment fees.", "subcategory": "Credit card processing fees"}
         - {"category": "Misc", "description": "Banking fees or Financial Transaction Fees", "example": "OD Fees, Cheque Book Fees", "subcategory": "Financial & Banking Fees"}
         - {"category": "Misc", "description": "Exempt Products & Services", "example": "Exempt Products & Services", "subcategory": "Exempt"}
-        - {"category": "Physical", "description": "Any physical good outside of Kintsugi's defined categories", "example": "Barbells and dumbells.", "subcategory": "General Physical"}
-        - {"category": "Physical", "description": "Medicines Sold OTC, which do not require doctors prescription", "example": "Paracetamol, Ointments for Pain Releif, Gastro Releif Gel", "subcategory": "Medicines - Over the Counter"}
+        - {"category": "Physical", "description": "Any physical good outside of Kintsugi's defined categories", "example": "Barbells and dumbbells.", "subcategory": "General Physical"}
+        - {"category": "Physical", "description": "Medicines Sold OTC, which do not require doctors prescription", "example": "Paracetamol, Ointments for Pain Relief, Gastro Relief Gel", "subcategory": "Medicines - Over the Counter"}
         - {"category": "Physical", "description": "Common items of everyday wearing apparel designed for human use, covering a wide variety of non-specialized garments.", "example": "T-shirts, Jeans, Dresses, Socks, Underwear", "subcategory": "General Clothing"}
         - {"category": "Physical", "description": "Protective overgarments worn to shield clothing during domestic tasks such as cooking, cleaning, or crafting.", "example": "Kitchen aprons, Bib aprons, Cleaning aprons, Craft aprons, Garden aprons", "subcategory": "Apron used in Household"}
         - {"category": "Physical", "description": "Undergarments specifically designed to provide support and protection for the male genitalia during sports or physical activity.", "example": "Jockstraps, Support briefs, Cup supporters, Dance belts, Groin guards", "subcategory": "Athletic Supporters"}
@@ -11247,6 +11530,117 @@ components:
         - {"category": "Services", "description": "Activities and support functions related to the process of selling products or services, including lead generation, customer interaction, and closing sales.", "example": "Sales representation, Lead generation services, Sales outsourcing, Retail sales assistance, Telemarketing services", "subcategory": "Sales Services"}
         - {"category": "Services", "description": "This represents materials used in performance of maintenance services.", "example": "Filters, cleaning agents, paint, sealants, caulking, light bulbs, ballasts, HVAC parts, wiring, piping, fasteners, insulation", "subcategory": "Maintenance Services - Materials"}
         - {"category": "Services", "description": "In-person dance instruction provided by a live instructor.", "example": "Dance Class, Ballet Lessons, Hip-Hop Training, Jazz Workshop", "subcategory": "Dance Lessons"}
+        - {"category": "Digital", "description": "Various digital goods, electronic content, and digital products delivered without physical media or storage devices. Digital product taxability varies significantly by state.", "example": "Digital Content Downloads, Electronic Product Delivery, Digital Media Content, Online Digital Products, Electronic Content Services", "subcategory": "Digital Content and Electronic Product Delivery Services"}
+        - {"category": "Misc", "description": "Administrative fees charged for cancelling services, reservations, contracts, or booking arrangements. Fee taxability depends on the underlying service or transaction.", "example": "Service Cancellation Penalties, Booking Cancellation Fees, Contract Termination Charges, Reservation Cancellation Costs, Administrative Cancellation Fees", "subcategory": "Service Cancellation and Administrative Fee Charges"}
+        - {"category": "Physical", "description": "Absorbent textile towel products for personal hygiene, household cleaning, and drying applications. Generally taxable as tangible personal property.", "example": "Bath Towel Products, Absorbent Hand Towels, Household Cleaning Towels, Personal Hygiene Towels, Textile Drying Products", "subcategory": "Absorbent Towel Products"}
+        - {"category": "Physical", "description": "Over-the-counter alcohol-based antiseptic solutions and preparations for wound cleaning, skin disinfection, and general antiseptic purposes. Taxable as tangible personal property in most states.", "example": "Isopropyl Alcohol Bottles, Rubbing Alcohol, Antiseptic Spray, Skin Preparation Solution, Topical Disinfectant", "subcategory": "Alcohol Based Antiseptic Preps"}
+        - {"category": "Physical", "description": "Pre-moistened antibacterial wipes with drug facts panel for hand cleaning, surface disinfection, and portable hygiene maintenance. Taxable as medical supplies in most jurisdictions.", "example": "Antibacterial Hand Wipes, Sanitizing Cleansing Cloths, Disinfectant Towelettes, Antimicrobial Wipes, Portable Sanitizer Cloths", "subcategory": "Antibacterial Cleansing Wipes with Drug Facts Panel"}
+        - {"category": "Physical", "description": "Alcohol-based gel, liquid, or foam sanitizers containing active antibacterial ingredients for hand hygiene and germ elimination. Generally taxable as tangible personal property.", "example": "Hand Sanitizer Gel, Antibacterial Liquid Cleanser, Instant Hand Cleanser, Alcohol-based Sanitizer, Antimicrobial Hand Gel", "subcategory": "Antibacterial Hand Sanitizing Products"}
+        - {"category": "Physical", "description": "Antibacterial soap products containing active medicinal ingredients with FDA-required drug facts panel for enhanced antimicrobial protection. May be classified as medical supplies for tax purposes.", "example": "Antimicrobial Hand Soap, Medicated Antibacterial Bar, Therapeutic Soap Products, Drug-facts Antibacterial Soap, Medicinal Cleansing Soap", "subcategory": "Antibacterial Soap Products with Drug Fact Panel"}
+        - {"category": "Physical", "description": "Personal care products designed to reduce perspiration and control body odor through active antiperspirant ingredients. Generally taxable as tangible personal property.", "example": "Antiperspirant Stick, Deodorant Spray, Roll-on Antiperspirant, Clinical Strength Deodorant, Sweat Protection Products", "subcategory": "Antiperspirant and Deodorant Products"}
+        - {"category": "Physical", "description": "Antiseptic mouthwash and oral rinse products containing active ingredients for oral hygiene and bacterial reduction. May be classified as medical products.", "example": "Antiseptic Mouthwash Solutions, Therapeutic Oral Rinses, Antimicrobial Mouth Rinses, Medicated Oral Hygiene Products, Antiseptic Dental Rinses", "subcategory": "Antiseptic Oral Hygiene Mouthwash Products"}
+        - {"category": "Services", "description": "Professional architectural services including design consultation, building planning, structural analysis, and construction guidance. Often exempt from sales tax as professional services in many states.", "example": "Building Design Consultation, Architectural Planning Services, Structure Design Advice, Construction Architectural Guidance, Design Professional Services", "subcategory": "Architectural Consulting and Design Services"}
+        - {"category": "Physical", "description": "Artistic works, creative art products, and original artistic creations for decoration, collection, or cultural purposes. Art works generally taxable as tangible personal property.", "example": "Original Paintings, Artistic Sculptures, Creative Artwork, Collectible Art Pieces, Decorative Art Objects", "subcategory": "Artistic Works and Creative Art Products"}
+        - {"category": "Physical", "description": "Electrical power storage cells, rechargeable batteries, and related charging accessories for electronic devices and equipment. Taxable as tangible personal property.", "example": "Alkaline Battery Packs, Rechargeable Battery Cells, Battery Chargers, Power Adapters, Backup Power Sources", "subcategory": "Battery and Power Supply Products with Accessories"}
+        - {"category": "Physical", "description": "Portable breath spray products for oral hygiene maintenance and breath freshening without therapeutic medicinal claims. Generally taxable as personal care products.", "example": "Breath Freshening Sprays, Oral Hygiene Sprays, Portable Mouth Sprays, Instant Breath Fresheners, Oral Freshening Products", "subcategory": "Breath Freshening Oral Care Spray Products"}
+        - {"category": "Physical", "description": "Computer hardware, equipment, and technology systems designed for business, commercial, and enterprise applications. Generally taxable but may qualify for resale exemptions.", "example": "Business Server Systems, Commercial Computer Equipment, Enterprise Hardware Solutions, Office Computer Systems, Professional It Hardware", "subcategory": "Business Computer Hardware and Equipment Systems"}
+        - {"category": "Physical", "description": "General office supplies, stationery, and business materials for administrative and office operations. Generally taxable as tangible personal property.", "example": "Office Stationery Supplies, Business Paper Products, Office Writing Materials, Administrative Supplies, Workplace Office Materials", "subcategory": "Business Office Supplies and Administrative Materials"}
+        - {"category": "Services", "description": "Cable television programming services including digital cable packages, channel programming, and cable TV installation services. Utility services generally subject to sales tax.", "example": "Cable Tv Programming, Digital Cable Services, Television Channel Packages, Cable Installation Services, Cable Television Subscriptions", "subcategory": "Cable Television and Programming Services"}
+        - {"category": "Physical", "description": "Chewing gum and candy products containing vitamins, minerals, or dietary supplements with required supplement facts labeling. May be classified as dietary supplements for tax purposes.", "example": "Vitamin-enriched Gummies, Supplement Chewing Gum, Nutritional Candy Products, Fortified Confectionery, Functional Sweet Treats", "subcategory": "Chewing gum or Candy Nutritional Supplement Label"}
+        - {"category": "Physical", "description": "Professional cloth diapers product/service requiring specific sales tax classification research and analysis.", "example": "Cloth Diapers", "subcategory": "Cloth Diapers"}
+        - {"category": "Physical", "description": "Computer hardware, devices, and electronic equipment designed for personal, home, and individual consumer use. Typically taxable as tangible personal property.", "example": "Personal Desktop Computers, Consumer Laptop Systems, Home Computer Accessories, Individual Electronic Devices, Personal Computing Hardware", "subcategory": "Consumer Computer Hardware and Electronics"}
+        - {"category": "Physical", "description": "Decorative and functional candles including scented varieties, along with related accessories like holders, trimmers, and candle-making supplies. Generally taxable as tangible personal property.", "example": "Scented Decorative Candles, Pillar Candle Products, Candle Holder Accessories, Wick Trimming Tools, Candle Warmer Devices", "subcategory": "Decorative Candles and Candle Accessory Products"}
+        - {"category": "Physical", "description": "Personal care deodorant products for body odor control and freshness maintenance without antiperspirant properties. Generally taxable as tangible personal property.", "example": "Body Deodorant Sprays, Natural Deodorant Products, Odor-control Body Products, Personal Freshness Products, Non-antiperspirant Deodorants", "subcategory": "Deodorant and Body Freshening Products"}
+        - {"category": "Physical", "description": "Professional diapers - adult - sold at retail product/service requiring specific sales tax classification research and analysis.", "example": "Diapers for Adults", "subcategory": "Diapers Adult Sold At Retail"}
+        - {"category": "Physical", "description": "Disposable food service utensils, single-use dining implements, and disposable hospitality amenities for restaurants and events. Disposable items generally taxable.", "example": "Disposable Dining Utensils, Single-use Flatware, Paper Dining Products, Disposable Food Service, Single-use Amenities", "subcategory": "Disposable Food Service Utensils and Amenity Products"}
+        - {"category": "Physical", "description": "Professional exercise supplies product/service requiring specific sales tax classification research and analysis.", "example": "Professional exercise supplies", "subcategory": "Exercise Supplies"}
+        - {"category": "Physical", "description": "Professional eyelashes product/service requiring specific sales tax classification research and analysis.", "example": "Professional eyelashes", "subcategory": "Eyelashes"}
+        - {"category": "Physical", "description": "Fabric hair accessories and decorative bow products for personal styling and hair decoration. Generally taxable as tangible personal property and personal accessories.", "example": "Fabric Hair Accessories, Decorative Hair Bows, Textile Hair Ornaments, Fashion Hair Clips, Styling Hair Accessories", "subcategory": "Fabric Hair Accessory and Decorative Bow Products"}
+        - {"category": "Physical", "description": "General disposable medical supplies including patches, pads, and single-use medical items for healthcare applications. Medical supplies may be exempt when used for medical purposes.", "example": "Disposable Medical Patches, Medical Gauze Pads, Single-use Medical Supplies, Healthcare Disposable Items, Medical Patch Products", "subcategory": "General Disposable Medical Supply Products"}
+        - {"category": "Physical", "description": "General healthcare products, medical supplies, and health-related items for patient care and health maintenance. Medical supplies may qualify for exemptions in certain circumstances.", "example": "Medical Supply Products, Healthcare Equipment, Patient Care Items, Health Maintenance Supplies, General Medical Products", "subcategory": "General Healthcare Products and Medical Supply Items"}
+        - {"category": "Physical", "description": "Glass containers, drinking vessels, dishes, and decorative glass items for household and commercial use. Generally taxable as tangible personal property.", "example": "Glass Drinking Vessels, Glass Dish Sets, Decorative Glassware, Glass Storage Containers, Crystal Glass Products", "subcategory": "Glass Products and Decorative Glassware Items"}
+        - {"category": "Physical", "description": "General-purpose cleaning supplies and solutions for household, office, and commercial cleaning applications. Typically taxable as tangible personal property.", "example": "All-purpose Cleaning Solutions, Household Detergents, Commercial Disinfectants, Floor Cleaning Products, Glass Cleaning Solutions", "subcategory": "Household and Commercial Cleaning Supply Products"}
+        - {"category": "Physical", "description": "Professional incontinent liners - sold at retail product/service requiring specific sales tax classification research and analysis.", "example": "Professional incontinent liners - sold at retail", "subcategory": "Incontinent Liners Sold At Retail"}
+        - {"category": "Physical", "description": "Hand-operated tools and implements for construction, repair, maintenance, and various trade applications. Generally taxable as tangible personal property.", "example": "Manual Construction Tools, Hand Repair Implements, Maintenance Hand Tools, Carpentry Hand Tools, Mechanical Hand Implements", "subcategory": "Manual Hand Tools and Construction Implements"}
+        - {"category": "Physical", "description": "Medical and therapeutic cushions for patient positioning, pressure relief, comfort enhancement, and clinical support applications. Medical equipment may qualify for exemptions.", "example": "Therapeutic Seat Cushions, Medical Positioning Aids, Pressure Relief Cushions, Patient Comfort Products, Clinical Support Cushions", "subcategory": "Medical and Therapeutic Cushion Products"}
+        - {"category": "Physical", "description": "Single-use sterile lancets for blood sampling, glucose testing, and medical puncture procedures in healthcare settings. Medical supplies may be exempt in certain circumstances.", "example": "Glucose Testing Lancets, Blood Sampling Needles, Diabetic Testing Lancets, Medical Finger Sticks, Sterile Puncture Devices", "subcategory": "Medical Blood Sampling Lancet Devices"}
+        - {"category": "Physical", "description": "Medicated mouthwash products with drug facts panel containing active ingredients for therapeutic oral care and treatment. Medical products may be exempt in some cases.", "example": "Therapeutic Mouthwash Products, Medicated Oral Rinses, Fluoride Treatment Rinses, Prescription-strength Mouthwash, Clinical Oral Care Products", "subcategory": "Medicated Oral Care Products with Drug Facts Panel"}
+        - {"category": "Physical", "description": "Cosmetic products containing active medicinal ingredients with therapeutic benefits for skin conditions and dermatological care. May be classified as medical products for tax purposes.", "example": "Medicated Foundation Products, Therapeutic Makeup Items, Acne-fighting Cosmetics, Treatment-based Cosmetics, Medicinal Beauty Products", "subcategory": "Medicated Therapeutic Cosmetic Products"}
+        - {"category": "Physical", "description": "Physical membership cards and discount programs providing access to benefits, reduced pricing, and exclusive offers. Generally taxable as tangible personal property.", "example": "Membership Discount Cards, Loyalty Program Cards, Benefit Access Cards, Savings Membership Programs, Discount Club Cards", "subcategory": "Membership Programs and Discount Card Services"}
+        - {"category": "Physical", "description": "Self-adhesive bandages without medication for covering minor wounds, cuts, and abrasions for basic wound protection. Generally taxable as tangible personal property unless sold by prescription.", "example": "Adhesive Bandage Strips, Self-stick Bandages, Wound Cover Strips, First-aid Adhesive Patches, Non-medicated Wound Covers", "subcategory": "Non Medicated Adhesive Bandage Products"}
+        - {"category": "Physical", "description": "Non-medicated cosmetic products containing sun protection factor (SPF) for UV protection and skin care benefits. Generally taxable as cosmetic products.", "example": "Spf Foundation Makeup, Sunscreen-enhanced Cosmetics, Uv Protection Makeup, Tinted Sunscreen Products, Sun-protective Beauty Products", "subcategory": "Non Medicated Cosmetics with Sunscreen Protection"}
+        - {"category": "Physical", "description": "Cosmetic astringent products for facial toning, pore minimizing, and skin refreshing without medicinal acne-fighting properties. Taxable as cosmetic products.", "example": "Facial Toning Astringents, Pore-minimizing Products, Skin Refreshing Toners, Cosmetic Facial Clarifiers, Non-medicated Astringent Solutions", "subcategory": "Non Medicated Cosmetic Astringent and Toning Products"}
+        - {"category": "Physical", "description": "Durable medical equipment designed for institutional and clinical use without prescription requirements. Institutional medical equipment may be subject to different tax treatment.", "example": "Institutional Medical Equipment, Clinical Healthcare Devices, Facility Medical Apparatus, Non-prescription Medical Systems, Healthcare Facility Equipment", "subcategory": "Non Prescription Institutional Durable Medical Equipment"}
+        - {"category": "Physical", "description": "Non-prescription eyeglasses, reading aids, and vision enhancement products sold by eye care professionals. Generally taxable as tangible personal property.", "example": "Reading Glasses, Magnifying Glasses, Non-prescription Eyewear, Vision Aid Products, Over-counter Optical Aids", "subcategory": "Non Prescription Vision Enhancement Eyewear"}
+        - {"category": "Physical", "description": "Durable medical equipment for home healthcare use available without prescription for personal health management. Non-prescription DME may be taxable in some states.", "example": "Non-prescription Home Medical Devices, Over-counter Medical Equipment, Home Healthcare Products, Personal Medical Aids, Consumer Medical Devices", "subcategory": "Non-Prescription Home Use Durable Medical Equipment"}
+        - {"category": "Physical", "description": "Non-prescription medications and pharmaceutical products for human use available without physician prescription. OTC drugs may be taxable or exempt depending on state.", "example": "Over-counter Medications, Non-prescription Drugs, Otc Pharmaceutical Products, Self-care Medications, Retail Pharmaceutical Items", "subcategory": "Over the Counter Pharmaceutical Drugs"}
+        - {"category": "Physical", "description": "Professional packaging service - prepare customer goods (purchased elsewhere) for transport - does not include packing materials product", "example": "Professional Packaging Services", "subcategory": "Packaging Services for Goods Purchased Elsewhere"}
+        - {"category": "Physical", "description": "Packaging materials, containers, and shipping supplies for product protection, storage, and transportation. Generally taxable as tangible personal property.", "example": "Shipping Packaging Materials, Product Storage Containers, Protective Packaging Supplies, Mailing Materials, Transportation Packaging", "subcategory": "Packaging Supplies and Shipping Material Products"}
+        - {"category": "Physical", "description": "Periodicals or Magazines Annual Publication", "example": "Magazines Published Annually", "subcategory": "Periodicals or Magazines Annual Publication"}
+        - {"category": "Physical", "description": "Periodicals or Magazines Quarterly Publication", "example": "Magazines Published Quarterly", "subcategory": "Periodicals or Magazines Quarterly Publication"}
+        - {"category": "Physical", "description": "Periodicals or Magazines Weekly Publication", "example": "Magazines Published Weekly", "subcategory": "Periodicals or Magazines Weekly Publication"}
+        - {"category": "Physical", "description": "Personal hygiene and bathing products including cleansing soaps, shampoos, body washes, and related bathing accessories. Generally taxable as tangible personal property.", "example": "Body Wash Products, Bath Soap Bars, Shampoo Bottles, Shower Gel, Bathing Accessories", "subcategory": "Personal Bath and Body Care Products"}
+        - {"category": "Physical", "description": "Prescription-strength alcohol-based antiseptic preparations for medical procedures, surgical site preparation, and clinical wound care. May be exempt from sales tax when sold by prescription in many states.", "example": "Surgical Preparation Alcohol, Sterile Antiseptic Solution, Medical-grade Alcohol, Procedure Preparation, Clinical Disinfectant", "subcategory": "Prescription Alcohol Based Antiseptic Preps"}
+        - {"category": "Physical", "description": "Prescription eyeglasses and corrective lenses dispensed by licensed ophthalmologists for vision correction and eye care. Often exempt from sales tax when prescribed.", "example": "Prescription Eyeglasses, Corrective Vision Lenses, Ophthalmologist-dispensed Eyewear, Medical Prescription Glasses, Corrective Optical Devices", "subcategory": "Prescription Corrective Eyewear from Licensed Ophthalmologists"}
+        - {"category": "Physical", "description": "Prescription elastic bandages for medical compression therapy, joint support, and therapeutic applications as prescribed by healthcare providers. Often exempt from sales tax when sold by prescription.", "example": "Prescription Ace Bandages, Medical Compression Wraps, Therapeutic Elastic Bandages, Prescribed Support Wraps, Clinical Compression Bandages", "subcategory": "Prescription Elastic Support Bandages"}
+        - {"category": "Physical", "description": "Prescription durable medical equipment designed for home healthcare use as prescribed by licensed healthcare providers. Prescription DME often exempt from sales tax.", "example": "Prescription Home Medical Devices, Home Healthcare Dme, Prescribed Medical Equipment, Home-use Medical Apparatus, Therapeutic Home Equipment", "subcategory": "Prescription Home Use Durable Medical Equipment"}
+        - {"category": "Physical", "description": "Prescription durable medical equipment designed for institutional healthcare facilities and clinical environments. Prescription medical equipment often exempt from sales tax.", "example": "Prescription Clinical Equipment, Institutional Medical Devices, Facility Healthcare Apparatus, Prescription Medical Systems, Clinical Healthcare Equipment", "subcategory": "Prescription Institutional Durable Medical Equipment"}
+        - {"category": "Physical", "description": "Prescription medicated cleansing products for treating specific dermatological conditions and skin disorders under medical supervision. May be exempt when sold by prescription.", "example": "Prescription Dermatology Cleansers, Therapeutic Skin Treatment Products, Medicated Prescription Face Wash, Clinical Skin Cleansing Products, Dermatologist-prescribed Cleansers", "subcategory": "Prescription Medicated Therapeutic Cleansing Products"}
+        - {"category": "Physical", "description": "Prescription orthopedic braces and support devices prescribed by healthcare providers for therapeutic treatment and injury recovery. Often exempt from sales tax when prescribed.", "example": "Custom Orthopedic Braces, Prescription Support Devices, Medical Orthotic Equipment, Therapeutic Bracing Systems, Prescribed Joint Supports", "subcategory": "Prescription Orthopedic Medical Braces"}
+        - {"category": "Physical", "description": "Prescription medications and pharmaceutical drugs for human use requiring physician authorization and medical supervision. Prescription drugs are generally exempt from sales tax except in Illinois.", "example": "Prescription Medication Products, Pharmaceutical Drugs, Prescribed Therapeutic Drugs, Physician-authorized Medications, Prescription Pharmaceutical Preparations", "subcategory": "Prescription Pharmaceutical Products for Human Use"}
+        - {"category": "Physical", "description": "General tools, implements, and equipment for construction, maintenance, repair, and various professional applications. Generally taxable as tangible personal property.", "example": "Professional Construction Tools, Maintenance Equipment, Repair Implements, Trade Tools, Work Equipment", "subcategory": "Professional Tools and Work Implementation Equipment"}
+        - {"category": "Physical", "description": "Over-the-counter bandages and wound care products available at retail for general first aid and minor wound treatment. Generally taxable as tangible personal property.", "example": "Retail Bandage Strips, Over-counter Wound Care, First-aid Bandage Products, General Purpose Bandages, Consumer Wound Care", "subcategory": "Retail First Aid Bandage Products"}
+        - {"category": "Physical", "description": "Over-the-counter medicated cleansing products for facial care, acne treatment, and therapeutic skin cleansing available at retail. Generally taxable as tangible personal property.", "example": "Medicated Acne Cleansers, Therapeutic Facial Washes, Over-counter Skin Treatment, Medicated Cleansing Products, Retail Skin Care Cleansers", "subcategory": "Retail Medicated Facial Cleansing Products"}
+        - {"category": "Physical", "description": "Over-the-counter orthopedic braces and supports for joint stabilization, injury prevention, and musculoskeletal support. Generally taxable when sold at retail.", "example": "Knee Support Braces, Ankle Stabilizing Braces, Wrist Support Guards, Back Support Belts, Joint Stabilization Products", "subcategory": "Retail Orthopedic Support and Brace Products"}
+        - {"category": "Physical", "description": "Reusable food service utensils, dining implements, and hospitality amenities for restaurants and food service establishments. Food service equipment generally taxable.", "example": "Reusable Dining Utensils, Food Service Implements, Restaurant Flatware, Hospitality Amenities, Commercial Dining Tools", "subcategory": "Reusable Food Service Utensils and Amenity Products"}
+        - {"category": "Physical", "description": "Repair parts and replacement components for durable medical equipment designed specifically for single patient use and disposal. Medical equipment parts may qualify for tax exemptions.", "example": "Single-use Medical Parts, Disposable Dme Components, Patient-specific Replacement Parts, Single-patient Medical Equipment Parts, Disposable Medical Device Components", "subcategory": "Single Patient-Use DME Replacement Components"}
+        - {"category": "Physical", "description": "Sterile gauze bandages and pads for wound dressing, absorption, and medical applications in healthcare and first aid settings. May be exempt when used for medical purposes.", "example": "Sterile Gauze Pads, Medical Gauze Rolls, Wound Dressing Gauze, Absorbent Gauze Bandages, First-aid Gauze Products", "subcategory": "Sterile Gauze Bandage and Wound Dressing Products"}
+        - {"category": "Physical", "description": "Tool storage containers, toolboxes, and organization systems for storing and transporting tools and equipment. Generally taxable as tangible personal property.", "example": "Professional Toolboxes, Tool Storage Systems, Equipment Storage Containers, Tool Organization Solutions, Portable Tool Storage", "subcategory": "Tool Storage and Organization Equipment Systems"}
+        - {"category": "Physical", "description": "Electronic video games and gaming software distributed on physical storage media such as discs, cartridges, or memory cards. Taxable as tangible personal property due to physical media.", "example": "Gaming Console Discs, Video Game Cartridges, Pc Game Dvds, Physical Gaming Media, Tangible Game Products", "subcategory": "Video Games Distributed on Physical Media"}
+        - {"category": "Services", "description": "Maintenance services for tangible personal property attached to buildings but retaining personal property classification under maintenance contracts. Service to TPP generally taxable.", "example": "Attached Equipment Servicing, Building-mounted Machinery Maintenance, Facility Equipment Service Contracts, Installed Equipment Maintenance, Attached Property Servicing", "subcategory": "Attached Personal Property Maintenance Services"}
+        - {"category": "Services", "description": "Professional exterior building cleaning services including pressure washing, facade maintenance, and surface cleaning for commercial properties. Service taxability varies by state.", "example": "Building Pressure Washing, Commercial Facade Cleaning, Exterior Surface Maintenance, Building Exterior Restoration, Commercial Cleaning Services", "subcategory": "Commercial Building Exterior Cleaning Services"}
+        - {"category": "Services", "description": "Warehouse storage services for goods, inventory, and property held for future sale or commercial distribution. Commercial storage services may be subject to sales tax.", "example": "Inventory Warehousing Services, Commercial Goods Storage, Retail Inventory Storage, Merchandise Warehousing, Business Product Storage", "subcategory": "Commercial Inventory Storage Services"}
+        - {"category": "Services", "description": "Repair services for tangible personal property performed under commercial maintenance contracts excluding residential services. Commercial repair services generally subject to sales tax.", "example": "Commercial Equipment Repairs, Business Machinery Service, Commercial Maintenance Contracts, Industrial Equipment Repair, Business Equipment Servicing", "subcategory": "Commercial Personal Property Repair Services"}
+        - {"category": "Services", "description": "Professional flooring installation services specifically for commercial properties, offices, retail spaces, and business facilities. Installation services may be taxable separately from materials.", "example": "Commercial Flooring Installation, Business Property Flooring, Office Floor Installation, Retail Space Flooring, Commercial Floor Services", "subcategory": "Commercial Property Flooring Installation Services"}
+        - {"category": "Services", "description": "Routine commercial real property maintenance and repair services that do not constitute capital improvements. Commercial property maintenance may be subject to sales tax.", "example": "Commercial Building Maintenance, Business Property Repairs, Commercial Facility Upkeep, Office Building Maintenance, Commercial Property Servicing", "subcategory": "Commercial Property Maintenance Services"}
+        - {"category": "Services", "description": "Comprehensive architectural services including blueprint creation, technical drawings, construction documents, and detailed project planning. Professional services often exempt from sales tax.", "example": "Architectural Blueprints, Construction Drawings, Building Plans, Technical Specifications, Design Documentation", "subcategory": "Comprehensive Architectural Services with Design Documentation"}
+        - {"category": "Services", "description": "Admission charges specifically for live musical performances, concerts, symphonies, festivals, and music-related entertainment events. Typically taxable as entertainment services.", "example": "Rock Concert Tickets, Symphony Performances, Music Festival Passes, Jazz Club Entry, Classical Recitals", "subcategory": "Concert and Musical Performance Admissions"}
+        - {"category": "Services", "description": "Credit reporting, monitoring, and analysis services provided by credit bureaus and financial reporting agencies. Business services may be subject to sales tax in some states.", "example": "Credit Score Monitoring, Credit Report Services, Financial Credit Analysis, Credit Bureau Reporting, Credit Assessment Services", "subcategory": "Credit Bureau Reporting and Monitoring Services"}
+        - {"category": "Services", "description": "Video games and gaming content delivered through digital download platforms, streaming services, or cloud-based gaming systems. Digital product taxability varies significantly by state.", "example": "Downloadable Video Games, Game Streaming Services, Digital Gaming Content, Online Game Downloads, Cloud Gaming Subscriptions", "subcategory": "Digital Gaming Content and Streaming Services"}
+        - {"category": "Services", "description": "Educational services including teaching, training, tutoring, and instructional programs for academic and professional development. Educational services often exempt from sales tax.", "example": "Tutoring Services, Educational Training Programs, Academic Instruction, Learning Services, Professional Education Courses", "subcategory": "Educational Instruction and Training Services"}
+        - {"category": "Services", "description": "Entry fees charged for admission to entertainment venues, cultural events, sports activities, amusement parks, and recreational facilities. Generally subject to sales tax as services in most jurisdictions.", "example": "Movie Theater Tickets, Concert Hall Passes, Museum Admission, Sporting Event Entry, Amusement Park Access", "subcategory": "Entertainment Admission Services"}
+        - {"category": "Services", "description": "General service categories and miscellaneous service types not specifically classified in other service categories. General services may be subject to varying tax treatment.", "example": "General Business Services, Miscellaneous Service Work, Various Professional Services, Unspecified Service Categories, General Support Services", "subcategory": "General Miscellaneous Service Categories"}
+        - {"category": "Services", "description": "General Services, not covered by any other service category", "example": "General Services, Not Covered by Any Other Service Category", "subcategory": "General Services"}
+        - {"category": "Services", "description": "Professional gift wrapping and package decoration services for presents and special occasion items. Service taxability depends on state and whether bundled with product sales.", "example": "Gift Wrapping Services, Present Packaging, Special Occasion Wrapping, Holiday Gift Preparation, Decorative Package Services", "subcategory": "Gift Wrapping and Packaging Services"}
+        - {"category": "Services", "description": "Stand-alone gift wrapping services provided independently without connection to tangible personal property sales. Independent services may be subject to sales tax.", "example": "Independent Gift Wrapping, Standalone Wrapping Services, Separate Gift Packaging, Custom Wrapping Services, Professional Gift Preparation", "subcategory": "Independent Gift Wrapping Services"}
+        - {"category": "Services", "description": "Personal fitness training, coaching, and individual exercise instruction services for health and physical conditioning. Personal services may be subject to sales tax in some jurisdictions.", "example": "Personal Fitness Training, Individual Exercise Coaching, Fitness Instruction Services, Personal Workout Training, Health Coaching Services", "subcategory": "Individual Fitness Training and Personal Coaching Services"}
+        - {"category": "Services", "description": "Professional assembly, manufacturing, and fabrication services for industrial machinery and long-term equipment installation. Service component may be exempt while materials are taxable.", "example": "Machinery Installation Services, Equipment Assembly Work, Industrial Fabrication, Factory Equipment Setup, Manufacturing Equipment Installation", "subcategory": "Industrial Equipment Assembly Services 3+ Year Useful Life"}
+        - {"category": "Services", "description": "Repair parts, components, and replacement pieces for manufacturing machinery and industrial equipment. Manufacturing equipment parts may qualify for exemptions in some states.", "example": "Manufacturing Machinery Parts, Industrial Equipment Components, Factory Machine Parts, Production Equipment Replacements, Machinery Repair Components", "subcategory": "Industrial Manufacturing Equipment Parts and Components"}
+        - {"category": "Services", "description": "Traditional face-to-face legal services including consultation, representation, and legal advice provided in person. Legal services are generally exempt from sales tax.", "example": "In-person Legal Consultation, Traditional Attorney Services, Face-to-face Legal Advice, Personal Legal Representation, Conventional Legal Services", "subcategory": "In Person Legal Consultation and Representation Services"}
+        - {"category": "Services", "description": "Credit card and electronic payment processing services including transaction fees charged by merchants for payment handling. Service fees generally subject to sales tax.", "example": "Credit Card Processing Fees, Merchant Transaction Charges, Electronic Payment Services, Payment Gateway Fees, Card Processing Costs", "subcategory": "Merchant Credit Card Payment Processing Services"}
+        - {"category": "Services", "description": "Maintenance and repair services for movable equipment and tangible personal property in commercial and industrial facilities. Services to tangible personal property typically taxable.", "example": "Movable Equipment Maintenance, Personal Property Repairs, Machinery Service Work, Equipment Maintenance Contracts, Portable Equipment Servicing", "subcategory": "Movable Personal Property Equipment Maintenance Services"}
+        - {"category": "Services", "description": "Online and digital legal services including virtual consultation, electronic document preparation, and remote legal assistance. Online legal services typically follow same exemption rules as traditional legal services.", "example": "Online Legal Consultation, Virtual Attorney Services, Digital Legal Advice, Remote Legal Assistance, Electronic Legal Services", "subcategory": "Online Legal Services and Digital Legal Consultation"}
+        - {"category": "Services", "description": "Optional extended warranty contracts and service agreements provided in association with tangible personal property purchases. Extended warranties may be subject to sales tax.", "example": "Extended Warranty Programs, Product Service Contracts, Optional Warranty Coverage, Extended Product Protection, Warranty Service Agreements", "subcategory": "Optional Extended Warranty Services for Product Purchases"}
+        - {"category": "Services", "description": "Optional gift wrapping services offered in conjunction with and associated with tangible personal property purchases. May be considered part of the retail sale.", "example": "Optional Retail Gift Wrapping, Purchase-associated Wrapping, Add-on Gift Services, Retail Gift Packaging, Complementary Wrapping Services", "subcategory": "Optional Gift Wrapping Services for Product Purchases"}
+        - {"category": "Services", "description": "Warehouse storage services for personal property, household goods, and items not intended for commercial sale. Personal storage services may have different tax treatment.", "example": "Personal Property Storage, Household Goods Warehousing, Private Storage Services, Personal Item Storage, Non-commercial Storage", "subcategory": "Personal Property Storage Services"}
+        - {"category": "Services", "description": "Professional engineering services including technical consultation, design analysis, project engineering, and specialized engineering expertise. Professional services often exempt from sales tax.", "example": "Structural Engineering Consultation, Technical Engineering Services, Engineering Design Analysis, Professional Engineering Advice, Specialized Engineering Solutions", "subcategory": "Professional Engineering Consulting and Design Services"}
+        - {"category": "Services", "description": "Professional visual design services including logo creation, marketing materials, branding, and graphic communication design. Professional services may be exempt from sales tax in some states.", "example": "Logo Design Services, Branding Graphic Design, Marketing Material Design, Visual Communication Services, Professional Design Consultation", "subcategory": "Professional Graphic Design and Visual Communication Services"}
+        - {"category": "Services", "description": "Professional landscape design, installation, and maintenance services for outdoor spaces and grounds management. Service taxability varies by state and type of property.", "example": "Landscape Design Services, Garden Maintenance Work, Grounds Keeping Services, Outdoor Space Development, Landscaping Consultation", "subcategory": "Professional Landscaping and Grounds Maintenance Services"}
+        - {"category": "Services", "description": "Professional marketing, advertising, promotional, and business development services for commercial clients. Business services may be subject to sales tax in some jurisdictions.", "example": "Marketing Consultation Services, Advertising Campaign Development, Promotional Strategy Services, Business Marketing Solutions, Commercial Advertising Services", "subcategory": "Professional Marketing and Advertising Services"}
+        - {"category": "Services", "description": "Professional payroll management, processing, and administration services including wage calculation and payment processing. Business services may be taxable in some states.", "example": "Payroll Processing Services, Wage Administration, Employee Pay Services, Payroll Management Solutions, Salary Processing Services", "subcategory": "Professional Payroll Processing and Administration Services"}
+        - {"category": "Services", "description": "Professional sales assistance, support, consulting, and business development services for commercial clients. Business support services may be subject to sales tax in some states.", "example": "Sales Consulting Services, Business Development Support, Sales Training Services, Commercial Sales Assistance, Sales Strategy Consultation", "subcategory": "Professional Sales Support and Business Development Services"}
+        - {"category": "Services", "description": "Professional training programs, educational seminars, and skill development workshops for business and professional development. Educational services may be exempt from sales tax.", "example": "Professional Training Programs, Business Seminars, Skill Development Workshops, Corporate Training, Educational Workshops", "subcategory": "Professional Training and Seminar Services"}
+        - {"category": "Services", "description": "Digitally downloaded video games with permanent ownership rights, offline access, and full game content without subscription requirements. Digital product taxability varies by state.", "example": "Permanently Owned Digital Games, Full Game Downloads, Digital Game Purchases, Owned Electronic Games, Permanent Digital Gaming Content", "subcategory": "Purchased Digital Games with Permanent Ownership Rights"}
+        - {"category": "Services", "description": "Maintenance services for building systems and equipment permanently attached to real property under maintenance contract agreements. Real property services often exempt from sales tax.", "example": "Hvac System Maintenance, Elevator Service Contracts, Building System Upkeep, Attached Equipment Maintenance, Structural System Service", "subcategory": "Real Property Annexed Maintenance Services"}
+        - {"category": "Services", "description": "Maintenance and repair services performed directly on real estate, building structures, and permanent property improvements. Real property services often exempt from sales tax.", "example": "Building Structural Maintenance, Real Estate Repair Services, Property Maintenance Work, Structural Building Repairs, Real Property Upkeep", "subcategory": "Real Property Building Structure Maintenance Services"}
+        - {"category": "Services", "description": "Real property repair and improvement services that constitute capital improvements and increase property value. Capital improvements to real property often exempt from sales tax.", "example": "Property Capital Improvements, Building Renovation Services, Real Estate Enhancement, Property Value Improvements, Capital Building Projects", "subcategory": "Real Property Capital Improvement Services"}
+        - {"category": "Services", "description": "Repair services for tangible personal property performed under residential maintenance or home service contracts. Residential repair services may have different tax treatment.", "example": "Residential Appliance Repair, Home Equipment Service, Household Machinery Repair, Residential Maintenance Contracts, Home Appliance Servicing", "subcategory": "Residential Personal Property Repair Services"}
+        - {"category": "Services", "description": "Residential real property repair and improvement services that constitute capital improvements to home value. Residential capital improvements may be exempt from sales tax.", "example": "Home Improvement Projects, Residential Property Enhancements, House Renovation Services, Residential Capital Improvements, Home Value Improvements", "subcategory": "Residential Property Capital Improvement Services"}
+        - {"category": "Services", "description": "Professional flooring installation services for residential properties including homes, apartments, and personal living spaces. Installation services taxability varies by jurisdiction.", "example": "Home Flooring Installation, Residential Floor Services, House Flooring Work, Apartment Floor Installation, Residential Flooring Contractors", "subcategory": "Residential Property Flooring Installation Services"}
+        - {"category": "Services", "description": "Routine residential real property maintenance and repair services that do not constitute capital improvements. Residential maintenance services may have varying tax treatment.", "example": "Home Maintenance Services, Residential Property Repairs, House Maintenance Work, Residential Facility Upkeep, Home Repair Services", "subcategory": "Residential Property Maintenance Services"}
+        - {"category": "Services", "description": "Royalty fees are payments for the use of an intangible right, such as a patent, copyright, or trademark. These are standalone sales of an intangible right. This is not part of the sale of tangible personal property, digital property, or a service.", "example": "Copyright Fees, Trademark Fees, Usage of Name or Brand Fees", "subcategory": "Royalty Fees"}
+        - {"category": "Services", "description": "Video games accessed through subscription services, streaming platforms, or temporary downloads with limited ownership and access rights. Subscription service taxability varies.", "example": "Gaming Subscription Services, Game Streaming Access, Temporary Game Downloads, Subscription Gaming Platforms, Limited-access Digital Games", "subcategory": "Subscription Based Digital Gaming Services"}
+        - {"category": "Services", "description": "Specialized refrigerated and temperature-controlled warehouse storage services for perishable and temperature-sensitive goods. Specialized storage services may be subject to sales tax.", "example": "Refrigerated Storage Services, Cold Storage Warehousing, Temperature-controlled Storage, Frozen Goods Storage, Climate-controlled Warehousing", "subcategory": "Temperature Controlled Refrigerated Storage Services"}
         - {"category": "Digital", "description": "Unknown digital product", "example": "Unknown digital product", "subcategory": "Unknown"}
         - {"category": "Misc", "description": "Unknown miscellaneous product", "example": "Unknown miscellaneous product", "subcategory": "Unknown"}
         - {"category": "Physical", "description": "Unknown physical product", "example": "Unknown physical product", "subcategory": "Unknown"}
@@ -11466,8 +11860,12 @@ components:
       title: "ProductCreateManual"
     "ProductOverview":
       properties:
-        "category": {"title": "Category", "$ref": "#/components/schemas/ProductCategoryEnum"}
-        "subcategory": {"title": "Subcategory", "$ref": "#/components/schemas/ProductSubCategoryEnum"}
+        "category":
+          type: "string"
+          title: "Category"
+        "subcategory":
+          type: "string"
+          title: "Subcategory"
         "total_products":
           type: "integer"
           title: "Total Products"
@@ -11489,15 +11887,21 @@ components:
           type: "array"
           items:
             type: "string"
-        "code": {"title": "Code", "$ref": "#/components/schemas/ProductCodeEnum"}
+        "code":
+          type: "string"
+          title: "Code"
         "name":
           type: "string"
           title: "Name"
         "description":
           type: "string"
         "status": {"$ref": "#/components/schemas/ProductStatusEnum"}
-        "product_category": {"title": "Product Category", "$ref": "#/components/schemas/ProductCategoryEnum"}
-        "product_subcategory": {"title": "Product Subcategory", "$ref": "#/components/schemas/ProductSubCategoryEnum"}
+        "product_category":
+          type: "string"
+          title: "Product Category"
+        "product_subcategory":
+          type: "string"
+          title: "Product Subcategory"
         "tax_exempt":
           type: "boolean"
           title: "Tax Exempt"
@@ -12290,7 +12694,7 @@ components:
         "id":
           type: "string"
           title: "Id"
-        "product_code": {"title": "Product Code", "$ref": "#/components/schemas/ProductCodeEnum"}
+        "product_code": {"title": "Product Code", "$ref": "#/components/schemas/ProductCodeByCategoryEnum"}
         "start_date":
           type: "string"
           format: "date"
@@ -12351,72 +12755,6 @@ components:
         - "special_rate"
         - "taxable_rate"
       title: "Rule"
-    "RuleRead":
-      properties:
-        "id":
-          type: "string"
-          title: "Id"
-        "product_code": {"title": "Product Code", "$ref": "#/components/schemas/ProductCodeEnum"}
-        "start_date":
-          type: "string"
-          format: "date"
-          title: "Start Date"
-        "end_date":
-          type: "string"
-        "country": {"$ref": "#/components/schemas/CountryCodeEnum", "default": "US"}
-        "state":
-          type: "string"
-          title: "State"
-        "derived_rule_id":
-          type: "string"
-        "postal_code":
-          type: "string"
-          title: "Postal Code"
-        "city":
-          type: "string"
-          title: "City"
-        "county":
-          default: ""
-          type: "string"
-        "combined_rate":
-          type: "string"
-          title: "Combined Rate"
-        "state_rate":
-          type: "string"
-          title: "State Rate"
-        "county_rate":
-          type: "string"
-          title: "County Rate"
-        "city_rate":
-          type: "string"
-          title: "City Rate"
-        "special_rate":
-          type: "string"
-          title: "Special Rate"
-        "threshold":
-          type: "string"
-          title: "Threshold"
-          default: "0.0"
-        "treatment": {"$ref": "#/components/schemas/TaxTreatment", "default": "FULL_AMOUNT"}
-        "taxable_rate":
-          type: "string"
-          title: "Taxable Rate"
-      type: "object"
-      required:
-        - "id"
-        - "product_code"
-        - "start_date"
-        - "end_date"
-        - "state"
-        - "postal_code"
-        - "city"
-        - "combined_rate"
-        - "state_rate"
-        - "county_rate"
-        - "city_rate"
-        - "special_rate"
-        - "taxable_rate"
-      title: "RuleRead"
     "SSTRegistrationCreatePayload":
       properties:
         "registration_import_type":
@@ -12916,6 +13254,7 @@ components:
         - "ZOHO"
         - "SAGE-INTACCT"
         - "AIRWALLEX"
+        - "ORB"
       title: "SourceEnum"
     "StatusEnum":
       type: "string"
@@ -13129,6 +13468,7 @@ components:
           type: "string"
         "organization_name":
           type: "string"
+        "billing_plan": {"$ref": "#/components/schemas/BillingPlanEnum"}
         "filing": {"$ref": "#/components/schemas/FilingRead"}
         "filing_frequency": {"$ref": "#/components/schemas/FilingFrequencyEnum"}
       type: "object"
@@ -13181,19 +13521,10 @@ components:
           type: "string"
         "organization_name":
           type: "string"
+        "billing_plan": {"$ref": "#/components/schemas/BillingPlanEnum"}
         "registration": {"$ref": "#/components/schemas/RegistrationRead"}
       type: "object"
       title: "TaskRegistrationRead"
-    "TaskUpdate":
-      properties:
-        "status":
-          type: "string"
-        "assignee":
-          type: "string"
-        "waiting_on":
-          type: "string"
-      type: "object"
-      title: "TaskUpdate"
     "TaxBreakdownByJurisdiction":
       properties:
         "jurisdiction":
@@ -14059,7 +14390,6 @@ components:
         "shop_date_tz":
           description: "Timezone of the shop"
           type: "string"
-        "status": {"$ref": "#/components/schemas/TransactionStatusEnum", "description": "Transaction status (e.g., COMMITTED)", "default": "COMMITTED"}
         "description":
           description: "Description of the transaction."
           type: "string"
@@ -14144,8 +14474,10 @@ components:
           description: "Postal code of the transaction."
           type: "string"
         "tax_id":
-          description: "Tax ID associated with the transaction"
+          description: "Tax ID associated with the transaction. DEPRECATED: This field is only populated for QuickBooks integrations and will be removed in a future version."
+          deprecated: true
           type: "string"
+        "status": {"$ref": "#/components/schemas/TransactionStatusEnum", "description": "Transaction status (e.g., COMMITTED)", "default": "COMMITTED"}
         "address_status": {"$ref": "#/components/schemas/AddressStatus", "description": "Address verification status (e.g., VERIFIED).", "default": "UNVERIFIED"}
         "processing_status": {"$ref": "#/components/schemas/ProcessingStatusEnum", "description": "Status of processing (e.g., ADDRESS_DONE)", "default": "QUEUED"}
         "destination_currency": {"description": "Destination currency code (ISO 4217, e.g., USD)", "$ref": "#/components/schemas/CurrencyEnum"}
@@ -14215,7 +14547,6 @@ components:
         "shop_date_tz":
           description: "Timezone of the shop"
           type: "string"
-        "status": {"$ref": "#/components/schemas/TransactionStatusEnum", "description": "Transaction status (e.g., COMMITTED)", "default": "COMMITTED"}
         "description":
           description: "Description of the transaction."
           type: "string"
@@ -14300,8 +14631,10 @@ components:
           description: "Postal code of the transaction."
           type: "string"
         "tax_id":
-          description: "Tax ID associated with the transaction"
+          description: "Tax ID associated with the transaction. DEPRECATED: This field is only populated for QuickBooks integrations and will be removed in a future version."
+          deprecated: true
           type: "string"
+        "status": {"$ref": "#/components/schemas/TransactionStatusEnum", "description": "Transaction status (e.g., COMMITTED)", "default": "COMMITTED"}
         "address_status": {"$ref": "#/components/schemas/AddressStatus", "description": "Address verification status (e.g., VERIFIED).", "default": "UNVERIFIED"}
         "processing_status": {"$ref": "#/components/schemas/ProcessingStatusEnum", "description": "Status of processing (e.g., ADDRESS_DONE)", "default": "QUEUED"}
         "destination_currency": {"description": "Destination currency code (ISO 4217, e.g., USD)", "$ref": "#/components/schemas/CurrencyEnum"}
@@ -14356,10 +14689,6 @@ components:
           type: "string"
           title: "Unique identifier of this transaction in the source system."
           description: "Unique identifier of this transaction in the source system."
-        "total_amount":
-          description: "Total amount of the transaction."
-          default: "0.0"
-          type: "number"
         "currency": {"$ref": "#/components/schemas/CurrencyEnum", "title": "Currency of the transaction in ISO 4217 format.", "description": "The currency in which the transaction is conducted (e.g., USD, EUR)."}
         "description":
           description: "An optional description of the transaction."
@@ -14432,7 +14761,7 @@ components:
         - "transaction_items"
         - "addresses"
       title: "TransactionEstimatePublicRequest"
-      description: "Public request model for tax estimation API documentation.\nThis model excludes internal fields like enriched_fields that should not be exposed in API docs."
+      description: "Public request model for tax estimation API documentation.\nThis model excludes internal fields like enriched_fields and total_amount that should not be exposed in API docs."
     "TransactionEstimateResponse":
       properties:
         "date":
@@ -14444,11 +14773,6 @@ components:
           type: "string"
           title: "Unique identifier of this transaction in the source system."
           description: "Unique identifier of this transaction in the source system."
-        "total_amount":
-          type: "string"
-          title: "Total amount of the transaction, after discounts."
-          description: "Total amount of the transaction."
-          default: "0.0"
         "currency": {"$ref": "#/components/schemas/CurrencyEnum", "title": "Currency of the transaction in ISO 4217 format.", "description": "The currency in which the transaction is conducted (e.g., USD, EUR)."}
         "description":
           description: "An optional description of the transaction."
@@ -15122,7 +15446,6 @@ components:
         "shop_date_tz":
           description: "Timezone of the shop"
           type: "string"
-        "status": {"$ref": "#/components/schemas/TransactionStatusEnum", "description": "Transaction status (e.g., COMMITTED)", "default": "COMMITTED"}
         "description":
           description: "Description of the transaction."
           type: "string"
@@ -15207,8 +15530,10 @@ components:
           description: "Postal code of the transaction."
           type: "string"
         "tax_id":
-          description: "Tax ID associated with the transaction"
+          description: "Tax ID associated with the transaction. DEPRECATED: This field is only populated for QuickBooks integrations and will be removed in a future version."
+          deprecated: true
           type: "string"
+        "status": {"$ref": "#/components/schemas/TransactionStatusEnum", "description": "Transaction status (e.g., COMMITTED)", "default": "COMMITTED"}
         "addresses":
           items: {"$ref": "#/components/schemas/TransactionAddressPublic"}
           type: "array"
@@ -15251,7 +15576,6 @@ components:
         "shop_date_tz":
           description: "Timezone of the shop"
           type: "string"
-        "status": {"$ref": "#/components/schemas/TransactionStatusEnum", "description": "Transaction status (e.g., COMMITTED)", "default": "COMMITTED"}
         "description":
           description: "Description of the transaction."
           type: "string"
@@ -15343,8 +15667,10 @@ components:
           description: "Postal code of the transaction."
           type: "string"
         "tax_id":
-          description: "Tax ID associated with the transaction"
+          description: "Tax ID associated with the transaction. DEPRECATED: This field is only populated for QuickBooks integrations and will be removed in a future version."
+          deprecated: true
           type: "string"
+        "status": {"$ref": "#/components/schemas/TransactionStatusEnum", "description": "Transaction status (e.g., COMMITTED)", "default": "COMMITTED"}
         "address_status": {"$ref": "#/components/schemas/AddressStatus", "description": "Address verification status (e.g., VERIFIED).", "default": "UNVERIFIED"}
         "processing_status": {"$ref": "#/components/schemas/ProcessingStatusEnum", "description": "Status of processing (e.g., ADDRESS_DONE)", "default": "QUEUED"}
         "destination_currency": {"description": "Destination currency code (ISO 4217, e.g., USD)", "$ref": "#/components/schemas/CurrencyEnum"}
@@ -15459,7 +15785,6 @@ components:
         "shop_date_tz":
           description: "Timezone of the shop"
           type: "string"
-        "status": {"$ref": "#/components/schemas/TransactionStatusEnum", "description": "Transaction status (e.g., COMMITTED)", "default": "COMMITTED"}
         "description":
           description: "Description of the transaction."
           type: "string"
@@ -15544,8 +15869,10 @@ components:
           description: "Postal code of the transaction."
           type: "string"
         "tax_id":
-          description: "Tax ID associated with the transaction"
+          description: "Tax ID associated with the transaction. DEPRECATED: This field is only populated for QuickBooks integrations and will be removed in a future version."
+          deprecated: true
           type: "string"
+        "status": {"$ref": "#/components/schemas/TransactionStatusEnum", "description": "Transaction status (e.g., COMMITTED)", "default": "COMMITTED"}
         "addresses":
           type: "array"
           items: {"$ref": "#/components/schemas/TransactionAddressBuilder"}

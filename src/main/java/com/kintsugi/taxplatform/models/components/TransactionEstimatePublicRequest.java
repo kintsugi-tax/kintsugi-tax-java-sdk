@@ -12,7 +12,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.kintsugi.taxplatform.utils.LazySingletonValue;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Boolean;
-import java.lang.Double;
 import java.lang.Override;
 import java.lang.String;
 import java.lang.SuppressWarnings;
@@ -24,7 +23,8 @@ import java.util.Optional;
  * TransactionEstimatePublicRequest
  * 
  * <p>Public request model for tax estimation API documentation.
- * This model excludes internal fields like enriched_fields that should not be exposed in API docs.
+ * This model excludes internal fields like enriched_fields and total_amount that should not be exposed
+ * in API docs.
  */
 public class TransactionEstimatePublicRequest {
     /**
@@ -38,13 +38,6 @@ public class TransactionEstimatePublicRequest {
      */
     @JsonProperty("external_id")
     private String externalId;
-
-    /**
-     * Total amount of the transaction.
-     */
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("total_amount")
-    private Optional<Double> totalAmount;
 
 
     @JsonProperty("currency")
@@ -94,7 +87,6 @@ public class TransactionEstimatePublicRequest {
     public TransactionEstimatePublicRequest(
             @JsonProperty("date") OffsetDateTime date,
             @JsonProperty("external_id") String externalId,
-            @JsonProperty("total_amount") Optional<Double> totalAmount,
             @JsonProperty("currency") CurrencyEnum currency,
             @JsonProperty("description") Optional<String> description,
             @JsonProperty("source") Optional<? extends SourceEnum> source,
@@ -104,7 +96,6 @@ public class TransactionEstimatePublicRequest {
             @JsonProperty("addresses") List<TransactionEstimatePublicRequestAddress> addresses) {
         Utils.checkNotNull(date, "date");
         Utils.checkNotNull(externalId, "externalId");
-        Utils.checkNotNull(totalAmount, "totalAmount");
         Utils.checkNotNull(currency, "currency");
         Utils.checkNotNull(description, "description");
         Utils.checkNotNull(source, "source");
@@ -114,7 +105,6 @@ public class TransactionEstimatePublicRequest {
         Utils.checkNotNull(addresses, "addresses");
         this.date = date;
         this.externalId = externalId;
-        this.totalAmount = totalAmount;
         this.currency = currency;
         this.description = description;
         this.source = source;
@@ -130,10 +120,9 @@ public class TransactionEstimatePublicRequest {
             CurrencyEnum currency,
             List<TransactionItemEstimateBase> transactionItems,
             List<TransactionEstimatePublicRequestAddress> addresses) {
-        this(date, externalId, Optional.empty(),
-            currency, Optional.empty(), Optional.empty(),
-            Optional.empty(), transactionItems, Optional.empty(),
-            addresses);
+        this(date, externalId, currency,
+            Optional.empty(), Optional.empty(), Optional.empty(),
+            transactionItems, Optional.empty(), addresses);
     }
 
     /**
@@ -150,14 +139,6 @@ public class TransactionEstimatePublicRequest {
     @JsonIgnore
     public String externalId() {
         return externalId;
-    }
-
-    /**
-     * Total amount of the transaction.
-     */
-    @JsonIgnore
-    public Optional<Double> totalAmount() {
-        return totalAmount;
     }
 
     @JsonIgnore
@@ -233,25 +214,6 @@ public class TransactionEstimatePublicRequest {
     public TransactionEstimatePublicRequest withExternalId(String externalId) {
         Utils.checkNotNull(externalId, "externalId");
         this.externalId = externalId;
-        return this;
-    }
-
-    /**
-     * Total amount of the transaction.
-     */
-    public TransactionEstimatePublicRequest withTotalAmount(double totalAmount) {
-        Utils.checkNotNull(totalAmount, "totalAmount");
-        this.totalAmount = Optional.ofNullable(totalAmount);
-        return this;
-    }
-
-
-    /**
-     * Total amount of the transaction.
-     */
-    public TransactionEstimatePublicRequest withTotalAmount(Optional<Double> totalAmount) {
-        Utils.checkNotNull(totalAmount, "totalAmount");
-        this.totalAmount = totalAmount;
         return this;
     }
 
@@ -359,7 +321,6 @@ public class TransactionEstimatePublicRequest {
         return 
             Utils.enhancedDeepEquals(this.date, other.date) &&
             Utils.enhancedDeepEquals(this.externalId, other.externalId) &&
-            Utils.enhancedDeepEquals(this.totalAmount, other.totalAmount) &&
             Utils.enhancedDeepEquals(this.currency, other.currency) &&
             Utils.enhancedDeepEquals(this.description, other.description) &&
             Utils.enhancedDeepEquals(this.source, other.source) &&
@@ -372,10 +333,9 @@ public class TransactionEstimatePublicRequest {
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-            date, externalId, totalAmount,
-            currency, description, source,
-            marketplace, transactionItems, customer,
-            addresses);
+            date, externalId, currency,
+            description, source, marketplace,
+            transactionItems, customer, addresses);
     }
     
     @Override
@@ -383,7 +343,6 @@ public class TransactionEstimatePublicRequest {
         return Utils.toString(TransactionEstimatePublicRequest.class,
                 "date", date,
                 "externalId", externalId,
-                "totalAmount", totalAmount,
                 "currency", currency,
                 "description", description,
                 "source", source,
@@ -399,8 +358,6 @@ public class TransactionEstimatePublicRequest {
         private OffsetDateTime date;
 
         private String externalId;
-
-        private Optional<Double> totalAmount;
 
         private CurrencyEnum currency;
 
@@ -437,25 +394,6 @@ public class TransactionEstimatePublicRequest {
         public Builder externalId(String externalId) {
             Utils.checkNotNull(externalId, "externalId");
             this.externalId = externalId;
-            return this;
-        }
-
-
-        /**
-         * Total amount of the transaction.
-         */
-        public Builder totalAmount(double totalAmount) {
-            Utils.checkNotNull(totalAmount, "totalAmount");
-            this.totalAmount = Optional.ofNullable(totalAmount);
-            return this;
-        }
-
-        /**
-         * Total amount of the transaction.
-         */
-        public Builder totalAmount(Optional<Double> totalAmount) {
-            Utils.checkNotNull(totalAmount, "totalAmount");
-            this.totalAmount = totalAmount;
             return this;
         }
 
@@ -555,26 +493,16 @@ public class TransactionEstimatePublicRequest {
         }
 
         public TransactionEstimatePublicRequest build() {
-            if (totalAmount == null) {
-                totalAmount = _SINGLETON_VALUE_TotalAmount.value();
-            }
             if (marketplace == null) {
                 marketplace = _SINGLETON_VALUE_Marketplace.value();
             }
 
             return new TransactionEstimatePublicRequest(
-                date, externalId, totalAmount,
-                currency, description, source,
-                marketplace, transactionItems, customer,
-                addresses);
+                date, externalId, currency,
+                description, source, marketplace,
+                transactionItems, customer, addresses);
         }
 
-
-        private static final LazySingletonValue<Optional<Double>> _SINGLETON_VALUE_TotalAmount =
-                new LazySingletonValue<>(
-                        "total_amount",
-                        "\"0.0\"",
-                        new TypeReference<Optional<Double>>() {});
 
         private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_Marketplace =
                 new LazySingletonValue<>(

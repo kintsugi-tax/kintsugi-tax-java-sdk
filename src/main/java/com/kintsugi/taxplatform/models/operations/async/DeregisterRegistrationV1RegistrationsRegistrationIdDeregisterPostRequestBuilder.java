@@ -10,7 +10,6 @@ import com.kintsugi.taxplatform.models.operations.DeregisterRegistrationV1Regist
 import com.kintsugi.taxplatform.operations.DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPost;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
-import java.lang.Exception;
 import java.lang.String;
 import java.util.concurrent.CompletableFuture;
 
@@ -38,7 +37,7 @@ public class DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRe
         return request;
     }
 
-    public CompletableFuture<DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse> call() throws Exception {
+    public CompletableFuture<DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse> call() {
         
         AsyncRequestOperation<DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest, DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse> operation
               = new DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPost.Async(sdkConfiguration, _headers);

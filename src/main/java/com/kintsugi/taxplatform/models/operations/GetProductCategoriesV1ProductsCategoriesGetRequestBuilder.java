@@ -8,7 +8,6 @@ import static com.kintsugi.taxplatform.operations.Operations.RequestlessOperatio
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.operations.GetProductCategoriesV1ProductsCategoriesGet;
 import com.kintsugi.taxplatform.utils.Headers;
-import java.lang.Exception;
 
 public class GetProductCategoriesV1ProductsCategoriesGetRequestBuilder {
 
@@ -19,7 +18,7 @@ public class GetProductCategoriesV1ProductsCategoriesGetRequestBuilder {
         this.sdkConfiguration = sdkConfiguration;
     }
 
-    public GetProductCategoriesV1ProductsCategoriesGetResponse call() throws Exception {
+    public GetProductCategoriesV1ProductsCategoriesGetResponse call() {
         
         RequestlessOperation<GetProductCategoriesV1ProductsCategoriesGetResponse> operation
             = new GetProductCategoriesV1ProductsCategoriesGet.Sync(sdkConfiguration, _headers);

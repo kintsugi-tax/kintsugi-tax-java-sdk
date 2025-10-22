@@ -4,6 +4,7 @@
 package com.kintsugi.taxplatform.operations;
 
 import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
+import static com.kintsugi.taxplatform.utils.Exceptions.unchecked;
 import static com.kintsugi.taxplatform.operations.Operations.AsyncRequestOperation;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -15,7 +16,6 @@ import com.kintsugi.taxplatform.models.errors.HTTPValidationError;
 import com.kintsugi.taxplatform.models.operations.GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse;
 import com.kintsugi.taxplatform.utils.Blob;
-import com.kintsugi.taxplatform.utils.Exceptions;
 import com.kintsugi.taxplatform.utils.HTTPClient;
 import com.kintsugi.taxplatform.utils.HTTPRequest;
 import com.kintsugi.taxplatform.utils.Headers;
@@ -25,7 +25,6 @@ import com.kintsugi.taxplatform.utils.Hook.BeforeRequestContextImpl;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.io.InputStream;
 import java.lang.Exception;
-import java.lang.RuntimeException;
 import java.lang.String;
 import java.lang.Throwable;
 import java.net.http.HttpRequest;
@@ -62,7 +61,7 @@ public class GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet {
                     this.sdkConfiguration,
                     this.baseUrl,
                     "get_transactions_by_customer_id_v1_customers__customer_id__transactions_get",
-                    java.util.Optional.of(java.util.List.of()),
+                    java.util.Optional.empty(),
                     securitySource());
         }
 
@@ -71,7 +70,7 @@ public class GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet {
                     this.sdkConfiguration,
                     this.baseUrl,
                     "get_transactions_by_customer_id_v1_customers__customer_id__transactions_get",
-                    java.util.Optional.of(java.util.List.of()),
+                    java.util.Optional.empty(),
                     securitySource());
         }
 
@@ -80,7 +79,7 @@ public class GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet {
                     this.sdkConfiguration,
                     this.baseUrl,
                     "get_transactions_by_customer_id_v1_customers__customer_id__transactions_get",
-                    java.util.Optional.of(java.util.List.of()),
+                    java.util.Optional.empty(),
                     securitySource());
         }
         <T>HttpRequest buildRequest(T request, Class<T> klass) throws Exception {
@@ -122,8 +121,8 @@ public class GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet {
         }
 
         @Override
-        public HttpResponse<InputStream> doRequest(GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest request) throws Exception {
-            HttpRequest r = onBuildRequest(request);
+        public HttpResponse<InputStream> doRequest(GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest request) {
+            HttpRequest r = unchecked(() -> onBuildRequest(request)).get();
             HttpResponse<InputStream> httpRes;
             try {
                 httpRes = client.send(r);
@@ -133,7 +132,7 @@ public class GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet {
                     httpRes = onSuccess(httpRes);
                 }
             } catch (Exception e) {
-                httpRes = onError(null, e);
+                httpRes = unchecked(() -> onError(null, e)).get();
             }
 
             return httpRes;
@@ -141,7 +140,7 @@ public class GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet {
 
 
         @Override
-        public GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse handleResponse(HttpResponse<InputStream> response) throws Exception {
+        public GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse handleResponse(HttpResponse<InputStream> response) {
             String contentType = response
                     .headers()
                     .firstValue("Content-Type")
@@ -157,62 +156,27 @@ public class GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet {
             
             if (Utils.statusCodeMatches(response.statusCode(), "200")) {
                 if (Utils.contentTypeMatches(contentType, "application/json")) {
-                    List<TransactionRead> out = Utils.mapper().readValue(
-                            response.body(),
-                            new TypeReference<>() {
-                            });
-                    res.withResponseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet(out);
-                    return res;
+                    return res.withResponseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet(Utils.unmarshal(response, new TypeReference<List<TransactionRead>>() {}));
                 } else {
-                    throw new APIException(
-                            response,
-                            response.statusCode(),
-                            "Unexpected content-type received: " + contentType,
-                            Utils.extractByteArrayFromBody(response));
+                    throw APIException.from("Unexpected content-type received: " + contentType, response);
                 }
             }
-            
             if (Utils.statusCodeMatches(response.statusCode(), "422")) {
                 if (Utils.contentTypeMatches(contentType, "application/json")) {
-                    HTTPValidationError out = Utils.mapper().readValue(
-                            response.body(),
-                            new TypeReference<>() {
-                            });
-                        out.withRawResponse(response);
-                    
-                    throw out;
+                    throw HTTPValidationError.from(response);
                 } else {
-                    throw new APIException(
-                            response,
-                            response.statusCode(),
-                            "Unexpected content-type received: " + contentType,
-                            Utils.extractByteArrayFromBody(response));
+                    throw APIException.from("Unexpected content-type received: " + contentType, response);
                 }
             }
-            
             if (Utils.statusCodeMatches(response.statusCode(), "4XX")) {
                 // no content
-                throw new APIException(
-                        response,
-                        response.statusCode(),
-                        "API error occurred",
-                        Utils.extractByteArrayFromBody(response));
+                throw APIException.from("API error occurred", response);
             }
-            
             if (Utils.statusCodeMatches(response.statusCode(), "5XX")) {
                 // no content
-                throw new APIException(
-                        response,
-                        response.statusCode(),
-                        "API error occurred",
-                        Utils.extractByteArrayFromBody(response));
+                throw APIException.from("API error occurred", response);
             }
-            
-            throw new APIException(
-                    response,
-                    response.statusCode(),
-                    "Unexpected status code received: " + response.statusCode(),
-                    Utils.extractByteArrayFromBody(response));
+            throw APIException.from("Unexpected status code received: " + response.statusCode(), response);
         }
     }
     public static class Async extends Base
@@ -237,7 +201,7 @@ public class GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet {
 
         @Override
         public CompletableFuture<HttpResponse<Blob>> doRequest(GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest request) {
-            return Exceptions.unchecked(() -> onBuildRequest(request)).get().thenCompose(client::sendAsync)
+            return unchecked(() -> onBuildRequest(request)).get().thenCompose(client::sendAsync)
                     .handle((resp, err) -> {
                         if (err != null) {
                             return onError(null, err);
@@ -269,53 +233,28 @@ public class GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet {
             
             if (Utils.statusCodeMatches(response.statusCode(), "200")) {
                 if (Utils.contentTypeMatches(contentType, "application/json")) {
-                    return response.body().toByteArray().thenApply(bodyBytes -> {
-                        try {
-                            List<TransactionRead> out = Utils.mapper().readValue(
-                                    bodyBytes,
-                                    new TypeReference<>() {
-                                    });
-                            res.withResponseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet(out);
-                            return res;
-                        } catch (Exception e) {
-                            throw new RuntimeException(e);
-                        }
-                    });
+                    return Utils.unmarshalAsync(response, new TypeReference<List<TransactionRead>>() {})
+                            .thenApply(res::withResponseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet);
                 } else {
                     return Utils.createAsyncApiError(response, "Unexpected content-type received: " + contentType);
                 }
             }
-            
             if (Utils.statusCodeMatches(response.statusCode(), "422")) {
                 if (Utils.contentTypeMatches(contentType, "application/json")) {
-                    return response.body().toByteArray().thenApply(bodyBytes -> {
-                        com.kintsugi.taxplatform.models.errors.async.HTTPValidationError out;
-                        try {
-                            out = Utils.mapper().readValue(
-                                    bodyBytes,
-                                    new TypeReference<>() {
-                                    });
-                            out.withRawResponse(response);
-                        } catch (Exception e) {
-                            throw new RuntimeException(e);
-                        }
-                        throw out;
-                    });
+                    return HTTPValidationError.fromAsync(response)
+                            .thenCompose(CompletableFuture::failedFuture);
                 } else {
                     return Utils.createAsyncApiError(response, "Unexpected content-type received: " + contentType);
                 }
             }
-            
             if (Utils.statusCodeMatches(response.statusCode(), "4XX")) {
                 // no content
                 return Utils.createAsyncApiError(response, "API error occurred");
             }
-            
             if (Utils.statusCodeMatches(response.statusCode(), "5XX")) {
                 // no content
                 return Utils.createAsyncApiError(response, "API error occurred");
             }
-            
             return Utils.createAsyncApiError(response, "Unexpected status code received: " + response.statusCode());
         }
     }

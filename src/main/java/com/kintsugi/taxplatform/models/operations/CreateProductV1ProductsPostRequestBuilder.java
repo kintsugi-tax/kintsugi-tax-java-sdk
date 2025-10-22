@@ -10,7 +10,6 @@ import com.kintsugi.taxplatform.models.components.ProductCreateManual;
 import com.kintsugi.taxplatform.operations.CreateProductV1ProductsPost;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
-import java.lang.Exception;
 
 public class CreateProductV1ProductsPostRequestBuilder {
 
@@ -28,7 +27,7 @@ public class CreateProductV1ProductsPostRequestBuilder {
         return this;
     }
 
-    public CreateProductV1ProductsPostResponse call() throws Exception {
+    public CreateProductV1ProductsPostResponse call() {
         
         RequestOperation<ProductCreateManual, CreateProductV1ProductsPostResponse> operation
               = new CreateProductV1ProductsPost.Sync(sdkConfiguration, _headers);

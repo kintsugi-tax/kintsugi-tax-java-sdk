@@ -10,7 +10,6 @@ import com.kintsugi.taxplatform.models.components.TransactionCreate;
 import com.kintsugi.taxplatform.operations.CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPost;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
-import java.lang.Exception;
 import java.lang.String;
 
 public class CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequestBuilder {
@@ -45,7 +44,7 @@ public class CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostR
         return request;
     }
 
-    public CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostResponse call() throws Exception {
+    public CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostResponse call() {
         
         RequestOperation<CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest, CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostResponse> operation
               = new CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPost.Sync(sdkConfiguration, _headers);

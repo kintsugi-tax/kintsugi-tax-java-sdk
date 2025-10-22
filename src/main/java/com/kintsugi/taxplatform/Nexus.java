@@ -27,7 +27,6 @@ import com.kintsugi.taxplatform.operations.GetNexusForOrgV1NexusGet;
 import com.kintsugi.taxplatform.operations.GetPhysicalNexusV1NexusPhysicalNexusGet;
 import com.kintsugi.taxplatform.operations.UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPut;
 import com.kintsugi.taxplatform.utils.Headers;
-import java.lang.Exception;
 import java.lang.String;
 
 
@@ -70,9 +69,9 @@ public class Nexus {
      * 
      * @param request The request object containing all the parameters for the API call.
      * @return The response from the API call
-     * @throws Exception if the API call fails
+     * @throws RuntimeException subclass if the API call fails
      */
-    public GetPhysicalNexusV1NexusPhysicalNexusGetResponse getPhysical(GetPhysicalNexusV1NexusPhysicalNexusGetRequest request) throws Exception {
+    public GetPhysicalNexusV1NexusPhysicalNexusGetResponse getPhysical(GetPhysicalNexusV1NexusPhysicalNexusGetRequest request) {
         RequestOperation<GetPhysicalNexusV1NexusPhysicalNexusGetRequest, GetPhysicalNexusV1NexusPhysicalNexusGetResponse> operation
               = new GetPhysicalNexusV1NexusPhysicalNexusGet.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
@@ -100,9 +99,9 @@ public class Nexus {
      * 
      * @param request The request object containing all the parameters for the API call.
      * @return The response from the API call
-     * @throws Exception if the API call fails
+     * @throws RuntimeException subclass if the API call fails
      */
-    public CreatePhysicalNexusV1NexusPhysicalNexusPostResponse createPhysical(PhysicalNexusCreate request) throws Exception {
+    public CreatePhysicalNexusV1NexusPhysicalNexusPostResponse createPhysical(PhysicalNexusCreate request) {
         RequestOperation<PhysicalNexusCreate, CreatePhysicalNexusV1NexusPhysicalNexusPostResponse> operation
               = new CreatePhysicalNexusV1NexusPhysicalNexusPost.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
@@ -130,9 +129,9 @@ public class Nexus {
      *                                         nexus to update.
      * @param physicalNexusUpdate 
      * @return The response from the API call
-     * @throws Exception if the API call fails
+     * @throws RuntimeException subclass if the API call fails
      */
-    public UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutResponse updatePhysical(String physicalNexusId, PhysicalNexusUpdate physicalNexusUpdate) throws Exception {
+    public UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutResponse updatePhysical(String physicalNexusId, PhysicalNexusUpdate physicalNexusUpdate) {
         UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest request =
             UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest
                 .builder()
@@ -165,9 +164,9 @@ public class Nexus {
      * @param physicalNexusId The unique identifier of the physical
      *                                         nexus to delete.
      * @return The response from the API call
-     * @throws Exception if the API call fails
+     * @throws RuntimeException subclass if the API call fails
      */
-    public DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteResponse deletePhysical(String physicalNexusId) throws Exception {
+    public DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteResponse deletePhysical(String physicalNexusId) {
         DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest request =
             DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest
                 .builder()
@@ -196,9 +195,9 @@ public class Nexus {
      * 
      * @param request The request object containing all the parameters for the API call.
      * @return The response from the API call
-     * @throws Exception if the API call fails
+     * @throws RuntimeException subclass if the API call fails
      */
-    public GetNexusForOrgV1NexusGetResponse get(GetNexusForOrgV1NexusGetRequest request) throws Exception {
+    public GetNexusForOrgV1NexusGetResponse get(GetNexusForOrgV1NexusGetRequest request) {
         RequestOperation<GetNexusForOrgV1NexusGetRequest, GetNexusForOrgV1NexusGetResponse> operation
               = new GetNexusForOrgV1NexusGet.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));

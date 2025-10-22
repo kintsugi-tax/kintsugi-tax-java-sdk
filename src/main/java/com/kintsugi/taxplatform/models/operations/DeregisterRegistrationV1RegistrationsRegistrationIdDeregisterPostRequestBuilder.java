@@ -9,7 +9,6 @@ import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.operations.DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPost;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
-import java.lang.Exception;
 import java.lang.String;
 
 public class DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequestBuilder {
@@ -36,7 +35,7 @@ public class DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRe
         return request;
     }
 
-    public DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse call() throws Exception {
+    public DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse call() {
         
         RequestOperation<DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest, DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse> operation
               = new DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPost.Sync(sdkConfiguration, _headers);

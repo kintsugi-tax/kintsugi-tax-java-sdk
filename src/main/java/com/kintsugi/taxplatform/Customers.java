@@ -32,7 +32,6 @@ import com.kintsugi.taxplatform.operations.GetCustomerByIdV1CustomersCustomerIdG
 import com.kintsugi.taxplatform.operations.GetCustomersV1;
 import com.kintsugi.taxplatform.operations.UpdateCustomerV1CustomersCustomerIdPut;
 import com.kintsugi.taxplatform.utils.Headers;
-import java.lang.Exception;
 import java.lang.String;
 
 
@@ -83,9 +82,9 @@ public class Customers {
      * 
      * @param request The request object containing all the parameters for the API call.
      * @return The response from the API call
-     * @throws Exception if the API call fails
+     * @throws RuntimeException subclass if the API call fails
      */
-    public GetCustomersV1Response get(GetCustomersV1Request request) throws Exception {
+    public GetCustomersV1Response get(GetCustomersV1Request request) {
         RequestOperation<GetCustomersV1Request, GetCustomersV1Response> operation
               = new GetCustomersV1.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
@@ -111,9 +110,9 @@ public class Customers {
      * 
      * @param request The request object containing all the parameters for the API call.
      * @return The response from the API call
-     * @throws Exception if the API call fails
+     * @throws RuntimeException subclass if the API call fails
      */
-    public CreateCustomerV1CustomersPostResponse create(CustomerCreate request) throws Exception {
+    public CreateCustomerV1CustomersPostResponse create(CustomerCreate request) {
         RequestOperation<CustomerCreate, CreateCustomerV1CustomersPostResponse> operation
               = new CreateCustomerV1CustomersPost.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
@@ -141,9 +140,9 @@ public class Customers {
      * 
      * @param customerId Unique identifier of the customer
      * @return The response from the API call
-     * @throws Exception if the API call fails
+     * @throws RuntimeException subclass if the API call fails
      */
-    public GetCustomerByIdV1CustomersCustomerIdGetResponse getById(String customerId) throws Exception {
+    public GetCustomerByIdV1CustomersCustomerIdGetResponse getById(String customerId) {
         GetCustomerByIdV1CustomersCustomerIdGetRequest request =
             GetCustomerByIdV1CustomersCustomerIdGetRequest
                 .builder()
@@ -177,9 +176,9 @@ public class Customers {
      * @param customerId Unique identifier of the customer to be retrieved.
      * @param customerUpdate 
      * @return The response from the API call
-     * @throws Exception if the API call fails
+     * @throws RuntimeException subclass if the API call fails
      */
-    public UpdateCustomerV1CustomersCustomerIdPutResponse update(String customerId, CustomerUpdate customerUpdate) throws Exception {
+    public UpdateCustomerV1CustomersCustomerIdPutResponse update(String customerId, CustomerUpdate customerUpdate) {
         UpdateCustomerV1CustomersCustomerIdPutRequest request =
             UpdateCustomerV1CustomersCustomerIdPutRequest
                 .builder()
@@ -213,9 +212,9 @@ public class Customers {
      * 
      * @param externalId The external identifier of the customer to retrieve.
      * @return The response from the API call
-     * @throws Exception if the API call fails
+     * @throws RuntimeException subclass if the API call fails
      */
-    public GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse getByExternalId(String externalId) throws Exception {
+    public GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse getByExternalId(String externalId) {
         GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest request =
             GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest
                 .builder()
@@ -245,9 +244,9 @@ public class Customers {
      * @param customerId 
      * @param transactionCreate 
      * @return The response from the API call
-     * @throws Exception if the API call fails
+     * @throws RuntimeException subclass if the API call fails
      */
-    public CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostResponse createTransaction(String customerId, TransactionCreate transactionCreate) throws Exception {
+    public CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostResponse createTransaction(String customerId, TransactionCreate transactionCreate) {
         CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest request =
             CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest
                 .builder()

@@ -18,12 +18,14 @@ generation:
     oAuth2PasswordEnabled: false
     hoistGlobalSecurity: true
   sdkHooksConfigAccess: true
+  schemas:
+    allOfMergeStrategy: shallowMerge
   tests:
     generateTests: false
     generateNewTests: true
     skipResponseBodyAssertions: false
 java:
-  version: 0.13.0
+  version: 0.14.0
   additionalDependencies: []
   additionalPlugins: []
   artifactID: kintsugi-tax-java-sdk

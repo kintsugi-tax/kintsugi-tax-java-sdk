@@ -10,7 +10,6 @@ import com.kintsugi.taxplatform.models.operations.GetCustomerByIdV1CustomersCust
 import com.kintsugi.taxplatform.operations.GetCustomerByIdV1CustomersCustomerIdGet;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
-import java.lang.Exception;
 import java.lang.String;
 import java.util.concurrent.CompletableFuture;
 
@@ -38,7 +37,7 @@ public class GetCustomerByIdV1CustomersCustomerIdGetRequestBuilder {
         return request;
     }
 
-    public CompletableFuture<GetCustomerByIdV1CustomersCustomerIdGetResponse> call() throws Exception {
+    public CompletableFuture<GetCustomerByIdV1CustomersCustomerIdGetResponse> call() {
         
         AsyncRequestOperation<GetCustomerByIdV1CustomersCustomerIdGetRequest, GetCustomerByIdV1CustomersCustomerIdGetResponse> operation
               = new GetCustomerByIdV1CustomersCustomerIdGet.Async(sdkConfiguration, _headers);

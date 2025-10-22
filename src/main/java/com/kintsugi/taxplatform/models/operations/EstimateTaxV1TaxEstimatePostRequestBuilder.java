@@ -11,7 +11,6 @@ import com.kintsugi.taxplatform.operations.EstimateTaxV1TaxEstimatePost;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Boolean;
-import java.lang.Exception;
 import java.util.Optional;
 
 public class EstimateTaxV1TaxEstimatePostRequestBuilder {
@@ -52,7 +51,7 @@ public class EstimateTaxV1TaxEstimatePostRequestBuilder {
         return request;
     }
 
-    public EstimateTaxV1TaxEstimatePostResponse call() throws Exception {
+    public EstimateTaxV1TaxEstimatePostResponse call() {
         
         RequestOperation<EstimateTaxV1TaxEstimatePostRequest, EstimateTaxV1TaxEstimatePostResponse> operation
               = new EstimateTaxV1TaxEstimatePost.Sync(sdkConfiguration, _headers);

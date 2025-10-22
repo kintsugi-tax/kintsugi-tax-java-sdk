@@ -27,7 +27,6 @@ import com.kintsugi.taxplatform.operations.GetRegistrationByIdV1RegistrationsReg
 import com.kintsugi.taxplatform.operations.GetRegistrationsV1RegistrationsGet;
 import com.kintsugi.taxplatform.operations.UpdateRegistrationV1RegistrationsRegistrationIdPut;
 import com.kintsugi.taxplatform.utils.Headers;
-import java.lang.Exception;
 import java.lang.String;
 
 
@@ -74,9 +73,9 @@ public class Registrations {
      * 
      * @param request The request object containing all the parameters for the API call.
      * @return The response from the API call
-     * @throws Exception if the API call fails
+     * @throws RuntimeException subclass if the API call fails
      */
-    public GetRegistrationsV1RegistrationsGetResponse get(GetRegistrationsV1RegistrationsGetRequest request) throws Exception {
+    public GetRegistrationsV1RegistrationsGetResponse get(GetRegistrationsV1RegistrationsGetRequest request) {
         RequestOperation<GetRegistrationsV1RegistrationsGetRequest, GetRegistrationsV1RegistrationsGetResponse> operation
               = new GetRegistrationsV1RegistrationsGet.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
@@ -102,9 +101,9 @@ public class Registrations {
      * 
      * @param request The request object containing all the parameters for the API call.
      * @return The response from the API call
-     * @throws Exception if the API call fails
+     * @throws RuntimeException subclass if the API call fails
      */
-    public CreateRegistrationV1RegistrationsPostResponse create(CreateRegistration request) throws Exception {
+    public CreateRegistrationV1RegistrationsPostResponse create(CreateRegistration request) {
         RequestOperation<CreateRegistration, CreateRegistrationV1RegistrationsPostResponse> operation
               = new CreateRegistrationV1RegistrationsPost.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
@@ -131,9 +130,9 @@ public class Registrations {
      * @param registrationId The unique identifier of the
      *                                         registration to retrieve.
      * @return The response from the API call
-     * @throws Exception if the API call fails
+     * @throws RuntimeException subclass if the API call fails
      */
-    public GetRegistrationByIdV1RegistrationsRegistrationIdGetResponse getById(String registrationId) throws Exception {
+    public GetRegistrationByIdV1RegistrationsRegistrationIdGetResponse getById(String registrationId) {
         GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest request =
             GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest
                 .builder()
@@ -165,9 +164,9 @@ public class Registrations {
      * @param registrationId The unique identifier of the registration to be updated.
      * @param registrationUpdateAPI 
      * @return The response from the API call
-     * @throws Exception if the API call fails
+     * @throws RuntimeException subclass if the API call fails
      */
-    public UpdateRegistrationV1RegistrationsRegistrationIdPutResponse update(String registrationId, RegistrationUpdateAPI registrationUpdateAPI) throws Exception {
+    public UpdateRegistrationV1RegistrationsRegistrationIdPutResponse update(String registrationId, RegistrationUpdateAPI registrationUpdateAPI) {
         UpdateRegistrationV1RegistrationsRegistrationIdPutRequest request =
             UpdateRegistrationV1RegistrationsRegistrationIdPutRequest
                 .builder()
@@ -197,9 +196,9 @@ public class Registrations {
      * 
      * @param registrationId The unique identifier of the registration to deregister.
      * @return The response from the API call
-     * @throws Exception if the API call fails
+     * @throws RuntimeException subclass if the API call fails
      */
-    public DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse deregister(String registrationId) throws Exception {
+    public DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse deregister(String registrationId) {
         DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest request =
             DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest
                 .builder()

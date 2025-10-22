@@ -10,7 +10,6 @@ import com.kintsugi.taxplatform.models.operations.GetCustomerByExternalIdV1Custo
 import com.kintsugi.taxplatform.operations.GetCustomerByExternalIdV1CustomersExternalExternalIdGet;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
-import java.lang.Exception;
 import java.lang.String;
 import java.util.concurrent.CompletableFuture;
 
@@ -38,7 +37,7 @@ public class GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequestBuild
         return request;
     }
 
-    public CompletableFuture<GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse> call() throws Exception {
+    public CompletableFuture<GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse> call() {
         
         AsyncRequestOperation<GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest, GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse> operation
               = new GetCustomerByExternalIdV1CustomersExternalExternalIdGet.Async(sdkConfiguration, _headers);

@@ -9,7 +9,6 @@ import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.operations.GetFilingsV1FilingsGet;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
-import java.lang.Exception;
 
 public class GetFilingsV1FilingsGetRequestBuilder {
 
@@ -27,7 +26,7 @@ public class GetFilingsV1FilingsGetRequestBuilder {
         return this;
     }
 
-    public GetFilingsV1FilingsGetResponse call() throws Exception {
+    public GetFilingsV1FilingsGetResponse call() {
         
         RequestOperation<GetFilingsV1FilingsGetRequest, GetFilingsV1FilingsGetResponse> operation
               = new GetFilingsV1FilingsGet.Sync(sdkConfiguration, _headers);

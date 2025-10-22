@@ -10,7 +10,6 @@ import com.kintsugi.taxplatform.models.components.PhysicalNexusCreate;
 import com.kintsugi.taxplatform.operations.CreatePhysicalNexusV1NexusPhysicalNexusPost;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
-import java.lang.Exception;
 
 public class CreatePhysicalNexusV1NexusPhysicalNexusPostRequestBuilder {
 
@@ -28,7 +27,7 @@ public class CreatePhysicalNexusV1NexusPhysicalNexusPostRequestBuilder {
         return this;
     }
 
-    public CreatePhysicalNexusV1NexusPhysicalNexusPostResponse call() throws Exception {
+    public CreatePhysicalNexusV1NexusPhysicalNexusPostResponse call() {
         
         RequestOperation<PhysicalNexusCreate, CreatePhysicalNexusV1NexusPhysicalNexusPostResponse> operation
               = new CreatePhysicalNexusV1NexusPhysicalNexusPost.Sync(sdkConfiguration, _headers);

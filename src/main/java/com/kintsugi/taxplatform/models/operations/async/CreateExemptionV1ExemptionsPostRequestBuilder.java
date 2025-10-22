@@ -10,7 +10,6 @@ import com.kintsugi.taxplatform.models.components.ExemptionCreate;
 import com.kintsugi.taxplatform.operations.CreateExemptionV1ExemptionsPost;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
-import java.lang.Exception;
 import java.util.concurrent.CompletableFuture;
 
 public class CreateExemptionV1ExemptionsPostRequestBuilder {
@@ -29,7 +28,7 @@ public class CreateExemptionV1ExemptionsPostRequestBuilder {
         return this;
     }
 
-    public CompletableFuture<CreateExemptionV1ExemptionsPostResponse> call() throws Exception {
+    public CompletableFuture<CreateExemptionV1ExemptionsPostResponse> call() {
         
         AsyncRequestOperation<ExemptionCreate, CreateExemptionV1ExemptionsPostResponse> operation
               = new CreateExemptionV1ExemptionsPost.Async(sdkConfiguration, _headers);

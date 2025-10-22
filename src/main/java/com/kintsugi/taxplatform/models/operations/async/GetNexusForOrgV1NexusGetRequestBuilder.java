@@ -10,7 +10,6 @@ import com.kintsugi.taxplatform.models.operations.GetNexusForOrgV1NexusGetReques
 import com.kintsugi.taxplatform.operations.GetNexusForOrgV1NexusGet;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
-import java.lang.Exception;
 import java.util.concurrent.CompletableFuture;
 
 public class GetNexusForOrgV1NexusGetRequestBuilder {
@@ -29,7 +28,7 @@ public class GetNexusForOrgV1NexusGetRequestBuilder {
         return this;
     }
 
-    public CompletableFuture<GetNexusForOrgV1NexusGetResponse> call() throws Exception {
+    public CompletableFuture<GetNexusForOrgV1NexusGetResponse> call() {
         
         AsyncRequestOperation<GetNexusForOrgV1NexusGetRequest, GetNexusForOrgV1NexusGetResponse> operation
               = new GetNexusForOrgV1NexusGet.Async(sdkConfiguration, _headers);

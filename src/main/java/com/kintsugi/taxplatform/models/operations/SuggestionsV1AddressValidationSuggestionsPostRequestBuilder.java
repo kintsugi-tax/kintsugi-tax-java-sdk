@@ -10,7 +10,6 @@ import com.kintsugi.taxplatform.models.components.ValidationAddress;
 import com.kintsugi.taxplatform.operations.SuggestionsV1AddressValidationSuggestionsPost;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
-import java.lang.Exception;
 
 public class SuggestionsV1AddressValidationSuggestionsPostRequestBuilder {
 
@@ -28,7 +27,7 @@ public class SuggestionsV1AddressValidationSuggestionsPostRequestBuilder {
         return this;
     }
 
-    public SuggestionsV1AddressValidationSuggestionsPostResponse call() throws Exception {
+    public SuggestionsV1AddressValidationSuggestionsPostResponse call() {
         
         RequestOperation<ValidationAddress, SuggestionsV1AddressValidationSuggestionsPostResponse> operation
               = new SuggestionsV1AddressValidationSuggestionsPost.Sync(sdkConfiguration, _headers);

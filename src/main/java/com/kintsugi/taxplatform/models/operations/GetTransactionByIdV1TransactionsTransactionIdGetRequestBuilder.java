@@ -9,7 +9,6 @@ import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.operations.GetTransactionByIdV1TransactionsTransactionIdGet;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
-import java.lang.Exception;
 import java.lang.String;
 
 public class GetTransactionByIdV1TransactionsTransactionIdGetRequestBuilder {
@@ -36,7 +35,7 @@ public class GetTransactionByIdV1TransactionsTransactionIdGetRequestBuilder {
         return request;
     }
 
-    public GetTransactionByIdV1TransactionsTransactionIdGetResponse call() throws Exception {
+    public GetTransactionByIdV1TransactionsTransactionIdGetResponse call() {
         
         RequestOperation<GetTransactionByIdV1TransactionsTransactionIdGetRequest, GetTransactionByIdV1TransactionsTransactionIdGetResponse> operation
               = new GetTransactionByIdV1TransactionsTransactionIdGet.Sync(sdkConfiguration, _headers);

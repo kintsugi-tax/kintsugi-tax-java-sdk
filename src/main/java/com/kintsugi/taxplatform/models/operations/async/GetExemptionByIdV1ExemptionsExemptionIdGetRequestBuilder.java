@@ -10,7 +10,6 @@ import com.kintsugi.taxplatform.models.operations.GetExemptionByIdV1ExemptionsEx
 import com.kintsugi.taxplatform.operations.GetExemptionByIdV1ExemptionsExemptionIdGet;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
-import java.lang.Exception;
 import java.lang.String;
 import java.util.concurrent.CompletableFuture;
 
@@ -38,7 +37,7 @@ public class GetExemptionByIdV1ExemptionsExemptionIdGetRequestBuilder {
         return request;
     }
 
-    public CompletableFuture<GetExemptionByIdV1ExemptionsExemptionIdGetResponse> call() throws Exception {
+    public CompletableFuture<GetExemptionByIdV1ExemptionsExemptionIdGetResponse> call() {
         
         AsyncRequestOperation<GetExemptionByIdV1ExemptionsExemptionIdGetRequest, GetExemptionByIdV1ExemptionsExemptionIdGetResponse> operation
               = new GetExemptionByIdV1ExemptionsExemptionIdGet.Async(sdkConfiguration, _headers);

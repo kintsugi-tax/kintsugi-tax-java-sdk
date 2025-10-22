@@ -10,7 +10,6 @@ import com.kintsugi.taxplatform.models.components.AddressBase;
 import com.kintsugi.taxplatform.operations.SearchV1AddressValidationSearchPost;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
-import java.lang.Exception;
 
 public class SearchV1AddressValidationSearchPostRequestBuilder {
 
@@ -35,7 +34,7 @@ public class SearchV1AddressValidationSearchPostRequestBuilder {
         return this;
     }
 
-    public SearchV1AddressValidationSearchPostResponse call() throws Exception {
+    public SearchV1AddressValidationSearchPostResponse call() {
         
         RequestOperation<AddressBase, SearchV1AddressValidationSearchPostResponse> operation
               = new SearchV1AddressValidationSearchPost.Sync(sdkConfiguration, security, _headers);

@@ -61,7 +61,7 @@ public class AsyncTaxEstimation {
      * releases.
      * 
      * @param transactionEstimatePublicRequest Public request model for tax estimation API documentation.
-     *         This model excludes internal fields like enriched_fields that should not be exposed in API docs.
+     *         This model excludes internal fields like enriched_fields and total_amount that should not be exposed in API docs.
      * @return {@code CompletableFuture<EstimateTaxV1TaxEstimatePostResponse>} - The async response
      */
     public CompletableFuture<EstimateTaxV1TaxEstimatePostResponse> estimate(TransactionEstimatePublicRequest transactionEstimatePublicRequest) {
@@ -79,7 +79,7 @@ public class AsyncTaxEstimation {
      * 
      * @param simulateNexusMet **Deprecated:** Use `simulate_active_registration` in the request body instead.
      * @param transactionEstimatePublicRequest Public request model for tax estimation API documentation.
-     *         This model excludes internal fields like enriched_fields that should not be exposed in API docs.
+     *         This model excludes internal fields like enriched_fields and total_amount that should not be exposed in API docs.
      * @return {@code CompletableFuture<EstimateTaxV1TaxEstimatePostResponse>} - The async response
      */
     public CompletableFuture<EstimateTaxV1TaxEstimatePostResponse> estimate(Optional<Boolean> simulateNexusMet, TransactionEstimatePublicRequest transactionEstimatePublicRequest) {

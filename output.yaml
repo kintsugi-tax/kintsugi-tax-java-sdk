@@ -1250,6 +1250,13 @@ paths:
             default: false
             title: "Without Pagination"
           description: "Return all results without pagination"
+        - name: "disregard_view"
+          in: "query"
+          required: false
+          schema:
+            description: "Filter nexuses by disregard view: 'exposed' or 'disregarded'"
+            type: "string"
+          description: "Filter nexuses by disregard view: 'exposed' or 'disregarded'"
         - name: "status__in"
           in: "query"
           required: false
@@ -8593,6 +8600,19 @@ components:
         "registration":
           type: "object"
         "registration_regime": {"$ref": "#/components/schemas/RegistrationsRegimeEnum"}
+        "disregarded_at":
+          type: "string"
+        "disregarded_by":
+          type: "string"
+        "disregarded_nexus_types":
+          items:
+            type: "string"
+          type: "array"
+          title: "Disregarded Nexus Types"
+        "is_currently_disregarded":
+          type: "boolean"
+          title: "Is Currently Disregarded"
+          default: false
         "is_vda_eligible":
           type: "boolean"
           title: "Is Vda Eligible"
@@ -8749,6 +8769,19 @@ components:
         - "ONBOARDING"
         - "REGISTRATION_START"
       title: "NotificationBatchStages"
+    "NotificationSettingsRequest":
+      properties:
+        "organization_id":
+          type: "string"
+          title: "Organization Id"
+        "notifications_enabled":
+          type: "boolean"
+          title: "Notifications Enabled"
+      type: "object"
+      required:
+        - "organization_id"
+        - "notifications_enabled"
+      title: "NotificationSettingsRequest"
     "OSSRegistrationCreatePayload":
       properties:
         "registration_import_type":
@@ -16156,6 +16189,8 @@ components:
         "org_metadata": {"$ref": "#/components/schemas/OrgMetadata"}
         "legacy_user_id":
           type: "string"
+        "notifications_enabled":
+          type: "boolean"
       type: "object"
       required:
         - "user_id"

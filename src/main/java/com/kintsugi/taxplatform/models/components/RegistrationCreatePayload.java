@@ -91,6 +91,13 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
     @JsonProperty("auto_registered")
     private Optional<Boolean> autoRegistered;
 
+    /**
+     * If true, do not file for this registration (treated as False by default).
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("do_not_file")
+    private Optional<Boolean> doNotFile;
+
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("registrations_regime")
@@ -216,6 +223,7 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
             @JsonProperty("deregistration_requested") Optional<String> deregistrationRequested,
             @JsonProperty("deregistration_completed") Optional<String> deregistrationCompleted,
             @JsonProperty("auto_registered") Optional<Boolean> autoRegistered,
+            @JsonProperty("do_not_file") Optional<Boolean> doNotFile,
             @JsonProperty("registrations_regime") Optional<? extends RegistrationsRegimeEnum> registrationsRegime,
             @JsonProperty("change_regime_status") Optional<? extends ChangeRegimeStatusEnum> changeRegimeStatus,
             @JsonProperty("country_code") CountryCodeEnum countryCode,
@@ -244,6 +252,7 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
         Utils.checkNotNull(deregistrationRequested, "deregistrationRequested");
         Utils.checkNotNull(deregistrationCompleted, "deregistrationCompleted");
         Utils.checkNotNull(autoRegistered, "autoRegistered");
+        Utils.checkNotNull(doNotFile, "doNotFile");
         Utils.checkNotNull(registrationsRegime, "registrationsRegime");
         Utils.checkNotNull(changeRegimeStatus, "changeRegimeStatus");
         Utils.checkNotNull(countryCode, "countryCode");
@@ -272,6 +281,7 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
         this.deregistrationRequested = deregistrationRequested;
         this.deregistrationCompleted = deregistrationCompleted;
         this.autoRegistered = autoRegistered;
+        this.doNotFile = doNotFile;
         this.registrationsRegime = registrationsRegime;
         this.changeRegimeStatus = changeRegimeStatus;
         this.countryCode = countryCode;
@@ -302,12 +312,12 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
-            countryCode, stateCode, stateName,
-            filingFrequency, filingDays, Optional.empty(),
+            Optional.empty(), countryCode, stateCode,
+            stateName, filingFrequency, filingDays,
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty());
+            Optional.empty(), Optional.empty());
     }
 
     /**
@@ -389,6 +399,14 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
     @JsonIgnore
     public Optional<Boolean> autoRegistered() {
         return autoRegistered;
+    }
+
+    /**
+     * If true, do not file for this registration (treated as False by default).
+     */
+    @JsonIgnore
+    public Optional<Boolean> doNotFile() {
+        return doNotFile;
     }
 
     @SuppressWarnings("unchecked")
@@ -720,6 +738,25 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
         return this;
     }
 
+    /**
+     * If true, do not file for this registration (treated as False by default).
+     */
+    public RegistrationCreatePayload withDoNotFile(boolean doNotFile) {
+        Utils.checkNotNull(doNotFile, "doNotFile");
+        this.doNotFile = Optional.ofNullable(doNotFile);
+        return this;
+    }
+
+
+    /**
+     * If true, do not file for this registration (treated as False by default).
+     */
+    public RegistrationCreatePayload withDoNotFile(Optional<Boolean> doNotFile) {
+        Utils.checkNotNull(doNotFile, "doNotFile");
+        this.doNotFile = doNotFile;
+        return this;
+    }
+
     public RegistrationCreatePayload withRegistrationsRegime(RegistrationsRegimeEnum registrationsRegime) {
         Utils.checkNotNull(registrationsRegime, "registrationsRegime");
         this.registrationsRegime = Optional.ofNullable(registrationsRegime);
@@ -1014,6 +1051,7 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
             Utils.enhancedDeepEquals(this.deregistrationRequested, other.deregistrationRequested) &&
             Utils.enhancedDeepEquals(this.deregistrationCompleted, other.deregistrationCompleted) &&
             Utils.enhancedDeepEquals(this.autoRegistered, other.autoRegistered) &&
+            Utils.enhancedDeepEquals(this.doNotFile, other.doNotFile) &&
             Utils.enhancedDeepEquals(this.registrationsRegime, other.registrationsRegime) &&
             Utils.enhancedDeepEquals(this.changeRegimeStatus, other.changeRegimeStatus) &&
             Utils.enhancedDeepEquals(this.countryCode, other.countryCode) &&
@@ -1040,13 +1078,13 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
             registrationImportType, registrationDate, registrationEmail,
             registrationKey, deregistrationKey, registrationRequested,
             registrationCompleted, deregistrationRequested, deregistrationCompleted,
-            autoRegistered, registrationsRegime, changeRegimeStatus,
-            countryCode, stateCode, stateName,
-            filingFrequency, filingDays, username,
-            comment, createFilingsFrom, initialSync,
-            amountFees, vda, imported,
-            salesTaxId, sstImport, passwordPlainText,
-            passwordMetadataPlainText);
+            autoRegistered, doNotFile, registrationsRegime,
+            changeRegimeStatus, countryCode, stateCode,
+            stateName, filingFrequency, filingDays,
+            username, comment, createFilingsFrom,
+            initialSync, amountFees, vda,
+            imported, salesTaxId, sstImport,
+            passwordPlainText, passwordMetadataPlainText);
     }
     
     @Override
@@ -1062,6 +1100,7 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
                 "deregistrationRequested", deregistrationRequested,
                 "deregistrationCompleted", deregistrationCompleted,
                 "autoRegistered", autoRegistered,
+                "doNotFile", doNotFile,
                 "registrationsRegime", registrationsRegime,
                 "changeRegimeStatus", changeRegimeStatus,
                 "countryCode", countryCode,
@@ -1104,6 +1143,8 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
         private Optional<String> deregistrationCompleted = Optional.empty();
 
         private Optional<Boolean> autoRegistered;
+
+        private Optional<Boolean> doNotFile;
 
         private Optional<? extends RegistrationsRegimeEnum> registrationsRegime = Optional.empty();
 
@@ -1332,6 +1373,25 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
         public Builder autoRegistered(Optional<Boolean> autoRegistered) {
             Utils.checkNotNull(autoRegistered, "autoRegistered");
             this.autoRegistered = autoRegistered;
+            return this;
+        }
+
+
+        /**
+         * If true, do not file for this registration (treated as False by default).
+         */
+        public Builder doNotFile(boolean doNotFile) {
+            Utils.checkNotNull(doNotFile, "doNotFile");
+            this.doNotFile = Optional.ofNullable(doNotFile);
+            return this;
+        }
+
+        /**
+         * If true, do not file for this registration (treated as False by default).
+         */
+        public Builder doNotFile(Optional<Boolean> doNotFile) {
+            Utils.checkNotNull(doNotFile, "doNotFile");
+            this.doNotFile = doNotFile;
             return this;
         }
 
@@ -1621,6 +1681,9 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
             if (autoRegistered == null) {
                 autoRegistered = _SINGLETON_VALUE_AutoRegistered.value();
             }
+            if (doNotFile == null) {
+                doNotFile = _SINGLETON_VALUE_DoNotFile.value();
+            }
             if (initialSync == null) {
                 initialSync = _SINGLETON_VALUE_InitialSync.value();
             }
@@ -1638,13 +1701,13 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
                 registrationImportType, registrationDate, registrationEmail,
                 registrationKey, deregistrationKey, registrationRequested,
                 registrationCompleted, deregistrationRequested, deregistrationCompleted,
-                autoRegistered, registrationsRegime, changeRegimeStatus,
-                countryCode, stateCode, stateName,
-                filingFrequency, filingDays, username,
-                comment, createFilingsFrom, initialSync,
-                amountFees, vda, imported,
-                salesTaxId, sstImport, passwordPlainText,
-                passwordMetadataPlainText);
+                autoRegistered, doNotFile, registrationsRegime,
+                changeRegimeStatus, countryCode, stateCode,
+                stateName, filingFrequency, filingDays,
+                username, comment, createFilingsFrom,
+                initialSync, amountFees, vda,
+                imported, salesTaxId, sstImport,
+                passwordPlainText, passwordMetadataPlainText);
         }
 
 
@@ -1657,6 +1720,12 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
         private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_AutoRegistered =
                 new LazySingletonValue<>(
                         "auto_registered",
+                        "false",
+                        new TypeReference<Optional<Boolean>>() {});
+
+        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_DoNotFile =
+                new LazySingletonValue<>(
+                        "do_not_file",
                         "false",
                         new TypeReference<Optional<Boolean>>() {});
 

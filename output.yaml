@@ -1250,6 +1250,13 @@ paths:
             default: false
             title: "Without Pagination"
           description: "Return all results without pagination"
+        - name: "disregard_view"
+          in: "query"
+          required: false
+          schema:
+            description: "Filter nexuses by disregard view: 'exposed' or 'disregarded'"
+            type: "string"
+          description: "Filter nexuses by disregard view: 'exposed' or 'disregarded'"
         - name: "status__in"
           in: "query"
           required: false
@@ -2868,6 +2875,11 @@ components:
           description: "Indicates whether third-party access is enabled for this registration."
           default: false
           type: "boolean"
+        "do_not_file":
+          type: "boolean"
+          title: "Do Not File"
+          description: "If true, do not file for this registration (treated as False by default)."
+          default: false
         "marked_collecting":
           description: "Indicates whether the  registration is marked as collecting in shopify"
           type: "boolean"
@@ -2935,6 +2947,7 @@ components:
           type: "string"
           title: "Credits Total Available"
           default: "0.00"
+        "registration_category": {"$ref": "#/components/schemas/RegistrationCategoryEnum", "description": "The category of the registration. Possible values: REGULAR, IMPORTED, DEREGISTRATION.", "default": "REGULAR"}
         "password_encrypted":
           description: "Encrypted password for accessing the registration,\n        if applicable."
           type: "string"
@@ -3662,6 +3675,10 @@ components:
             type: "string"
           type: "array"
           title: "Task Ids"
+        "related_entity_type":
+          type: "string"
+          title: "Related Entity Type"
+          default: "FILING"
       type: "object"
       required:
         - "task_ids"
@@ -7162,6 +7179,7 @@ components:
         - "SEMI_MONTHLY"
         - "BI_MONTHLY"
         - "FOUR_MONTHLY"
+        - "QUARTERLY_PREPAYMENT"
       title: "FilingFrequencyEnum"
     "FilingMetrics":
       properties:
@@ -8593,6 +8611,19 @@ components:
         "registration":
           type: "object"
         "registration_regime": {"$ref": "#/components/schemas/RegistrationsRegimeEnum"}
+        "disregarded_at":
+          type: "string"
+        "disregarded_by":
+          type: "string"
+        "disregarded_nexus_types":
+          items:
+            type: "string"
+          type: "array"
+          title: "Disregarded Nexus Types"
+        "is_currently_disregarded":
+          type: "boolean"
+          title: "Is Currently Disregarded"
+          default: false
         "is_vda_eligible":
           type: "boolean"
           title: "Is Vda Eligible"
@@ -8749,6 +8780,19 @@ components:
         - "ONBOARDING"
         - "REGISTRATION_START"
       title: "NotificationBatchStages"
+    "NotificationSettingsRequest":
+      properties:
+        "organization_id":
+          type: "string"
+          title: "Organization Id"
+        "notifications_enabled":
+          type: "boolean"
+          title: "Notifications Enabled"
+      type: "object"
+      required:
+        - "organization_id"
+        - "notifications_enabled"
+      title: "NotificationSettingsRequest"
     "OSSRegistrationCreatePayload":
       properties:
         "registration_import_type":
@@ -12189,6 +12233,139 @@ components:
       required:
         - "refresh_token"
       title: "RefreshTokenRequest"
+    "RegistrationAdminRead":
+      properties:
+        "registration_date":
+          description: "The date when the registration was created. Format: YYYY-MM-DD."
+          type: "string"
+        "registration_email":
+          description: "Email address associated with the registration."
+          type: "string"
+        "registration_key":
+          description: "A unique key assigned to the registration."
+          type: "string"
+        "deregistration_key":
+          description: "A unique key assigned for deregistration."
+          type: "string"
+        "registration_requested":
+          description: "Timestamp when the registration was requested."
+          type: "string"
+        "registration_completed":
+          description: "Timestamp when the registration was completed."
+          type: "string"
+        "deregistration_requested":
+          description: "Timestamp when deregistration was requested."
+          type: "string"
+        "deregistration_completed":
+          description: "Timestamp when the deregistration was completed."
+          type: "string"
+        "auto_registered":
+          description: "Indicates whether the registration was completed automatically."
+          default: false
+          type: "boolean"
+        "registrations_regime": {"description": "The tax registration regime (e.g., STANDARD, SIMPLIFIED).", "$ref": "#/components/schemas/RegistrationsRegimeEnum"}
+        "change_regime_status": {"$ref": "#/components/schemas/ChangeRegimeStatusEnum"}
+        "third_party_enabled":
+          description: "Indicates whether third-party access is enabled for this registration."
+          default: false
+          type: "boolean"
+        "do_not_file":
+          type: "boolean"
+          title: "Do Not File"
+          description: "If true, do not file for this registration (treated as False by default)."
+          default: false
+        "marked_collecting":
+          description: "Indicates whether the  registration is marked as collecting in shopify"
+          type: "boolean"
+        "status": {"$ref": "#/components/schemas/RegistrationStatusEnum", "description": "The current status of the registration. Possible values: REGISTERED, PROCESSING, UNREGISTERED, DEREGISTERING, DEREGISTERED, VALIDATING, AWAITING_CLARIFICATION."}
+        "country_code": {"$ref": "#/components/schemas/CountryCodeEnum", "description": "The country code (ISO 3166-1 alpha-2 format) where the registration applies."}
+        "state_code":
+          type: "string"
+          title: "State Code"
+          description: "The state/province code where the registration applies."
+        "state_name":
+          type: "string"
+          title: "State Name"
+          description: "The name of the state/province."
+        "filing_frequency": {"$ref": "#/components/schemas/FilingFrequencyEnum", "description": "Specifies how often tax filings should be made.\n                                                Possible values: MONTHLY, QUARTERLY, ANNUALLY, UNKNOWN."}
+        "filing_days":
+          type: "integer"
+          title: "Filing Days"
+          description: "The number of days before the filing deadline."
+        "username":
+          description: "Username for accessing tax registration details."
+          type: "string"
+        "comment":
+          description: "Additional comments related to the registration."
+          type: "string"
+        "create_filings_from":
+          description: "The date from which filings should be created.\n        should start (YYYY-MM-DD)."
+          type: "string"
+        "initial_sync":
+          description: "Indicates whether an initial synchronization should be performed."
+          default: false
+          type: "boolean"
+        "amount_fees":
+          type: "string"
+          title: "Amount Fees"
+          description: "The amount of fees associated with the registration."
+          default: "0.00"
+        "vda":
+          description: "Indicates whether a Voluntary Disclosure Agreement (VDA) applies."
+          default: false
+          type: "boolean"
+        "imported":
+          description: "Whether the registration was imported from another system."
+          type: "boolean"
+        "sales_tax_id":
+          description: "The sales tax ID associated with the registration."
+          type: "string"
+        "sst_import":
+          description: "Indicates whether the registration is an SST Import."
+          default: false
+          type: "boolean"
+        "oss_type": {"description": "The type of OSS registration. Should be filled for ZZ_EU OSS registrations.", "$ref": "#/components/schemas/OssTypeEnum"}
+        "oss_member_state_of_identification_code": {"description": "The Member State of Identification code for OSS registrations.", "$ref": "#/components/schemas/CountryCodeEnum"}
+        "marked_collecting_date":
+          description: "The date when the registration was marked as collecting."
+          type: "string"
+        "needs_mark_as_collecting":
+          description: "Indicates whether the registration needs to be marked as collecting."
+          default: false
+          type: "boolean"
+        "id":
+          type: "string"
+          title: "Id"
+          description: "The unique identifier for the registration."
+        "credits_total_available":
+          type: "string"
+          title: "Credits Total Available"
+          default: "0.00"
+        "registration_category": {"$ref": "#/components/schemas/RegistrationCategoryEnum", "description": "The category of the registration. Possible values: REGULAR, IMPORTED, DEREGISTRATION.", "default": "REGULAR"}
+        "registration_type": {"$ref": "#/components/schemas/RegistrationTypeEnum", "readOnly": true}
+        "filing_website_url":
+          readOnly: true
+          type: "string"
+      type: "object"
+      required:
+        - "status"
+        - "country_code"
+        - "state_code"
+        - "state_name"
+        - "filing_frequency"
+        - "filing_days"
+        - "id"
+        - "registration_type"
+        - "filing_website_url"
+      title: "RegistrationAdminRead"
+      description: "Admin-specific read model for registrations.\n\nExtends public RegistrationRead while adding admin-only convenience fields."
+    "RegistrationCategoryEnum":
+      type: "string"
+      enum:
+        - "REGULAR"
+        - "IMPORTED"
+        - "DEREGISTRATION"
+      title: "RegistrationCategoryEnum"
     "RegistrationCreatePayload":
       properties:
         "registration_import_type":
@@ -12224,6 +12401,11 @@ components:
           description: "Indicates whether the registration was completed automatically."
           default: false
           type: "boolean"
+        "do_not_file":
+          type: "boolean"
+          title: "Do Not File"
+          description: "If true, do not file for this registration (treated as False by default)."
+          default: false
         "registrations_regime": {"description": "The tax registration regime (e.g., STANDARD, SIMPLIFIED).", "$ref": "#/components/schemas/RegistrationsRegimeEnum"}
         "change_regime_status": {"$ref": "#/components/schemas/ChangeRegimeStatusEnum"}
         "country_code": {"$ref": "#/components/schemas/CountryCodeEnum", "description": "The country code (ISO 3166-1 alpha-2 format) where the registration applies."}
@@ -12321,6 +12503,11 @@ components:
           description: "Indicates whether third-party access is enabled for this registration."
           default: false
           type: "boolean"
+        "do_not_file":
+          type: "boolean"
+          title: "Do Not File"
+          description: "If true, do not file for this registration (treated as False by default)."
+          default: false
         "marked_collecting":
           description: "Indicates whether the  registration is marked as collecting in shopify"
           type: "boolean"
@@ -12388,6 +12575,7 @@ components:
           type: "string"
           title: "Credits Total Available"
           default: "0.00"
+        "registration_category": {"$ref": "#/components/schemas/RegistrationCategoryEnum", "description": "The category of the registration. Possible values: REGULAR, IMPORTED, DEREGISTRATION.", "default": "REGULAR"}
         "registration_type": {"$ref": "#/components/schemas/RegistrationTypeEnum", "readOnly": true}
       type: "object"
       required:
@@ -12436,6 +12624,11 @@ components:
           description: "Indicates whether third-party access is enabled for this registration."
           default: false
           type: "boolean"
+        "do_not_file":
+          type: "boolean"
+          title: "Do Not File"
+          description: "If true, do not file for this registration (treated as False by default)."
+          default: false
         "marked_collecting":
           description: "Indicates whether the  registration is marked as collecting in shopify"
           type: "boolean"
@@ -12503,6 +12696,7 @@ components:
           type: "string"
           title: "Credits Total Available"
           default: "0.00"
+        "registration_category": {"$ref": "#/components/schemas/RegistrationCategoryEnum", "description": "The category of the registration. Possible values: REGULAR, IMPORTED, DEREGISTRATION.", "default": "REGULAR"}
         "password_encrypted":
           description: "Encrypted password for accessing the registration,\n        if applicable."
           type: "string"
@@ -12586,6 +12780,11 @@ components:
           description: "Indicates whether third-party access is enabled for this registration."
           default: false
           type: "boolean"
+        "do_not_file":
+          type: "boolean"
+          title: "Do Not File"
+          description: "If true, do not file for this registration (treated as False by default)."
+          default: false
         "marked_collecting":
           description: "Indicates whether the  registration is marked as collecting in shopify"
           type: "boolean"
@@ -12654,6 +12853,11 @@ components:
           description: "Indicates whether third-party access is enabled for this registration."
           default: false
           type: "boolean"
+        "do_not_file":
+          type: "boolean"
+          title: "Do Not File"
+          description: "If true, do not file for this registration (treated as False by default)."
+          default: false
         "marked_collecting":
           description: "Indicates whether the  registration is marked as collecting in shopify"
           type: "boolean"
@@ -13201,6 +13405,7 @@ components:
       type: "string"
       enum:
         - "BIGCOMMERCE"
+        - "BESTBUY"
         - "BUNNY"
         - "CHARGEBEE"
         - "SHOPIFY"
@@ -13522,7 +13727,7 @@ components:
         "organization_name":
           type: "string"
         "billing_plan": {"$ref": "#/components/schemas/BillingPlanEnum"}
-        "registration": {"$ref": "#/components/schemas/RegistrationRead"}
+        "registration": {"$ref": "#/components/schemas/RegistrationAdminRead"}
       type: "object"
       title: "TaskRegistrationRead"
     "TaxBreakdownByJurisdiction":
@@ -16156,6 +16361,8 @@ components:
         "org_metadata": {"$ref": "#/components/schemas/OrgMetadata"}
         "legacy_user_id":
           type: "string"
+        "notifications_enabled":
+          type: "boolean"
       type: "object"
       required:
         - "user_id"

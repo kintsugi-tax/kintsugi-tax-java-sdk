@@ -100,6 +100,13 @@ public class RegistrationUpdateAPI {
     private Optional<Boolean> thirdPartyEnabled;
 
     /**
+     * If true, do not file for this registration (treated as False by default).
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("do_not_file")
+    private Optional<Boolean> doNotFile;
+
+    /**
      * Indicates whether the  registration is marked as collecting in shopify
      */
     @JsonInclude(Include.NON_ABSENT)
@@ -160,6 +167,7 @@ public class RegistrationUpdateAPI {
             @JsonProperty("registrations_regime") Optional<? extends RegistrationsRegimeEnum> registrationsRegime,
             @JsonProperty("change_regime_status") Optional<? extends ChangeRegimeStatusEnum> changeRegimeStatus,
             @JsonProperty("third_party_enabled") Optional<Boolean> thirdPartyEnabled,
+            @JsonProperty("do_not_file") Optional<Boolean> doNotFile,
             @JsonProperty("marked_collecting") Optional<Boolean> markedCollecting,
             @JsonProperty("username") Optional<String> username,
             @JsonProperty("filing_frequency") Optional<? extends FilingFrequencyEnum> filingFrequency,
@@ -179,6 +187,7 @@ public class RegistrationUpdateAPI {
         Utils.checkNotNull(registrationsRegime, "registrationsRegime");
         Utils.checkNotNull(changeRegimeStatus, "changeRegimeStatus");
         Utils.checkNotNull(thirdPartyEnabled, "thirdPartyEnabled");
+        Utils.checkNotNull(doNotFile, "doNotFile");
         Utils.checkNotNull(markedCollecting, "markedCollecting");
         Utils.checkNotNull(username, "username");
         Utils.checkNotNull(filingFrequency, "filingFrequency");
@@ -198,6 +207,7 @@ public class RegistrationUpdateAPI {
         this.registrationsRegime = registrationsRegime;
         this.changeRegimeStatus = changeRegimeStatus;
         this.thirdPartyEnabled = thirdPartyEnabled;
+        this.doNotFile = doNotFile;
         this.markedCollecting = markedCollecting;
         this.username = username;
         this.filingFrequency = filingFrequency;
@@ -214,7 +224,7 @@ public class RegistrationUpdateAPI {
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty());
+            Optional.empty(), Optional.empty());
     }
 
     /**
@@ -307,6 +317,14 @@ public class RegistrationUpdateAPI {
     @JsonIgnore
     public Optional<Boolean> thirdPartyEnabled() {
         return thirdPartyEnabled;
+    }
+
+    /**
+     * If true, do not file for this registration (treated as False by default).
+     */
+    @JsonIgnore
+    public Optional<Boolean> doNotFile() {
+        return doNotFile;
     }
 
     /**
@@ -585,6 +603,25 @@ public class RegistrationUpdateAPI {
     }
 
     /**
+     * If true, do not file for this registration (treated as False by default).
+     */
+    public RegistrationUpdateAPI withDoNotFile(boolean doNotFile) {
+        Utils.checkNotNull(doNotFile, "doNotFile");
+        this.doNotFile = Optional.ofNullable(doNotFile);
+        return this;
+    }
+
+
+    /**
+     * If true, do not file for this registration (treated as False by default).
+     */
+    public RegistrationUpdateAPI withDoNotFile(Optional<Boolean> doNotFile) {
+        Utils.checkNotNull(doNotFile, "doNotFile");
+        this.doNotFile = doNotFile;
+        return this;
+    }
+
+    /**
      * Indicates whether the  registration is marked as collecting in shopify
      */
     public RegistrationUpdateAPI withMarkedCollecting(boolean markedCollecting) {
@@ -733,6 +770,7 @@ public class RegistrationUpdateAPI {
             Utils.enhancedDeepEquals(this.registrationsRegime, other.registrationsRegime) &&
             Utils.enhancedDeepEquals(this.changeRegimeStatus, other.changeRegimeStatus) &&
             Utils.enhancedDeepEquals(this.thirdPartyEnabled, other.thirdPartyEnabled) &&
+            Utils.enhancedDeepEquals(this.doNotFile, other.doNotFile) &&
             Utils.enhancedDeepEquals(this.markedCollecting, other.markedCollecting) &&
             Utils.enhancedDeepEquals(this.username, other.username) &&
             Utils.enhancedDeepEquals(this.filingFrequency, other.filingFrequency) &&
@@ -749,9 +787,9 @@ public class RegistrationUpdateAPI {
             deregistrationKey, registrationRequested, registrationCompleted,
             deregistrationRequested, deregistrationCompleted, autoRegistered,
             registrationsRegime, changeRegimeStatus, thirdPartyEnabled,
-            markedCollecting, username, filingFrequency,
-            createFilingsFrom, isApproaching, comment,
-            vda);
+            doNotFile, markedCollecting, username,
+            filingFrequency, createFilingsFrom, isApproaching,
+            comment, vda);
     }
     
     @Override
@@ -769,6 +807,7 @@ public class RegistrationUpdateAPI {
                 "registrationsRegime", registrationsRegime,
                 "changeRegimeStatus", changeRegimeStatus,
                 "thirdPartyEnabled", thirdPartyEnabled,
+                "doNotFile", doNotFile,
                 "markedCollecting", markedCollecting,
                 "username", username,
                 "filingFrequency", filingFrequency,
@@ -804,6 +843,8 @@ public class RegistrationUpdateAPI {
         private Optional<? extends ChangeRegimeStatusEnum> changeRegimeStatus = Optional.empty();
 
         private Optional<Boolean> thirdPartyEnabled;
+
+        private Optional<Boolean> doNotFile;
 
         private Optional<Boolean> markedCollecting = Optional.empty();
 
@@ -1041,6 +1082,25 @@ public class RegistrationUpdateAPI {
 
 
         /**
+         * If true, do not file for this registration (treated as False by default).
+         */
+        public Builder doNotFile(boolean doNotFile) {
+            Utils.checkNotNull(doNotFile, "doNotFile");
+            this.doNotFile = Optional.ofNullable(doNotFile);
+            return this;
+        }
+
+        /**
+         * If true, do not file for this registration (treated as False by default).
+         */
+        public Builder doNotFile(Optional<Boolean> doNotFile) {
+            Utils.checkNotNull(doNotFile, "doNotFile");
+            this.doNotFile = doNotFile;
+            return this;
+        }
+
+
+        /**
          * Indicates whether the  registration is marked as collecting in shopify
          */
         public Builder markedCollecting(boolean markedCollecting) {
@@ -1173,15 +1233,18 @@ public class RegistrationUpdateAPI {
             if (thirdPartyEnabled == null) {
                 thirdPartyEnabled = _SINGLETON_VALUE_ThirdPartyEnabled.value();
             }
+            if (doNotFile == null) {
+                doNotFile = _SINGLETON_VALUE_DoNotFile.value();
+            }
 
             return new RegistrationUpdateAPI(
                 registrationDate, registrationEmail, registrationKey,
                 deregistrationKey, registrationRequested, registrationCompleted,
                 deregistrationRequested, deregistrationCompleted, autoRegistered,
                 registrationsRegime, changeRegimeStatus, thirdPartyEnabled,
-                markedCollecting, username, filingFrequency,
-                createFilingsFrom, isApproaching, comment,
-                vda);
+                doNotFile, markedCollecting, username,
+                filingFrequency, createFilingsFrom, isApproaching,
+                comment, vda);
         }
 
 
@@ -1194,6 +1257,12 @@ public class RegistrationUpdateAPI {
         private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_ThirdPartyEnabled =
                 new LazySingletonValue<>(
                         "third_party_enabled",
+                        "false",
+                        new TypeReference<Optional<Boolean>>() {});
+
+        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_DoNotFile =
+                new LazySingletonValue<>(
+                        "do_not_file",
                         "false",
                         new TypeReference<Optional<Boolean>>() {});
     }

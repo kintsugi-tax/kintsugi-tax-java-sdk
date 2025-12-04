@@ -50,9 +50,8 @@ public class CreditNoteCreate {
     /**
      * Total monetary value of the credit note, including all items and taxes.
      */
-    @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("total_amount")
-    private Optional<Double> totalAmount;
+    private double totalAmount;
 
     /**
      * Indicates whether this credit note is associated with a marketplace transaction.
@@ -106,7 +105,7 @@ public class CreditNoteCreate {
             @JsonProperty("date") OffsetDateTime date,
             @JsonProperty("status") Status status,
             @JsonProperty("description") Optional<String> description,
-            @JsonProperty("total_amount") Optional<Double> totalAmount,
+            @JsonProperty("total_amount") double totalAmount,
             @JsonProperty("marketplace") Optional<Boolean> marketplace,
             @JsonProperty("tax_amount_imported") Optional<Double> taxAmountImported,
             @JsonProperty("tax_rate_imported") Optional<Double> taxRateImported,
@@ -144,10 +143,11 @@ public class CreditNoteCreate {
             String externalId,
             OffsetDateTime date,
             Status status,
+            double totalAmount,
             CurrencyEnum currency,
             List<CreditNoteItemCreateUpdate> transactionItems) {
         this(externalId, date, status,
-            Optional.empty(), Optional.empty(), Optional.empty(),
+            Optional.empty(), totalAmount, Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
             currency, Optional.empty(), transactionItems);
     }
@@ -188,7 +188,7 @@ public class CreditNoteCreate {
      * Total monetary value of the credit note, including all items and taxes.
      */
     @JsonIgnore
-    public Optional<Double> totalAmount() {
+    public double totalAmount() {
         return totalAmount;
     }
 
@@ -302,16 +302,6 @@ public class CreditNoteCreate {
      * Total monetary value of the credit note, including all items and taxes.
      */
     public CreditNoteCreate withTotalAmount(double totalAmount) {
-        Utils.checkNotNull(totalAmount, "totalAmount");
-        this.totalAmount = Optional.ofNullable(totalAmount);
-        return this;
-    }
-
-
-    /**
-     * Total monetary value of the credit note, including all items and taxes.
-     */
-    public CreditNoteCreate withTotalAmount(Optional<Double> totalAmount) {
         Utils.checkNotNull(totalAmount, "totalAmount");
         this.totalAmount = totalAmount;
         return this;
@@ -490,7 +480,7 @@ public class CreditNoteCreate {
 
         private Optional<String> description = Optional.empty();
 
-        private Optional<Double> totalAmount;
+        private Double totalAmount;
 
         private Optional<Boolean> marketplace;
 
@@ -564,15 +554,6 @@ public class CreditNoteCreate {
          * Total monetary value of the credit note, including all items and taxes.
          */
         public Builder totalAmount(double totalAmount) {
-            Utils.checkNotNull(totalAmount, "totalAmount");
-            this.totalAmount = Optional.ofNullable(totalAmount);
-            return this;
-        }
-
-        /**
-         * Total monetary value of the credit note, including all items and taxes.
-         */
-        public Builder totalAmount(Optional<Double> totalAmount) {
             Utils.checkNotNull(totalAmount, "totalAmount");
             this.totalAmount = totalAmount;
             return this;
@@ -693,9 +674,6 @@ public class CreditNoteCreate {
         }
 
         public CreditNoteCreate build() {
-            if (totalAmount == null) {
-                totalAmount = _SINGLETON_VALUE_TotalAmount.value();
-            }
             if (marketplace == null) {
                 marketplace = _SINGLETON_VALUE_Marketplace.value();
             }
@@ -707,12 +685,6 @@ public class CreditNoteCreate {
                 currency, addresses, transactionItems);
         }
 
-
-        private static final LazySingletonValue<Optional<Double>> _SINGLETON_VALUE_TotalAmount =
-                new LazySingletonValue<>(
-                        "total_amount",
-                        "\"0.00\"",
-                        new TypeReference<Optional<Double>>() {});
 
         private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_Marketplace =
                 new LazySingletonValue<>(

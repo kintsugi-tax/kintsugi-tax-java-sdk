@@ -3,18 +3,20 @@
  */
 package com.kintsugi.taxplatform.models.operations;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.databind.annotation.JsonTypeIdResolver;
 import java.lang.String;
 
-@JsonTypeInfo(use = Id.NAME, property = "registration_import_type", include = As.EXISTING_PROPERTY, visible = true)
-@JsonSubTypes({
-    @Type(value = com.kintsugi.taxplatform.models.components.RegistrationCreatePayload.class, name="REGULAR"),
-    @Type(value = com.kintsugi.taxplatform.models.components.OSSRegistrationCreatePayload.class, name="OSS"),
-    @Type(value = com.kintsugi.taxplatform.models.components.SSTRegistrationCreatePayload.class, name="SST")})
+@JsonTypeInfo(
+        use = Id.CUSTOM,
+        property = "registration_import_type",
+        include = As.EXISTING_PROPERTY,
+        visible = true,
+        defaultImpl = UnknownCreateRegistration.class
+)
+@JsonTypeIdResolver(CreateRegistrationTypeIdResolver.class)
 public interface CreateRegistration {
 
     String registrationImportType();

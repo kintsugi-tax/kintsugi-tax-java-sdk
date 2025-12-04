@@ -34,7 +34,7 @@ import java.lang.Exception;
 
 public class Application {
 
-    public static void main(String[] args) throws ErrorResponse, BackendSrcRegistrationsResponsesValidationErrorResponse, ErrorResponse, Exception {
+    public static void main(String[] args) throws ErrorResponse, BackendSrcRegistrationsResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
                 .security(Security.builder()
@@ -98,7 +98,7 @@ import java.lang.Exception;
 
 public class Application {
 
-    public static void main(String[] args) throws ErrorResponse, BackendSrcRegistrationsResponsesValidationErrorResponse, ErrorResponse, Exception {
+    public static void main(String[] args) throws ErrorResponse, BackendSrcRegistrationsResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
                 .security(Security.builder()
@@ -160,7 +160,7 @@ import java.lang.Exception;
 
 public class Application {
 
-    public static void main(String[] args) throws ErrorResponse, BackendSrcRegistrationsResponsesValidationErrorResponse, ErrorResponse, Exception {
+    public static void main(String[] args) throws ErrorResponse, BackendSrcRegistrationsResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
                 .security(Security.builder()
@@ -219,7 +219,7 @@ import java.lang.Exception;
 
 public class Application {
 
-    public static void main(String[] args) throws ErrorResponse, BackendSrcRegistrationsResponsesValidationErrorResponse, ErrorResponse, Exception {
+    public static void main(String[] args) throws ErrorResponse, BackendSrcRegistrationsResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
                 .security(Security.builder()
@@ -293,7 +293,7 @@ import java.lang.Exception;
 
 public class Application {
 
-    public static void main(String[] args) throws ErrorResponse, BackendSrcRegistrationsResponsesValidationErrorResponse, ErrorResponse, Exception {
+    public static void main(String[] args) throws ErrorResponse, BackendSrcRegistrationsResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
                 .security(Security.builder()

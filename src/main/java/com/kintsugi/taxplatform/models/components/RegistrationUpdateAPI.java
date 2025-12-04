@@ -100,11 +100,32 @@ public class RegistrationUpdateAPI {
     private Optional<Boolean> thirdPartyEnabled;
 
     /**
+     * If true, do not file for this registration (treated as False by default).
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("do_not_file")
+    private Optional<Boolean> doNotFile;
+
+    /**
+     * Indicates whether two-factor authentication (2FA) is enabled for this registration.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("two_factor_enabled")
+    private Optional<Boolean> twoFactorEnabled;
+
+    /**
      * Indicates whether the  registration is marked as collecting in shopify
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("marked_collecting")
     private Optional<Boolean> markedCollecting;
+
+    /**
+     * The encrypted username for the registration.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("encrypted_username")
+    private Optional<String> encryptedUsername;
 
     /**
      * The username associated with the registration.
@@ -146,6 +167,13 @@ public class RegistrationUpdateAPI {
     @JsonProperty("vda")
     private Optional<Boolean> vda;
 
+    /**
+     * Organization-level tax ID (e.g., VAT number, Canada Business Number).
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("tax_id")
+    private Optional<String> taxId;
+
     @JsonCreator
     public RegistrationUpdateAPI(
             @JsonProperty("registration_date") Optional<String> registrationDate,
@@ -160,13 +188,17 @@ public class RegistrationUpdateAPI {
             @JsonProperty("registrations_regime") Optional<? extends RegistrationsRegimeEnum> registrationsRegime,
             @JsonProperty("change_regime_status") Optional<? extends ChangeRegimeStatusEnum> changeRegimeStatus,
             @JsonProperty("third_party_enabled") Optional<Boolean> thirdPartyEnabled,
+            @JsonProperty("do_not_file") Optional<Boolean> doNotFile,
+            @JsonProperty("two_factor_enabled") Optional<Boolean> twoFactorEnabled,
             @JsonProperty("marked_collecting") Optional<Boolean> markedCollecting,
+            @JsonProperty("encrypted_username") Optional<String> encryptedUsername,
             @JsonProperty("username") Optional<String> username,
             @JsonProperty("filing_frequency") Optional<? extends FilingFrequencyEnum> filingFrequency,
             @JsonProperty("create_filings_from") Optional<String> createFilingsFrom,
             @JsonProperty("is_approaching") Optional<Boolean> isApproaching,
             @JsonProperty("comment") Optional<String> comment,
-            @JsonProperty("vda") Optional<Boolean> vda) {
+            @JsonProperty("vda") Optional<Boolean> vda,
+            @JsonProperty("tax_id") Optional<String> taxId) {
         Utils.checkNotNull(registrationDate, "registrationDate");
         Utils.checkNotNull(registrationEmail, "registrationEmail");
         Utils.checkNotNull(registrationKey, "registrationKey");
@@ -179,13 +211,17 @@ public class RegistrationUpdateAPI {
         Utils.checkNotNull(registrationsRegime, "registrationsRegime");
         Utils.checkNotNull(changeRegimeStatus, "changeRegimeStatus");
         Utils.checkNotNull(thirdPartyEnabled, "thirdPartyEnabled");
+        Utils.checkNotNull(doNotFile, "doNotFile");
+        Utils.checkNotNull(twoFactorEnabled, "twoFactorEnabled");
         Utils.checkNotNull(markedCollecting, "markedCollecting");
+        Utils.checkNotNull(encryptedUsername, "encryptedUsername");
         Utils.checkNotNull(username, "username");
         Utils.checkNotNull(filingFrequency, "filingFrequency");
         Utils.checkNotNull(createFilingsFrom, "createFilingsFrom");
         Utils.checkNotNull(isApproaching, "isApproaching");
         Utils.checkNotNull(comment, "comment");
         Utils.checkNotNull(vda, "vda");
+        Utils.checkNotNull(taxId, "taxId");
         this.registrationDate = registrationDate;
         this.registrationEmail = registrationEmail;
         this.registrationKey = registrationKey;
@@ -198,13 +234,17 @@ public class RegistrationUpdateAPI {
         this.registrationsRegime = registrationsRegime;
         this.changeRegimeStatus = changeRegimeStatus;
         this.thirdPartyEnabled = thirdPartyEnabled;
+        this.doNotFile = doNotFile;
+        this.twoFactorEnabled = twoFactorEnabled;
         this.markedCollecting = markedCollecting;
+        this.encryptedUsername = encryptedUsername;
         this.username = username;
         this.filingFrequency = filingFrequency;
         this.createFilingsFrom = createFilingsFrom;
         this.isApproaching = isApproaching;
         this.comment = comment;
         this.vda = vda;
+        this.taxId = taxId;
     }
     
     public RegistrationUpdateAPI() {
@@ -214,7 +254,8 @@ public class RegistrationUpdateAPI {
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty());
+            Optional.empty(), Optional.empty(), Optional.empty(),
+            Optional.empty(), Optional.empty());
     }
 
     /**
@@ -310,11 +351,35 @@ public class RegistrationUpdateAPI {
     }
 
     /**
+     * If true, do not file for this registration (treated as False by default).
+     */
+    @JsonIgnore
+    public Optional<Boolean> doNotFile() {
+        return doNotFile;
+    }
+
+    /**
+     * Indicates whether two-factor authentication (2FA) is enabled for this registration.
+     */
+    @JsonIgnore
+    public Optional<Boolean> twoFactorEnabled() {
+        return twoFactorEnabled;
+    }
+
+    /**
      * Indicates whether the  registration is marked as collecting in shopify
      */
     @JsonIgnore
     public Optional<Boolean> markedCollecting() {
         return markedCollecting;
+    }
+
+    /**
+     * The encrypted username for the registration.
+     */
+    @JsonIgnore
+    public Optional<String> encryptedUsername() {
+        return encryptedUsername;
     }
 
     /**
@@ -361,6 +426,14 @@ public class RegistrationUpdateAPI {
     @JsonIgnore
     public Optional<Boolean> vda() {
         return vda;
+    }
+
+    /**
+     * Organization-level tax ID (e.g., VAT number, Canada Business Number).
+     */
+    @JsonIgnore
+    public Optional<String> taxId() {
+        return taxId;
     }
 
     public static Builder builder() {
@@ -585,6 +658,44 @@ public class RegistrationUpdateAPI {
     }
 
     /**
+     * If true, do not file for this registration (treated as False by default).
+     */
+    public RegistrationUpdateAPI withDoNotFile(boolean doNotFile) {
+        Utils.checkNotNull(doNotFile, "doNotFile");
+        this.doNotFile = Optional.ofNullable(doNotFile);
+        return this;
+    }
+
+
+    /**
+     * If true, do not file for this registration (treated as False by default).
+     */
+    public RegistrationUpdateAPI withDoNotFile(Optional<Boolean> doNotFile) {
+        Utils.checkNotNull(doNotFile, "doNotFile");
+        this.doNotFile = doNotFile;
+        return this;
+    }
+
+    /**
+     * Indicates whether two-factor authentication (2FA) is enabled for this registration.
+     */
+    public RegistrationUpdateAPI withTwoFactorEnabled(boolean twoFactorEnabled) {
+        Utils.checkNotNull(twoFactorEnabled, "twoFactorEnabled");
+        this.twoFactorEnabled = Optional.ofNullable(twoFactorEnabled);
+        return this;
+    }
+
+
+    /**
+     * Indicates whether two-factor authentication (2FA) is enabled for this registration.
+     */
+    public RegistrationUpdateAPI withTwoFactorEnabled(Optional<Boolean> twoFactorEnabled) {
+        Utils.checkNotNull(twoFactorEnabled, "twoFactorEnabled");
+        this.twoFactorEnabled = twoFactorEnabled;
+        return this;
+    }
+
+    /**
      * Indicates whether the  registration is marked as collecting in shopify
      */
     public RegistrationUpdateAPI withMarkedCollecting(boolean markedCollecting) {
@@ -600,6 +711,25 @@ public class RegistrationUpdateAPI {
     public RegistrationUpdateAPI withMarkedCollecting(Optional<Boolean> markedCollecting) {
         Utils.checkNotNull(markedCollecting, "markedCollecting");
         this.markedCollecting = markedCollecting;
+        return this;
+    }
+
+    /**
+     * The encrypted username for the registration.
+     */
+    public RegistrationUpdateAPI withEncryptedUsername(String encryptedUsername) {
+        Utils.checkNotNull(encryptedUsername, "encryptedUsername");
+        this.encryptedUsername = Optional.ofNullable(encryptedUsername);
+        return this;
+    }
+
+
+    /**
+     * The encrypted username for the registration.
+     */
+    public RegistrationUpdateAPI withEncryptedUsername(Optional<String> encryptedUsername) {
+        Utils.checkNotNull(encryptedUsername, "encryptedUsername");
+        this.encryptedUsername = encryptedUsername;
         return this;
     }
 
@@ -711,6 +841,25 @@ public class RegistrationUpdateAPI {
         return this;
     }
 
+    /**
+     * Organization-level tax ID (e.g., VAT number, Canada Business Number).
+     */
+    public RegistrationUpdateAPI withTaxId(String taxId) {
+        Utils.checkNotNull(taxId, "taxId");
+        this.taxId = Optional.ofNullable(taxId);
+        return this;
+    }
+
+
+    /**
+     * Organization-level tax ID (e.g., VAT number, Canada Business Number).
+     */
+    public RegistrationUpdateAPI withTaxId(Optional<String> taxId) {
+        Utils.checkNotNull(taxId, "taxId");
+        this.taxId = taxId;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -733,13 +882,17 @@ public class RegistrationUpdateAPI {
             Utils.enhancedDeepEquals(this.registrationsRegime, other.registrationsRegime) &&
             Utils.enhancedDeepEquals(this.changeRegimeStatus, other.changeRegimeStatus) &&
             Utils.enhancedDeepEquals(this.thirdPartyEnabled, other.thirdPartyEnabled) &&
+            Utils.enhancedDeepEquals(this.doNotFile, other.doNotFile) &&
+            Utils.enhancedDeepEquals(this.twoFactorEnabled, other.twoFactorEnabled) &&
             Utils.enhancedDeepEquals(this.markedCollecting, other.markedCollecting) &&
+            Utils.enhancedDeepEquals(this.encryptedUsername, other.encryptedUsername) &&
             Utils.enhancedDeepEquals(this.username, other.username) &&
             Utils.enhancedDeepEquals(this.filingFrequency, other.filingFrequency) &&
             Utils.enhancedDeepEquals(this.createFilingsFrom, other.createFilingsFrom) &&
             Utils.enhancedDeepEquals(this.isApproaching, other.isApproaching) &&
             Utils.enhancedDeepEquals(this.comment, other.comment) &&
-            Utils.enhancedDeepEquals(this.vda, other.vda);
+            Utils.enhancedDeepEquals(this.vda, other.vda) &&
+            Utils.enhancedDeepEquals(this.taxId, other.taxId);
     }
     
     @Override
@@ -749,9 +902,10 @@ public class RegistrationUpdateAPI {
             deregistrationKey, registrationRequested, registrationCompleted,
             deregistrationRequested, deregistrationCompleted, autoRegistered,
             registrationsRegime, changeRegimeStatus, thirdPartyEnabled,
-            markedCollecting, username, filingFrequency,
+            doNotFile, twoFactorEnabled, markedCollecting,
+            encryptedUsername, username, filingFrequency,
             createFilingsFrom, isApproaching, comment,
-            vda);
+            vda, taxId);
     }
     
     @Override
@@ -769,13 +923,17 @@ public class RegistrationUpdateAPI {
                 "registrationsRegime", registrationsRegime,
                 "changeRegimeStatus", changeRegimeStatus,
                 "thirdPartyEnabled", thirdPartyEnabled,
+                "doNotFile", doNotFile,
+                "twoFactorEnabled", twoFactorEnabled,
                 "markedCollecting", markedCollecting,
+                "encryptedUsername", encryptedUsername,
                 "username", username,
                 "filingFrequency", filingFrequency,
                 "createFilingsFrom", createFilingsFrom,
                 "isApproaching", isApproaching,
                 "comment", comment,
-                "vda", vda);
+                "vda", vda,
+                "taxId", taxId);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -805,7 +963,13 @@ public class RegistrationUpdateAPI {
 
         private Optional<Boolean> thirdPartyEnabled;
 
+        private Optional<Boolean> doNotFile;
+
+        private Optional<Boolean> twoFactorEnabled = Optional.empty();
+
         private Optional<Boolean> markedCollecting = Optional.empty();
+
+        private Optional<String> encryptedUsername = Optional.empty();
 
         private Optional<String> username = Optional.empty();
 
@@ -818,6 +982,8 @@ public class RegistrationUpdateAPI {
         private Optional<String> comment = Optional.empty();
 
         private Optional<Boolean> vda = Optional.empty();
+
+        private Optional<String> taxId = Optional.empty();
 
         private Builder() {
           // force use of static builder() method
@@ -1041,6 +1207,44 @@ public class RegistrationUpdateAPI {
 
 
         /**
+         * If true, do not file for this registration (treated as False by default).
+         */
+        public Builder doNotFile(boolean doNotFile) {
+            Utils.checkNotNull(doNotFile, "doNotFile");
+            this.doNotFile = Optional.ofNullable(doNotFile);
+            return this;
+        }
+
+        /**
+         * If true, do not file for this registration (treated as False by default).
+         */
+        public Builder doNotFile(Optional<Boolean> doNotFile) {
+            Utils.checkNotNull(doNotFile, "doNotFile");
+            this.doNotFile = doNotFile;
+            return this;
+        }
+
+
+        /**
+         * Indicates whether two-factor authentication (2FA) is enabled for this registration.
+         */
+        public Builder twoFactorEnabled(boolean twoFactorEnabled) {
+            Utils.checkNotNull(twoFactorEnabled, "twoFactorEnabled");
+            this.twoFactorEnabled = Optional.ofNullable(twoFactorEnabled);
+            return this;
+        }
+
+        /**
+         * Indicates whether two-factor authentication (2FA) is enabled for this registration.
+         */
+        public Builder twoFactorEnabled(Optional<Boolean> twoFactorEnabled) {
+            Utils.checkNotNull(twoFactorEnabled, "twoFactorEnabled");
+            this.twoFactorEnabled = twoFactorEnabled;
+            return this;
+        }
+
+
+        /**
          * Indicates whether the  registration is marked as collecting in shopify
          */
         public Builder markedCollecting(boolean markedCollecting) {
@@ -1055,6 +1259,25 @@ public class RegistrationUpdateAPI {
         public Builder markedCollecting(Optional<Boolean> markedCollecting) {
             Utils.checkNotNull(markedCollecting, "markedCollecting");
             this.markedCollecting = markedCollecting;
+            return this;
+        }
+
+
+        /**
+         * The encrypted username for the registration.
+         */
+        public Builder encryptedUsername(String encryptedUsername) {
+            Utils.checkNotNull(encryptedUsername, "encryptedUsername");
+            this.encryptedUsername = Optional.ofNullable(encryptedUsername);
+            return this;
+        }
+
+        /**
+         * The encrypted username for the registration.
+         */
+        public Builder encryptedUsername(Optional<String> encryptedUsername) {
+            Utils.checkNotNull(encryptedUsername, "encryptedUsername");
+            this.encryptedUsername = encryptedUsername;
             return this;
         }
 
@@ -1166,6 +1389,25 @@ public class RegistrationUpdateAPI {
             return this;
         }
 
+
+        /**
+         * Organization-level tax ID (e.g., VAT number, Canada Business Number).
+         */
+        public Builder taxId(String taxId) {
+            Utils.checkNotNull(taxId, "taxId");
+            this.taxId = Optional.ofNullable(taxId);
+            return this;
+        }
+
+        /**
+         * Organization-level tax ID (e.g., VAT number, Canada Business Number).
+         */
+        public Builder taxId(Optional<String> taxId) {
+            Utils.checkNotNull(taxId, "taxId");
+            this.taxId = taxId;
+            return this;
+        }
+
         public RegistrationUpdateAPI build() {
             if (autoRegistered == null) {
                 autoRegistered = _SINGLETON_VALUE_AutoRegistered.value();
@@ -1173,15 +1415,19 @@ public class RegistrationUpdateAPI {
             if (thirdPartyEnabled == null) {
                 thirdPartyEnabled = _SINGLETON_VALUE_ThirdPartyEnabled.value();
             }
+            if (doNotFile == null) {
+                doNotFile = _SINGLETON_VALUE_DoNotFile.value();
+            }
 
             return new RegistrationUpdateAPI(
                 registrationDate, registrationEmail, registrationKey,
                 deregistrationKey, registrationRequested, registrationCompleted,
                 deregistrationRequested, deregistrationCompleted, autoRegistered,
                 registrationsRegime, changeRegimeStatus, thirdPartyEnabled,
-                markedCollecting, username, filingFrequency,
+                doNotFile, twoFactorEnabled, markedCollecting,
+                encryptedUsername, username, filingFrequency,
                 createFilingsFrom, isApproaching, comment,
-                vda);
+                vda, taxId);
         }
 
 
@@ -1194,6 +1440,12 @@ public class RegistrationUpdateAPI {
         private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_ThirdPartyEnabled =
                 new LazySingletonValue<>(
                         "third_party_enabled",
+                        "false",
+                        new TypeReference<Optional<Boolean>>() {});
+
+        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_DoNotFile =
+                new LazySingletonValue<>(
+                        "do_not_file",
                         "false",
                         new TypeReference<Optional<Boolean>>() {});
     }

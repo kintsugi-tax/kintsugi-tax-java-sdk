@@ -5,15 +5,12 @@ package com.kintsugi.taxplatform.models.components;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Long;
 import java.lang.Override;
 import java.lang.String;
 import java.util.List;
-import java.util.Optional;
 
 
 public class PageCustomerRead {
@@ -34,9 +31,8 @@ public class PageCustomerRead {
     private long size;
 
 
-    @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("pages")
-    private Optional<Long> pages;
+    private long pages;
 
     @JsonCreator
     public PageCustomerRead(
@@ -44,7 +40,7 @@ public class PageCustomerRead {
             @JsonProperty("total") long total,
             @JsonProperty("page") long page,
             @JsonProperty("size") long size,
-            @JsonProperty("pages") Optional<Long> pages) {
+            @JsonProperty("pages") long pages) {
         Utils.checkNotNull(items, "items");
         Utils.checkNotNull(total, "total");
         Utils.checkNotNull(page, "page");
@@ -55,15 +51,6 @@ public class PageCustomerRead {
         this.page = page;
         this.size = size;
         this.pages = pages;
-    }
-    
-    public PageCustomerRead(
-            List<CustomerRead> items,
-            long total,
-            long page,
-            long size) {
-        this(items, total, page,
-            size, Optional.empty());
     }
 
     @JsonIgnore
@@ -87,7 +74,7 @@ public class PageCustomerRead {
     }
 
     @JsonIgnore
-    public Optional<Long> pages() {
+    public long pages() {
         return pages;
     }
 
@@ -121,13 +108,6 @@ public class PageCustomerRead {
     }
 
     public PageCustomerRead withPages(long pages) {
-        Utils.checkNotNull(pages, "pages");
-        this.pages = Optional.ofNullable(pages);
-        return this;
-    }
-
-
-    public PageCustomerRead withPages(Optional<Long> pages) {
         Utils.checkNotNull(pages, "pages");
         this.pages = pages;
         return this;
@@ -178,7 +158,7 @@ public class PageCustomerRead {
 
         private Long size;
 
-        private Optional<Long> pages = Optional.empty();
+        private Long pages;
 
         private Builder() {
           // force use of static builder() method
@@ -214,12 +194,6 @@ public class PageCustomerRead {
 
 
         public Builder pages(long pages) {
-            Utils.checkNotNull(pages, "pages");
-            this.pages = Optional.ofNullable(pages);
-            return this;
-        }
-
-        public Builder pages(Optional<Long> pages) {
             Utils.checkNotNull(pages, "pages");
             this.pages = pages;
             return this;

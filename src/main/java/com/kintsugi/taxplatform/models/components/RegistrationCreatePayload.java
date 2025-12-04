@@ -91,6 +91,13 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
     @JsonProperty("auto_registered")
     private Optional<Boolean> autoRegistered;
 
+    /**
+     * If true, do not file for this registration (treated as False by default).
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("do_not_file")
+    private Optional<Boolean> doNotFile;
+
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("registrations_regime")
@@ -191,6 +198,13 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
     private Optional<Boolean> sstImport;
 
     /**
+     * Organization-level tax ID (e.g., VAT number, Canada Business Number).
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("tax_id")
+    private Optional<String> taxId;
+
+    /**
      * The plaintext password for accessing the tax registration account.
      */
     @JsonInclude(Include.NON_ABSENT)
@@ -216,6 +230,7 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
             @JsonProperty("deregistration_requested") Optional<String> deregistrationRequested,
             @JsonProperty("deregistration_completed") Optional<String> deregistrationCompleted,
             @JsonProperty("auto_registered") Optional<Boolean> autoRegistered,
+            @JsonProperty("do_not_file") Optional<Boolean> doNotFile,
             @JsonProperty("registrations_regime") Optional<? extends RegistrationsRegimeEnum> registrationsRegime,
             @JsonProperty("change_regime_status") Optional<? extends ChangeRegimeStatusEnum> changeRegimeStatus,
             @JsonProperty("country_code") CountryCodeEnum countryCode,
@@ -232,6 +247,7 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
             @JsonProperty("imported") Optional<Boolean> imported,
             @JsonProperty("sales_tax_id") Optional<String> salesTaxId,
             @JsonProperty("sst_import") Optional<Boolean> sstImport,
+            @JsonProperty("tax_id") Optional<String> taxId,
             @JsonProperty("password_plain_text") Optional<String> passwordPlainText,
             @JsonProperty("password_metadata_plain_text") Optional<String> passwordMetadataPlainText) {
         Utils.checkNotNull(registrationImportType, "registrationImportType");
@@ -244,6 +260,7 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
         Utils.checkNotNull(deregistrationRequested, "deregistrationRequested");
         Utils.checkNotNull(deregistrationCompleted, "deregistrationCompleted");
         Utils.checkNotNull(autoRegistered, "autoRegistered");
+        Utils.checkNotNull(doNotFile, "doNotFile");
         Utils.checkNotNull(registrationsRegime, "registrationsRegime");
         Utils.checkNotNull(changeRegimeStatus, "changeRegimeStatus");
         Utils.checkNotNull(countryCode, "countryCode");
@@ -260,6 +277,7 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
         Utils.checkNotNull(imported, "imported");
         Utils.checkNotNull(salesTaxId, "salesTaxId");
         Utils.checkNotNull(sstImport, "sstImport");
+        Utils.checkNotNull(taxId, "taxId");
         Utils.checkNotNull(passwordPlainText, "passwordPlainText");
         Utils.checkNotNull(passwordMetadataPlainText, "passwordMetadataPlainText");
         this.registrationImportType = registrationImportType;
@@ -272,6 +290,7 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
         this.deregistrationRequested = deregistrationRequested;
         this.deregistrationCompleted = deregistrationCompleted;
         this.autoRegistered = autoRegistered;
+        this.doNotFile = doNotFile;
         this.registrationsRegime = registrationsRegime;
         this.changeRegimeStatus = changeRegimeStatus;
         this.countryCode = countryCode;
@@ -288,6 +307,7 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
         this.imported = imported;
         this.salesTaxId = salesTaxId;
         this.sstImport = sstImport;
+        this.taxId = taxId;
         this.passwordPlainText = passwordPlainText;
         this.passwordMetadataPlainText = passwordMetadataPlainText;
     }
@@ -302,12 +322,12 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
-            countryCode, stateCode, stateName,
-            filingFrequency, filingDays, Optional.empty(),
+            Optional.empty(), countryCode, stateCode,
+            stateName, filingFrequency, filingDays,
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty());
+            Optional.empty(), Optional.empty(), Optional.empty());
     }
 
     /**
@@ -389,6 +409,14 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
     @JsonIgnore
     public Optional<Boolean> autoRegistered() {
         return autoRegistered;
+    }
+
+    /**
+     * If true, do not file for this registration (treated as False by default).
+     */
+    @JsonIgnore
+    public Optional<Boolean> doNotFile() {
+        return doNotFile;
     }
 
     @SuppressWarnings("unchecked")
@@ -507,6 +535,14 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
     @JsonIgnore
     public Optional<Boolean> sstImport() {
         return sstImport;
+    }
+
+    /**
+     * Organization-level tax ID (e.g., VAT number, Canada Business Number).
+     */
+    @JsonIgnore
+    public Optional<String> taxId() {
+        return taxId;
     }
 
     /**
@@ -717,6 +753,25 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
     public RegistrationCreatePayload withAutoRegistered(Optional<Boolean> autoRegistered) {
         Utils.checkNotNull(autoRegistered, "autoRegistered");
         this.autoRegistered = autoRegistered;
+        return this;
+    }
+
+    /**
+     * If true, do not file for this registration (treated as False by default).
+     */
+    public RegistrationCreatePayload withDoNotFile(boolean doNotFile) {
+        Utils.checkNotNull(doNotFile, "doNotFile");
+        this.doNotFile = Optional.ofNullable(doNotFile);
+        return this;
+    }
+
+
+    /**
+     * If true, do not file for this registration (treated as False by default).
+     */
+    public RegistrationCreatePayload withDoNotFile(Optional<Boolean> doNotFile) {
+        Utils.checkNotNull(doNotFile, "doNotFile");
+        this.doNotFile = doNotFile;
         return this;
     }
 
@@ -957,6 +1012,25 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
     }
 
     /**
+     * Organization-level tax ID (e.g., VAT number, Canada Business Number).
+     */
+    public RegistrationCreatePayload withTaxId(String taxId) {
+        Utils.checkNotNull(taxId, "taxId");
+        this.taxId = Optional.ofNullable(taxId);
+        return this;
+    }
+
+
+    /**
+     * Organization-level tax ID (e.g., VAT number, Canada Business Number).
+     */
+    public RegistrationCreatePayload withTaxId(Optional<String> taxId) {
+        Utils.checkNotNull(taxId, "taxId");
+        this.taxId = taxId;
+        return this;
+    }
+
+    /**
      * The plaintext password for accessing the tax registration account.
      */
     public RegistrationCreatePayload withPasswordPlainText(String passwordPlainText) {
@@ -1014,6 +1088,7 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
             Utils.enhancedDeepEquals(this.deregistrationRequested, other.deregistrationRequested) &&
             Utils.enhancedDeepEquals(this.deregistrationCompleted, other.deregistrationCompleted) &&
             Utils.enhancedDeepEquals(this.autoRegistered, other.autoRegistered) &&
+            Utils.enhancedDeepEquals(this.doNotFile, other.doNotFile) &&
             Utils.enhancedDeepEquals(this.registrationsRegime, other.registrationsRegime) &&
             Utils.enhancedDeepEquals(this.changeRegimeStatus, other.changeRegimeStatus) &&
             Utils.enhancedDeepEquals(this.countryCode, other.countryCode) &&
@@ -1030,6 +1105,7 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
             Utils.enhancedDeepEquals(this.imported, other.imported) &&
             Utils.enhancedDeepEquals(this.salesTaxId, other.salesTaxId) &&
             Utils.enhancedDeepEquals(this.sstImport, other.sstImport) &&
+            Utils.enhancedDeepEquals(this.taxId, other.taxId) &&
             Utils.enhancedDeepEquals(this.passwordPlainText, other.passwordPlainText) &&
             Utils.enhancedDeepEquals(this.passwordMetadataPlainText, other.passwordMetadataPlainText);
     }
@@ -1040,13 +1116,13 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
             registrationImportType, registrationDate, registrationEmail,
             registrationKey, deregistrationKey, registrationRequested,
             registrationCompleted, deregistrationRequested, deregistrationCompleted,
-            autoRegistered, registrationsRegime, changeRegimeStatus,
-            countryCode, stateCode, stateName,
-            filingFrequency, filingDays, username,
-            comment, createFilingsFrom, initialSync,
-            amountFees, vda, imported,
-            salesTaxId, sstImport, passwordPlainText,
-            passwordMetadataPlainText);
+            autoRegistered, doNotFile, registrationsRegime,
+            changeRegimeStatus, countryCode, stateCode,
+            stateName, filingFrequency, filingDays,
+            username, comment, createFilingsFrom,
+            initialSync, amountFees, vda,
+            imported, salesTaxId, sstImport,
+            taxId, passwordPlainText, passwordMetadataPlainText);
     }
     
     @Override
@@ -1062,6 +1138,7 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
                 "deregistrationRequested", deregistrationRequested,
                 "deregistrationCompleted", deregistrationCompleted,
                 "autoRegistered", autoRegistered,
+                "doNotFile", doNotFile,
                 "registrationsRegime", registrationsRegime,
                 "changeRegimeStatus", changeRegimeStatus,
                 "countryCode", countryCode,
@@ -1078,6 +1155,7 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
                 "imported", imported,
                 "salesTaxId", salesTaxId,
                 "sstImport", sstImport,
+                "taxId", taxId,
                 "passwordPlainText", passwordPlainText,
                 "passwordMetadataPlainText", passwordMetadataPlainText);
     }
@@ -1104,6 +1182,8 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
         private Optional<String> deregistrationCompleted = Optional.empty();
 
         private Optional<Boolean> autoRegistered;
+
+        private Optional<Boolean> doNotFile;
 
         private Optional<? extends RegistrationsRegimeEnum> registrationsRegime = Optional.empty();
 
@@ -1136,6 +1216,8 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
         private Optional<String> salesTaxId = Optional.empty();
 
         private Optional<Boolean> sstImport;
+
+        private Optional<String> taxId = Optional.empty();
 
         private Optional<String> passwordPlainText = Optional.empty();
 
@@ -1332,6 +1414,25 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
         public Builder autoRegistered(Optional<Boolean> autoRegistered) {
             Utils.checkNotNull(autoRegistered, "autoRegistered");
             this.autoRegistered = autoRegistered;
+            return this;
+        }
+
+
+        /**
+         * If true, do not file for this registration (treated as False by default).
+         */
+        public Builder doNotFile(boolean doNotFile) {
+            Utils.checkNotNull(doNotFile, "doNotFile");
+            this.doNotFile = Optional.ofNullable(doNotFile);
+            return this;
+        }
+
+        /**
+         * If true, do not file for this registration (treated as False by default).
+         */
+        public Builder doNotFile(Optional<Boolean> doNotFile) {
+            Utils.checkNotNull(doNotFile, "doNotFile");
+            this.doNotFile = doNotFile;
             return this;
         }
 
@@ -1578,6 +1679,25 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
 
 
         /**
+         * Organization-level tax ID (e.g., VAT number, Canada Business Number).
+         */
+        public Builder taxId(String taxId) {
+            Utils.checkNotNull(taxId, "taxId");
+            this.taxId = Optional.ofNullable(taxId);
+            return this;
+        }
+
+        /**
+         * Organization-level tax ID (e.g., VAT number, Canada Business Number).
+         */
+        public Builder taxId(Optional<String> taxId) {
+            Utils.checkNotNull(taxId, "taxId");
+            this.taxId = taxId;
+            return this;
+        }
+
+
+        /**
          * The plaintext password for accessing the tax registration account.
          */
         public Builder passwordPlainText(String passwordPlainText) {
@@ -1621,6 +1741,9 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
             if (autoRegistered == null) {
                 autoRegistered = _SINGLETON_VALUE_AutoRegistered.value();
             }
+            if (doNotFile == null) {
+                doNotFile = _SINGLETON_VALUE_DoNotFile.value();
+            }
             if (initialSync == null) {
                 initialSync = _SINGLETON_VALUE_InitialSync.value();
             }
@@ -1638,13 +1761,13 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
                 registrationImportType, registrationDate, registrationEmail,
                 registrationKey, deregistrationKey, registrationRequested,
                 registrationCompleted, deregistrationRequested, deregistrationCompleted,
-                autoRegistered, registrationsRegime, changeRegimeStatus,
-                countryCode, stateCode, stateName,
-                filingFrequency, filingDays, username,
-                comment, createFilingsFrom, initialSync,
-                amountFees, vda, imported,
-                salesTaxId, sstImport, passwordPlainText,
-                passwordMetadataPlainText);
+                autoRegistered, doNotFile, registrationsRegime,
+                changeRegimeStatus, countryCode, stateCode,
+                stateName, filingFrequency, filingDays,
+                username, comment, createFilingsFrom,
+                initialSync, amountFees, vda,
+                imported, salesTaxId, sstImport,
+                taxId, passwordPlainText, passwordMetadataPlainText);
         }
 
 
@@ -1657,6 +1780,12 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
         private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_AutoRegistered =
                 new LazySingletonValue<>(
                         "auto_registered",
+                        "false",
+                        new TypeReference<Optional<Boolean>>() {});
+
+        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_DoNotFile =
+                new LazySingletonValue<>(
+                        "do_not_file",
                         "false",
                         new TypeReference<Optional<Boolean>>() {});
 

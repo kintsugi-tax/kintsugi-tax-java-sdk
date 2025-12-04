@@ -32,7 +32,7 @@ import java.util.List;
 
 public class Application {
 
-    public static void main(String[] args) throws ErrorResponse, BackendSrcFilingsResponsesValidationErrorResponse, ErrorResponse, Exception {
+    public static void main(String[] args) throws ErrorResponse, BackendSrcFilingsResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
                 .security(Security.builder()
@@ -102,7 +102,7 @@ import java.lang.Exception;
 
 public class Application {
 
-    public static void main(String[] args) throws ErrorResponse, BackendSrcFilingsResponsesValidationErrorResponse, ErrorResponse, Exception {
+    public static void main(String[] args) throws ErrorResponse, BackendSrcFilingsResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
                 .security(Security.builder()
@@ -164,7 +164,7 @@ import java.lang.Exception;
 
 public class Application {
 
-    public static void main(String[] args) throws ErrorResponse, BackendSrcFilingsResponsesValidationErrorResponse, ErrorResponse, Exception {
+    public static void main(String[] args) throws ErrorResponse, BackendSrcFilingsResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
                 .security(Security.builder()

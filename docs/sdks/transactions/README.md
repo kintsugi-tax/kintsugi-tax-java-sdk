@@ -34,7 +34,7 @@ import java.lang.Exception;
 
 public class Application {
 
-    public static void main(String[] args) throws ErrorResponse, BackendSrcTransactionsResponsesValidationErrorResponse, ErrorResponse, Exception {
+    public static void main(String[] args) throws ErrorResponse, BackendSrcTransactionsResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
                 .security(Security.builder()
@@ -97,7 +97,7 @@ import java.util.List;
 
 public class Application {
 
-    public static void main(String[] args) throws ErrorResponse, BackendSrcTransactionsResponsesValidationErrorResponse, ErrorResponse, Exception {
+    public static void main(String[] args) throws ErrorResponse, BackendSrcTransactionsResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
                 .security(Security.builder()
@@ -188,7 +188,7 @@ import java.lang.Exception;
 
 public class Application {
 
-    public static void main(String[] args) throws ErrorResponse, BackendSrcTransactionsResponsesValidationErrorResponse, ErrorResponse, Exception {
+    public static void main(String[] args) throws ErrorResponse, BackendSrcTransactionsResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
                 .security(Security.builder()
@@ -322,7 +322,7 @@ import java.lang.Exception;
 
 public class Application {
 
-    public static void main(String[] args) throws ErrorResponse, BackendSrcTransactionsResponsesValidationErrorResponse, ErrorResponse, Exception {
+    public static void main(String[] args) throws ErrorResponse, BackendSrcTransactionsResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
                 .security(Security.builder()
@@ -380,7 +380,7 @@ import java.lang.Exception;
 
 public class Application {
 
-    public static void main(String[] args) throws ErrorResponse, BackendSrcTransactionsResponsesValidationErrorResponse, ErrorResponse, Exception {
+    public static void main(String[] args) throws ErrorResponse, BackendSrcTransactionsResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
                 .security(Security.builder()
@@ -455,6 +455,7 @@ public class Application {
                     .externalId("<id>")
                     .date(OffsetDateTime.parse("2023-07-25T11:01:44.924Z"))
                     .status(Status.CANCELLED)
+                    .totalAmount(0d)
                     .currency(CurrencyEnum.SPL)
                     .transactionItems(List.of(
                         CreditNoteItemCreateUpdate.builder()
@@ -464,7 +465,6 @@ public class Application {
                             .quantity(1d)
                             .amount(0d)
                             .build()))
-                    .totalAmount(0d)
                     .build())
                 .call();
 

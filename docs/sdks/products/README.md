@@ -31,7 +31,7 @@ import java.lang.Exception;
 
 public class Application {
 
-    public static void main(String[] args) throws ErrorResponse, BackendSrcProductsResponsesValidationErrorResponse, ErrorResponse, Exception {
+    public static void main(String[] args) throws ErrorResponse, BackendSrcProductsResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
                 .security(Security.builder()
@@ -94,7 +94,7 @@ import java.lang.Exception;
 
 public class Application {
 
-    public static void main(String[] args) throws ErrorResponse, BackendSrcProductsResponsesValidationErrorResponse, ErrorResponse, Exception {
+    public static void main(String[] args) throws ErrorResponse, BackendSrcProductsResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
                 .security(Security.builder()
@@ -165,7 +165,7 @@ import java.lang.Exception;
 
 public class Application {
 
-    public static void main(String[] args) throws ErrorResponse, BackendSrcProductsResponsesValidationErrorResponse, ErrorResponse, Exception {
+    public static void main(String[] args) throws ErrorResponse, BackendSrcProductsResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
                 .security(Security.builder()
@@ -224,7 +224,7 @@ import java.lang.Exception;
 
 public class Application {
 
-    public static void main(String[] args) throws ErrorResponse, BackendSrcProductsResponsesValidationErrorResponse, ErrorResponse, Exception {
+    public static void main(String[] args) throws ErrorResponse, BackendSrcProductsResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
                 .security(Security.builder()

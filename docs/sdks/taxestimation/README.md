@@ -30,7 +30,7 @@ import java.util.List;
 
 public class Application {
 
-    public static void main(String[] args) throws ErrorResponse, BackendSrcTaxEstimationResponsesValidationErrorResponse, ErrorResponse, Exception {
+    public static void main(String[] args) throws ErrorResponse, BackendSrcTaxEstimationResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
                 .security(Security.builder()

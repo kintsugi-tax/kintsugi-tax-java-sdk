@@ -49,7 +49,7 @@ The samples below show how a published SDK artifact is used:
 
 Gradle:
 ```groovy
-implementation 'com.trykintsugi:kintsugi-tax-java-sdk:0.14.0'
+implementation 'com.trykintsugi:kintsugi-tax-java-sdk:0.15.0'
 ```
 
 Maven:
@@ -57,7 +57,7 @@ Maven:
 <dependency>
     <groupId>com.trykintsugi</groupId>
     <artifactId>kintsugi-tax-java-sdk</artifactId>
-    <version>0.14.0</version>
+    <version>0.15.0</version>
 </dependency>
 ```
 
@@ -95,7 +95,7 @@ import java.lang.Exception;
 
 public class Application {
 
-    public static void main(String[] args) throws ErrorResponse, BackendSrcAddressValidationResponsesValidationErrorResponse, ErrorResponse, Exception {
+    public static void main(String[] args) throws ErrorResponse, BackendSrcAddressValidationResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
             .build();
@@ -269,7 +269,7 @@ import java.lang.Exception;
 
 public class Application {
 
-    public static void main(String[] args) throws ErrorResponse, BackendSrcAddressValidationResponsesValidationErrorResponse, ErrorResponse, Exception {
+    public static void main(String[] args) throws ErrorResponse, BackendSrcAddressValidationResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
                 .security(Security.builder()
@@ -318,7 +318,7 @@ import java.lang.Exception;
 
 public class Application {
 
-    public static void main(String[] args) throws ErrorResponse, BackendSrcAddressValidationResponsesValidationErrorResponse, ErrorResponse, Exception {
+    public static void main(String[] args) throws ErrorResponse, BackendSrcAddressValidationResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
             .build();
@@ -457,42 +457,79 @@ package hello.world;
 import com.kintsugi.taxplatform.SDK;
 import com.kintsugi.taxplatform.models.components.AddressBase;
 import com.kintsugi.taxplatform.models.components.CountryCodeEnum;
-import com.kintsugi.taxplatform.models.errors.BackendSrcAddressValidationResponsesValidationErrorResponse;
-import com.kintsugi.taxplatform.models.errors.ErrorResponse;
+import com.kintsugi.taxplatform.models.errors.*;
 import com.kintsugi.taxplatform.models.operations.SearchV1AddressValidationSearchPostResponse;
 import com.kintsugi.taxplatform.models.operations.SearchV1AddressValidationSearchPostSecurity;
+import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.lang.Exception;
+import java.lang.String;
+import java.net.http.HttpResponse;
+import java.util.Optional;
 
 public class Application {
 
-    public static void main(String[] args) throws ErrorResponse, BackendSrcAddressValidationResponsesValidationErrorResponse, ErrorResponse, Exception {
+    public static void main(String[] args) throws ErrorResponse, BackendSrcAddressValidationResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
             .build();
+        try {
 
-        AddressBase req = AddressBase.builder()
-                .phone("555-123-4567")
-                .street1("1600 Amphitheatre Parkway")
-                .street2("Building 40")
-                .city("Mountain View")
-                .county("Santa Clara")
-                .state("CA")
-                .postalCode("94043")
-                .country(CountryCodeEnum.US)
-                .fullAddress("1600 Amphitheatre Parkway, Mountain View, CA 94043")
-                .build();
+            AddressBase req = AddressBase.builder()
+                    .phone("555-123-4567")
+                    .street1("1600 Amphitheatre Parkway")
+                    .street2("Building 40")
+                    .city("Mountain View")
+                    .county("Santa Clara")
+                    .state("CA")
+                    .postalCode("94043")
+                    .country(CountryCodeEnum.US)
+                    .fullAddress("1600 Amphitheatre Parkway, Mountain View, CA 94043")
+                    .build();
 
-        SearchV1AddressValidationSearchPostResponse res = sdk.addressValidation().search()
-                .request(req)
-                .security(SearchV1AddressValidationSearchPostSecurity.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .build())
-                .call();
+            SearchV1AddressValidationSearchPostResponse res = sdk.addressValidation().search()
+                    .request(req)
+                    .security(SearchV1AddressValidationSearchPostSecurity.builder()
+                        .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
+                        .build())
+                    .call();
 
-        if (res.response200SearchV1AddressValidationSearchPost().isPresent()) {
-            // handle response
-        }
-    }
+            if (res.response200SearchV1AddressValidationSearchPost().isPresent()) {
+                // handle response
+            }
+        } catch (SDKError ex) { // all SDK exceptions inherit from SDKError
+
+            // ex.ToString() provides a detailed error message including
+            // HTTP status code, headers, and error payload (if any)
+            System.out.println(ex);
+
+            // Base exception fields
+            var rawResponse = ex.rawResponse();
+            var headers = ex.headers();
+            var contentType = headers.first("Content-Type");
+            int statusCode = ex.code();
+            Optional<byte[]> responseBody = ex.body();
+
+            // different error subclasses may be thrown 
+            // depending on the service call
+            if (ex instanceof ErrorResponse) {
+                var e = (ErrorResponse) ex;
+                // Check error data fields
+                e.data().ifPresent(payload -> {
+                      String detail = payload.detail();
+                      Optional<HttpResponse<InputStream>> rawResponse = payload.rawResponse();
+                });
+            }
+
+            // An underlying cause may be provided. If the error payload 
+            // cannot be deserialized then the deserialization exception 
+            // will be set as the cause.
+            if (ex.getCause() != null) {
+                var cause = ex.getCause();
+            }
+        } catch (UncheckedIOException ex) {
+            // handle IO error (connection, timeout, etc)
+        }    }
 }
 ```
 
@@ -548,7 +585,7 @@ import java.lang.Exception;
 
 public class Application {
 
-    public static void main(String[] args) throws ErrorResponse, BackendSrcAddressValidationResponsesValidationErrorResponse, ErrorResponse, Exception {
+    public static void main(String[] args) throws ErrorResponse, BackendSrcAddressValidationResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
                 .serverURL("https://api.trykintsugi.com")
@@ -721,9 +758,11 @@ public class Application {
 ## Debugging
 
 ### Debug
+
 You can setup your SDK to emit debug logs for SDK requests and responses.
 
 For request and response logging (especially json bodies), call `enableHTTPDebugLogging(boolean)` on the SDK builder like so:
+
 ```java
 SDK.builder()
     .enableHTTPDebugLogging(true)
@@ -741,9 +780,10 @@ Response body:
   "token": "global"
 }
 ```
-__WARNING__: This should only used for temporary debugging purposes. Leaving this option on in a production system could expose credentials/secrets in logs. <i>Authorization</i> headers are redacted by default and there is the ability to specify redacted header names via `SpeakeasyHTTPClient.setRedactedHeaders`.
+__WARNING__: This logging should only be used for temporary debugging purposes. Leaving this option on in a production system could expose credentials/secrets in logs. <i>Authorization</i> headers are redacted by default and there is the ability to specify redacted header names via `SpeakeasyHTTPClient.setRedactedHeaders`.
 
 __NOTE__: This is a convenience method that calls `HTTPClient.enableDebugLogging()`. The `SpeakeasyHTTPClient` honors this setting. If you are using a custom HTTP client, it is up to the custom client to honor this setting.
+
 
 Another option is to set the System property `-Djdk.httpclient.HttpClient.log=all`. However, this second option does not log bodies.
 <!-- End Debugging [debug] -->

@@ -23,6 +23,12 @@ public class GetNexusForOrgV1NexusGetRequest {
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=without_pagination")
     private Optional<Boolean> withoutPagination;
 
+    /**
+     * Filter nexuses by disregard view: 'exposed' or 'disregarded'
+     */
+    @SpeakeasyMetadata("queryParam:style=form,explode=true,name=disregard_view")
+    private Optional<String> disregardView;
+
 
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=status__in")
     private Optional<String> statusIn;
@@ -54,6 +60,7 @@ public class GetNexusForOrgV1NexusGetRequest {
     @JsonCreator
     public GetNexusForOrgV1NexusGetRequest(
             Optional<Boolean> withoutPagination,
+            Optional<String> disregardView,
             Optional<String> statusIn,
             Optional<String> stateCode,
             Optional<String> countryCodeIn,
@@ -62,6 +69,7 @@ public class GetNexusForOrgV1NexusGetRequest {
             Optional<Long> page,
             Optional<Long> size) {
         Utils.checkNotNull(withoutPagination, "withoutPagination");
+        Utils.checkNotNull(disregardView, "disregardView");
         Utils.checkNotNull(statusIn, "statusIn");
         Utils.checkNotNull(stateCode, "stateCode");
         Utils.checkNotNull(countryCodeIn, "countryCodeIn");
@@ -70,6 +78,7 @@ public class GetNexusForOrgV1NexusGetRequest {
         Utils.checkNotNull(page, "page");
         Utils.checkNotNull(size, "size");
         this.withoutPagination = withoutPagination;
+        this.disregardView = disregardView;
         this.statusIn = statusIn;
         this.stateCode = stateCode;
         this.countryCodeIn = countryCodeIn;
@@ -82,7 +91,7 @@ public class GetNexusForOrgV1NexusGetRequest {
     public GetNexusForOrgV1NexusGetRequest() {
         this(Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty());
+            Optional.empty(), Optional.empty(), Optional.empty());
     }
 
     /**
@@ -91,6 +100,14 @@ public class GetNexusForOrgV1NexusGetRequest {
     @JsonIgnore
     public Optional<Boolean> withoutPagination() {
         return withoutPagination;
+    }
+
+    /**
+     * Filter nexuses by disregard view: 'exposed' or 'disregarded'
+     */
+    @JsonIgnore
+    public Optional<String> disregardView() {
+        return disregardView;
     }
 
     @JsonIgnore
@@ -149,6 +166,25 @@ public class GetNexusForOrgV1NexusGetRequest {
     public GetNexusForOrgV1NexusGetRequest withWithoutPagination(Optional<Boolean> withoutPagination) {
         Utils.checkNotNull(withoutPagination, "withoutPagination");
         this.withoutPagination = withoutPagination;
+        return this;
+    }
+
+    /**
+     * Filter nexuses by disregard view: 'exposed' or 'disregarded'
+     */
+    public GetNexusForOrgV1NexusGetRequest withDisregardView(String disregardView) {
+        Utils.checkNotNull(disregardView, "disregardView");
+        this.disregardView = Optional.ofNullable(disregardView);
+        return this;
+    }
+
+
+    /**
+     * Filter nexuses by disregard view: 'exposed' or 'disregarded'
+     */
+    public GetNexusForOrgV1NexusGetRequest withDisregardView(Optional<String> disregardView) {
+        Utils.checkNotNull(disregardView, "disregardView");
+        this.disregardView = disregardView;
         return this;
     }
 
@@ -254,6 +290,7 @@ public class GetNexusForOrgV1NexusGetRequest {
         GetNexusForOrgV1NexusGetRequest other = (GetNexusForOrgV1NexusGetRequest) o;
         return 
             Utils.enhancedDeepEquals(this.withoutPagination, other.withoutPagination) &&
+            Utils.enhancedDeepEquals(this.disregardView, other.disregardView) &&
             Utils.enhancedDeepEquals(this.statusIn, other.statusIn) &&
             Utils.enhancedDeepEquals(this.stateCode, other.stateCode) &&
             Utils.enhancedDeepEquals(this.countryCodeIn, other.countryCodeIn) &&
@@ -266,15 +303,16 @@ public class GetNexusForOrgV1NexusGetRequest {
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-            withoutPagination, statusIn, stateCode,
-            countryCodeIn, orderBy, collectedTaxNexusMet,
-            page, size);
+            withoutPagination, disregardView, statusIn,
+            stateCode, countryCodeIn, orderBy,
+            collectedTaxNexusMet, page, size);
     }
     
     @Override
     public String toString() {
         return Utils.toString(GetNexusForOrgV1NexusGetRequest.class,
                 "withoutPagination", withoutPagination,
+                "disregardView", disregardView,
                 "statusIn", statusIn,
                 "stateCode", stateCode,
                 "countryCodeIn", countryCodeIn,
@@ -288,6 +326,8 @@ public class GetNexusForOrgV1NexusGetRequest {
     public final static class Builder {
 
         private Optional<Boolean> withoutPagination;
+
+        private Optional<String> disregardView = Optional.empty();
 
         private Optional<String> statusIn;
 
@@ -323,6 +363,25 @@ public class GetNexusForOrgV1NexusGetRequest {
         public Builder withoutPagination(Optional<Boolean> withoutPagination) {
             Utils.checkNotNull(withoutPagination, "withoutPagination");
             this.withoutPagination = withoutPagination;
+            return this;
+        }
+
+
+        /**
+         * Filter nexuses by disregard view: 'exposed' or 'disregarded'
+         */
+        public Builder disregardView(String disregardView) {
+            Utils.checkNotNull(disregardView, "disregardView");
+            this.disregardView = Optional.ofNullable(disregardView);
+            return this;
+        }
+
+        /**
+         * Filter nexuses by disregard view: 'exposed' or 'disregarded'
+         */
+        public Builder disregardView(Optional<String> disregardView) {
+            Utils.checkNotNull(disregardView, "disregardView");
+            this.disregardView = disregardView;
             return this;
         }
 
@@ -435,9 +494,9 @@ public class GetNexusForOrgV1NexusGetRequest {
             }
 
             return new GetNexusForOrgV1NexusGetRequest(
-                withoutPagination, statusIn, stateCode,
-                countryCodeIn, orderBy, collectedTaxNexusMet,
-                page, size);
+                withoutPagination, disregardView, statusIn,
+                stateCode, countryCodeIn, orderBy,
+                collectedTaxNexusMet, page, size);
         }
 
 

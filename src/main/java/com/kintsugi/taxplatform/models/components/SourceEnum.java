@@ -10,6 +10,7 @@ import java.util.Optional;
 
 public enum SourceEnum {
     BIGCOMMERCE("BIGCOMMERCE"),
+    BESTBUY("BESTBUY"),
     BUNNY("BUNNY"),
     CHARGEBEE("CHARGEBEE"),
     SHOPIFY("SHOPIFY"),
@@ -63,7 +64,8 @@ public enum SourceEnum {
     ZOHO("ZOHO"),
     SAGE_INTACCT("SAGE-INTACCT"),
     AIRWALLEX("AIRWALLEX"),
-    ORB("ORB");
+    ORB("ORB"),
+    ZENSKAR("ZENSKAR");
 
     @JsonValue
     private final String value;

@@ -42,6 +42,7 @@ public class Application {
                     .externalId("CN-12345")
                     .date(OffsetDateTime.parse("2024-10-27T14:30:00Z"))
                     .status(Status.PENDING)
+                    .totalAmount(50d)
                     .currency(CurrencyEnum.USD)
                     .transactionItems(List.of(
                         CreditNoteItemCreateUpdate.builder()
@@ -52,7 +53,6 @@ public class Application {
                             .amount(50d)
                             .build()))
                     .description("Refund for damaged product")
-                    .totalAmount(50d)
                     .build())
                 .call();
 

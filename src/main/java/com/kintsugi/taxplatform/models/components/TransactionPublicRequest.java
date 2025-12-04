@@ -29,9 +29,13 @@ public class TransactionPublicRequest {
     private Optional<? extends ExemptionRequired> requiresExemption;
 
     /**
-     * Unique identifier of the organization.
+     * Unique identifier of the organization. This field is deprecated, and should no longer be used. The
+     * value is populated through the 'x-organization-id' header.
+     * 
+     * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
      */
     @JsonProperty("organization_id")
+    @Deprecated
     private String organizationId;
 
     /**
@@ -440,8 +444,12 @@ public class TransactionPublicRequest {
     }
 
     /**
-     * Unique identifier of the organization.
+     * Unique identifier of the organization. This field is deprecated, and should no longer be used. The
+     * value is populated through the 'x-organization-id' header.
+     * 
+     * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
      */
+    @Deprecated
     @JsonIgnore
     public String organizationId() {
         return organizationId;
@@ -760,8 +768,12 @@ public class TransactionPublicRequest {
     }
 
     /**
-     * Unique identifier of the organization.
+     * Unique identifier of the organization. This field is deprecated, and should no longer be used. The
+     * value is populated through the 'x-organization-id' header.
+     * 
+     * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
      */
+    @Deprecated
     public TransactionPublicRequest withOrganizationId(String organizationId) {
         Utils.checkNotNull(organizationId, "organizationId");
         this.organizationId = organizationId;
@@ -1527,6 +1539,7 @@ public class TransactionPublicRequest {
 
         private Optional<? extends ExemptionRequired> requiresExemption = Optional.empty();
 
+        @Deprecated
         private String organizationId;
 
         private String externalId;
@@ -1625,8 +1638,12 @@ public class TransactionPublicRequest {
 
 
         /**
-         * Unique identifier of the organization.
+         * Unique identifier of the organization. This field is deprecated, and should no longer be used. The
+         * value is populated through the 'x-organization-id' header.
+         * 
+         * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
          */
+        @Deprecated
         public Builder organizationId(String organizationId) {
             Utils.checkNotNull(organizationId, "organizationId");
             this.organizationId = organizationId;

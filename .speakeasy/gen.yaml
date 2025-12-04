@@ -20,12 +20,13 @@ generation:
   sdkHooksConfigAccess: true
   schemas:
     allOfMergeStrategy: shallowMerge
+  requestBodyFieldName: ""
   tests:
     generateTests: false
     generateNewTests: true
     skipResponseBodyAssertions: false
 java:
-  version: 0.14.0
+  version: 0.15.0
   additionalDependencies: []
   additionalPlugins: []
   artifactID: kintsugi-tax-java-sdk
@@ -37,8 +38,10 @@ java:
   companyURL: https://trykintsugi.com
   defaultErrorName: APIException
   enableCustomCodeRegions: false
+  enableSlf4jLogging: false
   enableStreamingUploads: false
   flattenGlobalSecurity: true
+  generateOptionalUnionAccessors: false
   generateSpringBootStarter: true
   githubURL: https://github.com/kintsugi-tax/kintsugi-tax-java-sdk
   groupID: com.trykintsugi
@@ -50,6 +53,7 @@ java:
       operations: models/operations
       shared: models/components
       webhooks: models/webhooks
+  inferUnionDiscriminators: false
   inputModelSuffix: input
   languageVersion: 11
   license:
@@ -57,8 +61,12 @@ java:
     shortName: MIT
     url: https://mit-license.org/
   maxMethodParams: 4
+  multipartArrayFormat: legacy
   nullFriendlyParameters: false
+  openUnions: true
+  operationScopedParams: true
   outputModelSuffix: output
   packageName: com.kintsugi.taxplatform
   projectName: tax-platform-sdk
   templateVersion: v2
+  unionStrategy: populated-fields

@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Boolean;
+import java.lang.Deprecated;
 import java.lang.Override;
 import java.lang.String;
 import java.time.OffsetDateTime;
@@ -27,8 +28,14 @@ public class ExemptionRequired {
     @JsonProperty("customer_id")
     private Optional<String> customerId;
 
-
+    /**
+     * Unique identifier of the organization. This field is deprecated, and should no longer be used. The
+     * value is populated through the 'x-organization-id' header.
+     * 
+     * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
+     */
     @JsonProperty("organization_id")
+    @Deprecated
     private String organizationId;
 
 
@@ -93,6 +100,13 @@ public class ExemptionRequired {
         return customerId;
     }
 
+    /**
+     * Unique identifier of the organization. This field is deprecated, and should no longer be used. The
+     * value is populated through the 'x-organization-id' header.
+     * 
+     * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
+     */
+    @Deprecated
     @JsonIgnore
     public String organizationId() {
         return organizationId;
@@ -149,6 +163,13 @@ public class ExemptionRequired {
         return this;
     }
 
+    /**
+     * Unique identifier of the organization. This field is deprecated, and should no longer be used. The
+     * value is populated through the 'x-organization-id' header.
+     * 
+     * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
+     */
+    @Deprecated
     public ExemptionRequired withOrganizationId(String organizationId) {
         Utils.checkNotNull(organizationId, "organizationId");
         this.organizationId = organizationId;
@@ -225,6 +246,7 @@ public class ExemptionRequired {
 
         private Optional<String> customerId = Optional.empty();
 
+        @Deprecated
         private String organizationId;
 
         private ExemptionType exemptionType;
@@ -266,6 +288,13 @@ public class ExemptionRequired {
         }
 
 
+        /**
+         * Unique identifier of the organization. This field is deprecated, and should no longer be used. The
+         * value is populated through the 'x-organization-id' header.
+         * 
+         * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
+         */
+        @Deprecated
         public Builder organizationId(String organizationId) {
             Utils.checkNotNull(organizationId, "organizationId");
             this.organizationId = organizationId;

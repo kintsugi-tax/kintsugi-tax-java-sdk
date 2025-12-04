@@ -119,6 +119,7 @@ public enum CountryCodeEnum {
     IM("IM"),
     IL("IL"),
     IT("IT"),
+    CI("CI"),
     JM("JM"),
     JP("JP"),
     JE("JE"),

@@ -8,22 +8,15 @@ import java.lang.String;
 import java.util.Objects;
 import java.util.Optional;
 
-public enum FilingFrequencyEnum {
-    UNKNOWN("UNKNOWN"),
-    MONTHLY("MONTHLY"),
-    QUARTERLY("QUARTERLY"),
-    SEMI_ANNUALLY("SEMI_ANNUALLY"),
-    ANNUALLY("ANNUALLY"),
-    ANNUAL_FISCAL_YEAR("ANNUAL_FISCAL_YEAR"),
-    SEMI_MONTHLY("SEMI_MONTHLY"),
-    BI_MONTHLY("BI_MONTHLY"),
-    FOUR_MONTHLY("FOUR_MONTHLY"),
-    QUARTERLY_PREPAYMENT("QUARTERLY_PREPAYMENT");
+public enum RegistrationCategoryEnum {
+    REGULAR("REGULAR"),
+    IMPORTED("IMPORTED"),
+    DEREGISTRATION("DEREGISTRATION");
 
     @JsonValue
     private final String value;
 
-    FilingFrequencyEnum(String value) {
+    RegistrationCategoryEnum(String value) {
         this.value = value;
     }
     
@@ -31,8 +24,8 @@ public enum FilingFrequencyEnum {
         return value;
     }
     
-    public static Optional<FilingFrequencyEnum> fromValue(String value) {
-        for (FilingFrequencyEnum o: FilingFrequencyEnum.values()) {
+    public static Optional<RegistrationCategoryEnum> fromValue(String value) {
+        for (RegistrationCategoryEnum o: RegistrationCategoryEnum.values()) {
             if (Objects.deepEquals(o.value, value)) {
                 return Optional.of(o);
             }

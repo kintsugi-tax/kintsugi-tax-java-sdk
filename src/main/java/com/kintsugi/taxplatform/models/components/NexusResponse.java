@@ -192,6 +192,11 @@ public class NexusResponse {
 
 
     @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("find_threshold_crossing_transaction_state")
+    private Optional<? extends FindThresholdCrossingTransactionState> findThresholdCrossingTransactionState;
+
+
+    @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("earliest_collected_date")
     private Optional<OffsetDateTime> earliestCollectedDate;
 
@@ -257,6 +262,26 @@ public class NexusResponse {
     private Optional<? extends RegistrationsRegimeEnum> registrationRegime;
 
 
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("disregarded_at")
+    private Optional<String> disregardedAt;
+
+
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("disregarded_by")
+    private Optional<String> disregardedBy;
+
+
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("disregarded_nexus_types")
+    private Optional<? extends List<String>> disregardedNexusTypes;
+
+
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("is_currently_disregarded")
+    private Optional<Boolean> isCurrentlyDisregarded;
+
+
     @JsonProperty("is_vda_eligible")
     private boolean isVdaEligible;
 
@@ -319,6 +344,7 @@ public class NexusResponse {
             @JsonProperty("previous_period_end_date") String previousPeriodEndDate,
             @JsonProperty("earliest_transaction_date") Optional<String> earliestTransactionDate,
             @JsonProperty("most_recent_transaction_date") Optional<String> mostRecentTransactionDate,
+            @JsonProperty("find_threshold_crossing_transaction_state") Optional<? extends FindThresholdCrossingTransactionState> findThresholdCrossingTransactionState,
             @JsonProperty("earliest_collected_date") Optional<OffsetDateTime> earliestCollectedDate,
             @JsonProperty("predicted_month_from_today") Optional<Long> predictedMonthFromToday,
             @JsonProperty("vda_eligible") Optional<Boolean> vdaEligible,
@@ -333,6 +359,10 @@ public class NexusResponse {
             @JsonProperty("organization_id") String organizationId,
             @JsonProperty("registration") Optional<? extends Registration> registration,
             @JsonProperty("registration_regime") Optional<? extends RegistrationsRegimeEnum> registrationRegime,
+            @JsonProperty("disregarded_at") Optional<String> disregardedAt,
+            @JsonProperty("disregarded_by") Optional<String> disregardedBy,
+            @JsonProperty("disregarded_nexus_types") Optional<? extends List<String>> disregardedNexusTypes,
+            @JsonProperty("is_currently_disregarded") Optional<Boolean> isCurrentlyDisregarded,
             @JsonProperty("is_vda_eligible") boolean isVdaEligible,
             @JsonProperty("nexus_type") NexusTypeEnum nexusType,
             @JsonProperty("total_transactions") long totalTransactions,
@@ -373,6 +403,7 @@ public class NexusResponse {
         Utils.checkNotNull(previousPeriodEndDate, "previousPeriodEndDate");
         Utils.checkNotNull(earliestTransactionDate, "earliestTransactionDate");
         Utils.checkNotNull(mostRecentTransactionDate, "mostRecentTransactionDate");
+        Utils.checkNotNull(findThresholdCrossingTransactionState, "findThresholdCrossingTransactionState");
         Utils.checkNotNull(earliestCollectedDate, "earliestCollectedDate");
         Utils.checkNotNull(predictedMonthFromToday, "predictedMonthFromToday");
         Utils.checkNotNull(vdaEligible, "vdaEligible");
@@ -387,6 +418,10 @@ public class NexusResponse {
         Utils.checkNotNull(organizationId, "organizationId");
         Utils.checkNotNull(registration, "registration");
         Utils.checkNotNull(registrationRegime, "registrationRegime");
+        Utils.checkNotNull(disregardedAt, "disregardedAt");
+        Utils.checkNotNull(disregardedBy, "disregardedBy");
+        Utils.checkNotNull(disregardedNexusTypes, "disregardedNexusTypes");
+        Utils.checkNotNull(isCurrentlyDisregarded, "isCurrentlyDisregarded");
         Utils.checkNotNull(isVdaEligible, "isVdaEligible");
         Utils.checkNotNull(nexusType, "nexusType");
         Utils.checkNotNull(totalTransactions, "totalTransactions");
@@ -427,6 +462,7 @@ public class NexusResponse {
         this.previousPeriodEndDate = previousPeriodEndDate;
         this.earliestTransactionDate = earliestTransactionDate;
         this.mostRecentTransactionDate = mostRecentTransactionDate;
+        this.findThresholdCrossingTransactionState = findThresholdCrossingTransactionState;
         this.earliestCollectedDate = earliestCollectedDate;
         this.predictedMonthFromToday = predictedMonthFromToday;
         this.vdaEligible = vdaEligible;
@@ -441,6 +477,10 @@ public class NexusResponse {
         this.organizationId = organizationId;
         this.registration = registration;
         this.registrationRegime = registrationRegime;
+        this.disregardedAt = disregardedAt;
+        this.disregardedBy = disregardedBy;
+        this.disregardedNexusTypes = disregardedNexusTypes;
+        this.isCurrentlyDisregarded = isCurrentlyDisregarded;
         this.isVdaEligible = isVdaEligible;
         this.nexusType = nexusType;
         this.totalTransactions = totalTransactions;
@@ -489,11 +529,13 @@ public class NexusResponse {
             previousPeriodEndDate, Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), id,
-            createdAt, updatedAt, organizationId,
-            Optional.empty(), Optional.empty(), isVdaEligible,
-            nexusType, totalTransactions, totalTransactionsIncluded,
-            totalTransactionsExempted, totalTransactionsMarketplace, marketplaceIncluded);
+            Optional.empty(), Optional.empty(), Optional.empty(),
+            id, createdAt, updatedAt,
+            organizationId, Optional.empty(), Optional.empty(),
+            Optional.empty(), Optional.empty(), Optional.empty(),
+            Optional.empty(), isVdaEligible, nexusType,
+            totalTransactions, totalTransactionsIncluded, totalTransactionsExempted,
+            totalTransactionsMarketplace, marketplaceIncluded);
     }
 
     @SuppressWarnings("unchecked")
@@ -677,6 +719,12 @@ public class NexusResponse {
         return mostRecentTransactionDate;
     }
 
+    @SuppressWarnings("unchecked")
+    @JsonIgnore
+    public Optional<FindThresholdCrossingTransactionState> findThresholdCrossingTransactionState() {
+        return (Optional<FindThresholdCrossingTransactionState>) findThresholdCrossingTransactionState;
+    }
+
     @JsonIgnore
     public Optional<OffsetDateTime> earliestCollectedDate() {
         return earliestCollectedDate;
@@ -749,6 +797,27 @@ public class NexusResponse {
     @JsonIgnore
     public Optional<RegistrationsRegimeEnum> registrationRegime() {
         return (Optional<RegistrationsRegimeEnum>) registrationRegime;
+    }
+
+    @JsonIgnore
+    public Optional<String> disregardedAt() {
+        return disregardedAt;
+    }
+
+    @JsonIgnore
+    public Optional<String> disregardedBy() {
+        return disregardedBy;
+    }
+
+    @SuppressWarnings("unchecked")
+    @JsonIgnore
+    public Optional<List<String>> disregardedNexusTypes() {
+        return (Optional<List<String>>) disregardedNexusTypes;
+    }
+
+    @JsonIgnore
+    public Optional<Boolean> isCurrentlyDisregarded() {
+        return isCurrentlyDisregarded;
     }
 
     @JsonIgnore
@@ -1150,6 +1219,19 @@ public class NexusResponse {
         return this;
     }
 
+    public NexusResponse withFindThresholdCrossingTransactionState(FindThresholdCrossingTransactionState findThresholdCrossingTransactionState) {
+        Utils.checkNotNull(findThresholdCrossingTransactionState, "findThresholdCrossingTransactionState");
+        this.findThresholdCrossingTransactionState = Optional.ofNullable(findThresholdCrossingTransactionState);
+        return this;
+    }
+
+
+    public NexusResponse withFindThresholdCrossingTransactionState(Optional<? extends FindThresholdCrossingTransactionState> findThresholdCrossingTransactionState) {
+        Utils.checkNotNull(findThresholdCrossingTransactionState, "findThresholdCrossingTransactionState");
+        this.findThresholdCrossingTransactionState = findThresholdCrossingTransactionState;
+        return this;
+    }
+
     public NexusResponse withEarliestCollectedDate(OffsetDateTime earliestCollectedDate) {
         Utils.checkNotNull(earliestCollectedDate, "earliestCollectedDate");
         this.earliestCollectedDate = Optional.ofNullable(earliestCollectedDate);
@@ -1304,6 +1386,58 @@ public class NexusResponse {
         return this;
     }
 
+    public NexusResponse withDisregardedAt(String disregardedAt) {
+        Utils.checkNotNull(disregardedAt, "disregardedAt");
+        this.disregardedAt = Optional.ofNullable(disregardedAt);
+        return this;
+    }
+
+
+    public NexusResponse withDisregardedAt(Optional<String> disregardedAt) {
+        Utils.checkNotNull(disregardedAt, "disregardedAt");
+        this.disregardedAt = disregardedAt;
+        return this;
+    }
+
+    public NexusResponse withDisregardedBy(String disregardedBy) {
+        Utils.checkNotNull(disregardedBy, "disregardedBy");
+        this.disregardedBy = Optional.ofNullable(disregardedBy);
+        return this;
+    }
+
+
+    public NexusResponse withDisregardedBy(Optional<String> disregardedBy) {
+        Utils.checkNotNull(disregardedBy, "disregardedBy");
+        this.disregardedBy = disregardedBy;
+        return this;
+    }
+
+    public NexusResponse withDisregardedNexusTypes(List<String> disregardedNexusTypes) {
+        Utils.checkNotNull(disregardedNexusTypes, "disregardedNexusTypes");
+        this.disregardedNexusTypes = Optional.ofNullable(disregardedNexusTypes);
+        return this;
+    }
+
+
+    public NexusResponse withDisregardedNexusTypes(Optional<? extends List<String>> disregardedNexusTypes) {
+        Utils.checkNotNull(disregardedNexusTypes, "disregardedNexusTypes");
+        this.disregardedNexusTypes = disregardedNexusTypes;
+        return this;
+    }
+
+    public NexusResponse withIsCurrentlyDisregarded(boolean isCurrentlyDisregarded) {
+        Utils.checkNotNull(isCurrentlyDisregarded, "isCurrentlyDisregarded");
+        this.isCurrentlyDisregarded = Optional.ofNullable(isCurrentlyDisregarded);
+        return this;
+    }
+
+
+    public NexusResponse withIsCurrentlyDisregarded(Optional<Boolean> isCurrentlyDisregarded) {
+        Utils.checkNotNull(isCurrentlyDisregarded, "isCurrentlyDisregarded");
+        this.isCurrentlyDisregarded = isCurrentlyDisregarded;
+        return this;
+    }
+
     public NexusResponse withIsVdaEligible(boolean isVdaEligible) {
         Utils.checkNotNull(isVdaEligible, "isVdaEligible");
         this.isVdaEligible = isVdaEligible;
@@ -1389,6 +1523,7 @@ public class NexusResponse {
             Utils.enhancedDeepEquals(this.previousPeriodEndDate, other.previousPeriodEndDate) &&
             Utils.enhancedDeepEquals(this.earliestTransactionDate, other.earliestTransactionDate) &&
             Utils.enhancedDeepEquals(this.mostRecentTransactionDate, other.mostRecentTransactionDate) &&
+            Utils.enhancedDeepEquals(this.findThresholdCrossingTransactionState, other.findThresholdCrossingTransactionState) &&
             Utils.enhancedDeepEquals(this.earliestCollectedDate, other.earliestCollectedDate) &&
             Utils.enhancedDeepEquals(this.predictedMonthFromToday, other.predictedMonthFromToday) &&
             Utils.enhancedDeepEquals(this.vdaEligible, other.vdaEligible) &&
@@ -1403,6 +1538,10 @@ public class NexusResponse {
             Utils.enhancedDeepEquals(this.organizationId, other.organizationId) &&
             Utils.enhancedDeepEquals(this.registration, other.registration) &&
             Utils.enhancedDeepEquals(this.registrationRegime, other.registrationRegime) &&
+            Utils.enhancedDeepEquals(this.disregardedAt, other.disregardedAt) &&
+            Utils.enhancedDeepEquals(this.disregardedBy, other.disregardedBy) &&
+            Utils.enhancedDeepEquals(this.disregardedNexusTypes, other.disregardedNexusTypes) &&
+            Utils.enhancedDeepEquals(this.isCurrentlyDisregarded, other.isCurrentlyDisregarded) &&
             Utils.enhancedDeepEquals(this.isVdaEligible, other.isVdaEligible) &&
             Utils.enhancedDeepEquals(this.nexusType, other.nexusType) &&
             Utils.enhancedDeepEquals(this.totalTransactions, other.totalTransactions) &&
@@ -1426,13 +1565,15 @@ public class NexusResponse {
             collectedTaxNexusMet, collectedTaxNexusMetDate, periodModel,
             periodStartDate, periodEndDate, previousPeriodStartDate,
             previousPeriodEndDate, earliestTransactionDate, mostRecentTransactionDate,
-            earliestCollectedDate, predictedMonthFromToday, vdaEligible,
-            confidenceLevel, lastProcessedAt, lastTaxLiabilityProcessedAt,
-            periods, currency, id,
-            createdAt, updatedAt, organizationId,
-            registration, registrationRegime, isVdaEligible,
-            nexusType, totalTransactions, totalTransactionsIncluded,
-            totalTransactionsExempted, totalTransactionsMarketplace, marketplaceIncluded);
+            findThresholdCrossingTransactionState, earliestCollectedDate, predictedMonthFromToday,
+            vdaEligible, confidenceLevel, lastProcessedAt,
+            lastTaxLiabilityProcessedAt, periods, currency,
+            id, createdAt, updatedAt,
+            organizationId, registration, registrationRegime,
+            disregardedAt, disregardedBy, disregardedNexusTypes,
+            isCurrentlyDisregarded, isVdaEligible, nexusType,
+            totalTransactions, totalTransactionsIncluded, totalTransactionsExempted,
+            totalTransactionsMarketplace, marketplaceIncluded);
     }
     
     @Override
@@ -1471,6 +1612,7 @@ public class NexusResponse {
                 "previousPeriodEndDate", previousPeriodEndDate,
                 "earliestTransactionDate", earliestTransactionDate,
                 "mostRecentTransactionDate", mostRecentTransactionDate,
+                "findThresholdCrossingTransactionState", findThresholdCrossingTransactionState,
                 "earliestCollectedDate", earliestCollectedDate,
                 "predictedMonthFromToday", predictedMonthFromToday,
                 "vdaEligible", vdaEligible,
@@ -1485,6 +1627,10 @@ public class NexusResponse {
                 "organizationId", organizationId,
                 "registration", registration,
                 "registrationRegime", registrationRegime,
+                "disregardedAt", disregardedAt,
+                "disregardedBy", disregardedBy,
+                "disregardedNexusTypes", disregardedNexusTypes,
+                "isCurrentlyDisregarded", isCurrentlyDisregarded,
                 "isVdaEligible", isVdaEligible,
                 "nexusType", nexusType,
                 "totalTransactions", totalTransactions,
@@ -1565,6 +1711,8 @@ public class NexusResponse {
 
         private Optional<String> mostRecentTransactionDate = Optional.empty();
 
+        private Optional<? extends FindThresholdCrossingTransactionState> findThresholdCrossingTransactionState = Optional.empty();
+
         private Optional<OffsetDateTime> earliestCollectedDate;
 
         private Optional<Long> predictedMonthFromToday = Optional.empty();
@@ -1592,6 +1740,14 @@ public class NexusResponse {
         private Optional<? extends Registration> registration = Optional.empty();
 
         private Optional<? extends RegistrationsRegimeEnum> registrationRegime = Optional.empty();
+
+        private Optional<String> disregardedAt = Optional.empty();
+
+        private Optional<String> disregardedBy = Optional.empty();
+
+        private Optional<? extends List<String>> disregardedNexusTypes = Optional.empty();
+
+        private Optional<Boolean> isCurrentlyDisregarded;
 
         private Boolean isVdaEligible;
 
@@ -1985,6 +2141,19 @@ public class NexusResponse {
         }
 
 
+        public Builder findThresholdCrossingTransactionState(FindThresholdCrossingTransactionState findThresholdCrossingTransactionState) {
+            Utils.checkNotNull(findThresholdCrossingTransactionState, "findThresholdCrossingTransactionState");
+            this.findThresholdCrossingTransactionState = Optional.ofNullable(findThresholdCrossingTransactionState);
+            return this;
+        }
+
+        public Builder findThresholdCrossingTransactionState(Optional<? extends FindThresholdCrossingTransactionState> findThresholdCrossingTransactionState) {
+            Utils.checkNotNull(findThresholdCrossingTransactionState, "findThresholdCrossingTransactionState");
+            this.findThresholdCrossingTransactionState = findThresholdCrossingTransactionState;
+            return this;
+        }
+
+
         public Builder earliestCollectedDate(OffsetDateTime earliestCollectedDate) {
             Utils.checkNotNull(earliestCollectedDate, "earliestCollectedDate");
             this.earliestCollectedDate = Optional.ofNullable(earliestCollectedDate);
@@ -2143,6 +2312,58 @@ public class NexusResponse {
         }
 
 
+        public Builder disregardedAt(String disregardedAt) {
+            Utils.checkNotNull(disregardedAt, "disregardedAt");
+            this.disregardedAt = Optional.ofNullable(disregardedAt);
+            return this;
+        }
+
+        public Builder disregardedAt(Optional<String> disregardedAt) {
+            Utils.checkNotNull(disregardedAt, "disregardedAt");
+            this.disregardedAt = disregardedAt;
+            return this;
+        }
+
+
+        public Builder disregardedBy(String disregardedBy) {
+            Utils.checkNotNull(disregardedBy, "disregardedBy");
+            this.disregardedBy = Optional.ofNullable(disregardedBy);
+            return this;
+        }
+
+        public Builder disregardedBy(Optional<String> disregardedBy) {
+            Utils.checkNotNull(disregardedBy, "disregardedBy");
+            this.disregardedBy = disregardedBy;
+            return this;
+        }
+
+
+        public Builder disregardedNexusTypes(List<String> disregardedNexusTypes) {
+            Utils.checkNotNull(disregardedNexusTypes, "disregardedNexusTypes");
+            this.disregardedNexusTypes = Optional.ofNullable(disregardedNexusTypes);
+            return this;
+        }
+
+        public Builder disregardedNexusTypes(Optional<? extends List<String>> disregardedNexusTypes) {
+            Utils.checkNotNull(disregardedNexusTypes, "disregardedNexusTypes");
+            this.disregardedNexusTypes = disregardedNexusTypes;
+            return this;
+        }
+
+
+        public Builder isCurrentlyDisregarded(boolean isCurrentlyDisregarded) {
+            Utils.checkNotNull(isCurrentlyDisregarded, "isCurrentlyDisregarded");
+            this.isCurrentlyDisregarded = Optional.ofNullable(isCurrentlyDisregarded);
+            return this;
+        }
+
+        public Builder isCurrentlyDisregarded(Optional<Boolean> isCurrentlyDisregarded) {
+            Utils.checkNotNull(isCurrentlyDisregarded, "isCurrentlyDisregarded");
+            this.isCurrentlyDisregarded = isCurrentlyDisregarded;
+            return this;
+        }
+
+
         public Builder isVdaEligible(boolean isVdaEligible) {
             Utils.checkNotNull(isVdaEligible, "isVdaEligible");
             this.isVdaEligible = isVdaEligible;
@@ -2231,6 +2452,9 @@ public class NexusResponse {
             if (vdaEligible == null) {
                 vdaEligible = _SINGLETON_VALUE_VdaEligible.value();
             }
+            if (isCurrentlyDisregarded == null) {
+                isCurrentlyDisregarded = _SINGLETON_VALUE_IsCurrentlyDisregarded.value();
+            }
 
             return new NexusResponse(
                 processingStatus, status, countryCode,
@@ -2244,13 +2468,15 @@ public class NexusResponse {
                 collectedTaxNexusMet, collectedTaxNexusMetDate, periodModel,
                 periodStartDate, periodEndDate, previousPeriodStartDate,
                 previousPeriodEndDate, earliestTransactionDate, mostRecentTransactionDate,
-                earliestCollectedDate, predictedMonthFromToday, vdaEligible,
-                confidenceLevel, lastProcessedAt, lastTaxLiabilityProcessedAt,
-                periods, currency, id,
-                createdAt, updatedAt, organizationId,
-                registration, registrationRegime, isVdaEligible,
-                nexusType, totalTransactions, totalTransactionsIncluded,
-                totalTransactionsExempted, totalTransactionsMarketplace, marketplaceIncluded);
+                findThresholdCrossingTransactionState, earliestCollectedDate, predictedMonthFromToday,
+                vdaEligible, confidenceLevel, lastProcessedAt,
+                lastTaxLiabilityProcessedAt, periods, currency,
+                id, createdAt, updatedAt,
+                organizationId, registration, registrationRegime,
+                disregardedAt, disregardedBy, disregardedNexusTypes,
+                isCurrentlyDisregarded, isVdaEligible, nexusType,
+                totalTransactions, totalTransactionsIncluded, totalTransactionsExempted,
+                totalTransactionsMarketplace, marketplaceIncluded);
         }
 
 
@@ -2329,6 +2555,12 @@ public class NexusResponse {
         private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_VdaEligible =
                 new LazySingletonValue<>(
                         "vda_eligible",
+                        "false",
+                        new TypeReference<Optional<Boolean>>() {});
+
+        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_IsCurrentlyDisregarded =
+                new LazySingletonValue<>(
+                        "is_currently_disregarded",
                         "false",
                         new TypeReference<Optional<Boolean>>() {});
     }

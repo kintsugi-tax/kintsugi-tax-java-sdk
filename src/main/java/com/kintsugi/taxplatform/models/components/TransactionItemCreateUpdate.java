@@ -12,6 +12,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.kintsugi.taxplatform.utils.LazySingletonValue;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Boolean;
+import java.lang.Deprecated;
 import java.lang.Double;
 import java.lang.Override;
 import java.lang.String;
@@ -30,9 +31,13 @@ public class TransactionItemCreateUpdate {
     private Optional<String> externalId;
 
     /**
-     * Organization identifier.
+     * Unique identifier of the organization. This field is deprecated, and should no longer be used. The
+     * value is populated through the 'x-organization-id' header.
+     * 
+     * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
      */
     @JsonProperty("organization_id")
+    @Deprecated
     private String organizationId;
 
     /**
@@ -320,8 +325,12 @@ public class TransactionItemCreateUpdate {
     }
 
     /**
-     * Organization identifier.
+     * Unique identifier of the organization. This field is deprecated, and should no longer be used. The
+     * value is populated through the 'x-organization-id' header.
+     * 
+     * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
      */
+    @Deprecated
     @JsonIgnore
     public String organizationId() {
         return organizationId;
@@ -553,8 +562,12 @@ public class TransactionItemCreateUpdate {
     }
 
     /**
-     * Organization identifier.
+     * Unique identifier of the organization. This field is deprecated, and should no longer be used. The
+     * value is populated through the 'x-organization-id' header.
+     * 
+     * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
      */
+    @Deprecated
     public TransactionItemCreateUpdate withOrganizationId(String organizationId) {
         Utils.checkNotNull(organizationId, "organizationId");
         this.organizationId = organizationId;
@@ -1104,6 +1117,7 @@ public class TransactionItemCreateUpdate {
 
         private Optional<String> externalId = Optional.empty();
 
+        @Deprecated
         private String organizationId;
 
         private OffsetDateTime date;
@@ -1183,8 +1197,12 @@ public class TransactionItemCreateUpdate {
 
 
         /**
-         * Organization identifier.
+         * Unique identifier of the organization. This field is deprecated, and should no longer be used. The
+         * value is populated through the 'x-organization-id' header.
+         * 
+         * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
          */
+        @Deprecated
         public Builder organizationId(String organizationId) {
             Utils.checkNotNull(organizationId, "organizationId");
             this.organizationId = organizationId;

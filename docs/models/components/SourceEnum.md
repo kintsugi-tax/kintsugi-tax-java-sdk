@@ -6,6 +6,7 @@
 | Name               | Value              |
 | ------------------ | ------------------ |
 | `BIGCOMMERCE`      | BIGCOMMERCE        |
+| `BESTBUY`          | BESTBUY            |
 | `BUNNY`            | BUNNY              |
 | `CHARGEBEE`        | CHARGEBEE          |
 | `SHOPIFY`          | SHOPIFY            |
@@ -60,3 +61,4 @@
 | `SAGE_INTACCT`     | SAGE-INTACCT       |
 | `AIRWALLEX`        | AIRWALLEX          |
 | `ORB`              | ORB                |
+| `ZENSKAR`          | ZENSKAR            |

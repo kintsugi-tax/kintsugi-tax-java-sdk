@@ -8,8 +8,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.kintsugi.taxplatform.utils.LazySingletonValue;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Double;
 import java.lang.Override;
@@ -49,16 +47,14 @@ public class CreditNoteItemCreateUpdate {
     /**
      * Number of units or amount of the product being credited.
      */
-    @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("quantity")
-    private Optional<Double> quantity;
+    private double quantity;
 
     /**
      * Total monetary value of the credit note item before taxes.
      */
-    @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("amount")
-    private Optional<Double> amount;
+    private double amount;
 
     /**
      * Pre-calculated tax amount for the item, if provided by the external system.
@@ -101,8 +97,8 @@ public class CreditNoteItemCreateUpdate {
             @JsonProperty("date") OffsetDateTime date,
             @JsonProperty("description") Optional<String> description,
             @JsonProperty("external_product_id") String externalProductId,
-            @JsonProperty("quantity") Optional<Double> quantity,
-            @JsonProperty("amount") Optional<Double> amount,
+            @JsonProperty("quantity") double quantity,
+            @JsonProperty("amount") double amount,
             @JsonProperty("tax_amount_imported") Optional<Double> taxAmountImported,
             @JsonProperty("tax_rate_imported") Optional<Double> taxRateImported,
             @JsonProperty("taxable_amount") Optional<Double> taxableAmount,
@@ -135,9 +131,11 @@ public class CreditNoteItemCreateUpdate {
     public CreditNoteItemCreateUpdate(
             String externalId,
             OffsetDateTime date,
-            String externalProductId) {
+            String externalProductId,
+            double quantity,
+            double amount) {
         this(externalId, date, Optional.empty(),
-            externalProductId, Optional.empty(), Optional.empty(),
+            externalProductId, quantity, amount,
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty());
     }
@@ -178,7 +176,7 @@ public class CreditNoteItemCreateUpdate {
      * Number of units or amount of the product being credited.
      */
     @JsonIgnore
-    public Optional<Double> quantity() {
+    public double quantity() {
         return quantity;
     }
 
@@ -186,7 +184,7 @@ public class CreditNoteItemCreateUpdate {
      * Total monetary value of the credit note item before taxes.
      */
     @JsonIgnore
-    public Optional<Double> amount() {
+    public double amount() {
         return amount;
     }
 
@@ -288,16 +286,6 @@ public class CreditNoteItemCreateUpdate {
      */
     public CreditNoteItemCreateUpdate withQuantity(double quantity) {
         Utils.checkNotNull(quantity, "quantity");
-        this.quantity = Optional.ofNullable(quantity);
-        return this;
-    }
-
-
-    /**
-     * Number of units or amount of the product being credited.
-     */
-    public CreditNoteItemCreateUpdate withQuantity(Optional<Double> quantity) {
-        Utils.checkNotNull(quantity, "quantity");
         this.quantity = quantity;
         return this;
     }
@@ -306,16 +294,6 @@ public class CreditNoteItemCreateUpdate {
      * Total monetary value of the credit note item before taxes.
      */
     public CreditNoteItemCreateUpdate withAmount(double amount) {
-        Utils.checkNotNull(amount, "amount");
-        this.amount = Optional.ofNullable(amount);
-        return this;
-    }
-
-
-    /**
-     * Total monetary value of the credit note item before taxes.
-     */
-    public CreditNoteItemCreateUpdate withAmount(Optional<Double> amount) {
         Utils.checkNotNull(amount, "amount");
         this.amount = amount;
         return this;
@@ -475,9 +453,9 @@ public class CreditNoteItemCreateUpdate {
 
         private String externalProductId;
 
-        private Optional<Double> quantity;
+        private Double quantity;
 
-        private Optional<Double> amount;
+        private Double amount;
 
         private Optional<Double> taxAmountImported = Optional.empty();
 
@@ -548,15 +526,6 @@ public class CreditNoteItemCreateUpdate {
          */
         public Builder quantity(double quantity) {
             Utils.checkNotNull(quantity, "quantity");
-            this.quantity = Optional.ofNullable(quantity);
-            return this;
-        }
-
-        /**
-         * Number of units or amount of the product being credited.
-         */
-        public Builder quantity(Optional<Double> quantity) {
-            Utils.checkNotNull(quantity, "quantity");
             this.quantity = quantity;
             return this;
         }
@@ -566,15 +535,6 @@ public class CreditNoteItemCreateUpdate {
          * Total monetary value of the credit note item before taxes.
          */
         public Builder amount(double amount) {
-            Utils.checkNotNull(amount, "amount");
-            this.amount = Optional.ofNullable(amount);
-            return this;
-        }
-
-        /**
-         * Total monetary value of the credit note item before taxes.
-         */
-        public Builder amount(Optional<Double> amount) {
             Utils.checkNotNull(amount, "amount");
             this.amount = amount;
             return this;
@@ -676,12 +636,6 @@ public class CreditNoteItemCreateUpdate {
         }
 
         public CreditNoteItemCreateUpdate build() {
-            if (quantity == null) {
-                quantity = _SINGLETON_VALUE_Quantity.value();
-            }
-            if (amount == null) {
-                amount = _SINGLETON_VALUE_Amount.value();
-            }
 
             return new CreditNoteItemCreateUpdate(
                 externalId, date, description,
@@ -690,17 +644,5 @@ public class CreditNoteItemCreateUpdate {
                 taxExemption, taxItems);
         }
 
-
-        private static final LazySingletonValue<Optional<Double>> _SINGLETON_VALUE_Quantity =
-                new LazySingletonValue<>(
-                        "quantity",
-                        "\"1.0\"",
-                        new TypeReference<Optional<Double>>() {});
-
-        private static final LazySingletonValue<Optional<Double>> _SINGLETON_VALUE_Amount =
-                new LazySingletonValue<>(
-                        "amount",
-                        "\"0.00\"",
-                        new TypeReference<Optional<Double>>() {});
     }
 }

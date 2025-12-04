@@ -101,6 +101,20 @@ public class RegistrationReadWithPassword {
     private Optional<Boolean> thirdPartyEnabled;
 
     /**
+     * If true, do not file for this registration (treated as False by default).
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("do_not_file")
+    private Optional<Boolean> doNotFile;
+
+    /**
+     * Indicates whether two-factor authentication (2FA) is enabled for this registration.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("two_factor_enabled")
+    private Optional<Boolean> twoFactorEnabled;
+
+    /**
      * Indicates whether the  registration is marked as collecting in shopify
      */
     @JsonInclude(Include.NON_ABSENT)
@@ -134,8 +148,9 @@ public class RegistrationReadWithPassword {
     /**
      * The number of days before the filing deadline.
      */
+    @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("filing_days")
-    private long filingDays;
+    private Optional<Long> filingDays;
 
     /**
      * Username for accessing tax registration details.
@@ -238,6 +253,11 @@ public class RegistrationReadWithPassword {
     @JsonProperty("credits_total_available")
     private Optional<String> creditsTotalAvailable;
 
+
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("registration_category")
+    private Optional<? extends RegistrationCategoryEnum> registrationCategory;
+
     /**
      * Encrypted password for accessing the registration,
      * if applicable.
@@ -271,13 +291,15 @@ public class RegistrationReadWithPassword {
             @JsonProperty("registrations_regime") Optional<? extends RegistrationsRegimeEnum> registrationsRegime,
             @JsonProperty("change_regime_status") Optional<? extends ChangeRegimeStatusEnum> changeRegimeStatus,
             @JsonProperty("third_party_enabled") Optional<Boolean> thirdPartyEnabled,
+            @JsonProperty("do_not_file") Optional<Boolean> doNotFile,
+            @JsonProperty("two_factor_enabled") Optional<Boolean> twoFactorEnabled,
             @JsonProperty("marked_collecting") Optional<Boolean> markedCollecting,
             @JsonProperty("status") RegistrationStatusEnum status,
             @JsonProperty("country_code") CountryCodeEnum countryCode,
             @JsonProperty("state_code") String stateCode,
             @JsonProperty("state_name") String stateName,
             @JsonProperty("filing_frequency") FilingFrequencyEnum filingFrequency,
-            @JsonProperty("filing_days") long filingDays,
+            @JsonProperty("filing_days") Optional<Long> filingDays,
             @JsonProperty("username") Optional<String> username,
             @JsonProperty("comment") Optional<String> comment,
             @JsonProperty("create_filings_from") Optional<String> createFilingsFrom,
@@ -293,6 +315,7 @@ public class RegistrationReadWithPassword {
             @JsonProperty("needs_mark_as_collecting") Optional<Boolean> needsMarkAsCollecting,
             @JsonProperty("id") String id,
             @JsonProperty("credits_total_available") Optional<String> creditsTotalAvailable,
+            @JsonProperty("registration_category") Optional<? extends RegistrationCategoryEnum> registrationCategory,
             @JsonProperty("password_encrypted") Optional<String> passwordEncrypted,
             @JsonProperty("has_all_credentials") Optional<Boolean> hasAllCredentials,
             @JsonProperty("registration_type") RegistrationTypeEnum registrationType) {
@@ -308,6 +331,8 @@ public class RegistrationReadWithPassword {
         Utils.checkNotNull(registrationsRegime, "registrationsRegime");
         Utils.checkNotNull(changeRegimeStatus, "changeRegimeStatus");
         Utils.checkNotNull(thirdPartyEnabled, "thirdPartyEnabled");
+        Utils.checkNotNull(doNotFile, "doNotFile");
+        Utils.checkNotNull(twoFactorEnabled, "twoFactorEnabled");
         Utils.checkNotNull(markedCollecting, "markedCollecting");
         Utils.checkNotNull(status, "status");
         Utils.checkNotNull(countryCode, "countryCode");
@@ -330,6 +355,7 @@ public class RegistrationReadWithPassword {
         Utils.checkNotNull(needsMarkAsCollecting, "needsMarkAsCollecting");
         Utils.checkNotNull(id, "id");
         Utils.checkNotNull(creditsTotalAvailable, "creditsTotalAvailable");
+        Utils.checkNotNull(registrationCategory, "registrationCategory");
         Utils.checkNotNull(passwordEncrypted, "passwordEncrypted");
         Utils.checkNotNull(hasAllCredentials, "hasAllCredentials");
         Utils.checkNotNull(registrationType, "registrationType");
@@ -345,6 +371,8 @@ public class RegistrationReadWithPassword {
         this.registrationsRegime = registrationsRegime;
         this.changeRegimeStatus = changeRegimeStatus;
         this.thirdPartyEnabled = thirdPartyEnabled;
+        this.doNotFile = doNotFile;
+        this.twoFactorEnabled = twoFactorEnabled;
         this.markedCollecting = markedCollecting;
         this.status = status;
         this.countryCode = countryCode;
@@ -367,6 +395,7 @@ public class RegistrationReadWithPassword {
         this.needsMarkAsCollecting = needsMarkAsCollecting;
         this.id = id;
         this.creditsTotalAvailable = creditsTotalAvailable;
+        this.registrationCategory = registrationCategory;
         this.passwordEncrypted = passwordEncrypted;
         this.hasAllCredentials = hasAllCredentials;
         this.registrationType = registrationType;
@@ -378,20 +407,20 @@ public class RegistrationReadWithPassword {
             String stateCode,
             String stateName,
             FilingFrequencyEnum filingFrequency,
-            long filingDays,
             String id,
             RegistrationTypeEnum registrationType) {
         this(Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), status, countryCode,
-            stateCode, stateName, filingFrequency,
-            filingDays, Optional.empty(), Optional.empty(),
+            Optional.empty(), Optional.empty(), Optional.empty(),
+            status, countryCode, stateCode,
+            stateName, filingFrequency, Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), id,
+            Optional.empty(), Optional.empty(), Optional.empty(),
+            Optional.empty(), id, Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
             registrationType);
     }
@@ -489,6 +518,22 @@ public class RegistrationReadWithPassword {
     }
 
     /**
+     * If true, do not file for this registration (treated as False by default).
+     */
+    @JsonIgnore
+    public Optional<Boolean> doNotFile() {
+        return doNotFile;
+    }
+
+    /**
+     * Indicates whether two-factor authentication (2FA) is enabled for this registration.
+     */
+    @JsonIgnore
+    public Optional<Boolean> twoFactorEnabled() {
+        return twoFactorEnabled;
+    }
+
+    /**
      * Indicates whether the  registration is marked as collecting in shopify
      */
     @JsonIgnore
@@ -531,7 +576,7 @@ public class RegistrationReadWithPassword {
      * The number of days before the filing deadline.
      */
     @JsonIgnore
-    public long filingDays() {
+    public Optional<Long> filingDays() {
         return filingDays;
     }
 
@@ -650,6 +695,12 @@ public class RegistrationReadWithPassword {
     @JsonIgnore
     public Optional<String> creditsTotalAvailable() {
         return creditsTotalAvailable;
+    }
+
+    @SuppressWarnings("unchecked")
+    @JsonIgnore
+    public Optional<RegistrationCategoryEnum> registrationCategory() {
+        return (Optional<RegistrationCategoryEnum>) registrationCategory;
     }
 
     /**
@@ -896,6 +947,44 @@ public class RegistrationReadWithPassword {
     }
 
     /**
+     * If true, do not file for this registration (treated as False by default).
+     */
+    public RegistrationReadWithPassword withDoNotFile(boolean doNotFile) {
+        Utils.checkNotNull(doNotFile, "doNotFile");
+        this.doNotFile = Optional.ofNullable(doNotFile);
+        return this;
+    }
+
+
+    /**
+     * If true, do not file for this registration (treated as False by default).
+     */
+    public RegistrationReadWithPassword withDoNotFile(Optional<Boolean> doNotFile) {
+        Utils.checkNotNull(doNotFile, "doNotFile");
+        this.doNotFile = doNotFile;
+        return this;
+    }
+
+    /**
+     * Indicates whether two-factor authentication (2FA) is enabled for this registration.
+     */
+    public RegistrationReadWithPassword withTwoFactorEnabled(boolean twoFactorEnabled) {
+        Utils.checkNotNull(twoFactorEnabled, "twoFactorEnabled");
+        this.twoFactorEnabled = Optional.ofNullable(twoFactorEnabled);
+        return this;
+    }
+
+
+    /**
+     * Indicates whether two-factor authentication (2FA) is enabled for this registration.
+     */
+    public RegistrationReadWithPassword withTwoFactorEnabled(Optional<Boolean> twoFactorEnabled) {
+        Utils.checkNotNull(twoFactorEnabled, "twoFactorEnabled");
+        this.twoFactorEnabled = twoFactorEnabled;
+        return this;
+    }
+
+    /**
      * Indicates whether the  registration is marked as collecting in shopify
      */
     public RegistrationReadWithPassword withMarkedCollecting(boolean markedCollecting) {
@@ -954,6 +1043,16 @@ public class RegistrationReadWithPassword {
      * The number of days before the filing deadline.
      */
     public RegistrationReadWithPassword withFilingDays(long filingDays) {
+        Utils.checkNotNull(filingDays, "filingDays");
+        this.filingDays = Optional.ofNullable(filingDays);
+        return this;
+    }
+
+
+    /**
+     * The number of days before the filing deadline.
+     */
+    public RegistrationReadWithPassword withFilingDays(Optional<Long> filingDays) {
         Utils.checkNotNull(filingDays, "filingDays");
         this.filingDays = filingDays;
         return this;
@@ -1224,6 +1323,19 @@ public class RegistrationReadWithPassword {
         return this;
     }
 
+    public RegistrationReadWithPassword withRegistrationCategory(RegistrationCategoryEnum registrationCategory) {
+        Utils.checkNotNull(registrationCategory, "registrationCategory");
+        this.registrationCategory = Optional.ofNullable(registrationCategory);
+        return this;
+    }
+
+
+    public RegistrationReadWithPassword withRegistrationCategory(Optional<? extends RegistrationCategoryEnum> registrationCategory) {
+        Utils.checkNotNull(registrationCategory, "registrationCategory");
+        this.registrationCategory = registrationCategory;
+        return this;
+    }
+
     /**
      * Encrypted password for accessing the registration,
      * if applicable.
@@ -1292,6 +1404,8 @@ public class RegistrationReadWithPassword {
             Utils.enhancedDeepEquals(this.registrationsRegime, other.registrationsRegime) &&
             Utils.enhancedDeepEquals(this.changeRegimeStatus, other.changeRegimeStatus) &&
             Utils.enhancedDeepEquals(this.thirdPartyEnabled, other.thirdPartyEnabled) &&
+            Utils.enhancedDeepEquals(this.doNotFile, other.doNotFile) &&
+            Utils.enhancedDeepEquals(this.twoFactorEnabled, other.twoFactorEnabled) &&
             Utils.enhancedDeepEquals(this.markedCollecting, other.markedCollecting) &&
             Utils.enhancedDeepEquals(this.status, other.status) &&
             Utils.enhancedDeepEquals(this.countryCode, other.countryCode) &&
@@ -1314,6 +1428,7 @@ public class RegistrationReadWithPassword {
             Utils.enhancedDeepEquals(this.needsMarkAsCollecting, other.needsMarkAsCollecting) &&
             Utils.enhancedDeepEquals(this.id, other.id) &&
             Utils.enhancedDeepEquals(this.creditsTotalAvailable, other.creditsTotalAvailable) &&
+            Utils.enhancedDeepEquals(this.registrationCategory, other.registrationCategory) &&
             Utils.enhancedDeepEquals(this.passwordEncrypted, other.passwordEncrypted) &&
             Utils.enhancedDeepEquals(this.hasAllCredentials, other.hasAllCredentials) &&
             Utils.enhancedDeepEquals(this.registrationType, other.registrationType);
@@ -1326,14 +1441,15 @@ public class RegistrationReadWithPassword {
             deregistrationKey, registrationRequested, registrationCompleted,
             deregistrationRequested, deregistrationCompleted, autoRegistered,
             registrationsRegime, changeRegimeStatus, thirdPartyEnabled,
-            markedCollecting, status, countryCode,
-            stateCode, stateName, filingFrequency,
-            filingDays, username, comment,
-            createFilingsFrom, initialSync, amountFees,
-            vda, imported, salesTaxId,
-            sstImport, ossType, ossMemberStateOfIdentificationCode,
-            markedCollectingDate, needsMarkAsCollecting, id,
-            creditsTotalAvailable, passwordEncrypted, hasAllCredentials,
+            doNotFile, twoFactorEnabled, markedCollecting,
+            status, countryCode, stateCode,
+            stateName, filingFrequency, filingDays,
+            username, comment, createFilingsFrom,
+            initialSync, amountFees, vda,
+            imported, salesTaxId, sstImport,
+            ossType, ossMemberStateOfIdentificationCode, markedCollectingDate,
+            needsMarkAsCollecting, id, creditsTotalAvailable,
+            registrationCategory, passwordEncrypted, hasAllCredentials,
             registrationType);
     }
     
@@ -1352,6 +1468,8 @@ public class RegistrationReadWithPassword {
                 "registrationsRegime", registrationsRegime,
                 "changeRegimeStatus", changeRegimeStatus,
                 "thirdPartyEnabled", thirdPartyEnabled,
+                "doNotFile", doNotFile,
+                "twoFactorEnabled", twoFactorEnabled,
                 "markedCollecting", markedCollecting,
                 "status", status,
                 "countryCode", countryCode,
@@ -1374,6 +1492,7 @@ public class RegistrationReadWithPassword {
                 "needsMarkAsCollecting", needsMarkAsCollecting,
                 "id", id,
                 "creditsTotalAvailable", creditsTotalAvailable,
+                "registrationCategory", registrationCategory,
                 "passwordEncrypted", passwordEncrypted,
                 "hasAllCredentials", hasAllCredentials,
                 "registrationType", registrationType);
@@ -1406,6 +1525,10 @@ public class RegistrationReadWithPassword {
 
         private Optional<Boolean> thirdPartyEnabled;
 
+        private Optional<Boolean> doNotFile;
+
+        private Optional<Boolean> twoFactorEnabled = Optional.empty();
+
         private Optional<Boolean> markedCollecting = Optional.empty();
 
         private RegistrationStatusEnum status;
@@ -1418,7 +1541,7 @@ public class RegistrationReadWithPassword {
 
         private FilingFrequencyEnum filingFrequency;
 
-        private Long filingDays;
+        private Optional<Long> filingDays = Optional.empty();
 
         private Optional<String> username = Optional.empty();
 
@@ -1449,6 +1572,8 @@ public class RegistrationReadWithPassword {
         private String id;
 
         private Optional<String> creditsTotalAvailable;
+
+        private Optional<? extends RegistrationCategoryEnum> registrationCategory = Optional.empty();
 
         private Optional<String> passwordEncrypted = Optional.empty();
 
@@ -1678,6 +1803,44 @@ public class RegistrationReadWithPassword {
 
 
         /**
+         * If true, do not file for this registration (treated as False by default).
+         */
+        public Builder doNotFile(boolean doNotFile) {
+            Utils.checkNotNull(doNotFile, "doNotFile");
+            this.doNotFile = Optional.ofNullable(doNotFile);
+            return this;
+        }
+
+        /**
+         * If true, do not file for this registration (treated as False by default).
+         */
+        public Builder doNotFile(Optional<Boolean> doNotFile) {
+            Utils.checkNotNull(doNotFile, "doNotFile");
+            this.doNotFile = doNotFile;
+            return this;
+        }
+
+
+        /**
+         * Indicates whether two-factor authentication (2FA) is enabled for this registration.
+         */
+        public Builder twoFactorEnabled(boolean twoFactorEnabled) {
+            Utils.checkNotNull(twoFactorEnabled, "twoFactorEnabled");
+            this.twoFactorEnabled = Optional.ofNullable(twoFactorEnabled);
+            return this;
+        }
+
+        /**
+         * Indicates whether two-factor authentication (2FA) is enabled for this registration.
+         */
+        public Builder twoFactorEnabled(Optional<Boolean> twoFactorEnabled) {
+            Utils.checkNotNull(twoFactorEnabled, "twoFactorEnabled");
+            this.twoFactorEnabled = twoFactorEnabled;
+            return this;
+        }
+
+
+        /**
          * Indicates whether the  registration is marked as collecting in shopify
          */
         public Builder markedCollecting(boolean markedCollecting) {
@@ -1741,6 +1904,15 @@ public class RegistrationReadWithPassword {
          * The number of days before the filing deadline.
          */
         public Builder filingDays(long filingDays) {
+            Utils.checkNotNull(filingDays, "filingDays");
+            this.filingDays = Optional.ofNullable(filingDays);
+            return this;
+        }
+
+        /**
+         * The number of days before the filing deadline.
+         */
+        public Builder filingDays(Optional<Long> filingDays) {
             Utils.checkNotNull(filingDays, "filingDays");
             this.filingDays = filingDays;
             return this;
@@ -2013,6 +2185,19 @@ public class RegistrationReadWithPassword {
         }
 
 
+        public Builder registrationCategory(RegistrationCategoryEnum registrationCategory) {
+            Utils.checkNotNull(registrationCategory, "registrationCategory");
+            this.registrationCategory = Optional.ofNullable(registrationCategory);
+            return this;
+        }
+
+        public Builder registrationCategory(Optional<? extends RegistrationCategoryEnum> registrationCategory) {
+            Utils.checkNotNull(registrationCategory, "registrationCategory");
+            this.registrationCategory = registrationCategory;
+            return this;
+        }
+
+
         /**
          * Encrypted password for accessing the registration,
          * if applicable.
@@ -2066,6 +2251,9 @@ public class RegistrationReadWithPassword {
             if (thirdPartyEnabled == null) {
                 thirdPartyEnabled = _SINGLETON_VALUE_ThirdPartyEnabled.value();
             }
+            if (doNotFile == null) {
+                doNotFile = _SINGLETON_VALUE_DoNotFile.value();
+            }
             if (initialSync == null) {
                 initialSync = _SINGLETON_VALUE_InitialSync.value();
             }
@@ -2093,14 +2281,15 @@ public class RegistrationReadWithPassword {
                 deregistrationKey, registrationRequested, registrationCompleted,
                 deregistrationRequested, deregistrationCompleted, autoRegistered,
                 registrationsRegime, changeRegimeStatus, thirdPartyEnabled,
-                markedCollecting, status, countryCode,
-                stateCode, stateName, filingFrequency,
-                filingDays, username, comment,
-                createFilingsFrom, initialSync, amountFees,
-                vda, imported, salesTaxId,
-                sstImport, ossType, ossMemberStateOfIdentificationCode,
-                markedCollectingDate, needsMarkAsCollecting, id,
-                creditsTotalAvailable, passwordEncrypted, hasAllCredentials,
+                doNotFile, twoFactorEnabled, markedCollecting,
+                status, countryCode, stateCode,
+                stateName, filingFrequency, filingDays,
+                username, comment, createFilingsFrom,
+                initialSync, amountFees, vda,
+                imported, salesTaxId, sstImport,
+                ossType, ossMemberStateOfIdentificationCode, markedCollectingDate,
+                needsMarkAsCollecting, id, creditsTotalAvailable,
+                registrationCategory, passwordEncrypted, hasAllCredentials,
                 registrationType);
         }
 
@@ -2114,6 +2303,12 @@ public class RegistrationReadWithPassword {
         private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_ThirdPartyEnabled =
                 new LazySingletonValue<>(
                         "third_party_enabled",
+                        "false",
+                        new TypeReference<Optional<Boolean>>() {});
+
+        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_DoNotFile =
+                new LazySingletonValue<>(
+                        "do_not_file",
                         "false",
                         new TypeReference<Optional<Boolean>>() {});
 

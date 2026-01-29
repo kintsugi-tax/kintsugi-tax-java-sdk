@@ -56,7 +56,7 @@ public class Products {
      * 
      * @return The call builder
      */
-    public GetProductsV1ProductsGetRequestBuilder get() {
+    public GetProductsV1ProductsGetRequestBuilder getProductsV1ProductsGet() {
         return new GetProductsV1ProductsGetRequestBuilder(sdkConfiguration);
     }
 
@@ -69,7 +69,7 @@ public class Products {
      * @return The response from the API call
      * @throws RuntimeException subclass if the API call fails
      */
-    public GetProductsV1ProductsGetResponse get(GetProductsV1ProductsGetRequest request) {
+    public GetProductsV1ProductsGetResponse getProductsV1ProductsGet(GetProductsV1ProductsGetRequest request) {
         RequestOperation<GetProductsV1ProductsGetRequest, GetProductsV1ProductsGetResponse> operation
               = new GetProductsV1ProductsGet.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
@@ -80,11 +80,13 @@ public class Products {
      * 
      * <p>The Create Product API allows users to manually create a new product
      * in the system. This includes specifying product details such as category,
-     * subcategory, and tax exemption status, etc.
+     * subcategory, and tax exemption status, etc. You can
+     * retrieve supported categories and subcategories from
+     * [GET /products/categories endpoint](/reference/api/products/get-product-categories)
      * 
      * @return The call builder
      */
-    public CreateProductV1ProductsPostRequestBuilder create() {
+    public CreateProductV1ProductsPostRequestBuilder createProductV1ProductsPost() {
         return new CreateProductV1ProductsPostRequestBuilder(sdkConfiguration);
     }
 
@@ -93,16 +95,47 @@ public class Products {
      * 
      * <p>The Create Product API allows users to manually create a new product
      * in the system. This includes specifying product details such as category,
-     * subcategory, and tax exemption status, etc.
+     * subcategory, and tax exemption status, etc. You can
+     * retrieve supported categories and subcategories from
+     * [GET /products/categories endpoint](/reference/api/products/get-product-categories)
      * 
      * @param request The request object containing all the parameters for the API call.
      * @return The response from the API call
      * @throws RuntimeException subclass if the API call fails
      */
-    public CreateProductV1ProductsPostResponse create(ProductCreateManual request) {
+    public CreateProductV1ProductsPostResponse createProductV1ProductsPost(ProductCreateManual request) {
         RequestOperation<ProductCreateManual, CreateProductV1ProductsPostResponse> operation
               = new CreateProductV1ProductsPost.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
+    }
+
+    /**
+     * Get Product Categories
+     * 
+     * <p>The Get Product Categories API retrieves all
+     * product categories. This endpoint helps users understand and select the
+     * appropriate categories for their products.
+     * 
+     * @return The call builder
+     */
+    public GetProductCategoriesV1ProductsCategoriesGetRequestBuilder getProductCategoriesV1ProductsCategoriesGet() {
+        return new GetProductCategoriesV1ProductsCategoriesGetRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Get Product Categories
+     * 
+     * <p>The Get Product Categories API retrieves all
+     * product categories. This endpoint helps users understand and select the
+     * appropriate categories for their products.
+     * 
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public GetProductCategoriesV1ProductsCategoriesGetResponse getProductCategoriesV1ProductsCategoriesGetDirect() {
+        RequestlessOperation<GetProductCategoriesV1ProductsCategoriesGetResponse> operation
+            = new GetProductCategoriesV1ProductsCategoriesGet.Sync(sdkConfiguration, _headers);
+        return operation.handleResponse(operation.doRequest());
     }
 
     /**
@@ -144,7 +177,9 @@ public class Products {
      * Update Product
      * 
      * <p>The Update Product API allows users to modify the details of
-     * an existing product identified by its unique product_id
+     * an existing product identified by its unique product_id. You can
+     * retrieve supported categories and subcategories from
+     * [GET /products/categories endpoint](/reference/api/products/get-product-categories)
      * 
      * @return The call builder
      */
@@ -156,7 +191,9 @@ public class Products {
      * Update Product
      * 
      * <p>The Update Product API allows users to modify the details of
-     * an existing product identified by its unique product_id
+     * an existing product identified by its unique product_id. You can
+     * retrieve supported categories and subcategories from
+     * [GET /products/categories endpoint](/reference/api/products/get-product-categories)
      * 
      * @param productId Unique identifier of the product to be updated.
      * @param productUpdate 
@@ -173,35 +210,6 @@ public class Products {
         RequestOperation<UpdateProductV1ProductsProductIdPutRequest, UpdateProductV1ProductsProductIdPutResponse> operation
               = new UpdateProductV1ProductsProductIdPut.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
-    }
-
-    /**
-     * Get Product Categories
-     * 
-     * <p>The Get Product Categories API retrieves all
-     * product categories. This endpoint helps users understand and select the
-     * appropriate categories for their products.
-     * 
-     * @return The call builder
-     */
-    public GetProductCategoriesV1ProductsCategoriesGetRequestBuilder getCategories() {
-        return new GetProductCategoriesV1ProductsCategoriesGetRequestBuilder(sdkConfiguration);
-    }
-
-    /**
-     * Get Product Categories
-     * 
-     * <p>The Get Product Categories API retrieves all
-     * product categories. This endpoint helps users understand and select the
-     * appropriate categories for their products.
-     * 
-     * @return The response from the API call
-     * @throws RuntimeException subclass if the API call fails
-     */
-    public GetProductCategoriesV1ProductsCategoriesGetResponse getCategoriesDirect() {
-        RequestlessOperation<GetProductCategoriesV1ProductsCategoriesGetResponse> operation
-            = new GetProductCategoriesV1ProductsCategoriesGet.Sync(sdkConfiguration, _headers);
-        return operation.handleResponse(operation.doRequest());
     }
 
 }

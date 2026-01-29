@@ -58,13 +58,23 @@ public class ProductUpdate {
     @JsonProperty("status")
     private Optional<? extends ProductStatusEnum> status;
 
-
+    /**
+     * Main category of the product.
+     * For example, Physical, Digital, etc. You can
+     * retrieve supported categories from [GET /products/categories
+     * endpoint](/reference/api/products/get-product-categories)
+     */
     @JsonProperty("product_category")
-    private ProductCategoryEnum productCategory;
+    private String productCategory;
 
-
+    /**
+     * Subcategory of the product.
+     * For example, General Clothing, UNKNOWN, etc. You can
+     * retrieve supported subcategories from [GET /products/categories
+     * endpoint](/reference/api/products/get-product-categories)
+     */
     @JsonProperty("product_subcategory")
-    private ProductSubCategoryEnum productSubcategory;
+    private String productSubcategory;
 
     /**
      * Indicates whether the product is tax-exempt.
@@ -87,8 +97,8 @@ public class ProductUpdate {
             @JsonProperty("name") String name,
             @JsonProperty("description") Optional<String> description,
             @JsonProperty("status") Optional<? extends ProductStatusEnum> status,
-            @JsonProperty("product_category") ProductCategoryEnum productCategory,
-            @JsonProperty("product_subcategory") ProductSubCategoryEnum productSubcategory,
+            @JsonProperty("product_category") String productCategory,
+            @JsonProperty("product_subcategory") String productSubcategory,
             @JsonProperty("tax_exempt") boolean taxExempt,
             @JsonProperty("classification_failed") Optional<Boolean> classificationFailed) {
         Utils.checkNotNull(id, "id");
@@ -115,8 +125,8 @@ public class ProductUpdate {
     
     public ProductUpdate(
             String name,
-            ProductCategoryEnum productCategory,
-            ProductSubCategoryEnum productSubcategory,
+            String productCategory,
+            String productSubcategory,
             boolean taxExempt) {
         this(Optional.empty(), Optional.empty(), Optional.empty(),
             name, Optional.empty(), Optional.empty(),
@@ -169,13 +179,25 @@ public class ProductUpdate {
         return (Optional<ProductStatusEnum>) status;
     }
 
+    /**
+     * Main category of the product.
+     * For example, Physical, Digital, etc. You can
+     * retrieve supported categories from [GET /products/categories
+     * endpoint](/reference/api/products/get-product-categories)
+     */
     @JsonIgnore
-    public ProductCategoryEnum productCategory() {
+    public String productCategory() {
         return productCategory;
     }
 
+    /**
+     * Subcategory of the product.
+     * For example, General Clothing, UNKNOWN, etc. You can
+     * retrieve supported subcategories from [GET /products/categories
+     * endpoint](/reference/api/products/get-product-categories)
+     */
     @JsonIgnore
-    public ProductSubCategoryEnum productSubcategory() {
+    public String productSubcategory() {
         return productSubcategory;
     }
 
@@ -294,13 +316,25 @@ public class ProductUpdate {
         return this;
     }
 
-    public ProductUpdate withProductCategory(ProductCategoryEnum productCategory) {
+    /**
+     * Main category of the product.
+     * For example, Physical, Digital, etc. You can
+     * retrieve supported categories from [GET /products/categories
+     * endpoint](/reference/api/products/get-product-categories)
+     */
+    public ProductUpdate withProductCategory(String productCategory) {
         Utils.checkNotNull(productCategory, "productCategory");
         this.productCategory = productCategory;
         return this;
     }
 
-    public ProductUpdate withProductSubcategory(ProductSubCategoryEnum productSubcategory) {
+    /**
+     * Subcategory of the product.
+     * For example, General Clothing, UNKNOWN, etc. You can
+     * retrieve supported subcategories from [GET /products/categories
+     * endpoint](/reference/api/products/get-product-categories)
+     */
+    public ProductUpdate withProductSubcategory(String productSubcategory) {
         Utils.checkNotNull(productSubcategory, "productSubcategory");
         this.productSubcategory = productSubcategory;
         return this;
@@ -395,9 +429,9 @@ public class ProductUpdate {
 
         private Optional<? extends ProductStatusEnum> status = Optional.empty();
 
-        private ProductCategoryEnum productCategory;
+        private String productCategory;
 
-        private ProductSubCategoryEnum productSubcategory;
+        private String productSubcategory;
 
         private Boolean taxExempt;
 
@@ -503,14 +537,26 @@ public class ProductUpdate {
         }
 
 
-        public Builder productCategory(ProductCategoryEnum productCategory) {
+        /**
+         * Main category of the product.
+         * For example, Physical, Digital, etc. You can
+         * retrieve supported categories from [GET /products/categories
+         * endpoint](/reference/api/products/get-product-categories)
+         */
+        public Builder productCategory(String productCategory) {
             Utils.checkNotNull(productCategory, "productCategory");
             this.productCategory = productCategory;
             return this;
         }
 
 
-        public Builder productSubcategory(ProductSubCategoryEnum productSubcategory) {
+        /**
+         * Subcategory of the product.
+         * For example, General Clothing, UNKNOWN, etc. You can
+         * retrieve supported subcategories from [GET /products/categories
+         * endpoint](/reference/api/products/get-product-categories)
+         */
+        public Builder productSubcategory(String productSubcategory) {
             Utils.checkNotNull(productSubcategory, "productSubcategory");
             this.productSubcategory = productSubcategory;
             return this;

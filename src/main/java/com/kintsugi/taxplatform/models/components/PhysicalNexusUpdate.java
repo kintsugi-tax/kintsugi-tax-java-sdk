@@ -35,23 +35,65 @@ public class PhysicalNexusUpdate {
     @JsonProperty("category")
     private PhysicalNexusCategory category;
 
+    /**
+     * Primary street address for the physical presence location.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("street_1")
+    private Optional<String> street1;
+
+    /**
+     * Additional street address details, such as suite or unit number.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("street_2")
+    private Optional<String> street2;
+
+    /**
+     * City of the physical presence location.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("city")
+    private Optional<String> city;
+
+    /**
+     * ZIP or postal code of the physical presence location.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("postal_code")
+    private Optional<String> postalCode;
+
     @JsonCreator
     public PhysicalNexusUpdate(
             @JsonProperty("start_date") LocalDate startDate,
             @JsonProperty("end_date") Optional<String> endDate,
-            @JsonProperty("category") PhysicalNexusCategory category) {
+            @JsonProperty("category") PhysicalNexusCategory category,
+            @JsonProperty("street_1") Optional<String> street1,
+            @JsonProperty("street_2") Optional<String> street2,
+            @JsonProperty("city") Optional<String> city,
+            @JsonProperty("postal_code") Optional<String> postalCode) {
         Utils.checkNotNull(startDate, "startDate");
         Utils.checkNotNull(endDate, "endDate");
         Utils.checkNotNull(category, "category");
+        Utils.checkNotNull(street1, "street1");
+        Utils.checkNotNull(street2, "street2");
+        Utils.checkNotNull(city, "city");
+        Utils.checkNotNull(postalCode, "postalCode");
         this.startDate = startDate;
         this.endDate = endDate;
         this.category = category;
+        this.street1 = street1;
+        this.street2 = street2;
+        this.city = city;
+        this.postalCode = postalCode;
     }
     
     public PhysicalNexusUpdate(
             LocalDate startDate,
             PhysicalNexusCategory category) {
-        this(startDate, Optional.empty(), category);
+        this(startDate, Optional.empty(), category,
+            Optional.empty(), Optional.empty(), Optional.empty(),
+            Optional.empty());
     }
 
     /**
@@ -75,6 +117,38 @@ public class PhysicalNexusUpdate {
     @JsonIgnore
     public PhysicalNexusCategory category() {
         return category;
+    }
+
+    /**
+     * Primary street address for the physical presence location.
+     */
+    @JsonIgnore
+    public Optional<String> street1() {
+        return street1;
+    }
+
+    /**
+     * Additional street address details, such as suite or unit number.
+     */
+    @JsonIgnore
+    public Optional<String> street2() {
+        return street2;
+    }
+
+    /**
+     * City of the physical presence location.
+     */
+    @JsonIgnore
+    public Optional<String> city() {
+        return city;
+    }
+
+    /**
+     * ZIP or postal code of the physical presence location.
+     */
+    @JsonIgnore
+    public Optional<String> postalCode() {
+        return postalCode;
     }
 
     public static Builder builder() {
@@ -119,6 +193,82 @@ public class PhysicalNexusUpdate {
         return this;
     }
 
+    /**
+     * Primary street address for the physical presence location.
+     */
+    public PhysicalNexusUpdate withStreet1(String street1) {
+        Utils.checkNotNull(street1, "street1");
+        this.street1 = Optional.ofNullable(street1);
+        return this;
+    }
+
+
+    /**
+     * Primary street address for the physical presence location.
+     */
+    public PhysicalNexusUpdate withStreet1(Optional<String> street1) {
+        Utils.checkNotNull(street1, "street1");
+        this.street1 = street1;
+        return this;
+    }
+
+    /**
+     * Additional street address details, such as suite or unit number.
+     */
+    public PhysicalNexusUpdate withStreet2(String street2) {
+        Utils.checkNotNull(street2, "street2");
+        this.street2 = Optional.ofNullable(street2);
+        return this;
+    }
+
+
+    /**
+     * Additional street address details, such as suite or unit number.
+     */
+    public PhysicalNexusUpdate withStreet2(Optional<String> street2) {
+        Utils.checkNotNull(street2, "street2");
+        this.street2 = street2;
+        return this;
+    }
+
+    /**
+     * City of the physical presence location.
+     */
+    public PhysicalNexusUpdate withCity(String city) {
+        Utils.checkNotNull(city, "city");
+        this.city = Optional.ofNullable(city);
+        return this;
+    }
+
+
+    /**
+     * City of the physical presence location.
+     */
+    public PhysicalNexusUpdate withCity(Optional<String> city) {
+        Utils.checkNotNull(city, "city");
+        this.city = city;
+        return this;
+    }
+
+    /**
+     * ZIP or postal code of the physical presence location.
+     */
+    public PhysicalNexusUpdate withPostalCode(String postalCode) {
+        Utils.checkNotNull(postalCode, "postalCode");
+        this.postalCode = Optional.ofNullable(postalCode);
+        return this;
+    }
+
+
+    /**
+     * ZIP or postal code of the physical presence location.
+     */
+    public PhysicalNexusUpdate withPostalCode(Optional<String> postalCode) {
+        Utils.checkNotNull(postalCode, "postalCode");
+        this.postalCode = postalCode;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -131,13 +281,19 @@ public class PhysicalNexusUpdate {
         return 
             Utils.enhancedDeepEquals(this.startDate, other.startDate) &&
             Utils.enhancedDeepEquals(this.endDate, other.endDate) &&
-            Utils.enhancedDeepEquals(this.category, other.category);
+            Utils.enhancedDeepEquals(this.category, other.category) &&
+            Utils.enhancedDeepEquals(this.street1, other.street1) &&
+            Utils.enhancedDeepEquals(this.street2, other.street2) &&
+            Utils.enhancedDeepEquals(this.city, other.city) &&
+            Utils.enhancedDeepEquals(this.postalCode, other.postalCode);
     }
     
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-            startDate, endDate, category);
+            startDate, endDate, category,
+            street1, street2, city,
+            postalCode);
     }
     
     @Override
@@ -145,7 +301,11 @@ public class PhysicalNexusUpdate {
         return Utils.toString(PhysicalNexusUpdate.class,
                 "startDate", startDate,
                 "endDate", endDate,
-                "category", category);
+                "category", category,
+                "street1", street1,
+                "street2", street2,
+                "city", city,
+                "postalCode", postalCode);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -156,6 +316,14 @@ public class PhysicalNexusUpdate {
         private Optional<String> endDate = Optional.empty();
 
         private PhysicalNexusCategory category;
+
+        private Optional<String> street1 = Optional.empty();
+
+        private Optional<String> street2 = Optional.empty();
+
+        private Optional<String> city = Optional.empty();
+
+        private Optional<String> postalCode = Optional.empty();
 
         private Builder() {
           // force use of static builder() method
@@ -200,10 +368,88 @@ public class PhysicalNexusUpdate {
             return this;
         }
 
+
+        /**
+         * Primary street address for the physical presence location.
+         */
+        public Builder street1(String street1) {
+            Utils.checkNotNull(street1, "street1");
+            this.street1 = Optional.ofNullable(street1);
+            return this;
+        }
+
+        /**
+         * Primary street address for the physical presence location.
+         */
+        public Builder street1(Optional<String> street1) {
+            Utils.checkNotNull(street1, "street1");
+            this.street1 = street1;
+            return this;
+        }
+
+
+        /**
+         * Additional street address details, such as suite or unit number.
+         */
+        public Builder street2(String street2) {
+            Utils.checkNotNull(street2, "street2");
+            this.street2 = Optional.ofNullable(street2);
+            return this;
+        }
+
+        /**
+         * Additional street address details, such as suite or unit number.
+         */
+        public Builder street2(Optional<String> street2) {
+            Utils.checkNotNull(street2, "street2");
+            this.street2 = street2;
+            return this;
+        }
+
+
+        /**
+         * City of the physical presence location.
+         */
+        public Builder city(String city) {
+            Utils.checkNotNull(city, "city");
+            this.city = Optional.ofNullable(city);
+            return this;
+        }
+
+        /**
+         * City of the physical presence location.
+         */
+        public Builder city(Optional<String> city) {
+            Utils.checkNotNull(city, "city");
+            this.city = city;
+            return this;
+        }
+
+
+        /**
+         * ZIP or postal code of the physical presence location.
+         */
+        public Builder postalCode(String postalCode) {
+            Utils.checkNotNull(postalCode, "postalCode");
+            this.postalCode = Optional.ofNullable(postalCode);
+            return this;
+        }
+
+        /**
+         * ZIP or postal code of the physical presence location.
+         */
+        public Builder postalCode(Optional<String> postalCode) {
+            Utils.checkNotNull(postalCode, "postalCode");
+            this.postalCode = postalCode;
+            return this;
+        }
+
         public PhysicalNexusUpdate build() {
 
             return new PhysicalNexusUpdate(
-                startDate, endDate, category);
+                startDate, endDate, category,
+                street1, street2, city,
+                postalCode);
         }
 
     }

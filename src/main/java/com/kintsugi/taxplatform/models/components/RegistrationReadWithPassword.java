@@ -146,13 +146,6 @@ public class RegistrationReadWithPassword {
     private FilingFrequencyEnum filingFrequency;
 
     /**
-     * The number of days before the filing deadline.
-     */
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("filing_days")
-    private Optional<Long> filingDays;
-
-    /**
      * Username for accessing tax registration details.
      */
     @JsonInclude(Include.NON_ABSENT)
@@ -274,6 +267,10 @@ public class RegistrationReadWithPassword {
     private Optional<Boolean> hasAllCredentials;
 
 
+    @JsonProperty("filing_days")
+    private long filingDays;
+
+
     @JsonProperty("registration_type")
     private RegistrationTypeEnum registrationType;
 
@@ -299,7 +296,6 @@ public class RegistrationReadWithPassword {
             @JsonProperty("state_code") String stateCode,
             @JsonProperty("state_name") String stateName,
             @JsonProperty("filing_frequency") FilingFrequencyEnum filingFrequency,
-            @JsonProperty("filing_days") Optional<Long> filingDays,
             @JsonProperty("username") Optional<String> username,
             @JsonProperty("comment") Optional<String> comment,
             @JsonProperty("create_filings_from") Optional<String> createFilingsFrom,
@@ -318,6 +314,7 @@ public class RegistrationReadWithPassword {
             @JsonProperty("registration_category") Optional<? extends RegistrationCategoryEnum> registrationCategory,
             @JsonProperty("password_encrypted") Optional<String> passwordEncrypted,
             @JsonProperty("has_all_credentials") Optional<Boolean> hasAllCredentials,
+            @JsonProperty("filing_days") long filingDays,
             @JsonProperty("registration_type") RegistrationTypeEnum registrationType) {
         Utils.checkNotNull(registrationDate, "registrationDate");
         Utils.checkNotNull(registrationEmail, "registrationEmail");
@@ -339,7 +336,6 @@ public class RegistrationReadWithPassword {
         Utils.checkNotNull(stateCode, "stateCode");
         Utils.checkNotNull(stateName, "stateName");
         Utils.checkNotNull(filingFrequency, "filingFrequency");
-        Utils.checkNotNull(filingDays, "filingDays");
         Utils.checkNotNull(username, "username");
         Utils.checkNotNull(comment, "comment");
         Utils.checkNotNull(createFilingsFrom, "createFilingsFrom");
@@ -358,6 +354,7 @@ public class RegistrationReadWithPassword {
         Utils.checkNotNull(registrationCategory, "registrationCategory");
         Utils.checkNotNull(passwordEncrypted, "passwordEncrypted");
         Utils.checkNotNull(hasAllCredentials, "hasAllCredentials");
+        Utils.checkNotNull(filingDays, "filingDays");
         Utils.checkNotNull(registrationType, "registrationType");
         this.registrationDate = registrationDate;
         this.registrationEmail = registrationEmail;
@@ -379,7 +376,6 @@ public class RegistrationReadWithPassword {
         this.stateCode = stateCode;
         this.stateName = stateName;
         this.filingFrequency = filingFrequency;
-        this.filingDays = filingDays;
         this.username = username;
         this.comment = comment;
         this.createFilingsFrom = createFilingsFrom;
@@ -398,6 +394,7 @@ public class RegistrationReadWithPassword {
         this.registrationCategory = registrationCategory;
         this.passwordEncrypted = passwordEncrypted;
         this.hasAllCredentials = hasAllCredentials;
+        this.filingDays = filingDays;
         this.registrationType = registrationType;
     }
     
@@ -408,6 +405,7 @@ public class RegistrationReadWithPassword {
             String stateName,
             FilingFrequencyEnum filingFrequency,
             String id,
+            long filingDays,
             RegistrationTypeEnum registrationType) {
         this(Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
@@ -420,8 +418,8 @@ public class RegistrationReadWithPassword {
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), id, Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
+            id, Optional.empty(), Optional.empty(),
+            Optional.empty(), Optional.empty(), filingDays,
             registrationType);
     }
 
@@ -573,14 +571,6 @@ public class RegistrationReadWithPassword {
     }
 
     /**
-     * The number of days before the filing deadline.
-     */
-    @JsonIgnore
-    public Optional<Long> filingDays() {
-        return filingDays;
-    }
-
-    /**
      * Username for accessing tax registration details.
      */
     @JsonIgnore
@@ -718,6 +708,11 @@ public class RegistrationReadWithPassword {
     @JsonIgnore
     public Optional<Boolean> hasAllCredentials() {
         return hasAllCredentials;
+    }
+
+    @JsonIgnore
+    public long filingDays() {
+        return filingDays;
     }
 
     @JsonIgnore
@@ -1040,25 +1035,6 @@ public class RegistrationReadWithPassword {
     }
 
     /**
-     * The number of days before the filing deadline.
-     */
-    public RegistrationReadWithPassword withFilingDays(long filingDays) {
-        Utils.checkNotNull(filingDays, "filingDays");
-        this.filingDays = Optional.ofNullable(filingDays);
-        return this;
-    }
-
-
-    /**
-     * The number of days before the filing deadline.
-     */
-    public RegistrationReadWithPassword withFilingDays(Optional<Long> filingDays) {
-        Utils.checkNotNull(filingDays, "filingDays");
-        this.filingDays = filingDays;
-        return this;
-    }
-
-    /**
      * Username for accessing tax registration details.
      */
     public RegistrationReadWithPassword withUsername(String username) {
@@ -1376,6 +1352,12 @@ public class RegistrationReadWithPassword {
         return this;
     }
 
+    public RegistrationReadWithPassword withFilingDays(long filingDays) {
+        Utils.checkNotNull(filingDays, "filingDays");
+        this.filingDays = filingDays;
+        return this;
+    }
+
     public RegistrationReadWithPassword withRegistrationType(RegistrationTypeEnum registrationType) {
         Utils.checkNotNull(registrationType, "registrationType");
         this.registrationType = registrationType;
@@ -1412,7 +1394,6 @@ public class RegistrationReadWithPassword {
             Utils.enhancedDeepEquals(this.stateCode, other.stateCode) &&
             Utils.enhancedDeepEquals(this.stateName, other.stateName) &&
             Utils.enhancedDeepEquals(this.filingFrequency, other.filingFrequency) &&
-            Utils.enhancedDeepEquals(this.filingDays, other.filingDays) &&
             Utils.enhancedDeepEquals(this.username, other.username) &&
             Utils.enhancedDeepEquals(this.comment, other.comment) &&
             Utils.enhancedDeepEquals(this.createFilingsFrom, other.createFilingsFrom) &&
@@ -1431,6 +1412,7 @@ public class RegistrationReadWithPassword {
             Utils.enhancedDeepEquals(this.registrationCategory, other.registrationCategory) &&
             Utils.enhancedDeepEquals(this.passwordEncrypted, other.passwordEncrypted) &&
             Utils.enhancedDeepEquals(this.hasAllCredentials, other.hasAllCredentials) &&
+            Utils.enhancedDeepEquals(this.filingDays, other.filingDays) &&
             Utils.enhancedDeepEquals(this.registrationType, other.registrationType);
     }
     
@@ -1443,13 +1425,13 @@ public class RegistrationReadWithPassword {
             registrationsRegime, changeRegimeStatus, thirdPartyEnabled,
             doNotFile, twoFactorEnabled, markedCollecting,
             status, countryCode, stateCode,
-            stateName, filingFrequency, filingDays,
-            username, comment, createFilingsFrom,
-            initialSync, amountFees, vda,
-            imported, salesTaxId, sstImport,
-            ossType, ossMemberStateOfIdentificationCode, markedCollectingDate,
-            needsMarkAsCollecting, id, creditsTotalAvailable,
-            registrationCategory, passwordEncrypted, hasAllCredentials,
+            stateName, filingFrequency, username,
+            comment, createFilingsFrom, initialSync,
+            amountFees, vda, imported,
+            salesTaxId, sstImport, ossType,
+            ossMemberStateOfIdentificationCode, markedCollectingDate, needsMarkAsCollecting,
+            id, creditsTotalAvailable, registrationCategory,
+            passwordEncrypted, hasAllCredentials, filingDays,
             registrationType);
     }
     
@@ -1476,7 +1458,6 @@ public class RegistrationReadWithPassword {
                 "stateCode", stateCode,
                 "stateName", stateName,
                 "filingFrequency", filingFrequency,
-                "filingDays", filingDays,
                 "username", username,
                 "comment", comment,
                 "createFilingsFrom", createFilingsFrom,
@@ -1495,6 +1476,7 @@ public class RegistrationReadWithPassword {
                 "registrationCategory", registrationCategory,
                 "passwordEncrypted", passwordEncrypted,
                 "hasAllCredentials", hasAllCredentials,
+                "filingDays", filingDays,
                 "registrationType", registrationType);
     }
 
@@ -1541,8 +1523,6 @@ public class RegistrationReadWithPassword {
 
         private FilingFrequencyEnum filingFrequency;
 
-        private Optional<Long> filingDays = Optional.empty();
-
         private Optional<String> username = Optional.empty();
 
         private Optional<String> comment = Optional.empty();
@@ -1578,6 +1558,8 @@ public class RegistrationReadWithPassword {
         private Optional<String> passwordEncrypted = Optional.empty();
 
         private Optional<Boolean> hasAllCredentials;
+
+        private Long filingDays;
 
         private RegistrationTypeEnum registrationType;
 
@@ -1901,25 +1883,6 @@ public class RegistrationReadWithPassword {
 
 
         /**
-         * The number of days before the filing deadline.
-         */
-        public Builder filingDays(long filingDays) {
-            Utils.checkNotNull(filingDays, "filingDays");
-            this.filingDays = Optional.ofNullable(filingDays);
-            return this;
-        }
-
-        /**
-         * The number of days before the filing deadline.
-         */
-        public Builder filingDays(Optional<Long> filingDays) {
-            Utils.checkNotNull(filingDays, "filingDays");
-            this.filingDays = filingDays;
-            return this;
-        }
-
-
-        /**
          * Username for accessing tax registration details.
          */
         public Builder username(String username) {
@@ -2238,6 +2201,13 @@ public class RegistrationReadWithPassword {
         }
 
 
+        public Builder filingDays(long filingDays) {
+            Utils.checkNotNull(filingDays, "filingDays");
+            this.filingDays = filingDays;
+            return this;
+        }
+
+
         public Builder registrationType(RegistrationTypeEnum registrationType) {
             Utils.checkNotNull(registrationType, "registrationType");
             this.registrationType = registrationType;
@@ -2283,13 +2253,13 @@ public class RegistrationReadWithPassword {
                 registrationsRegime, changeRegimeStatus, thirdPartyEnabled,
                 doNotFile, twoFactorEnabled, markedCollecting,
                 status, countryCode, stateCode,
-                stateName, filingFrequency, filingDays,
-                username, comment, createFilingsFrom,
-                initialSync, amountFees, vda,
-                imported, salesTaxId, sstImport,
-                ossType, ossMemberStateOfIdentificationCode, markedCollectingDate,
-                needsMarkAsCollecting, id, creditsTotalAvailable,
-                registrationCategory, passwordEncrypted, hasAllCredentials,
+                stateName, filingFrequency, username,
+                comment, createFilingsFrom, initialSync,
+                amountFees, vda, imported,
+                salesTaxId, sstImport, ossType,
+                ossMemberStateOfIdentificationCode, markedCollectingDate, needsMarkAsCollecting,
+                id, creditsTotalAvailable, registrationCategory,
+                passwordEncrypted, hasAllCredentials, filingDays,
                 registrationType);
         }
 

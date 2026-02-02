@@ -58,7 +58,7 @@ public class AsyncProducts {
      * 
      * @return The async call builder
      */
-    public GetProductsV1ProductsGetRequestBuilder get() {
+    public GetProductsV1ProductsGetRequestBuilder getProductsV1ProductsGet() {
         return new GetProductsV1ProductsGetRequestBuilder(sdkConfiguration);
     }
 
@@ -70,7 +70,7 @@ public class AsyncProducts {
      * @param request The request object containing all the parameters for the API call.
      * @return {@code CompletableFuture<GetProductsV1ProductsGetResponse>} - The async response
      */
-    public CompletableFuture<GetProductsV1ProductsGetResponse> get(GetProductsV1ProductsGetRequest request) {
+    public CompletableFuture<GetProductsV1ProductsGetResponse> getProductsV1ProductsGet(GetProductsV1ProductsGetRequest request) {
         AsyncRequestOperation<GetProductsV1ProductsGetRequest, GetProductsV1ProductsGetResponse> operation
               = new GetProductsV1ProductsGet.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
@@ -83,11 +83,13 @@ public class AsyncProducts {
      * 
      * <p>The Create Product API allows users to manually create a new product
      * in the system. This includes specifying product details such as category,
-     * subcategory, and tax exemption status, etc.
+     * subcategory, and tax exemption status, etc. You can
+     * retrieve supported categories and subcategories from
+     * [GET /products/categories endpoint](/reference/api/products/get-product-categories)
      * 
      * @return The async call builder
      */
-    public CreateProductV1ProductsPostRequestBuilder create() {
+    public CreateProductV1ProductsPostRequestBuilder createProductV1ProductsPost() {
         return new CreateProductV1ProductsPostRequestBuilder(sdkConfiguration);
     }
 
@@ -96,15 +98,47 @@ public class AsyncProducts {
      * 
      * <p>The Create Product API allows users to manually create a new product
      * in the system. This includes specifying product details such as category,
-     * subcategory, and tax exemption status, etc.
+     * subcategory, and tax exemption status, etc. You can
+     * retrieve supported categories and subcategories from
+     * [GET /products/categories endpoint](/reference/api/products/get-product-categories)
      * 
      * @param request The request object containing all the parameters for the API call.
      * @return {@code CompletableFuture<CreateProductV1ProductsPostResponse>} - The async response
      */
-    public CompletableFuture<CreateProductV1ProductsPostResponse> create(ProductCreateManual request) {
+    public CompletableFuture<CreateProductV1ProductsPostResponse> createProductV1ProductsPost(ProductCreateManual request) {
         AsyncRequestOperation<ProductCreateManual, CreateProductV1ProductsPostResponse> operation
               = new CreateProductV1ProductsPost.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
+            .thenCompose(operation::handleResponse);
+    }
+
+
+    /**
+     * Get Product Categories
+     * 
+     * <p>The Get Product Categories API retrieves all
+     * product categories. This endpoint helps users understand and select the
+     * appropriate categories for their products.
+     * 
+     * @return The async call builder
+     */
+    public GetProductCategoriesV1ProductsCategoriesGetRequestBuilder getProductCategoriesV1ProductsCategoriesGet() {
+        return new GetProductCategoriesV1ProductsCategoriesGetRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Get Product Categories
+     * 
+     * <p>The Get Product Categories API retrieves all
+     * product categories. This endpoint helps users understand and select the
+     * appropriate categories for their products.
+     * 
+     * @return {@code CompletableFuture<GetProductCategoriesV1ProductsCategoriesGetResponse>} - The async response
+     */
+    public CompletableFuture<GetProductCategoriesV1ProductsCategoriesGetResponse> getProductCategoriesV1ProductsCategoriesGetDirect() {
+        AsyncRequestlessOperation<GetProductCategoriesV1ProductsCategoriesGetResponse> operation
+            = new GetProductCategoriesV1ProductsCategoriesGet.Async(sdkConfiguration, _headers);
+        return operation.doRequest()
             .thenCompose(operation::handleResponse);
     }
 
@@ -149,7 +183,9 @@ public class AsyncProducts {
      * Update Product
      * 
      * <p>The Update Product API allows users to modify the details of
-     * an existing product identified by its unique product_id
+     * an existing product identified by its unique product_id. You can
+     * retrieve supported categories and subcategories from
+     * [GET /products/categories endpoint](/reference/api/products/get-product-categories)
      * 
      * @return The async call builder
      */
@@ -161,7 +197,9 @@ public class AsyncProducts {
      * Update Product
      * 
      * <p>The Update Product API allows users to modify the details of
-     * an existing product identified by its unique product_id
+     * an existing product identified by its unique product_id. You can
+     * retrieve supported categories and subcategories from
+     * [GET /products/categories endpoint](/reference/api/products/get-product-categories)
      * 
      * @param productId Unique identifier of the product to be updated.
      * @param productUpdate 
@@ -177,36 +215,6 @@ public class AsyncProducts {
         AsyncRequestOperation<UpdateProductV1ProductsProductIdPutRequest, UpdateProductV1ProductsProductIdPutResponse> operation
               = new UpdateProductV1ProductsProductIdPut.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
-            .thenCompose(operation::handleResponse);
-    }
-
-
-    /**
-     * Get Product Categories
-     * 
-     * <p>The Get Product Categories API retrieves all
-     * product categories. This endpoint helps users understand and select the
-     * appropriate categories for their products.
-     * 
-     * @return The async call builder
-     */
-    public GetProductCategoriesV1ProductsCategoriesGetRequestBuilder getCategories() {
-        return new GetProductCategoriesV1ProductsCategoriesGetRequestBuilder(sdkConfiguration);
-    }
-
-    /**
-     * Get Product Categories
-     * 
-     * <p>The Get Product Categories API retrieves all
-     * product categories. This endpoint helps users understand and select the
-     * appropriate categories for their products.
-     * 
-     * @return {@code CompletableFuture<GetProductCategoriesV1ProductsCategoriesGetResponse>} - The async response
-     */
-    public CompletableFuture<GetProductCategoriesV1ProductsCategoriesGetResponse> getCategoriesDirect() {
-        AsyncRequestlessOperation<GetProductCategoriesV1ProductsCategoriesGetResponse> operation
-            = new GetProductCategoriesV1ProductsCategoriesGet.Async(sdkConfiguration, _headers);
-        return operation.doRequest()
             .thenCompose(operation::handleResponse);
     }
 

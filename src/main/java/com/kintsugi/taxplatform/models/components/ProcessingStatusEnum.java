@@ -27,7 +27,8 @@ public enum ProcessingStatusEnum {
     LOCKED("LOCKED"),
     PENDING("PENDING"),
     ARCHIVED("ARCHIVED"),
-    NEEDS_REFETCH("NEEDS_REFETCH");
+    NEEDS_REFETCH("NEEDS_REFETCH"),
+    EXCLUDED_IN_CALCULATION("EXCLUDED_IN_CALCULATION");
 
     @JsonValue
     private final String value;

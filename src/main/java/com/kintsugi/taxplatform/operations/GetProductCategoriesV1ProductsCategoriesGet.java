@@ -12,7 +12,8 @@ import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.SecuritySource;
 import com.kintsugi.taxplatform.models.components.ProductCategories;
 import com.kintsugi.taxplatform.models.errors.APIException;
-import com.kintsugi.taxplatform.models.errors.HTTPValidationError;
+import com.kintsugi.taxplatform.models.errors.BackendSrcProductsResponsesValidationErrorResponse;
+import com.kintsugi.taxplatform.models.errors.ErrorResponse;
 import com.kintsugi.taxplatform.models.operations.GetProductCategoriesV1ProductsCategoriesGetResponse;
 import com.kintsugi.taxplatform.utils.Blob;
 import com.kintsugi.taxplatform.utils.HTTPClient;
@@ -28,7 +29,6 @@ import java.lang.String;
 import java.lang.Throwable;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
@@ -59,7 +59,7 @@ public class GetProductCategoriesV1ProductsCategoriesGet {
             return new BeforeRequestContextImpl(
                     this.sdkConfiguration,
                     this.baseUrl,
-                    "get_product_categories_v1_products_categories__get",
+                    "get_product_categories_v1_products_categories_get",
                     java.util.Optional.empty(),
                     securitySource());
         }
@@ -68,7 +68,7 @@ public class GetProductCategoriesV1ProductsCategoriesGet {
             return new AfterSuccessContextImpl(
                     this.sdkConfiguration,
                     this.baseUrl,
-                    "get_product_categories_v1_products_categories__get",
+                    "get_product_categories_v1_products_categories_get",
                     java.util.Optional.empty(),
                     securitySource());
         }
@@ -77,14 +77,14 @@ public class GetProductCategoriesV1ProductsCategoriesGet {
             return new AfterErrorContextImpl(
                     this.sdkConfiguration,
                     this.baseUrl,
-                    "get_product_categories_v1_products_categories__get",
+                    "get_product_categories_v1_products_categories_get",
                     java.util.Optional.empty(),
                     securitySource());
         }
         HttpRequest buildRequest() throws Exception {
             String url = Utils.generateURL(
                     this.baseUrl,
-                    "/v1/products/categories/");
+                    "/v1/products/categories");
             HTTPRequest req = new HTTPRequest(url, "GET");
             req.addHeader("Accept", "application/json")
                     .addHeader("user-agent", SDKConfiguration.USER_AGENT);
@@ -123,7 +123,7 @@ public class GetProductCategoriesV1ProductsCategoriesGet {
             HttpResponse<InputStream> httpRes;
             try {
                 httpRes = client.send(r);
-                if (Utils.statusCodeMatches(httpRes.statusCode(), "422", "4XX", "5XX")) {
+                if (Utils.statusCodeMatches(httpRes.statusCode(), "401", "404", "422", "4XX", "500", "5XX")) {
                     httpRes = onError(httpRes, null);
                 } else {
                     httpRes = onSuccess(httpRes);
@@ -153,19 +153,33 @@ public class GetProductCategoriesV1ProductsCategoriesGet {
             
             if (Utils.statusCodeMatches(response.statusCode(), "200")) {
                 if (Utils.contentTypeMatches(contentType, "application/json")) {
-                    return res.withResponseGetProductCategoriesV1ProductsCategoriesGet(Utils.unmarshal(response, new TypeReference<List<ProductCategories>>() {}));
+                    return res.withProductCategories(Utils.unmarshal(response, new TypeReference<ProductCategories>() {}));
+                } else {
+                    throw APIException.from("Unexpected content-type received: " + contentType, response);
+                }
+            }
+            if (Utils.statusCodeMatches(response.statusCode(), "401")) {
+                if (Utils.contentTypeMatches(contentType, "application/json")) {
+                    throw ErrorResponse.from(response);
                 } else {
                     throw APIException.from("Unexpected content-type received: " + contentType, response);
                 }
             }
             if (Utils.statusCodeMatches(response.statusCode(), "422")) {
                 if (Utils.contentTypeMatches(contentType, "application/json")) {
-                    throw HTTPValidationError.from(response);
+                    throw BackendSrcProductsResponsesValidationErrorResponse.from(response);
                 } else {
                     throw APIException.from("Unexpected content-type received: " + contentType, response);
                 }
             }
-            if (Utils.statusCodeMatches(response.statusCode(), "4XX")) {
+            if (Utils.statusCodeMatches(response.statusCode(), "500")) {
+                if (Utils.contentTypeMatches(contentType, "application/json")) {
+                    throw ErrorResponse.from(response);
+                } else {
+                    throw APIException.from("Unexpected content-type received: " + contentType, response);
+                }
+            }
+            if (Utils.statusCodeMatches(response.statusCode(), "404", "4XX")) {
                 // no content
                 throw APIException.from("API error occurred", response);
             }
@@ -203,7 +217,7 @@ public class GetProductCategoriesV1ProductsCategoriesGet {
                         if (err != null) {
                             return onError(null, err);
                         }
-                        if (Utils.statusCodeMatches(resp.statusCode(), "422", "4XX", "5XX")) {
+                        if (Utils.statusCodeMatches(resp.statusCode(), "401", "404", "422", "4XX", "500", "5XX")) {
                             return onError(resp, null);
                         }
                         return CompletableFuture.completedFuture(resp);
@@ -230,21 +244,37 @@ public class GetProductCategoriesV1ProductsCategoriesGet {
             
             if (Utils.statusCodeMatches(response.statusCode(), "200")) {
                 if (Utils.contentTypeMatches(contentType, "application/json")) {
-                    return Utils.unmarshalAsync(response, new TypeReference<List<ProductCategories>>() {})
-                            .thenApply(res::withResponseGetProductCategoriesV1ProductsCategoriesGet);
+                    return Utils.unmarshalAsync(response, new TypeReference<ProductCategories>() {})
+                            .thenApply(res::withProductCategories);
+                } else {
+                    return Utils.createAsyncApiError(response, "Unexpected content-type received: " + contentType);
+                }
+            }
+            if (Utils.statusCodeMatches(response.statusCode(), "401")) {
+                if (Utils.contentTypeMatches(contentType, "application/json")) {
+                    return ErrorResponse.fromAsync(response)
+                            .thenCompose(CompletableFuture::failedFuture);
                 } else {
                     return Utils.createAsyncApiError(response, "Unexpected content-type received: " + contentType);
                 }
             }
             if (Utils.statusCodeMatches(response.statusCode(), "422")) {
                 if (Utils.contentTypeMatches(contentType, "application/json")) {
-                    return HTTPValidationError.fromAsync(response)
+                    return BackendSrcProductsResponsesValidationErrorResponse.fromAsync(response)
                             .thenCompose(CompletableFuture::failedFuture);
                 } else {
                     return Utils.createAsyncApiError(response, "Unexpected content-type received: " + contentType);
                 }
             }
-            if (Utils.statusCodeMatches(response.statusCode(), "4XX")) {
+            if (Utils.statusCodeMatches(response.statusCode(), "500")) {
+                if (Utils.contentTypeMatches(contentType, "application/json")) {
+                    return ErrorResponse.fromAsync(response)
+                            .thenCompose(CompletableFuture::failedFuture);
+                } else {
+                    return Utils.createAsyncApiError(response, "Unexpected content-type received: " + contentType);
+                }
+            }
+            if (Utils.statusCodeMatches(response.statusCode(), "404", "4XX")) {
                 // no content
                 return Utils.createAsyncApiError(response, "API error occurred");
             }

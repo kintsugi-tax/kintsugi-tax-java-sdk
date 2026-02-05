@@ -1097,7 +1097,7 @@ paths:
         content:
           "application/json":
             schema: {"$ref": "#/components/schemas/PhysicalNexusCreate"}
-            example: {"country_code": "US", "state_code": "CA", "start_date": "2024-01-01", "end_date": "2025-01-01", "category": "PHYSICAL_BUSINESS_LOCATION", "external_id": "ext_ABC123", "source": "USER"}
+            example: {"country_code": "US", "state_code": "CA", "start_date": "2024-01-01", "end_date": "2025-01-01", "category": "PHYSICAL_BUSINESS_LOCATION", "external_id": "ext_ABC123", "source": "USER", "street_1": "123 Main Street", "street_2": "Suite 100", "city": "San Francisco", "postal_code": "94102"}
       responses:
         "200":
           description: "Successfully created physical nexus"
@@ -1148,7 +1148,7 @@ paths:
         content:
           "application/json":
             schema: {"$ref": "#/components/schemas/PhysicalNexusUpdate"}
-            example: {"start_date": "2024-01-01", "end_date": "2025-01-01", "category": "PHYSICAL_BUSINESS_LOCATION"}
+            example: {"start_date": "2024-01-01", "end_date": "2025-01-01", "category": "PHYSICAL_BUSINESS_LOCATION", "street_1": "123 Main Street", "street_2": "Suite 100", "city": "San Francisco", "postal_code": "94102"}
       responses:
         "200":
           description: "Successfully created physical nexus"
@@ -1313,13 +1313,13 @@ paths:
             "application/json":
               schema: {"$ref": "#/components/schemas/HTTPValidationError"}
       x-speakeasy-name-override: "get"
-  "/v1/products/":
+  "/v1/products":
     get:
       tags:
         - "Products"
       summary: "Get Products"
       description: "Retrieve a paginated list of products based on filters and search query."
-      operationId: "get_products_v1_products__get"
+      operationId: "get_products_v1_products_get"
       security:
         - APIKeyHeader: []
           CustomHeader: []
@@ -1393,7 +1393,7 @@ paths:
           content:
             "application/json":
               schema: {"$ref": "#/components/schemas/Page_ProductRead_"}
-              example: {"items": [{"external_id": "prod_001", "code": "CODE_1001", "name": "Sample Product A", "description": "This is a sample product description.", "status": "PENDING", "product_category": "PHYSICAL", "product_subcategory": "GENERAL_CLOTHING", "tax_exempt": false, "source": "BIGCOMMERCE", "connection_id": "conn_12345", "classification_failed": true, "id": "prod_abc123"}, {"external_id": "prod_002", "code": "CODE_1002", "name": "Sample Product B", "status": "APPROVED", "product_category": "SERVICE", "product_subcategory": "PROFESSIONAL_SERVICE", "tax_exempt": false, "source": "STRIPE", "classification_failed": false, "id": "prod_def456"}], "total": 2, "page": 1, "size": 50, "pages": 1}
+              example: {"items": [{"external_id": "prod_001", "code": "CODE_1001", "name": "Sample Product A", "description": "This is a sample product description.", "status": "PENDING", "product_category": "Physical", "product_subcategory": "General Clothing", "tax_exempt": false, "source": "BIGCOMMERCE", "connection_id": "conn_12345", "classification_failed": true, "id": "prod_abc123"}, {"external_id": "prod_002", "code": "CODE_1002", "name": "Sample Product B", "status": "APPROVED", "product_category": "Services", "product_subcategory": "Professional Training and Seminar Services", "tax_exempt": false, "source": "STRIPE", "classification_failed": false, "id": "prod_def456"}], "total": 2, "page": 1, "size": 50, "pages": 1}
         "404":
           description: "Resource not found"
           content:
@@ -1418,13 +1418,12 @@ paths:
             "application/json":
               example: {"detail": "An unexpected error occurred"}
               schema: {"$ref": "#/components/schemas/ErrorResponse"}
-      x-speakeasy-name-override: "get"
     post:
       tags:
         - "Products"
       summary: "Create Product"
-      description: "The Create Product API allows users to manually create a new product\n    in the system. This includes specifying product details such as category,\n    subcategory, and tax exemption status, etc."
-      operationId: "create_product_v1_products__post"
+      description: "The Create Product API allows users to manually create a new product\n    in the system. This includes specifying product details such as category,\n    subcategory, and tax exemption status, etc. You can\n    retrieve supported categories and subcategories from\n    [GET /products/categories endpoint](/reference/api/products/get-product-categories)"
+      operationId: "create_product_v1_products_post"
       security:
         - APIKeyHeader: []
           CustomHeader: []
@@ -1433,14 +1432,14 @@ paths:
         content:
           "application/json":
             schema: {"$ref": "#/components/schemas/ProductCreateManual"}
-            example: {"external_id": "prod_001", "name": "Sample Product", "description": "A description of the product", "status": "APPROVED", "product_category": "PHYSICAL", "product_subcategory": "GENERAL_CLOTHING", "tax_exempt": false, "source": "BIGCOMMERCE"}
+            example: {"external_id": "prod_001", "name": "T-shirts", "description": "Common items of everyday wearing apparel designed for human use, covering a wide variety of non-specialized garments.", "status": "APPROVED", "product_category": "Physical", "product_subcategory": "General Clothing", "tax_exempt": false, "source": "BIGCOMMERCE"}
       responses:
         "200":
           description: "Successfully created product"
           content:
             "application/json":
               schema: {"$ref": "#/components/schemas/ProductRead"}
-              example: {"id": "prod_xR9t8P1wMK6aQ", "external_id": "prod_123", "code": "CODE_1234", "name": "Test Product", "description": "This is a test product description.", "status": "APPROVED", "product_category": "PHYSICAL", "product_subcategory": "GENERAL_CLOTHING", "tax_exempt": false, "source": "SHOPIFY", "classification_failed": false}
+              example: {"id": "prod_xR9t8P1wMK6aQ", "external_id": "prod_123", "code": "CODE_1234", "name": "Test Product", "description": "This is a test product description.", "status": "APPROVED", "product_category": "Physical", "product_subcategory": "General Clothing", "tax_exempt": false, "source": "SHOPIFY", "classification_failed": false}
         "401":
           description: "Unauthenticated request."
           content:
@@ -1451,7 +1450,7 @@ paths:
           description: "Validation error"
           content:
             "application/json":
-              example: {"detail": [{"type": "missing", "loc": ["body", "external_id"], "msg": "Field required", "input": {"name": "Sample Product", "description": "A description of the product", "status": "APPROVED", "product_category": "PHYSICAL", "product_subcategory": "GENERAL_CLOTHING", "tax_exempt": false, "source": "BIGCOMMERCE"}}]}
+              example: {"detail": [{"type": "missing", "loc": ["body", "external_id"], "msg": "Field required", "input": {"name": "Sample Product", "description": "A description of the product", "status": "APPROVED", "product_category": "Physical", "product_subcategory": "General Clothing", "tax_exempt": false, "source": "BIGCOMMERCE"}}]}
               schema: {"$ref": "#/components/schemas/backend__src__products__responses__ValidationErrorResponse"}
         "500":
           description: "Internal server error"
@@ -1459,7 +1458,46 @@ paths:
             "application/json":
               example: {"detail": "An unexpected error occurred"}
               schema: {"$ref": "#/components/schemas/ErrorResponse"}
-      x-speakeasy-name-override: "create"
+  "/v1/products/categories":
+    get:
+      tags:
+        - "Products"
+      summary: "Get Product Categories"
+      description: "The Get Product Categories API retrieves all\n    product categories.  This endpoint helps users understand and select the\n    appropriate categories for their products."
+      operationId: "get_product_categories_v1_products_categories_get"
+      security:
+        - APIKeyHeader: []
+          CustomHeader: []
+      responses:
+        "200":
+          description: "Successfully retrieved product categories"
+          content:
+            "application/json":
+              schema: {"type": "array", "items": {"$ref": "#/components/schemas/ProductCategories"}, "title": "Response Get Product Categories V1 Products Categories Get", "$ref": "#/components/schemas/ProductCategories"}
+              example: [{"name": "Physical", "subcategories": [{"name": "Oral Hygiene", "description": "", "example": "", "is_frequent": false}, {"name": "Medicines - Over the Counter", "description": "", "example": "", "is_frequent": false}]}, {"name": "Digital", "subcategories": [{"name": "Custom Software Downloaded", "description": "", "example": "", "is_frequent": false}, {"name": "B2B SaaS", "description": "", "example": "", "is_frequent": true}]}]
+        "401":
+          description: "Unauthenticated request."
+          content:
+            "application/json":
+              example: {"detail": "The request is missing a valid x-api-key."}
+              schema: {"$ref": "#/components/schemas/ErrorResponse"}
+        "404":
+          description: "Resource Not Found"
+          content:
+            "application/json":
+              example: {"detail": "[orgn_argaLQwMy2fJc] Product with id categories not found"}
+        "422":
+          description: "Validation error"
+          content:
+            "application/json":
+              example: {"detail": [{"type": "missing", "loc": ["header", "x-organization-id"], "msg": "Field required"}]}
+              schema: {"$ref": "#/components/schemas/backend__src__products__responses__ValidationErrorResponse"}
+        "500":
+          description: "Internal server error"
+          content:
+            "application/json":
+              example: {"detail": "An unexpected error occurred"}
+              schema: {"$ref": "#/components/schemas/ErrorResponse"}
   "/v1/products/{product_id}":
     get:
       tags:
@@ -1485,7 +1523,7 @@ paths:
           content:
             "application/json":
               schema: {"$ref": "#/components/schemas/ProductRead"}
-              example: {"id": "prod_xR9t8P1wMK6aQ", "external_id": "prod_123", "code": "CODE_1234", "name": "Test Product", "description": "This is a test product description.", "status": "APPROVED", "product_category": "PHYSICAL", "product_subcategory": "GENERAL_CLOTHING", "tax_exempt": false, "source": "SHOPIFY", "classification_failed": false}
+              example: {"id": "prod_xR9t8P1wMK6aQ", "external_id": "prod_123", "code": "CODE_1234", "name": "Test Product", "description": "This is a test product description.", "status": "APPROVED", "product_category": "Physical", "product_subcategory": "General Clothing", "tax_exempt": false, "source": "SHOPIFY", "classification_failed": false}
         "401":
           description: "Unauthenticated request."
           content:
@@ -1514,7 +1552,7 @@ paths:
       tags:
         - "Products"
       summary: "Update Product"
-      description: "The Update Product API allows users to modify the details of\n    an existing product identified by its unique product_id"
+      description: "The Update Product API allows users to modify the details of\n    an existing product identified by its unique product_id. You can\n    retrieve supported categories and subcategories from\n    [GET /products/categories endpoint](/reference/api/products/get-product-categories)"
       operationId: "update_product_v1_products__product_id__put"
       security:
         - APIKeyHeader: []
@@ -1533,14 +1571,14 @@ paths:
         content:
           "application/json":
             schema: {"title": "Product", "$ref": "#/components/schemas/ProductUpdate"}
-            example: {"external_id": "prod_001", "name": "Updated Product Name", "description": "An updated description for the product", "status": "APPROVED", "product_category": "PHYSICAL", "product_subcategory": "GENERAL_CLOTHING", "tax_exempt": false, "classification_failed": false}
+            example: {"external_id": "prod_001", "name": "Updated T-Shirt", "description": "An updated description for the product", "status": "APPROVED", "product_category": "Physical", "product_subcategory": "General Clothing", "tax_exempt": false, "classification_failed": false}
       responses:
         "200":
           description: "Successfully retrieved product by id"
           content:
             "application/json":
               schema: {"$ref": "#/components/schemas/ProductRead"}
-              example: {"id": "prod_xR9t8P1wMK6aQ", "external_id": "prod_123", "code": "CODE_1234", "name": "Test Product", "description": "This is a test product description.", "status": "APPROVED", "product_category": "PHYSICAL", "product_subcategory": "GENERAL_CLOTHING", "tax_exempt": false, "source": "SHOPIFY", "classification_failed": false}
+              example: {"id": "prod_xR9t8P1wMK6aQ", "external_id": "prod_123", "code": "CODE_1234", "name": "Test Product", "description": "This is a test product description.", "status": "APPROVED", "product_category": "Physical", "product_subcategory": "General Clothing", "tax_exempt": false, "source": "SHOPIFY", "classification_failed": false}
         "401":
           description: "Unauthenticated request."
           content:
@@ -1565,31 +1603,6 @@ paths:
               example: {"detail": "An unexpected error occurred"}
               schema: {"$ref": "#/components/schemas/ErrorResponse"}
       x-speakeasy-name-override: "update"
-  "/v1/products/categories/":
-    get:
-      tags:
-        - "Products"
-      summary: "Get Product Categories"
-      description: "The Get Product Categories API retrieves all\n    product categories.  This endpoint helps users understand and select the\n    appropriate categories for their products."
-      operationId: "get_product_categories_v1_products_categories__get"
-      security:
-        - APIKeyHeader: []
-          CustomHeader: []
-      responses:
-        "200":
-          description: "Successful Response"
-          content:
-            "application/json":
-              schema:
-                type: "array"
-                items: {"$ref": "#/components/schemas/ProductCategories"}
-                title: "Response Get Product Categories V1 Products Categories  Get"
-        "422":
-          description: "Validation Error"
-          content:
-            "application/json":
-              schema: {"$ref": "#/components/schemas/HTTPValidationError"}
-      x-speakeasy-name-override: "getCategories"
   "/v1/registrations":
     get:
       tags:
@@ -1668,7 +1681,7 @@ paths:
           content:
             "application/json":
               schema: {"$ref": "#/components/schemas/Page_RegistrationReadWithPassword_"}
-              example: {"items": [{"registration_date": "2024-01-01", "registration_email": "example@company.com", "status": "REGISTERED", "registration_key": "TO-1234", "registration_requested": "2023-12-20T10:45:00.000Z", "registration_completed": "2023-12-25T12:00:00.000Z", "auto_registered": true, "country_code": "US", "state_code": "CA", "state_name": "California", "filing_frequency": "MONTHLY", "filing_days": 20, "username": "admin@company.com", "comment": "First-time registration for California.", "create_filings_from": "2024-01-01", "initial_sync": true, "amount_fees": "0.00", "vda": false, "imported": true, "sales_tax_id": "ST-12345", "id": "regs_XYZ123", "password_encrypted": "gAAAAABlC9np...randomstring", "has_all_credentials": true}, {"registration_email": "support@company.com", "status": "PROCESSING", "registration_key": "TO-5678", "registration_requested": "2024-01-10T08:30:00.000Z", "auto_registered": false, "country_code": "US", "state_code": "NY", "state_name": "New York", "filing_frequency": "QUARTERLY", "filing_days": 30, "comment": "Pending clarification from the state.", "initial_sync": false, "amount_fees": "10.00", "vda": true, "imported": false, "id": "regs_ABC789", "has_all_credentials": false}], "total": 2, "page": 1, "size": 50, "pages": 1}
+              example: {"items": [{"registration_date": "2024-01-01", "registration_email": "example@company.com", "status": "REGISTERED", "registration_key": "TO-1234", "registration_requested": "2023-12-20T10:45:00.000Z", "registration_completed": "2023-12-25T12:00:00.000Z", "auto_registered": true, "country_code": "US", "state_code": "CA", "state_name": "California", "filing_frequency": "MONTHLY", "username": "admin@company.com", "comment": "First-time registration for California.", "create_filings_from": "2024-01-01", "initial_sync": true, "amount_fees": "0.00", "vda": false, "imported": true, "sales_tax_id": "ST-12345", "id": "regs_XYZ123", "password_encrypted": "gAAAAABlC9np...randomstring", "has_all_credentials": true}, {"registration_email": "support@company.com", "status": "PROCESSING", "registration_key": "TO-5678", "registration_requested": "2024-01-10T08:30:00.000Z", "auto_registered": false, "country_code": "US", "state_code": "NY", "state_name": "New York", "filing_frequency": "QUARTERLY", "comment": "Pending clarification from the state.", "initial_sync": false, "amount_fees": "10.00", "vda": true, "imported": false, "id": "regs_ABC789", "has_all_credentials": false}], "total": 2, "page": 1, "size": 50, "pages": 1}
         "404":
           description: "Resource not found"
           content:
@@ -1722,10 +1735,10 @@ paths:
             examples:
               "regular_legacy":
                 summary: "Regular Jurisdiction Import Example (Legacy Format)"
-                value: {"registration_date": "2025-02-01", "registration_email": "example@domain.com", "country_code": "US", "state_code": "TX", "state_name": "Texas", "filing_frequency": "MONTHLY", "filing_days": 15, "auto_registered": true, "amount_fees": 100, "comment": "Registering for monthly sales tax filings", "initial_sync": false}
+                value: {"registration_date": "2025-02-01", "registration_email": "example@domain.com", "country_code": "US", "state_code": "TX", "state_name": "Texas", "filing_frequency": "MONTHLY", "auto_registered": true, "amount_fees": 100, "comment": "Registering for monthly sales tax filings", "initial_sync": false}
               "regular_new":
                 summary: "Regular Jurisdiction Import Example (New Format)"
-                value: {"registration_import_type": "REGULAR", "registration_date": "2025-02-01", "registration_email": "example@domain.com", "country_code": "US", "state_code": "TX", "state_name": "Texas", "filing_frequency": "MONTHLY", "filing_days": 15, "auto_registered": true, "amount_fees": 100, "comment": "Registering for monthly sales tax filings", "initial_sync": false}
+                value: {"registration_import_type": "REGULAR", "registration_date": "2025-02-01", "registration_email": "example@domain.com", "country_code": "US", "state_code": "TX", "state_name": "Texas", "filing_frequency": "MONTHLY", "auto_registered": true, "amount_fees": 100, "comment": "Registering for monthly sales tax filings", "initial_sync": false}
               "oss":
                 summary: "OSS Import Example"
                 value: {"registration_import_type": "OSS", "member_state_of_identification_code": "FR", "username": "oss_user_fr", "password_plain_text": "oss_pass_fr", "password_metadata_plain_text": "{\"q\":\"a\"}", "imported": true}
@@ -1738,7 +1751,7 @@ paths:
           content:
             "application/json":
               schema: {"$ref": "#/components/schemas/RegistrationRead"}
-              example: {"registration_date": "2025-02-01", "registration_email": "example@domain.com", "status": "REGISTERED", "registration_requested": "2025-02-18T19:43:32.684802", "auto_registered": true, "country_code": "US", "state_code": "AR", "state_name": "Arizona", "filing_frequency": "MONTHLY", "filing_days": 15, "comment": "Registering for monthly sales tax filings", "initial_sync": false, "amount_fees": "100.00", "vda": false, "id": "regs_shaGJSHHr4YXg"}
+              example: {"registration_date": "2025-02-01", "registration_email": "example@domain.com", "status": "REGISTERED", "registration_requested": "2025-02-18T19:43:32.684802", "auto_registered": true, "country_code": "US", "state_code": "AR", "state_name": "Arizona", "filing_frequency": "MONTHLY", "comment": "Registering for monthly sales tax filings", "initial_sync": false, "amount_fees": "100.00", "vda": false, "id": "regs_shaGJSHHr4YXg"}
         "401":
           description: "Unauthenticated request."
           content:
@@ -1783,13 +1796,20 @@ paths:
             description: "The unique identifier of the\n                                registration to retrieve."
             title: "Registration Id"
           description: "The unique identifier of the\n                                registration to retrieve."
+        - name: "reveal"
+          in: "query"
+          required: false
+          schema:
+            description: "Name of field to reveal"
+            type: "string"
+          description: "Name of field to reveal"
       responses:
         "200":
           description: "Successfully retrieved registration by id"
           content:
             "application/json":
               schema: {"$ref": "#/components/schemas/RegistrationRead"}
-              example: {"registration_date": "2025-02-01", "registration_email": "example@domain.com", "status": "REGISTERED", "registration_requested": "2025-02-18T19:43:32.684802", "auto_registered": true, "country_code": "US", "state_code": "AR", "state_name": "Arizona", "filing_frequency": "MONTHLY", "filing_days": 15, "comment": "Registering for monthly sales tax filings", "initial_sync": false, "amount_fees": "100.00", "vda": false, "id": "regs_shaGJSHHr4YXg"}
+              example: {"registration_date": "2025-02-01", "registration_email": "example@domain.com", "status": "REGISTERED", "registration_requested": "2025-02-18T19:43:32.684802", "auto_registered": true, "country_code": "US", "state_code": "AR", "state_name": "Arizona", "filing_frequency": "MONTHLY", "comment": "Registering for monthly sales tax filings", "initial_sync": false, "amount_fees": "100.00", "vda": false, "id": "regs_shaGJSHHr4YXg"}
         "401":
           description: "Unauthenticated request."
           content:
@@ -1844,7 +1864,7 @@ paths:
           content:
             "application/json":
               schema: {"$ref": "#/components/schemas/RegistrationRead"}
-              example: {"registration_date": "2025-02-01", "registration_email": "example@domain.com", "status": "REGISTERED", "registration_requested": "2025-02-18T19:43:32.684802", "auto_registered": true, "country_code": "US", "state_code": "AR", "state_name": "Arizona", "filing_frequency": "MONTHLY", "filing_days": 15, "comment": "Registering for monthly sales tax filings", "initial_sync": false, "amount_fees": "100.00", "vda": false, "id": "regs_shaGJSHHr4YXg"}
+              example: {"registration_date": "2025-02-01", "registration_email": "example@domain.com", "status": "REGISTERED", "registration_requested": "2025-02-18T19:43:32.684802", "auto_registered": true, "country_code": "US", "state_code": "AR", "state_name": "Arizona", "filing_frequency": "MONTHLY", "comment": "Registering for monthly sales tax filings", "initial_sync": false, "amount_fees": "100.00", "vda": false, "id": "regs_shaGJSHHr4YXg"}
         "401":
           description: "Unauthenticated request."
           content:
@@ -1895,7 +1915,7 @@ paths:
           content:
             "application/json":
               schema: {"$ref": "#/components/schemas/RegistrationRead"}
-              example: {"registration_date": "2025-02-01", "registration_email": "example@domain.com", "status": "DEREGISTERING", "registration_requested": "2025-02-18T19:43:32.684802", "auto_registered": true, "country_code": "US", "state_code": "AR", "state_name": "Arizona", "filing_frequency": "MONTHLY", "filing_days": 15, "comment": "Registering for monthly sales tax filings", "initial_sync": false, "amount_fees": "100.00", "vda": false, "id": "regs_shaGJSHHr4YXg"}
+              example: {"registration_date": "2025-02-01", "registration_email": "example@domain.com", "status": "DEREGISTERING", "registration_requested": "2025-02-18T19:43:32.684802", "auto_registered": true, "country_code": "US", "state_code": "AR", "state_name": "Arizona", "filing_frequency": "MONTHLY", "comment": "Registering for monthly sales tax filings", "initial_sync": false, "amount_fees": "100.00", "vda": false, "id": "regs_shaGJSHHr4YXg"}
         "401":
           description: "Unauthenticated request."
           content:
@@ -2797,7 +2817,12 @@ components:
         "transaction_count":
           type: "integer"
           title: "Transaction Count"
-          description: "Total number of transactions associated with the filing."
+          description: "Number of non-marketplace transactions. For total, add marketplace_transaction_count."
+          default: 0
+        "marketplace_transaction_count":
+          type: "integer"
+          title: "Marketplace Transaction Count"
+          description: "Number of marketplace transactions associated with the filing."
           default: 0
         "internal_notes":
           description: "Notes or comments related to the filing."
@@ -2910,9 +2935,6 @@ components:
           title: "State Name"
           description: "The name of the state/province."
         "filing_frequency": {"$ref": "#/components/schemas/FilingFrequencyEnum", "description": "Specifies how often tax filings should be made.\n                                                Possible values: MONTHLY, QUARTERLY, ANNUALLY, UNKNOWN."}
-        "filing_days":
-          description: "The number of days before the filing deadline."
-          type: "integer"
         "username":
           description: "Username for accessing tax registration details."
           type: "string"
@@ -2982,6 +3004,19 @@ components:
         "pin":
           description: "The decrypted PIN for accessing the registration."
           type: "string"
+        "has_physical_presence":
+          description: "Indicates if the organization has physical presence in this registration's jurisdiction."
+          type: "boolean"
+        "physical_presence_address":
+          description: "The address of the physical presence location in this registration's jurisdiction."
+          type: "string"
+        "physical_presence_category":
+          description: "The category of physical presence (e.g., PHYSICAL_BUSINESS_LOCATION, WAREHOUSE_AND_INVENTORY_PRESENCE)."
+          type: "string"
+        "filing_days":
+          type: "integer"
+          title: "Filing Days"
+          readOnly: true
         "registration_type": {"$ref": "#/components/schemas/RegistrationTypeEnum", "readOnly": true}
       type: "object"
       required:
@@ -2991,6 +3026,7 @@ components:
         - "state_name"
         - "filing_frequency"
         - "id"
+        - "filing_days"
         - "registration_type"
       title: "AdminFilingRegistrationPasswordRead"
     "ApiDeckServiceEnum":
@@ -3011,6 +3047,7 @@ components:
         - "netsuite"
         - "sage-intacct"
         - "wix"
+        - "microsoft-dynamics-365-business-central"
       title: "ApiDeckServiceEnum"
     "ApiKeyRequest":
       properties:
@@ -3477,34 +3514,6 @@ components:
         - "yearly"
         - "monthly"
       title: "BillingFrequencyEnum"
-    "BillingMatrix":
-      properties:
-        "id":
-          type: "string"
-          maxLength: 100
-          title: "Id"
-        "created_at":
-          type: "string"
-          format: "date-time"
-          title: "Created At"
-          description: "Timestamp when transaction was created in Kintsugi."
-        "updated_at":
-          description: "Timestamp when transaction was last updated."
-          type: "string"
-        "used_states":
-          type: "integer"
-          title: "Used States"
-          default: 0
-        "used_tax_questions":
-          type: "integer"
-          title: "Used Tax Questions"
-          default: 0
-        "organization_id":
-          type: "string"
-          maxLength: 100
-          title: "Organization Id"
-      type: "object"
-      title: "BillingMatrix"
     "BillingPlanEnum":
       type: "string"
       enum:
@@ -3567,18 +3576,6 @@ components:
         - "user_id"
         - "source"
       title: "Body_internal_import_v1_import_internal_upload_post"
-    "Body_manual_internal_import_v1_import_internal_manual_upload_post":
-      properties:
-        "files":
-          items:
-            type: "string"
-            format: "binary"
-          type: "array"
-          title: "Files"
-      type: "object"
-      required:
-        - "files"
-      title: "Body_manual_internal_import_v1_import_internal_manual_upload_post"
     "Body_upload_attachment_v1_attachments_post":
       properties:
         "related_entity_id":
@@ -3677,6 +3674,105 @@ components:
       required:
         - "products"
       title: "BulkApproveUpdateRequest"
+    "BulkExemptionCreateItem":
+      properties:
+        "customer_id":
+          description: "Kintsugi internal customer ID. Either this or external_id is required."
+          type: "string"
+        "external_id":
+          description: "Customer's external ID (from source system). Either this or customer_id is required."
+          type: "string"
+        "exemption_type": {"$ref": "#/components/schemas/ExemptionType", "description": "The type of exemption (e.g., wholesale, customer)", "default": "wholesale"}
+        "jurisdiction":
+          description: "The jurisdiction/state for the exemption (e.g., CA). If not provided, applies to all."
+          type: "string"
+        "country_code": {"$ref": "#/components/schemas/CountryCodeEnum", "description": "Country code in ISO 3166-1 alpha-2 format", "default": "US"}
+        "start_date":
+          type: "string"
+          format: "date"
+          title: "Start Date"
+          description: "Start date for the exemption validity period (YYYY-MM-DD format)"
+        "end_date":
+          description: "End date for the exemption validity period (YYYY-MM-DD format)"
+          type: "string"
+        "reseller":
+          type: "boolean"
+          title: "Reseller"
+          description: "Indicates whether the exemption is for a reseller"
+          default: false
+        "FEIN":
+          description: "Federal Employer Identification Number"
+          type: "string"
+        "sales_tax_id":
+          description: "Sales tax ID for the exemption"
+          type: "string"
+      type: "object"
+      required:
+        - "start_date"
+      title: "BulkExemptionCreateItem"
+      description: "Schema for a single exemption in a bulk create request."
+    "BulkExemptionCreateRequest":
+      properties:
+        "exemptions":
+          items: {"$ref": "#/components/schemas/BulkExemptionCreateItem"}
+          type: "array"
+          title: "Exemptions"
+          description: "List of exemptions to create"
+      type: "object"
+      required:
+        - "exemptions"
+      title: "BulkExemptionCreateRequest"
+      description: "Request body for bulk exemption creation."
+    "BulkExemptionCreateResponse":
+      properties:
+        "created_count":
+          type: "integer"
+          title: "Created Count"
+          description: "Number of exemptions successfully created"
+        "error_count":
+          type: "integer"
+          title: "Error Count"
+          description: "Number of exemptions that failed to create"
+        "skipped_count":
+          type: "integer"
+          title: "Skipped Count"
+          description: "Number of exemptions skipped (e.g., already exists)"
+        "results":
+          items: {"$ref": "#/components/schemas/BulkExemptionCreateResultItem"}
+          type: "array"
+          title: "Results"
+          description: "Detailed results for each exemption"
+      type: "object"
+      required:
+        - "created_count"
+        - "error_count"
+        - "skipped_count"
+        - "results"
+      title: "BulkExemptionCreateResponse"
+      description: "Response for bulk exemption creation."
+    "BulkExemptionCreateResultItem":
+      properties:
+        "success":
+          type: "boolean"
+          title: "Success"
+          description: "Whether the exemption was created successfully"
+        "exemption_id":
+          description: "ID of the created exemption (if successful)"
+          type: "string"
+        "customer_id":
+          description: "Customer ID the exemption was created for"
+          type: "string"
+        "external_id":
+          description: "External ID provided in the request (if any)"
+          type: "string"
+        "error":
+          description: "Error message (if failed)"
+          type: "string"
+      type: "object"
+      required:
+        - "success"
+      title: "BulkExemptionCreateResultItem"
+      description: "Result for a single exemption in a bulk create response."
     "BulkFilingCreate":
       properties:
         "filings":
@@ -5821,80 +5917,7 @@ components:
         - "ZMW"
         - "ZWD"
       title: "CurrencyEnum"
-    "Customer-Input":
-      properties:
-        "id":
-          type: "string"
-          maxLength: 100
-          title: "Id"
-        "created_at":
-          type: "string"
-          format: "date-time"
-          title: "Created At"
-          description: "Timestamp when transaction was created in Kintsugi."
-        "updated_at":
-          description: "Timestamp when transaction was last updated."
-          type: "string"
-        "phone":
-          description: "Phone number associated with the address."
-          type: "string"
-        "street_1":
-          description: "Primary street address."
-          type: "string"
-        "street_2":
-          description: "Additional street address details, such as an apartment or suite number."
-          type: "string"
-        "city":
-          description: "City where the customer resides."
-          type: "string"
-        "county":
-          description: "County or district of the customer."
-          type: "string"
-        "state":
-          description: "State or province of the customer."
-          type: "string"
-        "postal_code":
-          description: "ZIP or Postal code of the customer."
-          type: "string"
-        "country": {"description": "Country code in ISO 3166-1 alpha-2 format", "$ref": "#/components/schemas/CountryCodeEnum"}
-        "full_address":
-          description: "Complete address string of the customer, which can be used as an alternative to individual fields."
-          type: "string"
-        "name":
-          description: "Name of the customer."
-          type: "string"
-        "external_id":
-          description: "A unique identifier for the customer."
-          type: "string"
-        "status": {"$ref": "#/components/schemas/StatusEnum", "description": "Status of the customer (e.g., ACTIVE, INACTIVE).", "default": "ACTIVE"}
-        "email":
-          description: "Email address of the customer."
-          type: "string"
-        "address_status": {"$ref": "#/components/schemas/AddressStatus", "description": "Address status of the customer. Defaults to UNVERIFIED.", "default": "UNVERIFIED"}
-        "source": {"description": "Source of the customer information (e.g., BIGCOMMERCE, STRIPE, etc.).", "$ref": "#/components/schemas/SourceEnum"}
-        "registration_number":
-          type: "string"
-        "connection_id":
-          type: "string"
-        "enriched_fields":
-          description: "Additional enriched fields for the customer, if available."
-          type: "string"
-        "organization_id":
-          type: "string"
-          maxLength: 100
-          title: "Organization Id"
-        "is_test_data":
-          type: "boolean"
-          title: "Is Test Data"
-          default: false
-        "external_friendly_id":
-          description: "External friendly identifier associated with the customer."
-          type: "string"
-      type: "object"
-      required:
-        - "organization_id"
-      title: "Customer"
-    "Customer-Output":
+    "Customer":
       properties:
         "id":
           type: "string"
@@ -7121,7 +7144,12 @@ components:
         "transaction_count":
           type: "integer"
           title: "Transaction Count"
-          description: "Total number of transactions associated with the filing."
+          description: "Number of non-marketplace transactions. For total, add marketplace_transaction_count."
+          default: 0
+        "marketplace_transaction_count":
+          type: "integer"
+          title: "Marketplace Transaction Count"
+          description: "Number of marketplace transactions associated with the filing."
           default: 0
         "internal_notes":
           description: "Notes or comments related to the filing."
@@ -7166,6 +7194,11 @@ components:
           type: "array"
           title: "Sources"
           description: "List of sources associated with the filing"
+        "prefer_collected_tax_amounts":
+          type: "boolean"
+          title: "Prefer Collected Tax Amounts"
+          description: "Organization setting indicating whether to prefer collected tax amounts over calculated amounts for filings and liability reporting."
+          default: false
         "filing_website_url":
           description: "Get the filing website URL for this filing's jurisdiction"
           readOnly: true
@@ -7361,7 +7394,12 @@ components:
         "transaction_count":
           type: "integer"
           title: "Transaction Count"
-          description: "Total number of transactions associated with the filing."
+          description: "Number of non-marketplace transactions. For total, add marketplace_transaction_count."
+          default: 0
+        "marketplace_transaction_count":
+          type: "integer"
+          title: "Marketplace Transaction Count"
+          description: "Number of marketplace transactions associated with the filing."
           default: 0
         "internal_notes":
           description: "Notes or comments related to the filing."
@@ -7579,7 +7617,12 @@ components:
         "transaction_count":
           type: "integer"
           title: "Transaction Count"
-          description: "Total number of transactions associated with the filing."
+          description: "Number of non-marketplace transactions. For total, add marketplace_transaction_count."
+          default: 0
+        "marketplace_transaction_count":
+          type: "integer"
+          title: "Marketplace Transaction Count"
+          description: "Number of marketplace transactions associated with the filing."
           default: 0
         "internal_notes":
           description: "Notes or comments related to the filing."
@@ -7737,7 +7780,12 @@ components:
         "transaction_count":
           type: "integer"
           title: "Transaction Count"
-          description: "Total number of transactions associated with the filing."
+          description: "Number of non-marketplace transactions. For total, add marketplace_transaction_count."
+          default: 0
+        "marketplace_transaction_count":
+          type: "integer"
+          title: "Marketplace Transaction Count"
+          description: "Number of marketplace transactions associated with the filing."
           default: 0
         "internal_notes":
           description: "Notes or comments related to the filing."
@@ -7992,6 +8040,27 @@ components:
           type: "string"
         "bill_to_country":
           description: "Country of the bill to address."
+          type: "string"
+        "ship_from_phone":
+          description: "Phone number of the ship from address."
+          type: "string"
+        "ship_from_street_line_1":
+          description: "First line of the ship from address."
+          type: "string"
+        "ship_from_street_line_2":
+          description: "Second line of the ship from address."
+          type: "string"
+        "ship_from_city":
+          description: "City of the ship from address."
+          type: "string"
+        "ship_from_state":
+          description: "State/Province of the ship from address."
+          type: "string"
+        "ship_from_postal_code":
+          description: "Postal code of the ship from address."
+          type: "string"
+        "ship_from_country":
+          description: "Country of the ship from address."
           type: "string"
         "line_item_id":
           description: "Unique identifier of the line item in the source system."
@@ -8783,6 +8852,21 @@ components:
         - "start_date"
         - "end_date"
       title: "NZRule"
+    "NexusAdminUpdate":
+      properties:
+        "processing_status": {"description": "The processing status of the nexus (NEEDS_RERUN, UP_TO_DATE, NOT_READY).", "$ref": "#/components/schemas/NexusStatusEnum"}
+        "earliest_collected_date":
+          description: "The earliest collected date for the nexus."
+          type: "string"
+        "vda_eligible":
+          description: "Whether the nexus is eligible for Voluntary Disclosure Agreement."
+          type: "boolean"
+        "use_datetime":
+          description: "Whether to use datetime instead of date for nexus calculations."
+          type: "boolean"
+      type: "object"
+      title: "NexusAdminUpdate"
+      description: "Admin-only model for updating nexus fields via API."
     "NexusResponse":
       properties:
         "processing_status": {"$ref": "#/components/schemas/NexusStatusEnum", "default": "UP_TO_DATE"}
@@ -9487,6 +9571,8 @@ components:
           type: "string"
         "ein":
           type: "string"
+        "tax_id":
+          type: "string"
         "company_address_1":
           type: "string"
         "company_address_2":
@@ -9670,6 +9756,8 @@ components:
           type: "string"
         "health_check":
           type: "string"
+        "partner_id":
+          type: "string"
         "tax_ids":
           items: {"$ref": "#/components/schemas/OrganizationTaxIdReadSerializer"}
           type: "array"
@@ -9810,7 +9898,7 @@ components:
         "subscription_id":
           type: "string"
         "subscription": {"$ref": "#/components/schemas/Subscription"}
-        "customer": {"$ref": "#/components/schemas/Customer-Output"}
+        "customer": {"$ref": "#/components/schemas/Customer"}
         "card": {"$ref": "#/components/schemas/Card"}
       type: "object"
       required:
@@ -9917,7 +10005,6 @@ components:
           type: "string"
         "home_state_registration":
           type: "string"
-          title: "Home State Registration"
         "naics":
           type: "string"
         "first_operations_date":
@@ -9942,7 +10029,6 @@ components:
         - "company_postal_code"
         - "company_country_code"
         - "business_description"
-        - "home_state_registration"
         - "first_operations_date"
       title: "OrganizationDetailsBusinessDetailsCreateUpdate"
     "OrganizationDetailsBusinessInformationCreateUpdate":
@@ -10391,6 +10477,8 @@ components:
           type: "string"
         "ein":
           type: "string"
+        "tax_id":
+          type: "string"
         "company_address_1":
           type: "string"
         "company_address_2":
@@ -10574,6 +10662,8 @@ components:
           type: "string"
         "health_check":
           type: "string"
+        "partner_id":
+          type: "string"
         "tax_ids":
           items: {"$ref": "#/components/schemas/OrganizationTaxIdReadSerializer"}
           type: "array"
@@ -10687,6 +10777,308 @@ components:
         - "health_check"
         - "id"
       title: "OrganizationDetailsReadSerializer"
+    "OrganizationDetailsSerializerBase":
+      properties:
+        "business_name":
+          type: "string"
+        "entity_type": {"$ref": "#/components/schemas/EntityTypeEnum"}
+        "dba":
+          type: "string"
+        "incorporation_state":
+          type: "string"
+        "ein":
+          type: "string"
+        "tax_id":
+          type: "string"
+        "company_address_1":
+          type: "string"
+        "company_address_2":
+          type: "string"
+        "company_city":
+          type: "string"
+        "company_state":
+          type: "string"
+        "company_postal_code":
+          type: "string"
+        "company_country_code": {"$ref": "#/components/schemas/CountryCodeEnum"}
+        "business_description":
+          type: "string"
+        "home_state_registration":
+          type: "string"
+        "naics":
+          type: "string"
+        "first_operations_date":
+          type: "string"
+        "business_phone":
+          type: "string"
+        "business_email":
+          type: "string"
+        "business_address_1":
+          type: "string"
+        "business_address_2":
+          type: "string"
+        "business_city":
+          type: "string"
+        "business_state":
+          type: "string"
+        "business_postal_code":
+          type: "string"
+        "business_country_code": {"$ref": "#/components/schemas/CountryCodeEnum"}
+        "business_mailing_address_1":
+          type: "string"
+        "business_mailing_address_2":
+          type: "string"
+        "business_mailing_city":
+          type: "string"
+        "business_mailing_state":
+          type: "string"
+        "business_mailing_postal_code":
+          type: "string"
+        "business_mailing_country_code": {"$ref": "#/components/schemas/CountryCodeEnum"}
+        "business_fiscal_year_end":
+          type: "string"
+        "business_contact_name":
+          type: "string"
+        "business_contact_phone":
+          type: "string"
+        "business_contact_email":
+          type: "string"
+        "business_contact_dob":
+          type: "string"
+        "business_contact_title":
+          type: "string"
+        "business_contact_address_1":
+          type: "string"
+        "business_contact_address_2":
+          type: "string"
+        "business_contact_city":
+          type: "string"
+        "business_contact_state":
+          type: "string"
+        "business_contact_postal_code":
+          type: "string"
+        "business_contact_country_code": {"$ref": "#/components/schemas/CountryCodeEnum"}
+        "business_contact_ssn":
+          type: "string"
+        "business_contact_dl":
+          type: "string"
+        "business_owner1_name":
+          type: "string"
+        "business_owner1_phone":
+          type: "string"
+        "business_owner1_email":
+          type: "string"
+        "business_owner1_dob":
+          type: "string"
+        "business_owner1_title":
+          type: "string"
+        "business_owner1_address_1":
+          type: "string"
+        "business_owner1_address_2":
+          type: "string"
+        "business_owner1_city":
+          type: "string"
+        "business_owner1_state":
+          type: "string"
+        "business_owner1_postal_code":
+          type: "string"
+        "business_owner1_country_code": {"$ref": "#/components/schemas/CountryCodeEnum"}
+        "business_owner1_ssn":
+          type: "string"
+        "business_owner1_dl":
+          type: "string"
+        "business_owner1_percent_ownership":
+          type: "string"
+        "business_owner2_name":
+          type: "string"
+        "business_owner2_phone":
+          type: "string"
+        "business_owner2_email":
+          type: "string"
+        "business_owner2_dob":
+          type: "string"
+        "business_owner2_title":
+          type: "string"
+        "business_owner2_address_1":
+          type: "string"
+        "business_owner2_address_2":
+          type: "string"
+        "business_owner2_city":
+          type: "string"
+        "business_owner2_state":
+          type: "string"
+        "business_owner2_postal_code":
+          type: "string"
+        "business_owner2_country_code": {"$ref": "#/components/schemas/CountryCodeEnum"}
+        "business_owner2_ssn":
+          type: "string"
+        "business_owner2_dl":
+          type: "string"
+        "business_owner2_percent_ownership":
+          type: "string"
+        "business_owner3_name":
+          type: "string"
+        "business_owner3_phone":
+          type: "string"
+        "business_owner3_email":
+          type: "string"
+        "business_owner3_dob":
+          type: "string"
+        "business_owner3_title":
+          type: "string"
+        "business_owner3_address_1":
+          type: "string"
+        "business_owner3_address_2":
+          type: "string"
+        "business_owner3_city":
+          type: "string"
+        "business_owner3_state":
+          type: "string"
+        "business_owner3_postal_code":
+          type: "string"
+        "business_owner3_country_code": {"$ref": "#/components/schemas/CountryCodeEnum"}
+        "business_owner3_ssn":
+          type: "string"
+        "business_owner3_dl":
+          type: "string"
+        "business_owner3_percent_ownership":
+          type: "string"
+        "physical_mail_address_line1":
+          type: "string"
+        "physical_mail_address_line2":
+          type: "string"
+        "physical_mail_address_city":
+          type: "string"
+        "physical_mail_address_state":
+          type: "string"
+        "physical_mail_address_postal_code":
+          type: "string"
+        "physical_mail_address_status":
+          type: "string"
+        "physical_mail_address_external_id":
+          type: "string"
+        "email_group":
+          type: "string"
+        "accounting_model": {"$ref": "#/components/schemas/AccountingModelEnum"}
+        "auto_register":
+          type: "boolean"
+        "auto_file":
+          type: "boolean"
+        "do_not_file":
+          type: "boolean"
+        "incorporation_country": {"$ref": "#/components/schemas/CountryCodeEnum"}
+        "target_archive_date":
+          type: "string"
+        "onboarding_link":
+          type: "string"
+        "health_check":
+          type: "string"
+        "partner_id":
+          type: "string"
+      type: "object"
+      required:
+        - "business_name"
+        - "entity_type"
+        - "dba"
+        - "incorporation_state"
+        - "ein"
+        - "company_address_1"
+        - "company_address_2"
+        - "company_city"
+        - "company_state"
+        - "company_postal_code"
+        - "company_country_code"
+        - "business_description"
+        - "home_state_registration"
+        - "naics"
+        - "first_operations_date"
+        - "business_phone"
+        - "business_email"
+        - "business_address_1"
+        - "business_address_2"
+        - "business_city"
+        - "business_state"
+        - "business_postal_code"
+        - "business_country_code"
+        - "business_mailing_address_1"
+        - "business_mailing_address_2"
+        - "business_mailing_city"
+        - "business_mailing_state"
+        - "business_mailing_postal_code"
+        - "business_mailing_country_code"
+        - "business_fiscal_year_end"
+        - "business_contact_name"
+        - "business_contact_phone"
+        - "business_contact_email"
+        - "business_contact_dob"
+        - "business_contact_title"
+        - "business_contact_address_1"
+        - "business_contact_address_2"
+        - "business_contact_city"
+        - "business_contact_state"
+        - "business_contact_postal_code"
+        - "business_contact_country_code"
+        - "business_contact_ssn"
+        - "business_contact_dl"
+        - "business_owner1_name"
+        - "business_owner1_phone"
+        - "business_owner1_email"
+        - "business_owner1_dob"
+        - "business_owner1_title"
+        - "business_owner1_address_1"
+        - "business_owner1_address_2"
+        - "business_owner1_city"
+        - "business_owner1_state"
+        - "business_owner1_postal_code"
+        - "business_owner1_country_code"
+        - "business_owner1_ssn"
+        - "business_owner1_dl"
+        - "business_owner1_percent_ownership"
+        - "business_owner2_name"
+        - "business_owner2_phone"
+        - "business_owner2_email"
+        - "business_owner2_dob"
+        - "business_owner2_title"
+        - "business_owner2_address_1"
+        - "business_owner2_address_2"
+        - "business_owner2_city"
+        - "business_owner2_state"
+        - "business_owner2_postal_code"
+        - "business_owner2_country_code"
+        - "business_owner2_ssn"
+        - "business_owner2_dl"
+        - "business_owner2_percent_ownership"
+        - "business_owner3_name"
+        - "business_owner3_phone"
+        - "business_owner3_email"
+        - "business_owner3_dob"
+        - "business_owner3_title"
+        - "business_owner3_address_1"
+        - "business_owner3_address_2"
+        - "business_owner3_city"
+        - "business_owner3_state"
+        - "business_owner3_postal_code"
+        - "business_owner3_country_code"
+        - "business_owner3_ssn"
+        - "business_owner3_dl"
+        - "business_owner3_percent_ownership"
+        - "physical_mail_address_line1"
+        - "physical_mail_address_line2"
+        - "physical_mail_address_city"
+        - "physical_mail_address_state"
+        - "physical_mail_address_postal_code"
+        - "physical_mail_address_status"
+        - "physical_mail_address_external_id"
+        - "email_group"
+        - "accounting_model"
+        - "auto_register"
+        - "auto_file"
+        - "do_not_file"
+        - "incorporation_country"
+        - "target_archive_date"
+        - "onboarding_link"
+        - "health_check"
+      title: "OrganizationDetailsSerializerBase"
     "OrganizationExperienceTasks":
       properties:
         "id":
@@ -10822,6 +11214,10 @@ components:
         "special_tax_circumstances":
           type: "boolean"
           title: "Special Tax Circumstances"
+        "disable_ai_classification":
+          type: "boolean"
+        "enable_business_address_fallback":
+          type: "boolean"
         "id":
           type: "string"
           title: "Id"
@@ -10865,6 +11261,10 @@ components:
           type: "boolean"
         "special_tax_circumstances":
           type: "boolean"
+        "disable_ai_classification":
+          type: "boolean"
+        "enable_business_address_fallback":
+          type: "boolean"
       type: "object"
       title: "OrganizationSettingsAdminUpdate"
       description: "Admin API serializer for updating organization settings.\nIncludes all fields that are editable in the admin panel."
@@ -10875,6 +11275,8 @@ components:
         "enable_eu_registration":
           type: "boolean"
         "prefer_collected_tax_amounts":
+          type: "boolean"
+        "enable_business_address_fallback":
           type: "boolean"
       type: "object"
       title: "OrganizationSettingsReadUpdate"
@@ -10898,6 +11300,10 @@ components:
         "special_tax_circumstances":
           type: "boolean"
           title: "Special Tax Circumstances"
+        "disable_ai_classification":
+          type: "boolean"
+        "enable_business_address_fallback":
+          type: "boolean"
       type: "object"
       required:
         - "disable_onboarding"
@@ -11432,6 +11838,36 @@ components:
         - "size"
         - "pages"
       title: "Page[OrganizationRead]"
+    "Page_Partner_":
+      properties:
+        "items":
+          items: {"$ref": "#/components/schemas/Partner"}
+          type: "array"
+          title: "Items"
+        "total":
+          type: "integer"
+          minimum: 0
+          title: "Total"
+        "page":
+          type: "integer"
+          minimum: 1
+          title: "Page"
+        "size":
+          type: "integer"
+          minimum: 1
+          title: "Size"
+        "pages":
+          type: "integer"
+          minimum: 0
+          title: "Pages"
+      type: "object"
+      required:
+        - "items"
+        - "total"
+        - "page"
+        - "size"
+        - "pages"
+      title: "Page[Partner]"
     "Page_PhysicalNexusRead_":
       properties:
         "items":
@@ -11834,6 +12270,18 @@ components:
           description: "Optional\n                                        external identifier for the nexus."
           type: "string"
         "source": {"$ref": "#/components/schemas/PhysicalNexusSource", "description": "The source of the physical nexus presence.\n        Possible values: USER, DEEL.", "default": "USER"}
+        "street_1":
+          description: "Primary street address for the physical presence location."
+          type: "string"
+        "street_2":
+          description: "Additional street address details, such as suite or unit number."
+          type: "string"
+        "city":
+          description: "City of the physical presence location."
+          type: "string"
+        "postal_code":
+          description: "ZIP or postal code of the physical presence location."
+          type: "string"
       type: "object"
       required:
         - "country_code"
@@ -11861,6 +12309,18 @@ components:
           description: "Optional\n                                        external identifier for the nexus."
           type: "string"
         "source": {"$ref": "#/components/schemas/PhysicalNexusSource", "description": "The source of the physical nexus presence.\n        Possible values: USER, DEEL.", "default": "USER"}
+        "street_1":
+          description: "Primary street address for the physical presence location."
+          type: "string"
+        "street_2":
+          description: "Additional street address details, such as suite or unit number."
+          type: "string"
+        "city":
+          description: "City of the physical presence location."
+          type: "string"
+        "postal_code":
+          description: "ZIP or postal code of the physical presence location."
+          type: "string"
         "id":
           type: "string"
           title: "Id"
@@ -11890,6 +12350,18 @@ components:
           description: "The date when the\n                                        nexus ends, if applicable (YYYY-MM-DD)."
           type: "string"
         "category": {"$ref": "#/components/schemas/PhysicalNexusCategory", "description": "The updated reason for the nexus, such as\n        PHYSICAL_BUSINESS_LOCATION or TELECOMMUTING_OR_REMOTE_EMPLOYEE, etc."}
+        "street_1":
+          description: "Primary street address for the physical presence location."
+          type: "string"
+        "street_2":
+          description: "Additional street address details, such as suite or unit number."
+          type: "string"
+        "city":
+          description: "City of the physical presence location."
+          type: "string"
+        "postal_code":
+          description: "ZIP or postal code of the physical presence location."
+          type: "string"
       type: "object"
       required:
         - "start_date"
@@ -11967,6 +12439,7 @@ components:
         - "PENDING"
         - "ARCHIVED"
         - "NEEDS_REFETCH"
+        - "EXCLUDED_IN_CALCULATION"
       title: "ProcessingStatusEnum"
       description: "Our transaction state, used to determine when/if a transaction needs additional\nprocessing."
     "ProductCatCreateUpdate":
@@ -12728,6 +13201,10 @@ components:
           type: "string"
         "primary_product_code_name":
           type: "string"
+        "is_default":
+          type: "boolean"
+          title: "Is Default"
+          default: false
       type: "object"
       title: "ProductConfigCreate"
     "ProductConfigCreateUpdate":
@@ -12752,6 +13229,11 @@ components:
         "primary_product_code_name":
           description: "The name of the product code"
           type: "string"
+        "is_default":
+          type: "boolean"
+          title: "Is Default"
+          description: "Indicates whether the product configuration is the default"
+          default: false
       type: "object"
       title: "ProductConfigCreateUpdate"
     "ProductConfigRead":
@@ -12780,6 +13262,11 @@ components:
           type: "string"
           title: "Primary Product Code Name"
           description: "The name of the product code."
+        "is_default":
+          type: "boolean"
+          title: "Is Default"
+          description: "Indicates whether the product configuration is the default"
+          default: false
       type: "object"
       required:
         - "id"
@@ -12803,6 +13290,10 @@ components:
           type: "string"
         "primary_product_code_name":
           type: "string"
+        "is_default":
+          type: "boolean"
+          title: "Is Default"
+          default: false
         "id":
           type: "string"
           title: "Id"
@@ -12900,9 +13391,11 @@ components:
         "product_category":
           type: "string"
           title: "Product Category"
+          description: "Main category of the product.\n        For example, Physical, Digital, etc. You can\n        retrieve supported categories from [GET /products/categories endpoint](/reference/api/products/get-product-categories)"
         "product_subcategory":
           type: "string"
           title: "Product Subcategory"
+          description: "Subcategory of the product.\n        For example, General Clothing, UNKNOWN, etc. You can\n        retrieve supported subcategories from [GET /products/categories endpoint](/reference/api/products/get-product-categories)"
         "tax_exempt":
           type: "boolean"
           title: "Tax Exempt"
@@ -13116,8 +13609,14 @@ components:
           description: "Description of the product."
           type: "string"
         "status": {"$ref": "#/components/schemas/ProductStatusEnum", "description": "The approval status of the product.", "default": "APPROVED"}
-        "product_category": {"$ref": "#/components/schemas/ProductCategoryEnum", "description": "Main category of the product.\n        For example, PHYSICAL, DIGITAL, etc."}
-        "product_subcategory": {"$ref": "#/components/schemas/ProductSubCategoryEnum", "description": "Subcategory of the product.\n        For example, GENERAL_CLOTHING, UNKNOWN, etc."}
+        "product_category":
+          type: "string"
+          title: "Product Category"
+          description: "Main category of the product.\n    For example, Physical, Digital, etc. You can\n    retrieve supported categories from [GET /products/categories endpoint](/reference/api/products/get-product-categories)"
+        "product_subcategory":
+          type: "string"
+          title: "Product Subcategory"
+          description: "Subcategory of the product.\n    For example, General Clothing, UNKNOWN, etc. You can\n    retrieve supported subcategories from [GET /products/categories endpoint](/reference/api/products/get-product-categories)"
         "tax_exempt":
           type: "boolean"
           title: "Tax Exempt"
@@ -13248,9 +13747,6 @@ components:
           title: "State Name"
           description: "The name of the state/province."
         "filing_frequency": {"$ref": "#/components/schemas/FilingFrequencyEnum", "description": "Specifies how often tax filings should be made.\n                                                Possible values: MONTHLY, QUARTERLY, ANNUALLY, UNKNOWN."}
-        "filing_days":
-          description: "The number of days before the filing deadline."
-          type: "integer"
         "username":
           description: "Username for accessing tax registration details."
           type: "string"
@@ -13303,6 +13799,10 @@ components:
           title: "Credits Total Available"
           default: "0.00"
         "registration_category": {"$ref": "#/components/schemas/RegistrationCategoryEnum", "description": "The category of the registration. Possible values: REGULAR, IMPORTED, DEREGISTRATION.", "default": "REGULAR"}
+        "filing_days":
+          type: "integer"
+          title: "Filing Days"
+          readOnly: true
         "registration_type": {"$ref": "#/components/schemas/RegistrationTypeEnum", "readOnly": true}
         "filing_website_url":
           readOnly: true
@@ -13315,6 +13815,7 @@ components:
         - "state_name"
         - "filing_frequency"
         - "id"
+        - "filing_days"
         - "registration_type"
         - "filing_website_url"
       title: "RegistrationAdminRead"
@@ -13391,8 +13892,71 @@ components:
         "amount_fees":
           description: "Admin-only: The amount of fees associated with the registration."
           type: "number"
+        "sales_tax_id":
+          description: "The sales tax ID for the registration."
+          type: "string"
+        "status": {"description": "The target status for the registration. Only REGISTERED is supported for confirmation.", "$ref": "#/components/schemas/RegistrationStatusEnum"}
       type: "object"
       title: "RegistrationAdminUpdateAPI"
+    "RegistrationAdminUpdatePayload":
+      properties:
+        "country_code": {"description": "The country code (ISO 3166-1 alpha-2).", "$ref": "#/components/schemas/CountryCodeEnum"}
+        "state_code":
+          description: "The state/province code."
+          type: "string"
+        "state_name":
+          description: "Optional; computed from country/state when omitted."
+          type: "string"
+        "registration_date":
+          description: "YYYY-MM-DD"
+          type: "string"
+        "filing_frequency": {"description": "Service requires this; Optional here to surface 400 (not 422) when missing.", "$ref": "#/components/schemas/FilingFrequencyEnum"}
+        "filing_days":
+          description: "Days before the filing deadline."
+          type: "integer"
+        "amount_fees":
+          description: "Registration fees."
+          type: "number"
+        "username":
+          type: "string"
+        "password_plain_text":
+          type: "string"
+        "password_metadata_plain_text":
+          description: "Security Q/A metadata."
+          type: "string"
+        "pin_plain_text":
+          description: "Plaintext PIN (only supported for WY and AZ)."
+          type: "string"
+        "sales_tax_id":
+          description: "State tax ID."
+          type: "string"
+        "third_party_enabled":
+          description: "3p Access"
+          type: "boolean"
+        "two_factor_enabled":
+          description: "2FA"
+          type: "boolean"
+        "create_filings_from":
+          description: "First filing period start date."
+          type: "string"
+        "do_not_file":
+          type: "boolean"
+          title: "Do Not File"
+          description: "If true, do not file."
+          default: false
+        "type":
+          type: "string"
+        "vda":
+          default: false
+          type: "boolean"
+        "imported":
+          type: "boolean"
+        "status": {"$ref": "#/components/schemas/RegistrationStatusEnum", "description": "The target status for the registration. Must be REGISTERED for confirm operations."}
+      type: "object"
+      required:
+        - "status"
+      title: "RegistrationAdminUpdatePayload"
+      description: "Admin update request payload. Independent of DB models to allow admin UX-specific fields.\nThe service computes state_name and enforces required business rules (e.g., filing_frequency).\nUsed for admin update and confirm registration operations."
     "RegistrationCategoryEnum":
       type: "string"
       enum:
@@ -13452,10 +14016,6 @@ components:
           title: "State Name"
           description: "The name of the state/province."
         "filing_frequency": {"$ref": "#/components/schemas/FilingFrequencyEnum", "description": "Specifies how often tax filings should be made. Possible values: MONTHLY, QUARTERLY, ANNUALLY, UNKNOWN."}
-        "filing_days":
-          type: "integer"
-          title: "Filing Days"
-          description: "The number of days before the filing deadline."
         "username":
           description: "Username for accessing tax registration details."
           type: "string"
@@ -13502,7 +14062,6 @@ components:
         - "state_code"
         - "state_name"
         - "filing_frequency"
-        - "filing_days"
       title: "RegistrationCreatePayload"
     "RegistrationRead":
       properties:
@@ -13562,9 +14121,6 @@ components:
           title: "State Name"
           description: "The name of the state/province."
         "filing_frequency": {"$ref": "#/components/schemas/FilingFrequencyEnum", "description": "Specifies how often tax filings should be made.\n                                                Possible values: MONTHLY, QUARTERLY, ANNUALLY, UNKNOWN."}
-        "filing_days":
-          description: "The number of days before the filing deadline."
-          type: "integer"
         "username":
           description: "Username for accessing tax registration details."
           type: "string"
@@ -13617,6 +14173,10 @@ components:
           title: "Credits Total Available"
           default: "0.00"
         "registration_category": {"$ref": "#/components/schemas/RegistrationCategoryEnum", "description": "The category of the registration. Possible values: REGULAR, IMPORTED, DEREGISTRATION.", "default": "REGULAR"}
+        "filing_days":
+          type: "integer"
+          title: "Filing Days"
+          readOnly: true
         "registration_type": {"$ref": "#/components/schemas/RegistrationTypeEnum", "readOnly": true}
       type: "object"
       required:
@@ -13626,6 +14186,7 @@ components:
         - "state_name"
         - "filing_frequency"
         - "id"
+        - "filing_days"
         - "registration_type"
       title: "RegistrationRead"
     "RegistrationReadWithPassword":
@@ -13686,9 +14247,6 @@ components:
           title: "State Name"
           description: "The name of the state/province."
         "filing_frequency": {"$ref": "#/components/schemas/FilingFrequencyEnum", "description": "Specifies how often tax filings should be made.\n                                                Possible values: MONTHLY, QUARTERLY, ANNUALLY, UNKNOWN."}
-        "filing_days":
-          description: "The number of days before the filing deadline."
-          type: "integer"
         "username":
           description: "Username for accessing tax registration details."
           type: "string"
@@ -13749,6 +14307,10 @@ components:
           title: "Has All Credentials"
           description: "Indicates if all required credentials are present."
           default: false
+        "filing_days":
+          type: "integer"
+          title: "Filing Days"
+          readOnly: true
         "registration_type": {"$ref": "#/components/schemas/RegistrationTypeEnum", "readOnly": true}
       type: "object"
       required:
@@ -13758,6 +14320,7 @@ components:
         - "state_name"
         - "filing_frequency"
         - "id"
+        - "filing_days"
         - "registration_type"
       title: "RegistrationReadWithPassword"
     "RegistrationStatusEnum":
@@ -14341,7 +14904,7 @@ components:
         "id":
           type: "string"
           title: "Id"
-        "payload": {"$ref": "#/components/schemas/ShopwareTaxEstimateRequestLineItemPayload"}
+        "payload": {"title": "Payload", "$ref": "#/components/schemas/ShopwareTaxEstimateRequestLineItemPayload"}
         "label":
           type: "string"
           title: "Label"
@@ -14475,6 +15038,71 @@ components:
         - "url"
         - "shopId"
       title: "ShopwareTaxEstimateRequestSource"
+    "ShopwareWebhookEvent":
+      properties:
+        "data": {"$ref": "#/components/schemas/ShopwareWebhookEventData"}
+        "source": {"$ref": "#/components/schemas/ShopwareWebhookEventSource"}
+        "timestamp":
+          type: "string"
+          format: "date-time"
+          title: "Timestamp"
+      type: "object"
+      required:
+        - "data"
+        - "source"
+        - "timestamp"
+      title: "ShopwareWebhookEvent"
+    "ShopwareWebhookEventData":
+      properties:
+        "payload":
+          type: "array"
+          items: {"$ref": "#/components/schemas/ShopwareWebhookEventDataPayload"}
+        "event":
+          type: "string"
+          title: "Event"
+      type: "object"
+      required:
+        - "payload"
+        - "event"
+      title: "ShopwareWebhookEventData"
+    "ShopwareWebhookEventDataPayload":
+      properties:
+        "entity":
+          type: "string"
+          title: "Entity"
+        "operation":
+          type: "string"
+          title: "Operation"
+        "primaryKey":
+          type: "string"
+          title: "Primarykey"
+        "updatedFields":
+          type: "array"
+          items:
+            type: "string"
+      type: "object"
+      required:
+        - "entity"
+        - "operation"
+        - "primaryKey"
+      title: "ShopwareWebhookEventDataPayload"
+    "ShopwareWebhookEventSource":
+      properties:
+        "url":
+          type: "string"
+          title: "Url"
+        "appVersion":
+          type: "string"
+        "shopId":
+          type: "string"
+          title: "Shopid"
+        "eventId":
+          type: "string"
+      type: "object"
+      required:
+        - "url"
+        - "shopId"
+      title: "ShopwareWebhookEventSource"
     "SourceEnum":
       type: "string"
       enum:
@@ -14535,6 +15163,9 @@ components:
         - "AIRWALLEX"
         - "ORB"
         - "ZENSKAR"
+        - "MICROSOFT_DYNAMICS_365"
+        - "KICKSTARTER"
+        - "INTERNAL_ERP"
       title: "SourceEnum"
     "StatusEnum":
       type: "string"
@@ -14988,6 +15619,7 @@ components:
         - "ZERO_VALUE_ITEM"
         - "NO_RULE_FOUND"
         - "IMPORTED"
+        - "ZERO_RATE_NOT_EXEMPT"
       title: "TaxExemptionEnum"
       description: "This enum is used to determine if a transaction is exempt from tax."
     "TaxIdentifier":
@@ -15111,8 +15743,10 @@ components:
         - "NO_RULE_FOUND"
         - "RULE_FOUND_TAXABLE"
         - "RULE_FOUND_NOT_TAXABLE"
+        - "RULE_FOUND_TAXABLE_ZERO_RATE"
         - "PRODUCT_EXEMPT"
         - "FROM_IMPORT"
+        - "RULE_EXCLUDED_IN_CALCULATION"
       title: "TaxItemReturnReasonEnum"
       description: "We use this to understand the response from get_tax_items"
     "TaxItemTypeEnum":
@@ -15662,6 +16296,7 @@ components:
           deprecated: true
         "external_id":
           type: "string"
+          minLength: 1
           title: "External Id"
           description: "External identifier of the transaction."
         "date":
@@ -15797,9 +16432,11 @@ components:
           items: {"$ref": "#/components/schemas/TransactionItemBuilder"}
           type: "array"
           title: "Transaction Items"
-        "customer": {"title": "Customer", "$ref": "#/components/schemas/Customer-Input"}
+        "customer": {"$ref": "#/components/schemas/TransactionImportCustomer"}
         "operation": {"default": "IMPORT", "$ref": "#/components/schemas/ImportOperationEnum"}
         "type": {"$ref": "#/components/schemas/TransactionTypeEnum"}
+        "related_external_id":
+          type: "string"
       type: "object"
       required:
         - "organization_id"
@@ -15820,6 +16457,7 @@ components:
           deprecated: true
         "external_id":
           type: "string"
+          minLength: 1
           title: "External Id"
           description: "External identifier of the transaction."
         "date":
@@ -16168,8 +16806,9 @@ components:
         - "NOT_EXEMPT"
         - "PARTIALLY_EXEMPT"
         - "FULLY_EXEMPT"
+        - "ZERO_RATE_NOT_EXEMPT"
       title: "TransactionExemptStatusEnum"
-      description: "Based on transaction item exempt status.\nNOT EXEMPT: None of the items are NOT EXEMPT\nPARTIALLY EXEMPT: At least some of the items are NOT EXEMPT\nFULLY_EXEMPT: All items sold in the transaction are EXEMPT"
+      description: "Based on transaction item exempt status.\nNOT EXEMPT: None of the items are NOT EXEMPT\nPARTIALLY EXEMPT: At least some of the items are NOT EXEMPT\nFULLY_EXEMPT: All items sold in the transaction are EXEMPT\nZERO_RATE_NOT_EXEMPT: All items sold in the transaction are zero-rated"
     "TransactionImportCustomer":
       properties:
         "phone":
@@ -16207,7 +16846,7 @@ components:
           type: "string"
         "connection_id":
           type: "string"
-        "source": {"$ref": "#/components/schemas/SourceEnum", "default": "OTHER"}
+        "source": {"default": "OTHER", "$ref": "#/components/schemas/SourceEnum"}
         "registration_number":
           type: "string"
         "address_status": {"$ref": "#/components/schemas/AddressStatus", "default": "UNVERIFIED"}
@@ -16740,6 +17379,7 @@ components:
           deprecated: true
         "external_id":
           type: "string"
+          minLength: 1
           title: "External Id"
           description: "External identifier of the transaction."
         "date":
@@ -16871,6 +17511,7 @@ components:
           deprecated: true
         "external_id":
           type: "string"
+          minLength: 1
           title: "External Id"
           description: "External identifier of the transaction."
         "date":
@@ -17088,6 +17729,7 @@ components:
           deprecated: true
         "external_id":
           type: "string"
+          minLength: 1
           title: "External Id"
           description: "External identifier of the transaction."
         "date":
@@ -17323,24 +17965,12 @@ components:
         "user_id":
           type: "string"
           title: "User Id"
-        "manual":
-          type: "boolean"
-          title: "Manual"
-          default: false
       type: "object"
       required:
         - "files"
         - "source"
         - "user_id"
       title: "UploadURLsRequest"
-    "UpsertBillingMatrix":
-      properties:
-        "used_states":
-          type: "integer"
-        "used_tax_questions":
-          type: "integer"
-      type: "object"
-      title: "UpsertBillingMatrix"
     "UserCreated":
       properties:
         "event_type":

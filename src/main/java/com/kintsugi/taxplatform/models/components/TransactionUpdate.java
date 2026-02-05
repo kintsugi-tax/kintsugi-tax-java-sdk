@@ -106,6 +106,7 @@ public class TransactionUpdate {
      * NOT EXEMPT: None of the items are NOT EXEMPT
      * PARTIALLY EXEMPT: At least some of the items are NOT EXEMPT
      * FULLY_EXEMPT: All items sold in the transaction are EXEMPT
+     * ZERO_RATE_NOT_EXEMPT: All items sold in the transaction are zero-rated
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("exempt")
@@ -526,6 +527,7 @@ public class TransactionUpdate {
      * NOT EXEMPT: None of the items are NOT EXEMPT
      * PARTIALLY EXEMPT: At least some of the items are NOT EXEMPT
      * FULLY_EXEMPT: All items sold in the transaction are EXEMPT
+     * ZERO_RATE_NOT_EXEMPT: All items sold in the transaction are zero-rated
      */
     @SuppressWarnings("unchecked")
     @JsonIgnore
@@ -926,6 +928,7 @@ public class TransactionUpdate {
      * NOT EXEMPT: None of the items are NOT EXEMPT
      * PARTIALLY EXEMPT: At least some of the items are NOT EXEMPT
      * FULLY_EXEMPT: All items sold in the transaction are EXEMPT
+     * ZERO_RATE_NOT_EXEMPT: All items sold in the transaction are zero-rated
      */
     public TransactionUpdate withExempt(TransactionExemptStatusEnum exempt) {
         Utils.checkNotNull(exempt, "exempt");
@@ -939,6 +942,7 @@ public class TransactionUpdate {
      * NOT EXEMPT: None of the items are NOT EXEMPT
      * PARTIALLY EXEMPT: At least some of the items are NOT EXEMPT
      * FULLY_EXEMPT: All items sold in the transaction are EXEMPT
+     * ZERO_RATE_NOT_EXEMPT: All items sold in the transaction are zero-rated
      */
     public TransactionUpdate withExempt(Optional<? extends TransactionExemptStatusEnum> exempt) {
         Utils.checkNotNull(exempt, "exempt");
@@ -1788,6 +1792,7 @@ public class TransactionUpdate {
          * NOT EXEMPT: None of the items are NOT EXEMPT
          * PARTIALLY EXEMPT: At least some of the items are NOT EXEMPT
          * FULLY_EXEMPT: All items sold in the transaction are EXEMPT
+         * ZERO_RATE_NOT_EXEMPT: All items sold in the transaction are zero-rated
          */
         public Builder exempt(TransactionExemptStatusEnum exempt) {
             Utils.checkNotNull(exempt, "exempt");
@@ -1800,6 +1805,7 @@ public class TransactionUpdate {
          * NOT EXEMPT: None of the items are NOT EXEMPT
          * PARTIALLY EXEMPT: At least some of the items are NOT EXEMPT
          * FULLY_EXEMPT: All items sold in the transaction are EXEMPT
+         * ZERO_RATE_NOT_EXEMPT: All items sold in the transaction are zero-rated
          */
         public Builder exempt(Optional<? extends TransactionExemptStatusEnum> exempt) {
             Utils.checkNotNull(exempt, "exempt");

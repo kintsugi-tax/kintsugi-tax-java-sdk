@@ -1,5 +1,4 @@
 # Exemptions
-(*exemptions()*)
 
 ## Overview
 

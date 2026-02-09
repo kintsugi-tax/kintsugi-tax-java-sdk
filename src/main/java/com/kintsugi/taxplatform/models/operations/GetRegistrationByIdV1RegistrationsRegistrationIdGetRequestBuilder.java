@@ -10,10 +10,12 @@ import com.kintsugi.taxplatform.operations.GetRegistrationByIdV1RegistrationsReg
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.util.Optional;
 
 public class GetRegistrationByIdV1RegistrationsRegistrationIdGetRequestBuilder {
 
     private String registrationId;
+    private Optional<String> reveal = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -26,11 +28,24 @@ public class GetRegistrationByIdV1RegistrationsRegistrationIdGetRequestBuilder {
         this.registrationId = registrationId;
         return this;
     }
+                
+    public GetRegistrationByIdV1RegistrationsRegistrationIdGetRequestBuilder reveal(String reveal) {
+        Utils.checkNotNull(reveal, "reveal");
+        this.reveal = Optional.of(reveal);
+        return this;
+    }
+
+    public GetRegistrationByIdV1RegistrationsRegistrationIdGetRequestBuilder reveal(Optional<String> reveal) {
+        Utils.checkNotNull(reveal, "reveal");
+        this.reveal = reveal;
+        return this;
+    }
 
 
     private GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest buildRequest() {
 
-        GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest request = new GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest(registrationId);
+        GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest request = new GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest(registrationId,
+            reveal);
 
         return request;
     }

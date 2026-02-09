@@ -14,7 +14,6 @@ import java.lang.Override;
 import java.lang.String;
 import java.lang.SuppressWarnings;
 import java.net.http.HttpResponse;
-import java.util.List;
 import java.util.Optional;
 
 
@@ -35,24 +34,24 @@ public class GetProductCategoriesV1ProductsCategoriesGetResponse implements Asyn
     private HttpResponse<Blob> rawResponse;
 
     /**
-     * Successful Response
+     * Successfully retrieved product categories
      */
-    private Optional<? extends List<ProductCategories>> responseGetProductCategoriesV1ProductsCategoriesGet;
+    private Optional<? extends ProductCategories> productCategories;
 
     @JsonCreator
     public GetProductCategoriesV1ProductsCategoriesGetResponse(
             String contentType,
             int statusCode,
             HttpResponse<Blob> rawResponse,
-            Optional<? extends List<ProductCategories>> responseGetProductCategoriesV1ProductsCategoriesGet) {
+            Optional<? extends ProductCategories> productCategories) {
         Utils.checkNotNull(contentType, "contentType");
         Utils.checkNotNull(statusCode, "statusCode");
         Utils.checkNotNull(rawResponse, "rawResponse");
-        Utils.checkNotNull(responseGetProductCategoriesV1ProductsCategoriesGet, "responseGetProductCategoriesV1ProductsCategoriesGet");
+        Utils.checkNotNull(productCategories, "productCategories");
         this.contentType = contentType;
         this.statusCode = statusCode;
         this.rawResponse = rawResponse;
-        this.responseGetProductCategoriesV1ProductsCategoriesGet = responseGetProductCategoriesV1ProductsCategoriesGet;
+        this.productCategories = productCategories;
     }
     
     public GetProductCategoriesV1ProductsCategoriesGetResponse(
@@ -88,12 +87,12 @@ public class GetProductCategoriesV1ProductsCategoriesGetResponse implements Asyn
     }
 
     /**
-     * Successful Response
+     * Successfully retrieved product categories
      */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<List<ProductCategories>> responseGetProductCategoriesV1ProductsCategoriesGet() {
-        return (Optional<List<ProductCategories>>) responseGetProductCategoriesV1ProductsCategoriesGet;
+    public Optional<ProductCategories> productCategories() {
+        return (Optional<ProductCategories>) productCategories;
     }
 
     public static Builder builder() {
@@ -129,21 +128,21 @@ public class GetProductCategoriesV1ProductsCategoriesGetResponse implements Asyn
     }
 
     /**
-     * Successful Response
+     * Successfully retrieved product categories
      */
-    public GetProductCategoriesV1ProductsCategoriesGetResponse withResponseGetProductCategoriesV1ProductsCategoriesGet(List<ProductCategories> responseGetProductCategoriesV1ProductsCategoriesGet) {
-        Utils.checkNotNull(responseGetProductCategoriesV1ProductsCategoriesGet, "responseGetProductCategoriesV1ProductsCategoriesGet");
-        this.responseGetProductCategoriesV1ProductsCategoriesGet = Optional.ofNullable(responseGetProductCategoriesV1ProductsCategoriesGet);
+    public GetProductCategoriesV1ProductsCategoriesGetResponse withProductCategories(ProductCategories productCategories) {
+        Utils.checkNotNull(productCategories, "productCategories");
+        this.productCategories = Optional.ofNullable(productCategories);
         return this;
     }
 
 
     /**
-     * Successful Response
+     * Successfully retrieved product categories
      */
-    public GetProductCategoriesV1ProductsCategoriesGetResponse withResponseGetProductCategoriesV1ProductsCategoriesGet(Optional<? extends List<ProductCategories>> responseGetProductCategoriesV1ProductsCategoriesGet) {
-        Utils.checkNotNull(responseGetProductCategoriesV1ProductsCategoriesGet, "responseGetProductCategoriesV1ProductsCategoriesGet");
-        this.responseGetProductCategoriesV1ProductsCategoriesGet = responseGetProductCategoriesV1ProductsCategoriesGet;
+    public GetProductCategoriesV1ProductsCategoriesGetResponse withProductCategories(Optional<? extends ProductCategories> productCategories) {
+        Utils.checkNotNull(productCategories, "productCategories");
+        this.productCategories = productCategories;
         return this;
     }
 
@@ -160,14 +159,14 @@ public class GetProductCategoriesV1ProductsCategoriesGetResponse implements Asyn
             Utils.enhancedDeepEquals(this.contentType, other.contentType) &&
             Utils.enhancedDeepEquals(this.statusCode, other.statusCode) &&
             Utils.enhancedDeepEquals(this.rawResponse, other.rawResponse) &&
-            Utils.enhancedDeepEquals(this.responseGetProductCategoriesV1ProductsCategoriesGet, other.responseGetProductCategoriesV1ProductsCategoriesGet);
+            Utils.enhancedDeepEquals(this.productCategories, other.productCategories);
     }
     
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
             contentType, statusCode, rawResponse,
-            responseGetProductCategoriesV1ProductsCategoriesGet);
+            productCategories);
     }
     
     @Override
@@ -176,7 +175,7 @@ public class GetProductCategoriesV1ProductsCategoriesGetResponse implements Asyn
                 "contentType", contentType,
                 "statusCode", statusCode,
                 "rawResponse", rawResponse,
-                "responseGetProductCategoriesV1ProductsCategoriesGet", responseGetProductCategoriesV1ProductsCategoriesGet);
+                "productCategories", productCategories);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -188,7 +187,7 @@ public class GetProductCategoriesV1ProductsCategoriesGetResponse implements Asyn
 
         private HttpResponse<Blob> rawResponse;
 
-        private Optional<? extends List<ProductCategories>> responseGetProductCategoriesV1ProductsCategoriesGet = Optional.empty();
+        private Optional<? extends ProductCategories> productCategories = Optional.empty();
 
         private Builder() {
           // force use of static builder() method
@@ -226,20 +225,20 @@ public class GetProductCategoriesV1ProductsCategoriesGetResponse implements Asyn
 
 
         /**
-         * Successful Response
+         * Successfully retrieved product categories
          */
-        public Builder responseGetProductCategoriesV1ProductsCategoriesGet(List<ProductCategories> responseGetProductCategoriesV1ProductsCategoriesGet) {
-            Utils.checkNotNull(responseGetProductCategoriesV1ProductsCategoriesGet, "responseGetProductCategoriesV1ProductsCategoriesGet");
-            this.responseGetProductCategoriesV1ProductsCategoriesGet = Optional.ofNullable(responseGetProductCategoriesV1ProductsCategoriesGet);
+        public Builder productCategories(ProductCategories productCategories) {
+            Utils.checkNotNull(productCategories, "productCategories");
+            this.productCategories = Optional.ofNullable(productCategories);
             return this;
         }
 
         /**
-         * Successful Response
+         * Successfully retrieved product categories
          */
-        public Builder responseGetProductCategoriesV1ProductsCategoriesGet(Optional<? extends List<ProductCategories>> responseGetProductCategoriesV1ProductsCategoriesGet) {
-            Utils.checkNotNull(responseGetProductCategoriesV1ProductsCategoriesGet, "responseGetProductCategoriesV1ProductsCategoriesGet");
-            this.responseGetProductCategoriesV1ProductsCategoriesGet = responseGetProductCategoriesV1ProductsCategoriesGet;
+        public Builder productCategories(Optional<? extends ProductCategories> productCategories) {
+            Utils.checkNotNull(productCategories, "productCategories");
+            this.productCategories = productCategories;
             return this;
         }
 
@@ -247,7 +246,7 @@ public class GetProductCategoriesV1ProductsCategoriesGetResponse implements Asyn
 
             return new GetProductCategoriesV1ProductsCategoriesGetResponse(
                 contentType, statusCode, rawResponse,
-                responseGetProductCategoriesV1ProductsCategoriesGet);
+                productCategories);
         }
 
     }

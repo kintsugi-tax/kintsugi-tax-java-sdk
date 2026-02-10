@@ -9,6 +9,7 @@ import com.kintsugi.taxplatform.utils.SpeakeasyMetadata;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Override;
 import java.lang.String;
+import java.util.Optional;
 
 
 public class GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest {
@@ -19,11 +20,25 @@ public class GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest {
     @SpeakeasyMetadata("pathParam:style=simple,explode=false,name=registration_id")
     private String registrationId;
 
+    /**
+     * Name of field to reveal
+     */
+    @SpeakeasyMetadata("queryParam:style=form,explode=true,name=reveal")
+    private Optional<String> reveal;
+
     @JsonCreator
     public GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest(
-            String registrationId) {
+            String registrationId,
+            Optional<String> reveal) {
         Utils.checkNotNull(registrationId, "registrationId");
+        Utils.checkNotNull(reveal, "reveal");
         this.registrationId = registrationId;
+        this.reveal = reveal;
+    }
+    
+    public GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest(
+            String registrationId) {
+        this(registrationId, Optional.empty());
     }
 
     /**
@@ -33,6 +48,14 @@ public class GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest {
     @JsonIgnore
     public String registrationId() {
         return registrationId;
+    }
+
+    /**
+     * Name of field to reveal
+     */
+    @JsonIgnore
+    public Optional<String> reveal() {
+        return reveal;
     }
 
     public static Builder builder() {
@@ -50,6 +73,25 @@ public class GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest {
         return this;
     }
 
+    /**
+     * Name of field to reveal
+     */
+    public GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest withReveal(String reveal) {
+        Utils.checkNotNull(reveal, "reveal");
+        this.reveal = Optional.ofNullable(reveal);
+        return this;
+    }
+
+
+    /**
+     * Name of field to reveal
+     */
+    public GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest withReveal(Optional<String> reveal) {
+        Utils.checkNotNull(reveal, "reveal");
+        this.reveal = reveal;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -60,25 +102,29 @@ public class GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest {
         }
         GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest other = (GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest) o;
         return 
-            Utils.enhancedDeepEquals(this.registrationId, other.registrationId);
+            Utils.enhancedDeepEquals(this.registrationId, other.registrationId) &&
+            Utils.enhancedDeepEquals(this.reveal, other.reveal);
     }
     
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-            registrationId);
+            registrationId, reveal);
     }
     
     @Override
     public String toString() {
         return Utils.toString(GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest.class,
-                "registrationId", registrationId);
+                "registrationId", registrationId,
+                "reveal", reveal);
     }
 
     @SuppressWarnings("UnusedReturnValue")
     public final static class Builder {
 
         private String registrationId;
+
+        private Optional<String> reveal = Optional.empty();
 
         private Builder() {
           // force use of static builder() method
@@ -95,10 +141,29 @@ public class GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest {
             return this;
         }
 
+
+        /**
+         * Name of field to reveal
+         */
+        public Builder reveal(String reveal) {
+            Utils.checkNotNull(reveal, "reveal");
+            this.reveal = Optional.ofNullable(reveal);
+            return this;
+        }
+
+        /**
+         * Name of field to reveal
+         */
+        public Builder reveal(Optional<String> reveal) {
+            Utils.checkNotNull(reveal, "reveal");
+            this.reveal = reveal;
+            return this;
+        }
+
         public GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest build() {
 
             return new GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest(
-                registrationId);
+                registrationId, reveal);
         }
 
     }

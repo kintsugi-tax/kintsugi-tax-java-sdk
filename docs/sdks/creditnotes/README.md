@@ -1,5 +1,4 @@
-# CreditNotes
-(*transactions().creditNotes()*)
+# Transactions.CreditNotes
 
 ## Overview
 

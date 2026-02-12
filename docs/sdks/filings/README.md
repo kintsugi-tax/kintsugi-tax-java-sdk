@@ -1,5 +1,4 @@
 # Filings
-(*filings()*)
 
 ## Overview
 

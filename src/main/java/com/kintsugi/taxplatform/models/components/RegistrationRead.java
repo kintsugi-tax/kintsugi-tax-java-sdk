@@ -146,13 +146,6 @@ public class RegistrationRead {
     private FilingFrequencyEnum filingFrequency;
 
     /**
-     * The number of days before the filing deadline.
-     */
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("filing_days")
-    private Optional<Long> filingDays;
-
-    /**
      * Username for accessing tax registration details.
      */
     @JsonInclude(Include.NON_ABSENT)
@@ -259,6 +252,10 @@ public class RegistrationRead {
     private Optional<? extends RegistrationCategoryEnum> registrationCategory;
 
 
+    @JsonProperty("filing_days")
+    private long filingDays;
+
+
     @JsonProperty("registration_type")
     private RegistrationTypeEnum registrationType;
 
@@ -284,7 +281,6 @@ public class RegistrationRead {
             @JsonProperty("state_code") String stateCode,
             @JsonProperty("state_name") String stateName,
             @JsonProperty("filing_frequency") FilingFrequencyEnum filingFrequency,
-            @JsonProperty("filing_days") Optional<Long> filingDays,
             @JsonProperty("username") Optional<String> username,
             @JsonProperty("comment") Optional<String> comment,
             @JsonProperty("create_filings_from") Optional<String> createFilingsFrom,
@@ -301,6 +297,7 @@ public class RegistrationRead {
             @JsonProperty("id") String id,
             @JsonProperty("credits_total_available") Optional<String> creditsTotalAvailable,
             @JsonProperty("registration_category") Optional<? extends RegistrationCategoryEnum> registrationCategory,
+            @JsonProperty("filing_days") long filingDays,
             @JsonProperty("registration_type") RegistrationTypeEnum registrationType) {
         Utils.checkNotNull(registrationDate, "registrationDate");
         Utils.checkNotNull(registrationEmail, "registrationEmail");
@@ -322,7 +319,6 @@ public class RegistrationRead {
         Utils.checkNotNull(stateCode, "stateCode");
         Utils.checkNotNull(stateName, "stateName");
         Utils.checkNotNull(filingFrequency, "filingFrequency");
-        Utils.checkNotNull(filingDays, "filingDays");
         Utils.checkNotNull(username, "username");
         Utils.checkNotNull(comment, "comment");
         Utils.checkNotNull(createFilingsFrom, "createFilingsFrom");
@@ -339,6 +335,7 @@ public class RegistrationRead {
         Utils.checkNotNull(id, "id");
         Utils.checkNotNull(creditsTotalAvailable, "creditsTotalAvailable");
         Utils.checkNotNull(registrationCategory, "registrationCategory");
+        Utils.checkNotNull(filingDays, "filingDays");
         Utils.checkNotNull(registrationType, "registrationType");
         this.registrationDate = registrationDate;
         this.registrationEmail = registrationEmail;
@@ -360,7 +357,6 @@ public class RegistrationRead {
         this.stateCode = stateCode;
         this.stateName = stateName;
         this.filingFrequency = filingFrequency;
-        this.filingDays = filingDays;
         this.username = username;
         this.comment = comment;
         this.createFilingsFrom = createFilingsFrom;
@@ -377,6 +373,7 @@ public class RegistrationRead {
         this.id = id;
         this.creditsTotalAvailable = creditsTotalAvailable;
         this.registrationCategory = registrationCategory;
+        this.filingDays = filingDays;
         this.registrationType = registrationType;
     }
     
@@ -387,6 +384,7 @@ public class RegistrationRead {
             String stateName,
             FilingFrequencyEnum filingFrequency,
             String id,
+            long filingDays,
             RegistrationTypeEnum registrationType) {
         this(Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
@@ -399,8 +397,8 @@ public class RegistrationRead {
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), id, Optional.empty(),
-            Optional.empty(), registrationType);
+            id, Optional.empty(), Optional.empty(),
+            filingDays, registrationType);
     }
 
     /**
@@ -551,14 +549,6 @@ public class RegistrationRead {
     }
 
     /**
-     * The number of days before the filing deadline.
-     */
-    @JsonIgnore
-    public Optional<Long> filingDays() {
-        return filingDays;
-    }
-
-    /**
      * Username for accessing tax registration details.
      */
     @JsonIgnore
@@ -679,6 +669,11 @@ public class RegistrationRead {
     @JsonIgnore
     public Optional<RegistrationCategoryEnum> registrationCategory() {
         return (Optional<RegistrationCategoryEnum>) registrationCategory;
+    }
+
+    @JsonIgnore
+    public long filingDays() {
+        return filingDays;
     }
 
     @JsonIgnore
@@ -1001,25 +996,6 @@ public class RegistrationRead {
     }
 
     /**
-     * The number of days before the filing deadline.
-     */
-    public RegistrationRead withFilingDays(long filingDays) {
-        Utils.checkNotNull(filingDays, "filingDays");
-        this.filingDays = Optional.ofNullable(filingDays);
-        return this;
-    }
-
-
-    /**
-     * The number of days before the filing deadline.
-     */
-    public RegistrationRead withFilingDays(Optional<Long> filingDays) {
-        Utils.checkNotNull(filingDays, "filingDays");
-        this.filingDays = filingDays;
-        return this;
-    }
-
-    /**
      * Username for accessing tax registration details.
      */
     public RegistrationRead withUsername(String username) {
@@ -1297,6 +1273,12 @@ public class RegistrationRead {
         return this;
     }
 
+    public RegistrationRead withFilingDays(long filingDays) {
+        Utils.checkNotNull(filingDays, "filingDays");
+        this.filingDays = filingDays;
+        return this;
+    }
+
     public RegistrationRead withRegistrationType(RegistrationTypeEnum registrationType) {
         Utils.checkNotNull(registrationType, "registrationType");
         this.registrationType = registrationType;
@@ -1333,7 +1315,6 @@ public class RegistrationRead {
             Utils.enhancedDeepEquals(this.stateCode, other.stateCode) &&
             Utils.enhancedDeepEquals(this.stateName, other.stateName) &&
             Utils.enhancedDeepEquals(this.filingFrequency, other.filingFrequency) &&
-            Utils.enhancedDeepEquals(this.filingDays, other.filingDays) &&
             Utils.enhancedDeepEquals(this.username, other.username) &&
             Utils.enhancedDeepEquals(this.comment, other.comment) &&
             Utils.enhancedDeepEquals(this.createFilingsFrom, other.createFilingsFrom) &&
@@ -1350,6 +1331,7 @@ public class RegistrationRead {
             Utils.enhancedDeepEquals(this.id, other.id) &&
             Utils.enhancedDeepEquals(this.creditsTotalAvailable, other.creditsTotalAvailable) &&
             Utils.enhancedDeepEquals(this.registrationCategory, other.registrationCategory) &&
+            Utils.enhancedDeepEquals(this.filingDays, other.filingDays) &&
             Utils.enhancedDeepEquals(this.registrationType, other.registrationType);
     }
     
@@ -1362,13 +1344,13 @@ public class RegistrationRead {
             registrationsRegime, changeRegimeStatus, thirdPartyEnabled,
             doNotFile, twoFactorEnabled, markedCollecting,
             status, countryCode, stateCode,
-            stateName, filingFrequency, filingDays,
-            username, comment, createFilingsFrom,
-            initialSync, amountFees, vda,
-            imported, salesTaxId, sstImport,
-            ossType, ossMemberStateOfIdentificationCode, markedCollectingDate,
-            needsMarkAsCollecting, id, creditsTotalAvailable,
-            registrationCategory, registrationType);
+            stateName, filingFrequency, username,
+            comment, createFilingsFrom, initialSync,
+            amountFees, vda, imported,
+            salesTaxId, sstImport, ossType,
+            ossMemberStateOfIdentificationCode, markedCollectingDate, needsMarkAsCollecting,
+            id, creditsTotalAvailable, registrationCategory,
+            filingDays, registrationType);
     }
     
     @Override
@@ -1394,7 +1376,6 @@ public class RegistrationRead {
                 "stateCode", stateCode,
                 "stateName", stateName,
                 "filingFrequency", filingFrequency,
-                "filingDays", filingDays,
                 "username", username,
                 "comment", comment,
                 "createFilingsFrom", createFilingsFrom,
@@ -1411,6 +1392,7 @@ public class RegistrationRead {
                 "id", id,
                 "creditsTotalAvailable", creditsTotalAvailable,
                 "registrationCategory", registrationCategory,
+                "filingDays", filingDays,
                 "registrationType", registrationType);
     }
 
@@ -1457,8 +1439,6 @@ public class RegistrationRead {
 
         private FilingFrequencyEnum filingFrequency;
 
-        private Optional<Long> filingDays = Optional.empty();
-
         private Optional<String> username = Optional.empty();
 
         private Optional<String> comment = Optional.empty();
@@ -1490,6 +1470,8 @@ public class RegistrationRead {
         private Optional<String> creditsTotalAvailable;
 
         private Optional<? extends RegistrationCategoryEnum> registrationCategory = Optional.empty();
+
+        private Long filingDays;
 
         private RegistrationTypeEnum registrationType;
 
@@ -1813,25 +1795,6 @@ public class RegistrationRead {
 
 
         /**
-         * The number of days before the filing deadline.
-         */
-        public Builder filingDays(long filingDays) {
-            Utils.checkNotNull(filingDays, "filingDays");
-            this.filingDays = Optional.ofNullable(filingDays);
-            return this;
-        }
-
-        /**
-         * The number of days before the filing deadline.
-         */
-        public Builder filingDays(Optional<Long> filingDays) {
-            Utils.checkNotNull(filingDays, "filingDays");
-            this.filingDays = filingDays;
-            return this;
-        }
-
-
-        /**
          * Username for accessing tax registration details.
          */
         public Builder username(String username) {
@@ -2110,6 +2073,13 @@ public class RegistrationRead {
         }
 
 
+        public Builder filingDays(long filingDays) {
+            Utils.checkNotNull(filingDays, "filingDays");
+            this.filingDays = filingDays;
+            return this;
+        }
+
+
         public Builder registrationType(RegistrationTypeEnum registrationType) {
             Utils.checkNotNull(registrationType, "registrationType");
             this.registrationType = registrationType;
@@ -2152,13 +2122,13 @@ public class RegistrationRead {
                 registrationsRegime, changeRegimeStatus, thirdPartyEnabled,
                 doNotFile, twoFactorEnabled, markedCollecting,
                 status, countryCode, stateCode,
-                stateName, filingFrequency, filingDays,
-                username, comment, createFilingsFrom,
-                initialSync, amountFees, vda,
-                imported, salesTaxId, sstImport,
-                ossType, ossMemberStateOfIdentificationCode, markedCollectingDate,
-                needsMarkAsCollecting, id, creditsTotalAvailable,
-                registrationCategory, registrationType);
+                stateName, filingFrequency, username,
+                comment, createFilingsFrom, initialSync,
+                amountFees, vda, imported,
+                salesTaxId, sstImport, ossType,
+                ossMemberStateOfIdentificationCode, markedCollectingDate, needsMarkAsCollecting,
+                id, creditsTotalAvailable, registrationCategory,
+                filingDays, registrationType);
         }
 
 

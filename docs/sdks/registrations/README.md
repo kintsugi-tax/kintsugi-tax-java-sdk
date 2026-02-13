@@ -1,5 +1,4 @@
 # Registrations
-(*registrations()*)
 
 ## Overview
 
@@ -81,9 +80,51 @@ public class Application {
 The Create Registration API allows users to create a new registration
     for tracking and managing tax filings efficiently across multiple jurisdictions.
 
-### Example Usage
+### Example Usage: oss
 
-<!-- UsageSnippet language="java" operationID="create_registration_v1_registrations_post" method="post" path="/v1/registrations" -->
+<!-- UsageSnippet language="java" operationID="create_registration_v1_registrations_post" method="post" path="/v1/registrations" example="oss" -->
+```java
+package hello.world;
+
+import com.kintsugi.taxplatform.SDK;
+import com.kintsugi.taxplatform.models.components.*;
+import com.kintsugi.taxplatform.models.errors.BackendSrcRegistrationsResponsesValidationErrorResponse;
+import com.kintsugi.taxplatform.models.errors.ErrorResponse;
+import com.kintsugi.taxplatform.models.operations.CreateRegistration;
+import com.kintsugi.taxplatform.models.operations.CreateRegistrationV1RegistrationsPostResponse;
+import java.lang.Exception;
+
+public class Application {
+
+    public static void main(String[] args) throws ErrorResponse, BackendSrcRegistrationsResponsesValidationErrorResponse, Exception {
+
+        SDK sdk = SDK.builder()
+                .security(Security.builder()
+                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
+                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
+                    .build())
+            .build();
+
+        CreateRegistration req = OSSRegistrationCreatePayload.builder()
+                .passwordPlainText("oss_pass_fr")
+                .passwordMetadataPlainText("{\"q\":\"a\"}")
+                .memberStateOfIdentificationCode(CountryCodeEnum.FR)
+                .imported(true)
+                .build();
+
+        CreateRegistrationV1RegistrationsPostResponse res = sdk.registrations().create()
+                .request(req)
+                .call();
+
+        if (res.registrationRead().isPresent()) {
+            // handle response
+        }
+    }
+}
+```
+### Example Usage: regular_legacy
+
+<!-- UsageSnippet language="java" operationID="create_registration_v1_registrations_post" method="post" path="/v1/registrations" example="regular_legacy" -->
 ```java
 package hello.world;
 
@@ -108,6 +149,95 @@ public class Application {
             .build();
 
         CreateRegistration req = OSSRegistrationCreatePayload.builder()
+                .build();
+
+        CreateRegistrationV1RegistrationsPostResponse res = sdk.registrations().create()
+                .request(req)
+                .call();
+
+        if (res.registrationRead().isPresent()) {
+            // handle response
+        }
+    }
+}
+```
+### Example Usage: regular_new
+
+<!-- UsageSnippet language="java" operationID="create_registration_v1_registrations_post" method="post" path="/v1/registrations" example="regular_new" -->
+```java
+package hello.world;
+
+import com.kintsugi.taxplatform.SDK;
+import com.kintsugi.taxplatform.models.components.*;
+import com.kintsugi.taxplatform.models.errors.BackendSrcRegistrationsResponsesValidationErrorResponse;
+import com.kintsugi.taxplatform.models.errors.ErrorResponse;
+import com.kintsugi.taxplatform.models.operations.CreateRegistration;
+import com.kintsugi.taxplatform.models.operations.CreateRegistrationV1RegistrationsPostResponse;
+import java.lang.Exception;
+
+public class Application {
+
+    public static void main(String[] args) throws ErrorResponse, BackendSrcRegistrationsResponsesValidationErrorResponse, Exception {
+
+        SDK sdk = SDK.builder()
+                .security(Security.builder()
+                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
+                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
+                    .build())
+            .build();
+
+        CreateRegistration req = RegistrationCreatePayload.builder()
+                .countryCode(CountryCodeEnum.US)
+                .stateCode("TX")
+                .stateName("Texas")
+                .filingFrequency(FilingFrequencyEnum.MONTHLY)
+                .registrationDate("2025-02-01")
+                .registrationEmail("example@domain.com")
+                .autoRegistered(true)
+                .comment("Registering for monthly sales tax filings")
+                .amountFees(100d)
+                .build();
+
+        CreateRegistrationV1RegistrationsPostResponse res = sdk.registrations().create()
+                .request(req)
+                .call();
+
+        if (res.registrationRead().isPresent()) {
+            // handle response
+        }
+    }
+}
+```
+### Example Usage: sst
+
+<!-- UsageSnippet language="java" operationID="create_registration_v1_registrations_post" method="post" path="/v1/registrations" example="sst" -->
+```java
+package hello.world;
+
+import com.kintsugi.taxplatform.SDK;
+import com.kintsugi.taxplatform.models.components.SSTRegistrationCreatePayload;
+import com.kintsugi.taxplatform.models.components.Security;
+import com.kintsugi.taxplatform.models.errors.BackendSrcRegistrationsResponsesValidationErrorResponse;
+import com.kintsugi.taxplatform.models.errors.ErrorResponse;
+import com.kintsugi.taxplatform.models.operations.CreateRegistration;
+import com.kintsugi.taxplatform.models.operations.CreateRegistrationV1RegistrationsPostResponse;
+import java.lang.Exception;
+
+public class Application {
+
+    public static void main(String[] args) throws ErrorResponse, BackendSrcRegistrationsResponsesValidationErrorResponse, Exception {
+
+        SDK sdk = SDK.builder()
+                .security(Security.builder()
+                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
+                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
+                    .build())
+            .build();
+
+        CreateRegistration req = SSTRegistrationCreatePayload.builder()
+                .passwordPlainText("sst_pass")
+                .passwordMetadataPlainText("{\"q\":\"a\"}")
+                .username("sst_user")
                 .build();
 
         CreateRegistrationV1RegistrationsPostResponse res = sdk.registrations().create()
@@ -185,6 +315,7 @@ public class Application {
 | Parameter                                                                              | Type                                                                                   | Required                                                                               | Description                                                                            |
 | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
 | `registrationId`                                                                       | *String*                                                                               | :heavy_check_mark:                                                                     | The unique identifier of the<br/>                                registration to retrieve. |
+| `reveal`                                                                               | *Optional\<String>*                                                                    | :heavy_minus_sign:                                                                     | Name of field to reveal                                                                |
 
 ### Response
 

@@ -42,11 +42,21 @@ public class ProductRead {
     @JsonProperty("status")
     private ProductStatusEnum status;
 
-
+    /**
+     * Main category of the product.
+     * For example, Physical, Digital, etc. You can
+     * retrieve supported categories from [GET /products/categories
+     * endpoint](/reference/api/products/get-product-categories)
+     */
     @JsonProperty("product_category")
     private String productCategory;
 
-
+    /**
+     * Subcategory of the product.
+     * For example, General Clothing, UNKNOWN, etc. You can
+     * retrieve supported subcategories from [GET /products/categories
+     * endpoint](/reference/api/products/get-product-categories)
+     */
     @JsonProperty("product_subcategory")
     private String productSubcategory;
 
@@ -144,11 +154,23 @@ public class ProductRead {
         return status;
     }
 
+    /**
+     * Main category of the product.
+     * For example, Physical, Digital, etc. You can
+     * retrieve supported categories from [GET /products/categories
+     * endpoint](/reference/api/products/get-product-categories)
+     */
     @JsonIgnore
     public String productCategory() {
         return productCategory;
     }
 
+    /**
+     * Subcategory of the product.
+     * For example, General Clothing, UNKNOWN, etc. You can
+     * retrieve supported subcategories from [GET /products/categories
+     * endpoint](/reference/api/products/get-product-categories)
+     */
     @JsonIgnore
     public String productSubcategory() {
         return productSubcategory;
@@ -221,12 +243,24 @@ public class ProductRead {
         return this;
     }
 
+    /**
+     * Main category of the product.
+     * For example, Physical, Digital, etc. You can
+     * retrieve supported categories from [GET /products/categories
+     * endpoint](/reference/api/products/get-product-categories)
+     */
     public ProductRead withProductCategory(String productCategory) {
         Utils.checkNotNull(productCategory, "productCategory");
         this.productCategory = productCategory;
         return this;
     }
 
+    /**
+     * Subcategory of the product.
+     * For example, General Clothing, UNKNOWN, etc. You can
+     * retrieve supported subcategories from [GET /products/categories
+     * endpoint](/reference/api/products/get-product-categories)
+     */
     public ProductRead withProductSubcategory(String productSubcategory) {
         Utils.checkNotNull(productSubcategory, "productSubcategory");
         this.productSubcategory = productSubcategory;
@@ -393,6 +427,12 @@ public class ProductRead {
         }
 
 
+        /**
+         * Main category of the product.
+         * For example, Physical, Digital, etc. You can
+         * retrieve supported categories from [GET /products/categories
+         * endpoint](/reference/api/products/get-product-categories)
+         */
         public Builder productCategory(String productCategory) {
             Utils.checkNotNull(productCategory, "productCategory");
             this.productCategory = productCategory;
@@ -400,6 +440,12 @@ public class ProductRead {
         }
 
 
+        /**
+         * Subcategory of the product.
+         * For example, General Clothing, UNKNOWN, etc. You can
+         * retrieve supported subcategories from [GET /products/categories
+         * endpoint](/reference/api/products/get-product-categories)
+         */
         public Builder productSubcategory(String productSubcategory) {
             Utils.checkNotNull(productSubcategory, "productSubcategory");
             this.productSubcategory = productSubcategory;

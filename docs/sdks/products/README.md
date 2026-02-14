@@ -1,23 +1,22 @@
 # Products
-(*products()*)
 
 ## Overview
 
 ### Available Operations
 
-* [get](#get) - Get Products
-* [create](#create) - Create Product
+* [getProductsV1ProductsGet](#getproductsv1productsget) - Get Products
+* [createProductV1ProductsPost](#createproductv1productspost) - Create Product
+* [getProductCategoriesV1ProductsCategoriesGet](#getproductcategoriesv1productscategoriesget) - Get Product Categories
 * [getById](#getbyid) - Get Product By Id
 * [update](#update) - Update Product
-* [getCategories](#getcategories) - Get Product Categories
 
-## get
+## getProductsV1ProductsGet
 
 Retrieve a paginated list of products based on filters and search query.
 
 ### Example Usage
 
-<!-- UsageSnippet language="java" operationID="get_products_v1_products__get" method="get" path="/v1/products/" -->
+<!-- UsageSnippet language="java" operationID="get_products_v1_products_get" method="get" path="/v1/products" -->
 ```java
 package hello.world;
 
@@ -43,7 +42,7 @@ public class Application {
         GetProductsV1ProductsGetRequest req = GetProductsV1ProductsGetRequest.builder()
                 .build();
 
-        GetProductsV1ProductsGetResponse res = sdk.products().get()
+        GetProductsV1ProductsGetResponse res = sdk.products().getProductsV1ProductsGet()
                 .request(req)
                 .call();
 
@@ -73,15 +72,17 @@ public class Application {
 | models/errors/ErrorResponse                                      | 500                                                              | application/json                                                 |
 | models/errors/APIException                                       | 4XX, 5XX                                                         | \*/\*                                                            |
 
-## create
+## createProductV1ProductsPost
 
 The Create Product API allows users to manually create a new product
     in the system. This includes specifying product details such as category,
-    subcategory, and tax exemption status, etc.
+    subcategory, and tax exemption status, etc. You can
+    retrieve supported categories and subcategories from
+    [GET /products/categories endpoint](/reference/api/products/get-product-categories)
 
 ### Example Usage
 
-<!-- UsageSnippet language="java" operationID="create_product_v1_products__post" method="post" path="/v1/products/" -->
+<!-- UsageSnippet language="java" operationID="create_product_v1_products_post" method="post" path="/v1/products" -->
 ```java
 package hello.world;
 
@@ -105,16 +106,16 @@ public class Application {
 
         ProductCreateManual req = ProductCreateManual.builder()
                 .externalId("prod_001")
-                .name("Sample Product")
-                .productCategory(ProductCategoryEnum.PHYSICAL)
-                .productSubcategory(ProductSubCategoryEnum.GENERAL_CLOTHING)
+                .name("T-shirts")
+                .productCategory()
+                .productSubcategory()
                 .taxExempt(false)
-                .description("A description of the product")
+                .description("Common items of everyday wearing apparel designed for human use, covering a wide variety of non-specialized garments.")
                 .status(ProductStatusEnum.APPROVED)
                 .source(SourceEnum.BIGCOMMERCE)
                 .build();
 
-        CreateProductV1ProductsPostResponse res = sdk.products().create()
+        CreateProductV1ProductsPostResponse res = sdk.products().createProductV1ProductsPost()
                 .request(req)
                 .call();
 
@@ -134,6 +135,59 @@ public class Application {
 ### Response
 
 **[CreateProductV1ProductsPostResponse](../../models/operations/CreateProductV1ProductsPostResponse.md)**
+
+### Errors
+
+| Error Type                                                       | Status Code                                                      | Content Type                                                     |
+| ---------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------- |
+| models/errors/ErrorResponse                                      | 401                                                              | application/json                                                 |
+| models/errors/BackendSrcProductsResponsesValidationErrorResponse | 422                                                              | application/json                                                 |
+| models/errors/ErrorResponse                                      | 500                                                              | application/json                                                 |
+| models/errors/APIException                                       | 4XX, 5XX                                                         | \*/\*                                                            |
+
+## getProductCategoriesV1ProductsCategoriesGet
+
+The Get Product Categories API retrieves all
+    product categories.  This endpoint helps users understand and select the
+    appropriate categories for their products.
+
+### Example Usage
+
+<!-- UsageSnippet language="java" operationID="get_product_categories_v1_products_categories_get" method="get" path="/v1/products/categories" -->
+```java
+package hello.world;
+
+import com.kintsugi.taxplatform.SDK;
+import com.kintsugi.taxplatform.models.components.Security;
+import com.kintsugi.taxplatform.models.errors.BackendSrcProductsResponsesValidationErrorResponse;
+import com.kintsugi.taxplatform.models.errors.ErrorResponse;
+import com.kintsugi.taxplatform.models.operations.GetProductCategoriesV1ProductsCategoriesGetResponse;
+import java.lang.Exception;
+
+public class Application {
+
+    public static void main(String[] args) throws ErrorResponse, BackendSrcProductsResponsesValidationErrorResponse, Exception {
+
+        SDK sdk = SDK.builder()
+                .security(Security.builder()
+                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
+                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
+                    .build())
+            .build();
+
+        GetProductCategoriesV1ProductsCategoriesGetResponse res = sdk.products().getProductCategoriesV1ProductsCategoriesGet()
+                .call();
+
+        if (res.productCategories().isPresent()) {
+            // handle response
+        }
+    }
+}
+```
+
+### Response
+
+**[GetProductCategoriesV1ProductsCategoriesGetResponse](../../models/operations/GetProductCategoriesV1ProductsCategoriesGetResponse.md)**
 
 ### Errors
 
@@ -207,7 +261,9 @@ public class Application {
 ## update
 
 The Update Product API allows users to modify the details of
-    an existing product identified by its unique product_id
+    an existing product identified by its unique product_id. You can
+    retrieve supported categories and subcategories from
+    [GET /products/categories endpoint](/reference/api/products/get-product-categories)
 
 ### Example Usage
 
@@ -236,9 +292,9 @@ public class Application {
         UpdateProductV1ProductsProductIdPutResponse res = sdk.products().update()
                 .productId("<id>")
                 .productUpdate(ProductUpdate.builder()
-                    .name("Updated Product Name")
-                    .productCategory(ProductCategoryEnum.PHYSICAL)
-                    .productSubcategory(ProductSubCategoryEnum.GENERAL_CLOTHING)
+                    .name("Updated T-Shirt")
+                    .productCategory("Physical")
+                    .productSubcategory("General Clothing")
                     .taxExempt(false)
                     .externalId("prod_001")
                     .description("An updated description for the product")
@@ -272,53 +328,3 @@ public class Application {
 | models/errors/BackendSrcProductsResponsesValidationErrorResponse | 422                                                              | application/json                                                 |
 | models/errors/ErrorResponse                                      | 500                                                              | application/json                                                 |
 | models/errors/APIException                                       | 4XX, 5XX                                                         | \*/\*                                                            |
-
-## getCategories
-
-The Get Product Categories API retrieves all
-    product categories.  This endpoint helps users understand and select the
-    appropriate categories for their products.
-
-### Example Usage
-
-<!-- UsageSnippet language="java" operationID="get_product_categories_v1_products_categories__get" method="get" path="/v1/products/categories/" -->
-```java
-package hello.world;
-
-import com.kintsugi.taxplatform.SDK;
-import com.kintsugi.taxplatform.models.components.Security;
-import com.kintsugi.taxplatform.models.errors.HTTPValidationError;
-import com.kintsugi.taxplatform.models.operations.GetProductCategoriesV1ProductsCategoriesGetResponse;
-import java.lang.Exception;
-
-public class Application {
-
-    public static void main(String[] args) throws HTTPValidationError, Exception {
-
-        SDK sdk = SDK.builder()
-                .security(Security.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
-                    .build())
-            .build();
-
-        GetProductCategoriesV1ProductsCategoriesGetResponse res = sdk.products().getCategories()
-                .call();
-
-        if (res.responseGetProductCategoriesV1ProductsCategoriesGet().isPresent()) {
-            // handle response
-        }
-    }
-}
-```
-
-### Response
-
-**[GetProductCategoriesV1ProductsCategoriesGetResponse](../../models/operations/GetProductCategoriesV1ProductsCategoriesGetResponse.md)**
-
-### Errors
-
-| Error Type                        | Status Code                       | Content Type                      |
-| --------------------------------- | --------------------------------- | --------------------------------- |
-| models/errors/HTTPValidationError | 422                               | application/json                  |
-| models/errors/APIException        | 4XX, 5XX                          | \*/\*                             |

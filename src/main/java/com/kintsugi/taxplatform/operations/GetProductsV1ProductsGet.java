@@ -60,7 +60,7 @@ public class GetProductsV1ProductsGet {
             return new BeforeRequestContextImpl(
                     this.sdkConfiguration,
                     this.baseUrl,
-                    "get_products_v1_products__get",
+                    "get_products_v1_products_get",
                     java.util.Optional.empty(),
                     securitySource());
         }
@@ -69,7 +69,7 @@ public class GetProductsV1ProductsGet {
             return new AfterSuccessContextImpl(
                     this.sdkConfiguration,
                     this.baseUrl,
-                    "get_products_v1_products__get",
+                    "get_products_v1_products_get",
                     java.util.Optional.empty(),
                     securitySource());
         }
@@ -78,14 +78,14 @@ public class GetProductsV1ProductsGet {
             return new AfterErrorContextImpl(
                     this.sdkConfiguration,
                     this.baseUrl,
-                    "get_products_v1_products__get",
+                    "get_products_v1_products_get",
                     java.util.Optional.empty(),
                     securitySource());
         }
         <T>HttpRequest buildRequest(T request, Class<T> klass) throws Exception {
             String url = Utils.generateURL(
                     this.baseUrl,
-                    "/v1/products/");
+                    "/v1/products");
             HTTPRequest req = new HTTPRequest(url, "GET");
             req.addHeader("Accept", "application/json")
                     .addHeader("user-agent", SDKConfiguration.USER_AGENT);

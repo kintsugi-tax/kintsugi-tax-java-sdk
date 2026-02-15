@@ -1,5 +1,4 @@
 # Nexus
-(*nexus()*)
 
 ## Overview
 
@@ -113,6 +112,10 @@ public class Application {
                 .endDate("2025-01-01")
                 .externalId("ext_ABC123")
                 .source(PhysicalNexusSource.USER)
+                .street1("123 Main Street")
+                .street2("Suite 100")
+                .city("San Francisco")
+                .postalCode("94102")
                 .build();
 
         CreatePhysicalNexusV1NexusPhysicalNexusPostResponse res = sdk.nexus().createPhysical()
@@ -181,6 +184,10 @@ public class Application {
                     .startDate(LocalDate.parse("2024-01-01"))
                     .category(PhysicalNexusCategory.PHYSICAL_BUSINESS_LOCATION)
                     .endDate("2025-01-01")
+                    .street1("123 Main Street")
+                    .street2("Suite 100")
+                    .city("San Francisco")
+                    .postalCode("94102")
                     .build())
                 .call();
 

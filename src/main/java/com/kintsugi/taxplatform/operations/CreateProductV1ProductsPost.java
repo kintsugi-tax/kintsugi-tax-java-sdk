@@ -64,7 +64,7 @@ public class CreateProductV1ProductsPost {
             return new BeforeRequestContextImpl(
                     this.sdkConfiguration,
                     this.baseUrl,
-                    "create_product_v1_products__post",
+                    "create_product_v1_products_post",
                     java.util.Optional.empty(),
                     securitySource());
         }
@@ -73,7 +73,7 @@ public class CreateProductV1ProductsPost {
             return new AfterSuccessContextImpl(
                     this.sdkConfiguration,
                     this.baseUrl,
-                    "create_product_v1_products__post",
+                    "create_product_v1_products_post",
                     java.util.Optional.empty(),
                     securitySource());
         }
@@ -82,14 +82,14 @@ public class CreateProductV1ProductsPost {
             return new AfterErrorContextImpl(
                     this.sdkConfiguration,
                     this.baseUrl,
-                    "create_product_v1_products__post",
+                    "create_product_v1_products_post",
                     java.util.Optional.empty(),
                     securitySource());
         }
         <T, U>HttpRequest buildRequest(T request, TypeReference<U> typeReference) throws Exception {
             String url = Utils.generateURL(
                     this.baseUrl,
-                    "/v1/products/");
+                    "/v1/products");
             HTTPRequest req = new HTTPRequest(url, "POST");
             Object convertedRequest = Utils.convertToShape(
                     request,
@@ -97,7 +97,7 @@ public class CreateProductV1ProductsPost {
                     typeReference);
             SerializedBody serializedRequestBody = Utils.serializeRequestBody(
                     convertedRequest,
-                    "request",
+                    "",
                     "json",
                     false);
             if (serializedRequestBody == null) {

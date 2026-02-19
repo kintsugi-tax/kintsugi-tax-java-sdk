@@ -1,5 +1,4 @@
 # TaxEstimation
-(*taxEstimation()*)
 
 ## Overview
 

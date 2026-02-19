@@ -1,5 +1,4 @@
-# CustomersTransactions
-(*customers().transactions()*)
+# Customers.Transactions
 
 ## Overview
 

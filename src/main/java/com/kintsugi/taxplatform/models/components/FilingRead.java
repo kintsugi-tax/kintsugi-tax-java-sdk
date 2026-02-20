@@ -196,11 +196,18 @@ public class FilingRead {
     private Optional<String> totalTaxLiability;
 
     /**
-     * Total number of transactions associated with the filing.
+     * Number of non-marketplace transactions. For total, add marketplace_transaction_count.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("transaction_count")
     private Optional<Long> transactionCount;
+
+    /**
+     * Number of marketplace transactions associated with the filing.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("marketplace_transaction_count")
+    private Optional<Long> marketplaceTransactionCount;
 
     /**
      * Notes or comments related to the filing.
@@ -293,6 +300,7 @@ public class FilingRead {
             @JsonProperty("amount") Optional<String> amount,
             @JsonProperty("total_tax_liability") Optional<String> totalTaxLiability,
             @JsonProperty("transaction_count") Optional<Long> transactionCount,
+            @JsonProperty("marketplace_transaction_count") Optional<Long> marketplaceTransactionCount,
             @JsonProperty("internal_notes") Optional<String> internalNotes,
             @JsonProperty("recent_details_report_link") Optional<String> recentDetailsReportLink,
             @JsonProperty("tax_remitted") Optional<String> taxRemitted,
@@ -329,6 +337,7 @@ public class FilingRead {
         Utils.checkNotNull(amount, "amount");
         Utils.checkNotNull(totalTaxLiability, "totalTaxLiability");
         Utils.checkNotNull(transactionCount, "transactionCount");
+        Utils.checkNotNull(marketplaceTransactionCount, "marketplaceTransactionCount");
         Utils.checkNotNull(internalNotes, "internalNotes");
         Utils.checkNotNull(recentDetailsReportLink, "recentDetailsReportLink");
         Utils.checkNotNull(taxRemitted, "taxRemitted");
@@ -365,6 +374,7 @@ public class FilingRead {
         this.amount = amount;
         this.totalTaxLiability = totalTaxLiability;
         this.transactionCount = transactionCount;
+        this.marketplaceTransactionCount = marketplaceTransactionCount;
         this.internalNotes = internalNotes;
         this.recentDetailsReportLink = recentDetailsReportLink;
         this.taxRemitted = taxRemitted;
@@ -395,7 +405,8 @@ public class FilingRead {
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
-            id, registrationId, filingWebsiteUrl);
+            Optional.empty(), id, registrationId,
+            filingWebsiteUrl);
     }
 
     @SuppressWarnings("unchecked")
@@ -600,11 +611,19 @@ public class FilingRead {
     }
 
     /**
-     * Total number of transactions associated with the filing.
+     * Number of non-marketplace transactions. For total, add marketplace_transaction_count.
      */
     @JsonIgnore
     public Optional<Long> transactionCount() {
         return transactionCount;
+    }
+
+    /**
+     * Number of marketplace transactions associated with the filing.
+     */
+    @JsonIgnore
+    public Optional<Long> marketplaceTransactionCount() {
+        return marketplaceTransactionCount;
     }
 
     /**
@@ -1136,7 +1155,7 @@ public class FilingRead {
     }
 
     /**
-     * Total number of transactions associated with the filing.
+     * Number of non-marketplace transactions. For total, add marketplace_transaction_count.
      */
     public FilingRead withTransactionCount(long transactionCount) {
         Utils.checkNotNull(transactionCount, "transactionCount");
@@ -1146,11 +1165,30 @@ public class FilingRead {
 
 
     /**
-     * Total number of transactions associated with the filing.
+     * Number of non-marketplace transactions. For total, add marketplace_transaction_count.
      */
     public FilingRead withTransactionCount(Optional<Long> transactionCount) {
         Utils.checkNotNull(transactionCount, "transactionCount");
         this.transactionCount = transactionCount;
+        return this;
+    }
+
+    /**
+     * Number of marketplace transactions associated with the filing.
+     */
+    public FilingRead withMarketplaceTransactionCount(long marketplaceTransactionCount) {
+        Utils.checkNotNull(marketplaceTransactionCount, "marketplaceTransactionCount");
+        this.marketplaceTransactionCount = Optional.ofNullable(marketplaceTransactionCount);
+        return this;
+    }
+
+
+    /**
+     * Number of marketplace transactions associated with the filing.
+     */
+    public FilingRead withMarketplaceTransactionCount(Optional<Long> marketplaceTransactionCount) {
+        Utils.checkNotNull(marketplaceTransactionCount, "marketplaceTransactionCount");
+        this.marketplaceTransactionCount = marketplaceTransactionCount;
         return this;
     }
 
@@ -1338,6 +1376,7 @@ public class FilingRead {
             Utils.enhancedDeepEquals(this.amount, other.amount) &&
             Utils.enhancedDeepEquals(this.totalTaxLiability, other.totalTaxLiability) &&
             Utils.enhancedDeepEquals(this.transactionCount, other.transactionCount) &&
+            Utils.enhancedDeepEquals(this.marketplaceTransactionCount, other.marketplaceTransactionCount) &&
             Utils.enhancedDeepEquals(this.internalNotes, other.internalNotes) &&
             Utils.enhancedDeepEquals(this.recentDetailsReportLink, other.recentDetailsReportLink) &&
             Utils.enhancedDeepEquals(this.taxRemitted, other.taxRemitted) &&
@@ -1361,10 +1400,11 @@ public class FilingRead {
             amountCalculated, amountAdjusted, amountDiscounts,
             amountFees, amountPenalties, amountTaxCollected,
             amountSales, totalTaxableSales, amount,
-            totalTaxLiability, transactionCount, internalNotes,
-            recentDetailsReportLink, taxRemitted, returnConfirmationId,
-            paymentConfirmationId, blockApproval, currency,
-            id, registrationId, filingWebsiteUrl);
+            totalTaxLiability, transactionCount, marketplaceTransactionCount,
+            internalNotes, recentDetailsReportLink, taxRemitted,
+            returnConfirmationId, paymentConfirmationId, blockApproval,
+            currency, id, registrationId,
+            filingWebsiteUrl);
     }
     
     @Override
@@ -1396,6 +1436,7 @@ public class FilingRead {
                 "amount", amount,
                 "totalTaxLiability", totalTaxLiability,
                 "transactionCount", transactionCount,
+                "marketplaceTransactionCount", marketplaceTransactionCount,
                 "internalNotes", internalNotes,
                 "recentDetailsReportLink", recentDetailsReportLink,
                 "taxRemitted", taxRemitted,
@@ -1462,6 +1503,8 @@ public class FilingRead {
         private Optional<String> totalTaxLiability;
 
         private Optional<Long> transactionCount;
+
+        private Optional<Long> marketplaceTransactionCount;
 
         private Optional<String> internalNotes = Optional.empty();
 
@@ -1940,7 +1983,7 @@ public class FilingRead {
 
 
         /**
-         * Total number of transactions associated with the filing.
+         * Number of non-marketplace transactions. For total, add marketplace_transaction_count.
          */
         public Builder transactionCount(long transactionCount) {
             Utils.checkNotNull(transactionCount, "transactionCount");
@@ -1949,11 +1992,30 @@ public class FilingRead {
         }
 
         /**
-         * Total number of transactions associated with the filing.
+         * Number of non-marketplace transactions. For total, add marketplace_transaction_count.
          */
         public Builder transactionCount(Optional<Long> transactionCount) {
             Utils.checkNotNull(transactionCount, "transactionCount");
             this.transactionCount = transactionCount;
+            return this;
+        }
+
+
+        /**
+         * Number of marketplace transactions associated with the filing.
+         */
+        public Builder marketplaceTransactionCount(long marketplaceTransactionCount) {
+            Utils.checkNotNull(marketplaceTransactionCount, "marketplaceTransactionCount");
+            this.marketplaceTransactionCount = Optional.ofNullable(marketplaceTransactionCount);
+            return this;
+        }
+
+        /**
+         * Number of marketplace transactions associated with the filing.
+         */
+        public Builder marketplaceTransactionCount(Optional<Long> marketplaceTransactionCount) {
+            Utils.checkNotNull(marketplaceTransactionCount, "marketplaceTransactionCount");
+            this.marketplaceTransactionCount = marketplaceTransactionCount;
             return this;
         }
 
@@ -2148,6 +2210,9 @@ public class FilingRead {
             if (transactionCount == null) {
                 transactionCount = _SINGLETON_VALUE_TransactionCount.value();
             }
+            if (marketplaceTransactionCount == null) {
+                marketplaceTransactionCount = _SINGLETON_VALUE_MarketplaceTransactionCount.value();
+            }
             if (taxRemitted == null) {
                 taxRemitted = _SINGLETON_VALUE_TaxRemitted.value();
             }
@@ -2161,10 +2226,11 @@ public class FilingRead {
                 amountCalculated, amountAdjusted, amountDiscounts,
                 amountFees, amountPenalties, amountTaxCollected,
                 amountSales, totalTaxableSales, amount,
-                totalTaxLiability, transactionCount, internalNotes,
-                recentDetailsReportLink, taxRemitted, returnConfirmationId,
-                paymentConfirmationId, blockApproval, currency,
-                id, registrationId, filingWebsiteUrl);
+                totalTaxLiability, transactionCount, marketplaceTransactionCount,
+                internalNotes, recentDetailsReportLink, taxRemitted,
+                returnConfirmationId, paymentConfirmationId, blockApproval,
+                currency, id, registrationId,
+                filingWebsiteUrl);
         }
 
 
@@ -2243,6 +2309,12 @@ public class FilingRead {
         private static final LazySingletonValue<Optional<Long>> _SINGLETON_VALUE_TransactionCount =
                 new LazySingletonValue<>(
                         "transaction_count",
+                        "0",
+                        new TypeReference<Optional<Long>>() {});
+
+        private static final LazySingletonValue<Optional<Long>> _SINGLETON_VALUE_MarketplaceTransactionCount =
+                new LazySingletonValue<>(
+                        "marketplace_transaction_count",
                         "0",
                         new TypeReference<Optional<Long>>() {});
 

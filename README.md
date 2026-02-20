@@ -49,7 +49,7 @@ The samples below show how a published SDK artifact is used:
 
 Gradle:
 ```groovy
-implementation 'com.trykintsugi:kintsugi-tax-java-sdk:0.15.0'
+implementation 'com.trykintsugi:kintsugi-tax-java-sdk:0.15.1'
 ```
 
 Maven:
@@ -57,7 +57,7 @@ Maven:
 <dependency>
     <groupId>com.trykintsugi</groupId>
     <artifactId>kintsugi-tax-java-sdk</artifactId>
-    <version>0.15.0</version>
+    <version>0.15.1</version>
 </dependency>
 ```
 
@@ -356,12 +356,12 @@ public class Application {
 <details open>
 <summary>Available methods</summary>
 
-### [addressValidation()](docs/sdks/addressvalidation/README.md)
+### [AddressValidation](docs/sdks/addressvalidation/README.md)
 
 * [search](docs/sdks/addressvalidation/README.md#search) - Search
 * [suggest](docs/sdks/addressvalidation/README.md#suggest) - Suggestions
 
-### [customers()](docs/sdks/customers/README.md)
+### [Customers](docs/sdks/customers/README.md)
 
 * [get](docs/sdks/customers/README.md#get) - Get Customers
 * [create](docs/sdks/customers/README.md#create) - Create Customer
@@ -370,11 +370,11 @@ public class Application {
 * [getByExternalId](docs/sdks/customers/README.md#getbyexternalid) - Get Customer By External Id
 * [createTransaction](docs/sdks/customers/README.md#createtransaction) - Create Transaction By Customer Id
 
-#### [customers().transactions()](docs/sdks/customerstransactions/README.md)
+### [Customers.Transactions](docs/sdks/customerstransactions/README.md)
 
 * [getByCustomerId](docs/sdks/customerstransactions/README.md#getbycustomerid) - Get Transactions By Customer Id
 
-### [exemptions()](docs/sdks/exemptions/README.md)
+### [Exemptions](docs/sdks/exemptions/README.md)
 
 * [get](docs/sdks/exemptions/README.md#get) - Get Exemptions
 * [create](docs/sdks/exemptions/README.md#create) - Create Exemption
@@ -382,13 +382,13 @@ public class Application {
 * [uploadCertificate](docs/sdks/exemptions/README.md#uploadcertificate) - Upload Exemption Certificate
 * [getAttachments](docs/sdks/exemptions/README.md#getattachments) - Get Attachments For Exemption
 
-### [filings()](docs/sdks/filings/README.md)
+### [Filings](docs/sdks/filings/README.md)
 
 * [get](docs/sdks/filings/README.md#get) - Get Filings
 * [getById](docs/sdks/filings/README.md#getbyid) - Get Filing By Id
 * [getByRegistrationId](docs/sdks/filings/README.md#getbyregistrationid) - Get Filings By Registration Id
 
-### [nexus()](docs/sdks/nexus/README.md)
+### [Nexus](docs/sdks/nexus/README.md)
 
 * [getPhysical](docs/sdks/nexus/README.md#getphysical) - Get Physical Nexus
 * [createPhysical](docs/sdks/nexus/README.md#createphysical) - Create Physical Nexus
@@ -396,15 +396,15 @@ public class Application {
 * [deletePhysical](docs/sdks/nexus/README.md#deletephysical) - Delete Physical Nexus
 * [get](docs/sdks/nexus/README.md#get) - Get Nexus For Org
 
-### [products()](docs/sdks/products/README.md)
+### [Products](docs/sdks/products/README.md)
 
-* [get](docs/sdks/products/README.md#get) - Get Products
-* [create](docs/sdks/products/README.md#create) - Create Product
+* [getProductsV1ProductsGet](docs/sdks/products/README.md#getproductsv1productsget) - Get Products
+* [createProductV1ProductsPost](docs/sdks/products/README.md#createproductv1productspost) - Create Product
+* [getProductCategoriesV1ProductsCategoriesGet](docs/sdks/products/README.md#getproductcategoriesv1productscategoriesget) - Get Product Categories
 * [getById](docs/sdks/products/README.md#getbyid) - Get Product By Id
 * [update](docs/sdks/products/README.md#update) - Update Product
-* [getCategories](docs/sdks/products/README.md#getcategories) - Get Product Categories
 
-### [registrations()](docs/sdks/registrations/README.md)
+### [Registrations](docs/sdks/registrations/README.md)
 
 * [get](docs/sdks/registrations/README.md#get) - Get Registrations
 * [create](docs/sdks/registrations/README.md#create) - Create Registration
@@ -412,11 +412,11 @@ public class Application {
 * [update](docs/sdks/registrations/README.md#update) - Update Registration
 * [deregister](docs/sdks/registrations/README.md#deregister) - Deregister Registration
 
-### [taxEstimation()](docs/sdks/taxestimation/README.md)
+### [TaxEstimation](docs/sdks/taxestimation/README.md)
 
 * [estimate](docs/sdks/taxestimation/README.md#estimate) - Estimate Tax
 
-### [transactions()](docs/sdks/transactions/README.md)
+### [Transactions](docs/sdks/transactions/README.md)
 
 * [get](docs/sdks/transactions/README.md#get) - Get Transactions
 * [create](docs/sdks/transactions/README.md#create) - Create Transaction
@@ -426,7 +426,7 @@ public class Application {
 * [getByFilingId](docs/sdks/transactions/README.md#getbyfilingid) - Get Transactions By Filing Id
 * [updateCreditNote](docs/sdks/transactions/README.md#updatecreditnote) - Update Credit Note By Transaction Id
 
-#### [transactions().creditNotes()](docs/sdks/creditnotes/README.md)
+### [Transactions.CreditNotes](docs/sdks/creditnotes/README.md)
 
 * [create](docs/sdks/creditnotes/README.md#create) - Create Credit Note By Transaction Id
 
@@ -534,10 +534,11 @@ public class Application {
 ```
 
 ### Error Classes
-**Primary error:**
+**Primary errors:**
 * [`SDKError`](./src/main/java/models/errors/SDKError.java): The base class for HTTP error responses.
+  * [`com.kintsugi.taxplatform.models.errors.ErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.ErrorResponse.java): *
 
-<details><summary>Less common errors (17)</summary>
+<details><summary>Less common errors (16)</summary>
 
 <br />
 
@@ -547,13 +548,12 @@ public class Application {
 many more subclasses in the JDK platform).
 
 **Inherit from [`SDKError`](./src/main/java/models/errors/SDKError.java)**:
-* [`com.kintsugi.taxplatform.models.errors.ErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.ErrorResponse.java): Applicable to 32 of 41 methods.*
-* [`com.kintsugi.taxplatform.models.errors.HTTPValidationError`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.HTTPValidationError.java): Validation Error. Status code `422`. Applicable to 9 of 41 methods.*
+* [`com.kintsugi.taxplatform.models.errors.HTTPValidationError`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.HTTPValidationError.java): Validation Error. Status code `422`. Applicable to 8 of 41 methods.*
 * [`com.kintsugi.taxplatform.models.errors.BackendSrcExemptionsResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcExemptionsResponsesValidationErrorResponse.java): Validation issues, such as missing required fields or invalid field values. Status code `422`. Applicable to 5 of 41 methods.*
+* [`com.kintsugi.taxplatform.models.errors.BackendSrcProductsResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcProductsResponsesValidationErrorResponse.java): Validation error. Status code `422`. Applicable to 5 of 41 methods.*
 * [`com.kintsugi.taxplatform.models.errors.BackendSrcRegistrationsResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcRegistrationsResponsesValidationErrorResponse.java): Validation error. Status code `422`. Applicable to 5 of 41 methods.*
 * [`com.kintsugi.taxplatform.models.errors.BackendSrcTransactionsResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcTransactionsResponsesValidationErrorResponse.java): Status code `422`. Applicable to 5 of 41 methods.*
 * [`com.kintsugi.taxplatform.models.errors.BackendSrcNexusResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcNexusResponsesValidationErrorResponse.java): Validation error. Status code `422`. Applicable to 4 of 41 methods.*
-* [`com.kintsugi.taxplatform.models.errors.BackendSrcProductsResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcProductsResponsesValidationErrorResponse.java): Validation error. Status code `422`. Applicable to 4 of 41 methods.*
 * [`com.kintsugi.taxplatform.models.errors.BackendSrcCustomersResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcCustomersResponsesValidationErrorResponse.java): Query parameters failed validation, such as an out-of-range page number. Status code `422`. Applicable to 3 of 41 methods.*
 * [`com.kintsugi.taxplatform.models.errors.BackendSrcFilingsResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcFilingsResponsesValidationErrorResponse.java): Validation error. Status code `422`. Applicable to 3 of 41 methods.*
 * [`com.kintsugi.taxplatform.models.errors.BackendSrcAddressValidationResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcAddressValidationResponsesValidationErrorResponse.java): Validation error - Address fields failed validation or are incomplete. Status code `422`. Applicable to 2 of 41 methods.*

@@ -60,6 +60,34 @@ public class PhysicalNexusCreate {
     @JsonProperty("source")
     private Optional<? extends PhysicalNexusSource> source;
 
+    /**
+     * Primary street address for the physical presence location.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("street_1")
+    private Optional<String> street1;
+
+    /**
+     * Additional street address details, such as suite or unit number.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("street_2")
+    private Optional<String> street2;
+
+    /**
+     * City of the physical presence location.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("city")
+    private Optional<String> city;
+
+    /**
+     * ZIP or postal code of the physical presence location.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("postal_code")
+    private Optional<String> postalCode;
+
     @JsonCreator
     public PhysicalNexusCreate(
             @JsonProperty("country_code") CountryCodeEnum countryCode,
@@ -68,7 +96,11 @@ public class PhysicalNexusCreate {
             @JsonProperty("end_date") Optional<String> endDate,
             @JsonProperty("category") PhysicalNexusCategory category,
             @JsonProperty("external_id") Optional<String> externalId,
-            @JsonProperty("source") Optional<? extends PhysicalNexusSource> source) {
+            @JsonProperty("source") Optional<? extends PhysicalNexusSource> source,
+            @JsonProperty("street_1") Optional<String> street1,
+            @JsonProperty("street_2") Optional<String> street2,
+            @JsonProperty("city") Optional<String> city,
+            @JsonProperty("postal_code") Optional<String> postalCode) {
         Utils.checkNotNull(countryCode, "countryCode");
         Utils.checkNotNull(stateCode, "stateCode");
         Utils.checkNotNull(startDate, "startDate");
@@ -76,6 +108,10 @@ public class PhysicalNexusCreate {
         Utils.checkNotNull(category, "category");
         Utils.checkNotNull(externalId, "externalId");
         Utils.checkNotNull(source, "source");
+        Utils.checkNotNull(street1, "street1");
+        Utils.checkNotNull(street2, "street2");
+        Utils.checkNotNull(city, "city");
+        Utils.checkNotNull(postalCode, "postalCode");
         this.countryCode = countryCode;
         this.stateCode = stateCode;
         this.startDate = startDate;
@@ -83,6 +119,10 @@ public class PhysicalNexusCreate {
         this.category = category;
         this.externalId = externalId;
         this.source = source;
+        this.street1 = street1;
+        this.street2 = street2;
+        this.city = city;
+        this.postalCode = postalCode;
     }
     
     public PhysicalNexusCreate(
@@ -92,7 +132,8 @@ public class PhysicalNexusCreate {
             PhysicalNexusCategory category) {
         this(countryCode, stateCode, startDate,
             Optional.empty(), category, Optional.empty(),
-            Optional.empty());
+            Optional.empty(), Optional.empty(), Optional.empty(),
+            Optional.empty(), Optional.empty());
     }
 
     @JsonIgnore
@@ -145,6 +186,38 @@ public class PhysicalNexusCreate {
     @JsonIgnore
     public Optional<PhysicalNexusSource> source() {
         return (Optional<PhysicalNexusSource>) source;
+    }
+
+    /**
+     * Primary street address for the physical presence location.
+     */
+    @JsonIgnore
+    public Optional<String> street1() {
+        return street1;
+    }
+
+    /**
+     * Additional street address details, such as suite or unit number.
+     */
+    @JsonIgnore
+    public Optional<String> street2() {
+        return street2;
+    }
+
+    /**
+     * City of the physical presence location.
+     */
+    @JsonIgnore
+    public Optional<String> city() {
+        return city;
+    }
+
+    /**
+     * ZIP or postal code of the physical presence location.
+     */
+    @JsonIgnore
+    public Optional<String> postalCode() {
+        return postalCode;
     }
 
     public static Builder builder() {
@@ -239,6 +312,82 @@ public class PhysicalNexusCreate {
         return this;
     }
 
+    /**
+     * Primary street address for the physical presence location.
+     */
+    public PhysicalNexusCreate withStreet1(String street1) {
+        Utils.checkNotNull(street1, "street1");
+        this.street1 = Optional.ofNullable(street1);
+        return this;
+    }
+
+
+    /**
+     * Primary street address for the physical presence location.
+     */
+    public PhysicalNexusCreate withStreet1(Optional<String> street1) {
+        Utils.checkNotNull(street1, "street1");
+        this.street1 = street1;
+        return this;
+    }
+
+    /**
+     * Additional street address details, such as suite or unit number.
+     */
+    public PhysicalNexusCreate withStreet2(String street2) {
+        Utils.checkNotNull(street2, "street2");
+        this.street2 = Optional.ofNullable(street2);
+        return this;
+    }
+
+
+    /**
+     * Additional street address details, such as suite or unit number.
+     */
+    public PhysicalNexusCreate withStreet2(Optional<String> street2) {
+        Utils.checkNotNull(street2, "street2");
+        this.street2 = street2;
+        return this;
+    }
+
+    /**
+     * City of the physical presence location.
+     */
+    public PhysicalNexusCreate withCity(String city) {
+        Utils.checkNotNull(city, "city");
+        this.city = Optional.ofNullable(city);
+        return this;
+    }
+
+
+    /**
+     * City of the physical presence location.
+     */
+    public PhysicalNexusCreate withCity(Optional<String> city) {
+        Utils.checkNotNull(city, "city");
+        this.city = city;
+        return this;
+    }
+
+    /**
+     * ZIP or postal code of the physical presence location.
+     */
+    public PhysicalNexusCreate withPostalCode(String postalCode) {
+        Utils.checkNotNull(postalCode, "postalCode");
+        this.postalCode = Optional.ofNullable(postalCode);
+        return this;
+    }
+
+
+    /**
+     * ZIP or postal code of the physical presence location.
+     */
+    public PhysicalNexusCreate withPostalCode(Optional<String> postalCode) {
+        Utils.checkNotNull(postalCode, "postalCode");
+        this.postalCode = postalCode;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -255,7 +404,11 @@ public class PhysicalNexusCreate {
             Utils.enhancedDeepEquals(this.endDate, other.endDate) &&
             Utils.enhancedDeepEquals(this.category, other.category) &&
             Utils.enhancedDeepEquals(this.externalId, other.externalId) &&
-            Utils.enhancedDeepEquals(this.source, other.source);
+            Utils.enhancedDeepEquals(this.source, other.source) &&
+            Utils.enhancedDeepEquals(this.street1, other.street1) &&
+            Utils.enhancedDeepEquals(this.street2, other.street2) &&
+            Utils.enhancedDeepEquals(this.city, other.city) &&
+            Utils.enhancedDeepEquals(this.postalCode, other.postalCode);
     }
     
     @Override
@@ -263,7 +416,8 @@ public class PhysicalNexusCreate {
         return Utils.enhancedHash(
             countryCode, stateCode, startDate,
             endDate, category, externalId,
-            source);
+            source, street1, street2,
+            city, postalCode);
     }
     
     @Override
@@ -275,7 +429,11 @@ public class PhysicalNexusCreate {
                 "endDate", endDate,
                 "category", category,
                 "externalId", externalId,
-                "source", source);
+                "source", source,
+                "street1", street1,
+                "street2", street2,
+                "city", city,
+                "postalCode", postalCode);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -294,6 +452,14 @@ public class PhysicalNexusCreate {
         private Optional<String> externalId = Optional.empty();
 
         private Optional<? extends PhysicalNexusSource> source = Optional.empty();
+
+        private Optional<String> street1 = Optional.empty();
+
+        private Optional<String> street2 = Optional.empty();
+
+        private Optional<String> city = Optional.empty();
+
+        private Optional<String> postalCode = Optional.empty();
 
         private Builder() {
           // force use of static builder() method
@@ -390,12 +556,89 @@ public class PhysicalNexusCreate {
             return this;
         }
 
+
+        /**
+         * Primary street address for the physical presence location.
+         */
+        public Builder street1(String street1) {
+            Utils.checkNotNull(street1, "street1");
+            this.street1 = Optional.ofNullable(street1);
+            return this;
+        }
+
+        /**
+         * Primary street address for the physical presence location.
+         */
+        public Builder street1(Optional<String> street1) {
+            Utils.checkNotNull(street1, "street1");
+            this.street1 = street1;
+            return this;
+        }
+
+
+        /**
+         * Additional street address details, such as suite or unit number.
+         */
+        public Builder street2(String street2) {
+            Utils.checkNotNull(street2, "street2");
+            this.street2 = Optional.ofNullable(street2);
+            return this;
+        }
+
+        /**
+         * Additional street address details, such as suite or unit number.
+         */
+        public Builder street2(Optional<String> street2) {
+            Utils.checkNotNull(street2, "street2");
+            this.street2 = street2;
+            return this;
+        }
+
+
+        /**
+         * City of the physical presence location.
+         */
+        public Builder city(String city) {
+            Utils.checkNotNull(city, "city");
+            this.city = Optional.ofNullable(city);
+            return this;
+        }
+
+        /**
+         * City of the physical presence location.
+         */
+        public Builder city(Optional<String> city) {
+            Utils.checkNotNull(city, "city");
+            this.city = city;
+            return this;
+        }
+
+
+        /**
+         * ZIP or postal code of the physical presence location.
+         */
+        public Builder postalCode(String postalCode) {
+            Utils.checkNotNull(postalCode, "postalCode");
+            this.postalCode = Optional.ofNullable(postalCode);
+            return this;
+        }
+
+        /**
+         * ZIP or postal code of the physical presence location.
+         */
+        public Builder postalCode(Optional<String> postalCode) {
+            Utils.checkNotNull(postalCode, "postalCode");
+            this.postalCode = postalCode;
+            return this;
+        }
+
         public PhysicalNexusCreate build() {
 
             return new PhysicalNexusCreate(
                 countryCode, stateCode, startDate,
                 endDate, category, externalId,
-                source);
+                source, street1, street2,
+                city, postalCode);
         }
 
     }

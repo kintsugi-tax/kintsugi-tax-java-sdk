@@ -24,7 +24,8 @@ public enum TaxExemptionEnum {
     EXPORT("EXPORT"),
     ZERO_VALUE_ITEM("ZERO_VALUE_ITEM"),
     NO_RULE_FOUND("NO_RULE_FOUND"),
-    IMPORTED("IMPORTED");
+    IMPORTED("IMPORTED"),
+    ZERO_RATE_NOT_EXEMPT("ZERO_RATE_NOT_EXEMPT");
 
     @JsonValue
     private final String value;

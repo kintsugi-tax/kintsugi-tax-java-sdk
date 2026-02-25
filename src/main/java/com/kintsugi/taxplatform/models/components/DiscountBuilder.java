@@ -190,7 +190,7 @@ public class DiscountBuilder {
         private static final LazySingletonValue<Optional<Double>> _SINGLETON_VALUE_DiscountAmount =
                 new LazySingletonValue<>(
                         "discount_amount",
-                        "\"0.00\"",
+                        "0",
                         new TypeReference<Optional<Double>>() {});
     }
 }

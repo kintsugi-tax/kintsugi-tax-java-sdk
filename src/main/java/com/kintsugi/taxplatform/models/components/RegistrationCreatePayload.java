@@ -13,7 +13,6 @@ import com.kintsugi.taxplatform.utils.LazySingletonValue;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Boolean;
 import java.lang.Double;
-import java.lang.Long;
 import java.lang.Override;
 import java.lang.String;
 import java.lang.SuppressWarnings;
@@ -129,12 +128,6 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
     private FilingFrequencyEnum filingFrequency;
 
     /**
-     * The number of days before the filing deadline.
-     */
-    @JsonProperty("filing_days")
-    private long filingDays;
-
-    /**
      * Username for accessing tax registration details.
      */
     @JsonInclude(Include.NON_ABSENT)
@@ -237,7 +230,6 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
             @JsonProperty("state_code") String stateCode,
             @JsonProperty("state_name") String stateName,
             @JsonProperty("filing_frequency") FilingFrequencyEnum filingFrequency,
-            @JsonProperty("filing_days") long filingDays,
             @JsonProperty("username") Optional<String> username,
             @JsonProperty("comment") Optional<String> comment,
             @JsonProperty("create_filings_from") Optional<String> createFilingsFrom,
@@ -267,7 +259,6 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
         Utils.checkNotNull(stateCode, "stateCode");
         Utils.checkNotNull(stateName, "stateName");
         Utils.checkNotNull(filingFrequency, "filingFrequency");
-        Utils.checkNotNull(filingDays, "filingDays");
         Utils.checkNotNull(username, "username");
         Utils.checkNotNull(comment, "comment");
         Utils.checkNotNull(createFilingsFrom, "createFilingsFrom");
@@ -297,7 +288,6 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
         this.stateCode = stateCode;
         this.stateName = stateName;
         this.filingFrequency = filingFrequency;
-        this.filingDays = filingDays;
         this.username = username;
         this.comment = comment;
         this.createFilingsFrom = createFilingsFrom;
@@ -316,18 +306,17 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
             CountryCodeEnum countryCode,
             String stateCode,
             String stateName,
-            FilingFrequencyEnum filingFrequency,
-            long filingDays) {
+            FilingFrequencyEnum filingFrequency) {
         this(Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), countryCode, stateCode,
-            stateName, filingFrequency, filingDays,
+            stateName, filingFrequency, Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty());
+            Optional.empty(), Optional.empty());
     }
 
     /**
@@ -455,14 +444,6 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
     @JsonIgnore
     public FilingFrequencyEnum filingFrequency() {
         return filingFrequency;
-    }
-
-    /**
-     * The number of days before the filing deadline.
-     */
-    @JsonIgnore
-    public long filingDays() {
-        return filingDays;
     }
 
     /**
@@ -832,15 +813,6 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
     }
 
     /**
-     * The number of days before the filing deadline.
-     */
-    public RegistrationCreatePayload withFilingDays(long filingDays) {
-        Utils.checkNotNull(filingDays, "filingDays");
-        this.filingDays = filingDays;
-        return this;
-    }
-
-    /**
      * Username for accessing tax registration details.
      */
     public RegistrationCreatePayload withUsername(String username) {
@@ -1095,7 +1067,6 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
             Utils.enhancedDeepEquals(this.stateCode, other.stateCode) &&
             Utils.enhancedDeepEquals(this.stateName, other.stateName) &&
             Utils.enhancedDeepEquals(this.filingFrequency, other.filingFrequency) &&
-            Utils.enhancedDeepEquals(this.filingDays, other.filingDays) &&
             Utils.enhancedDeepEquals(this.username, other.username) &&
             Utils.enhancedDeepEquals(this.comment, other.comment) &&
             Utils.enhancedDeepEquals(this.createFilingsFrom, other.createFilingsFrom) &&
@@ -1118,11 +1089,11 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
             registrationCompleted, deregistrationRequested, deregistrationCompleted,
             autoRegistered, doNotFile, registrationsRegime,
             changeRegimeStatus, countryCode, stateCode,
-            stateName, filingFrequency, filingDays,
-            username, comment, createFilingsFrom,
-            initialSync, amountFees, vda,
-            imported, salesTaxId, sstImport,
-            taxId, passwordPlainText, passwordMetadataPlainText);
+            stateName, filingFrequency, username,
+            comment, createFilingsFrom, initialSync,
+            amountFees, vda, imported,
+            salesTaxId, sstImport, taxId,
+            passwordPlainText, passwordMetadataPlainText);
     }
     
     @Override
@@ -1145,7 +1116,6 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
                 "stateCode", stateCode,
                 "stateName", stateName,
                 "filingFrequency", filingFrequency,
-                "filingDays", filingDays,
                 "username", username,
                 "comment", comment,
                 "createFilingsFrom", createFilingsFrom,
@@ -1196,8 +1166,6 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
         private String stateName;
 
         private FilingFrequencyEnum filingFrequency;
-
-        private Long filingDays;
 
         private Optional<String> username = Optional.empty();
 
@@ -1498,16 +1466,6 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
 
 
         /**
-         * The number of days before the filing deadline.
-         */
-        public Builder filingDays(long filingDays) {
-            Utils.checkNotNull(filingDays, "filingDays");
-            this.filingDays = filingDays;
-            return this;
-        }
-
-
-        /**
          * Username for accessing tax registration details.
          */
         public Builder username(String username) {
@@ -1763,11 +1721,11 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
                 registrationCompleted, deregistrationRequested, deregistrationCompleted,
                 autoRegistered, doNotFile, registrationsRegime,
                 changeRegimeStatus, countryCode, stateCode,
-                stateName, filingFrequency, filingDays,
-                username, comment, createFilingsFrom,
-                initialSync, amountFees, vda,
-                imported, salesTaxId, sstImport,
-                taxId, passwordPlainText, passwordMetadataPlainText);
+                stateName, filingFrequency, username,
+                comment, createFilingsFrom, initialSync,
+                amountFees, vda, imported,
+                salesTaxId, sstImport, taxId,
+                passwordPlainText, passwordMetadataPlainText);
         }
 
 
@@ -1798,7 +1756,7 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
         private static final LazySingletonValue<Optional<Double>> _SINGLETON_VALUE_AmountFees =
                 new LazySingletonValue<>(
                         "amount_fees",
-                        "\"0.00\"",
+                        "0",
                         new TypeReference<Optional<Double>>() {});
 
         private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_Vda =

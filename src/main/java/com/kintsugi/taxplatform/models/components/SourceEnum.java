@@ -65,7 +65,10 @@ public enum SourceEnum {
     SAGE_INTACCT("SAGE-INTACCT"),
     AIRWALLEX("AIRWALLEX"),
     ORB("ORB"),
-    ZENSKAR("ZENSKAR");
+    ZENSKAR("ZENSKAR"),
+    MICROSOFT_DYNAMICS365("MICROSOFT_DYNAMICS_365"),
+    KICKSTARTER("KICKSTARTER"),
+    INTERNAL_ERP("INTERNAL_ERP");
 
     @JsonValue
     private final String value;

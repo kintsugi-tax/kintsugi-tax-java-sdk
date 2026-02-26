@@ -1,5 +1,4 @@
 # AddressValidation
-(*addressValidation()*)
 
 ## Overview
 

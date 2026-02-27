@@ -1,5 +1,4 @@
 # TaxEstimation
-(*taxEstimation()*)
 
 ## Overview
 
@@ -57,7 +56,6 @@ public class Application {
                             .amount(75.5)
                             .externalId("item_B")
                             .externalProductId("prod_xyz")
-                            .quantity(1d)
                             .build()))
                     .addresses(List.of(
                         TransactionEstimatePublicRequestAddress.builder()

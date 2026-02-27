@@ -1704,43 +1704,43 @@ public class TransactionItemCreateUpdate {
         private static final LazySingletonValue<Optional<Double>> _SINGLETON_VALUE_Quantity =
                 new LazySingletonValue<>(
                         "quantity",
-                        "\"1.0\"",
+                        "1",
                         new TypeReference<Optional<Double>>() {});
 
         private static final LazySingletonValue<Optional<Double>> _SINGLETON_VALUE_Amount =
                 new LazySingletonValue<>(
                         "amount",
-                        "\"0.00\"",
+                        "0",
                         new TypeReference<Optional<Double>>() {});
 
         private static final LazySingletonValue<Optional<Double>> _SINGLETON_VALUE_TaxAmountImported =
                 new LazySingletonValue<>(
                         "tax_amount_imported",
-                        "\"0.00\"",
+                        "0",
                         new TypeReference<Optional<Double>>() {});
 
         private static final LazySingletonValue<Optional<Double>> _SINGLETON_VALUE_TaxRateImported =
                 new LazySingletonValue<>(
                         "tax_rate_imported",
-                        "\"0.00\"",
+                        "0",
                         new TypeReference<Optional<Double>>() {});
 
         private static final LazySingletonValue<Optional<Double>> _SINGLETON_VALUE_TaxAmountCalculated =
                 new LazySingletonValue<>(
                         "tax_amount_calculated",
-                        "\"0.00\"",
+                        "0",
                         new TypeReference<Optional<Double>>() {});
 
         private static final LazySingletonValue<Optional<Double>> _SINGLETON_VALUE_TaxRateCalculated =
                 new LazySingletonValue<>(
                         "tax_rate_calculated",
-                        "\"0.00\"",
+                        "0",
                         new TypeReference<Optional<Double>>() {});
 
         private static final LazySingletonValue<Optional<Double>> _SINGLETON_VALUE_TaxableAmount =
                 new LazySingletonValue<>(
                         "taxable_amount",
-                        "\"0.00\"",
+                        "0",
                         new TypeReference<Optional<Double>>() {});
 
         private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_Exempt =

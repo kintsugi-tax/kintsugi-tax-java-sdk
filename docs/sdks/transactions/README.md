@@ -1,5 +1,4 @@
 # Transactions
-(*transactions()*)
 
 ## Overview
 
@@ -80,9 +79,9 @@ public class Application {
 
 Create a transaction.
 
-### Example Usage
+### Example Usage: connection_mismatch
 
-<!-- UsageSnippet language="java" operationID="create_transaction_v1_transactions_post" method="post" path="/v1/transactions" -->
+<!-- UsageSnippet language="java" operationID="create_transaction_v1_transactions_post" method="post" path="/v1/transactions" example="connection_mismatch" -->
 ```java
 package hello.world;
 
@@ -107,35 +106,351 @@ public class Application {
             .build();
 
         TransactionPublicRequest req = TransactionPublicRequest.builder()
-                .organizationId("orgn_YourOrgIdHere")
-                .externalId("YourUniqueOrder123")
-                .date(OffsetDateTime.parse("2024-01-15T14:30:00Z"))
-                .addresses(List.of(
-                    TransactionAddressPublic.builder()
-                        .type(AddressType.SHIP_TO)
-                        .street1("123 Main St")
-                        .city("San Francisco")
-                        .state("CA")
-                        .postalCode("94107")
-                        .country(CountryCodeEnum.US)
-                        .build()))
-                .transactionItems(List.of(
-                    TransactionItemBuilder.builder()
-                        .organizationId("orgn_YourOrgIdHere")
-                        .date(OffsetDateTime.parse("2024-01-15T14:30:00Z"))
-                        .externalProductId("SKU-ABC")
-                        .product("Example Widget")
-                        .quantity(2d)
-                        .amount(50d)
-                        .build()))
+                .organizationId("<id>")
+                .externalId("<id>")
+                .date(OffsetDateTime.parse("2025-11-05T23:48:53.053Z"))
+                .addresses(List.of())
+                .transactionItems(List.of())
                 .customer(CustomerBaseBase.builder()
-                    .organizationId("orgn_YourOrgIdHere")
-                    .name("John Doe")
-                    .externalId("Cust456")
+                    .organizationId("<id>")
                     .build())
-                .type(TransactionTypeEnum.SALE)
-                .currency(CurrencyEnum.USD)
-                .source(SourceEnum.API)
+                .type(TransactionTypeEnum.ARCHIVE)
+                .build();
+
+        CreateTransactionV1TransactionsPostResponse res = sdk.transactions().create()
+                .request(req)
+                .call();
+
+        if (res.transactionRead().isPresent()) {
+            // handle response
+        }
+    }
+}
+```
+### Example Usage: duplicate_external_id
+
+<!-- UsageSnippet language="java" operationID="create_transaction_v1_transactions_post" method="post" path="/v1/transactions" example="duplicate_external_id" -->
+```java
+package hello.world;
+
+import com.kintsugi.taxplatform.SDK;
+import com.kintsugi.taxplatform.models.components.*;
+import com.kintsugi.taxplatform.models.errors.BackendSrcTransactionsResponsesValidationErrorResponse;
+import com.kintsugi.taxplatform.models.errors.ErrorResponse;
+import com.kintsugi.taxplatform.models.operations.CreateTransactionV1TransactionsPostResponse;
+import java.lang.Exception;
+import java.time.OffsetDateTime;
+import java.util.List;
+
+public class Application {
+
+    public static void main(String[] args) throws ErrorResponse, BackendSrcTransactionsResponsesValidationErrorResponse, Exception {
+
+        SDK sdk = SDK.builder()
+                .security(Security.builder()
+                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
+                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
+                    .build())
+            .build();
+
+        TransactionPublicRequest req = TransactionPublicRequest.builder()
+                .organizationId("<id>")
+                .externalId("<id>")
+                .date(OffsetDateTime.parse("2025-11-05T23:48:53.053Z"))
+                .addresses(List.of())
+                .transactionItems(List.of())
+                .customer(CustomerBaseBase.builder()
+                    .organizationId("<id>")
+                    .build())
+                .type(TransactionTypeEnum.ARCHIVE)
+                .build();
+
+        CreateTransactionV1TransactionsPostResponse res = sdk.transactions().create()
+                .request(req)
+                .call();
+
+        if (res.transactionRead().isPresent()) {
+            // handle response
+        }
+    }
+}
+```
+### Example Usage: invalid_address
+
+<!-- UsageSnippet language="java" operationID="create_transaction_v1_transactions_post" method="post" path="/v1/transactions" example="invalid_address" -->
+```java
+package hello.world;
+
+import com.kintsugi.taxplatform.SDK;
+import com.kintsugi.taxplatform.models.components.*;
+import com.kintsugi.taxplatform.models.errors.BackendSrcTransactionsResponsesValidationErrorResponse;
+import com.kintsugi.taxplatform.models.errors.ErrorResponse;
+import com.kintsugi.taxplatform.models.operations.CreateTransactionV1TransactionsPostResponse;
+import java.lang.Exception;
+import java.time.OffsetDateTime;
+import java.util.List;
+
+public class Application {
+
+    public static void main(String[] args) throws ErrorResponse, BackendSrcTransactionsResponsesValidationErrorResponse, Exception {
+
+        SDK sdk = SDK.builder()
+                .security(Security.builder()
+                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
+                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
+                    .build())
+            .build();
+
+        TransactionPublicRequest req = TransactionPublicRequest.builder()
+                .organizationId("<id>")
+                .externalId("<id>")
+                .date(OffsetDateTime.parse("2025-11-05T23:48:53.053Z"))
+                .addresses(List.of())
+                .transactionItems(List.of())
+                .customer(CustomerBaseBase.builder()
+                    .organizationId("<id>")
+                    .build())
+                .type(TransactionTypeEnum.ARCHIVE)
+                .build();
+
+        CreateTransactionV1TransactionsPostResponse res = sdk.transactions().create()
+                .request(req)
+                .call();
+
+        if (res.transactionRead().isPresent()) {
+            // handle response
+        }
+    }
+}
+```
+### Example Usage: invalid_date_format
+
+<!-- UsageSnippet language="java" operationID="create_transaction_v1_transactions_post" method="post" path="/v1/transactions" example="invalid_date_format" -->
+```java
+package hello.world;
+
+import com.kintsugi.taxplatform.SDK;
+import com.kintsugi.taxplatform.models.components.*;
+import com.kintsugi.taxplatform.models.errors.BackendSrcTransactionsResponsesValidationErrorResponse;
+import com.kintsugi.taxplatform.models.errors.ErrorResponse;
+import com.kintsugi.taxplatform.models.operations.CreateTransactionV1TransactionsPostResponse;
+import java.lang.Exception;
+import java.time.OffsetDateTime;
+import java.util.List;
+
+public class Application {
+
+    public static void main(String[] args) throws ErrorResponse, BackendSrcTransactionsResponsesValidationErrorResponse, Exception {
+
+        SDK sdk = SDK.builder()
+                .security(Security.builder()
+                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
+                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
+                    .build())
+            .build();
+
+        TransactionPublicRequest req = TransactionPublicRequest.builder()
+                .organizationId("<id>")
+                .externalId("<id>")
+                .date(OffsetDateTime.parse("2025-11-05T23:48:53.053Z"))
+                .addresses(List.of())
+                .transactionItems(List.of())
+                .customer(CustomerBaseBase.builder()
+                    .organizationId("<id>")
+                    .build())
+                .type(TransactionTypeEnum.ARCHIVE)
+                .build();
+
+        CreateTransactionV1TransactionsPostResponse res = sdk.transactions().create()
+                .request(req)
+                .call();
+
+        if (res.transactionRead().isPresent()) {
+            // handle response
+        }
+    }
+}
+```
+### Example Usage: invalid_enum_value
+
+<!-- UsageSnippet language="java" operationID="create_transaction_v1_transactions_post" method="post" path="/v1/transactions" example="invalid_enum_value" -->
+```java
+package hello.world;
+
+import com.kintsugi.taxplatform.SDK;
+import com.kintsugi.taxplatform.models.components.*;
+import com.kintsugi.taxplatform.models.errors.BackendSrcTransactionsResponsesValidationErrorResponse;
+import com.kintsugi.taxplatform.models.errors.ErrorResponse;
+import com.kintsugi.taxplatform.models.operations.CreateTransactionV1TransactionsPostResponse;
+import java.lang.Exception;
+import java.time.OffsetDateTime;
+import java.util.List;
+
+public class Application {
+
+    public static void main(String[] args) throws ErrorResponse, BackendSrcTransactionsResponsesValidationErrorResponse, Exception {
+
+        SDK sdk = SDK.builder()
+                .security(Security.builder()
+                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
+                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
+                    .build())
+            .build();
+
+        TransactionPublicRequest req = TransactionPublicRequest.builder()
+                .organizationId("<id>")
+                .externalId("<id>")
+                .date(OffsetDateTime.parse("2025-11-05T23:48:53.053Z"))
+                .addresses(List.of())
+                .transactionItems(List.of())
+                .customer(CustomerBaseBase.builder()
+                    .organizationId("<id>")
+                    .build())
+                .type(TransactionTypeEnum.ARCHIVE)
+                .build();
+
+        CreateTransactionV1TransactionsPostResponse res = sdk.transactions().create()
+                .request(req)
+                .call();
+
+        if (res.transactionRead().isPresent()) {
+            // handle response
+        }
+    }
+}
+```
+### Example Usage: missing_org_id
+
+<!-- UsageSnippet language="java" operationID="create_transaction_v1_transactions_post" method="post" path="/v1/transactions" example="missing_org_id" -->
+```java
+package hello.world;
+
+import com.kintsugi.taxplatform.SDK;
+import com.kintsugi.taxplatform.models.components.*;
+import com.kintsugi.taxplatform.models.errors.BackendSrcTransactionsResponsesValidationErrorResponse;
+import com.kintsugi.taxplatform.models.errors.ErrorResponse;
+import com.kintsugi.taxplatform.models.operations.CreateTransactionV1TransactionsPostResponse;
+import java.lang.Exception;
+import java.time.OffsetDateTime;
+import java.util.List;
+
+public class Application {
+
+    public static void main(String[] args) throws ErrorResponse, BackendSrcTransactionsResponsesValidationErrorResponse, Exception {
+
+        SDK sdk = SDK.builder()
+                .security(Security.builder()
+                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
+                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
+                    .build())
+            .build();
+
+        TransactionPublicRequest req = TransactionPublicRequest.builder()
+                .organizationId("<id>")
+                .externalId("<id>")
+                .date(OffsetDateTime.parse("2025-11-05T23:48:53.053Z"))
+                .addresses(List.of())
+                .transactionItems(List.of())
+                .customer(CustomerBaseBase.builder()
+                    .organizationId("<id>")
+                    .build())
+                .type(TransactionTypeEnum.ARCHIVE)
+                .build();
+
+        CreateTransactionV1TransactionsPostResponse res = sdk.transactions().create()
+                .request(req)
+                .call();
+
+        if (res.transactionRead().isPresent()) {
+            // handle response
+        }
+    }
+}
+```
+### Example Usage: missing_product_external_id
+
+<!-- UsageSnippet language="java" operationID="create_transaction_v1_transactions_post" method="post" path="/v1/transactions" example="missing_product_external_id" -->
+```java
+package hello.world;
+
+import com.kintsugi.taxplatform.SDK;
+import com.kintsugi.taxplatform.models.components.*;
+import com.kintsugi.taxplatform.models.errors.BackendSrcTransactionsResponsesValidationErrorResponse;
+import com.kintsugi.taxplatform.models.errors.ErrorResponse;
+import com.kintsugi.taxplatform.models.operations.CreateTransactionV1TransactionsPostResponse;
+import java.lang.Exception;
+import java.time.OffsetDateTime;
+import java.util.List;
+
+public class Application {
+
+    public static void main(String[] args) throws ErrorResponse, BackendSrcTransactionsResponsesValidationErrorResponse, Exception {
+
+        SDK sdk = SDK.builder()
+                .security(Security.builder()
+                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
+                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
+                    .build())
+            .build();
+
+        TransactionPublicRequest req = TransactionPublicRequest.builder()
+                .organizationId("<id>")
+                .externalId("<id>")
+                .date(OffsetDateTime.parse("2025-11-05T23:48:53.053Z"))
+                .addresses(List.of())
+                .transactionItems(List.of())
+                .customer(CustomerBaseBase.builder()
+                    .organizationId("<id>")
+                    .build())
+                .type(TransactionTypeEnum.ARCHIVE)
+                .build();
+
+        CreateTransactionV1TransactionsPostResponse res = sdk.transactions().create()
+                .request(req)
+                .call();
+
+        if (res.transactionRead().isPresent()) {
+            // handle response
+        }
+    }
+}
+```
+### Example Usage: missing_required_field
+
+<!-- UsageSnippet language="java" operationID="create_transaction_v1_transactions_post" method="post" path="/v1/transactions" example="missing_required_field" -->
+```java
+package hello.world;
+
+import com.kintsugi.taxplatform.SDK;
+import com.kintsugi.taxplatform.models.components.*;
+import com.kintsugi.taxplatform.models.errors.BackendSrcTransactionsResponsesValidationErrorResponse;
+import com.kintsugi.taxplatform.models.errors.ErrorResponse;
+import com.kintsugi.taxplatform.models.operations.CreateTransactionV1TransactionsPostResponse;
+import java.lang.Exception;
+import java.time.OffsetDateTime;
+import java.util.List;
+
+public class Application {
+
+    public static void main(String[] args) throws ErrorResponse, BackendSrcTransactionsResponsesValidationErrorResponse, Exception {
+
+        SDK sdk = SDK.builder()
+                .security(Security.builder()
+                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
+                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
+                    .build())
+            .build();
+
+        TransactionPublicRequest req = TransactionPublicRequest.builder()
+                .organizationId("<id>")
+                .externalId("<id>")
+                .date(OffsetDateTime.parse("2025-11-05T23:48:53.053Z"))
+                .addresses(List.of())
+                .transactionItems(List.of())
+                .customer(CustomerBaseBase.builder()
+                    .organizationId("<id>")
+                    .build())
+                .type(TransactionTypeEnum.ARCHIVE)
                 .build();
 
         CreateTransactionV1TransactionsPostResponse res = sdk.transactions().create()

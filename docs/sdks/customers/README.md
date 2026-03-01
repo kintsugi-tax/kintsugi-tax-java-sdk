@@ -1,5 +1,4 @@
 # Customers
-(*customers()*)
 
 ## Overview
 
@@ -392,21 +391,7 @@ public class Application {
                             .organizationId("<id>")
                             .date(OffsetDateTime.parse("2024-05-13T04:49:24.946Z"))
                             .externalProductId("<id>")
-                            .quantity(1d)
-                            .amount(0d)
-                            .taxAmountImported(0d)
-                            .taxRateImported(0d)
-                            .taxAmountCalculated(0d)
-                            .taxRateCalculated(0d)
-                            .taxableAmount(0d)
                             .build()))
-                    .totalAmount(0d)
-                    .totalTaxAmountImported(0d)
-                    .taxRateImported(0d)
-                    .totalTaxAmountCalculated(0d)
-                    .taxRateCalculated(0d)
-                    .totalTaxLiabilityAmount(0d)
-                    .taxableAmount(0d)
                     .build())
                 .call();
 

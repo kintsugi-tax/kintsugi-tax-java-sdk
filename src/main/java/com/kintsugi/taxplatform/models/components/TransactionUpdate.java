@@ -106,6 +106,7 @@ public class TransactionUpdate {
      * NOT EXEMPT: None of the items are NOT EXEMPT
      * PARTIALLY EXEMPT: At least some of the items are NOT EXEMPT
      * FULLY_EXEMPT: All items sold in the transaction are EXEMPT
+     * ZERO_RATE_NOT_EXEMPT: All items sold in the transaction are zero-rated
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("exempt")
@@ -526,6 +527,7 @@ public class TransactionUpdate {
      * NOT EXEMPT: None of the items are NOT EXEMPT
      * PARTIALLY EXEMPT: At least some of the items are NOT EXEMPT
      * FULLY_EXEMPT: All items sold in the transaction are EXEMPT
+     * ZERO_RATE_NOT_EXEMPT: All items sold in the transaction are zero-rated
      */
     @SuppressWarnings("unchecked")
     @JsonIgnore
@@ -926,6 +928,7 @@ public class TransactionUpdate {
      * NOT EXEMPT: None of the items are NOT EXEMPT
      * PARTIALLY EXEMPT: At least some of the items are NOT EXEMPT
      * FULLY_EXEMPT: All items sold in the transaction are EXEMPT
+     * ZERO_RATE_NOT_EXEMPT: All items sold in the transaction are zero-rated
      */
     public TransactionUpdate withExempt(TransactionExemptStatusEnum exempt) {
         Utils.checkNotNull(exempt, "exempt");
@@ -939,6 +942,7 @@ public class TransactionUpdate {
      * NOT EXEMPT: None of the items are NOT EXEMPT
      * PARTIALLY EXEMPT: At least some of the items are NOT EXEMPT
      * FULLY_EXEMPT: All items sold in the transaction are EXEMPT
+     * ZERO_RATE_NOT_EXEMPT: All items sold in the transaction are zero-rated
      */
     public TransactionUpdate withExempt(Optional<? extends TransactionExemptStatusEnum> exempt) {
         Utils.checkNotNull(exempt, "exempt");
@@ -1788,6 +1792,7 @@ public class TransactionUpdate {
          * NOT EXEMPT: None of the items are NOT EXEMPT
          * PARTIALLY EXEMPT: At least some of the items are NOT EXEMPT
          * FULLY_EXEMPT: All items sold in the transaction are EXEMPT
+         * ZERO_RATE_NOT_EXEMPT: All items sold in the transaction are zero-rated
          */
         public Builder exempt(TransactionExemptStatusEnum exempt) {
             Utils.checkNotNull(exempt, "exempt");
@@ -1800,6 +1805,7 @@ public class TransactionUpdate {
          * NOT EXEMPT: None of the items are NOT EXEMPT
          * PARTIALLY EXEMPT: At least some of the items are NOT EXEMPT
          * FULLY_EXEMPT: All items sold in the transaction are EXEMPT
+         * ZERO_RATE_NOT_EXEMPT: All items sold in the transaction are zero-rated
          */
         public Builder exempt(Optional<? extends TransactionExemptStatusEnum> exempt) {
             Utils.checkNotNull(exempt, "exempt");
@@ -2311,7 +2317,7 @@ public class TransactionUpdate {
         private static final LazySingletonValue<Optional<Double>> _SINGLETON_VALUE_TotalAmount =
                 new LazySingletonValue<>(
                         "total_amount",
-                        "\"0.00\"",
+                        "0",
                         new TypeReference<Optional<Double>>() {});
 
         private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_Marketplace =
@@ -2323,37 +2329,37 @@ public class TransactionUpdate {
         private static final LazySingletonValue<Optional<Double>> _SINGLETON_VALUE_TotalTaxAmountImported =
                 new LazySingletonValue<>(
                         "total_tax_amount_imported",
-                        "\"0.00\"",
+                        "0",
                         new TypeReference<Optional<Double>>() {});
 
         private static final LazySingletonValue<Optional<Double>> _SINGLETON_VALUE_TaxRateImported =
                 new LazySingletonValue<>(
                         "tax_rate_imported",
-                        "\"0.00\"",
+                        "0",
                         new TypeReference<Optional<Double>>() {});
 
         private static final LazySingletonValue<Optional<Double>> _SINGLETON_VALUE_TotalTaxAmountCalculated =
                 new LazySingletonValue<>(
                         "total_tax_amount_calculated",
-                        "\"0.00\"",
+                        "0",
                         new TypeReference<Optional<Double>>() {});
 
         private static final LazySingletonValue<Optional<Double>> _SINGLETON_VALUE_TaxRateCalculated =
                 new LazySingletonValue<>(
                         "tax_rate_calculated",
-                        "\"0.00\"",
+                        "0",
                         new TypeReference<Optional<Double>>() {});
 
         private static final LazySingletonValue<Optional<Double>> _SINGLETON_VALUE_TotalTaxLiabilityAmount =
                 new LazySingletonValue<>(
                         "total_tax_liability_amount",
-                        "\"0.00\"",
+                        "0",
                         new TypeReference<Optional<Double>>() {});
 
         private static final LazySingletonValue<Optional<Double>> _SINGLETON_VALUE_TaxableAmount =
                 new LazySingletonValue<>(
                         "taxable_amount",
-                        "\"0.00\"",
+                        "0",
                         new TypeReference<Optional<Double>>() {});
 
         private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_Locked =

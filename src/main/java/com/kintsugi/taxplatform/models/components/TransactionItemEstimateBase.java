@@ -773,7 +773,7 @@ public class TransactionItemEstimateBase {
         private static final LazySingletonValue<Optional<Double>> _SINGLETON_VALUE_Quantity =
                 new LazySingletonValue<>(
                         "quantity",
-                        "\"1.0\"",
+                        "1",
                         new TypeReference<Optional<Double>>() {});
 
         private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_Exempt =

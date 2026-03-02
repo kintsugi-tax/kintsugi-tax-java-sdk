@@ -28,6 +28,7 @@ import com.kintsugi.taxplatform.operations.GetRegistrationsV1RegistrationsGet;
 import com.kintsugi.taxplatform.operations.UpdateRegistrationV1RegistrationsRegistrationIdPut;
 import com.kintsugi.taxplatform.utils.Headers;
 import java.lang.String;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 
@@ -136,10 +137,26 @@ public class AsyncRegistrations {
      * @return {@code CompletableFuture<GetRegistrationByIdV1RegistrationsRegistrationIdGetResponse>} - The async response
      */
     public CompletableFuture<GetRegistrationByIdV1RegistrationsRegistrationIdGetResponse> getById(String registrationId) {
+        return getById(registrationId, Optional.empty());
+    }
+
+    /**
+     * Get Registration By Id
+     * 
+     * <p>The Get Registration By ID API retrieves a single registration record
+     * based on its unique identifier.
+     * 
+     * @param registrationId The unique identifier of the
+     *                                         registration to retrieve.
+     * @param reveal Name of field to reveal
+     * @return {@code CompletableFuture<GetRegistrationByIdV1RegistrationsRegistrationIdGetResponse>} - The async response
+     */
+    public CompletableFuture<GetRegistrationByIdV1RegistrationsRegistrationIdGetResponse> getById(String registrationId, Optional<String> reveal) {
         GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest request =
             GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest
                 .builder()
                 .registrationId(registrationId)
+                .reveal(reveal)
                 .build();
         AsyncRequestOperation<GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest, GetRegistrationByIdV1RegistrationsRegistrationIdGetResponse> operation
               = new GetRegistrationByIdV1RegistrationsRegistrationIdGet.Async(sdkConfiguration, _headers);

@@ -1,5 +1,13 @@
 # ProductStatusEnum
 
+## Example Usage
+
+```java
+import com.kintsugi.taxplatform.models.components.ProductStatusEnum;
+
+ProductStatusEnum value = ProductStatusEnum.APPROVED;
+```
+
 
 ## Values
 

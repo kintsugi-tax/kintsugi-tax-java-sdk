@@ -1,5 +1,13 @@
 # JurisdictionType
 
+## Example Usage
+
+```java
+import com.kintsugi.taxplatform.models.components.JurisdictionType;
+
+JurisdictionType value = JurisdictionType.COUNTRY;
+```
+
 
 ## Values
 

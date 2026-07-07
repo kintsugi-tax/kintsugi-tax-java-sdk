@@ -14,11 +14,11 @@ import java.lang.String;
 
 public class Security implements HasSecurity {
 
-    @SpeakeasyMetadata("security:scheme=true,type=apiKey,subtype=header,name=X-API-KEY")
+    @SpeakeasyMetadata("security:scheme=true,type=apiKey,subtype=header,composite,name=X-API-KEY")
     private String apiKeyHeader;
 
 
-    @SpeakeasyMetadata("security:scheme=true,type=apiKey,subtype=header,name=x-organization-id")
+    @SpeakeasyMetadata("security:scheme=true,type=apiKey,subtype=header,composite,name=x-organization-id")
     private String customHeader;
 
     @JsonCreator

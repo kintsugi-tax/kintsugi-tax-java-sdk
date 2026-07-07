@@ -1,5 +1,13 @@
 # TaxItemTypeEnum
 
+## Example Usage
+
+```java
+import com.kintsugi.taxplatform.models.components.TaxItemTypeEnum;
+
+TaxItemTypeEnum value = TaxItemTypeEnum.IMPORTED_ORIGINAL;
+```
+
 
 ## Values
 

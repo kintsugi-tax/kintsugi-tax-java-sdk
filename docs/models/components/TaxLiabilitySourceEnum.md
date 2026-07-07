@@ -1,5 +1,13 @@
 # TaxLiabilitySourceEnum
 
+## Example Usage
+
+```java
+import com.kintsugi.taxplatform.models.components.TaxLiabilitySourceEnum;
+
+TaxLiabilitySourceEnum value = TaxLiabilitySourceEnum.CALCULATED;
+```
+
 
 ## Values
 

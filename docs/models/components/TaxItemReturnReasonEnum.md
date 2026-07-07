@@ -2,6 +2,14 @@
 
 We use this to understand the response from get_tax_items
 
+## Example Usage
+
+```java
+import com.kintsugi.taxplatform.models.components.TaxItemReturnReasonEnum;
+
+TaxItemReturnReasonEnum value = TaxItemReturnReasonEnum.NO_RULE_FOUND;
+```
+
 
 ## Values
 

@@ -1,5 +1,13 @@
 # TransactionTypeEnum
 
+## Example Usage
+
+```java
+import com.kintsugi.taxplatform.models.components.TransactionTypeEnum;
+
+TransactionTypeEnum value = TransactionTypeEnum.SALE;
+```
+
 
 ## Values
 

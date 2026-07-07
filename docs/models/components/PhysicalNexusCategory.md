@@ -1,5 +1,13 @@
 # PhysicalNexusCategory
 
+## Example Usage
+
+```java
+import com.kintsugi.taxplatform.models.components.PhysicalNexusCategory;
+
+PhysicalNexusCategory value = PhysicalNexusCategory.PHYSICAL_BUSINESS_LOCATION;
+```
+
 
 ## Values
 

@@ -1,5 +1,13 @@
 # SourceEnum
 
+## Example Usage
+
+```java
+import com.kintsugi.taxplatform.models.components.SourceEnum;
+
+SourceEnum value = SourceEnum.BIGCOMMERCE;
+```
+
 
 ## Values
 

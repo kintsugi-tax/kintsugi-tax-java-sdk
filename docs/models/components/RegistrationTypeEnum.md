@@ -1,5 +1,13 @@
 # RegistrationTypeEnum
 
+## Example Usage
+
+```java
+import com.kintsugi.taxplatform.models.components.RegistrationTypeEnum;
+
+RegistrationTypeEnum value = RegistrationTypeEnum.EU_OSS;
+```
+
 
 ## Values
 

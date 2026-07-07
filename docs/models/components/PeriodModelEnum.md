@@ -1,5 +1,13 @@
 # PeriodModelEnum
 
+## Example Usage
+
+```java
+import com.kintsugi.taxplatform.models.components.PeriodModelEnum;
+
+PeriodModelEnum value = PeriodModelEnum.CURRENT_OR_PREVIOUS;
+```
+
 
 ## Values
 

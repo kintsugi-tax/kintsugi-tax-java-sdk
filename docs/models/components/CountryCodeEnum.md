@@ -1,5 +1,13 @@
 # CountryCodeEnum
 
+## Example Usage
+
+```java
+import com.kintsugi.taxplatform.models.components.CountryCodeEnum;
+
+CountryCodeEnum value = CountryCodeEnum.AF;
+```
+
 
 ## Values
 

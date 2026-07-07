@@ -1,5 +1,13 @@
 # FilingStatusEnum
 
+## Example Usage
+
+```java
+import com.kintsugi.taxplatform.models.components.FilingStatusEnum;
+
+FilingStatusEnum value = FilingStatusEnum.UNFILED;
+```
+
 
 ## Values
 

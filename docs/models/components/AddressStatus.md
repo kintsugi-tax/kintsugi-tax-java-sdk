@@ -1,5 +1,13 @@
 # AddressStatus
 
+## Example Usage
+
+```java
+import com.kintsugi.taxplatform.models.components.AddressStatus;
+
+AddressStatus value = AddressStatus.UNVERIFIED;
+```
+
 
 ## Values
 

@@ -48,7 +48,7 @@ public class Application {
                 .call();
 
         if (res.pagePhysicalNexusRead().isPresent()) {
-            // handle response
+            System.out.println(res.pagePhysicalNexusRead().get());
         }
     }
 }
@@ -123,7 +123,7 @@ public class Application {
                 .call();
 
         if (res.physicalNexusRead().isPresent()) {
-            // handle response
+            System.out.println(res.physicalNexusRead().get());
         }
     }
 }
@@ -192,7 +192,7 @@ public class Application {
                 .call();
 
         if (res.physicalNexusRead().isPresent()) {
-            // handle response
+            System.out.println(res.physicalNexusRead().get());
         }
     }
 }
@@ -252,7 +252,7 @@ public class Application {
                 .call();
 
         if (res.any().isPresent()) {
-            // handle response
+            System.out.println(res.any().get());
         }
     }
 }
@@ -313,7 +313,7 @@ public class Application {
                 .call();
 
         if (res.pageNexusResponse().isPresent()) {
-            // handle response
+            System.out.println(res.pageNexusResponse().get());
         }
     }
 }

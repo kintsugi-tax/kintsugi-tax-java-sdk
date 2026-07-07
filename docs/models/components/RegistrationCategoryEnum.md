@@ -1,5 +1,13 @@
 # RegistrationCategoryEnum
 
+## Example Usage
+
+```java
+import com.kintsugi.taxplatform.models.components.RegistrationCategoryEnum;
+
+RegistrationCategoryEnum value = RegistrationCategoryEnum.REGULAR;
+```
+
 
 ## Values
 

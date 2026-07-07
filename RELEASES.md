@@ -221,3 +221,13 @@ Based on:
 - [java v0.15.1] .
 ### Releases
 - [Maven Central v0.15.1] https://central.sonatype.com/artifact/com.trykintsugi/kintsugi-tax-java-sdk/0.15.1 - .
+
+## 2026-07-07 15:42:10
+### Changes
+Based on:
+- OpenAPI Doc  
+- Speakeasy CLI 1.789.0 (2.916.2) https://github.com/speakeasy-api/speakeasy
+### Generated
+- [java v0.15.2] .
+### Releases
+- [Maven Central v0.15.2] https://central.sonatype.com/artifact/com.trykintsugi/kintsugi-tax-java-sdk/0.15.2 - .

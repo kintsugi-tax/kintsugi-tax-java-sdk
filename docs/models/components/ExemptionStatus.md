@@ -1,5 +1,13 @@
 # ExemptionStatus
 
+## Example Usage
+
+```java
+import com.kintsugi.taxplatform.models.components.ExemptionStatus;
+
+ExemptionStatus value = ExemptionStatus.ACTIVE;
+```
+
 
 ## Values
 

@@ -38,7 +38,7 @@ public class Application {
                 .call();
 
         if (res.response200SearchV1AddressValidationSearchPost().isPresent()) {
-            // handle response
+            System.out.println(res.response200SearchV1AddressValidationSearchPost().get());
         }
     }
 }

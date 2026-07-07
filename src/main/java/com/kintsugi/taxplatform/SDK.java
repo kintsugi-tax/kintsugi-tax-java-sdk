@@ -234,7 +234,7 @@ public class SDK {
         return new Builder();
     }
 
-    public SDK(SDKConfiguration sdkConfiguration) {
+    private SDK(SDKConfiguration sdkConfiguration) {
         sdkConfiguration.initialize();
         this.addressValidation = new AddressValidation(sdkConfiguration);
         this.customers = new Customers(sdkConfiguration);

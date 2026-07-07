@@ -57,7 +57,7 @@ public class Application {
                 .call();
 
         if (res.pageCustomerRead().isPresent()) {
-            // handle response
+            System.out.println(res.pageCustomerRead().get());
         }
     }
 }
@@ -133,7 +133,7 @@ public class Application {
                 .call();
 
         if (res.customerRead().isPresent()) {
-            // handle response
+            System.out.println(res.customerRead().get());
         }
     }
 }
@@ -192,7 +192,7 @@ public class Application {
                 .call();
 
         if (res.customerRead().isPresent()) {
-            // handle response
+            System.out.println(res.customerRead().get());
         }
     }
 }
@@ -267,7 +267,7 @@ public class Application {
                 .call();
 
         if (res.customerRead().isPresent()) {
-            // handle response
+            System.out.println(res.customerRead().get());
         }
     }
 }
@@ -327,7 +327,7 @@ public class Application {
                 .call();
 
         if (res.customerRead().isPresent()) {
-            // handle response
+            System.out.println(res.customerRead().get());
         }
     }
 }
@@ -396,7 +396,7 @@ public class Application {
                 .call();
 
         if (res.transactionRead().isPresent()) {
-            // handle response
+            System.out.println(res.transactionRead().get());
         }
     }
 }

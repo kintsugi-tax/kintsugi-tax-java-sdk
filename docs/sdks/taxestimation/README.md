@@ -70,7 +70,7 @@ public class Application {
                 .call();
 
         if (res.pageTransactionEstimateResponse().isPresent()) {
-            // handle response
+            System.out.println(res.pageTransactionEstimateResponse().get());
         }
     }
 }

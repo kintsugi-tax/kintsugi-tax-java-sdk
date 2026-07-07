@@ -31,6 +31,7 @@ Developer-friendly & type-safe Java SDK specifically catered to leverage *tax-pl
   * [Server Selection](#server-selection)
   * [Custom HTTP Client](#custom-http-client)
   * [Debugging](#debugging)
+  * [Jackson Configuration](#jackson-configuration)
 * [Development](#development)
   * [Maturity](#maturity)
   * [Contributions](#contributions)
@@ -49,7 +50,7 @@ The samples below show how a published SDK artifact is used:
 
 Gradle:
 ```groovy
-implementation 'com.trykintsugi:kintsugi-tax-java-sdk:0.15.1'
+implementation 'com.trykintsugi:kintsugi-tax-java-sdk:0.15.2'
 ```
 
 Maven:
@@ -57,7 +58,7 @@ Maven:
 <dependency>
     <groupId>com.trykintsugi</groupId>
     <artifactId>kintsugi-tax-java-sdk</artifactId>
-    <version>0.15.1</version>
+    <version>0.15.2</version>
 </dependency>
 ```
 
@@ -120,7 +121,7 @@ public class Application {
                 .call();
 
         if (res.response200SearchV1AddressValidationSearchPost().isPresent()) {
-            // handle response
+            System.out.println(res.response200SearchV1AddressValidationSearchPost().get());
         }
     }
 }
@@ -167,7 +168,7 @@ public class Application {
 
         resFut.thenAccept(res -> {
             if (res.response200SearchV1AddressValidationSearchPost().isPresent()) {
-            // handle response
+                System.out.println(res.response200SearchV1AddressValidationSearchPost().get());
             }
         });
     }
@@ -175,6 +176,15 @@ public class Application {
 ```
 
 [comp-fut]: https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html
+
+#### Union Consumption Patterns
+
+When a response field is a union model:
+
+- Discriminated unions: branch on the discriminator (`switch`) and then narrow to the concrete type.
+- Non-discriminated unions: use generated accessors (for example `string()`, `asLong()`, `simpleObject()`) to determine the active variant.
+
+For full model-specific examples (including Java 11/16/21 variants), see each union model's **Supported Types** section in the generated model docs.
 <!-- End SDK Example Usage [usage] -->
 
 <!-- Start Asynchronous Support [async-support] -->
@@ -295,7 +305,7 @@ public class Application {
                 .call();
 
         if (res.any().isPresent()) {
-            // handle response
+            System.out.println(res.any().get());
         }
     }
 }
@@ -343,7 +353,7 @@ public class Application {
                 .call();
 
         if (res.response200SearchV1AddressValidationSearchPost().isPresent()) {
-            // handle response
+            System.out.println(res.response200SearchV1AddressValidationSearchPost().get());
         }
     }
 }
@@ -460,11 +470,9 @@ import com.kintsugi.taxplatform.models.components.CountryCodeEnum;
 import com.kintsugi.taxplatform.models.errors.*;
 import com.kintsugi.taxplatform.models.operations.SearchV1AddressValidationSearchPostResponse;
 import com.kintsugi.taxplatform.models.operations.SearchV1AddressValidationSearchPostSecurity;
-import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.lang.Exception;
 import java.lang.String;
-import java.net.http.HttpResponse;
 import java.util.Optional;
 
 public class Application {
@@ -495,7 +503,7 @@ public class Application {
                     .call();
 
             if (res.response200SearchV1AddressValidationSearchPost().isPresent()) {
-                // handle response
+                System.out.println(res.response200SearchV1AddressValidationSearchPost().get());
             }
         } catch (SDKError ex) { // all SDK exceptions inherit from SDKError
 
@@ -517,7 +525,6 @@ public class Application {
                 // Check error data fields
                 e.data().ifPresent(payload -> {
                       String detail = payload.detail();
-                      Optional<HttpResponse<InputStream>> rawResponse = payload.rawResponse();
                 });
             }
 
@@ -611,7 +618,7 @@ public class Application {
                 .call();
 
         if (res.response200SearchV1AddressValidationSearchPost().isPresent()) {
-            // handle response
+            System.out.println(res.response200SearchV1AddressValidationSearchPost().get());
         }
     }
 }
@@ -787,6 +794,36 @@ __NOTE__: This is a convenience method that calls `HTTPClient.enableDebugLogging
 
 Another option is to set the System property `-Djdk.httpclient.HttpClient.log=all`. However, this second option does not log bodies.
 <!-- End Debugging [debug] -->
+
+<!-- Start Jackson Configuration [jackson] -->
+## Jackson Configuration
+
+The SDK ships with a pre-configured Jackson [`ObjectMapper`][jackson-databind] accessible via
+`JSON.getMapper()`. It is set up with type modules, strict deserializers, and the feature flags
+needed for full SDK compatibility (including ISO-8601 `OffsetDateTime` serialization):
+
+```java
+import com.kintsugi.taxplatform.utils.JSON;
+
+String json = JSON.getMapper().writeValueAsString(response);
+```
+
+To compose with your own `ObjectMapper`, register the provided `KintsugiTaxJavaSDKJacksonModule`, which
+bundles all the same modules and feature flags as a single plug-and-play module:
+
+```java
+import com.kintsugi.taxplatform.utils.KintsugiTaxJavaSDKJacksonModule;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+ObjectMapper myMapper = new ObjectMapper()
+    .registerModule(new KintsugiTaxJavaSDKJacksonModule());
+
+String json = myMapper.writeValueAsString(response);
+```
+
+[jackson-databind]: https://github.com/FasterXML/jackson-databind
+[jackson-jsr310]: https://github.com/FasterXML/jackson-modules-java8/tree/master/datetime
+<!-- End Jackson Configuration [jackson] -->
 
 <!-- Placeholder for Future Speakeasy SDK Sections -->
 

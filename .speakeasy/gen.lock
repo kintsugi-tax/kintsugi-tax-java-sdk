@@ -5,15 +5,15 @@ management:
   docVersion: 1.0.0
   speakeasyVersion: 1.789.0
   generationVersion: 2.916.2
-  releaseVersion: 0.15.3
-  configChecksum: aa79f484a415571e9e806a94fb2b53ab
+  releaseVersion: 0.15.4
+  configChecksum: 88ab4dea9a674ada55eff9f1dbb6340d
   repoURL: https://github.com/kintsugi-tax/kintsugi-tax-java-sdk.git
   installationURL: https://github.com/kintsugi-tax/kintsugi-tax-java-sdk
   published: true
 persistentEdits:
-  generation_id: ee350fb8-211b-4908-9697-5705db801a93
-  pristine_commit_hash: 818db51c3d01941bb89dda957de611452404d630
-  pristine_tree_hash: 23df363bcb65159b33179dde2f3fba9c0967debc
+  generation_id: 51cb3736-d2e0-4beb-868e-25f8cebc937c
+  pristine_commit_hash: 5953cfe8eac8dccd4780e4686aade6b90138e0e1
+  pristine_tree_hash: e965cdf987bd7fe8941b65be38d767b4b833c7ea
 features:
   java:
     additionalDependencies: 0.1.0
@@ -937,8 +937,8 @@ trackedFiles:
     pristine_git_object: a32dd40f22ecd3e8c6218a22a55f74d711c71ae2
   gradle.properties:
     id: 2afbb999f001
-    last_write_checksum: sha1:d243c8a0f6bf23400e5bdff2dcb001f590091753
-    pristine_git_object: eea4f7ec80eedb9e39cb6eee7f86e05177470bd8
+    last_write_checksum: sha1:7e4ec4a630cc516c12969112c8c1c3b09d6cdd60
+    pristine_git_object: cc7237fc408ad4e83c839214a626359f5c5ea60c
   gradle/wrapper/gradle-wrapper.jar:
     id: ec27dae6e852
     last_write_checksum: sha1:f725fb1467084142d74fd7cd8eab691ab3442611
@@ -1053,8 +1053,8 @@ trackedFiles:
     pristine_git_object: d179e669f92c53705b6bcb7468fbdd44b37623d7
   src/main/java/com/kintsugi/taxplatform/SDKConfiguration.java:
     id: d2d740b1dee0
-    last_write_checksum: sha1:90fd310f82d134430ca674b55283431cca38070a
-    pristine_git_object: 8316ec441fa730d4e4ccca33c34e60093a49c002
+    last_write_checksum: sha1:4a336dc5a8587d1e77cc10f49c81516cf90caa7a
+    pristine_git_object: 2c58bc75051953a0c5c66bcd0e68a4bc793d067f
   src/main/java/com/kintsugi/taxplatform/SecuritySource.java:
     id: 923ddfe2854b
     last_write_checksum: sha1:a4e0b7b8c1ef8eaebcfcda0f19eba648e345b65f

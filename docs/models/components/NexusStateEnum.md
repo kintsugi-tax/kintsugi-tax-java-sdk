@@ -1,5 +1,13 @@
 # NexusStateEnum
 
+## Example Usage
+
+```java
+import com.kintsugi.taxplatform.models.components.NexusStateEnum;
+
+NexusStateEnum value = NexusStateEnum.EXPOSED;
+```
+
 
 ## Values
 

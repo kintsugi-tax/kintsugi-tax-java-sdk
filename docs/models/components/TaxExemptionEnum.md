@@ -2,6 +2,14 @@
 
 This enum is used to determine if a transaction is exempt from tax.
 
+## Example Usage
+
+```java
+import com.kintsugi.taxplatform.models.components.TaxExemptionEnum;
+
+TaxExemptionEnum value = TaxExemptionEnum.PRODUCT;
+```
+
 
 ## Values
 

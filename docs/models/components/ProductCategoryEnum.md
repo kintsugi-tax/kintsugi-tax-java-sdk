@@ -1,5 +1,13 @@
 # ProductCategoryEnum
 
+## Example Usage
+
+```java
+import com.kintsugi.taxplatform.models.components.ProductCategoryEnum;
+
+ProductCategoryEnum value = ProductCategoryEnum.PHYSICAL;
+```
+
 
 ## Values
 

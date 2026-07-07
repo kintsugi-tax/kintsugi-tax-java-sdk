@@ -2,6 +2,14 @@
 
 Current state of the credit note in its lifecycle.
 
+## Example Usage
+
+```java
+import com.kintsugi.taxplatform.models.components.Status;
+
+Status value = Status.PENDING;
+```
+
 
 ## Values
 

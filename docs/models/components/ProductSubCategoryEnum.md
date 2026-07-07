@@ -1,5 +1,13 @@
 # ProductSubCategoryEnum
 
+## Example Usage
+
+```java
+import com.kintsugi.taxplatform.models.components.ProductSubCategoryEnum;
+
+ProductSubCategoryEnum value = ProductSubCategoryEnum.UNKNOWN;
+```
+
 
 ## Values
 

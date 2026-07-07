@@ -56,7 +56,7 @@ public class Application {
                 .call();
 
         if (res.transactionRead().isPresent()) {
-            // handle response
+            System.out.println(res.transactionRead().get());
         }
     }
 }

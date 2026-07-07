@@ -1,5 +1,13 @@
 # NexusTypeEnum
 
+## Example Usage
+
+```java
+import com.kintsugi.taxplatform.models.components.NexusTypeEnum;
+
+NexusTypeEnum value = NexusTypeEnum.CANADA_FEDERAL;
+```
+
 
 ## Values
 

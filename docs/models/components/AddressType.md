@@ -1,5 +1,13 @@
 # AddressType
 
+## Example Usage
+
+```java
+import com.kintsugi.taxplatform.models.components.AddressType;
+
+AddressType value = AddressType.BILL_TO;
+```
+
 
 ## Values
 

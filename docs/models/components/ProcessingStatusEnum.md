@@ -3,6 +3,14 @@
 Our transaction state, used to determine when/if a transaction needs additional
 processing.
 
+## Example Usage
+
+```java
+import com.kintsugi.taxplatform.models.components.ProcessingStatusEnum;
+
+ProcessingStatusEnum value = ProcessingStatusEnum.NEW;
+```
+
 
 ## Values
 

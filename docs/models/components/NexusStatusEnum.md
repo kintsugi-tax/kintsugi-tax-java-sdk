@@ -1,5 +1,13 @@
 # NexusStatusEnum
 
+## Example Usage
+
+```java
+import com.kintsugi.taxplatform.models.components.NexusStatusEnum;
+
+NexusStatusEnum value = NexusStatusEnum.NEEDS_RERUN;
+```
+
 
 ## Values
 

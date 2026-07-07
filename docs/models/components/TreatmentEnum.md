@@ -1,5 +1,13 @@
 # TreatmentEnum
 
+## Example Usage
+
+```java
+import com.kintsugi.taxplatform.models.components.TreatmentEnum;
+
+TreatmentEnum value = TreatmentEnum.INCLUDED;
+```
+
 
 ## Values
 

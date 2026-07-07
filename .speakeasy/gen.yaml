@@ -30,7 +30,7 @@ generation:
     generateNewTests: true
     skipResponseBodyAssertions: false
 java:
-  version: 0.15.1
+  version: 0.15.2
   additionalDependencies: []
   additionalPlugins: []
   artifactID: kintsugi-tax-java-sdk
@@ -45,11 +45,13 @@ java:
   enableFormatting: false
   enableSlf4jLogging: false
   enableStreamingUploads: false
+  explicitDocImports: false
   flattenGlobalSecurity: true
   forwardCompatibleEnumsByDefault: false
   forwardCompatibleUnionsByDefault: "false"
   generateOptionalUnionAccessors: false
   generateSpringBootStarter: true
+  generateUnionDocs: false
   githubURL: https://github.com/kintsugi-tax/kintsugi-tax-java-sdk
   groupID: com.trykintsugi
   imports:
@@ -73,7 +75,9 @@ java:
   operationScopedParams: true
   outputModelSuffix: output
   packageName: com.kintsugi.taxplatform
+  prefixModeMethodNames: false
   projectName: tax-platform-sdk
   respectTitlesForPrimitiveUnionMembers: false
+  showSetterGetterTypesInDocs: false
   templateVersion: v2
   unionStrategy: populated-fields

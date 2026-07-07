@@ -1,5 +1,13 @@
 # FilingFrequencyEnum
 
+## Example Usage
+
+```java
+import com.kintsugi.taxplatform.models.components.FilingFrequencyEnum;
+
+FilingFrequencyEnum value = FilingFrequencyEnum.UNKNOWN;
+```
+
 
 ## Values
 

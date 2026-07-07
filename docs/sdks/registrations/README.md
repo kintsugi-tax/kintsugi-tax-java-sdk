@@ -50,7 +50,7 @@ public class Application {
                 .call();
 
         if (res.pageRegistrationReadWithPassword().isPresent()) {
-            // handle response
+            System.out.println(res.pageRegistrationReadWithPassword().get());
         }
     }
 }
@@ -117,7 +117,7 @@ public class Application {
                 .call();
 
         if (res.registrationRead().isPresent()) {
-            // handle response
+            System.out.println(res.registrationRead().get());
         }
     }
 }
@@ -156,7 +156,7 @@ public class Application {
                 .call();
 
         if (res.registrationRead().isPresent()) {
-            // handle response
+            System.out.println(res.registrationRead().get());
         }
     }
 }
@@ -203,7 +203,7 @@ public class Application {
                 .call();
 
         if (res.registrationRead().isPresent()) {
-            // handle response
+            System.out.println(res.registrationRead().get());
         }
     }
 }
@@ -245,7 +245,7 @@ public class Application {
                 .call();
 
         if (res.registrationRead().isPresent()) {
-            // handle response
+            System.out.println(res.registrationRead().get());
         }
     }
 }
@@ -304,7 +304,7 @@ public class Application {
                 .call();
 
         if (res.registrationRead().isPresent()) {
-            // handle response
+            System.out.println(res.registrationRead().get());
         }
     }
 }
@@ -379,7 +379,7 @@ public class Application {
                 .call();
 
         if (res.registrationRead().isPresent()) {
-            // handle response
+            System.out.println(res.registrationRead().get());
         }
     }
 }
@@ -438,7 +438,7 @@ public class Application {
                 .call();
 
         if (res.registrationRead().isPresent()) {
-            // handle response
+            System.out.println(res.registrationRead().get());
         }
     }
 }

@@ -1,5 +1,13 @@
 # CurrencyEnum
 
+## Example Usage
+
+```java
+import com.kintsugi.taxplatform.models.components.CurrencyEnum;
+
+CurrencyEnum value = CurrencyEnum.AED;
+```
+
 
 ## Values
 

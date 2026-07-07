@@ -1,5 +1,13 @@
 # TransactionStatusEnum
 
+## Example Usage
+
+```java
+import com.kintsugi.taxplatform.models.components.TransactionStatusEnum;
+
+TransactionStatusEnum value = TransactionStatusEnum.PENDING;
+```
+
 
 ## Values
 

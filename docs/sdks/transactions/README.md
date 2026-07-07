@@ -50,7 +50,7 @@ public class Application {
                 .call();
 
         if (res.pageTransactionRead().isPresent()) {
-            // handle response
+            System.out.println(res.pageTransactionRead().get());
         }
     }
 }
@@ -122,7 +122,7 @@ public class Application {
                 .call();
 
         if (res.transactionRead().isPresent()) {
-            // handle response
+            System.out.println(res.transactionRead().get());
         }
     }
 }
@@ -170,7 +170,7 @@ public class Application {
                 .call();
 
         if (res.transactionRead().isPresent()) {
-            // handle response
+            System.out.println(res.transactionRead().get());
         }
     }
 }
@@ -218,7 +218,7 @@ public class Application {
                 .call();
 
         if (res.transactionRead().isPresent()) {
-            // handle response
+            System.out.println(res.transactionRead().get());
         }
     }
 }
@@ -266,7 +266,7 @@ public class Application {
                 .call();
 
         if (res.transactionRead().isPresent()) {
-            // handle response
+            System.out.println(res.transactionRead().get());
         }
     }
 }
@@ -314,7 +314,7 @@ public class Application {
                 .call();
 
         if (res.transactionRead().isPresent()) {
-            // handle response
+            System.out.println(res.transactionRead().get());
         }
     }
 }
@@ -362,7 +362,7 @@ public class Application {
                 .call();
 
         if (res.transactionRead().isPresent()) {
-            // handle response
+            System.out.println(res.transactionRead().get());
         }
     }
 }
@@ -410,7 +410,7 @@ public class Application {
                 .call();
 
         if (res.transactionRead().isPresent()) {
-            // handle response
+            System.out.println(res.transactionRead().get());
         }
     }
 }
@@ -458,7 +458,7 @@ public class Application {
                 .call();
 
         if (res.transactionRead().isPresent()) {
-            // handle response
+            System.out.println(res.transactionRead().get());
         }
     }
 }
@@ -517,7 +517,7 @@ public class Application {
                 .call();
 
         if (res.transactionRead().isPresent()) {
-            // handle response
+            System.out.println(res.transactionRead().get());
         }
     }
 }
@@ -593,7 +593,7 @@ public class Application {
                 .call();
 
         if (res.transactionRead().isPresent()) {
-            // handle response
+            System.out.println(res.transactionRead().get());
         }
     }
 }
@@ -651,7 +651,7 @@ public class Application {
                 .call();
 
         if (res.transactionRead().isPresent()) {
-            // handle response
+            System.out.println(res.transactionRead().get());
         }
     }
 }
@@ -709,7 +709,7 @@ public class Application {
                 .call();
 
         if (res.response200GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGet().isPresent()) {
-            // handle response
+            System.out.println(res.response200GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGet().get());
         }
     }
 }
@@ -784,7 +784,7 @@ public class Application {
                 .call();
 
         if (res.any().isPresent()) {
-            // handle response
+            System.out.println(res.any().get());
         }
     }
 }

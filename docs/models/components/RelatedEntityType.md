@@ -1,5 +1,13 @@
 # RelatedEntityType
 
+## Example Usage
+
+```java
+import com.kintsugi.taxplatform.models.components.RelatedEntityType;
+
+RelatedEntityType value = RelatedEntityType.EXEMPTION;
+```
+
 
 ## Values
 

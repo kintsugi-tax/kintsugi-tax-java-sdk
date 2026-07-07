@@ -56,7 +56,7 @@ public class Application {
                 .call();
 
         if (res.fastapiPaginationDefaultPageExemptionRead2().isPresent()) {
-            // handle response
+            System.out.println(res.fastapiPaginationDefaultPageExemptionRead2().get());
         }
     }
 }
@@ -131,7 +131,7 @@ public class Application {
                 .call();
 
         if (res.backendSrcExemptionsSerializersExemptionRead().isPresent()) {
-            // handle response
+            System.out.println(res.backendSrcExemptionsSerializersExemptionRead().get());
         }
     }
 }
@@ -192,7 +192,7 @@ public class Application {
                 .call();
 
         if (res.backendSrcExemptionsModelsExemptionRead().isPresent()) {
-            // handle response
+            System.out.println(res.backendSrcExemptionsModelsExemptionRead().get());
         }
     }
 }
@@ -320,7 +320,7 @@ public class Application {
                 .call();
 
         if (res.response200GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGet().isPresent()) {
-            // handle response
+            System.out.println(res.response200GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGet().get());
         }
     }
 }

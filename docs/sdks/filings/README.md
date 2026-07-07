@@ -56,7 +56,7 @@ public class Application {
                 .call();
 
         if (res.pageFilingRead().isPresent()) {
-            // handle response
+            System.out.println(res.pageFilingRead().get());
         }
     }
 }
@@ -115,7 +115,7 @@ public class Application {
                 .call();
 
         if (res.filingDetailsRead().isPresent()) {
-            // handle response
+            System.out.println(res.filingDetailsRead().get());
         }
     }
 }
@@ -179,7 +179,7 @@ public class Application {
                 .call();
 
         if (res.pageFilingRead().isPresent()) {
-            // handle response
+            System.out.println(res.pageFilingRead().get());
         }
     }
 }

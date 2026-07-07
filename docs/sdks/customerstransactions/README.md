@@ -38,7 +38,7 @@ public class Application {
                 .call();
 
         if (res.responseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet().isPresent()) {
-            // handle response
+            System.out.println(res.responseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet().get());
         }
     }
 }

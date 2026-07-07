@@ -1,5 +1,13 @@
 # RegistrationStatusEnum
 
+## Example Usage
+
+```java
+import com.kintsugi.taxplatform.models.components.RegistrationStatusEnum;
+
+RegistrationStatusEnum value = RegistrationStatusEnum.REGISTERED;
+```
+
 
 ## Values
 

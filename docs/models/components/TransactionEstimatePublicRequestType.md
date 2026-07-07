@@ -3,6 +3,14 @@
 Type of the address. Must be either
                         SHIP_TO or BILL_TO.
 
+## Example Usage
+
+```java
+import com.kintsugi.taxplatform.models.components.TransactionEstimatePublicRequestType;
+
+TransactionEstimatePublicRequestType value = TransactionEstimatePublicRequestType.SHIP_TO;
+```
+
 
 ## Values
 

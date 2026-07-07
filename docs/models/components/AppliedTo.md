@@ -1,5 +1,13 @@
 # AppliedTo
 
+## Example Usage
+
+```java
+import com.kintsugi.taxplatform.models.components.AppliedTo;
+
+AppliedTo value = AppliedTo.TRANSACTION;
+```
+
 
 ## Values
 

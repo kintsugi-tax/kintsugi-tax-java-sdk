@@ -47,9 +47,8 @@ afterEvaluate {
                     description = config.description
                     url = 'https://github.com/kintsugi-tax/kintsugi-tax-java-sdk'
                     scm {
-                        url = 'https://github.com/kintsugi-tax/kintsugi-tax-java-sdk'
-                        connection = 'scm:git:git@github.com:kintsugi-tax/kintsugi-tax-java-sdk.git'
-                        developerConnection = 'scm:git:git@github.com:kintsugi-tax/kintsugi-tax-java-sdk.git'
+                        url = 'github.com/kintsugi-tax/kintsugi-tax-java-sdk'
+                        connection = 'scm:git:ssh://git@github.com/kintsugi-tax/kintsugi-tax-java-sdk.git'
                     }
                     licenses {
                         license {

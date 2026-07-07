@@ -5,15 +5,15 @@ management:
   docVersion: 1.0.0
   speakeasyVersion: 1.789.0
   generationVersion: 2.916.2
-  releaseVersion: 0.15.2
-  configChecksum: ec5674bf32ff14059fa2f218fef00690
+  releaseVersion: 0.15.3
+  configChecksum: aa79f484a415571e9e806a94fb2b53ab
   repoURL: https://github.com/kintsugi-tax/kintsugi-tax-java-sdk.git
   installationURL: https://github.com/kintsugi-tax/kintsugi-tax-java-sdk
   published: true
 persistentEdits:
-  generation_id: b73e19a3-bd25-4c10-8786-eb038d402549
-  pristine_commit_hash: 7e1941f5b967916560331ef95941afb0653c1032
-  pristine_tree_hash: af3adcad394bd9045d920b33ba1285b1dea3218f
+  generation_id: ee350fb8-211b-4908-9697-5705db801a93
+  pristine_commit_hash: 818db51c3d01941bb89dda957de611452404d630
+  pristine_tree_hash: 23df363bcb65159b33179dde2f3fba9c0967debc
 features:
   java:
     additionalDependencies: 0.1.0
@@ -937,8 +937,8 @@ trackedFiles:
     pristine_git_object: a32dd40f22ecd3e8c6218a22a55f74d711c71ae2
   gradle.properties:
     id: 2afbb999f001
-    last_write_checksum: sha1:f74a8d7e9d54851341c42a661d68828684af813b
-    pristine_git_object: 06410a900f2d09c951bb09fce5d84499fb05a144
+    last_write_checksum: sha1:d243c8a0f6bf23400e5bdff2dcb001f590091753
+    pristine_git_object: eea4f7ec80eedb9e39cb6eee7f86e05177470bd8
   gradle/wrapper/gradle-wrapper.jar:
     id: ec27dae6e852
     last_write_checksum: sha1:f725fb1467084142d74fd7cd8eab691ab3442611
@@ -957,8 +957,8 @@ trackedFiles:
     pristine_git_object: 5eed7ee8452842305a18a4eb967442683808226a
   publishing.gradle:
     id: 0f10e722a87d
-    last_write_checksum: sha1:8f1c5bb4ee61ba19f345e7750e7826c33ed9a03a
-    pristine_git_object: dc2e0f4ec975b0e7caa44a379ef542c36edc277d
+    last_write_checksum: sha1:abbca5e663088f2d1d2f79fdf558994b6263b9c5
+    pristine_git_object: b67d1f632ce200cdfca3ee4e61f8b919df2eeb27
   settings.gradle:
     id: 05efc8b16577
     last_write_checksum: sha1:4090c8e4806ae98b28b3c255b1937411fa024e73
@@ -1053,8 +1053,8 @@ trackedFiles:
     pristine_git_object: d179e669f92c53705b6bcb7468fbdd44b37623d7
   src/main/java/com/kintsugi/taxplatform/SDKConfiguration.java:
     id: d2d740b1dee0
-    last_write_checksum: sha1:471455970ec57280fed16de6c8fa5cbb19d7d13c
-    pristine_git_object: 5f03e9c24c8baa13013f8e454e6b7c336a27ff37
+    last_write_checksum: sha1:90fd310f82d134430ca674b55283431cca38070a
+    pristine_git_object: 8316ec441fa730d4e4ccca33c34e60093a49c002
   src/main/java/com/kintsugi/taxplatform/SecuritySource.java:
     id: 923ddfe2854b
     last_write_checksum: sha1:a4e0b7b8c1ef8eaebcfcda0f19eba648e345b65f

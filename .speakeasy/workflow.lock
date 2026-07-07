@@ -14,7 +14,7 @@ targets:
         sourceRevisionDigest: sha256:0f24f3d77327caf859516fbd5f53cf78c7f2f6ffbb1edf4703216a9e22236640
         sourceBlobDigest: sha256:2fedccc41f96a022e1730d5ba7eb9c6f3165b6c6c242a7911fe6679bf1fdfb4e
         codeSamplesNamespace: kintsugi-overlay-java-code-samples
-        codeSamplesRevisionDigest: sha256:1ad3adc524e6e334c20740013e8fe04cdc69a5681c658c1a81821baa53d214c7
+        codeSamplesRevisionDigest: sha256:fd36ff0f570b567a2d58436ba187f634313869484f7d3a0a38e88562ba1b3227
 workflow:
     workflowVersion: 1.0.0
     speakeasyVersion: latest

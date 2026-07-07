@@ -52,7 +52,7 @@ java:
   generateOptionalUnionAccessors: false
   generateSpringBootStarter: true
   generateUnionDocs: false
-  githubURL: https://github.com/kintsugi-tax/kintsugi-tax-java-sdk
+  githubURL: github.com/kintsugi-tax/kintsugi-tax-java-sdk
   groupID: com.trykintsugi
   imports:
     option: openapi

@@ -1,4 +1,17 @@
-// This file 
-// * is referred to in an `apply from` command in `build.gradle`
-// * can be used to customise `build.gradle`
-// * is generated once and not overwritten in SDK generation updates
+// Customizations applied after Speakeasy-generated build.gradle.
+// Keeps Maven Central POM metadata valid even if publishing.gradle is regenerated.
+
+afterEvaluate {
+    if (!project.ext.has('publishingConfig')) {
+        return
+    }
+
+    publishing.publications.maven.pom {
+        url = 'https://github.com/kintsugi-tax/kintsugi-tax-java-sdk'
+        scm {
+            url = 'https://github.com/kintsugi-tax/kintsugi-tax-java-sdk'
+            connection = 'scm:git:git@github.com:kintsugi-tax/kintsugi-tax-java-sdk.git'
+            developerConnection = 'scm:git:git@github.com:kintsugi-tax/kintsugi-tax-java-sdk.git'
+        }
+    }
+}

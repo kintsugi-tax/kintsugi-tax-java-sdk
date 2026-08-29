@@ -10,11 +10,11 @@ import static com.kintsugi.taxplatform.operations.Operations.AsyncRequestOperati
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.SecuritySource;
-import com.kintsugi.taxplatform.models.components.CustomerCreate;
 import com.kintsugi.taxplatform.models.components.CustomerRead;
 import com.kintsugi.taxplatform.models.errors.APIException;
 import com.kintsugi.taxplatform.models.errors.BackendSrcCustomersResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
+import com.kintsugi.taxplatform.models.operations.CreateCustomerV1CustomersPostRequest;
 import com.kintsugi.taxplatform.models.operations.CreateCustomerV1CustomersPostResponse;
 import com.kintsugi.taxplatform.utils.Blob;
 import com.kintsugi.taxplatform.utils.HTTPClient;
@@ -97,7 +97,7 @@ public class CreateCustomerV1CustomersPost {
                     typeReference);
             SerializedBody serializedRequestBody = Utils.serializeRequestBody(
                     convertedRequest,
-                    "",
+                    "customerCreate",
                     "json",
                     false);
             if (serializedRequestBody == null) {
@@ -107,6 +107,7 @@ public class CreateCustomerV1CustomersPost {
             req.addHeader("Accept", "application/json")
                     .addHeader("user-agent", SDKConfiguration.USER_AGENT);
             _headers.forEach((k, list) -> list.forEach(v -> req.addHeader(k, v)));
+            req.addHeaders(Utils.getHeadersFromMetadata(request, null));
             Utils.configureSecurity(req, this.sdkConfiguration.securitySource().getSecurity());
 
             return req.build();
@@ -114,13 +115,13 @@ public class CreateCustomerV1CustomersPost {
     }
 
     public static class Sync extends Base
-            implements RequestOperation<CustomerCreate, CreateCustomerV1CustomersPostResponse> {
+            implements RequestOperation<CreateCustomerV1CustomersPostRequest, CreateCustomerV1CustomersPostResponse> {
         public Sync(SDKConfiguration sdkConfiguration, Headers _headers) {
             super(sdkConfiguration, _headers);
         }
 
-        private HttpRequest onBuildRequest(CustomerCreate request) throws Exception {
-            HttpRequest req = buildRequest(request, new TypeReference<CustomerCreate>() {});
+        private HttpRequest onBuildRequest(CreateCustomerV1CustomersPostRequest request) throws Exception {
+            HttpRequest req = buildRequest(request, new TypeReference<CreateCustomerV1CustomersPostRequest>() {});
             return sdkConfiguration.hooks().beforeRequest(createBeforeRequestContext(), req);
         }
 
@@ -136,7 +137,7 @@ public class CreateCustomerV1CustomersPost {
         }
 
         @Override
-        public HttpResponse<InputStream> doRequest(CustomerCreate request) {
+        public HttpResponse<InputStream> doRequest(CreateCustomerV1CustomersPostRequest request) {
             HttpRequest r = unchecked(() -> onBuildRequest(request)).get();
             HttpResponse<InputStream> httpRes;
             try {
@@ -209,14 +210,14 @@ public class CreateCustomerV1CustomersPost {
         }
     }
     public static class Async extends Base
-            implements AsyncRequestOperation<CustomerCreate, com.kintsugi.taxplatform.models.operations.async.CreateCustomerV1CustomersPostResponse> {
+            implements AsyncRequestOperation<CreateCustomerV1CustomersPostRequest, com.kintsugi.taxplatform.models.operations.async.CreateCustomerV1CustomersPostResponse> {
 
         public Async(SDKConfiguration sdkConfiguration, Headers _headers) {
             super(sdkConfiguration, _headers);
         }
 
-        private CompletableFuture<HttpRequest> onBuildRequest(CustomerCreate request) throws Exception {
-            HttpRequest req = buildRequest(request, new TypeReference<CustomerCreate>() {});
+        private CompletableFuture<HttpRequest> onBuildRequest(CreateCustomerV1CustomersPostRequest request) throws Exception {
+            HttpRequest req = buildRequest(request, new TypeReference<CreateCustomerV1CustomersPostRequest>() {});
             return this.sdkConfiguration.asyncHooks().beforeRequest(createBeforeRequestContext(), req);
         }
 
@@ -229,7 +230,7 @@ public class CreateCustomerV1CustomersPost {
         }
 
         @Override
-        public CompletableFuture<HttpResponse<Blob>> doRequest(CustomerCreate request) {
+        public CompletableFuture<HttpResponse<Blob>> doRequest(CreateCustomerV1CustomersPostRequest request) {
             return unchecked(() -> onBuildRequest(request)).get().thenCompose(client::sendAsync)
                     .handle((resp, err) -> {
                         if (err != null) {

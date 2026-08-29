@@ -1,0 +1,4 @@
+# ResponseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet
+
+Successful Response
+

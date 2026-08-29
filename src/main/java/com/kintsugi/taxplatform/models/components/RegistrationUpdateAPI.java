@@ -15,7 +15,10 @@ import java.lang.Boolean;
 import java.lang.Override;
 import java.lang.String;
 import java.lang.SuppressWarnings;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.Optional;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 public class RegistrationUpdateAPI {
@@ -24,80 +27,68 @@ public class RegistrationUpdateAPI {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("registration_date")
-    private Optional<String> registrationDate;
+    private JsonNullable<LocalDate> registrationDate;
 
     /**
      * Email address associated with the registration.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("registration_email")
-    private Optional<String> registrationEmail;
-
-    /**
-     * A unique key assigned to the registration.
-     */
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("registration_key")
-    private Optional<String> registrationKey;
-
-    /**
-     * A unique key assigned for deregistration.
-     */
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("deregistration_key")
-    private Optional<String> deregistrationKey;
+    private JsonNullable<String> registrationEmail;
 
     /**
      * Timestamp when the registration was requested.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("registration_requested")
-    private Optional<String> registrationRequested;
+    private JsonNullable<OffsetDateTime> registrationRequested;
 
     /**
      * Timestamp when the registration was completed.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("registration_completed")
-    private Optional<String> registrationCompleted;
+    private JsonNullable<OffsetDateTime> registrationCompleted;
 
     /**
      * Timestamp when deregistration was requested.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("deregistration_requested")
-    private Optional<String> deregistrationRequested;
+    private JsonNullable<OffsetDateTime> deregistrationRequested;
 
     /**
      * Timestamp when the deregistration was completed.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("deregistration_completed")
-    private Optional<String> deregistrationCompleted;
+    private JsonNullable<OffsetDateTime> deregistrationCompleted;
 
     /**
      * Indicates whether the registration was completed automatically.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("auto_registered")
-    private Optional<Boolean> autoRegistered;
+    private JsonNullable<Boolean> autoRegistered;
 
-
+    /**
+     * The tax registration regime (e.g., STANDARD, SIMPLIFIED).
+     */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("registrations_regime")
-    private Optional<? extends RegistrationsRegimeEnum> registrationsRegime;
+    private JsonNullable<? extends RegistrationsRegimeEnum> registrationsRegime;
 
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("change_regime_status")
-    private Optional<? extends ChangeRegimeStatusEnum> changeRegimeStatus;
+    private JsonNullable<? extends ChangeRegimeStatusEnum> changeRegimeStatus;
 
     /**
      * Indicates whether third-party access is enabled for this registration.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("third_party_enabled")
-    private Optional<Boolean> thirdPartyEnabled;
+    private JsonNullable<Boolean> thirdPartyEnabled;
 
     /**
      * If true, do not file for this registration (treated as False by default).
@@ -111,98 +102,112 @@ public class RegistrationUpdateAPI {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("two_factor_enabled")
-    private Optional<Boolean> twoFactorEnabled;
+    private JsonNullable<Boolean> twoFactorEnabled;
 
     /**
      * Indicates whether the  registration is marked as collecting in shopify
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("marked_collecting")
-    private Optional<Boolean> markedCollecting;
+    private JsonNullable<Boolean> markedCollecting;
 
     /**
      * The encrypted username for the registration.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("encrypted_username")
-    private Optional<String> encryptedUsername;
+    private JsonNullable<String> encryptedUsername;
 
     /**
      * The username associated with the registration.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("username")
-    private Optional<String> username;
+    private JsonNullable<String> username;
 
-
+    /**
+     * The updated filing frequency (MONTHLY, QUARTERLY, etc.).
+     */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("filing_frequency")
-    private Optional<? extends FilingFrequencyEnum> filingFrequency;
+    private JsonNullable<? extends FilingFrequencyEnum> filingFrequency;
 
     /**
      * The updated date from which filings should start (YYYY-MM-DD).
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("create_filings_from")
-    private Optional<String> createFilingsFrom;
+    private JsonNullable<LocalDate> createFilingsFrom;
 
     /**
      * Indicates whether the registration is approaching an action (e.g., renewal).
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("is_approaching")
-    private Optional<Boolean> isApproaching;
+    private JsonNullable<Boolean> isApproaching;
 
     /**
      * Additional notes or comments related to the registration.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("comment")
-    private Optional<String> comment;
+    private JsonNullable<String> comment;
 
     /**
      * Indicates if the Voluntary Disclosure Agreement (VDA) applies.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("vda")
-    private Optional<Boolean> vda;
+    private JsonNullable<Boolean> vda;
 
     /**
      * Organization-level tax ID (e.g., VAT number, Canada Business Number).
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("tax_id")
-    private Optional<String> taxId;
+    private JsonNullable<String> taxId;
+
+    /**
+     * The Importer of Record (IOR) number for the registration.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("ior_number")
+    private JsonNullable<String> iorNumber;
+
+    /**
+     * Whether to also file the single period preceding the first filing period.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("create_back_filing")
+    private Optional<Boolean> createBackFiling;
 
     @JsonCreator
     public RegistrationUpdateAPI(
-            @JsonProperty("registration_date") Optional<String> registrationDate,
-            @JsonProperty("registration_email") Optional<String> registrationEmail,
-            @JsonProperty("registration_key") Optional<String> registrationKey,
-            @JsonProperty("deregistration_key") Optional<String> deregistrationKey,
-            @JsonProperty("registration_requested") Optional<String> registrationRequested,
-            @JsonProperty("registration_completed") Optional<String> registrationCompleted,
-            @JsonProperty("deregistration_requested") Optional<String> deregistrationRequested,
-            @JsonProperty("deregistration_completed") Optional<String> deregistrationCompleted,
-            @JsonProperty("auto_registered") Optional<Boolean> autoRegistered,
-            @JsonProperty("registrations_regime") Optional<? extends RegistrationsRegimeEnum> registrationsRegime,
-            @JsonProperty("change_regime_status") Optional<? extends ChangeRegimeStatusEnum> changeRegimeStatus,
-            @JsonProperty("third_party_enabled") Optional<Boolean> thirdPartyEnabled,
+            @JsonProperty("registration_date") JsonNullable<LocalDate> registrationDate,
+            @JsonProperty("registration_email") JsonNullable<String> registrationEmail,
+            @JsonProperty("registration_requested") JsonNullable<OffsetDateTime> registrationRequested,
+            @JsonProperty("registration_completed") JsonNullable<OffsetDateTime> registrationCompleted,
+            @JsonProperty("deregistration_requested") JsonNullable<OffsetDateTime> deregistrationRequested,
+            @JsonProperty("deregistration_completed") JsonNullable<OffsetDateTime> deregistrationCompleted,
+            @JsonProperty("auto_registered") JsonNullable<Boolean> autoRegistered,
+            @JsonProperty("registrations_regime") JsonNullable<? extends RegistrationsRegimeEnum> registrationsRegime,
+            @JsonProperty("change_regime_status") JsonNullable<? extends ChangeRegimeStatusEnum> changeRegimeStatus,
+            @JsonProperty("third_party_enabled") JsonNullable<Boolean> thirdPartyEnabled,
             @JsonProperty("do_not_file") Optional<Boolean> doNotFile,
-            @JsonProperty("two_factor_enabled") Optional<Boolean> twoFactorEnabled,
-            @JsonProperty("marked_collecting") Optional<Boolean> markedCollecting,
-            @JsonProperty("encrypted_username") Optional<String> encryptedUsername,
-            @JsonProperty("username") Optional<String> username,
-            @JsonProperty("filing_frequency") Optional<? extends FilingFrequencyEnum> filingFrequency,
-            @JsonProperty("create_filings_from") Optional<String> createFilingsFrom,
-            @JsonProperty("is_approaching") Optional<Boolean> isApproaching,
-            @JsonProperty("comment") Optional<String> comment,
-            @JsonProperty("vda") Optional<Boolean> vda,
-            @JsonProperty("tax_id") Optional<String> taxId) {
+            @JsonProperty("two_factor_enabled") JsonNullable<Boolean> twoFactorEnabled,
+            @JsonProperty("marked_collecting") JsonNullable<Boolean> markedCollecting,
+            @JsonProperty("encrypted_username") JsonNullable<String> encryptedUsername,
+            @JsonProperty("username") JsonNullable<String> username,
+            @JsonProperty("filing_frequency") JsonNullable<? extends FilingFrequencyEnum> filingFrequency,
+            @JsonProperty("create_filings_from") JsonNullable<LocalDate> createFilingsFrom,
+            @JsonProperty("is_approaching") JsonNullable<Boolean> isApproaching,
+            @JsonProperty("comment") JsonNullable<String> comment,
+            @JsonProperty("vda") JsonNullable<Boolean> vda,
+            @JsonProperty("tax_id") JsonNullable<String> taxId,
+            @JsonProperty("ior_number") JsonNullable<String> iorNumber,
+            @JsonProperty("create_back_filing") Optional<Boolean> createBackFiling) {
         Utils.checkNotNull(registrationDate, "registrationDate");
         Utils.checkNotNull(registrationEmail, "registrationEmail");
-        Utils.checkNotNull(registrationKey, "registrationKey");
-        Utils.checkNotNull(deregistrationKey, "deregistrationKey");
         Utils.checkNotNull(registrationRequested, "registrationRequested");
         Utils.checkNotNull(registrationCompleted, "registrationCompleted");
         Utils.checkNotNull(deregistrationRequested, "deregistrationRequested");
@@ -222,10 +227,10 @@ public class RegistrationUpdateAPI {
         Utils.checkNotNull(comment, "comment");
         Utils.checkNotNull(vda, "vda");
         Utils.checkNotNull(taxId, "taxId");
+        Utils.checkNotNull(iorNumber, "iorNumber");
+        Utils.checkNotNull(createBackFiling, "createBackFiling");
         this.registrationDate = registrationDate;
         this.registrationEmail = registrationEmail;
-        this.registrationKey = registrationKey;
-        this.deregistrationKey = deregistrationKey;
         this.registrationRequested = registrationRequested;
         this.registrationCompleted = registrationCompleted;
         this.deregistrationRequested = deregistrationRequested;
@@ -245,24 +250,26 @@ public class RegistrationUpdateAPI {
         this.comment = comment;
         this.vda = vda;
         this.taxId = taxId;
+        this.iorNumber = iorNumber;
+        this.createBackFiling = createBackFiling;
     }
     
     public RegistrationUpdateAPI() {
-        this(Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty());
+        this(JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), Optional.empty(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), Optional.empty());
     }
 
     /**
      * The date when the registration was created. Format: YYYY-MM-DD.
      */
     @JsonIgnore
-    public Optional<String> registrationDate() {
+    public JsonNullable<LocalDate> registrationDate() {
         return registrationDate;
     }
 
@@ -270,31 +277,15 @@ public class RegistrationUpdateAPI {
      * Email address associated with the registration.
      */
     @JsonIgnore
-    public Optional<String> registrationEmail() {
+    public JsonNullable<String> registrationEmail() {
         return registrationEmail;
-    }
-
-    /**
-     * A unique key assigned to the registration.
-     */
-    @JsonIgnore
-    public Optional<String> registrationKey() {
-        return registrationKey;
-    }
-
-    /**
-     * A unique key assigned for deregistration.
-     */
-    @JsonIgnore
-    public Optional<String> deregistrationKey() {
-        return deregistrationKey;
     }
 
     /**
      * Timestamp when the registration was requested.
      */
     @JsonIgnore
-    public Optional<String> registrationRequested() {
+    public JsonNullable<OffsetDateTime> registrationRequested() {
         return registrationRequested;
     }
 
@@ -302,7 +293,7 @@ public class RegistrationUpdateAPI {
      * Timestamp when the registration was completed.
      */
     @JsonIgnore
-    public Optional<String> registrationCompleted() {
+    public JsonNullable<OffsetDateTime> registrationCompleted() {
         return registrationCompleted;
     }
 
@@ -310,7 +301,7 @@ public class RegistrationUpdateAPI {
      * Timestamp when deregistration was requested.
      */
     @JsonIgnore
-    public Optional<String> deregistrationRequested() {
+    public JsonNullable<OffsetDateTime> deregistrationRequested() {
         return deregistrationRequested;
     }
 
@@ -318,7 +309,7 @@ public class RegistrationUpdateAPI {
      * Timestamp when the deregistration was completed.
      */
     @JsonIgnore
-    public Optional<String> deregistrationCompleted() {
+    public JsonNullable<OffsetDateTime> deregistrationCompleted() {
         return deregistrationCompleted;
     }
 
@@ -326,27 +317,30 @@ public class RegistrationUpdateAPI {
      * Indicates whether the registration was completed automatically.
      */
     @JsonIgnore
-    public Optional<Boolean> autoRegistered() {
+    public JsonNullable<Boolean> autoRegistered() {
         return autoRegistered;
     }
 
+    /**
+     * The tax registration regime (e.g., STANDARD, SIMPLIFIED).
+     */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<RegistrationsRegimeEnum> registrationsRegime() {
-        return (Optional<RegistrationsRegimeEnum>) registrationsRegime;
+    public JsonNullable<RegistrationsRegimeEnum> registrationsRegime() {
+        return (JsonNullable<RegistrationsRegimeEnum>) registrationsRegime;
     }
 
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<ChangeRegimeStatusEnum> changeRegimeStatus() {
-        return (Optional<ChangeRegimeStatusEnum>) changeRegimeStatus;
+    public JsonNullable<ChangeRegimeStatusEnum> changeRegimeStatus() {
+        return (JsonNullable<ChangeRegimeStatusEnum>) changeRegimeStatus;
     }
 
     /**
      * Indicates whether third-party access is enabled for this registration.
      */
     @JsonIgnore
-    public Optional<Boolean> thirdPartyEnabled() {
+    public JsonNullable<Boolean> thirdPartyEnabled() {
         return thirdPartyEnabled;
     }
 
@@ -362,7 +356,7 @@ public class RegistrationUpdateAPI {
      * Indicates whether two-factor authentication (2FA) is enabled for this registration.
      */
     @JsonIgnore
-    public Optional<Boolean> twoFactorEnabled() {
+    public JsonNullable<Boolean> twoFactorEnabled() {
         return twoFactorEnabled;
     }
 
@@ -370,7 +364,7 @@ public class RegistrationUpdateAPI {
      * Indicates whether the  registration is marked as collecting in shopify
      */
     @JsonIgnore
-    public Optional<Boolean> markedCollecting() {
+    public JsonNullable<Boolean> markedCollecting() {
         return markedCollecting;
     }
 
@@ -378,7 +372,7 @@ public class RegistrationUpdateAPI {
      * The encrypted username for the registration.
      */
     @JsonIgnore
-    public Optional<String> encryptedUsername() {
+    public JsonNullable<String> encryptedUsername() {
         return encryptedUsername;
     }
 
@@ -386,21 +380,24 @@ public class RegistrationUpdateAPI {
      * The username associated with the registration.
      */
     @JsonIgnore
-    public Optional<String> username() {
+    public JsonNullable<String> username() {
         return username;
     }
 
+    /**
+     * The updated filing frequency (MONTHLY, QUARTERLY, etc.).
+     */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<FilingFrequencyEnum> filingFrequency() {
-        return (Optional<FilingFrequencyEnum>) filingFrequency;
+    public JsonNullable<FilingFrequencyEnum> filingFrequency() {
+        return (JsonNullable<FilingFrequencyEnum>) filingFrequency;
     }
 
     /**
      * The updated date from which filings should start (YYYY-MM-DD).
      */
     @JsonIgnore
-    public Optional<String> createFilingsFrom() {
+    public JsonNullable<LocalDate> createFilingsFrom() {
         return createFilingsFrom;
     }
 
@@ -408,7 +405,7 @@ public class RegistrationUpdateAPI {
      * Indicates whether the registration is approaching an action (e.g., renewal).
      */
     @JsonIgnore
-    public Optional<Boolean> isApproaching() {
+    public JsonNullable<Boolean> isApproaching() {
         return isApproaching;
     }
 
@@ -416,7 +413,7 @@ public class RegistrationUpdateAPI {
      * Additional notes or comments related to the registration.
      */
     @JsonIgnore
-    public Optional<String> comment() {
+    public JsonNullable<String> comment() {
         return comment;
     }
 
@@ -424,7 +421,7 @@ public class RegistrationUpdateAPI {
      * Indicates if the Voluntary Disclosure Agreement (VDA) applies.
      */
     @JsonIgnore
-    public Optional<Boolean> vda() {
+    public JsonNullable<Boolean> vda() {
         return vda;
     }
 
@@ -432,8 +429,24 @@ public class RegistrationUpdateAPI {
      * Organization-level tax ID (e.g., VAT number, Canada Business Number).
      */
     @JsonIgnore
-    public Optional<String> taxId() {
+    public JsonNullable<String> taxId() {
         return taxId;
+    }
+
+    /**
+     * The Importer of Record (IOR) number for the registration.
+     */
+    @JsonIgnore
+    public JsonNullable<String> iorNumber() {
+        return iorNumber;
+    }
+
+    /**
+     * Whether to also file the single period preceding the first filing period.
+     */
+    @JsonIgnore
+    public Optional<Boolean> createBackFiling() {
+        return createBackFiling;
     }
 
     public static Builder builder() {
@@ -444,17 +457,16 @@ public class RegistrationUpdateAPI {
     /**
      * The date when the registration was created. Format: YYYY-MM-DD.
      */
-    public RegistrationUpdateAPI withRegistrationDate(String registrationDate) {
+    public RegistrationUpdateAPI withRegistrationDate(LocalDate registrationDate) {
         Utils.checkNotNull(registrationDate, "registrationDate");
-        this.registrationDate = Optional.ofNullable(registrationDate);
+        this.registrationDate = JsonNullable.of(registrationDate);
         return this;
     }
-
 
     /**
      * The date when the registration was created. Format: YYYY-MM-DD.
      */
-    public RegistrationUpdateAPI withRegistrationDate(Optional<String> registrationDate) {
+    public RegistrationUpdateAPI withRegistrationDate(JsonNullable<LocalDate> registrationDate) {
         Utils.checkNotNull(registrationDate, "registrationDate");
         this.registrationDate = registrationDate;
         return this;
@@ -465,72 +477,32 @@ public class RegistrationUpdateAPI {
      */
     public RegistrationUpdateAPI withRegistrationEmail(String registrationEmail) {
         Utils.checkNotNull(registrationEmail, "registrationEmail");
-        this.registrationEmail = Optional.ofNullable(registrationEmail);
+        this.registrationEmail = JsonNullable.of(registrationEmail);
         return this;
     }
-
 
     /**
      * Email address associated with the registration.
      */
-    public RegistrationUpdateAPI withRegistrationEmail(Optional<String> registrationEmail) {
+    public RegistrationUpdateAPI withRegistrationEmail(JsonNullable<String> registrationEmail) {
         Utils.checkNotNull(registrationEmail, "registrationEmail");
         this.registrationEmail = registrationEmail;
         return this;
     }
 
     /**
-     * A unique key assigned to the registration.
-     */
-    public RegistrationUpdateAPI withRegistrationKey(String registrationKey) {
-        Utils.checkNotNull(registrationKey, "registrationKey");
-        this.registrationKey = Optional.ofNullable(registrationKey);
-        return this;
-    }
-
-
-    /**
-     * A unique key assigned to the registration.
-     */
-    public RegistrationUpdateAPI withRegistrationKey(Optional<String> registrationKey) {
-        Utils.checkNotNull(registrationKey, "registrationKey");
-        this.registrationKey = registrationKey;
-        return this;
-    }
-
-    /**
-     * A unique key assigned for deregistration.
-     */
-    public RegistrationUpdateAPI withDeregistrationKey(String deregistrationKey) {
-        Utils.checkNotNull(deregistrationKey, "deregistrationKey");
-        this.deregistrationKey = Optional.ofNullable(deregistrationKey);
-        return this;
-    }
-
-
-    /**
-     * A unique key assigned for deregistration.
-     */
-    public RegistrationUpdateAPI withDeregistrationKey(Optional<String> deregistrationKey) {
-        Utils.checkNotNull(deregistrationKey, "deregistrationKey");
-        this.deregistrationKey = deregistrationKey;
-        return this;
-    }
-
-    /**
      * Timestamp when the registration was requested.
      */
-    public RegistrationUpdateAPI withRegistrationRequested(String registrationRequested) {
+    public RegistrationUpdateAPI withRegistrationRequested(OffsetDateTime registrationRequested) {
         Utils.checkNotNull(registrationRequested, "registrationRequested");
-        this.registrationRequested = Optional.ofNullable(registrationRequested);
+        this.registrationRequested = JsonNullable.of(registrationRequested);
         return this;
     }
-
 
     /**
      * Timestamp when the registration was requested.
      */
-    public RegistrationUpdateAPI withRegistrationRequested(Optional<String> registrationRequested) {
+    public RegistrationUpdateAPI withRegistrationRequested(JsonNullable<OffsetDateTime> registrationRequested) {
         Utils.checkNotNull(registrationRequested, "registrationRequested");
         this.registrationRequested = registrationRequested;
         return this;
@@ -539,17 +511,16 @@ public class RegistrationUpdateAPI {
     /**
      * Timestamp when the registration was completed.
      */
-    public RegistrationUpdateAPI withRegistrationCompleted(String registrationCompleted) {
+    public RegistrationUpdateAPI withRegistrationCompleted(OffsetDateTime registrationCompleted) {
         Utils.checkNotNull(registrationCompleted, "registrationCompleted");
-        this.registrationCompleted = Optional.ofNullable(registrationCompleted);
+        this.registrationCompleted = JsonNullable.of(registrationCompleted);
         return this;
     }
-
 
     /**
      * Timestamp when the registration was completed.
      */
-    public RegistrationUpdateAPI withRegistrationCompleted(Optional<String> registrationCompleted) {
+    public RegistrationUpdateAPI withRegistrationCompleted(JsonNullable<OffsetDateTime> registrationCompleted) {
         Utils.checkNotNull(registrationCompleted, "registrationCompleted");
         this.registrationCompleted = registrationCompleted;
         return this;
@@ -558,17 +529,16 @@ public class RegistrationUpdateAPI {
     /**
      * Timestamp when deregistration was requested.
      */
-    public RegistrationUpdateAPI withDeregistrationRequested(String deregistrationRequested) {
+    public RegistrationUpdateAPI withDeregistrationRequested(OffsetDateTime deregistrationRequested) {
         Utils.checkNotNull(deregistrationRequested, "deregistrationRequested");
-        this.deregistrationRequested = Optional.ofNullable(deregistrationRequested);
+        this.deregistrationRequested = JsonNullable.of(deregistrationRequested);
         return this;
     }
-
 
     /**
      * Timestamp when deregistration was requested.
      */
-    public RegistrationUpdateAPI withDeregistrationRequested(Optional<String> deregistrationRequested) {
+    public RegistrationUpdateAPI withDeregistrationRequested(JsonNullable<OffsetDateTime> deregistrationRequested) {
         Utils.checkNotNull(deregistrationRequested, "deregistrationRequested");
         this.deregistrationRequested = deregistrationRequested;
         return this;
@@ -577,17 +547,16 @@ public class RegistrationUpdateAPI {
     /**
      * Timestamp when the deregistration was completed.
      */
-    public RegistrationUpdateAPI withDeregistrationCompleted(String deregistrationCompleted) {
+    public RegistrationUpdateAPI withDeregistrationCompleted(OffsetDateTime deregistrationCompleted) {
         Utils.checkNotNull(deregistrationCompleted, "deregistrationCompleted");
-        this.deregistrationCompleted = Optional.ofNullable(deregistrationCompleted);
+        this.deregistrationCompleted = JsonNullable.of(deregistrationCompleted);
         return this;
     }
-
 
     /**
      * Timestamp when the deregistration was completed.
      */
-    public RegistrationUpdateAPI withDeregistrationCompleted(Optional<String> deregistrationCompleted) {
+    public RegistrationUpdateAPI withDeregistrationCompleted(JsonNullable<OffsetDateTime> deregistrationCompleted) {
         Utils.checkNotNull(deregistrationCompleted, "deregistrationCompleted");
         this.deregistrationCompleted = deregistrationCompleted;
         return this;
@@ -598,28 +567,32 @@ public class RegistrationUpdateAPI {
      */
     public RegistrationUpdateAPI withAutoRegistered(boolean autoRegistered) {
         Utils.checkNotNull(autoRegistered, "autoRegistered");
-        this.autoRegistered = Optional.ofNullable(autoRegistered);
+        this.autoRegistered = JsonNullable.of(autoRegistered);
         return this;
     }
-
 
     /**
      * Indicates whether the registration was completed automatically.
      */
-    public RegistrationUpdateAPI withAutoRegistered(Optional<Boolean> autoRegistered) {
+    public RegistrationUpdateAPI withAutoRegistered(JsonNullable<Boolean> autoRegistered) {
         Utils.checkNotNull(autoRegistered, "autoRegistered");
         this.autoRegistered = autoRegistered;
         return this;
     }
 
+    /**
+     * The tax registration regime (e.g., STANDARD, SIMPLIFIED).
+     */
     public RegistrationUpdateAPI withRegistrationsRegime(RegistrationsRegimeEnum registrationsRegime) {
         Utils.checkNotNull(registrationsRegime, "registrationsRegime");
-        this.registrationsRegime = Optional.ofNullable(registrationsRegime);
+        this.registrationsRegime = JsonNullable.of(registrationsRegime);
         return this;
     }
 
-
-    public RegistrationUpdateAPI withRegistrationsRegime(Optional<? extends RegistrationsRegimeEnum> registrationsRegime) {
+    /**
+     * The tax registration regime (e.g., STANDARD, SIMPLIFIED).
+     */
+    public RegistrationUpdateAPI withRegistrationsRegime(JsonNullable<? extends RegistrationsRegimeEnum> registrationsRegime) {
         Utils.checkNotNull(registrationsRegime, "registrationsRegime");
         this.registrationsRegime = registrationsRegime;
         return this;
@@ -627,12 +600,11 @@ public class RegistrationUpdateAPI {
 
     public RegistrationUpdateAPI withChangeRegimeStatus(ChangeRegimeStatusEnum changeRegimeStatus) {
         Utils.checkNotNull(changeRegimeStatus, "changeRegimeStatus");
-        this.changeRegimeStatus = Optional.ofNullable(changeRegimeStatus);
+        this.changeRegimeStatus = JsonNullable.of(changeRegimeStatus);
         return this;
     }
 
-
-    public RegistrationUpdateAPI withChangeRegimeStatus(Optional<? extends ChangeRegimeStatusEnum> changeRegimeStatus) {
+    public RegistrationUpdateAPI withChangeRegimeStatus(JsonNullable<? extends ChangeRegimeStatusEnum> changeRegimeStatus) {
         Utils.checkNotNull(changeRegimeStatus, "changeRegimeStatus");
         this.changeRegimeStatus = changeRegimeStatus;
         return this;
@@ -643,15 +615,14 @@ public class RegistrationUpdateAPI {
      */
     public RegistrationUpdateAPI withThirdPartyEnabled(boolean thirdPartyEnabled) {
         Utils.checkNotNull(thirdPartyEnabled, "thirdPartyEnabled");
-        this.thirdPartyEnabled = Optional.ofNullable(thirdPartyEnabled);
+        this.thirdPartyEnabled = JsonNullable.of(thirdPartyEnabled);
         return this;
     }
-
 
     /**
      * Indicates whether third-party access is enabled for this registration.
      */
-    public RegistrationUpdateAPI withThirdPartyEnabled(Optional<Boolean> thirdPartyEnabled) {
+    public RegistrationUpdateAPI withThirdPartyEnabled(JsonNullable<Boolean> thirdPartyEnabled) {
         Utils.checkNotNull(thirdPartyEnabled, "thirdPartyEnabled");
         this.thirdPartyEnabled = thirdPartyEnabled;
         return this;
@@ -681,15 +652,14 @@ public class RegistrationUpdateAPI {
      */
     public RegistrationUpdateAPI withTwoFactorEnabled(boolean twoFactorEnabled) {
         Utils.checkNotNull(twoFactorEnabled, "twoFactorEnabled");
-        this.twoFactorEnabled = Optional.ofNullable(twoFactorEnabled);
+        this.twoFactorEnabled = JsonNullable.of(twoFactorEnabled);
         return this;
     }
-
 
     /**
      * Indicates whether two-factor authentication (2FA) is enabled for this registration.
      */
-    public RegistrationUpdateAPI withTwoFactorEnabled(Optional<Boolean> twoFactorEnabled) {
+    public RegistrationUpdateAPI withTwoFactorEnabled(JsonNullable<Boolean> twoFactorEnabled) {
         Utils.checkNotNull(twoFactorEnabled, "twoFactorEnabled");
         this.twoFactorEnabled = twoFactorEnabled;
         return this;
@@ -700,15 +670,14 @@ public class RegistrationUpdateAPI {
      */
     public RegistrationUpdateAPI withMarkedCollecting(boolean markedCollecting) {
         Utils.checkNotNull(markedCollecting, "markedCollecting");
-        this.markedCollecting = Optional.ofNullable(markedCollecting);
+        this.markedCollecting = JsonNullable.of(markedCollecting);
         return this;
     }
-
 
     /**
      * Indicates whether the  registration is marked as collecting in shopify
      */
-    public RegistrationUpdateAPI withMarkedCollecting(Optional<Boolean> markedCollecting) {
+    public RegistrationUpdateAPI withMarkedCollecting(JsonNullable<Boolean> markedCollecting) {
         Utils.checkNotNull(markedCollecting, "markedCollecting");
         this.markedCollecting = markedCollecting;
         return this;
@@ -719,15 +688,14 @@ public class RegistrationUpdateAPI {
      */
     public RegistrationUpdateAPI withEncryptedUsername(String encryptedUsername) {
         Utils.checkNotNull(encryptedUsername, "encryptedUsername");
-        this.encryptedUsername = Optional.ofNullable(encryptedUsername);
+        this.encryptedUsername = JsonNullable.of(encryptedUsername);
         return this;
     }
-
 
     /**
      * The encrypted username for the registration.
      */
-    public RegistrationUpdateAPI withEncryptedUsername(Optional<String> encryptedUsername) {
+    public RegistrationUpdateAPI withEncryptedUsername(JsonNullable<String> encryptedUsername) {
         Utils.checkNotNull(encryptedUsername, "encryptedUsername");
         this.encryptedUsername = encryptedUsername;
         return this;
@@ -738,28 +706,32 @@ public class RegistrationUpdateAPI {
      */
     public RegistrationUpdateAPI withUsername(String username) {
         Utils.checkNotNull(username, "username");
-        this.username = Optional.ofNullable(username);
+        this.username = JsonNullable.of(username);
         return this;
     }
-
 
     /**
      * The username associated with the registration.
      */
-    public RegistrationUpdateAPI withUsername(Optional<String> username) {
+    public RegistrationUpdateAPI withUsername(JsonNullable<String> username) {
         Utils.checkNotNull(username, "username");
         this.username = username;
         return this;
     }
 
+    /**
+     * The updated filing frequency (MONTHLY, QUARTERLY, etc.).
+     */
     public RegistrationUpdateAPI withFilingFrequency(FilingFrequencyEnum filingFrequency) {
         Utils.checkNotNull(filingFrequency, "filingFrequency");
-        this.filingFrequency = Optional.ofNullable(filingFrequency);
+        this.filingFrequency = JsonNullable.of(filingFrequency);
         return this;
     }
 
-
-    public RegistrationUpdateAPI withFilingFrequency(Optional<? extends FilingFrequencyEnum> filingFrequency) {
+    /**
+     * The updated filing frequency (MONTHLY, QUARTERLY, etc.).
+     */
+    public RegistrationUpdateAPI withFilingFrequency(JsonNullable<? extends FilingFrequencyEnum> filingFrequency) {
         Utils.checkNotNull(filingFrequency, "filingFrequency");
         this.filingFrequency = filingFrequency;
         return this;
@@ -768,17 +740,16 @@ public class RegistrationUpdateAPI {
     /**
      * The updated date from which filings should start (YYYY-MM-DD).
      */
-    public RegistrationUpdateAPI withCreateFilingsFrom(String createFilingsFrom) {
+    public RegistrationUpdateAPI withCreateFilingsFrom(LocalDate createFilingsFrom) {
         Utils.checkNotNull(createFilingsFrom, "createFilingsFrom");
-        this.createFilingsFrom = Optional.ofNullable(createFilingsFrom);
+        this.createFilingsFrom = JsonNullable.of(createFilingsFrom);
         return this;
     }
-
 
     /**
      * The updated date from which filings should start (YYYY-MM-DD).
      */
-    public RegistrationUpdateAPI withCreateFilingsFrom(Optional<String> createFilingsFrom) {
+    public RegistrationUpdateAPI withCreateFilingsFrom(JsonNullable<LocalDate> createFilingsFrom) {
         Utils.checkNotNull(createFilingsFrom, "createFilingsFrom");
         this.createFilingsFrom = createFilingsFrom;
         return this;
@@ -789,15 +760,14 @@ public class RegistrationUpdateAPI {
      */
     public RegistrationUpdateAPI withIsApproaching(boolean isApproaching) {
         Utils.checkNotNull(isApproaching, "isApproaching");
-        this.isApproaching = Optional.ofNullable(isApproaching);
+        this.isApproaching = JsonNullable.of(isApproaching);
         return this;
     }
-
 
     /**
      * Indicates whether the registration is approaching an action (e.g., renewal).
      */
-    public RegistrationUpdateAPI withIsApproaching(Optional<Boolean> isApproaching) {
+    public RegistrationUpdateAPI withIsApproaching(JsonNullable<Boolean> isApproaching) {
         Utils.checkNotNull(isApproaching, "isApproaching");
         this.isApproaching = isApproaching;
         return this;
@@ -808,15 +778,14 @@ public class RegistrationUpdateAPI {
      */
     public RegistrationUpdateAPI withComment(String comment) {
         Utils.checkNotNull(comment, "comment");
-        this.comment = Optional.ofNullable(comment);
+        this.comment = JsonNullable.of(comment);
         return this;
     }
-
 
     /**
      * Additional notes or comments related to the registration.
      */
-    public RegistrationUpdateAPI withComment(Optional<String> comment) {
+    public RegistrationUpdateAPI withComment(JsonNullable<String> comment) {
         Utils.checkNotNull(comment, "comment");
         this.comment = comment;
         return this;
@@ -827,15 +796,14 @@ public class RegistrationUpdateAPI {
      */
     public RegistrationUpdateAPI withVda(boolean vda) {
         Utils.checkNotNull(vda, "vda");
-        this.vda = Optional.ofNullable(vda);
+        this.vda = JsonNullable.of(vda);
         return this;
     }
-
 
     /**
      * Indicates if the Voluntary Disclosure Agreement (VDA) applies.
      */
-    public RegistrationUpdateAPI withVda(Optional<Boolean> vda) {
+    public RegistrationUpdateAPI withVda(JsonNullable<Boolean> vda) {
         Utils.checkNotNull(vda, "vda");
         this.vda = vda;
         return this;
@@ -846,17 +814,53 @@ public class RegistrationUpdateAPI {
      */
     public RegistrationUpdateAPI withTaxId(String taxId) {
         Utils.checkNotNull(taxId, "taxId");
-        this.taxId = Optional.ofNullable(taxId);
+        this.taxId = JsonNullable.of(taxId);
+        return this;
+    }
+
+    /**
+     * Organization-level tax ID (e.g., VAT number, Canada Business Number).
+     */
+    public RegistrationUpdateAPI withTaxId(JsonNullable<String> taxId) {
+        Utils.checkNotNull(taxId, "taxId");
+        this.taxId = taxId;
+        return this;
+    }
+
+    /**
+     * The Importer of Record (IOR) number for the registration.
+     */
+    public RegistrationUpdateAPI withIorNumber(String iorNumber) {
+        Utils.checkNotNull(iorNumber, "iorNumber");
+        this.iorNumber = JsonNullable.of(iorNumber);
+        return this;
+    }
+
+    /**
+     * The Importer of Record (IOR) number for the registration.
+     */
+    public RegistrationUpdateAPI withIorNumber(JsonNullable<String> iorNumber) {
+        Utils.checkNotNull(iorNumber, "iorNumber");
+        this.iorNumber = iorNumber;
+        return this;
+    }
+
+    /**
+     * Whether to also file the single period preceding the first filing period.
+     */
+    public RegistrationUpdateAPI withCreateBackFiling(boolean createBackFiling) {
+        Utils.checkNotNull(createBackFiling, "createBackFiling");
+        this.createBackFiling = Optional.ofNullable(createBackFiling);
         return this;
     }
 
 
     /**
-     * Organization-level tax ID (e.g., VAT number, Canada Business Number).
+     * Whether to also file the single period preceding the first filing period.
      */
-    public RegistrationUpdateAPI withTaxId(Optional<String> taxId) {
-        Utils.checkNotNull(taxId, "taxId");
-        this.taxId = taxId;
+    public RegistrationUpdateAPI withCreateBackFiling(Optional<Boolean> createBackFiling) {
+        Utils.checkNotNull(createBackFiling, "createBackFiling");
+        this.createBackFiling = createBackFiling;
         return this;
     }
 
@@ -872,8 +876,6 @@ public class RegistrationUpdateAPI {
         return 
             Utils.enhancedDeepEquals(this.registrationDate, other.registrationDate) &&
             Utils.enhancedDeepEquals(this.registrationEmail, other.registrationEmail) &&
-            Utils.enhancedDeepEquals(this.registrationKey, other.registrationKey) &&
-            Utils.enhancedDeepEquals(this.deregistrationKey, other.deregistrationKey) &&
             Utils.enhancedDeepEquals(this.registrationRequested, other.registrationRequested) &&
             Utils.enhancedDeepEquals(this.registrationCompleted, other.registrationCompleted) &&
             Utils.enhancedDeepEquals(this.deregistrationRequested, other.deregistrationRequested) &&
@@ -892,20 +894,22 @@ public class RegistrationUpdateAPI {
             Utils.enhancedDeepEquals(this.isApproaching, other.isApproaching) &&
             Utils.enhancedDeepEquals(this.comment, other.comment) &&
             Utils.enhancedDeepEquals(this.vda, other.vda) &&
-            Utils.enhancedDeepEquals(this.taxId, other.taxId);
+            Utils.enhancedDeepEquals(this.taxId, other.taxId) &&
+            Utils.enhancedDeepEquals(this.iorNumber, other.iorNumber) &&
+            Utils.enhancedDeepEquals(this.createBackFiling, other.createBackFiling);
     }
     
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-            registrationDate, registrationEmail, registrationKey,
-            deregistrationKey, registrationRequested, registrationCompleted,
-            deregistrationRequested, deregistrationCompleted, autoRegistered,
-            registrationsRegime, changeRegimeStatus, thirdPartyEnabled,
-            doNotFile, twoFactorEnabled, markedCollecting,
-            encryptedUsername, username, filingFrequency,
-            createFilingsFrom, isApproaching, comment,
-            vda, taxId);
+            registrationDate, registrationEmail, registrationRequested,
+            registrationCompleted, deregistrationRequested, deregistrationCompleted,
+            autoRegistered, registrationsRegime, changeRegimeStatus,
+            thirdPartyEnabled, doNotFile, twoFactorEnabled,
+            markedCollecting, encryptedUsername, username,
+            filingFrequency, createFilingsFrom, isApproaching,
+            comment, vda, taxId,
+            iorNumber, createBackFiling);
     }
     
     @Override
@@ -913,8 +917,6 @@ public class RegistrationUpdateAPI {
         return Utils.toString(RegistrationUpdateAPI.class,
                 "registrationDate", registrationDate,
                 "registrationEmail", registrationEmail,
-                "registrationKey", registrationKey,
-                "deregistrationKey", deregistrationKey,
                 "registrationRequested", registrationRequested,
                 "registrationCompleted", registrationCompleted,
                 "deregistrationRequested", deregistrationRequested,
@@ -933,57 +935,59 @@ public class RegistrationUpdateAPI {
                 "isApproaching", isApproaching,
                 "comment", comment,
                 "vda", vda,
-                "taxId", taxId);
+                "taxId", taxId,
+                "iorNumber", iorNumber,
+                "createBackFiling", createBackFiling);
     }
 
     @SuppressWarnings("UnusedReturnValue")
     public final static class Builder {
 
-        private Optional<String> registrationDate = Optional.empty();
+        private JsonNullable<LocalDate> registrationDate = JsonNullable.undefined();
 
-        private Optional<String> registrationEmail = Optional.empty();
+        private JsonNullable<String> registrationEmail = JsonNullable.undefined();
 
-        private Optional<String> registrationKey = Optional.empty();
+        private JsonNullable<OffsetDateTime> registrationRequested = JsonNullable.undefined();
 
-        private Optional<String> deregistrationKey = Optional.empty();
+        private JsonNullable<OffsetDateTime> registrationCompleted = JsonNullable.undefined();
 
-        private Optional<String> registrationRequested = Optional.empty();
+        private JsonNullable<OffsetDateTime> deregistrationRequested = JsonNullable.undefined();
 
-        private Optional<String> registrationCompleted = Optional.empty();
+        private JsonNullable<OffsetDateTime> deregistrationCompleted = JsonNullable.undefined();
 
-        private Optional<String> deregistrationRequested = Optional.empty();
+        private JsonNullable<Boolean> autoRegistered = JsonNullable.undefined();
 
-        private Optional<String> deregistrationCompleted = Optional.empty();
+        private JsonNullable<? extends RegistrationsRegimeEnum> registrationsRegime = JsonNullable.undefined();
 
-        private Optional<Boolean> autoRegistered;
+        private JsonNullable<? extends ChangeRegimeStatusEnum> changeRegimeStatus = JsonNullable.undefined();
 
-        private Optional<? extends RegistrationsRegimeEnum> registrationsRegime = Optional.empty();
-
-        private Optional<? extends ChangeRegimeStatusEnum> changeRegimeStatus = Optional.empty();
-
-        private Optional<Boolean> thirdPartyEnabled;
+        private JsonNullable<Boolean> thirdPartyEnabled = JsonNullable.undefined();
 
         private Optional<Boolean> doNotFile;
 
-        private Optional<Boolean> twoFactorEnabled = Optional.empty();
+        private JsonNullable<Boolean> twoFactorEnabled = JsonNullable.undefined();
 
-        private Optional<Boolean> markedCollecting = Optional.empty();
+        private JsonNullable<Boolean> markedCollecting = JsonNullable.undefined();
 
-        private Optional<String> encryptedUsername = Optional.empty();
+        private JsonNullable<String> encryptedUsername = JsonNullable.undefined();
 
-        private Optional<String> username = Optional.empty();
+        private JsonNullable<String> username = JsonNullable.undefined();
 
-        private Optional<? extends FilingFrequencyEnum> filingFrequency = Optional.empty();
+        private JsonNullable<? extends FilingFrequencyEnum> filingFrequency = JsonNullable.undefined();
 
-        private Optional<String> createFilingsFrom = Optional.empty();
+        private JsonNullable<LocalDate> createFilingsFrom = JsonNullable.undefined();
 
-        private Optional<Boolean> isApproaching = Optional.empty();
+        private JsonNullable<Boolean> isApproaching = JsonNullable.undefined();
 
-        private Optional<String> comment = Optional.empty();
+        private JsonNullable<String> comment = JsonNullable.undefined();
 
-        private Optional<Boolean> vda = Optional.empty();
+        private JsonNullable<Boolean> vda = JsonNullable.undefined();
 
-        private Optional<String> taxId = Optional.empty();
+        private JsonNullable<String> taxId = JsonNullable.undefined();
+
+        private JsonNullable<String> iorNumber = JsonNullable.undefined();
+
+        private Optional<Boolean> createBackFiling;
 
         private Builder() {
           // force use of static builder() method
@@ -993,16 +997,16 @@ public class RegistrationUpdateAPI {
         /**
          * The date when the registration was created. Format: YYYY-MM-DD.
          */
-        public Builder registrationDate(String registrationDate) {
+        public Builder registrationDate(LocalDate registrationDate) {
             Utils.checkNotNull(registrationDate, "registrationDate");
-            this.registrationDate = Optional.ofNullable(registrationDate);
+            this.registrationDate = JsonNullable.of(registrationDate);
             return this;
         }
 
         /**
          * The date when the registration was created. Format: YYYY-MM-DD.
          */
-        public Builder registrationDate(Optional<String> registrationDate) {
+        public Builder registrationDate(JsonNullable<LocalDate> registrationDate) {
             Utils.checkNotNull(registrationDate, "registrationDate");
             this.registrationDate = registrationDate;
             return this;
@@ -1014,14 +1018,14 @@ public class RegistrationUpdateAPI {
          */
         public Builder registrationEmail(String registrationEmail) {
             Utils.checkNotNull(registrationEmail, "registrationEmail");
-            this.registrationEmail = Optional.ofNullable(registrationEmail);
+            this.registrationEmail = JsonNullable.of(registrationEmail);
             return this;
         }
 
         /**
          * Email address associated with the registration.
          */
-        public Builder registrationEmail(Optional<String> registrationEmail) {
+        public Builder registrationEmail(JsonNullable<String> registrationEmail) {
             Utils.checkNotNull(registrationEmail, "registrationEmail");
             this.registrationEmail = registrationEmail;
             return this;
@@ -1029,56 +1033,18 @@ public class RegistrationUpdateAPI {
 
 
         /**
-         * A unique key assigned to the registration.
-         */
-        public Builder registrationKey(String registrationKey) {
-            Utils.checkNotNull(registrationKey, "registrationKey");
-            this.registrationKey = Optional.ofNullable(registrationKey);
-            return this;
-        }
-
-        /**
-         * A unique key assigned to the registration.
-         */
-        public Builder registrationKey(Optional<String> registrationKey) {
-            Utils.checkNotNull(registrationKey, "registrationKey");
-            this.registrationKey = registrationKey;
-            return this;
-        }
-
-
-        /**
-         * A unique key assigned for deregistration.
-         */
-        public Builder deregistrationKey(String deregistrationKey) {
-            Utils.checkNotNull(deregistrationKey, "deregistrationKey");
-            this.deregistrationKey = Optional.ofNullable(deregistrationKey);
-            return this;
-        }
-
-        /**
-         * A unique key assigned for deregistration.
-         */
-        public Builder deregistrationKey(Optional<String> deregistrationKey) {
-            Utils.checkNotNull(deregistrationKey, "deregistrationKey");
-            this.deregistrationKey = deregistrationKey;
-            return this;
-        }
-
-
-        /**
          * Timestamp when the registration was requested.
          */
-        public Builder registrationRequested(String registrationRequested) {
+        public Builder registrationRequested(OffsetDateTime registrationRequested) {
             Utils.checkNotNull(registrationRequested, "registrationRequested");
-            this.registrationRequested = Optional.ofNullable(registrationRequested);
+            this.registrationRequested = JsonNullable.of(registrationRequested);
             return this;
         }
 
         /**
          * Timestamp when the registration was requested.
          */
-        public Builder registrationRequested(Optional<String> registrationRequested) {
+        public Builder registrationRequested(JsonNullable<OffsetDateTime> registrationRequested) {
             Utils.checkNotNull(registrationRequested, "registrationRequested");
             this.registrationRequested = registrationRequested;
             return this;
@@ -1088,16 +1054,16 @@ public class RegistrationUpdateAPI {
         /**
          * Timestamp when the registration was completed.
          */
-        public Builder registrationCompleted(String registrationCompleted) {
+        public Builder registrationCompleted(OffsetDateTime registrationCompleted) {
             Utils.checkNotNull(registrationCompleted, "registrationCompleted");
-            this.registrationCompleted = Optional.ofNullable(registrationCompleted);
+            this.registrationCompleted = JsonNullable.of(registrationCompleted);
             return this;
         }
 
         /**
          * Timestamp when the registration was completed.
          */
-        public Builder registrationCompleted(Optional<String> registrationCompleted) {
+        public Builder registrationCompleted(JsonNullable<OffsetDateTime> registrationCompleted) {
             Utils.checkNotNull(registrationCompleted, "registrationCompleted");
             this.registrationCompleted = registrationCompleted;
             return this;
@@ -1107,16 +1073,16 @@ public class RegistrationUpdateAPI {
         /**
          * Timestamp when deregistration was requested.
          */
-        public Builder deregistrationRequested(String deregistrationRequested) {
+        public Builder deregistrationRequested(OffsetDateTime deregistrationRequested) {
             Utils.checkNotNull(deregistrationRequested, "deregistrationRequested");
-            this.deregistrationRequested = Optional.ofNullable(deregistrationRequested);
+            this.deregistrationRequested = JsonNullable.of(deregistrationRequested);
             return this;
         }
 
         /**
          * Timestamp when deregistration was requested.
          */
-        public Builder deregistrationRequested(Optional<String> deregistrationRequested) {
+        public Builder deregistrationRequested(JsonNullable<OffsetDateTime> deregistrationRequested) {
             Utils.checkNotNull(deregistrationRequested, "deregistrationRequested");
             this.deregistrationRequested = deregistrationRequested;
             return this;
@@ -1126,16 +1092,16 @@ public class RegistrationUpdateAPI {
         /**
          * Timestamp when the deregistration was completed.
          */
-        public Builder deregistrationCompleted(String deregistrationCompleted) {
+        public Builder deregistrationCompleted(OffsetDateTime deregistrationCompleted) {
             Utils.checkNotNull(deregistrationCompleted, "deregistrationCompleted");
-            this.deregistrationCompleted = Optional.ofNullable(deregistrationCompleted);
+            this.deregistrationCompleted = JsonNullable.of(deregistrationCompleted);
             return this;
         }
 
         /**
          * Timestamp when the deregistration was completed.
          */
-        public Builder deregistrationCompleted(Optional<String> deregistrationCompleted) {
+        public Builder deregistrationCompleted(JsonNullable<OffsetDateTime> deregistrationCompleted) {
             Utils.checkNotNull(deregistrationCompleted, "deregistrationCompleted");
             this.deregistrationCompleted = deregistrationCompleted;
             return this;
@@ -1147,27 +1113,33 @@ public class RegistrationUpdateAPI {
          */
         public Builder autoRegistered(boolean autoRegistered) {
             Utils.checkNotNull(autoRegistered, "autoRegistered");
-            this.autoRegistered = Optional.ofNullable(autoRegistered);
+            this.autoRegistered = JsonNullable.of(autoRegistered);
             return this;
         }
 
         /**
          * Indicates whether the registration was completed automatically.
          */
-        public Builder autoRegistered(Optional<Boolean> autoRegistered) {
+        public Builder autoRegistered(JsonNullable<Boolean> autoRegistered) {
             Utils.checkNotNull(autoRegistered, "autoRegistered");
             this.autoRegistered = autoRegistered;
             return this;
         }
 
 
+        /**
+         * The tax registration regime (e.g., STANDARD, SIMPLIFIED).
+         */
         public Builder registrationsRegime(RegistrationsRegimeEnum registrationsRegime) {
             Utils.checkNotNull(registrationsRegime, "registrationsRegime");
-            this.registrationsRegime = Optional.ofNullable(registrationsRegime);
+            this.registrationsRegime = JsonNullable.of(registrationsRegime);
             return this;
         }
 
-        public Builder registrationsRegime(Optional<? extends RegistrationsRegimeEnum> registrationsRegime) {
+        /**
+         * The tax registration regime (e.g., STANDARD, SIMPLIFIED).
+         */
+        public Builder registrationsRegime(JsonNullable<? extends RegistrationsRegimeEnum> registrationsRegime) {
             Utils.checkNotNull(registrationsRegime, "registrationsRegime");
             this.registrationsRegime = registrationsRegime;
             return this;
@@ -1176,11 +1148,11 @@ public class RegistrationUpdateAPI {
 
         public Builder changeRegimeStatus(ChangeRegimeStatusEnum changeRegimeStatus) {
             Utils.checkNotNull(changeRegimeStatus, "changeRegimeStatus");
-            this.changeRegimeStatus = Optional.ofNullable(changeRegimeStatus);
+            this.changeRegimeStatus = JsonNullable.of(changeRegimeStatus);
             return this;
         }
 
-        public Builder changeRegimeStatus(Optional<? extends ChangeRegimeStatusEnum> changeRegimeStatus) {
+        public Builder changeRegimeStatus(JsonNullable<? extends ChangeRegimeStatusEnum> changeRegimeStatus) {
             Utils.checkNotNull(changeRegimeStatus, "changeRegimeStatus");
             this.changeRegimeStatus = changeRegimeStatus;
             return this;
@@ -1192,14 +1164,14 @@ public class RegistrationUpdateAPI {
          */
         public Builder thirdPartyEnabled(boolean thirdPartyEnabled) {
             Utils.checkNotNull(thirdPartyEnabled, "thirdPartyEnabled");
-            this.thirdPartyEnabled = Optional.ofNullable(thirdPartyEnabled);
+            this.thirdPartyEnabled = JsonNullable.of(thirdPartyEnabled);
             return this;
         }
 
         /**
          * Indicates whether third-party access is enabled for this registration.
          */
-        public Builder thirdPartyEnabled(Optional<Boolean> thirdPartyEnabled) {
+        public Builder thirdPartyEnabled(JsonNullable<Boolean> thirdPartyEnabled) {
             Utils.checkNotNull(thirdPartyEnabled, "thirdPartyEnabled");
             this.thirdPartyEnabled = thirdPartyEnabled;
             return this;
@@ -1230,14 +1202,14 @@ public class RegistrationUpdateAPI {
          */
         public Builder twoFactorEnabled(boolean twoFactorEnabled) {
             Utils.checkNotNull(twoFactorEnabled, "twoFactorEnabled");
-            this.twoFactorEnabled = Optional.ofNullable(twoFactorEnabled);
+            this.twoFactorEnabled = JsonNullable.of(twoFactorEnabled);
             return this;
         }
 
         /**
          * Indicates whether two-factor authentication (2FA) is enabled for this registration.
          */
-        public Builder twoFactorEnabled(Optional<Boolean> twoFactorEnabled) {
+        public Builder twoFactorEnabled(JsonNullable<Boolean> twoFactorEnabled) {
             Utils.checkNotNull(twoFactorEnabled, "twoFactorEnabled");
             this.twoFactorEnabled = twoFactorEnabled;
             return this;
@@ -1249,14 +1221,14 @@ public class RegistrationUpdateAPI {
          */
         public Builder markedCollecting(boolean markedCollecting) {
             Utils.checkNotNull(markedCollecting, "markedCollecting");
-            this.markedCollecting = Optional.ofNullable(markedCollecting);
+            this.markedCollecting = JsonNullable.of(markedCollecting);
             return this;
         }
 
         /**
          * Indicates whether the  registration is marked as collecting in shopify
          */
-        public Builder markedCollecting(Optional<Boolean> markedCollecting) {
+        public Builder markedCollecting(JsonNullable<Boolean> markedCollecting) {
             Utils.checkNotNull(markedCollecting, "markedCollecting");
             this.markedCollecting = markedCollecting;
             return this;
@@ -1268,14 +1240,14 @@ public class RegistrationUpdateAPI {
          */
         public Builder encryptedUsername(String encryptedUsername) {
             Utils.checkNotNull(encryptedUsername, "encryptedUsername");
-            this.encryptedUsername = Optional.ofNullable(encryptedUsername);
+            this.encryptedUsername = JsonNullable.of(encryptedUsername);
             return this;
         }
 
         /**
          * The encrypted username for the registration.
          */
-        public Builder encryptedUsername(Optional<String> encryptedUsername) {
+        public Builder encryptedUsername(JsonNullable<String> encryptedUsername) {
             Utils.checkNotNull(encryptedUsername, "encryptedUsername");
             this.encryptedUsername = encryptedUsername;
             return this;
@@ -1287,27 +1259,33 @@ public class RegistrationUpdateAPI {
          */
         public Builder username(String username) {
             Utils.checkNotNull(username, "username");
-            this.username = Optional.ofNullable(username);
+            this.username = JsonNullable.of(username);
             return this;
         }
 
         /**
          * The username associated with the registration.
          */
-        public Builder username(Optional<String> username) {
+        public Builder username(JsonNullable<String> username) {
             Utils.checkNotNull(username, "username");
             this.username = username;
             return this;
         }
 
 
+        /**
+         * The updated filing frequency (MONTHLY, QUARTERLY, etc.).
+         */
         public Builder filingFrequency(FilingFrequencyEnum filingFrequency) {
             Utils.checkNotNull(filingFrequency, "filingFrequency");
-            this.filingFrequency = Optional.ofNullable(filingFrequency);
+            this.filingFrequency = JsonNullable.of(filingFrequency);
             return this;
         }
 
-        public Builder filingFrequency(Optional<? extends FilingFrequencyEnum> filingFrequency) {
+        /**
+         * The updated filing frequency (MONTHLY, QUARTERLY, etc.).
+         */
+        public Builder filingFrequency(JsonNullable<? extends FilingFrequencyEnum> filingFrequency) {
             Utils.checkNotNull(filingFrequency, "filingFrequency");
             this.filingFrequency = filingFrequency;
             return this;
@@ -1317,16 +1295,16 @@ public class RegistrationUpdateAPI {
         /**
          * The updated date from which filings should start (YYYY-MM-DD).
          */
-        public Builder createFilingsFrom(String createFilingsFrom) {
+        public Builder createFilingsFrom(LocalDate createFilingsFrom) {
             Utils.checkNotNull(createFilingsFrom, "createFilingsFrom");
-            this.createFilingsFrom = Optional.ofNullable(createFilingsFrom);
+            this.createFilingsFrom = JsonNullable.of(createFilingsFrom);
             return this;
         }
 
         /**
          * The updated date from which filings should start (YYYY-MM-DD).
          */
-        public Builder createFilingsFrom(Optional<String> createFilingsFrom) {
+        public Builder createFilingsFrom(JsonNullable<LocalDate> createFilingsFrom) {
             Utils.checkNotNull(createFilingsFrom, "createFilingsFrom");
             this.createFilingsFrom = createFilingsFrom;
             return this;
@@ -1338,14 +1316,14 @@ public class RegistrationUpdateAPI {
          */
         public Builder isApproaching(boolean isApproaching) {
             Utils.checkNotNull(isApproaching, "isApproaching");
-            this.isApproaching = Optional.ofNullable(isApproaching);
+            this.isApproaching = JsonNullable.of(isApproaching);
             return this;
         }
 
         /**
          * Indicates whether the registration is approaching an action (e.g., renewal).
          */
-        public Builder isApproaching(Optional<Boolean> isApproaching) {
+        public Builder isApproaching(JsonNullable<Boolean> isApproaching) {
             Utils.checkNotNull(isApproaching, "isApproaching");
             this.isApproaching = isApproaching;
             return this;
@@ -1357,14 +1335,14 @@ public class RegistrationUpdateAPI {
          */
         public Builder comment(String comment) {
             Utils.checkNotNull(comment, "comment");
-            this.comment = Optional.ofNullable(comment);
+            this.comment = JsonNullable.of(comment);
             return this;
         }
 
         /**
          * Additional notes or comments related to the registration.
          */
-        public Builder comment(Optional<String> comment) {
+        public Builder comment(JsonNullable<String> comment) {
             Utils.checkNotNull(comment, "comment");
             this.comment = comment;
             return this;
@@ -1376,14 +1354,14 @@ public class RegistrationUpdateAPI {
          */
         public Builder vda(boolean vda) {
             Utils.checkNotNull(vda, "vda");
-            this.vda = Optional.ofNullable(vda);
+            this.vda = JsonNullable.of(vda);
             return this;
         }
 
         /**
          * Indicates if the Voluntary Disclosure Agreement (VDA) applies.
          */
-        public Builder vda(Optional<Boolean> vda) {
+        public Builder vda(JsonNullable<Boolean> vda) {
             Utils.checkNotNull(vda, "vda");
             this.vda = vda;
             return this;
@@ -1395,57 +1373,86 @@ public class RegistrationUpdateAPI {
          */
         public Builder taxId(String taxId) {
             Utils.checkNotNull(taxId, "taxId");
-            this.taxId = Optional.ofNullable(taxId);
+            this.taxId = JsonNullable.of(taxId);
             return this;
         }
 
         /**
          * Organization-level tax ID (e.g., VAT number, Canada Business Number).
          */
-        public Builder taxId(Optional<String> taxId) {
+        public Builder taxId(JsonNullable<String> taxId) {
             Utils.checkNotNull(taxId, "taxId");
             this.taxId = taxId;
             return this;
         }
 
-        public RegistrationUpdateAPI build() {
-            if (autoRegistered == null) {
-                autoRegistered = _SINGLETON_VALUE_AutoRegistered.value();
-            }
-            if (thirdPartyEnabled == null) {
-                thirdPartyEnabled = _SINGLETON_VALUE_ThirdPartyEnabled.value();
-            }
-            if (doNotFile == null) {
-                doNotFile = _SINGLETON_VALUE_DoNotFile.value();
-            }
 
-            return new RegistrationUpdateAPI(
-                registrationDate, registrationEmail, registrationKey,
-                deregistrationKey, registrationRequested, registrationCompleted,
-                deregistrationRequested, deregistrationCompleted, autoRegistered,
-                registrationsRegime, changeRegimeStatus, thirdPartyEnabled,
-                doNotFile, twoFactorEnabled, markedCollecting,
-                encryptedUsername, username, filingFrequency,
-                createFilingsFrom, isApproaching, comment,
-                vda, taxId);
+        /**
+         * The Importer of Record (IOR) number for the registration.
+         */
+        public Builder iorNumber(String iorNumber) {
+            Utils.checkNotNull(iorNumber, "iorNumber");
+            this.iorNumber = JsonNullable.of(iorNumber);
+            return this;
+        }
+
+        /**
+         * The Importer of Record (IOR) number for the registration.
+         */
+        public Builder iorNumber(JsonNullable<String> iorNumber) {
+            Utils.checkNotNull(iorNumber, "iorNumber");
+            this.iorNumber = iorNumber;
+            return this;
         }
 
 
-        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_AutoRegistered =
-                new LazySingletonValue<>(
-                        "auto_registered",
-                        "false",
-                        new TypeReference<Optional<Boolean>>() {});
+        /**
+         * Whether to also file the single period preceding the first filing period.
+         */
+        public Builder createBackFiling(boolean createBackFiling) {
+            Utils.checkNotNull(createBackFiling, "createBackFiling");
+            this.createBackFiling = Optional.ofNullable(createBackFiling);
+            return this;
+        }
 
-        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_ThirdPartyEnabled =
-                new LazySingletonValue<>(
-                        "third_party_enabled",
-                        "false",
-                        new TypeReference<Optional<Boolean>>() {});
+        /**
+         * Whether to also file the single period preceding the first filing period.
+         */
+        public Builder createBackFiling(Optional<Boolean> createBackFiling) {
+            Utils.checkNotNull(createBackFiling, "createBackFiling");
+            this.createBackFiling = createBackFiling;
+            return this;
+        }
+
+        public RegistrationUpdateAPI build() {
+            if (doNotFile == null) {
+                doNotFile = _SINGLETON_VALUE_DoNotFile.value();
+            }
+            if (createBackFiling == null) {
+                createBackFiling = _SINGLETON_VALUE_CreateBackFiling.value();
+            }
+
+            return new RegistrationUpdateAPI(
+                registrationDate, registrationEmail, registrationRequested,
+                registrationCompleted, deregistrationRequested, deregistrationCompleted,
+                autoRegistered, registrationsRegime, changeRegimeStatus,
+                thirdPartyEnabled, doNotFile, twoFactorEnabled,
+                markedCollecting, encryptedUsername, username,
+                filingFrequency, createFilingsFrom, isApproaching,
+                comment, vda, taxId,
+                iorNumber, createBackFiling);
+        }
+
 
         private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_DoNotFile =
                 new LazySingletonValue<>(
                         "do_not_file",
+                        "false",
+                        new TypeReference<Optional<Boolean>>() {});
+
+        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_CreateBackFiling =
+                new LazySingletonValue<>(
+                        "create_back_filing",
                         "false",
                         new TypeReference<Optional<Boolean>>() {});
     }

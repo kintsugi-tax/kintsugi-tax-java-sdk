@@ -12,6 +12,7 @@ import com.kintsugi.taxplatform.models.operations.async.POSTCreateCreditNoteByTr
 import com.kintsugi.taxplatform.operations.POSTCreateCreditNoteByTransactionId;
 import com.kintsugi.taxplatform.utils.Headers;
 import java.lang.String;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 
@@ -36,7 +37,7 @@ public class AsyncCreditNotes {
 
 
     /**
-     * Create Credit Note By Transaction Id
+     * Create credit note by transaction id
      * 
      * <p>Create a new credit note for a specific transaction.
      * 
@@ -47,7 +48,7 @@ public class AsyncCreditNotes {
     }
 
     /**
-     * Create Credit Note By Transaction Id
+     * Create credit note by transaction id
      * 
      * <p>Create a new credit note for a specific transaction.
      * 
@@ -56,10 +57,27 @@ public class AsyncCreditNotes {
      * @return {@code CompletableFuture<POSTCreateCreditNoteByTransactionIdResponse>} - The async response
      */
     public CompletableFuture<POSTCreateCreditNoteByTransactionIdResponse> create(String originalTransactionId, CreditNoteCreate creditNoteCreate) {
+        return create(originalTransactionId, Optional.empty(), creditNoteCreate);
+    }
+
+    /**
+     * Create credit note by transaction id
+     * 
+     * <p>Create a new credit note for a specific transaction.
+     * 
+     * @param originalTransactionId 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param creditNoteCreate 
+     * @return {@code CompletableFuture<POSTCreateCreditNoteByTransactionIdResponse>} - The async response
+     */
+    public CompletableFuture<POSTCreateCreditNoteByTransactionIdResponse> create(
+            String originalTransactionId, Optional<String> xOrganizationId,
+            CreditNoteCreate creditNoteCreate) {
         POSTCreateCreditNoteByTransactionIdRequest request =
             POSTCreateCreditNoteByTransactionIdRequest
                 .builder()
                 .originalTransactionId(originalTransactionId)
+                .xOrganizationId(xOrganizationId)
                 .creditNoteCreate(creditNoteCreate)
                 .build();
         AsyncRequestOperation<POSTCreateCreditNoteByTransactionIdRequest, POSTCreateCreditNoteByTransactionIdResponse> operation

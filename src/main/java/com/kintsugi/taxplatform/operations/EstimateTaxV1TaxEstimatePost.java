@@ -10,7 +10,7 @@ import static com.kintsugi.taxplatform.operations.Operations.AsyncRequestOperati
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.SecuritySource;
-import com.kintsugi.taxplatform.models.components.PageTransactionEstimateResponse;
+import com.kintsugi.taxplatform.models.components.TransactionEstimateResponse;
 import com.kintsugi.taxplatform.models.errors.APIException;
 import com.kintsugi.taxplatform.models.errors.BackendSrcTaxEstimationResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
@@ -112,6 +112,7 @@ public class EstimateTaxV1TaxEstimatePost {
                     klass,
                     request,
                     null));
+            req.addHeaders(Utils.getHeadersFromMetadata(request, null));
             Utils.configureSecurity(req, this.sdkConfiguration.securitySource().getSecurity());
 
             return req.build();
@@ -176,12 +177,12 @@ public class EstimateTaxV1TaxEstimatePost {
             
             if (Utils.statusCodeMatches(response.statusCode(), "200")) {
                 if (Utils.contentTypeMatches(contentType, "application/json")) {
-                    return res.withPageTransactionEstimateResponse(Utils.unmarshal(response, new TypeReference<PageTransactionEstimateResponse>() {}));
+                    return res.withTransactionEstimateResponse(Utils.unmarshal(response, new TypeReference<TransactionEstimateResponse>() {}));
                 } else {
                     throw APIException.from("Unexpected content-type received: " + contentType, response);
                 }
             }
-            if (Utils.statusCodeMatches(response.statusCode(), "401")) {
+            if (Utils.statusCodeMatches(response.statusCode(), "400", "401")) {
                 if (Utils.contentTypeMatches(contentType, "application/json")) {
                     throw ErrorResponse.from(response);
                 } else {
@@ -195,7 +196,7 @@ public class EstimateTaxV1TaxEstimatePost {
                     throw APIException.from("Unexpected content-type received: " + contentType, response);
                 }
             }
-            if (Utils.statusCodeMatches(response.statusCode(), "500")) {
+            if (Utils.statusCodeMatches(response.statusCode(), "500", "503")) {
                 if (Utils.contentTypeMatches(contentType, "application/json")) {
                     throw ErrorResponse.from(response);
                 } else {
@@ -267,13 +268,13 @@ public class EstimateTaxV1TaxEstimatePost {
             
             if (Utils.statusCodeMatches(response.statusCode(), "200")) {
                 if (Utils.contentTypeMatches(contentType, "application/json")) {
-                    return Utils.unmarshalAsync(response, new TypeReference<PageTransactionEstimateResponse>() {})
-                            .thenApply(res::withPageTransactionEstimateResponse);
+                    return Utils.unmarshalAsync(response, new TypeReference<TransactionEstimateResponse>() {})
+                            .thenApply(res::withTransactionEstimateResponse);
                 } else {
                     return Utils.createAsyncApiError(response, "Unexpected content-type received: " + contentType);
                 }
             }
-            if (Utils.statusCodeMatches(response.statusCode(), "401")) {
+            if (Utils.statusCodeMatches(response.statusCode(), "400", "401")) {
                 if (Utils.contentTypeMatches(contentType, "application/json")) {
                     return ErrorResponse.fromAsync(response)
                             .thenCompose(CompletableFuture::failedFuture);
@@ -289,7 +290,7 @@ public class EstimateTaxV1TaxEstimatePost {
                     return Utils.createAsyncApiError(response, "Unexpected content-type received: " + contentType);
                 }
             }
-            if (Utils.statusCodeMatches(response.statusCode(), "500")) {
+            if (Utils.statusCodeMatches(response.statusCode(), "500", "503")) {
                 if (Utils.contentTypeMatches(contentType, "application/json")) {
                     return ErrorResponse.fromAsync(response)
                             .thenCompose(CompletableFuture::failedFuture);

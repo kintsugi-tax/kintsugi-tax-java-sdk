@@ -5,7 +5,7 @@ package com.kintsugi.taxplatform.models.operations.async;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.kintsugi.taxplatform.models.components.PageNexusResponse;
+import com.kintsugi.taxplatform.models.operations.ResponseGetNexusForOrgV1NexusGet;
 import com.kintsugi.taxplatform.utils.AsyncResponse;
 import com.kintsugi.taxplatform.utils.Blob;
 import com.kintsugi.taxplatform.utils.Utils;
@@ -36,22 +36,22 @@ public class GetNexusForOrgV1NexusGetResponse implements AsyncResponse {
     /**
      * Successful Response
      */
-    private Optional<? extends PageNexusResponse> pageNexusResponse;
+    private Optional<? extends ResponseGetNexusForOrgV1NexusGet> responseGetNexusForOrgV1NexusGet;
 
     @JsonCreator
     public GetNexusForOrgV1NexusGetResponse(
             String contentType,
             int statusCode,
             HttpResponse<Blob> rawResponse,
-            Optional<? extends PageNexusResponse> pageNexusResponse) {
+            Optional<? extends ResponseGetNexusForOrgV1NexusGet> responseGetNexusForOrgV1NexusGet) {
         Utils.checkNotNull(contentType, "contentType");
         Utils.checkNotNull(statusCode, "statusCode");
         Utils.checkNotNull(rawResponse, "rawResponse");
-        Utils.checkNotNull(pageNexusResponse, "pageNexusResponse");
+        Utils.checkNotNull(responseGetNexusForOrgV1NexusGet, "responseGetNexusForOrgV1NexusGet");
         this.contentType = contentType;
         this.statusCode = statusCode;
         this.rawResponse = rawResponse;
-        this.pageNexusResponse = pageNexusResponse;
+        this.responseGetNexusForOrgV1NexusGet = responseGetNexusForOrgV1NexusGet;
     }
     
     public GetNexusForOrgV1NexusGetResponse(
@@ -91,8 +91,8 @@ public class GetNexusForOrgV1NexusGetResponse implements AsyncResponse {
      */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<PageNexusResponse> pageNexusResponse() {
-        return (Optional<PageNexusResponse>) pageNexusResponse;
+    public Optional<ResponseGetNexusForOrgV1NexusGet> responseGetNexusForOrgV1NexusGet() {
+        return (Optional<ResponseGetNexusForOrgV1NexusGet>) responseGetNexusForOrgV1NexusGet;
     }
 
     public static Builder builder() {
@@ -130,9 +130,9 @@ public class GetNexusForOrgV1NexusGetResponse implements AsyncResponse {
     /**
      * Successful Response
      */
-    public GetNexusForOrgV1NexusGetResponse withPageNexusResponse(PageNexusResponse pageNexusResponse) {
-        Utils.checkNotNull(pageNexusResponse, "pageNexusResponse");
-        this.pageNexusResponse = Optional.ofNullable(pageNexusResponse);
+    public GetNexusForOrgV1NexusGetResponse withResponseGetNexusForOrgV1NexusGet(ResponseGetNexusForOrgV1NexusGet responseGetNexusForOrgV1NexusGet) {
+        Utils.checkNotNull(responseGetNexusForOrgV1NexusGet, "responseGetNexusForOrgV1NexusGet");
+        this.responseGetNexusForOrgV1NexusGet = Optional.ofNullable(responseGetNexusForOrgV1NexusGet);
         return this;
     }
 
@@ -140,9 +140,9 @@ public class GetNexusForOrgV1NexusGetResponse implements AsyncResponse {
     /**
      * Successful Response
      */
-    public GetNexusForOrgV1NexusGetResponse withPageNexusResponse(Optional<? extends PageNexusResponse> pageNexusResponse) {
-        Utils.checkNotNull(pageNexusResponse, "pageNexusResponse");
-        this.pageNexusResponse = pageNexusResponse;
+    public GetNexusForOrgV1NexusGetResponse withResponseGetNexusForOrgV1NexusGet(Optional<? extends ResponseGetNexusForOrgV1NexusGet> responseGetNexusForOrgV1NexusGet) {
+        Utils.checkNotNull(responseGetNexusForOrgV1NexusGet, "responseGetNexusForOrgV1NexusGet");
+        this.responseGetNexusForOrgV1NexusGet = responseGetNexusForOrgV1NexusGet;
         return this;
     }
 
@@ -159,14 +159,14 @@ public class GetNexusForOrgV1NexusGetResponse implements AsyncResponse {
             Utils.enhancedDeepEquals(this.contentType, other.contentType) &&
             Utils.enhancedDeepEquals(this.statusCode, other.statusCode) &&
             Utils.enhancedDeepEquals(this.rawResponse, other.rawResponse) &&
-            Utils.enhancedDeepEquals(this.pageNexusResponse, other.pageNexusResponse);
+            Utils.enhancedDeepEquals(this.responseGetNexusForOrgV1NexusGet, other.responseGetNexusForOrgV1NexusGet);
     }
     
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
             contentType, statusCode, rawResponse,
-            pageNexusResponse);
+            responseGetNexusForOrgV1NexusGet);
     }
     
     @Override
@@ -175,7 +175,7 @@ public class GetNexusForOrgV1NexusGetResponse implements AsyncResponse {
                 "contentType", contentType,
                 "statusCode", statusCode,
                 "rawResponse", rawResponse,
-                "pageNexusResponse", pageNexusResponse);
+                "responseGetNexusForOrgV1NexusGet", responseGetNexusForOrgV1NexusGet);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -187,7 +187,7 @@ public class GetNexusForOrgV1NexusGetResponse implements AsyncResponse {
 
         private HttpResponse<Blob> rawResponse;
 
-        private Optional<? extends PageNexusResponse> pageNexusResponse = Optional.empty();
+        private Optional<? extends ResponseGetNexusForOrgV1NexusGet> responseGetNexusForOrgV1NexusGet = Optional.empty();
 
         private Builder() {
           // force use of static builder() method
@@ -227,18 +227,18 @@ public class GetNexusForOrgV1NexusGetResponse implements AsyncResponse {
         /**
          * Successful Response
          */
-        public Builder pageNexusResponse(PageNexusResponse pageNexusResponse) {
-            Utils.checkNotNull(pageNexusResponse, "pageNexusResponse");
-            this.pageNexusResponse = Optional.ofNullable(pageNexusResponse);
+        public Builder responseGetNexusForOrgV1NexusGet(ResponseGetNexusForOrgV1NexusGet responseGetNexusForOrgV1NexusGet) {
+            Utils.checkNotNull(responseGetNexusForOrgV1NexusGet, "responseGetNexusForOrgV1NexusGet");
+            this.responseGetNexusForOrgV1NexusGet = Optional.ofNullable(responseGetNexusForOrgV1NexusGet);
             return this;
         }
 
         /**
          * Successful Response
          */
-        public Builder pageNexusResponse(Optional<? extends PageNexusResponse> pageNexusResponse) {
-            Utils.checkNotNull(pageNexusResponse, "pageNexusResponse");
-            this.pageNexusResponse = pageNexusResponse;
+        public Builder responseGetNexusForOrgV1NexusGet(Optional<? extends ResponseGetNexusForOrgV1NexusGet> responseGetNexusForOrgV1NexusGet) {
+            Utils.checkNotNull(responseGetNexusForOrgV1NexusGet, "responseGetNexusForOrgV1NexusGet");
+            this.responseGetNexusForOrgV1NexusGet = responseGetNexusForOrgV1NexusGet;
             return this;
         }
 
@@ -246,7 +246,7 @@ public class GetNexusForOrgV1NexusGetResponse implements AsyncResponse {
 
             return new GetNexusForOrgV1NexusGetResponse(
                 contentType, statusCode, rawResponse,
-                pageNexusResponse);
+                responseGetNexusForOrgV1NexusGet);
         }
 
     }

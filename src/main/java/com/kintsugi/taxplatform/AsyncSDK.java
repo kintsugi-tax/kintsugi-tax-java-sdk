@@ -5,12 +5,20 @@ package com.kintsugi.taxplatform;
 
 import com.kintsugi.taxplatform.utils.Headers;
 
+/**
+ * Kintsugi Customer API: Publicly documented Kintsugi Customer API endpoints. The source
+ * (openapi/_source/openapi-master.json) is the platform spec filtered to the documented customer
+ * surface (openapi/customer-endpoints.json); scripts/build-specs.mjs re-applies that filter here. Do
+ * not edit by hand.
+ */
 public class AsyncSDK {
     private static final Headers _headers = Headers.EMPTY;
 
     private final AsyncAddressValidation addressValidation;
 
     private final AsyncCustomers customers;
+
+    private final AsyncCustomerTaxRegistration customerTaxRegistration;
 
     private final AsyncExemptions exemptions;
 
@@ -22,9 +30,9 @@ public class AsyncSDK {
 
     private final AsyncRegistrations registrations;
 
-    private final AsyncTransactions transactions;
-
     private final AsyncTaxEstimation taxEstimation;
+
+    private final AsyncTransactions transactions;
 
     public AsyncAddressValidation addressValidation() {
         return addressValidation;
@@ -32,6 +40,10 @@ public class AsyncSDK {
 
     public AsyncCustomers customers() {
         return customers;
+    }
+
+    public AsyncCustomerTaxRegistration customerTaxRegistration() {
+        return customerTaxRegistration;
     }
 
     public AsyncExemptions exemptions() {
@@ -54,12 +66,12 @@ public class AsyncSDK {
         return registrations;
     }
 
-    public AsyncTransactions transactions() {
-        return transactions;
-    }
-
     public AsyncTaxEstimation taxEstimation() {
         return taxEstimation;
+    }
+
+    public AsyncTransactions transactions() {
+        return transactions;
     }
 
     private final SDKConfiguration sdkConfiguration;
@@ -70,13 +82,14 @@ public class AsyncSDK {
         this.sdkConfiguration = sdkConfiguration;
         this.addressValidation = new AsyncAddressValidation(syncSDK.addressValidation(), sdkConfiguration);
         this.customers = new AsyncCustomers(syncSDK.customers(), sdkConfiguration);
+        this.customerTaxRegistration = new AsyncCustomerTaxRegistration(syncSDK.customerTaxRegistration(), sdkConfiguration);
         this.exemptions = new AsyncExemptions(syncSDK.exemptions(), sdkConfiguration);
         this.filings = new AsyncFilings(syncSDK.filings(), sdkConfiguration);
         this.nexus = new AsyncNexus(syncSDK.nexus(), sdkConfiguration);
         this.products = new AsyncProducts(syncSDK.products(), sdkConfiguration);
         this.registrations = new AsyncRegistrations(syncSDK.registrations(), sdkConfiguration);
-        this.transactions = new AsyncTransactions(syncSDK.transactions(), sdkConfiguration);
         this.taxEstimation = new AsyncTaxEstimation(syncSDK.taxEstimation(), sdkConfiguration);
+        this.transactions = new AsyncTransactions(syncSDK.transactions(), sdkConfiguration);
     }
 
     /**

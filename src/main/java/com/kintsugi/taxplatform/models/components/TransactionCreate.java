@@ -13,20 +13,23 @@ import com.kintsugi.taxplatform.utils.LazySingletonValue;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Boolean;
 import java.lang.Deprecated;
-import java.lang.Double;
 import java.lang.Override;
 import java.lang.String;
 import java.lang.SuppressWarnings;
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 public class TransactionCreate {
-
+    /**
+     * Indicates if transaction requires tax exemption.
+     */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("requires_exemption")
-    private Optional<? extends ExemptionRequired> requiresExemption;
+    private JsonNullable<? extends ExemptionRequired> requiresExemption;
 
     /**
      * Unique identifier of the organization. This field is deprecated, and should no longer be used. The
@@ -55,144 +58,140 @@ public class TransactionCreate {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("shop_date")
-    private Optional<String> shopDate;
+    private JsonNullable<LocalDate> shopDate;
 
     /**
      * Timezone of the shop
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("shop_date_tz")
-    private Optional<String> shopDateTz;
+    private JsonNullable<String> shopDateTz;
 
     /**
      * Description of the transaction.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("description")
-    private Optional<String> description;
+    private JsonNullable<String> description;
 
     /**
-     * Shopify has 2 order statuses for refund case: refunded and partially_refunded
-     * If the given order has different status from these 2, we will set the
-     * transaction's refund_status to PARTIALLY_REFUNDED by default.
+     * Status of refund, if applicable
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("refund_status")
-    private Optional<? extends TransactionRefundStatus> refundStatus;
+    private JsonNullable<? extends TransactionRefundStatus> refundStatus;
 
     /**
      * Total amount of the transaction.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("total_amount")
-    private Optional<Double> totalAmount;
+    private Optional<? extends TransactionCreateTotalAmount> totalAmount;
 
     /**
      * Unique identifier of the customer.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("customer_id")
-    private Optional<String> customerId;
+    private JsonNullable<String> customerId;
 
     /**
      * Indicates if transaction is marketplace-based.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("marketplace")
-    private Optional<Boolean> marketplace;
+    private JsonNullable<Boolean> marketplace;
 
     /**
-     * Based on transaction item exempt status.
-     * NOT EXEMPT: None of the items are NOT EXEMPT
-     * PARTIALLY EXEMPT: At least some of the items are NOT EXEMPT
-     * FULLY_EXEMPT: All items sold in the transaction are EXEMPT
-     * ZERO_RATE_NOT_EXEMPT: All items sold in the transaction are zero-rated
+     * Exemption status (e.g., NOT_EXEMPT)
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("exempt")
-    private Optional<? extends TransactionExemptStatusEnum> exempt;
+    private JsonNullable<? extends TransactionExemptStatusEnum> exempt;
 
     /**
      * List of exemptions applied (if any).
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("exemptions")
-    private Optional<? extends List<Exemption>> exemptions;
+    private JsonNullable<? extends List<Exemption>> exemptions;
 
     /**
      * Related transaction identifier.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("related_to")
-    private Optional<String> relatedTo;
+    private JsonNullable<String> relatedTo;
 
     /**
      * Secondary External Identifier.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("secondary_external_id")
-    private Optional<String> secondaryExternalId;
+    private JsonNullable<String> secondaryExternalId;
 
     /**
      * Secondary source information
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("secondary_source")
-    private Optional<String> secondarySource;
+    private JsonNullable<String> secondarySource;
 
     /**
      * Friendly identifier of the original item.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("external_friendly_id")
-    private Optional<String> externalFriendlyId;
+    private JsonNullable<String> externalFriendlyId;
 
     /**
      * Imported tax amount.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("total_tax_amount_imported")
-    private Optional<Double> totalTaxAmountImported;
+    private Optional<? extends TransactionCreateTotalTaxAmountImported> totalTaxAmountImported;
 
     /**
      * Imported tax rate.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("tax_rate_imported")
-    private Optional<Double> taxRateImported;
+    private Optional<? extends TransactionCreateTaxRateImported> taxRateImported;
 
     /**
      * Calculated tax amount.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("total_tax_amount_calculated")
-    private Optional<Double> totalTaxAmountCalculated;
+    private Optional<? extends TransactionCreateTotalTaxAmountCalculated> totalTaxAmountCalculated;
 
     /**
      * Calculated tax rate.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("tax_rate_calculated")
-    private Optional<Double> taxRateCalculated;
+    private Optional<? extends TransactionCreateTaxRateCalculated> taxRateCalculated;
 
     /**
      * Total tax liability amount.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("total_tax_liability_amount")
-    private Optional<Double> totalTaxLiabilityAmount;
+    private Optional<? extends TransactionCreateTotalTaxLiabilityAmount> totalTaxLiabilityAmount;
 
-
+    /**
+     * Source of tax liability.
+     */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("tax_liability_source")
-    private Optional<? extends TaxLiabilitySourceEnum> taxLiabilitySource;
+    private JsonNullable<? extends TaxLiabilitySourceEnum> taxLiabilitySource;
 
     /**
      * Taxable amount.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("taxable_amount")
-    private Optional<Double> taxableAmount;
+    private Optional<? extends TransactionCreateTaxableAmount> taxableAmount;
 
 
     @JsonInclude(Include.NON_ABSENT)
@@ -216,47 +215,49 @@ public class TransactionCreate {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("connection_id")
-    private Optional<String> connectionId;
+    private JsonNullable<String> connectionId;
 
     /**
      * Filing identifier.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("filing_id")
-    private Optional<String> filingId;
+    private JsonNullable<String> filingId;
 
     /**
      * City of the transaction address.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("city")
-    private Optional<String> city;
+    private JsonNullable<String> city;
 
     /**
      * County of the transaction address.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("county")
-    private Optional<String> county;
+    private JsonNullable<String> county;
 
     /**
      * State of the transaction address.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("state")
-    private Optional<String> state;
+    private JsonNullable<String> state;
 
-
+    /**
+     * Country code (ISO Alpha-2).
+     */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("country")
-    private Optional<? extends CountryCodeEnum> country;
+    private JsonNullable<? extends CountryCodeEnum> country;
 
     /**
      * Postal code of the transaction.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("postal_code")
-    private Optional<String> postalCode;
+    private JsonNullable<String> postalCode;
 
     /**
      * Tax ID associated with the transaction. DEPRECATED: This field is only populated for QuickBooks
@@ -267,12 +268,26 @@ public class TransactionCreate {
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("tax_id")
     @Deprecated
-    private Optional<String> taxId;
+    private JsonNullable<String> taxId;
 
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("status")
     private Optional<? extends TransactionStatusEnum> status;
+
+    /**
+     * Document type distinguishing invoices from sales orders.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("document_type")
+    private JsonNullable<? extends DocumentTypeEnum> documentType;
+
+    /**
+     * Identifier of the invoice that created from a sales order.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("created_from")
+    private JsonNullable<String> createdFrom;
 
 
     @JsonInclude(Include.NON_ABSENT)
@@ -289,68 +304,75 @@ public class TransactionCreate {
 
 
     @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("is_duplicate")
+    private Optional<Boolean> isDuplicate;
+
+    /**
+     * Destination currency code (ISO 4217, e.g., USD)
+     */
+    @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("destination_currency")
-    private Optional<? extends CurrencyEnum> destinationCurrency;
+    private JsonNullable<? extends CurrencyEnum> destinationCurrency;
 
     /**
      * Converted total amount.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("converted_total_amount")
-    private Optional<Double> convertedTotalAmount;
+    private JsonNullable<? extends ConvertedTotalAmount> convertedTotalAmount;
 
     /**
      * Converted imported tax amount.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("converted_total_tax_amount_imported")
-    private Optional<Double> convertedTotalTaxAmountImported;
+    private JsonNullable<? extends ConvertedTotalTaxAmountImported> convertedTotalTaxAmountImported;
 
     /**
      * Converted calculated tax amount.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("converted_total_tax_amount_calculated")
-    private Optional<Double> convertedTotalTaxAmountCalculated;
+    private JsonNullable<? extends ConvertedTotalTaxAmountCalculated> convertedTotalTaxAmountCalculated;
 
     /**
      * Currency conversion rate.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("conversion_rate")
-    private Optional<Double> conversionRate;
+    private JsonNullable<? extends ConversionRate> conversionRate;
 
     /**
      * Converted taxable amount.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("converted_taxable_amount")
-    private Optional<Double> convertedTaxableAmount;
+    private JsonNullable<? extends TransactionCreateConvertedTaxableAmount> convertedTaxableAmount;
 
     /**
      * Converted total discount amount.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("converted_total_discount")
-    private Optional<Double> convertedTotalDiscount;
+    private JsonNullable<? extends TransactionCreateConvertedTotalDiscount> convertedTotalDiscount;
 
     /**
      * Converted subtotal amount.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("converted_subtotal")
-    private Optional<Double> convertedSubtotal;
+    private JsonNullable<? extends TransactionCreateConvertedSubtotal> convertedSubtotal;
 
     /**
      * Converted total tax liability amount.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("converted_total_tax_liability_amount")
-    private Optional<Double> convertedTotalTaxLiabilityAmount;
+    private JsonNullable<? extends ConvertedTotalTaxLiabilityAmount> convertedTotalTaxLiabilityAmount;
 
 
     @JsonProperty("addresses")
-    private List<TransactionAddressBuilder> addresses;
+    private TransactionCreateAddresses addresses;
 
 
     @JsonProperty("transaction_items")
@@ -359,60 +381,63 @@ public class TransactionCreate {
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("customer")
-    private Optional<? extends CustomerCreate> customer;
+    private JsonNullable<? extends CustomerCreate> customer;
 
     @JsonCreator
     public TransactionCreate(
-            @JsonProperty("requires_exemption") Optional<? extends ExemptionRequired> requiresExemption,
+            @JsonProperty("requires_exemption") JsonNullable<? extends ExemptionRequired> requiresExemption,
             @JsonProperty("organization_id") String organizationId,
             @JsonProperty("external_id") String externalId,
             @JsonProperty("date") OffsetDateTime date,
-            @JsonProperty("shop_date") Optional<String> shopDate,
-            @JsonProperty("shop_date_tz") Optional<String> shopDateTz,
-            @JsonProperty("description") Optional<String> description,
-            @JsonProperty("refund_status") Optional<? extends TransactionRefundStatus> refundStatus,
-            @JsonProperty("total_amount") Optional<Double> totalAmount,
-            @JsonProperty("customer_id") Optional<String> customerId,
-            @JsonProperty("marketplace") Optional<Boolean> marketplace,
-            @JsonProperty("exempt") Optional<? extends TransactionExemptStatusEnum> exempt,
-            @JsonProperty("exemptions") Optional<? extends List<Exemption>> exemptions,
-            @JsonProperty("related_to") Optional<String> relatedTo,
-            @JsonProperty("secondary_external_id") Optional<String> secondaryExternalId,
-            @JsonProperty("secondary_source") Optional<String> secondarySource,
-            @JsonProperty("external_friendly_id") Optional<String> externalFriendlyId,
-            @JsonProperty("total_tax_amount_imported") Optional<Double> totalTaxAmountImported,
-            @JsonProperty("tax_rate_imported") Optional<Double> taxRateImported,
-            @JsonProperty("total_tax_amount_calculated") Optional<Double> totalTaxAmountCalculated,
-            @JsonProperty("tax_rate_calculated") Optional<Double> taxRateCalculated,
-            @JsonProperty("total_tax_liability_amount") Optional<Double> totalTaxLiabilityAmount,
-            @JsonProperty("tax_liability_source") Optional<? extends TaxLiabilitySourceEnum> taxLiabilitySource,
-            @JsonProperty("taxable_amount") Optional<Double> taxableAmount,
+            @JsonProperty("shop_date") JsonNullable<LocalDate> shopDate,
+            @JsonProperty("shop_date_tz") JsonNullable<String> shopDateTz,
+            @JsonProperty("description") JsonNullable<String> description,
+            @JsonProperty("refund_status") JsonNullable<? extends TransactionRefundStatus> refundStatus,
+            @JsonProperty("total_amount") Optional<? extends TransactionCreateTotalAmount> totalAmount,
+            @JsonProperty("customer_id") JsonNullable<String> customerId,
+            @JsonProperty("marketplace") JsonNullable<Boolean> marketplace,
+            @JsonProperty("exempt") JsonNullable<? extends TransactionExemptStatusEnum> exempt,
+            @JsonProperty("exemptions") JsonNullable<? extends List<Exemption>> exemptions,
+            @JsonProperty("related_to") JsonNullable<String> relatedTo,
+            @JsonProperty("secondary_external_id") JsonNullable<String> secondaryExternalId,
+            @JsonProperty("secondary_source") JsonNullable<String> secondarySource,
+            @JsonProperty("external_friendly_id") JsonNullable<String> externalFriendlyId,
+            @JsonProperty("total_tax_amount_imported") Optional<? extends TransactionCreateTotalTaxAmountImported> totalTaxAmountImported,
+            @JsonProperty("tax_rate_imported") Optional<? extends TransactionCreateTaxRateImported> taxRateImported,
+            @JsonProperty("total_tax_amount_calculated") Optional<? extends TransactionCreateTotalTaxAmountCalculated> totalTaxAmountCalculated,
+            @JsonProperty("tax_rate_calculated") Optional<? extends TransactionCreateTaxRateCalculated> taxRateCalculated,
+            @JsonProperty("total_tax_liability_amount") Optional<? extends TransactionCreateTotalTaxLiabilityAmount> totalTaxLiabilityAmount,
+            @JsonProperty("tax_liability_source") JsonNullable<? extends TaxLiabilitySourceEnum> taxLiabilitySource,
+            @JsonProperty("taxable_amount") Optional<? extends TransactionCreateTaxableAmount> taxableAmount,
             @JsonProperty("currency") Optional<? extends CurrencyEnum> currency,
             @JsonProperty("locked") Optional<Boolean> locked,
             @JsonProperty("source") Optional<? extends SourceEnum> source,
-            @JsonProperty("connection_id") Optional<String> connectionId,
-            @JsonProperty("filing_id") Optional<String> filingId,
-            @JsonProperty("city") Optional<String> city,
-            @JsonProperty("county") Optional<String> county,
-            @JsonProperty("state") Optional<String> state,
-            @JsonProperty("country") Optional<? extends CountryCodeEnum> country,
-            @JsonProperty("postal_code") Optional<String> postalCode,
-            @JsonProperty("tax_id") Optional<String> taxId,
+            @JsonProperty("connection_id") JsonNullable<String> connectionId,
+            @JsonProperty("filing_id") JsonNullable<String> filingId,
+            @JsonProperty("city") JsonNullable<String> city,
+            @JsonProperty("county") JsonNullable<String> county,
+            @JsonProperty("state") JsonNullable<String> state,
+            @JsonProperty("country") JsonNullable<? extends CountryCodeEnum> country,
+            @JsonProperty("postal_code") JsonNullable<String> postalCode,
+            @JsonProperty("tax_id") JsonNullable<String> taxId,
             @JsonProperty("status") Optional<? extends TransactionStatusEnum> status,
+            @JsonProperty("document_type") JsonNullable<? extends DocumentTypeEnum> documentType,
+            @JsonProperty("created_from") JsonNullable<String> createdFrom,
             @JsonProperty("address_status") Optional<? extends AddressStatus> addressStatus,
             @JsonProperty("processing_status") Optional<? extends ProcessingStatusEnum> processingStatus,
-            @JsonProperty("destination_currency") Optional<? extends CurrencyEnum> destinationCurrency,
-            @JsonProperty("converted_total_amount") Optional<Double> convertedTotalAmount,
-            @JsonProperty("converted_total_tax_amount_imported") Optional<Double> convertedTotalTaxAmountImported,
-            @JsonProperty("converted_total_tax_amount_calculated") Optional<Double> convertedTotalTaxAmountCalculated,
-            @JsonProperty("conversion_rate") Optional<Double> conversionRate,
-            @JsonProperty("converted_taxable_amount") Optional<Double> convertedTaxableAmount,
-            @JsonProperty("converted_total_discount") Optional<Double> convertedTotalDiscount,
-            @JsonProperty("converted_subtotal") Optional<Double> convertedSubtotal,
-            @JsonProperty("converted_total_tax_liability_amount") Optional<Double> convertedTotalTaxLiabilityAmount,
-            @JsonProperty("addresses") List<TransactionAddressBuilder> addresses,
+            @JsonProperty("is_duplicate") Optional<Boolean> isDuplicate,
+            @JsonProperty("destination_currency") JsonNullable<? extends CurrencyEnum> destinationCurrency,
+            @JsonProperty("converted_total_amount") JsonNullable<? extends ConvertedTotalAmount> convertedTotalAmount,
+            @JsonProperty("converted_total_tax_amount_imported") JsonNullable<? extends ConvertedTotalTaxAmountImported> convertedTotalTaxAmountImported,
+            @JsonProperty("converted_total_tax_amount_calculated") JsonNullable<? extends ConvertedTotalTaxAmountCalculated> convertedTotalTaxAmountCalculated,
+            @JsonProperty("conversion_rate") JsonNullable<? extends ConversionRate> conversionRate,
+            @JsonProperty("converted_taxable_amount") JsonNullable<? extends TransactionCreateConvertedTaxableAmount> convertedTaxableAmount,
+            @JsonProperty("converted_total_discount") JsonNullable<? extends TransactionCreateConvertedTotalDiscount> convertedTotalDiscount,
+            @JsonProperty("converted_subtotal") JsonNullable<? extends TransactionCreateConvertedSubtotal> convertedSubtotal,
+            @JsonProperty("converted_total_tax_liability_amount") JsonNullable<? extends ConvertedTotalTaxLiabilityAmount> convertedTotalTaxLiabilityAmount,
+            @JsonProperty("addresses") TransactionCreateAddresses addresses,
             @JsonProperty("transaction_items") List<TransactionItemCreateUpdate> transactionItems,
-            @JsonProperty("customer") Optional<? extends CustomerCreate> customer) {
+            @JsonProperty("customer") JsonNullable<? extends CustomerCreate> customer) {
         Utils.checkNotNull(requiresExemption, "requiresExemption");
         Utils.checkNotNull(organizationId, "organizationId");
         Utils.checkNotNull(externalId, "externalId");
@@ -449,8 +474,11 @@ public class TransactionCreate {
         Utils.checkNotNull(postalCode, "postalCode");
         Utils.checkNotNull(taxId, "taxId");
         Utils.checkNotNull(status, "status");
+        Utils.checkNotNull(documentType, "documentType");
+        Utils.checkNotNull(createdFrom, "createdFrom");
         Utils.checkNotNull(addressStatus, "addressStatus");
         Utils.checkNotNull(processingStatus, "processingStatus");
+        Utils.checkNotNull(isDuplicate, "isDuplicate");
         Utils.checkNotNull(destinationCurrency, "destinationCurrency");
         Utils.checkNotNull(convertedTotalAmount, "convertedTotalAmount");
         Utils.checkNotNull(convertedTotalTaxAmountImported, "convertedTotalTaxAmountImported");
@@ -499,8 +527,11 @@ public class TransactionCreate {
         this.postalCode = postalCode;
         this.taxId = taxId;
         this.status = status;
+        this.documentType = documentType;
+        this.createdFrom = createdFrom;
         this.addressStatus = addressStatus;
         this.processingStatus = processingStatus;
+        this.isDuplicate = isDuplicate;
         this.destinationCurrency = destinationCurrency;
         this.convertedTotalAmount = convertedTotalAmount;
         this.convertedTotalTaxAmountImported = convertedTotalTaxAmountImported;
@@ -519,31 +550,35 @@ public class TransactionCreate {
             String organizationId,
             String externalId,
             OffsetDateTime date,
-            List<TransactionAddressBuilder> addresses,
+            TransactionCreateAddresses addresses,
             List<TransactionItemCreateUpdate> transactionItems) {
-        this(Optional.empty(), organizationId, externalId,
-            date, Optional.empty(), Optional.empty(),
+        this(JsonNullable.undefined(), organizationId, externalId,
+            date, JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
+            Optional.empty(), JsonNullable.undefined(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), addresses,
-            transactionItems, Optional.empty());
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty(),
+            JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty(),
+            Optional.empty(), Optional.empty(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), addresses,
+            transactionItems, JsonNullable.undefined());
     }
 
+    /**
+     * Indicates if transaction requires tax exemption.
+     */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<ExemptionRequired> requiresExemption() {
-        return (Optional<ExemptionRequired>) requiresExemption;
+    public JsonNullable<ExemptionRequired> requiresExemption() {
+        return (JsonNullable<ExemptionRequired>) requiresExemption;
     }
 
     /**
@@ -578,7 +613,7 @@ public class TransactionCreate {
      * Transaction date in the shop's local timezone
      */
     @JsonIgnore
-    public Optional<String> shopDate() {
+    public JsonNullable<LocalDate> shopDate() {
         return shopDate;
     }
 
@@ -586,7 +621,7 @@ public class TransactionCreate {
      * Timezone of the shop
      */
     @JsonIgnore
-    public Optional<String> shopDateTz() {
+    public JsonNullable<String> shopDateTz() {
         return shopDateTz;
     }
 
@@ -594,34 +629,33 @@ public class TransactionCreate {
      * Description of the transaction.
      */
     @JsonIgnore
-    public Optional<String> description() {
+    public JsonNullable<String> description() {
         return description;
     }
 
     /**
-     * Shopify has 2 order statuses for refund case: refunded and partially_refunded
-     * If the given order has different status from these 2, we will set the
-     * transaction's refund_status to PARTIALLY_REFUNDED by default.
+     * Status of refund, if applicable
      */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<TransactionRefundStatus> refundStatus() {
-        return (Optional<TransactionRefundStatus>) refundStatus;
+    public JsonNullable<TransactionRefundStatus> refundStatus() {
+        return (JsonNullable<TransactionRefundStatus>) refundStatus;
     }
 
     /**
      * Total amount of the transaction.
      */
+    @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<Double> totalAmount() {
-        return totalAmount;
+    public Optional<TransactionCreateTotalAmount> totalAmount() {
+        return (Optional<TransactionCreateTotalAmount>) totalAmount;
     }
 
     /**
      * Unique identifier of the customer.
      */
     @JsonIgnore
-    public Optional<String> customerId() {
+    public JsonNullable<String> customerId() {
         return customerId;
     }
 
@@ -629,21 +663,17 @@ public class TransactionCreate {
      * Indicates if transaction is marketplace-based.
      */
     @JsonIgnore
-    public Optional<Boolean> marketplace() {
+    public JsonNullable<Boolean> marketplace() {
         return marketplace;
     }
 
     /**
-     * Based on transaction item exempt status.
-     * NOT EXEMPT: None of the items are NOT EXEMPT
-     * PARTIALLY EXEMPT: At least some of the items are NOT EXEMPT
-     * FULLY_EXEMPT: All items sold in the transaction are EXEMPT
-     * ZERO_RATE_NOT_EXEMPT: All items sold in the transaction are zero-rated
+     * Exemption status (e.g., NOT_EXEMPT)
      */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<TransactionExemptStatusEnum> exempt() {
-        return (Optional<TransactionExemptStatusEnum>) exempt;
+    public JsonNullable<TransactionExemptStatusEnum> exempt() {
+        return (JsonNullable<TransactionExemptStatusEnum>) exempt;
     }
 
     /**
@@ -651,15 +681,15 @@ public class TransactionCreate {
      */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<List<Exemption>> exemptions() {
-        return (Optional<List<Exemption>>) exemptions;
+    public JsonNullable<List<Exemption>> exemptions() {
+        return (JsonNullable<List<Exemption>>) exemptions;
     }
 
     /**
      * Related transaction identifier.
      */
     @JsonIgnore
-    public Optional<String> relatedTo() {
+    public JsonNullable<String> relatedTo() {
         return relatedTo;
     }
 
@@ -667,7 +697,7 @@ public class TransactionCreate {
      * Secondary External Identifier.
      */
     @JsonIgnore
-    public Optional<String> secondaryExternalId() {
+    public JsonNullable<String> secondaryExternalId() {
         return secondaryExternalId;
     }
 
@@ -675,7 +705,7 @@ public class TransactionCreate {
      * Secondary source information
      */
     @JsonIgnore
-    public Optional<String> secondarySource() {
+    public JsonNullable<String> secondarySource() {
         return secondarySource;
     }
 
@@ -683,62 +713,71 @@ public class TransactionCreate {
      * Friendly identifier of the original item.
      */
     @JsonIgnore
-    public Optional<String> externalFriendlyId() {
+    public JsonNullable<String> externalFriendlyId() {
         return externalFriendlyId;
     }
 
     /**
      * Imported tax amount.
      */
+    @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<Double> totalTaxAmountImported() {
-        return totalTaxAmountImported;
+    public Optional<TransactionCreateTotalTaxAmountImported> totalTaxAmountImported() {
+        return (Optional<TransactionCreateTotalTaxAmountImported>) totalTaxAmountImported;
     }
 
     /**
      * Imported tax rate.
      */
+    @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<Double> taxRateImported() {
-        return taxRateImported;
+    public Optional<TransactionCreateTaxRateImported> taxRateImported() {
+        return (Optional<TransactionCreateTaxRateImported>) taxRateImported;
     }
 
     /**
      * Calculated tax amount.
      */
+    @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<Double> totalTaxAmountCalculated() {
-        return totalTaxAmountCalculated;
+    public Optional<TransactionCreateTotalTaxAmountCalculated> totalTaxAmountCalculated() {
+        return (Optional<TransactionCreateTotalTaxAmountCalculated>) totalTaxAmountCalculated;
     }
 
     /**
      * Calculated tax rate.
      */
+    @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<Double> taxRateCalculated() {
-        return taxRateCalculated;
+    public Optional<TransactionCreateTaxRateCalculated> taxRateCalculated() {
+        return (Optional<TransactionCreateTaxRateCalculated>) taxRateCalculated;
     }
 
     /**
      * Total tax liability amount.
      */
-    @JsonIgnore
-    public Optional<Double> totalTaxLiabilityAmount() {
-        return totalTaxLiabilityAmount;
-    }
-
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<TaxLiabilitySourceEnum> taxLiabilitySource() {
-        return (Optional<TaxLiabilitySourceEnum>) taxLiabilitySource;
+    public Optional<TransactionCreateTotalTaxLiabilityAmount> totalTaxLiabilityAmount() {
+        return (Optional<TransactionCreateTotalTaxLiabilityAmount>) totalTaxLiabilityAmount;
+    }
+
+    /**
+     * Source of tax liability.
+     */
+    @SuppressWarnings("unchecked")
+    @JsonIgnore
+    public JsonNullable<TaxLiabilitySourceEnum> taxLiabilitySource() {
+        return (JsonNullable<TaxLiabilitySourceEnum>) taxLiabilitySource;
     }
 
     /**
      * Taxable amount.
      */
+    @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<Double> taxableAmount() {
-        return taxableAmount;
+    public Optional<TransactionCreateTaxableAmount> taxableAmount() {
+        return (Optional<TransactionCreateTaxableAmount>) taxableAmount;
     }
 
     @SuppressWarnings("unchecked")
@@ -765,7 +804,7 @@ public class TransactionCreate {
      * Connection Identifier
      */
     @JsonIgnore
-    public Optional<String> connectionId() {
+    public JsonNullable<String> connectionId() {
         return connectionId;
     }
 
@@ -773,7 +812,7 @@ public class TransactionCreate {
      * Filing identifier.
      */
     @JsonIgnore
-    public Optional<String> filingId() {
+    public JsonNullable<String> filingId() {
         return filingId;
     }
 
@@ -781,7 +820,7 @@ public class TransactionCreate {
      * City of the transaction address.
      */
     @JsonIgnore
-    public Optional<String> city() {
+    public JsonNullable<String> city() {
         return city;
     }
 
@@ -789,7 +828,7 @@ public class TransactionCreate {
      * County of the transaction address.
      */
     @JsonIgnore
-    public Optional<String> county() {
+    public JsonNullable<String> county() {
         return county;
     }
 
@@ -797,21 +836,24 @@ public class TransactionCreate {
      * State of the transaction address.
      */
     @JsonIgnore
-    public Optional<String> state() {
+    public JsonNullable<String> state() {
         return state;
     }
 
+    /**
+     * Country code (ISO Alpha-2).
+     */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<CountryCodeEnum> country() {
-        return (Optional<CountryCodeEnum>) country;
+    public JsonNullable<CountryCodeEnum> country() {
+        return (JsonNullable<CountryCodeEnum>) country;
     }
 
     /**
      * Postal code of the transaction.
      */
     @JsonIgnore
-    public Optional<String> postalCode() {
+    public JsonNullable<String> postalCode() {
         return postalCode;
     }
 
@@ -823,7 +865,7 @@ public class TransactionCreate {
      */
     @Deprecated
     @JsonIgnore
-    public Optional<String> taxId() {
+    public JsonNullable<String> taxId() {
         return taxId;
     }
 
@@ -831,6 +873,23 @@ public class TransactionCreate {
     @JsonIgnore
     public Optional<TransactionStatusEnum> status() {
         return (Optional<TransactionStatusEnum>) status;
+    }
+
+    /**
+     * Document type distinguishing invoices from sales orders.
+     */
+    @SuppressWarnings("unchecked")
+    @JsonIgnore
+    public JsonNullable<DocumentTypeEnum> documentType() {
+        return (JsonNullable<DocumentTypeEnum>) documentType;
+    }
+
+    /**
+     * Identifier of the invoice that created from a sales order.
+     */
+    @JsonIgnore
+    public JsonNullable<String> createdFrom() {
+        return createdFrom;
     }
 
     @SuppressWarnings("unchecked")
@@ -849,78 +908,94 @@ public class TransactionCreate {
         return (Optional<ProcessingStatusEnum>) processingStatus;
     }
 
+    @JsonIgnore
+    public Optional<Boolean> isDuplicate() {
+        return isDuplicate;
+    }
+
+    /**
+     * Destination currency code (ISO 4217, e.g., USD)
+     */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<CurrencyEnum> destinationCurrency() {
-        return (Optional<CurrencyEnum>) destinationCurrency;
+    public JsonNullable<CurrencyEnum> destinationCurrency() {
+        return (JsonNullable<CurrencyEnum>) destinationCurrency;
     }
 
     /**
      * Converted total amount.
      */
+    @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<Double> convertedTotalAmount() {
-        return convertedTotalAmount;
+    public JsonNullable<ConvertedTotalAmount> convertedTotalAmount() {
+        return (JsonNullable<ConvertedTotalAmount>) convertedTotalAmount;
     }
 
     /**
      * Converted imported tax amount.
      */
+    @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<Double> convertedTotalTaxAmountImported() {
-        return convertedTotalTaxAmountImported;
+    public JsonNullable<ConvertedTotalTaxAmountImported> convertedTotalTaxAmountImported() {
+        return (JsonNullable<ConvertedTotalTaxAmountImported>) convertedTotalTaxAmountImported;
     }
 
     /**
      * Converted calculated tax amount.
      */
+    @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<Double> convertedTotalTaxAmountCalculated() {
-        return convertedTotalTaxAmountCalculated;
+    public JsonNullable<ConvertedTotalTaxAmountCalculated> convertedTotalTaxAmountCalculated() {
+        return (JsonNullable<ConvertedTotalTaxAmountCalculated>) convertedTotalTaxAmountCalculated;
     }
 
     /**
      * Currency conversion rate.
      */
+    @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<Double> conversionRate() {
-        return conversionRate;
+    public JsonNullable<ConversionRate> conversionRate() {
+        return (JsonNullable<ConversionRate>) conversionRate;
     }
 
     /**
      * Converted taxable amount.
      */
+    @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<Double> convertedTaxableAmount() {
-        return convertedTaxableAmount;
+    public JsonNullable<TransactionCreateConvertedTaxableAmount> convertedTaxableAmount() {
+        return (JsonNullable<TransactionCreateConvertedTaxableAmount>) convertedTaxableAmount;
     }
 
     /**
      * Converted total discount amount.
      */
+    @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<Double> convertedTotalDiscount() {
-        return convertedTotalDiscount;
+    public JsonNullable<TransactionCreateConvertedTotalDiscount> convertedTotalDiscount() {
+        return (JsonNullable<TransactionCreateConvertedTotalDiscount>) convertedTotalDiscount;
     }
 
     /**
      * Converted subtotal amount.
      */
+    @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<Double> convertedSubtotal() {
-        return convertedSubtotal;
+    public JsonNullable<TransactionCreateConvertedSubtotal> convertedSubtotal() {
+        return (JsonNullable<TransactionCreateConvertedSubtotal>) convertedSubtotal;
     }
 
     /**
      * Converted total tax liability amount.
      */
+    @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<Double> convertedTotalTaxLiabilityAmount() {
-        return convertedTotalTaxLiabilityAmount;
+    public JsonNullable<ConvertedTotalTaxLiabilityAmount> convertedTotalTaxLiabilityAmount() {
+        return (JsonNullable<ConvertedTotalTaxLiabilityAmount>) convertedTotalTaxLiabilityAmount;
     }
 
     @JsonIgnore
-    public List<TransactionAddressBuilder> addresses() {
+    public TransactionCreateAddresses addresses() {
         return addresses;
     }
 
@@ -931,8 +1006,8 @@ public class TransactionCreate {
 
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<CustomerCreate> customer() {
-        return (Optional<CustomerCreate>) customer;
+    public JsonNullable<CustomerCreate> customer() {
+        return (JsonNullable<CustomerCreate>) customer;
     }
 
     public static Builder builder() {
@@ -940,14 +1015,19 @@ public class TransactionCreate {
     }
 
 
+    /**
+     * Indicates if transaction requires tax exemption.
+     */
     public TransactionCreate withRequiresExemption(ExemptionRequired requiresExemption) {
         Utils.checkNotNull(requiresExemption, "requiresExemption");
-        this.requiresExemption = Optional.ofNullable(requiresExemption);
+        this.requiresExemption = JsonNullable.of(requiresExemption);
         return this;
     }
 
-
-    public TransactionCreate withRequiresExemption(Optional<? extends ExemptionRequired> requiresExemption) {
+    /**
+     * Indicates if transaction requires tax exemption.
+     */
+    public TransactionCreate withRequiresExemption(JsonNullable<? extends ExemptionRequired> requiresExemption) {
         Utils.checkNotNull(requiresExemption, "requiresExemption");
         this.requiresExemption = requiresExemption;
         return this;
@@ -987,17 +1067,16 @@ public class TransactionCreate {
     /**
      * Transaction date in the shop's local timezone
      */
-    public TransactionCreate withShopDate(String shopDate) {
+    public TransactionCreate withShopDate(LocalDate shopDate) {
         Utils.checkNotNull(shopDate, "shopDate");
-        this.shopDate = Optional.ofNullable(shopDate);
+        this.shopDate = JsonNullable.of(shopDate);
         return this;
     }
-
 
     /**
      * Transaction date in the shop's local timezone
      */
-    public TransactionCreate withShopDate(Optional<String> shopDate) {
+    public TransactionCreate withShopDate(JsonNullable<LocalDate> shopDate) {
         Utils.checkNotNull(shopDate, "shopDate");
         this.shopDate = shopDate;
         return this;
@@ -1008,15 +1087,14 @@ public class TransactionCreate {
      */
     public TransactionCreate withShopDateTz(String shopDateTz) {
         Utils.checkNotNull(shopDateTz, "shopDateTz");
-        this.shopDateTz = Optional.ofNullable(shopDateTz);
+        this.shopDateTz = JsonNullable.of(shopDateTz);
         return this;
     }
-
 
     /**
      * Timezone of the shop
      */
-    public TransactionCreate withShopDateTz(Optional<String> shopDateTz) {
+    public TransactionCreate withShopDateTz(JsonNullable<String> shopDateTz) {
         Utils.checkNotNull(shopDateTz, "shopDateTz");
         this.shopDateTz = shopDateTz;
         return this;
@@ -1027,38 +1105,32 @@ public class TransactionCreate {
      */
     public TransactionCreate withDescription(String description) {
         Utils.checkNotNull(description, "description");
-        this.description = Optional.ofNullable(description);
+        this.description = JsonNullable.of(description);
         return this;
     }
-
 
     /**
      * Description of the transaction.
      */
-    public TransactionCreate withDescription(Optional<String> description) {
+    public TransactionCreate withDescription(JsonNullable<String> description) {
         Utils.checkNotNull(description, "description");
         this.description = description;
         return this;
     }
 
     /**
-     * Shopify has 2 order statuses for refund case: refunded and partially_refunded
-     * If the given order has different status from these 2, we will set the
-     * transaction's refund_status to PARTIALLY_REFUNDED by default.
+     * Status of refund, if applicable
      */
     public TransactionCreate withRefundStatus(TransactionRefundStatus refundStatus) {
         Utils.checkNotNull(refundStatus, "refundStatus");
-        this.refundStatus = Optional.ofNullable(refundStatus);
+        this.refundStatus = JsonNullable.of(refundStatus);
         return this;
     }
 
-
     /**
-     * Shopify has 2 order statuses for refund case: refunded and partially_refunded
-     * If the given order has different status from these 2, we will set the
-     * transaction's refund_status to PARTIALLY_REFUNDED by default.
+     * Status of refund, if applicable
      */
-    public TransactionCreate withRefundStatus(Optional<? extends TransactionRefundStatus> refundStatus) {
+    public TransactionCreate withRefundStatus(JsonNullable<? extends TransactionRefundStatus> refundStatus) {
         Utils.checkNotNull(refundStatus, "refundStatus");
         this.refundStatus = refundStatus;
         return this;
@@ -1067,7 +1139,7 @@ public class TransactionCreate {
     /**
      * Total amount of the transaction.
      */
-    public TransactionCreate withTotalAmount(double totalAmount) {
+    public TransactionCreate withTotalAmount(TransactionCreateTotalAmount totalAmount) {
         Utils.checkNotNull(totalAmount, "totalAmount");
         this.totalAmount = Optional.ofNullable(totalAmount);
         return this;
@@ -1077,7 +1149,7 @@ public class TransactionCreate {
     /**
      * Total amount of the transaction.
      */
-    public TransactionCreate withTotalAmount(Optional<Double> totalAmount) {
+    public TransactionCreate withTotalAmount(Optional<? extends TransactionCreateTotalAmount> totalAmount) {
         Utils.checkNotNull(totalAmount, "totalAmount");
         this.totalAmount = totalAmount;
         return this;
@@ -1088,15 +1160,14 @@ public class TransactionCreate {
      */
     public TransactionCreate withCustomerId(String customerId) {
         Utils.checkNotNull(customerId, "customerId");
-        this.customerId = Optional.ofNullable(customerId);
+        this.customerId = JsonNullable.of(customerId);
         return this;
     }
-
 
     /**
      * Unique identifier of the customer.
      */
-    public TransactionCreate withCustomerId(Optional<String> customerId) {
+    public TransactionCreate withCustomerId(JsonNullable<String> customerId) {
         Utils.checkNotNull(customerId, "customerId");
         this.customerId = customerId;
         return this;
@@ -1107,42 +1178,32 @@ public class TransactionCreate {
      */
     public TransactionCreate withMarketplace(boolean marketplace) {
         Utils.checkNotNull(marketplace, "marketplace");
-        this.marketplace = Optional.ofNullable(marketplace);
+        this.marketplace = JsonNullable.of(marketplace);
         return this;
     }
-
 
     /**
      * Indicates if transaction is marketplace-based.
      */
-    public TransactionCreate withMarketplace(Optional<Boolean> marketplace) {
+    public TransactionCreate withMarketplace(JsonNullable<Boolean> marketplace) {
         Utils.checkNotNull(marketplace, "marketplace");
         this.marketplace = marketplace;
         return this;
     }
 
     /**
-     * Based on transaction item exempt status.
-     * NOT EXEMPT: None of the items are NOT EXEMPT
-     * PARTIALLY EXEMPT: At least some of the items are NOT EXEMPT
-     * FULLY_EXEMPT: All items sold in the transaction are EXEMPT
-     * ZERO_RATE_NOT_EXEMPT: All items sold in the transaction are zero-rated
+     * Exemption status (e.g., NOT_EXEMPT)
      */
     public TransactionCreate withExempt(TransactionExemptStatusEnum exempt) {
         Utils.checkNotNull(exempt, "exempt");
-        this.exempt = Optional.ofNullable(exempt);
+        this.exempt = JsonNullable.of(exempt);
         return this;
     }
 
-
     /**
-     * Based on transaction item exempt status.
-     * NOT EXEMPT: None of the items are NOT EXEMPT
-     * PARTIALLY EXEMPT: At least some of the items are NOT EXEMPT
-     * FULLY_EXEMPT: All items sold in the transaction are EXEMPT
-     * ZERO_RATE_NOT_EXEMPT: All items sold in the transaction are zero-rated
+     * Exemption status (e.g., NOT_EXEMPT)
      */
-    public TransactionCreate withExempt(Optional<? extends TransactionExemptStatusEnum> exempt) {
+    public TransactionCreate withExempt(JsonNullable<? extends TransactionExemptStatusEnum> exempt) {
         Utils.checkNotNull(exempt, "exempt");
         this.exempt = exempt;
         return this;
@@ -1153,15 +1214,14 @@ public class TransactionCreate {
      */
     public TransactionCreate withExemptions(List<Exemption> exemptions) {
         Utils.checkNotNull(exemptions, "exemptions");
-        this.exemptions = Optional.ofNullable(exemptions);
+        this.exemptions = JsonNullable.of(exemptions);
         return this;
     }
-
 
     /**
      * List of exemptions applied (if any).
      */
-    public TransactionCreate withExemptions(Optional<? extends List<Exemption>> exemptions) {
+    public TransactionCreate withExemptions(JsonNullable<? extends List<Exemption>> exemptions) {
         Utils.checkNotNull(exemptions, "exemptions");
         this.exemptions = exemptions;
         return this;
@@ -1172,15 +1232,14 @@ public class TransactionCreate {
      */
     public TransactionCreate withRelatedTo(String relatedTo) {
         Utils.checkNotNull(relatedTo, "relatedTo");
-        this.relatedTo = Optional.ofNullable(relatedTo);
+        this.relatedTo = JsonNullable.of(relatedTo);
         return this;
     }
-
 
     /**
      * Related transaction identifier.
      */
-    public TransactionCreate withRelatedTo(Optional<String> relatedTo) {
+    public TransactionCreate withRelatedTo(JsonNullable<String> relatedTo) {
         Utils.checkNotNull(relatedTo, "relatedTo");
         this.relatedTo = relatedTo;
         return this;
@@ -1191,15 +1250,14 @@ public class TransactionCreate {
      */
     public TransactionCreate withSecondaryExternalId(String secondaryExternalId) {
         Utils.checkNotNull(secondaryExternalId, "secondaryExternalId");
-        this.secondaryExternalId = Optional.ofNullable(secondaryExternalId);
+        this.secondaryExternalId = JsonNullable.of(secondaryExternalId);
         return this;
     }
-
 
     /**
      * Secondary External Identifier.
      */
-    public TransactionCreate withSecondaryExternalId(Optional<String> secondaryExternalId) {
+    public TransactionCreate withSecondaryExternalId(JsonNullable<String> secondaryExternalId) {
         Utils.checkNotNull(secondaryExternalId, "secondaryExternalId");
         this.secondaryExternalId = secondaryExternalId;
         return this;
@@ -1210,15 +1268,14 @@ public class TransactionCreate {
      */
     public TransactionCreate withSecondarySource(String secondarySource) {
         Utils.checkNotNull(secondarySource, "secondarySource");
-        this.secondarySource = Optional.ofNullable(secondarySource);
+        this.secondarySource = JsonNullable.of(secondarySource);
         return this;
     }
-
 
     /**
      * Secondary source information
      */
-    public TransactionCreate withSecondarySource(Optional<String> secondarySource) {
+    public TransactionCreate withSecondarySource(JsonNullable<String> secondarySource) {
         Utils.checkNotNull(secondarySource, "secondarySource");
         this.secondarySource = secondarySource;
         return this;
@@ -1229,15 +1286,14 @@ public class TransactionCreate {
      */
     public TransactionCreate withExternalFriendlyId(String externalFriendlyId) {
         Utils.checkNotNull(externalFriendlyId, "externalFriendlyId");
-        this.externalFriendlyId = Optional.ofNullable(externalFriendlyId);
+        this.externalFriendlyId = JsonNullable.of(externalFriendlyId);
         return this;
     }
-
 
     /**
      * Friendly identifier of the original item.
      */
-    public TransactionCreate withExternalFriendlyId(Optional<String> externalFriendlyId) {
+    public TransactionCreate withExternalFriendlyId(JsonNullable<String> externalFriendlyId) {
         Utils.checkNotNull(externalFriendlyId, "externalFriendlyId");
         this.externalFriendlyId = externalFriendlyId;
         return this;
@@ -1246,7 +1302,7 @@ public class TransactionCreate {
     /**
      * Imported tax amount.
      */
-    public TransactionCreate withTotalTaxAmountImported(double totalTaxAmountImported) {
+    public TransactionCreate withTotalTaxAmountImported(TransactionCreateTotalTaxAmountImported totalTaxAmountImported) {
         Utils.checkNotNull(totalTaxAmountImported, "totalTaxAmountImported");
         this.totalTaxAmountImported = Optional.ofNullable(totalTaxAmountImported);
         return this;
@@ -1256,7 +1312,7 @@ public class TransactionCreate {
     /**
      * Imported tax amount.
      */
-    public TransactionCreate withTotalTaxAmountImported(Optional<Double> totalTaxAmountImported) {
+    public TransactionCreate withTotalTaxAmountImported(Optional<? extends TransactionCreateTotalTaxAmountImported> totalTaxAmountImported) {
         Utils.checkNotNull(totalTaxAmountImported, "totalTaxAmountImported");
         this.totalTaxAmountImported = totalTaxAmountImported;
         return this;
@@ -1265,7 +1321,7 @@ public class TransactionCreate {
     /**
      * Imported tax rate.
      */
-    public TransactionCreate withTaxRateImported(double taxRateImported) {
+    public TransactionCreate withTaxRateImported(TransactionCreateTaxRateImported taxRateImported) {
         Utils.checkNotNull(taxRateImported, "taxRateImported");
         this.taxRateImported = Optional.ofNullable(taxRateImported);
         return this;
@@ -1275,7 +1331,7 @@ public class TransactionCreate {
     /**
      * Imported tax rate.
      */
-    public TransactionCreate withTaxRateImported(Optional<Double> taxRateImported) {
+    public TransactionCreate withTaxRateImported(Optional<? extends TransactionCreateTaxRateImported> taxRateImported) {
         Utils.checkNotNull(taxRateImported, "taxRateImported");
         this.taxRateImported = taxRateImported;
         return this;
@@ -1284,7 +1340,7 @@ public class TransactionCreate {
     /**
      * Calculated tax amount.
      */
-    public TransactionCreate withTotalTaxAmountCalculated(double totalTaxAmountCalculated) {
+    public TransactionCreate withTotalTaxAmountCalculated(TransactionCreateTotalTaxAmountCalculated totalTaxAmountCalculated) {
         Utils.checkNotNull(totalTaxAmountCalculated, "totalTaxAmountCalculated");
         this.totalTaxAmountCalculated = Optional.ofNullable(totalTaxAmountCalculated);
         return this;
@@ -1294,7 +1350,7 @@ public class TransactionCreate {
     /**
      * Calculated tax amount.
      */
-    public TransactionCreate withTotalTaxAmountCalculated(Optional<Double> totalTaxAmountCalculated) {
+    public TransactionCreate withTotalTaxAmountCalculated(Optional<? extends TransactionCreateTotalTaxAmountCalculated> totalTaxAmountCalculated) {
         Utils.checkNotNull(totalTaxAmountCalculated, "totalTaxAmountCalculated");
         this.totalTaxAmountCalculated = totalTaxAmountCalculated;
         return this;
@@ -1303,7 +1359,7 @@ public class TransactionCreate {
     /**
      * Calculated tax rate.
      */
-    public TransactionCreate withTaxRateCalculated(double taxRateCalculated) {
+    public TransactionCreate withTaxRateCalculated(TransactionCreateTaxRateCalculated taxRateCalculated) {
         Utils.checkNotNull(taxRateCalculated, "taxRateCalculated");
         this.taxRateCalculated = Optional.ofNullable(taxRateCalculated);
         return this;
@@ -1313,7 +1369,7 @@ public class TransactionCreate {
     /**
      * Calculated tax rate.
      */
-    public TransactionCreate withTaxRateCalculated(Optional<Double> taxRateCalculated) {
+    public TransactionCreate withTaxRateCalculated(Optional<? extends TransactionCreateTaxRateCalculated> taxRateCalculated) {
         Utils.checkNotNull(taxRateCalculated, "taxRateCalculated");
         this.taxRateCalculated = taxRateCalculated;
         return this;
@@ -1322,7 +1378,7 @@ public class TransactionCreate {
     /**
      * Total tax liability amount.
      */
-    public TransactionCreate withTotalTaxLiabilityAmount(double totalTaxLiabilityAmount) {
+    public TransactionCreate withTotalTaxLiabilityAmount(TransactionCreateTotalTaxLiabilityAmount totalTaxLiabilityAmount) {
         Utils.checkNotNull(totalTaxLiabilityAmount, "totalTaxLiabilityAmount");
         this.totalTaxLiabilityAmount = Optional.ofNullable(totalTaxLiabilityAmount);
         return this;
@@ -1332,20 +1388,25 @@ public class TransactionCreate {
     /**
      * Total tax liability amount.
      */
-    public TransactionCreate withTotalTaxLiabilityAmount(Optional<Double> totalTaxLiabilityAmount) {
+    public TransactionCreate withTotalTaxLiabilityAmount(Optional<? extends TransactionCreateTotalTaxLiabilityAmount> totalTaxLiabilityAmount) {
         Utils.checkNotNull(totalTaxLiabilityAmount, "totalTaxLiabilityAmount");
         this.totalTaxLiabilityAmount = totalTaxLiabilityAmount;
         return this;
     }
 
+    /**
+     * Source of tax liability.
+     */
     public TransactionCreate withTaxLiabilitySource(TaxLiabilitySourceEnum taxLiabilitySource) {
         Utils.checkNotNull(taxLiabilitySource, "taxLiabilitySource");
-        this.taxLiabilitySource = Optional.ofNullable(taxLiabilitySource);
+        this.taxLiabilitySource = JsonNullable.of(taxLiabilitySource);
         return this;
     }
 
-
-    public TransactionCreate withTaxLiabilitySource(Optional<? extends TaxLiabilitySourceEnum> taxLiabilitySource) {
+    /**
+     * Source of tax liability.
+     */
+    public TransactionCreate withTaxLiabilitySource(JsonNullable<? extends TaxLiabilitySourceEnum> taxLiabilitySource) {
         Utils.checkNotNull(taxLiabilitySource, "taxLiabilitySource");
         this.taxLiabilitySource = taxLiabilitySource;
         return this;
@@ -1354,7 +1415,7 @@ public class TransactionCreate {
     /**
      * Taxable amount.
      */
-    public TransactionCreate withTaxableAmount(double taxableAmount) {
+    public TransactionCreate withTaxableAmount(TransactionCreateTaxableAmount taxableAmount) {
         Utils.checkNotNull(taxableAmount, "taxableAmount");
         this.taxableAmount = Optional.ofNullable(taxableAmount);
         return this;
@@ -1364,7 +1425,7 @@ public class TransactionCreate {
     /**
      * Taxable amount.
      */
-    public TransactionCreate withTaxableAmount(Optional<Double> taxableAmount) {
+    public TransactionCreate withTaxableAmount(Optional<? extends TransactionCreateTaxableAmount> taxableAmount) {
         Utils.checkNotNull(taxableAmount, "taxableAmount");
         this.taxableAmount = taxableAmount;
         return this;
@@ -1420,15 +1481,14 @@ public class TransactionCreate {
      */
     public TransactionCreate withConnectionId(String connectionId) {
         Utils.checkNotNull(connectionId, "connectionId");
-        this.connectionId = Optional.ofNullable(connectionId);
+        this.connectionId = JsonNullable.of(connectionId);
         return this;
     }
-
 
     /**
      * Connection Identifier
      */
-    public TransactionCreate withConnectionId(Optional<String> connectionId) {
+    public TransactionCreate withConnectionId(JsonNullable<String> connectionId) {
         Utils.checkNotNull(connectionId, "connectionId");
         this.connectionId = connectionId;
         return this;
@@ -1439,15 +1499,14 @@ public class TransactionCreate {
      */
     public TransactionCreate withFilingId(String filingId) {
         Utils.checkNotNull(filingId, "filingId");
-        this.filingId = Optional.ofNullable(filingId);
+        this.filingId = JsonNullable.of(filingId);
         return this;
     }
-
 
     /**
      * Filing identifier.
      */
-    public TransactionCreate withFilingId(Optional<String> filingId) {
+    public TransactionCreate withFilingId(JsonNullable<String> filingId) {
         Utils.checkNotNull(filingId, "filingId");
         this.filingId = filingId;
         return this;
@@ -1458,15 +1517,14 @@ public class TransactionCreate {
      */
     public TransactionCreate withCity(String city) {
         Utils.checkNotNull(city, "city");
-        this.city = Optional.ofNullable(city);
+        this.city = JsonNullable.of(city);
         return this;
     }
-
 
     /**
      * City of the transaction address.
      */
-    public TransactionCreate withCity(Optional<String> city) {
+    public TransactionCreate withCity(JsonNullable<String> city) {
         Utils.checkNotNull(city, "city");
         this.city = city;
         return this;
@@ -1477,15 +1535,14 @@ public class TransactionCreate {
      */
     public TransactionCreate withCounty(String county) {
         Utils.checkNotNull(county, "county");
-        this.county = Optional.ofNullable(county);
+        this.county = JsonNullable.of(county);
         return this;
     }
-
 
     /**
      * County of the transaction address.
      */
-    public TransactionCreate withCounty(Optional<String> county) {
+    public TransactionCreate withCounty(JsonNullable<String> county) {
         Utils.checkNotNull(county, "county");
         this.county = county;
         return this;
@@ -1496,28 +1553,32 @@ public class TransactionCreate {
      */
     public TransactionCreate withState(String state) {
         Utils.checkNotNull(state, "state");
-        this.state = Optional.ofNullable(state);
+        this.state = JsonNullable.of(state);
         return this;
     }
-
 
     /**
      * State of the transaction address.
      */
-    public TransactionCreate withState(Optional<String> state) {
+    public TransactionCreate withState(JsonNullable<String> state) {
         Utils.checkNotNull(state, "state");
         this.state = state;
         return this;
     }
 
+    /**
+     * Country code (ISO Alpha-2).
+     */
     public TransactionCreate withCountry(CountryCodeEnum country) {
         Utils.checkNotNull(country, "country");
-        this.country = Optional.ofNullable(country);
+        this.country = JsonNullable.of(country);
         return this;
     }
 
-
-    public TransactionCreate withCountry(Optional<? extends CountryCodeEnum> country) {
+    /**
+     * Country code (ISO Alpha-2).
+     */
+    public TransactionCreate withCountry(JsonNullable<? extends CountryCodeEnum> country) {
         Utils.checkNotNull(country, "country");
         this.country = country;
         return this;
@@ -1528,15 +1589,14 @@ public class TransactionCreate {
      */
     public TransactionCreate withPostalCode(String postalCode) {
         Utils.checkNotNull(postalCode, "postalCode");
-        this.postalCode = Optional.ofNullable(postalCode);
+        this.postalCode = JsonNullable.of(postalCode);
         return this;
     }
-
 
     /**
      * Postal code of the transaction.
      */
-    public TransactionCreate withPostalCode(Optional<String> postalCode) {
+    public TransactionCreate withPostalCode(JsonNullable<String> postalCode) {
         Utils.checkNotNull(postalCode, "postalCode");
         this.postalCode = postalCode;
         return this;
@@ -1551,10 +1611,9 @@ public class TransactionCreate {
     @Deprecated
     public TransactionCreate withTaxId(String taxId) {
         Utils.checkNotNull(taxId, "taxId");
-        this.taxId = Optional.ofNullable(taxId);
+        this.taxId = JsonNullable.of(taxId);
         return this;
     }
-
 
     /**
      * Tax ID associated with the transaction. DEPRECATED: This field is only populated for QuickBooks
@@ -1563,7 +1622,7 @@ public class TransactionCreate {
      * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
      */
     @Deprecated
-    public TransactionCreate withTaxId(Optional<String> taxId) {
+    public TransactionCreate withTaxId(JsonNullable<String> taxId) {
         Utils.checkNotNull(taxId, "taxId");
         this.taxId = taxId;
         return this;
@@ -1579,6 +1638,42 @@ public class TransactionCreate {
     public TransactionCreate withStatus(Optional<? extends TransactionStatusEnum> status) {
         Utils.checkNotNull(status, "status");
         this.status = status;
+        return this;
+    }
+
+    /**
+     * Document type distinguishing invoices from sales orders.
+     */
+    public TransactionCreate withDocumentType(DocumentTypeEnum documentType) {
+        Utils.checkNotNull(documentType, "documentType");
+        this.documentType = JsonNullable.of(documentType);
+        return this;
+    }
+
+    /**
+     * Document type distinguishing invoices from sales orders.
+     */
+    public TransactionCreate withDocumentType(JsonNullable<? extends DocumentTypeEnum> documentType) {
+        Utils.checkNotNull(documentType, "documentType");
+        this.documentType = documentType;
+        return this;
+    }
+
+    /**
+     * Identifier of the invoice that created from a sales order.
+     */
+    public TransactionCreate withCreatedFrom(String createdFrom) {
+        Utils.checkNotNull(createdFrom, "createdFrom");
+        this.createdFrom = JsonNullable.of(createdFrom);
+        return this;
+    }
+
+    /**
+     * Identifier of the invoice that created from a sales order.
+     */
+    public TransactionCreate withCreatedFrom(JsonNullable<String> createdFrom) {
+        Utils.checkNotNull(createdFrom, "createdFrom");
+        this.createdFrom = createdFrom;
         return this;
     }
 
@@ -1616,14 +1711,32 @@ public class TransactionCreate {
         return this;
     }
 
-    public TransactionCreate withDestinationCurrency(CurrencyEnum destinationCurrency) {
-        Utils.checkNotNull(destinationCurrency, "destinationCurrency");
-        this.destinationCurrency = Optional.ofNullable(destinationCurrency);
+    public TransactionCreate withIsDuplicate(boolean isDuplicate) {
+        Utils.checkNotNull(isDuplicate, "isDuplicate");
+        this.isDuplicate = Optional.ofNullable(isDuplicate);
         return this;
     }
 
 
-    public TransactionCreate withDestinationCurrency(Optional<? extends CurrencyEnum> destinationCurrency) {
+    public TransactionCreate withIsDuplicate(Optional<Boolean> isDuplicate) {
+        Utils.checkNotNull(isDuplicate, "isDuplicate");
+        this.isDuplicate = isDuplicate;
+        return this;
+    }
+
+    /**
+     * Destination currency code (ISO 4217, e.g., USD)
+     */
+    public TransactionCreate withDestinationCurrency(CurrencyEnum destinationCurrency) {
+        Utils.checkNotNull(destinationCurrency, "destinationCurrency");
+        this.destinationCurrency = JsonNullable.of(destinationCurrency);
+        return this;
+    }
+
+    /**
+     * Destination currency code (ISO 4217, e.g., USD)
+     */
+    public TransactionCreate withDestinationCurrency(JsonNullable<? extends CurrencyEnum> destinationCurrency) {
         Utils.checkNotNull(destinationCurrency, "destinationCurrency");
         this.destinationCurrency = destinationCurrency;
         return this;
@@ -1632,17 +1745,16 @@ public class TransactionCreate {
     /**
      * Converted total amount.
      */
-    public TransactionCreate withConvertedTotalAmount(double convertedTotalAmount) {
+    public TransactionCreate withConvertedTotalAmount(ConvertedTotalAmount convertedTotalAmount) {
         Utils.checkNotNull(convertedTotalAmount, "convertedTotalAmount");
-        this.convertedTotalAmount = Optional.ofNullable(convertedTotalAmount);
+        this.convertedTotalAmount = JsonNullable.of(convertedTotalAmount);
         return this;
     }
-
 
     /**
      * Converted total amount.
      */
-    public TransactionCreate withConvertedTotalAmount(Optional<Double> convertedTotalAmount) {
+    public TransactionCreate withConvertedTotalAmount(JsonNullable<? extends ConvertedTotalAmount> convertedTotalAmount) {
         Utils.checkNotNull(convertedTotalAmount, "convertedTotalAmount");
         this.convertedTotalAmount = convertedTotalAmount;
         return this;
@@ -1651,17 +1763,16 @@ public class TransactionCreate {
     /**
      * Converted imported tax amount.
      */
-    public TransactionCreate withConvertedTotalTaxAmountImported(double convertedTotalTaxAmountImported) {
+    public TransactionCreate withConvertedTotalTaxAmountImported(ConvertedTotalTaxAmountImported convertedTotalTaxAmountImported) {
         Utils.checkNotNull(convertedTotalTaxAmountImported, "convertedTotalTaxAmountImported");
-        this.convertedTotalTaxAmountImported = Optional.ofNullable(convertedTotalTaxAmountImported);
+        this.convertedTotalTaxAmountImported = JsonNullable.of(convertedTotalTaxAmountImported);
         return this;
     }
-
 
     /**
      * Converted imported tax amount.
      */
-    public TransactionCreate withConvertedTotalTaxAmountImported(Optional<Double> convertedTotalTaxAmountImported) {
+    public TransactionCreate withConvertedTotalTaxAmountImported(JsonNullable<? extends ConvertedTotalTaxAmountImported> convertedTotalTaxAmountImported) {
         Utils.checkNotNull(convertedTotalTaxAmountImported, "convertedTotalTaxAmountImported");
         this.convertedTotalTaxAmountImported = convertedTotalTaxAmountImported;
         return this;
@@ -1670,17 +1781,16 @@ public class TransactionCreate {
     /**
      * Converted calculated tax amount.
      */
-    public TransactionCreate withConvertedTotalTaxAmountCalculated(double convertedTotalTaxAmountCalculated) {
+    public TransactionCreate withConvertedTotalTaxAmountCalculated(ConvertedTotalTaxAmountCalculated convertedTotalTaxAmountCalculated) {
         Utils.checkNotNull(convertedTotalTaxAmountCalculated, "convertedTotalTaxAmountCalculated");
-        this.convertedTotalTaxAmountCalculated = Optional.ofNullable(convertedTotalTaxAmountCalculated);
+        this.convertedTotalTaxAmountCalculated = JsonNullable.of(convertedTotalTaxAmountCalculated);
         return this;
     }
-
 
     /**
      * Converted calculated tax amount.
      */
-    public TransactionCreate withConvertedTotalTaxAmountCalculated(Optional<Double> convertedTotalTaxAmountCalculated) {
+    public TransactionCreate withConvertedTotalTaxAmountCalculated(JsonNullable<? extends ConvertedTotalTaxAmountCalculated> convertedTotalTaxAmountCalculated) {
         Utils.checkNotNull(convertedTotalTaxAmountCalculated, "convertedTotalTaxAmountCalculated");
         this.convertedTotalTaxAmountCalculated = convertedTotalTaxAmountCalculated;
         return this;
@@ -1689,17 +1799,16 @@ public class TransactionCreate {
     /**
      * Currency conversion rate.
      */
-    public TransactionCreate withConversionRate(double conversionRate) {
+    public TransactionCreate withConversionRate(ConversionRate conversionRate) {
         Utils.checkNotNull(conversionRate, "conversionRate");
-        this.conversionRate = Optional.ofNullable(conversionRate);
+        this.conversionRate = JsonNullable.of(conversionRate);
         return this;
     }
-
 
     /**
      * Currency conversion rate.
      */
-    public TransactionCreate withConversionRate(Optional<Double> conversionRate) {
+    public TransactionCreate withConversionRate(JsonNullable<? extends ConversionRate> conversionRate) {
         Utils.checkNotNull(conversionRate, "conversionRate");
         this.conversionRate = conversionRate;
         return this;
@@ -1708,17 +1817,16 @@ public class TransactionCreate {
     /**
      * Converted taxable amount.
      */
-    public TransactionCreate withConvertedTaxableAmount(double convertedTaxableAmount) {
+    public TransactionCreate withConvertedTaxableAmount(TransactionCreateConvertedTaxableAmount convertedTaxableAmount) {
         Utils.checkNotNull(convertedTaxableAmount, "convertedTaxableAmount");
-        this.convertedTaxableAmount = Optional.ofNullable(convertedTaxableAmount);
+        this.convertedTaxableAmount = JsonNullable.of(convertedTaxableAmount);
         return this;
     }
-
 
     /**
      * Converted taxable amount.
      */
-    public TransactionCreate withConvertedTaxableAmount(Optional<Double> convertedTaxableAmount) {
+    public TransactionCreate withConvertedTaxableAmount(JsonNullable<? extends TransactionCreateConvertedTaxableAmount> convertedTaxableAmount) {
         Utils.checkNotNull(convertedTaxableAmount, "convertedTaxableAmount");
         this.convertedTaxableAmount = convertedTaxableAmount;
         return this;
@@ -1727,17 +1835,16 @@ public class TransactionCreate {
     /**
      * Converted total discount amount.
      */
-    public TransactionCreate withConvertedTotalDiscount(double convertedTotalDiscount) {
+    public TransactionCreate withConvertedTotalDiscount(TransactionCreateConvertedTotalDiscount convertedTotalDiscount) {
         Utils.checkNotNull(convertedTotalDiscount, "convertedTotalDiscount");
-        this.convertedTotalDiscount = Optional.ofNullable(convertedTotalDiscount);
+        this.convertedTotalDiscount = JsonNullable.of(convertedTotalDiscount);
         return this;
     }
-
 
     /**
      * Converted total discount amount.
      */
-    public TransactionCreate withConvertedTotalDiscount(Optional<Double> convertedTotalDiscount) {
+    public TransactionCreate withConvertedTotalDiscount(JsonNullable<? extends TransactionCreateConvertedTotalDiscount> convertedTotalDiscount) {
         Utils.checkNotNull(convertedTotalDiscount, "convertedTotalDiscount");
         this.convertedTotalDiscount = convertedTotalDiscount;
         return this;
@@ -1746,17 +1853,16 @@ public class TransactionCreate {
     /**
      * Converted subtotal amount.
      */
-    public TransactionCreate withConvertedSubtotal(double convertedSubtotal) {
+    public TransactionCreate withConvertedSubtotal(TransactionCreateConvertedSubtotal convertedSubtotal) {
         Utils.checkNotNull(convertedSubtotal, "convertedSubtotal");
-        this.convertedSubtotal = Optional.ofNullable(convertedSubtotal);
+        this.convertedSubtotal = JsonNullable.of(convertedSubtotal);
         return this;
     }
-
 
     /**
      * Converted subtotal amount.
      */
-    public TransactionCreate withConvertedSubtotal(Optional<Double> convertedSubtotal) {
+    public TransactionCreate withConvertedSubtotal(JsonNullable<? extends TransactionCreateConvertedSubtotal> convertedSubtotal) {
         Utils.checkNotNull(convertedSubtotal, "convertedSubtotal");
         this.convertedSubtotal = convertedSubtotal;
         return this;
@@ -1765,23 +1871,22 @@ public class TransactionCreate {
     /**
      * Converted total tax liability amount.
      */
-    public TransactionCreate withConvertedTotalTaxLiabilityAmount(double convertedTotalTaxLiabilityAmount) {
+    public TransactionCreate withConvertedTotalTaxLiabilityAmount(ConvertedTotalTaxLiabilityAmount convertedTotalTaxLiabilityAmount) {
         Utils.checkNotNull(convertedTotalTaxLiabilityAmount, "convertedTotalTaxLiabilityAmount");
-        this.convertedTotalTaxLiabilityAmount = Optional.ofNullable(convertedTotalTaxLiabilityAmount);
+        this.convertedTotalTaxLiabilityAmount = JsonNullable.of(convertedTotalTaxLiabilityAmount);
         return this;
     }
-
 
     /**
      * Converted total tax liability amount.
      */
-    public TransactionCreate withConvertedTotalTaxLiabilityAmount(Optional<Double> convertedTotalTaxLiabilityAmount) {
+    public TransactionCreate withConvertedTotalTaxLiabilityAmount(JsonNullable<? extends ConvertedTotalTaxLiabilityAmount> convertedTotalTaxLiabilityAmount) {
         Utils.checkNotNull(convertedTotalTaxLiabilityAmount, "convertedTotalTaxLiabilityAmount");
         this.convertedTotalTaxLiabilityAmount = convertedTotalTaxLiabilityAmount;
         return this;
     }
 
-    public TransactionCreate withAddresses(List<TransactionAddressBuilder> addresses) {
+    public TransactionCreate withAddresses(TransactionCreateAddresses addresses) {
         Utils.checkNotNull(addresses, "addresses");
         this.addresses = addresses;
         return this;
@@ -1795,12 +1900,11 @@ public class TransactionCreate {
 
     public TransactionCreate withCustomer(CustomerCreate customer) {
         Utils.checkNotNull(customer, "customer");
-        this.customer = Optional.ofNullable(customer);
+        this.customer = JsonNullable.of(customer);
         return this;
     }
 
-
-    public TransactionCreate withCustomer(Optional<? extends CustomerCreate> customer) {
+    public TransactionCreate withCustomer(JsonNullable<? extends CustomerCreate> customer) {
         Utils.checkNotNull(customer, "customer");
         this.customer = customer;
         return this;
@@ -1852,8 +1956,11 @@ public class TransactionCreate {
             Utils.enhancedDeepEquals(this.postalCode, other.postalCode) &&
             Utils.enhancedDeepEquals(this.taxId, other.taxId) &&
             Utils.enhancedDeepEquals(this.status, other.status) &&
+            Utils.enhancedDeepEquals(this.documentType, other.documentType) &&
+            Utils.enhancedDeepEquals(this.createdFrom, other.createdFrom) &&
             Utils.enhancedDeepEquals(this.addressStatus, other.addressStatus) &&
             Utils.enhancedDeepEquals(this.processingStatus, other.processingStatus) &&
+            Utils.enhancedDeepEquals(this.isDuplicate, other.isDuplicate) &&
             Utils.enhancedDeepEquals(this.destinationCurrency, other.destinationCurrency) &&
             Utils.enhancedDeepEquals(this.convertedTotalAmount, other.convertedTotalAmount) &&
             Utils.enhancedDeepEquals(this.convertedTotalTaxAmountImported, other.convertedTotalTaxAmountImported) &&
@@ -1883,7 +1990,8 @@ public class TransactionCreate {
             connectionId, filingId, city,
             county, state, country,
             postalCode, taxId, status,
-            addressStatus, processingStatus, destinationCurrency,
+            documentType, createdFrom, addressStatus,
+            processingStatus, isDuplicate, destinationCurrency,
             convertedTotalAmount, convertedTotalTaxAmountImported, convertedTotalTaxAmountCalculated,
             conversionRate, convertedTaxableAmount, convertedTotalDiscount,
             convertedSubtotal, convertedTotalTaxLiabilityAmount, addresses,
@@ -1929,8 +2037,11 @@ public class TransactionCreate {
                 "postalCode", postalCode,
                 "taxId", taxId,
                 "status", status,
+                "documentType", documentType,
+                "createdFrom", createdFrom,
                 "addressStatus", addressStatus,
                 "processingStatus", processingStatus,
+                "isDuplicate", isDuplicate,
                 "destinationCurrency", destinationCurrency,
                 "convertedTotalAmount", convertedTotalAmount,
                 "convertedTotalTaxAmountImported", convertedTotalTaxAmountImported,
@@ -1948,7 +2059,7 @@ public class TransactionCreate {
     @SuppressWarnings("UnusedReturnValue")
     public final static class Builder {
 
-        private Optional<? extends ExemptionRequired> requiresExemption = Optional.empty();
+        private JsonNullable<? extends ExemptionRequired> requiresExemption = JsonNullable.undefined();
 
         @Deprecated
         private String organizationId;
@@ -1957,45 +2068,45 @@ public class TransactionCreate {
 
         private OffsetDateTime date;
 
-        private Optional<String> shopDate = Optional.empty();
+        private JsonNullable<LocalDate> shopDate = JsonNullable.undefined();
 
-        private Optional<String> shopDateTz = Optional.empty();
+        private JsonNullable<String> shopDateTz = JsonNullable.undefined();
 
-        private Optional<String> description = Optional.empty();
+        private JsonNullable<String> description = JsonNullable.undefined();
 
-        private Optional<? extends TransactionRefundStatus> refundStatus = Optional.empty();
+        private JsonNullable<? extends TransactionRefundStatus> refundStatus = JsonNullable.undefined();
 
-        private Optional<Double> totalAmount;
+        private Optional<? extends TransactionCreateTotalAmount> totalAmount = Optional.empty();
 
-        private Optional<String> customerId = Optional.empty();
+        private JsonNullable<String> customerId = JsonNullable.undefined();
 
-        private Optional<Boolean> marketplace;
+        private JsonNullable<Boolean> marketplace = JsonNullable.undefined();
 
-        private Optional<? extends TransactionExemptStatusEnum> exempt = Optional.empty();
+        private JsonNullable<? extends TransactionExemptStatusEnum> exempt = JsonNullable.undefined();
 
-        private Optional<? extends List<Exemption>> exemptions = Optional.empty();
+        private JsonNullable<? extends List<Exemption>> exemptions = JsonNullable.undefined();
 
-        private Optional<String> relatedTo = Optional.empty();
+        private JsonNullable<String> relatedTo = JsonNullable.undefined();
 
-        private Optional<String> secondaryExternalId = Optional.empty();
+        private JsonNullable<String> secondaryExternalId = JsonNullable.undefined();
 
-        private Optional<String> secondarySource = Optional.empty();
+        private JsonNullable<String> secondarySource = JsonNullable.undefined();
 
-        private Optional<String> externalFriendlyId = Optional.empty();
+        private JsonNullable<String> externalFriendlyId = JsonNullable.undefined();
 
-        private Optional<Double> totalTaxAmountImported;
+        private Optional<? extends TransactionCreateTotalTaxAmountImported> totalTaxAmountImported = Optional.empty();
 
-        private Optional<Double> taxRateImported;
+        private Optional<? extends TransactionCreateTaxRateImported> taxRateImported = Optional.empty();
 
-        private Optional<Double> totalTaxAmountCalculated;
+        private Optional<? extends TransactionCreateTotalTaxAmountCalculated> totalTaxAmountCalculated = Optional.empty();
 
-        private Optional<Double> taxRateCalculated;
+        private Optional<? extends TransactionCreateTaxRateCalculated> taxRateCalculated = Optional.empty();
 
-        private Optional<Double> totalTaxLiabilityAmount;
+        private Optional<? extends TransactionCreateTotalTaxLiabilityAmount> totalTaxLiabilityAmount = Optional.empty();
 
-        private Optional<? extends TaxLiabilitySourceEnum> taxLiabilitySource = Optional.empty();
+        private JsonNullable<? extends TaxLiabilitySourceEnum> taxLiabilitySource = JsonNullable.undefined();
 
-        private Optional<Double> taxableAmount;
+        private Optional<? extends TransactionCreateTaxableAmount> taxableAmount = Optional.empty();
 
         private Optional<? extends CurrencyEnum> currency = Optional.empty();
 
@@ -2003,65 +2114,77 @@ public class TransactionCreate {
 
         private Optional<? extends SourceEnum> source = Optional.empty();
 
-        private Optional<String> connectionId = Optional.empty();
+        private JsonNullable<String> connectionId = JsonNullable.undefined();
 
-        private Optional<String> filingId = Optional.empty();
+        private JsonNullable<String> filingId = JsonNullable.undefined();
 
-        private Optional<String> city = Optional.empty();
+        private JsonNullable<String> city = JsonNullable.undefined();
 
-        private Optional<String> county = Optional.empty();
+        private JsonNullable<String> county = JsonNullable.undefined();
 
-        private Optional<String> state = Optional.empty();
+        private JsonNullable<String> state = JsonNullable.undefined();
 
-        private Optional<? extends CountryCodeEnum> country = Optional.empty();
+        private JsonNullable<? extends CountryCodeEnum> country = JsonNullable.undefined();
 
-        private Optional<String> postalCode = Optional.empty();
+        private JsonNullable<String> postalCode = JsonNullable.undefined();
 
         @Deprecated
-        private Optional<String> taxId = Optional.empty();
+        private JsonNullable<String> taxId = JsonNullable.undefined();
 
         private Optional<? extends TransactionStatusEnum> status = Optional.empty();
+
+        private JsonNullable<? extends DocumentTypeEnum> documentType = JsonNullable.undefined();
+
+        private JsonNullable<String> createdFrom = JsonNullable.undefined();
 
         private Optional<? extends AddressStatus> addressStatus = Optional.empty();
 
         private Optional<? extends ProcessingStatusEnum> processingStatus = Optional.empty();
 
-        private Optional<? extends CurrencyEnum> destinationCurrency = Optional.empty();
+        private Optional<Boolean> isDuplicate;
 
-        private Optional<Double> convertedTotalAmount = Optional.empty();
+        private JsonNullable<? extends CurrencyEnum> destinationCurrency = JsonNullable.undefined();
 
-        private Optional<Double> convertedTotalTaxAmountImported = Optional.empty();
+        private JsonNullable<? extends ConvertedTotalAmount> convertedTotalAmount = JsonNullable.undefined();
 
-        private Optional<Double> convertedTotalTaxAmountCalculated = Optional.empty();
+        private JsonNullable<? extends ConvertedTotalTaxAmountImported> convertedTotalTaxAmountImported = JsonNullable.undefined();
 
-        private Optional<Double> conversionRate = Optional.empty();
+        private JsonNullable<? extends ConvertedTotalTaxAmountCalculated> convertedTotalTaxAmountCalculated = JsonNullable.undefined();
 
-        private Optional<Double> convertedTaxableAmount = Optional.empty();
+        private JsonNullable<? extends ConversionRate> conversionRate = JsonNullable.undefined();
 
-        private Optional<Double> convertedTotalDiscount = Optional.empty();
+        private JsonNullable<? extends TransactionCreateConvertedTaxableAmount> convertedTaxableAmount = JsonNullable.undefined();
 
-        private Optional<Double> convertedSubtotal = Optional.empty();
+        private JsonNullable<? extends TransactionCreateConvertedTotalDiscount> convertedTotalDiscount = JsonNullable.undefined();
 
-        private Optional<Double> convertedTotalTaxLiabilityAmount = Optional.empty();
+        private JsonNullable<? extends TransactionCreateConvertedSubtotal> convertedSubtotal = JsonNullable.undefined();
 
-        private List<TransactionAddressBuilder> addresses;
+        private JsonNullable<? extends ConvertedTotalTaxLiabilityAmount> convertedTotalTaxLiabilityAmount = JsonNullable.undefined();
+
+        private TransactionCreateAddresses addresses;
 
         private List<TransactionItemCreateUpdate> transactionItems;
 
-        private Optional<? extends CustomerCreate> customer = Optional.empty();
+        private JsonNullable<? extends CustomerCreate> customer = JsonNullable.undefined();
 
         private Builder() {
           // force use of static builder() method
         }
 
 
+        /**
+         * Indicates if transaction requires tax exemption.
+         */
         public Builder requiresExemption(ExemptionRequired requiresExemption) {
             Utils.checkNotNull(requiresExemption, "requiresExemption");
-            this.requiresExemption = Optional.ofNullable(requiresExemption);
+            this.requiresExemption = JsonNullable.of(requiresExemption);
             return this;
         }
 
-        public Builder requiresExemption(Optional<? extends ExemptionRequired> requiresExemption) {
+        /**
+         * Indicates if transaction requires tax exemption.
+         */
+        public Builder requiresExemption(JsonNullable<? extends ExemptionRequired> requiresExemption) {
             Utils.checkNotNull(requiresExemption, "requiresExemption");
             this.requiresExemption = requiresExemption;
             return this;
@@ -2105,16 +2228,16 @@ public class TransactionCreate {
         /**
          * Transaction date in the shop's local timezone
          */
-        public Builder shopDate(String shopDate) {
+        public Builder shopDate(LocalDate shopDate) {
             Utils.checkNotNull(shopDate, "shopDate");
-            this.shopDate = Optional.ofNullable(shopDate);
+            this.shopDate = JsonNullable.of(shopDate);
             return this;
         }
 
         /**
          * Transaction date in the shop's local timezone
          */
-        public Builder shopDate(Optional<String> shopDate) {
+        public Builder shopDate(JsonNullable<LocalDate> shopDate) {
             Utils.checkNotNull(shopDate, "shopDate");
             this.shopDate = shopDate;
             return this;
@@ -2126,14 +2249,14 @@ public class TransactionCreate {
          */
         public Builder shopDateTz(String shopDateTz) {
             Utils.checkNotNull(shopDateTz, "shopDateTz");
-            this.shopDateTz = Optional.ofNullable(shopDateTz);
+            this.shopDateTz = JsonNullable.of(shopDateTz);
             return this;
         }
 
         /**
          * Timezone of the shop
          */
-        public Builder shopDateTz(Optional<String> shopDateTz) {
+        public Builder shopDateTz(JsonNullable<String> shopDateTz) {
             Utils.checkNotNull(shopDateTz, "shopDateTz");
             this.shopDateTz = shopDateTz;
             return this;
@@ -2145,14 +2268,14 @@ public class TransactionCreate {
          */
         public Builder description(String description) {
             Utils.checkNotNull(description, "description");
-            this.description = Optional.ofNullable(description);
+            this.description = JsonNullable.of(description);
             return this;
         }
 
         /**
          * Description of the transaction.
          */
-        public Builder description(Optional<String> description) {
+        public Builder description(JsonNullable<String> description) {
             Utils.checkNotNull(description, "description");
             this.description = description;
             return this;
@@ -2160,22 +2283,18 @@ public class TransactionCreate {
 
 
         /**
-         * Shopify has 2 order statuses for refund case: refunded and partially_refunded
-         * If the given order has different status from these 2, we will set the
-         * transaction's refund_status to PARTIALLY_REFUNDED by default.
+         * Status of refund, if applicable
          */
         public Builder refundStatus(TransactionRefundStatus refundStatus) {
             Utils.checkNotNull(refundStatus, "refundStatus");
-            this.refundStatus = Optional.ofNullable(refundStatus);
+            this.refundStatus = JsonNullable.of(refundStatus);
             return this;
         }
 
         /**
-         * Shopify has 2 order statuses for refund case: refunded and partially_refunded
-         * If the given order has different status from these 2, we will set the
-         * transaction's refund_status to PARTIALLY_REFUNDED by default.
+         * Status of refund, if applicable
          */
-        public Builder refundStatus(Optional<? extends TransactionRefundStatus> refundStatus) {
+        public Builder refundStatus(JsonNullable<? extends TransactionRefundStatus> refundStatus) {
             Utils.checkNotNull(refundStatus, "refundStatus");
             this.refundStatus = refundStatus;
             return this;
@@ -2185,7 +2304,7 @@ public class TransactionCreate {
         /**
          * Total amount of the transaction.
          */
-        public Builder totalAmount(double totalAmount) {
+        public Builder totalAmount(TransactionCreateTotalAmount totalAmount) {
             Utils.checkNotNull(totalAmount, "totalAmount");
             this.totalAmount = Optional.ofNullable(totalAmount);
             return this;
@@ -2194,7 +2313,7 @@ public class TransactionCreate {
         /**
          * Total amount of the transaction.
          */
-        public Builder totalAmount(Optional<Double> totalAmount) {
+        public Builder totalAmount(Optional<? extends TransactionCreateTotalAmount> totalAmount) {
             Utils.checkNotNull(totalAmount, "totalAmount");
             this.totalAmount = totalAmount;
             return this;
@@ -2206,14 +2325,14 @@ public class TransactionCreate {
          */
         public Builder customerId(String customerId) {
             Utils.checkNotNull(customerId, "customerId");
-            this.customerId = Optional.ofNullable(customerId);
+            this.customerId = JsonNullable.of(customerId);
             return this;
         }
 
         /**
          * Unique identifier of the customer.
          */
-        public Builder customerId(Optional<String> customerId) {
+        public Builder customerId(JsonNullable<String> customerId) {
             Utils.checkNotNull(customerId, "customerId");
             this.customerId = customerId;
             return this;
@@ -2225,14 +2344,14 @@ public class TransactionCreate {
          */
         public Builder marketplace(boolean marketplace) {
             Utils.checkNotNull(marketplace, "marketplace");
-            this.marketplace = Optional.ofNullable(marketplace);
+            this.marketplace = JsonNullable.of(marketplace);
             return this;
         }
 
         /**
          * Indicates if transaction is marketplace-based.
          */
-        public Builder marketplace(Optional<Boolean> marketplace) {
+        public Builder marketplace(JsonNullable<Boolean> marketplace) {
             Utils.checkNotNull(marketplace, "marketplace");
             this.marketplace = marketplace;
             return this;
@@ -2240,26 +2359,18 @@ public class TransactionCreate {
 
 
         /**
-         * Based on transaction item exempt status.
-         * NOT EXEMPT: None of the items are NOT EXEMPT
-         * PARTIALLY EXEMPT: At least some of the items are NOT EXEMPT
-         * FULLY_EXEMPT: All items sold in the transaction are EXEMPT
-         * ZERO_RATE_NOT_EXEMPT: All items sold in the transaction are zero-rated
+         * Exemption status (e.g., NOT_EXEMPT)
          */
         public Builder exempt(TransactionExemptStatusEnum exempt) {
             Utils.checkNotNull(exempt, "exempt");
-            this.exempt = Optional.ofNullable(exempt);
+            this.exempt = JsonNullable.of(exempt);
             return this;
         }
 
         /**
-         * Based on transaction item exempt status.
-         * NOT EXEMPT: None of the items are NOT EXEMPT
-         * PARTIALLY EXEMPT: At least some of the items are NOT EXEMPT
-         * FULLY_EXEMPT: All items sold in the transaction are EXEMPT
-         * ZERO_RATE_NOT_EXEMPT: All items sold in the transaction are zero-rated
+         * Exemption status (e.g., NOT_EXEMPT)
          */
-        public Builder exempt(Optional<? extends TransactionExemptStatusEnum> exempt) {
+        public Builder exempt(JsonNullable<? extends TransactionExemptStatusEnum> exempt) {
             Utils.checkNotNull(exempt, "exempt");
             this.exempt = exempt;
             return this;
@@ -2271,14 +2382,14 @@ public class TransactionCreate {
          */
         public Builder exemptions(List<Exemption> exemptions) {
             Utils.checkNotNull(exemptions, "exemptions");
-            this.exemptions = Optional.ofNullable(exemptions);
+            this.exemptions = JsonNullable.of(exemptions);
             return this;
         }
 
         /**
          * List of exemptions applied (if any).
          */
-        public Builder exemptions(Optional<? extends List<Exemption>> exemptions) {
+        public Builder exemptions(JsonNullable<? extends List<Exemption>> exemptions) {
             Utils.checkNotNull(exemptions, "exemptions");
             this.exemptions = exemptions;
             return this;
@@ -2290,14 +2401,14 @@ public class TransactionCreate {
          */
         public Builder relatedTo(String relatedTo) {
             Utils.checkNotNull(relatedTo, "relatedTo");
-            this.relatedTo = Optional.ofNullable(relatedTo);
+            this.relatedTo = JsonNullable.of(relatedTo);
             return this;
         }
 
         /**
          * Related transaction identifier.
          */
-        public Builder relatedTo(Optional<String> relatedTo) {
+        public Builder relatedTo(JsonNullable<String> relatedTo) {
             Utils.checkNotNull(relatedTo, "relatedTo");
             this.relatedTo = relatedTo;
             return this;
@@ -2309,14 +2420,14 @@ public class TransactionCreate {
          */
         public Builder secondaryExternalId(String secondaryExternalId) {
             Utils.checkNotNull(secondaryExternalId, "secondaryExternalId");
-            this.secondaryExternalId = Optional.ofNullable(secondaryExternalId);
+            this.secondaryExternalId = JsonNullable.of(secondaryExternalId);
             return this;
         }
 
         /**
          * Secondary External Identifier.
          */
-        public Builder secondaryExternalId(Optional<String> secondaryExternalId) {
+        public Builder secondaryExternalId(JsonNullable<String> secondaryExternalId) {
             Utils.checkNotNull(secondaryExternalId, "secondaryExternalId");
             this.secondaryExternalId = secondaryExternalId;
             return this;
@@ -2328,14 +2439,14 @@ public class TransactionCreate {
          */
         public Builder secondarySource(String secondarySource) {
             Utils.checkNotNull(secondarySource, "secondarySource");
-            this.secondarySource = Optional.ofNullable(secondarySource);
+            this.secondarySource = JsonNullable.of(secondarySource);
             return this;
         }
 
         /**
          * Secondary source information
          */
-        public Builder secondarySource(Optional<String> secondarySource) {
+        public Builder secondarySource(JsonNullable<String> secondarySource) {
             Utils.checkNotNull(secondarySource, "secondarySource");
             this.secondarySource = secondarySource;
             return this;
@@ -2347,14 +2458,14 @@ public class TransactionCreate {
          */
         public Builder externalFriendlyId(String externalFriendlyId) {
             Utils.checkNotNull(externalFriendlyId, "externalFriendlyId");
-            this.externalFriendlyId = Optional.ofNullable(externalFriendlyId);
+            this.externalFriendlyId = JsonNullable.of(externalFriendlyId);
             return this;
         }
 
         /**
          * Friendly identifier of the original item.
          */
-        public Builder externalFriendlyId(Optional<String> externalFriendlyId) {
+        public Builder externalFriendlyId(JsonNullable<String> externalFriendlyId) {
             Utils.checkNotNull(externalFriendlyId, "externalFriendlyId");
             this.externalFriendlyId = externalFriendlyId;
             return this;
@@ -2364,7 +2475,7 @@ public class TransactionCreate {
         /**
          * Imported tax amount.
          */
-        public Builder totalTaxAmountImported(double totalTaxAmountImported) {
+        public Builder totalTaxAmountImported(TransactionCreateTotalTaxAmountImported totalTaxAmountImported) {
             Utils.checkNotNull(totalTaxAmountImported, "totalTaxAmountImported");
             this.totalTaxAmountImported = Optional.ofNullable(totalTaxAmountImported);
             return this;
@@ -2373,7 +2484,7 @@ public class TransactionCreate {
         /**
          * Imported tax amount.
          */
-        public Builder totalTaxAmountImported(Optional<Double> totalTaxAmountImported) {
+        public Builder totalTaxAmountImported(Optional<? extends TransactionCreateTotalTaxAmountImported> totalTaxAmountImported) {
             Utils.checkNotNull(totalTaxAmountImported, "totalTaxAmountImported");
             this.totalTaxAmountImported = totalTaxAmountImported;
             return this;
@@ -2383,7 +2494,7 @@ public class TransactionCreate {
         /**
          * Imported tax rate.
          */
-        public Builder taxRateImported(double taxRateImported) {
+        public Builder taxRateImported(TransactionCreateTaxRateImported taxRateImported) {
             Utils.checkNotNull(taxRateImported, "taxRateImported");
             this.taxRateImported = Optional.ofNullable(taxRateImported);
             return this;
@@ -2392,7 +2503,7 @@ public class TransactionCreate {
         /**
          * Imported tax rate.
          */
-        public Builder taxRateImported(Optional<Double> taxRateImported) {
+        public Builder taxRateImported(Optional<? extends TransactionCreateTaxRateImported> taxRateImported) {
             Utils.checkNotNull(taxRateImported, "taxRateImported");
             this.taxRateImported = taxRateImported;
             return this;
@@ -2402,7 +2513,7 @@ public class TransactionCreate {
         /**
          * Calculated tax amount.
          */
-        public Builder totalTaxAmountCalculated(double totalTaxAmountCalculated) {
+        public Builder totalTaxAmountCalculated(TransactionCreateTotalTaxAmountCalculated totalTaxAmountCalculated) {
             Utils.checkNotNull(totalTaxAmountCalculated, "totalTaxAmountCalculated");
             this.totalTaxAmountCalculated = Optional.ofNullable(totalTaxAmountCalculated);
             return this;
@@ -2411,7 +2522,7 @@ public class TransactionCreate {
         /**
          * Calculated tax amount.
          */
-        public Builder totalTaxAmountCalculated(Optional<Double> totalTaxAmountCalculated) {
+        public Builder totalTaxAmountCalculated(Optional<? extends TransactionCreateTotalTaxAmountCalculated> totalTaxAmountCalculated) {
             Utils.checkNotNull(totalTaxAmountCalculated, "totalTaxAmountCalculated");
             this.totalTaxAmountCalculated = totalTaxAmountCalculated;
             return this;
@@ -2421,7 +2532,7 @@ public class TransactionCreate {
         /**
          * Calculated tax rate.
          */
-        public Builder taxRateCalculated(double taxRateCalculated) {
+        public Builder taxRateCalculated(TransactionCreateTaxRateCalculated taxRateCalculated) {
             Utils.checkNotNull(taxRateCalculated, "taxRateCalculated");
             this.taxRateCalculated = Optional.ofNullable(taxRateCalculated);
             return this;
@@ -2430,7 +2541,7 @@ public class TransactionCreate {
         /**
          * Calculated tax rate.
          */
-        public Builder taxRateCalculated(Optional<Double> taxRateCalculated) {
+        public Builder taxRateCalculated(Optional<? extends TransactionCreateTaxRateCalculated> taxRateCalculated) {
             Utils.checkNotNull(taxRateCalculated, "taxRateCalculated");
             this.taxRateCalculated = taxRateCalculated;
             return this;
@@ -2440,7 +2551,7 @@ public class TransactionCreate {
         /**
          * Total tax liability amount.
          */
-        public Builder totalTaxLiabilityAmount(double totalTaxLiabilityAmount) {
+        public Builder totalTaxLiabilityAmount(TransactionCreateTotalTaxLiabilityAmount totalTaxLiabilityAmount) {
             Utils.checkNotNull(totalTaxLiabilityAmount, "totalTaxLiabilityAmount");
             this.totalTaxLiabilityAmount = Optional.ofNullable(totalTaxLiabilityAmount);
             return this;
@@ -2449,20 +2560,26 @@ public class TransactionCreate {
         /**
          * Total tax liability amount.
          */
-        public Builder totalTaxLiabilityAmount(Optional<Double> totalTaxLiabilityAmount) {
+        public Builder totalTaxLiabilityAmount(Optional<? extends TransactionCreateTotalTaxLiabilityAmount> totalTaxLiabilityAmount) {
             Utils.checkNotNull(totalTaxLiabilityAmount, "totalTaxLiabilityAmount");
             this.totalTaxLiabilityAmount = totalTaxLiabilityAmount;
             return this;
         }
 
 
+        /**
+         * Source of tax liability.
+         */
         public Builder taxLiabilitySource(TaxLiabilitySourceEnum taxLiabilitySource) {
             Utils.checkNotNull(taxLiabilitySource, "taxLiabilitySource");
-            this.taxLiabilitySource = Optional.ofNullable(taxLiabilitySource);
+            this.taxLiabilitySource = JsonNullable.of(taxLiabilitySource);
             return this;
         }
 
-        public Builder taxLiabilitySource(Optional<? extends TaxLiabilitySourceEnum> taxLiabilitySource) {
+        /**
+         * Source of tax liability.
+         */
+        public Builder taxLiabilitySource(JsonNullable<? extends TaxLiabilitySourceEnum> taxLiabilitySource) {
             Utils.checkNotNull(taxLiabilitySource, "taxLiabilitySource");
             this.taxLiabilitySource = taxLiabilitySource;
             return this;
@@ -2472,7 +2589,7 @@ public class TransactionCreate {
         /**
          * Taxable amount.
          */
-        public Builder taxableAmount(double taxableAmount) {
+        public Builder taxableAmount(TransactionCreateTaxableAmount taxableAmount) {
             Utils.checkNotNull(taxableAmount, "taxableAmount");
             this.taxableAmount = Optional.ofNullable(taxableAmount);
             return this;
@@ -2481,7 +2598,7 @@ public class TransactionCreate {
         /**
          * Taxable amount.
          */
-        public Builder taxableAmount(Optional<Double> taxableAmount) {
+        public Builder taxableAmount(Optional<? extends TransactionCreateTaxableAmount> taxableAmount) {
             Utils.checkNotNull(taxableAmount, "taxableAmount");
             this.taxableAmount = taxableAmount;
             return this;
@@ -2538,14 +2655,14 @@ public class TransactionCreate {
          */
         public Builder connectionId(String connectionId) {
             Utils.checkNotNull(connectionId, "connectionId");
-            this.connectionId = Optional.ofNullable(connectionId);
+            this.connectionId = JsonNullable.of(connectionId);
             return this;
         }
 
         /**
          * Connection Identifier
          */
-        public Builder connectionId(Optional<String> connectionId) {
+        public Builder connectionId(JsonNullable<String> connectionId) {
             Utils.checkNotNull(connectionId, "connectionId");
             this.connectionId = connectionId;
             return this;
@@ -2557,14 +2674,14 @@ public class TransactionCreate {
          */
         public Builder filingId(String filingId) {
             Utils.checkNotNull(filingId, "filingId");
-            this.filingId = Optional.ofNullable(filingId);
+            this.filingId = JsonNullable.of(filingId);
             return this;
         }
 
         /**
          * Filing identifier.
          */
-        public Builder filingId(Optional<String> filingId) {
+        public Builder filingId(JsonNullable<String> filingId) {
             Utils.checkNotNull(filingId, "filingId");
             this.filingId = filingId;
             return this;
@@ -2576,14 +2693,14 @@ public class TransactionCreate {
          */
         public Builder city(String city) {
             Utils.checkNotNull(city, "city");
-            this.city = Optional.ofNullable(city);
+            this.city = JsonNullable.of(city);
             return this;
         }
 
         /**
          * City of the transaction address.
          */
-        public Builder city(Optional<String> city) {
+        public Builder city(JsonNullable<String> city) {
             Utils.checkNotNull(city, "city");
             this.city = city;
             return this;
@@ -2595,14 +2712,14 @@ public class TransactionCreate {
          */
         public Builder county(String county) {
             Utils.checkNotNull(county, "county");
-            this.county = Optional.ofNullable(county);
+            this.county = JsonNullable.of(county);
             return this;
         }
 
         /**
          * County of the transaction address.
          */
-        public Builder county(Optional<String> county) {
+        public Builder county(JsonNullable<String> county) {
             Utils.checkNotNull(county, "county");
             this.county = county;
             return this;
@@ -2614,27 +2731,33 @@ public class TransactionCreate {
          */
         public Builder state(String state) {
             Utils.checkNotNull(state, "state");
-            this.state = Optional.ofNullable(state);
+            this.state = JsonNullable.of(state);
             return this;
         }
 
         /**
          * State of the transaction address.
          */
-        public Builder state(Optional<String> state) {
+        public Builder state(JsonNullable<String> state) {
             Utils.checkNotNull(state, "state");
             this.state = state;
             return this;
         }
 
 
+        /**
+         * Country code (ISO Alpha-2).
+         */
         public Builder country(CountryCodeEnum country) {
             Utils.checkNotNull(country, "country");
-            this.country = Optional.ofNullable(country);
+            this.country = JsonNullable.of(country);
             return this;
         }
 
-        public Builder country(Optional<? extends CountryCodeEnum> country) {
+        /**
+         * Country code (ISO Alpha-2).
+         */
+        public Builder country(JsonNullable<? extends CountryCodeEnum> country) {
             Utils.checkNotNull(country, "country");
             this.country = country;
             return this;
@@ -2646,14 +2769,14 @@ public class TransactionCreate {
          */
         public Builder postalCode(String postalCode) {
             Utils.checkNotNull(postalCode, "postalCode");
-            this.postalCode = Optional.ofNullable(postalCode);
+            this.postalCode = JsonNullable.of(postalCode);
             return this;
         }
 
         /**
          * Postal code of the transaction.
          */
-        public Builder postalCode(Optional<String> postalCode) {
+        public Builder postalCode(JsonNullable<String> postalCode) {
             Utils.checkNotNull(postalCode, "postalCode");
             this.postalCode = postalCode;
             return this;
@@ -2669,7 +2792,7 @@ public class TransactionCreate {
         @Deprecated
         public Builder taxId(String taxId) {
             Utils.checkNotNull(taxId, "taxId");
-            this.taxId = Optional.ofNullable(taxId);
+            this.taxId = JsonNullable.of(taxId);
             return this;
         }
 
@@ -2680,7 +2803,7 @@ public class TransactionCreate {
          * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
          */
         @Deprecated
-        public Builder taxId(Optional<String> taxId) {
+        public Builder taxId(JsonNullable<String> taxId) {
             Utils.checkNotNull(taxId, "taxId");
             this.taxId = taxId;
             return this;
@@ -2696,6 +2819,44 @@ public class TransactionCreate {
         public Builder status(Optional<? extends TransactionStatusEnum> status) {
             Utils.checkNotNull(status, "status");
             this.status = status;
+            return this;
+        }
+
+
+        /**
+         * Document type distinguishing invoices from sales orders.
+         */
+        public Builder documentType(DocumentTypeEnum documentType) {
+            Utils.checkNotNull(documentType, "documentType");
+            this.documentType = JsonNullable.of(documentType);
+            return this;
+        }
+
+        /**
+         * Document type distinguishing invoices from sales orders.
+         */
+        public Builder documentType(JsonNullable<? extends DocumentTypeEnum> documentType) {
+            Utils.checkNotNull(documentType, "documentType");
+            this.documentType = documentType;
+            return this;
+        }
+
+
+        /**
+         * Identifier of the invoice that created from a sales order.
+         */
+        public Builder createdFrom(String createdFrom) {
+            Utils.checkNotNull(createdFrom, "createdFrom");
+            this.createdFrom = JsonNullable.of(createdFrom);
+            return this;
+        }
+
+        /**
+         * Identifier of the invoice that created from a sales order.
+         */
+        public Builder createdFrom(JsonNullable<String> createdFrom) {
+            Utils.checkNotNull(createdFrom, "createdFrom");
+            this.createdFrom = createdFrom;
             return this;
         }
 
@@ -2734,13 +2895,32 @@ public class TransactionCreate {
         }
 
 
-        public Builder destinationCurrency(CurrencyEnum destinationCurrency) {
-            Utils.checkNotNull(destinationCurrency, "destinationCurrency");
-            this.destinationCurrency = Optional.ofNullable(destinationCurrency);
+        public Builder isDuplicate(boolean isDuplicate) {
+            Utils.checkNotNull(isDuplicate, "isDuplicate");
+            this.isDuplicate = Optional.ofNullable(isDuplicate);
             return this;
         }
 
-        public Builder destinationCurrency(Optional<? extends CurrencyEnum> destinationCurrency) {
+        public Builder isDuplicate(Optional<Boolean> isDuplicate) {
+            Utils.checkNotNull(isDuplicate, "isDuplicate");
+            this.isDuplicate = isDuplicate;
+            return this;
+        }
+
+
+        /**
+         * Destination currency code (ISO 4217, e.g., USD)
+         */
+        public Builder destinationCurrency(CurrencyEnum destinationCurrency) {
+            Utils.checkNotNull(destinationCurrency, "destinationCurrency");
+            this.destinationCurrency = JsonNullable.of(destinationCurrency);
+            return this;
+        }
+
+        /**
+         * Destination currency code (ISO 4217, e.g., USD)
+         */
+        public Builder destinationCurrency(JsonNullable<? extends CurrencyEnum> destinationCurrency) {
             Utils.checkNotNull(destinationCurrency, "destinationCurrency");
             this.destinationCurrency = destinationCurrency;
             return this;
@@ -2750,16 +2930,16 @@ public class TransactionCreate {
         /**
          * Converted total amount.
          */
-        public Builder convertedTotalAmount(double convertedTotalAmount) {
+        public Builder convertedTotalAmount(ConvertedTotalAmount convertedTotalAmount) {
             Utils.checkNotNull(convertedTotalAmount, "convertedTotalAmount");
-            this.convertedTotalAmount = Optional.ofNullable(convertedTotalAmount);
+            this.convertedTotalAmount = JsonNullable.of(convertedTotalAmount);
             return this;
         }
 
         /**
          * Converted total amount.
          */
-        public Builder convertedTotalAmount(Optional<Double> convertedTotalAmount) {
+        public Builder convertedTotalAmount(JsonNullable<? extends ConvertedTotalAmount> convertedTotalAmount) {
             Utils.checkNotNull(convertedTotalAmount, "convertedTotalAmount");
             this.convertedTotalAmount = convertedTotalAmount;
             return this;
@@ -2769,16 +2949,16 @@ public class TransactionCreate {
         /**
          * Converted imported tax amount.
          */
-        public Builder convertedTotalTaxAmountImported(double convertedTotalTaxAmountImported) {
+        public Builder convertedTotalTaxAmountImported(ConvertedTotalTaxAmountImported convertedTotalTaxAmountImported) {
             Utils.checkNotNull(convertedTotalTaxAmountImported, "convertedTotalTaxAmountImported");
-            this.convertedTotalTaxAmountImported = Optional.ofNullable(convertedTotalTaxAmountImported);
+            this.convertedTotalTaxAmountImported = JsonNullable.of(convertedTotalTaxAmountImported);
             return this;
         }
 
         /**
          * Converted imported tax amount.
          */
-        public Builder convertedTotalTaxAmountImported(Optional<Double> convertedTotalTaxAmountImported) {
+        public Builder convertedTotalTaxAmountImported(JsonNullable<? extends ConvertedTotalTaxAmountImported> convertedTotalTaxAmountImported) {
             Utils.checkNotNull(convertedTotalTaxAmountImported, "convertedTotalTaxAmountImported");
             this.convertedTotalTaxAmountImported = convertedTotalTaxAmountImported;
             return this;
@@ -2788,16 +2968,16 @@ public class TransactionCreate {
         /**
          * Converted calculated tax amount.
          */
-        public Builder convertedTotalTaxAmountCalculated(double convertedTotalTaxAmountCalculated) {
+        public Builder convertedTotalTaxAmountCalculated(ConvertedTotalTaxAmountCalculated convertedTotalTaxAmountCalculated) {
             Utils.checkNotNull(convertedTotalTaxAmountCalculated, "convertedTotalTaxAmountCalculated");
-            this.convertedTotalTaxAmountCalculated = Optional.ofNullable(convertedTotalTaxAmountCalculated);
+            this.convertedTotalTaxAmountCalculated = JsonNullable.of(convertedTotalTaxAmountCalculated);
             return this;
         }
 
         /**
          * Converted calculated tax amount.
          */
-        public Builder convertedTotalTaxAmountCalculated(Optional<Double> convertedTotalTaxAmountCalculated) {
+        public Builder convertedTotalTaxAmountCalculated(JsonNullable<? extends ConvertedTotalTaxAmountCalculated> convertedTotalTaxAmountCalculated) {
             Utils.checkNotNull(convertedTotalTaxAmountCalculated, "convertedTotalTaxAmountCalculated");
             this.convertedTotalTaxAmountCalculated = convertedTotalTaxAmountCalculated;
             return this;
@@ -2807,16 +2987,16 @@ public class TransactionCreate {
         /**
          * Currency conversion rate.
          */
-        public Builder conversionRate(double conversionRate) {
+        public Builder conversionRate(ConversionRate conversionRate) {
             Utils.checkNotNull(conversionRate, "conversionRate");
-            this.conversionRate = Optional.ofNullable(conversionRate);
+            this.conversionRate = JsonNullable.of(conversionRate);
             return this;
         }
 
         /**
          * Currency conversion rate.
          */
-        public Builder conversionRate(Optional<Double> conversionRate) {
+        public Builder conversionRate(JsonNullable<? extends ConversionRate> conversionRate) {
             Utils.checkNotNull(conversionRate, "conversionRate");
             this.conversionRate = conversionRate;
             return this;
@@ -2826,16 +3006,16 @@ public class TransactionCreate {
         /**
          * Converted taxable amount.
          */
-        public Builder convertedTaxableAmount(double convertedTaxableAmount) {
+        public Builder convertedTaxableAmount(TransactionCreateConvertedTaxableAmount convertedTaxableAmount) {
             Utils.checkNotNull(convertedTaxableAmount, "convertedTaxableAmount");
-            this.convertedTaxableAmount = Optional.ofNullable(convertedTaxableAmount);
+            this.convertedTaxableAmount = JsonNullable.of(convertedTaxableAmount);
             return this;
         }
 
         /**
          * Converted taxable amount.
          */
-        public Builder convertedTaxableAmount(Optional<Double> convertedTaxableAmount) {
+        public Builder convertedTaxableAmount(JsonNullable<? extends TransactionCreateConvertedTaxableAmount> convertedTaxableAmount) {
             Utils.checkNotNull(convertedTaxableAmount, "convertedTaxableAmount");
             this.convertedTaxableAmount = convertedTaxableAmount;
             return this;
@@ -2845,16 +3025,16 @@ public class TransactionCreate {
         /**
          * Converted total discount amount.
          */
-        public Builder convertedTotalDiscount(double convertedTotalDiscount) {
+        public Builder convertedTotalDiscount(TransactionCreateConvertedTotalDiscount convertedTotalDiscount) {
             Utils.checkNotNull(convertedTotalDiscount, "convertedTotalDiscount");
-            this.convertedTotalDiscount = Optional.ofNullable(convertedTotalDiscount);
+            this.convertedTotalDiscount = JsonNullable.of(convertedTotalDiscount);
             return this;
         }
 
         /**
          * Converted total discount amount.
          */
-        public Builder convertedTotalDiscount(Optional<Double> convertedTotalDiscount) {
+        public Builder convertedTotalDiscount(JsonNullable<? extends TransactionCreateConvertedTotalDiscount> convertedTotalDiscount) {
             Utils.checkNotNull(convertedTotalDiscount, "convertedTotalDiscount");
             this.convertedTotalDiscount = convertedTotalDiscount;
             return this;
@@ -2864,16 +3044,16 @@ public class TransactionCreate {
         /**
          * Converted subtotal amount.
          */
-        public Builder convertedSubtotal(double convertedSubtotal) {
+        public Builder convertedSubtotal(TransactionCreateConvertedSubtotal convertedSubtotal) {
             Utils.checkNotNull(convertedSubtotal, "convertedSubtotal");
-            this.convertedSubtotal = Optional.ofNullable(convertedSubtotal);
+            this.convertedSubtotal = JsonNullable.of(convertedSubtotal);
             return this;
         }
 
         /**
          * Converted subtotal amount.
          */
-        public Builder convertedSubtotal(Optional<Double> convertedSubtotal) {
+        public Builder convertedSubtotal(JsonNullable<? extends TransactionCreateConvertedSubtotal> convertedSubtotal) {
             Utils.checkNotNull(convertedSubtotal, "convertedSubtotal");
             this.convertedSubtotal = convertedSubtotal;
             return this;
@@ -2883,23 +3063,23 @@ public class TransactionCreate {
         /**
          * Converted total tax liability amount.
          */
-        public Builder convertedTotalTaxLiabilityAmount(double convertedTotalTaxLiabilityAmount) {
+        public Builder convertedTotalTaxLiabilityAmount(ConvertedTotalTaxLiabilityAmount convertedTotalTaxLiabilityAmount) {
             Utils.checkNotNull(convertedTotalTaxLiabilityAmount, "convertedTotalTaxLiabilityAmount");
-            this.convertedTotalTaxLiabilityAmount = Optional.ofNullable(convertedTotalTaxLiabilityAmount);
+            this.convertedTotalTaxLiabilityAmount = JsonNullable.of(convertedTotalTaxLiabilityAmount);
             return this;
         }
 
         /**
          * Converted total tax liability amount.
          */
-        public Builder convertedTotalTaxLiabilityAmount(Optional<Double> convertedTotalTaxLiabilityAmount) {
+        public Builder convertedTotalTaxLiabilityAmount(JsonNullable<? extends ConvertedTotalTaxLiabilityAmount> convertedTotalTaxLiabilityAmount) {
             Utils.checkNotNull(convertedTotalTaxLiabilityAmount, "convertedTotalTaxLiabilityAmount");
             this.convertedTotalTaxLiabilityAmount = convertedTotalTaxLiabilityAmount;
             return this;
         }
 
 
-        public Builder addresses(List<TransactionAddressBuilder> addresses) {
+        public Builder addresses(TransactionCreateAddresses addresses) {
             Utils.checkNotNull(addresses, "addresses");
             this.addresses = addresses;
             return this;
@@ -2915,43 +3095,22 @@ public class TransactionCreate {
 
         public Builder customer(CustomerCreate customer) {
             Utils.checkNotNull(customer, "customer");
-            this.customer = Optional.ofNullable(customer);
+            this.customer = JsonNullable.of(customer);
             return this;
         }
 
-        public Builder customer(Optional<? extends CustomerCreate> customer) {
+        public Builder customer(JsonNullable<? extends CustomerCreate> customer) {
             Utils.checkNotNull(customer, "customer");
             this.customer = customer;
             return this;
         }
 
         public TransactionCreate build() {
-            if (totalAmount == null) {
-                totalAmount = _SINGLETON_VALUE_TotalAmount.value();
-            }
-            if (marketplace == null) {
-                marketplace = _SINGLETON_VALUE_Marketplace.value();
-            }
-            if (totalTaxAmountImported == null) {
-                totalTaxAmountImported = _SINGLETON_VALUE_TotalTaxAmountImported.value();
-            }
-            if (taxRateImported == null) {
-                taxRateImported = _SINGLETON_VALUE_TaxRateImported.value();
-            }
-            if (totalTaxAmountCalculated == null) {
-                totalTaxAmountCalculated = _SINGLETON_VALUE_TotalTaxAmountCalculated.value();
-            }
-            if (taxRateCalculated == null) {
-                taxRateCalculated = _SINGLETON_VALUE_TaxRateCalculated.value();
-            }
-            if (totalTaxLiabilityAmount == null) {
-                totalTaxLiabilityAmount = _SINGLETON_VALUE_TotalTaxLiabilityAmount.value();
-            }
-            if (taxableAmount == null) {
-                taxableAmount = _SINGLETON_VALUE_TaxableAmount.value();
-            }
             if (locked == null) {
                 locked = _SINGLETON_VALUE_Locked.value();
+            }
+            if (isDuplicate == null) {
+                isDuplicate = _SINGLETON_VALUE_IsDuplicate.value();
             }
 
             return new TransactionCreate(
@@ -2967,7 +3126,8 @@ public class TransactionCreate {
                 connectionId, filingId, city,
                 county, state, country,
                 postalCode, taxId, status,
-                addressStatus, processingStatus, destinationCurrency,
+                documentType, createdFrom, addressStatus,
+                processingStatus, isDuplicate, destinationCurrency,
                 convertedTotalAmount, convertedTotalTaxAmountImported, convertedTotalTaxAmountCalculated,
                 conversionRate, convertedTaxableAmount, convertedTotalDiscount,
                 convertedSubtotal, convertedTotalTaxLiabilityAmount, addresses,
@@ -2975,57 +3135,15 @@ public class TransactionCreate {
         }
 
 
-        private static final LazySingletonValue<Optional<Double>> _SINGLETON_VALUE_TotalAmount =
-                new LazySingletonValue<>(
-                        "total_amount",
-                        "0",
-                        new TypeReference<Optional<Double>>() {});
-
-        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_Marketplace =
-                new LazySingletonValue<>(
-                        "marketplace",
-                        "false",
-                        new TypeReference<Optional<Boolean>>() {});
-
-        private static final LazySingletonValue<Optional<Double>> _SINGLETON_VALUE_TotalTaxAmountImported =
-                new LazySingletonValue<>(
-                        "total_tax_amount_imported",
-                        "0",
-                        new TypeReference<Optional<Double>>() {});
-
-        private static final LazySingletonValue<Optional<Double>> _SINGLETON_VALUE_TaxRateImported =
-                new LazySingletonValue<>(
-                        "tax_rate_imported",
-                        "0",
-                        new TypeReference<Optional<Double>>() {});
-
-        private static final LazySingletonValue<Optional<Double>> _SINGLETON_VALUE_TotalTaxAmountCalculated =
-                new LazySingletonValue<>(
-                        "total_tax_amount_calculated",
-                        "0",
-                        new TypeReference<Optional<Double>>() {});
-
-        private static final LazySingletonValue<Optional<Double>> _SINGLETON_VALUE_TaxRateCalculated =
-                new LazySingletonValue<>(
-                        "tax_rate_calculated",
-                        "0",
-                        new TypeReference<Optional<Double>>() {});
-
-        private static final LazySingletonValue<Optional<Double>> _SINGLETON_VALUE_TotalTaxLiabilityAmount =
-                new LazySingletonValue<>(
-                        "total_tax_liability_amount",
-                        "0",
-                        new TypeReference<Optional<Double>>() {});
-
-        private static final LazySingletonValue<Optional<Double>> _SINGLETON_VALUE_TaxableAmount =
-                new LazySingletonValue<>(
-                        "taxable_amount",
-                        "0",
-                        new TypeReference<Optional<Double>>() {});
-
         private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_Locked =
                 new LazySingletonValue<>(
                         "locked",
+                        "false",
+                        new TypeReference<Optional<Boolean>>() {});
+
+        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_IsDuplicate =
+                new LazySingletonValue<>(
+                        "is_duplicate",
                         "false",
                         new TypeReference<Optional<Boolean>>() {});
     }

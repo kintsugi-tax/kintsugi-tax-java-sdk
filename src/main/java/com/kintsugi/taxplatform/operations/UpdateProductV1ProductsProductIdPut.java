@@ -12,7 +12,7 @@ import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.SecuritySource;
 import com.kintsugi.taxplatform.models.components.ProductRead;
 import com.kintsugi.taxplatform.models.errors.APIException;
-import com.kintsugi.taxplatform.models.errors.BackendSrcProductsResponsesValidationErrorResponse;
+import com.kintsugi.taxplatform.models.errors.BackendSrcProductsSchemasResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
 import com.kintsugi.taxplatform.models.operations.UpdateProductV1ProductsProductIdPutRequest;
 import com.kintsugi.taxplatform.models.operations.UpdateProductV1ProductsProductIdPutResponse;
@@ -99,7 +99,7 @@ public class UpdateProductV1ProductsProductIdPut {
                     typeReference);
             SerializedBody serializedRequestBody = Utils.serializeRequestBody(
                     convertedRequest,
-                    "productUpdate",
+                    "requestBody",
                     "json",
                     false);
             if (serializedRequestBody == null) {
@@ -109,6 +109,7 @@ public class UpdateProductV1ProductsProductIdPut {
             req.addHeader("Accept", "application/json")
                     .addHeader("user-agent", SDKConfiguration.USER_AGENT);
             _headers.forEach((k, list) -> list.forEach(v -> req.addHeader(k, v)));
+            req.addHeaders(Utils.getHeadersFromMetadata(request, null));
             Utils.configureSecurity(req, this.sdkConfiguration.securitySource().getSecurity());
 
             return req.build();
@@ -187,7 +188,7 @@ public class UpdateProductV1ProductsProductIdPut {
             }
             if (Utils.statusCodeMatches(response.statusCode(), "422")) {
                 if (Utils.contentTypeMatches(contentType, "application/json")) {
-                    throw BackendSrcProductsResponsesValidationErrorResponse.from(response);
+                    throw BackendSrcProductsSchemasResponsesValidationErrorResponse.from(response);
                 } else {
                     throw APIException.from("Unexpected content-type received: " + contentType, response);
                 }
@@ -280,7 +281,7 @@ public class UpdateProductV1ProductsProductIdPut {
             }
             if (Utils.statusCodeMatches(response.statusCode(), "422")) {
                 if (Utils.contentTypeMatches(contentType, "application/json")) {
-                    return BackendSrcProductsResponsesValidationErrorResponse.fromAsync(response)
+                    return BackendSrcProductsSchemasResponsesValidationErrorResponse.fromAsync(response)
                             .thenCompose(CompletableFuture::failedFuture);
                 } else {
                     return Utils.createAsyncApiError(response, "Unexpected content-type received: " + contentType);

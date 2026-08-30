@@ -5,15 +5,19 @@ package com.kintsugi.taxplatform;
 
 import static com.kintsugi.taxplatform.operations.Operations.AsyncRequestOperation;
 
+import com.kintsugi.taxplatform.models.operations.ApproveFilingV1FilingsFilingIdApprovePutRequest;
 import com.kintsugi.taxplatform.models.operations.GetFilingByIdV1FilingsFilingIdGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetFilingsV1FilingsGetRequest;
+import com.kintsugi.taxplatform.models.operations.async.ApproveFilingV1FilingsFilingIdApprovePutRequestBuilder;
+import com.kintsugi.taxplatform.models.operations.async.ApproveFilingV1FilingsFilingIdApprovePutResponse;
 import com.kintsugi.taxplatform.models.operations.async.GetFilingByIdV1FilingsFilingIdGetRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.async.GetFilingByIdV1FilingsFilingIdGetResponse;
 import com.kintsugi.taxplatform.models.operations.async.GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.async.GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetResponse;
 import com.kintsugi.taxplatform.models.operations.async.GetFilingsV1FilingsGetRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.async.GetFilingsV1FilingsGetResponse;
+import com.kintsugi.taxplatform.operations.ApproveFilingV1FilingsFilingIdApprovePut;
 import com.kintsugi.taxplatform.operations.GetFilingByIdV1FilingsFilingIdGet;
 import com.kintsugi.taxplatform.operations.GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGet;
 import com.kintsugi.taxplatform.operations.GetFilingsV1FilingsGet;
@@ -45,7 +49,7 @@ public class AsyncFilings {
 
 
     /**
-     * Get Filings
+     * Get filings
      * 
      * <p>The Get Filings API retrieves a paginated list of filings based on
      * filters such as dates, jurisdiction, Country, status, etc. This helps track
@@ -58,7 +62,7 @@ public class AsyncFilings {
     }
 
     /**
-     * Get Filings
+     * Get filings
      * 
      * <p>The Get Filings API retrieves a paginated list of filings based on
      * filters such as dates, jurisdiction, Country, status, etc. This helps track
@@ -76,41 +80,7 @@ public class AsyncFilings {
 
 
     /**
-     * Get Filing By Id
-     * 
-     * <p>This API retrieves detailed information about a specific
-     * filing using its unique identifier (filing_id).
-     * 
-     * @return The async call builder
-     */
-    public GetFilingByIdV1FilingsFilingIdGetRequestBuilder getById() {
-        return new GetFilingByIdV1FilingsFilingIdGetRequestBuilder(sdkConfiguration);
-    }
-
-    /**
-     * Get Filing By Id
-     * 
-     * <p>This API retrieves detailed information about a specific
-     * filing using its unique identifier (filing_id).
-     * 
-     * @param filingId Unique identifier for the filing to retrieve.
-     * @return {@code CompletableFuture<GetFilingByIdV1FilingsFilingIdGetResponse>} - The async response
-     */
-    public CompletableFuture<GetFilingByIdV1FilingsFilingIdGetResponse> getById(String filingId) {
-        GetFilingByIdV1FilingsFilingIdGetRequest request =
-            GetFilingByIdV1FilingsFilingIdGetRequest
-                .builder()
-                .filingId(filingId)
-                .build();
-        AsyncRequestOperation<GetFilingByIdV1FilingsFilingIdGetRequest, GetFilingByIdV1FilingsFilingIdGetResponse> operation
-              = new GetFilingByIdV1FilingsFilingIdGet.Async(sdkConfiguration, _headers);
-        return operation.doRequest(request)
-            .thenCompose(operation::handleResponse);
-    }
-
-
-    /**
-     * Get Filings By Registration Id
+     * Get filings by registration id
      * 
      * <p>The Get Filings By Registration ID API
      * retrieves all filings
@@ -125,7 +95,7 @@ public class AsyncFilings {
     }
 
     /**
-     * Get Filings By Registration Id
+     * Get filings by registration id
      * 
      * <p>The Get Filings By Registration ID API
      * retrieves all filings
@@ -138,11 +108,13 @@ public class AsyncFilings {
      * @return {@code CompletableFuture<GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetResponse>} - The async response
      */
     public CompletableFuture<GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetResponse> getByRegistrationId(String registrationId) {
-        return getByRegistrationId(registrationId, Optional.empty(), Optional.empty());
+        return getByRegistrationId(
+                registrationId, Optional.empty(), Optional.empty(),
+                Optional.empty());
     }
 
     /**
-     * Get Filings By Registration Id
+     * Get filings by registration id
      * 
      * <p>The Get Filings By Registration ID API
      * retrieves all filings
@@ -154,20 +126,117 @@ public class AsyncFilings {
      *                 associated with the filings.
      * @param page Page number
      * @param size Page size
+     * @param xOrganizationId The unique identifier for the organization making the request
      * @return {@code CompletableFuture<GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetResponse>} - The async response
      */
     public CompletableFuture<GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetResponse> getByRegistrationId(
             String registrationId, Optional<Long> page,
-            Optional<Long> size) {
+            Optional<Long> size, Optional<String> xOrganizationId) {
         GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequest request =
             GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequest
                 .builder()
                 .registrationId(registrationId)
                 .page(page)
                 .size(size)
+                .xOrganizationId(xOrganizationId)
                 .build();
         AsyncRequestOperation<GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequest, GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetResponse> operation
               = new GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGet.Async(sdkConfiguration, _headers);
+        return operation.doRequest(request)
+            .thenCompose(operation::handleResponse);
+    }
+
+
+    /**
+     * Get filing by id
+     * 
+     * <p>This API retrieves detailed information about a specific
+     * filing using its unique identifier (filing_id).
+     * 
+     * @return The async call builder
+     */
+    public GetFilingByIdV1FilingsFilingIdGetRequestBuilder getById() {
+        return new GetFilingByIdV1FilingsFilingIdGetRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Get filing by id
+     * 
+     * <p>This API retrieves detailed information about a specific
+     * filing using its unique identifier (filing_id).
+     * 
+     * @param filingId Unique identifier for the filing to retrieve.
+     * @return {@code CompletableFuture<GetFilingByIdV1FilingsFilingIdGetResponse>} - The async response
+     */
+    public CompletableFuture<GetFilingByIdV1FilingsFilingIdGetResponse> getById(String filingId) {
+        return getById(filingId, Optional.empty());
+    }
+
+    /**
+     * Get filing by id
+     * 
+     * <p>This API retrieves detailed information about a specific
+     * filing using its unique identifier (filing_id).
+     * 
+     * @param filingId Unique identifier for the filing to retrieve.
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @return {@code CompletableFuture<GetFilingByIdV1FilingsFilingIdGetResponse>} - The async response
+     */
+    public CompletableFuture<GetFilingByIdV1FilingsFilingIdGetResponse> getById(String filingId, Optional<String> xOrganizationId) {
+        GetFilingByIdV1FilingsFilingIdGetRequest request =
+            GetFilingByIdV1FilingsFilingIdGetRequest
+                .builder()
+                .filingId(filingId)
+                .xOrganizationId(xOrganizationId)
+                .build();
+        AsyncRequestOperation<GetFilingByIdV1FilingsFilingIdGetRequest, GetFilingByIdV1FilingsFilingIdGetResponse> operation
+              = new GetFilingByIdV1FilingsFilingIdGet.Async(sdkConfiguration, _headers);
+        return operation.doRequest(request)
+            .thenCompose(operation::handleResponse);
+    }
+
+
+    /**
+     * Approve filing
+     * 
+     * <p>Approve a specific filing by its ID.
+     * 
+     * @return The async call builder
+     */
+    public ApproveFilingV1FilingsFilingIdApprovePutRequestBuilder approveFilingV1FilingsFilingIdApprovePut() {
+        return new ApproveFilingV1FilingsFilingIdApprovePutRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Approve filing
+     * 
+     * <p>Approve a specific filing by its ID.
+     * 
+     * @param filingId 
+     * @return {@code CompletableFuture<ApproveFilingV1FilingsFilingIdApprovePutResponse>} - The async response
+     */
+    public CompletableFuture<ApproveFilingV1FilingsFilingIdApprovePutResponse> approveFilingV1FilingsFilingIdApprovePut(String filingId) {
+        return approveFilingV1FilingsFilingIdApprovePut(filingId, Optional.empty());
+    }
+
+    /**
+     * Approve filing
+     * 
+     * <p>Approve a specific filing by its ID.
+     * 
+     * @param filingId 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @return {@code CompletableFuture<ApproveFilingV1FilingsFilingIdApprovePutResponse>} - The async response
+     */
+    public CompletableFuture<ApproveFilingV1FilingsFilingIdApprovePutResponse> approveFilingV1FilingsFilingIdApprovePut(String filingId, Optional<String> xOrganizationId) {
+        ApproveFilingV1FilingsFilingIdApprovePutRequest request =
+            ApproveFilingV1FilingsFilingIdApprovePutRequest
+                .builder()
+                .filingId(filingId)
+                .xOrganizationId(xOrganizationId)
+                .build();
+        AsyncRequestOperation<ApproveFilingV1FilingsFilingIdApprovePutRequest, ApproveFilingV1FilingsFilingIdApprovePutResponse> operation
+              = new ApproveFilingV1FilingsFilingIdApprovePut.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }

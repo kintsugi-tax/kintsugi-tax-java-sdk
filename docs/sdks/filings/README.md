@@ -4,9 +4,10 @@
 
 ### Available Operations
 
-* [get](#get) - Get Filings
-* [getById](#getbyid) - Get Filing By Id
-* [getByRegistrationId](#getbyregistrationid) - Get Filings By Registration Id
+* [get](#get) - Get filings
+* [getByRegistrationId](#getbyregistrationid) - Get filings by registration id
+* [getById](#getbyid) - Get filing by id
+* [approveFilingV1FilingsFilingIdApprovePut](#approvefilingv1filingsfilingidapproveput) - Approve filing
 
 ## get
 
@@ -21,12 +22,11 @@ The Get Filings API retrieves a paginated list of filings based on
 package hello.world;
 
 import com.kintsugi.taxplatform.SDK;
-import com.kintsugi.taxplatform.models.components.Security;
 import com.kintsugi.taxplatform.models.errors.BackendSrcFilingsResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
-import com.kintsugi.taxplatform.models.operations.GetFilingsV1FilingsGetRequest;
-import com.kintsugi.taxplatform.models.operations.GetFilingsV1FilingsGetResponse;
+import com.kintsugi.taxplatform.models.operations.*;
 import java.lang.Exception;
+import java.time.LocalDate;
 import java.util.List;
 
 public class Application {
@@ -34,21 +34,23 @@ public class Application {
     public static void main(String[] args) throws ErrorResponse, BackendSrcFilingsResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
-                .security(Security.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
-                    .build())
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
             .build();
 
         GetFilingsV1FilingsGetRequest req = GetFilingsV1FilingsGetRequest.builder()
-                .startDate("2024-01-01")
-                .endDate("2024-12-31")
-                .dateFiledGte("2024-01-01")
-                .dateFiledLte("2024-12-31")
+                .xOrganizationId("org_12345")
+                .statusIn("FILED,FILING,UNFILED,PAUSED,CANCELLED,ISSUE,SKIPPED")
+                .startDate(LocalDate.parse("2024-01-01"))
+                .endDate(LocalDate.parse("2024-12-31"))
+                .dateFiledGte(LocalDate.parse("2024-01-01"))
+                .dateFiledLte(LocalDate.parse("2024-12-31"))
                 .orderBy("status,start_date,end_date,amount")
                 .stateCode("CA")
                 .countryCode(List.of(
-                    ,))
+                    GetFilingsV1FilingsGetCountryCode.of("U"),
+                    GetFilingsV1FilingsGetCountryCode.of("S")))
+                .filingCategoryIn("REGULAR")
+                .taxTypeIn("SALES_TAX,USE_TAX")
                 .build();
 
         GetFilingsV1FilingsGetResponse res = sdk.filings().get()
@@ -81,65 +83,6 @@ public class Application {
 | models/errors/ErrorResponse                                     | 500                                                             | application/json                                                |
 | models/errors/APIException                                      | 4XX, 5XX                                                        | \*/\*                                                           |
 
-## getById
-
-This API retrieves detailed information about a specific
-    filing using its unique identifier (filing_id).
-
-### Example Usage
-
-<!-- UsageSnippet language="java" operationID="get_filing_by_id_v1_filings__filing_id__get" method="get" path="/v1/filings/{filing_id}" -->
-```java
-package hello.world;
-
-import com.kintsugi.taxplatform.SDK;
-import com.kintsugi.taxplatform.models.components.Security;
-import com.kintsugi.taxplatform.models.errors.BackendSrcFilingsResponsesValidationErrorResponse;
-import com.kintsugi.taxplatform.models.errors.ErrorResponse;
-import com.kintsugi.taxplatform.models.operations.GetFilingByIdV1FilingsFilingIdGetResponse;
-import java.lang.Exception;
-
-public class Application {
-
-    public static void main(String[] args) throws ErrorResponse, BackendSrcFilingsResponsesValidationErrorResponse, Exception {
-
-        SDK sdk = SDK.builder()
-                .security(Security.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
-                    .build())
-            .build();
-
-        GetFilingByIdV1FilingsFilingIdGetResponse res = sdk.filings().getById()
-                .filingId("<id>")
-                .call();
-
-        if (res.filingDetailsRead().isPresent()) {
-            System.out.println(res.filingDetailsRead().get());
-        }
-    }
-}
-```
-
-### Parameters
-
-| Parameter                                     | Type                                          | Required                                      | Description                                   |
-| --------------------------------------------- | --------------------------------------------- | --------------------------------------------- | --------------------------------------------- |
-| `filingId`                                    | *String*                                      | :heavy_check_mark:                            | Unique identifier for the filing to retrieve. |
-
-### Response
-
-**[GetFilingByIdV1FilingsFilingIdGetResponse](../../models/operations/GetFilingByIdV1FilingsFilingIdGetResponse.md)**
-
-### Errors
-
-| Error Type                                                      | Status Code                                                     | Content Type                                                    |
-| --------------------------------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------- |
-| models/errors/ErrorResponse                                     | 401, 404                                                        | application/json                                                |
-| models/errors/BackendSrcFilingsResponsesValidationErrorResponse | 422                                                             | application/json                                                |
-| models/errors/ErrorResponse                                     | 500                                                             | application/json                                                |
-| models/errors/APIException                                      | 4XX, 5XX                                                        | \*/\*                                                           |
-
 ## getByRegistrationId
 
 The Get Filings By Registration ID API
@@ -155,7 +98,6 @@ The Get Filings By Registration ID API
 package hello.world;
 
 import com.kintsugi.taxplatform.SDK;
-import com.kintsugi.taxplatform.models.components.Security;
 import com.kintsugi.taxplatform.models.errors.BackendSrcFilingsResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
 import com.kintsugi.taxplatform.models.operations.GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetResponse;
@@ -166,16 +108,14 @@ public class Application {
     public static void main(String[] args) throws ErrorResponse, BackendSrcFilingsResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
-                .security(Security.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
-                    .build())
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
             .build();
 
         GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetResponse res = sdk.filings().getByRegistrationId()
                 .registrationId("<id>")
                 .page(1L)
                 .size(50L)
+                .xOrganizationId("org_12345")
                 .call();
 
         if (res.pageFilingRead().isPresent()) {
@@ -187,11 +127,12 @@ public class Application {
 
 ### Parameters
 
-| Parameter                                                                   | Type                                                                        | Required                                                                    | Description                                                                 |
-| --------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| `registrationId`                                                            | *String*                                                                    | :heavy_check_mark:                                                          | Unique identifier for the registration<br/>        associated with the filings. |
-| `page`                                                                      | *Optional\<Long>*                                                           | :heavy_minus_sign:                                                          | Page number                                                                 |
-| `size`                                                                      | *Optional\<Long>*                                                           | :heavy_minus_sign:                                                          | Page size                                                                   |
+| Parameter                                                                   | Type                                                                        | Required                                                                    | Description                                                                 | Example                                                                     |
+| --------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| `registrationId`                                                            | *String*                                                                    | :heavy_check_mark:                                                          | Unique identifier for the registration<br/>        associated with the filings. |                                                                             |
+| `page`                                                                      | *Optional\<Long>*                                                           | :heavy_minus_sign:                                                          | Page number                                                                 |                                                                             |
+| `size`                                                                      | *Optional\<Long>*                                                           | :heavy_minus_sign:                                                          | Page size                                                                   |                                                                             |
+| `xOrganizationId`                                                           | *Optional\<String>*                                                         | :heavy_check_mark:                                                          | The unique identifier for the organization making the request               | org_12345                                                                   |
 
 ### Response
 
@@ -205,3 +146,113 @@ public class Application {
 | models/errors/BackendSrcFilingsResponsesValidationErrorResponse | 422                                                             | application/json                                                |
 | models/errors/ErrorResponse                                     | 500                                                             | application/json                                                |
 | models/errors/APIException                                      | 4XX, 5XX                                                        | \*/\*                                                           |
+
+## getById
+
+This API retrieves detailed information about a specific
+    filing using its unique identifier (filing_id).
+
+### Example Usage
+
+<!-- UsageSnippet language="java" operationID="get_filing_by_id_v1_filings__filing_id__get" method="get" path="/v1/filings/{filing_id}" -->
+```java
+package hello.world;
+
+import com.kintsugi.taxplatform.SDK;
+import com.kintsugi.taxplatform.models.errors.BackendSrcFilingsResponsesValidationErrorResponse;
+import com.kintsugi.taxplatform.models.errors.ErrorResponse;
+import com.kintsugi.taxplatform.models.operations.GetFilingByIdV1FilingsFilingIdGetResponse;
+import java.lang.Exception;
+
+public class Application {
+
+    public static void main(String[] args) throws ErrorResponse, BackendSrcFilingsResponsesValidationErrorResponse, Exception {
+
+        SDK sdk = SDK.builder()
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
+            .build();
+
+        GetFilingByIdV1FilingsFilingIdGetResponse res = sdk.filings().getById()
+                .filingId("<id>")
+                .xOrganizationId("org_12345")
+                .call();
+
+        if (res.filingDetailsRead().isPresent()) {
+            System.out.println(res.filingDetailsRead().get());
+        }
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                     | Type                                                          | Required                                                      | Description                                                   | Example                                                       |
+| ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- |
+| `filingId`                                                    | *String*                                                      | :heavy_check_mark:                                            | Unique identifier for the filing to retrieve.                 |                                                               |
+| `xOrganizationId`                                             | *Optional\<String>*                                           | :heavy_check_mark:                                            | The unique identifier for the organization making the request | org_12345                                                     |
+
+### Response
+
+**[GetFilingByIdV1FilingsFilingIdGetResponse](../../models/operations/GetFilingByIdV1FilingsFilingIdGetResponse.md)**
+
+### Errors
+
+| Error Type                                                      | Status Code                                                     | Content Type                                                    |
+| --------------------------------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------- |
+| models/errors/ErrorResponse                                     | 401, 404                                                        | application/json                                                |
+| models/errors/BackendSrcFilingsResponsesValidationErrorResponse | 422                                                             | application/json                                                |
+| models/errors/ErrorResponse                                     | 500                                                             | application/json                                                |
+| models/errors/APIException                                      | 4XX, 5XX                                                        | \*/\*                                                           |
+
+## approveFilingV1FilingsFilingIdApprovePut
+
+Approve a specific filing by its ID.
+
+### Example Usage
+
+<!-- UsageSnippet language="java" operationID="approve_filing_v1_filings__filing_id__approve_put" method="put" path="/v1/filings/{filing_id}/approve" -->
+```java
+package hello.world;
+
+import com.kintsugi.taxplatform.SDK;
+import com.kintsugi.taxplatform.models.errors.HTTPValidationError;
+import com.kintsugi.taxplatform.models.operations.ApproveFilingV1FilingsFilingIdApprovePutResponse;
+import java.lang.Exception;
+
+public class Application {
+
+    public static void main(String[] args) throws HTTPValidationError, Exception {
+
+        SDK sdk = SDK.builder()
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
+            .build();
+
+        ApproveFilingV1FilingsFilingIdApprovePutResponse res = sdk.filings().approveFilingV1FilingsFilingIdApprovePut()
+                .filingId("<id>")
+                .xOrganizationId("org_12345")
+                .call();
+
+        if (res.filingRead().isPresent()) {
+            System.out.println(res.filingRead().get());
+        }
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                     | Type                                                          | Required                                                      | Description                                                   | Example                                                       |
+| ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- |
+| `filingId`                                                    | *String*                                                      | :heavy_check_mark:                                            | N/A                                                           |                                                               |
+| `xOrganizationId`                                             | *Optional\<String>*                                           | :heavy_check_mark:                                            | The unique identifier for the organization making the request | org_12345                                                     |
+
+### Response
+
+**[ApproveFilingV1FilingsFilingIdApprovePutResponse](../../models/operations/ApproveFilingV1FilingsFilingIdApprovePutResponse.md)**
+
+### Errors
+
+| Error Type                        | Status Code                       | Content Type                      |
+| --------------------------------- | --------------------------------- | --------------------------------- |
+| models/errors/HTTPValidationError | 422                               | application/json                  |
+| models/errors/APIException        | 4XX, 5XX                          | \*/\*                             |

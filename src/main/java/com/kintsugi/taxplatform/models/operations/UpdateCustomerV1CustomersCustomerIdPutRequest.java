@@ -10,6 +10,7 @@ import com.kintsugi.taxplatform.utils.SpeakeasyMetadata;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Override;
 import java.lang.String;
+import java.util.Optional;
 
 
 public class UpdateCustomerV1CustomersCustomerIdPutRequest {
@@ -19,6 +20,12 @@ public class UpdateCustomerV1CustomersCustomerIdPutRequest {
     @SpeakeasyMetadata("pathParam:style=simple,explode=false,name=customer_id")
     private String customerId;
 
+    /**
+     * The unique identifier for the organization making the request
+     */
+    @SpeakeasyMetadata("header:style=simple,explode=false,name=x-organization-id")
+    private Optional<String> xOrganizationId;
+
 
     @SpeakeasyMetadata("request:mediaType=application/json")
     private CustomerUpdate customerUpdate;
@@ -26,11 +33,20 @@ public class UpdateCustomerV1CustomersCustomerIdPutRequest {
     @JsonCreator
     public UpdateCustomerV1CustomersCustomerIdPutRequest(
             String customerId,
+            Optional<String> xOrganizationId,
             CustomerUpdate customerUpdate) {
         Utils.checkNotNull(customerId, "customerId");
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
         Utils.checkNotNull(customerUpdate, "customerUpdate");
         this.customerId = customerId;
+        this.xOrganizationId = xOrganizationId;
         this.customerUpdate = customerUpdate;
+    }
+    
+    public UpdateCustomerV1CustomersCustomerIdPutRequest(
+            String customerId,
+            CustomerUpdate customerUpdate) {
+        this(customerId, Optional.empty(), customerUpdate);
     }
 
     /**
@@ -39,6 +55,14 @@ public class UpdateCustomerV1CustomersCustomerIdPutRequest {
     @JsonIgnore
     public String customerId() {
         return customerId;
+    }
+
+    /**
+     * The unique identifier for the organization making the request
+     */
+    @JsonIgnore
+    public Optional<String> xOrganizationId() {
+        return xOrganizationId;
     }
 
     @JsonIgnore
@@ -60,6 +84,25 @@ public class UpdateCustomerV1CustomersCustomerIdPutRequest {
         return this;
     }
 
+    /**
+     * The unique identifier for the organization making the request
+     */
+    public UpdateCustomerV1CustomersCustomerIdPutRequest withXOrganizationId(String xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = Optional.ofNullable(xOrganizationId);
+        return this;
+    }
+
+
+    /**
+     * The unique identifier for the organization making the request
+     */
+    public UpdateCustomerV1CustomersCustomerIdPutRequest withXOrganizationId(Optional<String> xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = xOrganizationId;
+        return this;
+    }
+
     public UpdateCustomerV1CustomersCustomerIdPutRequest withCustomerUpdate(CustomerUpdate customerUpdate) {
         Utils.checkNotNull(customerUpdate, "customerUpdate");
         this.customerUpdate = customerUpdate;
@@ -77,19 +120,21 @@ public class UpdateCustomerV1CustomersCustomerIdPutRequest {
         UpdateCustomerV1CustomersCustomerIdPutRequest other = (UpdateCustomerV1CustomersCustomerIdPutRequest) o;
         return 
             Utils.enhancedDeepEquals(this.customerId, other.customerId) &&
+            Utils.enhancedDeepEquals(this.xOrganizationId, other.xOrganizationId) &&
             Utils.enhancedDeepEquals(this.customerUpdate, other.customerUpdate);
     }
     
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-            customerId, customerUpdate);
+            customerId, xOrganizationId, customerUpdate);
     }
     
     @Override
     public String toString() {
         return Utils.toString(UpdateCustomerV1CustomersCustomerIdPutRequest.class,
                 "customerId", customerId,
+                "xOrganizationId", xOrganizationId,
                 "customerUpdate", customerUpdate);
     }
 
@@ -97,6 +142,8 @@ public class UpdateCustomerV1CustomersCustomerIdPutRequest {
     public final static class Builder {
 
         private String customerId;
+
+        private Optional<String> xOrganizationId = Optional.empty();
 
         private CustomerUpdate customerUpdate;
 
@@ -115,6 +162,25 @@ public class UpdateCustomerV1CustomersCustomerIdPutRequest {
         }
 
 
+        /**
+         * The unique identifier for the organization making the request
+         */
+        public Builder xOrganizationId(String xOrganizationId) {
+            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+            this.xOrganizationId = Optional.ofNullable(xOrganizationId);
+            return this;
+        }
+
+        /**
+         * The unique identifier for the organization making the request
+         */
+        public Builder xOrganizationId(Optional<String> xOrganizationId) {
+            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+            this.xOrganizationId = xOrganizationId;
+            return this;
+        }
+
+
         public Builder customerUpdate(CustomerUpdate customerUpdate) {
             Utils.checkNotNull(customerUpdate, "customerUpdate");
             this.customerUpdate = customerUpdate;
@@ -124,7 +190,7 @@ public class UpdateCustomerV1CustomersCustomerIdPutRequest {
         public UpdateCustomerV1CustomersCustomerIdPutRequest build() {
 
             return new UpdateCustomerV1CustomersCustomerIdPutRequest(
-                customerId, customerUpdate);
+                customerId, xOrganizationId, customerUpdate);
         }
 
     }

@@ -10,6 +10,7 @@ import com.kintsugi.taxplatform.utils.SpeakeasyMetadata;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Override;
 import java.lang.String;
+import java.util.Optional;
 
 
 public class UpdateRegistrationV1RegistrationsRegistrationIdPutRequest {
@@ -19,6 +20,12 @@ public class UpdateRegistrationV1RegistrationsRegistrationIdPutRequest {
     @SpeakeasyMetadata("pathParam:style=simple,explode=false,name=registration_id")
     private String registrationId;
 
+    /**
+     * The unique identifier for the organization making the request
+     */
+    @SpeakeasyMetadata("header:style=simple,explode=false,name=x-organization-id")
+    private Optional<String> xOrganizationId;
+
 
     @SpeakeasyMetadata("request:mediaType=application/json")
     private RegistrationUpdateAPI registrationUpdateAPI;
@@ -26,11 +33,20 @@ public class UpdateRegistrationV1RegistrationsRegistrationIdPutRequest {
     @JsonCreator
     public UpdateRegistrationV1RegistrationsRegistrationIdPutRequest(
             String registrationId,
+            Optional<String> xOrganizationId,
             RegistrationUpdateAPI registrationUpdateAPI) {
         Utils.checkNotNull(registrationId, "registrationId");
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
         Utils.checkNotNull(registrationUpdateAPI, "registrationUpdateAPI");
         this.registrationId = registrationId;
+        this.xOrganizationId = xOrganizationId;
         this.registrationUpdateAPI = registrationUpdateAPI;
+    }
+    
+    public UpdateRegistrationV1RegistrationsRegistrationIdPutRequest(
+            String registrationId,
+            RegistrationUpdateAPI registrationUpdateAPI) {
+        this(registrationId, Optional.empty(), registrationUpdateAPI);
     }
 
     /**
@@ -39,6 +55,14 @@ public class UpdateRegistrationV1RegistrationsRegistrationIdPutRequest {
     @JsonIgnore
     public String registrationId() {
         return registrationId;
+    }
+
+    /**
+     * The unique identifier for the organization making the request
+     */
+    @JsonIgnore
+    public Optional<String> xOrganizationId() {
+        return xOrganizationId;
     }
 
     @JsonIgnore
@@ -60,6 +84,25 @@ public class UpdateRegistrationV1RegistrationsRegistrationIdPutRequest {
         return this;
     }
 
+    /**
+     * The unique identifier for the organization making the request
+     */
+    public UpdateRegistrationV1RegistrationsRegistrationIdPutRequest withXOrganizationId(String xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = Optional.ofNullable(xOrganizationId);
+        return this;
+    }
+
+
+    /**
+     * The unique identifier for the organization making the request
+     */
+    public UpdateRegistrationV1RegistrationsRegistrationIdPutRequest withXOrganizationId(Optional<String> xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = xOrganizationId;
+        return this;
+    }
+
     public UpdateRegistrationV1RegistrationsRegistrationIdPutRequest withRegistrationUpdateAPI(RegistrationUpdateAPI registrationUpdateAPI) {
         Utils.checkNotNull(registrationUpdateAPI, "registrationUpdateAPI");
         this.registrationUpdateAPI = registrationUpdateAPI;
@@ -77,19 +120,21 @@ public class UpdateRegistrationV1RegistrationsRegistrationIdPutRequest {
         UpdateRegistrationV1RegistrationsRegistrationIdPutRequest other = (UpdateRegistrationV1RegistrationsRegistrationIdPutRequest) o;
         return 
             Utils.enhancedDeepEquals(this.registrationId, other.registrationId) &&
+            Utils.enhancedDeepEquals(this.xOrganizationId, other.xOrganizationId) &&
             Utils.enhancedDeepEquals(this.registrationUpdateAPI, other.registrationUpdateAPI);
     }
     
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-            registrationId, registrationUpdateAPI);
+            registrationId, xOrganizationId, registrationUpdateAPI);
     }
     
     @Override
     public String toString() {
         return Utils.toString(UpdateRegistrationV1RegistrationsRegistrationIdPutRequest.class,
                 "registrationId", registrationId,
+                "xOrganizationId", xOrganizationId,
                 "registrationUpdateAPI", registrationUpdateAPI);
     }
 
@@ -97,6 +142,8 @@ public class UpdateRegistrationV1RegistrationsRegistrationIdPutRequest {
     public final static class Builder {
 
         private String registrationId;
+
+        private Optional<String> xOrganizationId = Optional.empty();
 
         private RegistrationUpdateAPI registrationUpdateAPI;
 
@@ -115,6 +162,25 @@ public class UpdateRegistrationV1RegistrationsRegistrationIdPutRequest {
         }
 
 
+        /**
+         * The unique identifier for the organization making the request
+         */
+        public Builder xOrganizationId(String xOrganizationId) {
+            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+            this.xOrganizationId = Optional.ofNullable(xOrganizationId);
+            return this;
+        }
+
+        /**
+         * The unique identifier for the organization making the request
+         */
+        public Builder xOrganizationId(Optional<String> xOrganizationId) {
+            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+            this.xOrganizationId = xOrganizationId;
+            return this;
+        }
+
+
         public Builder registrationUpdateAPI(RegistrationUpdateAPI registrationUpdateAPI) {
             Utils.checkNotNull(registrationUpdateAPI, "registrationUpdateAPI");
             this.registrationUpdateAPI = registrationUpdateAPI;
@@ -124,7 +190,7 @@ public class UpdateRegistrationV1RegistrationsRegistrationIdPutRequest {
         public UpdateRegistrationV1RegistrationsRegistrationIdPutRequest build() {
 
             return new UpdateRegistrationV1RegistrationsRegistrationIdPutRequest(
-                registrationId, registrationUpdateAPI);
+                registrationId, xOrganizationId, registrationUpdateAPI);
         }
 
     }

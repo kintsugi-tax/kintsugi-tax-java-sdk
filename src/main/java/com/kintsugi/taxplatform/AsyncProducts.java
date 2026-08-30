@@ -4,12 +4,13 @@
 package com.kintsugi.taxplatform;
 
 import static com.kintsugi.taxplatform.operations.Operations.AsyncRequestOperation;
-import static com.kintsugi.taxplatform.operations.Operations.AsyncRequestlessOperation;
 
 import com.kintsugi.taxplatform.models.components.ProductCreateManual;
-import com.kintsugi.taxplatform.models.components.ProductUpdate;
+import com.kintsugi.taxplatform.models.operations.CreateProductV1ProductsPostRequest;
 import com.kintsugi.taxplatform.models.operations.GetProductByIdV1ProductsProductIdGetRequest;
+import com.kintsugi.taxplatform.models.operations.GetProductCategoriesV1ProductsCategoriesGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetProductsV1ProductsGetRequest;
+import com.kintsugi.taxplatform.models.operations.Product;
 import com.kintsugi.taxplatform.models.operations.UpdateProductV1ProductsProductIdPutRequest;
 import com.kintsugi.taxplatform.models.operations.async.CreateProductV1ProductsPostRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.async.CreateProductV1ProductsPostResponse;
@@ -28,6 +29,7 @@ import com.kintsugi.taxplatform.operations.GetProductsV1ProductsGet;
 import com.kintsugi.taxplatform.operations.UpdateProductV1ProductsProductIdPut;
 import com.kintsugi.taxplatform.utils.Headers;
 import java.lang.String;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 
@@ -52,7 +54,7 @@ public class AsyncProducts {
 
 
     /**
-     * Get Products
+     * Get products
      * 
      * <p>Retrieve a paginated list of products based on filters and search query.
      * 
@@ -63,7 +65,7 @@ public class AsyncProducts {
     }
 
     /**
-     * Get Products
+     * Get products
      * 
      * <p>Retrieve a paginated list of products based on filters and search query.
      * 
@@ -79,13 +81,15 @@ public class AsyncProducts {
 
 
     /**
-     * Create Product
+     * Create product
      * 
      * <p>The Create Product API allows users to manually create a new product
      * in the system. This includes specifying product details such as category,
      * subcategory, and tax exemption status, etc. You can
-     * retrieve supported categories and subcategories from
-     * [GET /products/categories endpoint](/reference/api/products/get-product-categories)
+     * retrieve supported categories and subcategories from the
+     * [GET /products/categories endpoint](/reference/api/products/get-product-categories),
+     * or browse the full catalog with descriptions and examples in the
+     * [Product Categories guide](/docs/guides/product-categories)
      * 
      * @return The async call builder
      */
@@ -94,19 +98,46 @@ public class AsyncProducts {
     }
 
     /**
-     * Create Product
+     * Create product
      * 
      * <p>The Create Product API allows users to manually create a new product
      * in the system. This includes specifying product details such as category,
      * subcategory, and tax exemption status, etc. You can
-     * retrieve supported categories and subcategories from
-     * [GET /products/categories endpoint](/reference/api/products/get-product-categories)
+     * retrieve supported categories and subcategories from the
+     * [GET /products/categories endpoint](/reference/api/products/get-product-categories),
+     * or browse the full catalog with descriptions and examples in the
+     * [Product Categories guide](/docs/guides/product-categories)
      * 
-     * @param request The request object containing all the parameters for the API call.
+     * @param productCreateManual 
      * @return {@code CompletableFuture<CreateProductV1ProductsPostResponse>} - The async response
      */
-    public CompletableFuture<CreateProductV1ProductsPostResponse> createProductV1ProductsPost(ProductCreateManual request) {
-        AsyncRequestOperation<ProductCreateManual, CreateProductV1ProductsPostResponse> operation
+    public CompletableFuture<CreateProductV1ProductsPostResponse> createProductV1ProductsPost(ProductCreateManual productCreateManual) {
+        return createProductV1ProductsPost(Optional.empty(), productCreateManual);
+    }
+
+    /**
+     * Create product
+     * 
+     * <p>The Create Product API allows users to manually create a new product
+     * in the system. This includes specifying product details such as category,
+     * subcategory, and tax exemption status, etc. You can
+     * retrieve supported categories and subcategories from the
+     * [GET /products/categories endpoint](/reference/api/products/get-product-categories),
+     * or browse the full catalog with descriptions and examples in the
+     * [Product Categories guide](/docs/guides/product-categories)
+     * 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param productCreateManual 
+     * @return {@code CompletableFuture<CreateProductV1ProductsPostResponse>} - The async response
+     */
+    public CompletableFuture<CreateProductV1ProductsPostResponse> createProductV1ProductsPost(Optional<String> xOrganizationId, ProductCreateManual productCreateManual) {
+        CreateProductV1ProductsPostRequest request =
+            CreateProductV1ProductsPostRequest
+                .builder()
+                .xOrganizationId(xOrganizationId)
+                .productCreateManual(productCreateManual)
+                .build();
+        AsyncRequestOperation<CreateProductV1ProductsPostRequest, CreateProductV1ProductsPostResponse> operation
               = new CreateProductV1ProductsPost.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
@@ -114,7 +145,7 @@ public class AsyncProducts {
 
 
     /**
-     * Get Product Categories
+     * Get product categories
      * 
      * <p>The Get Product Categories API retrieves all
      * product categories. This endpoint helps users understand and select the
@@ -127,7 +158,7 @@ public class AsyncProducts {
     }
 
     /**
-     * Get Product Categories
+     * Get product categories
      * 
      * <p>The Get Product Categories API retrieves all
      * product categories. This endpoint helps users understand and select the
@@ -136,15 +167,34 @@ public class AsyncProducts {
      * @return {@code CompletableFuture<GetProductCategoriesV1ProductsCategoriesGetResponse>} - The async response
      */
     public CompletableFuture<GetProductCategoriesV1ProductsCategoriesGetResponse> getProductCategoriesV1ProductsCategoriesGetDirect() {
-        AsyncRequestlessOperation<GetProductCategoriesV1ProductsCategoriesGetResponse> operation
-            = new GetProductCategoriesV1ProductsCategoriesGet.Async(sdkConfiguration, _headers);
-        return operation.doRequest()
+        return getProductCategoriesV1ProductsCategoriesGet(Optional.empty());
+    }
+
+    /**
+     * Get product categories
+     * 
+     * <p>The Get Product Categories API retrieves all
+     * product categories. This endpoint helps users understand and select the
+     * appropriate categories for their products.
+     * 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @return {@code CompletableFuture<GetProductCategoriesV1ProductsCategoriesGetResponse>} - The async response
+     */
+    public CompletableFuture<GetProductCategoriesV1ProductsCategoriesGetResponse> getProductCategoriesV1ProductsCategoriesGet(Optional<String> xOrganizationId) {
+        GetProductCategoriesV1ProductsCategoriesGetRequest request =
+            GetProductCategoriesV1ProductsCategoriesGetRequest
+                .builder()
+                .xOrganizationId(xOrganizationId)
+                .build();
+        AsyncRequestOperation<GetProductCategoriesV1ProductsCategoriesGetRequest, GetProductCategoriesV1ProductsCategoriesGetResponse> operation
+              = new GetProductCategoriesV1ProductsCategoriesGet.Async(sdkConfiguration, _headers);
+        return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
 
 
     /**
-     * Get Product By Id
+     * Get product by id
      * 
      * <p>The Get Product By ID API retrieves detailed information about
      * a single product by its unique ID. This API helps in viewing the specific details
@@ -157,7 +207,7 @@ public class AsyncProducts {
     }
 
     /**
-     * Get Product By Id
+     * Get product by id
      * 
      * <p>The Get Product By ID API retrieves detailed information about
      * a single product by its unique ID. This API helps in viewing the specific details
@@ -167,10 +217,26 @@ public class AsyncProducts {
      * @return {@code CompletableFuture<GetProductByIdV1ProductsProductIdGetResponse>} - The async response
      */
     public CompletableFuture<GetProductByIdV1ProductsProductIdGetResponse> getById(String productId) {
+        return getById(productId, Optional.empty());
+    }
+
+    /**
+     * Get product by id
+     * 
+     * <p>The Get Product By ID API retrieves detailed information about
+     * a single product by its unique ID. This API helps in viewing the specific details
+     * of a product, including its attributes, status, and categorization.
+     * 
+     * @param productId The unique identifier for the product you want to retrieve.
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @return {@code CompletableFuture<GetProductByIdV1ProductsProductIdGetResponse>} - The async response
+     */
+    public CompletableFuture<GetProductByIdV1ProductsProductIdGetResponse> getById(String productId, Optional<String> xOrganizationId) {
         GetProductByIdV1ProductsProductIdGetRequest request =
             GetProductByIdV1ProductsProductIdGetRequest
                 .builder()
                 .productId(productId)
+                .xOrganizationId(xOrganizationId)
                 .build();
         AsyncRequestOperation<GetProductByIdV1ProductsProductIdGetRequest, GetProductByIdV1ProductsProductIdGetResponse> operation
               = new GetProductByIdV1ProductsProductIdGet.Async(sdkConfiguration, _headers);
@@ -180,12 +246,14 @@ public class AsyncProducts {
 
 
     /**
-     * Update Product
+     * Update product
      * 
      * <p>The Update Product API allows users to modify the details of
      * an existing product identified by its unique product_id. You can
-     * retrieve supported categories and subcategories from
-     * [GET /products/categories endpoint](/reference/api/products/get-product-categories)
+     * retrieve supported categories and subcategories from the
+     * [GET /products/categories endpoint](/reference/api/products/get-product-categories),
+     * or browse the full catalog with descriptions and examples in the
+     * [Product Categories guide](/docs/guides/product-categories)
      * 
      * @return The async call builder
      */
@@ -194,23 +262,47 @@ public class AsyncProducts {
     }
 
     /**
-     * Update Product
+     * Update product
      * 
      * <p>The Update Product API allows users to modify the details of
      * an existing product identified by its unique product_id. You can
-     * retrieve supported categories and subcategories from
-     * [GET /products/categories endpoint](/reference/api/products/get-product-categories)
+     * retrieve supported categories and subcategories from the
+     * [GET /products/categories endpoint](/reference/api/products/get-product-categories),
+     * or browse the full catalog with descriptions and examples in the
+     * [Product Categories guide](/docs/guides/product-categories)
      * 
      * @param productId Unique identifier of the product to be updated.
-     * @param productUpdate 
+     * @param requestBody 
      * @return {@code CompletableFuture<UpdateProductV1ProductsProductIdPutResponse>} - The async response
      */
-    public CompletableFuture<UpdateProductV1ProductsProductIdPutResponse> update(String productId, ProductUpdate productUpdate) {
+    public CompletableFuture<UpdateProductV1ProductsProductIdPutResponse> update(String productId, Product requestBody) {
+        return update(productId, Optional.empty(), requestBody);
+    }
+
+    /**
+     * Update product
+     * 
+     * <p>The Update Product API allows users to modify the details of
+     * an existing product identified by its unique product_id. You can
+     * retrieve supported categories and subcategories from the
+     * [GET /products/categories endpoint](/reference/api/products/get-product-categories),
+     * or browse the full catalog with descriptions and examples in the
+     * [Product Categories guide](/docs/guides/product-categories)
+     * 
+     * @param productId Unique identifier of the product to be updated.
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param requestBody 
+     * @return {@code CompletableFuture<UpdateProductV1ProductsProductIdPutResponse>} - The async response
+     */
+    public CompletableFuture<UpdateProductV1ProductsProductIdPutResponse> update(
+            String productId, Optional<String> xOrganizationId,
+            Product requestBody) {
         UpdateProductV1ProductsProductIdPutRequest request =
             UpdateProductV1ProductsProductIdPutRequest
                 .builder()
                 .productId(productId)
-                .productUpdate(productUpdate)
+                .xOrganizationId(xOrganizationId)
+                .requestBody(requestBody)
                 .build();
         AsyncRequestOperation<UpdateProductV1ProductsProductIdPutRequest, UpdateProductV1ProductsProductIdPutResponse> operation
               = new UpdateProductV1ProductsProductIdPut.Async(sdkConfiguration, _headers);

@@ -9,6 +9,7 @@ import com.kintsugi.taxplatform.utils.SpeakeasyMetadata;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Override;
 import java.lang.String;
+import java.util.Optional;
 
 
 public class GetFilingByIdV1FilingsFilingIdGetRequest {
@@ -18,11 +19,25 @@ public class GetFilingByIdV1FilingsFilingIdGetRequest {
     @SpeakeasyMetadata("pathParam:style=simple,explode=false,name=filing_id")
     private String filingId;
 
+    /**
+     * The unique identifier for the organization making the request
+     */
+    @SpeakeasyMetadata("header:style=simple,explode=false,name=x-organization-id")
+    private Optional<String> xOrganizationId;
+
     @JsonCreator
     public GetFilingByIdV1FilingsFilingIdGetRequest(
-            String filingId) {
+            String filingId,
+            Optional<String> xOrganizationId) {
         Utils.checkNotNull(filingId, "filingId");
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
         this.filingId = filingId;
+        this.xOrganizationId = xOrganizationId;
+    }
+    
+    public GetFilingByIdV1FilingsFilingIdGetRequest(
+            String filingId) {
+        this(filingId, Optional.empty());
     }
 
     /**
@@ -31,6 +46,14 @@ public class GetFilingByIdV1FilingsFilingIdGetRequest {
     @JsonIgnore
     public String filingId() {
         return filingId;
+    }
+
+    /**
+     * The unique identifier for the organization making the request
+     */
+    @JsonIgnore
+    public Optional<String> xOrganizationId() {
+        return xOrganizationId;
     }
 
     public static Builder builder() {
@@ -47,6 +70,25 @@ public class GetFilingByIdV1FilingsFilingIdGetRequest {
         return this;
     }
 
+    /**
+     * The unique identifier for the organization making the request
+     */
+    public GetFilingByIdV1FilingsFilingIdGetRequest withXOrganizationId(String xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = Optional.ofNullable(xOrganizationId);
+        return this;
+    }
+
+
+    /**
+     * The unique identifier for the organization making the request
+     */
+    public GetFilingByIdV1FilingsFilingIdGetRequest withXOrganizationId(Optional<String> xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = xOrganizationId;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -57,25 +99,29 @@ public class GetFilingByIdV1FilingsFilingIdGetRequest {
         }
         GetFilingByIdV1FilingsFilingIdGetRequest other = (GetFilingByIdV1FilingsFilingIdGetRequest) o;
         return 
-            Utils.enhancedDeepEquals(this.filingId, other.filingId);
+            Utils.enhancedDeepEquals(this.filingId, other.filingId) &&
+            Utils.enhancedDeepEquals(this.xOrganizationId, other.xOrganizationId);
     }
     
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-            filingId);
+            filingId, xOrganizationId);
     }
     
     @Override
     public String toString() {
         return Utils.toString(GetFilingByIdV1FilingsFilingIdGetRequest.class,
-                "filingId", filingId);
+                "filingId", filingId,
+                "xOrganizationId", xOrganizationId);
     }
 
     @SuppressWarnings("UnusedReturnValue")
     public final static class Builder {
 
         private String filingId;
+
+        private Optional<String> xOrganizationId = Optional.empty();
 
         private Builder() {
           // force use of static builder() method
@@ -91,10 +137,29 @@ public class GetFilingByIdV1FilingsFilingIdGetRequest {
             return this;
         }
 
+
+        /**
+         * The unique identifier for the organization making the request
+         */
+        public Builder xOrganizationId(String xOrganizationId) {
+            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+            this.xOrganizationId = Optional.ofNullable(xOrganizationId);
+            return this;
+        }
+
+        /**
+         * The unique identifier for the organization making the request
+         */
+        public Builder xOrganizationId(Optional<String> xOrganizationId) {
+            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+            this.xOrganizationId = xOrganizationId;
+            return this;
+        }
+
         public GetFilingByIdV1FilingsFilingIdGetRequest build() {
 
             return new GetFilingByIdV1FilingsFilingIdGetRequest(
-                filingId);
+                filingId, xOrganizationId);
         }
 
     }

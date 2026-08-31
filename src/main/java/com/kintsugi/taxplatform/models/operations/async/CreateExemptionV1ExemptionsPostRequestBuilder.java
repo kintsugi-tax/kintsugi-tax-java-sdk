@@ -7,31 +7,57 @@ import static com.kintsugi.taxplatform.operations.Operations.AsyncRequestOperati
 
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.components.ExemptionCreate;
+import com.kintsugi.taxplatform.models.operations.CreateExemptionV1ExemptionsPostRequest;
 import com.kintsugi.taxplatform.operations.CreateExemptionV1ExemptionsPost;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
+import java.lang.String;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 public class CreateExemptionV1ExemptionsPostRequestBuilder {
 
-    private ExemptionCreate request;
+    private Optional<String> xOrganizationId = Optional.empty();
+    private ExemptionCreate exemptionCreate;
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
     public CreateExemptionV1ExemptionsPostRequestBuilder(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
     }
-
-    public CreateExemptionV1ExemptionsPostRequestBuilder request(ExemptionCreate request) {
-        Utils.checkNotNull(request, "request");
-        this.request = request;
+                
+    public CreateExemptionV1ExemptionsPostRequestBuilder xOrganizationId(String xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = Optional.of(xOrganizationId);
         return this;
+    }
+
+    public CreateExemptionV1ExemptionsPostRequestBuilder xOrganizationId(Optional<String> xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = xOrganizationId;
+        return this;
+    }
+
+    public CreateExemptionV1ExemptionsPostRequestBuilder exemptionCreate(ExemptionCreate exemptionCreate) {
+        Utils.checkNotNull(exemptionCreate, "exemptionCreate");
+        this.exemptionCreate = exemptionCreate;
+        return this;
+    }
+
+
+    private CreateExemptionV1ExemptionsPostRequest buildRequest() {
+
+        CreateExemptionV1ExemptionsPostRequest request = new CreateExemptionV1ExemptionsPostRequest(xOrganizationId,
+            exemptionCreate);
+
+        return request;
     }
 
     public CompletableFuture<CreateExemptionV1ExemptionsPostResponse> call() {
         
-        AsyncRequestOperation<ExemptionCreate, CreateExemptionV1ExemptionsPostResponse> operation
+        AsyncRequestOperation<CreateExemptionV1ExemptionsPostRequest, CreateExemptionV1ExemptionsPostResponse> operation
               = new CreateExemptionV1ExemptionsPost.Async(sdkConfiguration, _headers);
+        CreateExemptionV1ExemptionsPostRequest request = buildRequest();
 
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);

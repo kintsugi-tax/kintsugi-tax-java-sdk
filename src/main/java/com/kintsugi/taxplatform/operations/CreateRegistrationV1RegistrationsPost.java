@@ -14,7 +14,7 @@ import com.kintsugi.taxplatform.models.components.RegistrationRead;
 import com.kintsugi.taxplatform.models.errors.APIException;
 import com.kintsugi.taxplatform.models.errors.BackendSrcRegistrationsResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
-import com.kintsugi.taxplatform.models.operations.CreateRegistration;
+import com.kintsugi.taxplatform.models.operations.CreateRegistrationV1RegistrationsPostRequest;
 import com.kintsugi.taxplatform.models.operations.CreateRegistrationV1RegistrationsPostResponse;
 import com.kintsugi.taxplatform.utils.Blob;
 import com.kintsugi.taxplatform.utils.HTTPClient;
@@ -97,7 +97,7 @@ public class CreateRegistrationV1RegistrationsPost {
                     typeReference);
             SerializedBody serializedRequestBody = Utils.serializeRequestBody(
                     convertedRequest,
-                    "",
+                    "requestBody",
                     "json",
                     false);
             if (serializedRequestBody == null) {
@@ -107,6 +107,7 @@ public class CreateRegistrationV1RegistrationsPost {
             req.addHeader("Accept", "application/json")
                     .addHeader("user-agent", SDKConfiguration.USER_AGENT);
             _headers.forEach((k, list) -> list.forEach(v -> req.addHeader(k, v)));
+            req.addHeaders(Utils.getHeadersFromMetadata(request, null));
             Utils.configureSecurity(req, this.sdkConfiguration.securitySource().getSecurity());
 
             return req.build();
@@ -114,13 +115,13 @@ public class CreateRegistrationV1RegistrationsPost {
     }
 
     public static class Sync extends Base
-            implements RequestOperation<CreateRegistration, CreateRegistrationV1RegistrationsPostResponse> {
+            implements RequestOperation<CreateRegistrationV1RegistrationsPostRequest, CreateRegistrationV1RegistrationsPostResponse> {
         public Sync(SDKConfiguration sdkConfiguration, Headers _headers) {
             super(sdkConfiguration, _headers);
         }
 
-        private HttpRequest onBuildRequest(CreateRegistration request) throws Exception {
-            HttpRequest req = buildRequest(request, new TypeReference<CreateRegistration>() {});
+        private HttpRequest onBuildRequest(CreateRegistrationV1RegistrationsPostRequest request) throws Exception {
+            HttpRequest req = buildRequest(request, new TypeReference<CreateRegistrationV1RegistrationsPostRequest>() {});
             return sdkConfiguration.hooks().beforeRequest(createBeforeRequestContext(), req);
         }
 
@@ -136,7 +137,7 @@ public class CreateRegistrationV1RegistrationsPost {
         }
 
         @Override
-        public HttpResponse<InputStream> doRequest(CreateRegistration request) {
+        public HttpResponse<InputStream> doRequest(CreateRegistrationV1RegistrationsPostRequest request) {
             HttpRequest r = unchecked(() -> onBuildRequest(request)).get();
             HttpResponse<InputStream> httpRes;
             try {
@@ -209,14 +210,14 @@ public class CreateRegistrationV1RegistrationsPost {
         }
     }
     public static class Async extends Base
-            implements AsyncRequestOperation<CreateRegistration, com.kintsugi.taxplatform.models.operations.async.CreateRegistrationV1RegistrationsPostResponse> {
+            implements AsyncRequestOperation<CreateRegistrationV1RegistrationsPostRequest, com.kintsugi.taxplatform.models.operations.async.CreateRegistrationV1RegistrationsPostResponse> {
 
         public Async(SDKConfiguration sdkConfiguration, Headers _headers) {
             super(sdkConfiguration, _headers);
         }
 
-        private CompletableFuture<HttpRequest> onBuildRequest(CreateRegistration request) throws Exception {
-            HttpRequest req = buildRequest(request, new TypeReference<CreateRegistration>() {});
+        private CompletableFuture<HttpRequest> onBuildRequest(CreateRegistrationV1RegistrationsPostRequest request) throws Exception {
+            HttpRequest req = buildRequest(request, new TypeReference<CreateRegistrationV1RegistrationsPostRequest>() {});
             return this.sdkConfiguration.asyncHooks().beforeRequest(createBeforeRequestContext(), req);
         }
 
@@ -229,7 +230,7 @@ public class CreateRegistrationV1RegistrationsPost {
         }
 
         @Override
-        public CompletableFuture<HttpResponse<Blob>> doRequest(CreateRegistration request) {
+        public CompletableFuture<HttpResponse<Blob>> doRequest(CreateRegistrationV1RegistrationsPostRequest request) {
             return unchecked(() -> onBuildRequest(request)).get().thenCompose(client::sendAsync)
                     .handle((resp, err) -> {
                         if (err != null) {

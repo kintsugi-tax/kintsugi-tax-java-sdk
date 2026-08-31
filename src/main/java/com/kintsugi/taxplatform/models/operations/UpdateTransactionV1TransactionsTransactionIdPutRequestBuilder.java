@@ -11,10 +11,12 @@ import com.kintsugi.taxplatform.operations.UpdateTransactionV1TransactionsTransa
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.util.Optional;
 
 public class UpdateTransactionV1TransactionsTransactionIdPutRequestBuilder {
 
     private String transactionId;
+    private Optional<String> xOrganizationId = Optional.empty();
     private TransactionUpdate transactionUpdate;
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
@@ -28,6 +30,18 @@ public class UpdateTransactionV1TransactionsTransactionIdPutRequestBuilder {
         this.transactionId = transactionId;
         return this;
     }
+                
+    public UpdateTransactionV1TransactionsTransactionIdPutRequestBuilder xOrganizationId(String xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = Optional.of(xOrganizationId);
+        return this;
+    }
+
+    public UpdateTransactionV1TransactionsTransactionIdPutRequestBuilder xOrganizationId(Optional<String> xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = xOrganizationId;
+        return this;
+    }
 
     public UpdateTransactionV1TransactionsTransactionIdPutRequestBuilder transactionUpdate(TransactionUpdate transactionUpdate) {
         Utils.checkNotNull(transactionUpdate, "transactionUpdate");
@@ -39,6 +53,7 @@ public class UpdateTransactionV1TransactionsTransactionIdPutRequestBuilder {
     private UpdateTransactionV1TransactionsTransactionIdPutRequest buildRequest() {
 
         UpdateTransactionV1TransactionsTransactionIdPutRequest request = new UpdateTransactionV1TransactionsTransactionIdPutRequest(transactionId,
+            xOrganizationId,
             transactionUpdate);
 
         return request;

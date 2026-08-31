@@ -8,16 +8,20 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.kintsugi.taxplatform.utils.LazySingletonValue;
 import com.kintsugi.taxplatform.utils.Utils;
+import java.lang.Boolean;
 import java.lang.Override;
 import java.lang.String;
 import java.lang.SuppressWarnings;
 import java.util.Optional;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 /**
  * TransactionAddressPublic
  * 
- * <p>Public address class for transaction addresses
+ * <p>API-facing transaction address without internal enrichment fields.
  */
 public class TransactionAddressPublic {
     /**
@@ -25,78 +29,88 @@ public class TransactionAddressPublic {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("phone")
-    private Optional<String> phone;
+    private JsonNullable<String> phone;
 
     /**
      * Primary street address.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("street_1")
-    private Optional<String> street1;
+    private JsonNullable<String> street1;
 
     /**
      * Additional street address details, such as an apartment or suite number.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("street_2")
-    private Optional<String> street2;
+    private JsonNullable<String> street2;
 
     /**
      * City where the customer resides.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("city")
-    private Optional<String> city;
+    private JsonNullable<String> city;
 
     /**
      * County or district of the customer.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("county")
-    private Optional<String> county;
+    private JsonNullable<String> county;
 
     /**
      * State or province of the customer.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("state")
-    private Optional<String> state;
+    private JsonNullable<String> state;
 
     /**
      * ZIP or Postal code of the customer.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("postal_code")
-    private Optional<String> postalCode;
+    private JsonNullable<String> postalCode;
 
-
+    /**
+     * Country code in ISO 3166-1 alpha-2 format
+     */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("country")
-    private Optional<? extends CountryCodeEnum> country;
+    private JsonNullable<? extends CountryCodeEnum> country;
 
     /**
      * Complete address string of the customer, which can be used as an alternative to individual fields.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("full_address")
-    private Optional<String> fullAddress;
+    private JsonNullable<String> fullAddress;
 
 
     @JsonProperty("type")
     private AddressType type;
 
+    /**
+     * If true, city-level tax rates are not applied for this address.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("is_unincorporated")
+    private Optional<Boolean> isUnincorporated;
+
     @JsonCreator
     public TransactionAddressPublic(
-            @JsonProperty("phone") Optional<String> phone,
-            @JsonProperty("street_1") Optional<String> street1,
-            @JsonProperty("street_2") Optional<String> street2,
-            @JsonProperty("city") Optional<String> city,
-            @JsonProperty("county") Optional<String> county,
-            @JsonProperty("state") Optional<String> state,
-            @JsonProperty("postal_code") Optional<String> postalCode,
-            @JsonProperty("country") Optional<? extends CountryCodeEnum> country,
-            @JsonProperty("full_address") Optional<String> fullAddress,
-            @JsonProperty("type") AddressType type) {
+            @JsonProperty("phone") JsonNullable<String> phone,
+            @JsonProperty("street_1") JsonNullable<String> street1,
+            @JsonProperty("street_2") JsonNullable<String> street2,
+            @JsonProperty("city") JsonNullable<String> city,
+            @JsonProperty("county") JsonNullable<String> county,
+            @JsonProperty("state") JsonNullable<String> state,
+            @JsonProperty("postal_code") JsonNullable<String> postalCode,
+            @JsonProperty("country") JsonNullable<? extends CountryCodeEnum> country,
+            @JsonProperty("full_address") JsonNullable<String> fullAddress,
+            @JsonProperty("type") AddressType type,
+            @JsonProperty("is_unincorporated") Optional<Boolean> isUnincorporated) {
         Utils.checkNotNull(phone, "phone");
         Utils.checkNotNull(street1, "street1");
         Utils.checkNotNull(street2, "street2");
@@ -107,6 +121,7 @@ public class TransactionAddressPublic {
         Utils.checkNotNull(country, "country");
         Utils.checkNotNull(fullAddress, "fullAddress");
         Utils.checkNotNull(type, "type");
+        Utils.checkNotNull(isUnincorporated, "isUnincorporated");
         this.phone = phone;
         this.street1 = street1;
         this.street2 = street2;
@@ -117,21 +132,22 @@ public class TransactionAddressPublic {
         this.country = country;
         this.fullAddress = fullAddress;
         this.type = type;
+        this.isUnincorporated = isUnincorporated;
     }
     
     public TransactionAddressPublic(
             AddressType type) {
-        this(Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            type);
+        this(JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            type, Optional.empty());
     }
 
     /**
      * Phone number associated with the address.
      */
     @JsonIgnore
-    public Optional<String> phone() {
+    public JsonNullable<String> phone() {
         return phone;
     }
 
@@ -139,7 +155,7 @@ public class TransactionAddressPublic {
      * Primary street address.
      */
     @JsonIgnore
-    public Optional<String> street1() {
+    public JsonNullable<String> street1() {
         return street1;
     }
 
@@ -147,7 +163,7 @@ public class TransactionAddressPublic {
      * Additional street address details, such as an apartment or suite number.
      */
     @JsonIgnore
-    public Optional<String> street2() {
+    public JsonNullable<String> street2() {
         return street2;
     }
 
@@ -155,7 +171,7 @@ public class TransactionAddressPublic {
      * City where the customer resides.
      */
     @JsonIgnore
-    public Optional<String> city() {
+    public JsonNullable<String> city() {
         return city;
     }
 
@@ -163,7 +179,7 @@ public class TransactionAddressPublic {
      * County or district of the customer.
      */
     @JsonIgnore
-    public Optional<String> county() {
+    public JsonNullable<String> county() {
         return county;
     }
 
@@ -171,7 +187,7 @@ public class TransactionAddressPublic {
      * State or province of the customer.
      */
     @JsonIgnore
-    public Optional<String> state() {
+    public JsonNullable<String> state() {
         return state;
     }
 
@@ -179,27 +195,38 @@ public class TransactionAddressPublic {
      * ZIP or Postal code of the customer.
      */
     @JsonIgnore
-    public Optional<String> postalCode() {
+    public JsonNullable<String> postalCode() {
         return postalCode;
     }
 
+    /**
+     * Country code in ISO 3166-1 alpha-2 format
+     */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<CountryCodeEnum> country() {
-        return (Optional<CountryCodeEnum>) country;
+    public JsonNullable<CountryCodeEnum> country() {
+        return (JsonNullable<CountryCodeEnum>) country;
     }
 
     /**
      * Complete address string of the customer, which can be used as an alternative to individual fields.
      */
     @JsonIgnore
-    public Optional<String> fullAddress() {
+    public JsonNullable<String> fullAddress() {
         return fullAddress;
     }
 
     @JsonIgnore
     public AddressType type() {
         return type;
+    }
+
+    /**
+     * If true, city-level tax rates are not applied for this address.
+     */
+    @JsonIgnore
+    public Optional<Boolean> isUnincorporated() {
+        return isUnincorporated;
     }
 
     public static Builder builder() {
@@ -212,15 +239,14 @@ public class TransactionAddressPublic {
      */
     public TransactionAddressPublic withPhone(String phone) {
         Utils.checkNotNull(phone, "phone");
-        this.phone = Optional.ofNullable(phone);
+        this.phone = JsonNullable.of(phone);
         return this;
     }
-
 
     /**
      * Phone number associated with the address.
      */
-    public TransactionAddressPublic withPhone(Optional<String> phone) {
+    public TransactionAddressPublic withPhone(JsonNullable<String> phone) {
         Utils.checkNotNull(phone, "phone");
         this.phone = phone;
         return this;
@@ -231,15 +257,14 @@ public class TransactionAddressPublic {
      */
     public TransactionAddressPublic withStreet1(String street1) {
         Utils.checkNotNull(street1, "street1");
-        this.street1 = Optional.ofNullable(street1);
+        this.street1 = JsonNullable.of(street1);
         return this;
     }
-
 
     /**
      * Primary street address.
      */
-    public TransactionAddressPublic withStreet1(Optional<String> street1) {
+    public TransactionAddressPublic withStreet1(JsonNullable<String> street1) {
         Utils.checkNotNull(street1, "street1");
         this.street1 = street1;
         return this;
@@ -250,15 +275,14 @@ public class TransactionAddressPublic {
      */
     public TransactionAddressPublic withStreet2(String street2) {
         Utils.checkNotNull(street2, "street2");
-        this.street2 = Optional.ofNullable(street2);
+        this.street2 = JsonNullable.of(street2);
         return this;
     }
-
 
     /**
      * Additional street address details, such as an apartment or suite number.
      */
-    public TransactionAddressPublic withStreet2(Optional<String> street2) {
+    public TransactionAddressPublic withStreet2(JsonNullable<String> street2) {
         Utils.checkNotNull(street2, "street2");
         this.street2 = street2;
         return this;
@@ -269,15 +293,14 @@ public class TransactionAddressPublic {
      */
     public TransactionAddressPublic withCity(String city) {
         Utils.checkNotNull(city, "city");
-        this.city = Optional.ofNullable(city);
+        this.city = JsonNullable.of(city);
         return this;
     }
-
 
     /**
      * City where the customer resides.
      */
-    public TransactionAddressPublic withCity(Optional<String> city) {
+    public TransactionAddressPublic withCity(JsonNullable<String> city) {
         Utils.checkNotNull(city, "city");
         this.city = city;
         return this;
@@ -288,15 +311,14 @@ public class TransactionAddressPublic {
      */
     public TransactionAddressPublic withCounty(String county) {
         Utils.checkNotNull(county, "county");
-        this.county = Optional.ofNullable(county);
+        this.county = JsonNullable.of(county);
         return this;
     }
-
 
     /**
      * County or district of the customer.
      */
-    public TransactionAddressPublic withCounty(Optional<String> county) {
+    public TransactionAddressPublic withCounty(JsonNullable<String> county) {
         Utils.checkNotNull(county, "county");
         this.county = county;
         return this;
@@ -307,15 +329,14 @@ public class TransactionAddressPublic {
      */
     public TransactionAddressPublic withState(String state) {
         Utils.checkNotNull(state, "state");
-        this.state = Optional.ofNullable(state);
+        this.state = JsonNullable.of(state);
         return this;
     }
-
 
     /**
      * State or province of the customer.
      */
-    public TransactionAddressPublic withState(Optional<String> state) {
+    public TransactionAddressPublic withState(JsonNullable<String> state) {
         Utils.checkNotNull(state, "state");
         this.state = state;
         return this;
@@ -326,28 +347,32 @@ public class TransactionAddressPublic {
      */
     public TransactionAddressPublic withPostalCode(String postalCode) {
         Utils.checkNotNull(postalCode, "postalCode");
-        this.postalCode = Optional.ofNullable(postalCode);
+        this.postalCode = JsonNullable.of(postalCode);
         return this;
     }
-
 
     /**
      * ZIP or Postal code of the customer.
      */
-    public TransactionAddressPublic withPostalCode(Optional<String> postalCode) {
+    public TransactionAddressPublic withPostalCode(JsonNullable<String> postalCode) {
         Utils.checkNotNull(postalCode, "postalCode");
         this.postalCode = postalCode;
         return this;
     }
 
+    /**
+     * Country code in ISO 3166-1 alpha-2 format
+     */
     public TransactionAddressPublic withCountry(CountryCodeEnum country) {
         Utils.checkNotNull(country, "country");
-        this.country = Optional.ofNullable(country);
+        this.country = JsonNullable.of(country);
         return this;
     }
 
-
-    public TransactionAddressPublic withCountry(Optional<? extends CountryCodeEnum> country) {
+    /**
+     * Country code in ISO 3166-1 alpha-2 format
+     */
+    public TransactionAddressPublic withCountry(JsonNullable<? extends CountryCodeEnum> country) {
         Utils.checkNotNull(country, "country");
         this.country = country;
         return this;
@@ -358,15 +383,14 @@ public class TransactionAddressPublic {
      */
     public TransactionAddressPublic withFullAddress(String fullAddress) {
         Utils.checkNotNull(fullAddress, "fullAddress");
-        this.fullAddress = Optional.ofNullable(fullAddress);
+        this.fullAddress = JsonNullable.of(fullAddress);
         return this;
     }
-
 
     /**
      * Complete address string of the customer, which can be used as an alternative to individual fields.
      */
-    public TransactionAddressPublic withFullAddress(Optional<String> fullAddress) {
+    public TransactionAddressPublic withFullAddress(JsonNullable<String> fullAddress) {
         Utils.checkNotNull(fullAddress, "fullAddress");
         this.fullAddress = fullAddress;
         return this;
@@ -375,6 +399,25 @@ public class TransactionAddressPublic {
     public TransactionAddressPublic withType(AddressType type) {
         Utils.checkNotNull(type, "type");
         this.type = type;
+        return this;
+    }
+
+    /**
+     * If true, city-level tax rates are not applied for this address.
+     */
+    public TransactionAddressPublic withIsUnincorporated(boolean isUnincorporated) {
+        Utils.checkNotNull(isUnincorporated, "isUnincorporated");
+        this.isUnincorporated = Optional.ofNullable(isUnincorporated);
+        return this;
+    }
+
+
+    /**
+     * If true, city-level tax rates are not applied for this address.
+     */
+    public TransactionAddressPublic withIsUnincorporated(Optional<Boolean> isUnincorporated) {
+        Utils.checkNotNull(isUnincorporated, "isUnincorporated");
+        this.isUnincorporated = isUnincorporated;
         return this;
     }
 
@@ -397,7 +440,8 @@ public class TransactionAddressPublic {
             Utils.enhancedDeepEquals(this.postalCode, other.postalCode) &&
             Utils.enhancedDeepEquals(this.country, other.country) &&
             Utils.enhancedDeepEquals(this.fullAddress, other.fullAddress) &&
-            Utils.enhancedDeepEquals(this.type, other.type);
+            Utils.enhancedDeepEquals(this.type, other.type) &&
+            Utils.enhancedDeepEquals(this.isUnincorporated, other.isUnincorporated);
     }
     
     @Override
@@ -406,7 +450,7 @@ public class TransactionAddressPublic {
             phone, street1, street2,
             city, county, state,
             postalCode, country, fullAddress,
-            type);
+            type, isUnincorporated);
     }
     
     @Override
@@ -421,31 +465,34 @@ public class TransactionAddressPublic {
                 "postalCode", postalCode,
                 "country", country,
                 "fullAddress", fullAddress,
-                "type", type);
+                "type", type,
+                "isUnincorporated", isUnincorporated);
     }
 
     @SuppressWarnings("UnusedReturnValue")
     public final static class Builder {
 
-        private Optional<String> phone = Optional.empty();
+        private JsonNullable<String> phone = JsonNullable.undefined();
 
-        private Optional<String> street1 = Optional.empty();
+        private JsonNullable<String> street1 = JsonNullable.undefined();
 
-        private Optional<String> street2 = Optional.empty();
+        private JsonNullable<String> street2 = JsonNullable.undefined();
 
-        private Optional<String> city = Optional.empty();
+        private JsonNullable<String> city = JsonNullable.undefined();
 
-        private Optional<String> county = Optional.empty();
+        private JsonNullable<String> county = JsonNullable.undefined();
 
-        private Optional<String> state = Optional.empty();
+        private JsonNullable<String> state = JsonNullable.undefined();
 
-        private Optional<String> postalCode = Optional.empty();
+        private JsonNullable<String> postalCode = JsonNullable.undefined();
 
-        private Optional<? extends CountryCodeEnum> country = Optional.empty();
+        private JsonNullable<? extends CountryCodeEnum> country = JsonNullable.undefined();
 
-        private Optional<String> fullAddress = Optional.empty();
+        private JsonNullable<String> fullAddress = JsonNullable.undefined();
 
         private AddressType type;
+
+        private Optional<Boolean> isUnincorporated;
 
         private Builder() {
           // force use of static builder() method
@@ -457,14 +504,14 @@ public class TransactionAddressPublic {
          */
         public Builder phone(String phone) {
             Utils.checkNotNull(phone, "phone");
-            this.phone = Optional.ofNullable(phone);
+            this.phone = JsonNullable.of(phone);
             return this;
         }
 
         /**
          * Phone number associated with the address.
          */
-        public Builder phone(Optional<String> phone) {
+        public Builder phone(JsonNullable<String> phone) {
             Utils.checkNotNull(phone, "phone");
             this.phone = phone;
             return this;
@@ -476,14 +523,14 @@ public class TransactionAddressPublic {
          */
         public Builder street1(String street1) {
             Utils.checkNotNull(street1, "street1");
-            this.street1 = Optional.ofNullable(street1);
+            this.street1 = JsonNullable.of(street1);
             return this;
         }
 
         /**
          * Primary street address.
          */
-        public Builder street1(Optional<String> street1) {
+        public Builder street1(JsonNullable<String> street1) {
             Utils.checkNotNull(street1, "street1");
             this.street1 = street1;
             return this;
@@ -495,14 +542,14 @@ public class TransactionAddressPublic {
          */
         public Builder street2(String street2) {
             Utils.checkNotNull(street2, "street2");
-            this.street2 = Optional.ofNullable(street2);
+            this.street2 = JsonNullable.of(street2);
             return this;
         }
 
         /**
          * Additional street address details, such as an apartment or suite number.
          */
-        public Builder street2(Optional<String> street2) {
+        public Builder street2(JsonNullable<String> street2) {
             Utils.checkNotNull(street2, "street2");
             this.street2 = street2;
             return this;
@@ -514,14 +561,14 @@ public class TransactionAddressPublic {
          */
         public Builder city(String city) {
             Utils.checkNotNull(city, "city");
-            this.city = Optional.ofNullable(city);
+            this.city = JsonNullable.of(city);
             return this;
         }
 
         /**
          * City where the customer resides.
          */
-        public Builder city(Optional<String> city) {
+        public Builder city(JsonNullable<String> city) {
             Utils.checkNotNull(city, "city");
             this.city = city;
             return this;
@@ -533,14 +580,14 @@ public class TransactionAddressPublic {
          */
         public Builder county(String county) {
             Utils.checkNotNull(county, "county");
-            this.county = Optional.ofNullable(county);
+            this.county = JsonNullable.of(county);
             return this;
         }
 
         /**
          * County or district of the customer.
          */
-        public Builder county(Optional<String> county) {
+        public Builder county(JsonNullable<String> county) {
             Utils.checkNotNull(county, "county");
             this.county = county;
             return this;
@@ -552,14 +599,14 @@ public class TransactionAddressPublic {
          */
         public Builder state(String state) {
             Utils.checkNotNull(state, "state");
-            this.state = Optional.ofNullable(state);
+            this.state = JsonNullable.of(state);
             return this;
         }
 
         /**
          * State or province of the customer.
          */
-        public Builder state(Optional<String> state) {
+        public Builder state(JsonNullable<String> state) {
             Utils.checkNotNull(state, "state");
             this.state = state;
             return this;
@@ -571,27 +618,33 @@ public class TransactionAddressPublic {
          */
         public Builder postalCode(String postalCode) {
             Utils.checkNotNull(postalCode, "postalCode");
-            this.postalCode = Optional.ofNullable(postalCode);
+            this.postalCode = JsonNullable.of(postalCode);
             return this;
         }
 
         /**
          * ZIP or Postal code of the customer.
          */
-        public Builder postalCode(Optional<String> postalCode) {
+        public Builder postalCode(JsonNullable<String> postalCode) {
             Utils.checkNotNull(postalCode, "postalCode");
             this.postalCode = postalCode;
             return this;
         }
 
 
+        /**
+         * Country code in ISO 3166-1 alpha-2 format
+         */
         public Builder country(CountryCodeEnum country) {
             Utils.checkNotNull(country, "country");
-            this.country = Optional.ofNullable(country);
+            this.country = JsonNullable.of(country);
             return this;
         }
 
-        public Builder country(Optional<? extends CountryCodeEnum> country) {
+        /**
+         * Country code in ISO 3166-1 alpha-2 format
+         */
+        public Builder country(JsonNullable<? extends CountryCodeEnum> country) {
             Utils.checkNotNull(country, "country");
             this.country = country;
             return this;
@@ -603,14 +656,14 @@ public class TransactionAddressPublic {
          */
         public Builder fullAddress(String fullAddress) {
             Utils.checkNotNull(fullAddress, "fullAddress");
-            this.fullAddress = Optional.ofNullable(fullAddress);
+            this.fullAddress = JsonNullable.of(fullAddress);
             return this;
         }
 
         /**
          * Complete address string of the customer, which can be used as an alternative to individual fields.
          */
-        public Builder fullAddress(Optional<String> fullAddress) {
+        public Builder fullAddress(JsonNullable<String> fullAddress) {
             Utils.checkNotNull(fullAddress, "fullAddress");
             this.fullAddress = fullAddress;
             return this;
@@ -623,14 +676,42 @@ public class TransactionAddressPublic {
             return this;
         }
 
+
+        /**
+         * If true, city-level tax rates are not applied for this address.
+         */
+        public Builder isUnincorporated(boolean isUnincorporated) {
+            Utils.checkNotNull(isUnincorporated, "isUnincorporated");
+            this.isUnincorporated = Optional.ofNullable(isUnincorporated);
+            return this;
+        }
+
+        /**
+         * If true, city-level tax rates are not applied for this address.
+         */
+        public Builder isUnincorporated(Optional<Boolean> isUnincorporated) {
+            Utils.checkNotNull(isUnincorporated, "isUnincorporated");
+            this.isUnincorporated = isUnincorporated;
+            return this;
+        }
+
         public TransactionAddressPublic build() {
+            if (isUnincorporated == null) {
+                isUnincorporated = _SINGLETON_VALUE_IsUnincorporated.value();
+            }
 
             return new TransactionAddressPublic(
                 phone, street1, street2,
                 city, county, state,
                 postalCode, country, fullAddress,
-                type);
+                type, isUnincorporated);
         }
 
+
+        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_IsUnincorporated =
+                new LazySingletonValue<>(
+                        "is_unincorporated",
+                        "false",
+                        new TypeReference<Optional<Boolean>>() {});
     }
 }

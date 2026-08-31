@@ -11,11 +11,13 @@ import com.kintsugi.taxplatform.operations.PUTUpdateCreditNoteByTransactionId;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.util.Optional;
 
 public class PUTUpdateCreditNoteByTransactionIdRequestBuilder {
 
     private String originalTransactionId;
     private String creditNoteId;
+    private Optional<String> xOrganizationId = Optional.empty();
     private CreditNoteCreate creditNoteCreate;
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
@@ -35,6 +37,18 @@ public class PUTUpdateCreditNoteByTransactionIdRequestBuilder {
         this.creditNoteId = creditNoteId;
         return this;
     }
+                
+    public PUTUpdateCreditNoteByTransactionIdRequestBuilder xOrganizationId(String xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = Optional.of(xOrganizationId);
+        return this;
+    }
+
+    public PUTUpdateCreditNoteByTransactionIdRequestBuilder xOrganizationId(Optional<String> xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = xOrganizationId;
+        return this;
+    }
 
     public PUTUpdateCreditNoteByTransactionIdRequestBuilder creditNoteCreate(CreditNoteCreate creditNoteCreate) {
         Utils.checkNotNull(creditNoteCreate, "creditNoteCreate");
@@ -47,6 +61,7 @@ public class PUTUpdateCreditNoteByTransactionIdRequestBuilder {
 
         PUTUpdateCreditNoteByTransactionIdRequest request = new PUTUpdateCreditNoteByTransactionIdRequest(originalTransactionId,
             creditNoteId,
+            xOrganizationId,
             creditNoteCreate);
 
         return request;

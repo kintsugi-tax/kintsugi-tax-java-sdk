@@ -15,12 +15,12 @@ public class BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPos
     /**
      * The file to be uploaded. Supported format: PDF. Max size: 10 MB.
      */
-    @SpeakeasyMetadata("multipartForm:file,name=file")
-    private File file;
+    @SpeakeasyMetadata("multipartForm:name=file")
+    private String file;
 
     @JsonCreator
     public BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost(
-            File file) {
+            String file) {
         Utils.checkNotNull(file, "file");
         this.file = file;
     }
@@ -29,7 +29,7 @@ public class BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPos
      * The file to be uploaded. Supported format: PDF. Max size: 10 MB.
      */
     @JsonIgnore
-    public File file() {
+    public String file() {
         return file;
     }
 
@@ -41,7 +41,7 @@ public class BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPos
     /**
      * The file to be uploaded. Supported format: PDF. Max size: 10 MB.
      */
-    public BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost withFile(File file) {
+    public BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost withFile(String file) {
         Utils.checkNotNull(file, "file");
         this.file = file;
         return this;
@@ -75,7 +75,7 @@ public class BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPos
     @SuppressWarnings("UnusedReturnValue")
     public final static class Builder {
 
-        private File file;
+        private String file;
 
         private Builder() {
           // force use of static builder() method
@@ -85,7 +85,7 @@ public class BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPos
         /**
          * The file to be uploaded. Supported format: PDF. Max size: 10 MB.
          */
-        public Builder file(File file) {
+        public Builder file(String file) {
             Utils.checkNotNull(file, "file");
             this.file = file;
             return this;

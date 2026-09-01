@@ -12,6 +12,7 @@ import com.kintsugi.taxplatform.models.operations.POSTCreateCreditNoteByTransact
 import com.kintsugi.taxplatform.operations.POSTCreateCreditNoteByTransactionId;
 import com.kintsugi.taxplatform.utils.Headers;
 import java.lang.String;
+import java.util.Optional;
 
 
 public class CreditNotes {
@@ -34,7 +35,7 @@ public class CreditNotes {
     }
 
     /**
-     * Create Credit Note By Transaction Id
+     * Create credit note by transaction id
      * 
      * <p>Create a new credit note for a specific transaction.
      * 
@@ -45,7 +46,7 @@ public class CreditNotes {
     }
 
     /**
-     * Create Credit Note By Transaction Id
+     * Create credit note by transaction id
      * 
      * <p>Create a new credit note for a specific transaction.
      * 
@@ -55,10 +56,28 @@ public class CreditNotes {
      * @throws RuntimeException subclass if the API call fails
      */
     public POSTCreateCreditNoteByTransactionIdResponse create(String originalTransactionId, CreditNoteCreate creditNoteCreate) {
+        return create(originalTransactionId, Optional.empty(), creditNoteCreate);
+    }
+
+    /**
+     * Create credit note by transaction id
+     * 
+     * <p>Create a new credit note for a specific transaction.
+     * 
+     * @param originalTransactionId 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param creditNoteCreate 
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public POSTCreateCreditNoteByTransactionIdResponse create(
+            String originalTransactionId, Optional<String> xOrganizationId,
+            CreditNoteCreate creditNoteCreate) {
         POSTCreateCreditNoteByTransactionIdRequest request =
             POSTCreateCreditNoteByTransactionIdRequest
                 .builder()
                 .originalTransactionId(originalTransactionId)
+                .xOrganizationId(xOrganizationId)
                 .creditNoteCreate(creditNoteCreate)
                 .build();
         RequestOperation<POSTCreateCreditNoteByTransactionIdRequest, POSTCreateCreditNoteByTransactionIdResponse> operation

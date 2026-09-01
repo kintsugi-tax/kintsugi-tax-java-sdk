@@ -10,10 +10,12 @@ import com.kintsugi.taxplatform.operations.GetProductByIdV1ProductsProductIdGet;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.util.Optional;
 
 public class GetProductByIdV1ProductsProductIdGetRequestBuilder {
 
     private String productId;
+    private Optional<String> xOrganizationId = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -26,11 +28,24 @@ public class GetProductByIdV1ProductsProductIdGetRequestBuilder {
         this.productId = productId;
         return this;
     }
+                
+    public GetProductByIdV1ProductsProductIdGetRequestBuilder xOrganizationId(String xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = Optional.of(xOrganizationId);
+        return this;
+    }
+
+    public GetProductByIdV1ProductsProductIdGetRequestBuilder xOrganizationId(Optional<String> xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = xOrganizationId;
+        return this;
+    }
 
 
     private GetProductByIdV1ProductsProductIdGetRequest buildRequest() {
 
-        GetProductByIdV1ProductsProductIdGetRequest request = new GetProductByIdV1ProductsProductIdGetRequest(productId);
+        GetProductByIdV1ProductsProductIdGetRequest request = new GetProductByIdV1ProductsProductIdGetRequest(productId,
+            xOrganizationId);
 
         return request;
     }

@@ -10,6 +10,7 @@ import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Override;
 import java.lang.String;
 import java.util.Optional;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 public class GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest {
@@ -24,21 +25,30 @@ public class GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest {
      * Name of field to reveal
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=reveal")
-    private Optional<String> reveal;
+    private JsonNullable<String> reveal;
+
+    /**
+     * The unique identifier for the organization making the request
+     */
+    @SpeakeasyMetadata("header:style=simple,explode=false,name=x-organization-id")
+    private Optional<String> xOrganizationId;
 
     @JsonCreator
     public GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest(
             String registrationId,
-            Optional<String> reveal) {
+            JsonNullable<String> reveal,
+            Optional<String> xOrganizationId) {
         Utils.checkNotNull(registrationId, "registrationId");
         Utils.checkNotNull(reveal, "reveal");
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
         this.registrationId = registrationId;
         this.reveal = reveal;
+        this.xOrganizationId = xOrganizationId;
     }
     
     public GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest(
             String registrationId) {
-        this(registrationId, Optional.empty());
+        this(registrationId, JsonNullable.undefined(), Optional.empty());
     }
 
     /**
@@ -54,8 +64,16 @@ public class GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest {
      * Name of field to reveal
      */
     @JsonIgnore
-    public Optional<String> reveal() {
+    public JsonNullable<String> reveal() {
         return reveal;
+    }
+
+    /**
+     * The unique identifier for the organization making the request
+     */
+    @JsonIgnore
+    public Optional<String> xOrganizationId() {
+        return xOrganizationId;
     }
 
     public static Builder builder() {
@@ -78,17 +96,35 @@ public class GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest {
      */
     public GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest withReveal(String reveal) {
         Utils.checkNotNull(reveal, "reveal");
-        this.reveal = Optional.ofNullable(reveal);
+        this.reveal = JsonNullable.of(reveal);
+        return this;
+    }
+
+    /**
+     * Name of field to reveal
+     */
+    public GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest withReveal(JsonNullable<String> reveal) {
+        Utils.checkNotNull(reveal, "reveal");
+        this.reveal = reveal;
+        return this;
+    }
+
+    /**
+     * The unique identifier for the organization making the request
+     */
+    public GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest withXOrganizationId(String xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = Optional.ofNullable(xOrganizationId);
         return this;
     }
 
 
     /**
-     * Name of field to reveal
+     * The unique identifier for the organization making the request
      */
-    public GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest withReveal(Optional<String> reveal) {
-        Utils.checkNotNull(reveal, "reveal");
-        this.reveal = reveal;
+    public GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest withXOrganizationId(Optional<String> xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = xOrganizationId;
         return this;
     }
 
@@ -103,20 +139,22 @@ public class GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest {
         GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest other = (GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest) o;
         return 
             Utils.enhancedDeepEquals(this.registrationId, other.registrationId) &&
-            Utils.enhancedDeepEquals(this.reveal, other.reveal);
+            Utils.enhancedDeepEquals(this.reveal, other.reveal) &&
+            Utils.enhancedDeepEquals(this.xOrganizationId, other.xOrganizationId);
     }
     
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-            registrationId, reveal);
+            registrationId, reveal, xOrganizationId);
     }
     
     @Override
     public String toString() {
         return Utils.toString(GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest.class,
                 "registrationId", registrationId,
-                "reveal", reveal);
+                "reveal", reveal,
+                "xOrganizationId", xOrganizationId);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -124,7 +162,9 @@ public class GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest {
 
         private String registrationId;
 
-        private Optional<String> reveal = Optional.empty();
+        private JsonNullable<String> reveal = JsonNullable.undefined();
+
+        private Optional<String> xOrganizationId = Optional.empty();
 
         private Builder() {
           // force use of static builder() method
@@ -147,23 +187,42 @@ public class GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest {
          */
         public Builder reveal(String reveal) {
             Utils.checkNotNull(reveal, "reveal");
-            this.reveal = Optional.ofNullable(reveal);
+            this.reveal = JsonNullable.of(reveal);
             return this;
         }
 
         /**
          * Name of field to reveal
          */
-        public Builder reveal(Optional<String> reveal) {
+        public Builder reveal(JsonNullable<String> reveal) {
             Utils.checkNotNull(reveal, "reveal");
             this.reveal = reveal;
+            return this;
+        }
+
+
+        /**
+         * The unique identifier for the organization making the request
+         */
+        public Builder xOrganizationId(String xOrganizationId) {
+            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+            this.xOrganizationId = Optional.ofNullable(xOrganizationId);
+            return this;
+        }
+
+        /**
+         * The unique identifier for the organization making the request
+         */
+        public Builder xOrganizationId(Optional<String> xOrganizationId) {
+            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+            this.xOrganizationId = xOrganizationId;
             return this;
         }
 
         public GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest build() {
 
             return new GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest(
-                registrationId, reveal);
+                registrationId, reveal, xOrganizationId);
         }
 
     }

@@ -6,7 +6,6 @@ package com.kintsugi.taxplatform.models.operations;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.kintsugi.taxplatform.models.components.CountryCodeEnum;
 import com.kintsugi.taxplatform.utils.LazySingletonValue;
 import com.kintsugi.taxplatform.utils.SpeakeasyMetadata;
 import com.kintsugi.taxplatform.utils.Utils;
@@ -16,6 +15,7 @@ import java.lang.String;
 import java.lang.SuppressWarnings;
 import java.util.List;
 import java.util.Optional;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 public class GetRegistrationsV1RegistrationsGetRequest {
@@ -44,13 +44,20 @@ public class GetRegistrationsV1RegistrationsGetRequest {
      * (e.g., US, CA).
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=country_code__in")
-    private Optional<? extends List<CountryCodeEnum>> countryCodeIn;
+    private JsonNullable<? extends List<CountryCodeIn>> countryCodeIn;
+
+    /**
+     * Filter registrations by tax type. Multiple tax types can be
+     * passed, separated by commas (SALES_TAX, USE_TAX, SALES_AND_USE_TAX).
+     */
+    @SpeakeasyMetadata("queryParam:style=form,explode=true,name=tax_type__in")
+    private JsonNullable<String> taxTypeIn;
 
     /**
      * Order results by specified fields (comma-separated)
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=order_by")
-    private Optional<String> orderBy;
+    private JsonNullable<String> orderBy;
 
     /**
      * Page number
@@ -64,35 +71,47 @@ public class GetRegistrationsV1RegistrationsGetRequest {
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=size")
     private Optional<Long> size;
 
+    /**
+     * The unique identifier for the organization making the request
+     */
+    @SpeakeasyMetadata("header:style=simple,explode=false,name=x-organization-id")
+    private Optional<String> xOrganizationId;
+
     @JsonCreator
     public GetRegistrationsV1RegistrationsGetRequest(
             Optional<String> statusIn,
             Optional<String> stateCode,
             Optional<String> filingFrequencyIn,
-            Optional<? extends List<CountryCodeEnum>> countryCodeIn,
-            Optional<String> orderBy,
+            JsonNullable<? extends List<CountryCodeIn>> countryCodeIn,
+            JsonNullable<String> taxTypeIn,
+            JsonNullable<String> orderBy,
             Optional<Long> page,
-            Optional<Long> size) {
+            Optional<Long> size,
+            Optional<String> xOrganizationId) {
         Utils.checkNotNull(statusIn, "statusIn");
         Utils.checkNotNull(stateCode, "stateCode");
         Utils.checkNotNull(filingFrequencyIn, "filingFrequencyIn");
         Utils.checkNotNull(countryCodeIn, "countryCodeIn");
+        Utils.checkNotNull(taxTypeIn, "taxTypeIn");
         Utils.checkNotNull(orderBy, "orderBy");
         Utils.checkNotNull(page, "page");
         Utils.checkNotNull(size, "size");
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
         this.statusIn = statusIn;
         this.stateCode = stateCode;
         this.filingFrequencyIn = filingFrequencyIn;
         this.countryCodeIn = countryCodeIn;
+        this.taxTypeIn = taxTypeIn;
         this.orderBy = orderBy;
         this.page = page;
         this.size = size;
+        this.xOrganizationId = xOrganizationId;
     }
     
     public GetRegistrationsV1RegistrationsGetRequest() {
         this(Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty());
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            Optional.empty(), Optional.empty(), Optional.empty());
     }
 
     /**
@@ -127,15 +146,24 @@ public class GetRegistrationsV1RegistrationsGetRequest {
      */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<List<CountryCodeEnum>> countryCodeIn() {
-        return (Optional<List<CountryCodeEnum>>) countryCodeIn;
+    public JsonNullable<List<CountryCodeIn>> countryCodeIn() {
+        return (JsonNullable<List<CountryCodeIn>>) countryCodeIn;
+    }
+
+    /**
+     * Filter registrations by tax type. Multiple tax types can be
+     * passed, separated by commas (SALES_TAX, USE_TAX, SALES_AND_USE_TAX).
+     */
+    @JsonIgnore
+    public JsonNullable<String> taxTypeIn() {
+        return taxTypeIn;
     }
 
     /**
      * Order results by specified fields (comma-separated)
      */
     @JsonIgnore
-    public Optional<String> orderBy() {
+    public JsonNullable<String> orderBy() {
         return orderBy;
     }
 
@@ -153,6 +181,14 @@ public class GetRegistrationsV1RegistrationsGetRequest {
     @JsonIgnore
     public Optional<Long> size() {
         return size;
+    }
+
+    /**
+     * The unique identifier for the organization making the request
+     */
+    @JsonIgnore
+    public Optional<String> xOrganizationId() {
+        return xOrganizationId;
     }
 
     public static Builder builder() {
@@ -225,20 +261,39 @@ public class GetRegistrationsV1RegistrationsGetRequest {
      * Filter registrations by country code in ISO 3166-1 alpha-2 format
      * (e.g., US, CA).
      */
-    public GetRegistrationsV1RegistrationsGetRequest withCountryCodeIn(List<CountryCodeEnum> countryCodeIn) {
+    public GetRegistrationsV1RegistrationsGetRequest withCountryCodeIn(List<CountryCodeIn> countryCodeIn) {
         Utils.checkNotNull(countryCodeIn, "countryCodeIn");
-        this.countryCodeIn = Optional.ofNullable(countryCodeIn);
+        this.countryCodeIn = JsonNullable.of(countryCodeIn);
         return this;
     }
-
 
     /**
      * Filter registrations by country code in ISO 3166-1 alpha-2 format
      * (e.g., US, CA).
      */
-    public GetRegistrationsV1RegistrationsGetRequest withCountryCodeIn(Optional<? extends List<CountryCodeEnum>> countryCodeIn) {
+    public GetRegistrationsV1RegistrationsGetRequest withCountryCodeIn(JsonNullable<? extends List<CountryCodeIn>> countryCodeIn) {
         Utils.checkNotNull(countryCodeIn, "countryCodeIn");
         this.countryCodeIn = countryCodeIn;
+        return this;
+    }
+
+    /**
+     * Filter registrations by tax type. Multiple tax types can be
+     * passed, separated by commas (SALES_TAX, USE_TAX, SALES_AND_USE_TAX).
+     */
+    public GetRegistrationsV1RegistrationsGetRequest withTaxTypeIn(String taxTypeIn) {
+        Utils.checkNotNull(taxTypeIn, "taxTypeIn");
+        this.taxTypeIn = JsonNullable.of(taxTypeIn);
+        return this;
+    }
+
+    /**
+     * Filter registrations by tax type. Multiple tax types can be
+     * passed, separated by commas (SALES_TAX, USE_TAX, SALES_AND_USE_TAX).
+     */
+    public GetRegistrationsV1RegistrationsGetRequest withTaxTypeIn(JsonNullable<String> taxTypeIn) {
+        Utils.checkNotNull(taxTypeIn, "taxTypeIn");
+        this.taxTypeIn = taxTypeIn;
         return this;
     }
 
@@ -247,15 +302,14 @@ public class GetRegistrationsV1RegistrationsGetRequest {
      */
     public GetRegistrationsV1RegistrationsGetRequest withOrderBy(String orderBy) {
         Utils.checkNotNull(orderBy, "orderBy");
-        this.orderBy = Optional.ofNullable(orderBy);
+        this.orderBy = JsonNullable.of(orderBy);
         return this;
     }
-
 
     /**
      * Order results by specified fields (comma-separated)
      */
-    public GetRegistrationsV1RegistrationsGetRequest withOrderBy(Optional<String> orderBy) {
+    public GetRegistrationsV1RegistrationsGetRequest withOrderBy(JsonNullable<String> orderBy) {
         Utils.checkNotNull(orderBy, "orderBy");
         this.orderBy = orderBy;
         return this;
@@ -299,6 +353,25 @@ public class GetRegistrationsV1RegistrationsGetRequest {
         return this;
     }
 
+    /**
+     * The unique identifier for the organization making the request
+     */
+    public GetRegistrationsV1RegistrationsGetRequest withXOrganizationId(String xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = Optional.ofNullable(xOrganizationId);
+        return this;
+    }
+
+
+    /**
+     * The unique identifier for the organization making the request
+     */
+    public GetRegistrationsV1RegistrationsGetRequest withXOrganizationId(Optional<String> xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = xOrganizationId;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -313,17 +386,19 @@ public class GetRegistrationsV1RegistrationsGetRequest {
             Utils.enhancedDeepEquals(this.stateCode, other.stateCode) &&
             Utils.enhancedDeepEquals(this.filingFrequencyIn, other.filingFrequencyIn) &&
             Utils.enhancedDeepEquals(this.countryCodeIn, other.countryCodeIn) &&
+            Utils.enhancedDeepEquals(this.taxTypeIn, other.taxTypeIn) &&
             Utils.enhancedDeepEquals(this.orderBy, other.orderBy) &&
             Utils.enhancedDeepEquals(this.page, other.page) &&
-            Utils.enhancedDeepEquals(this.size, other.size);
+            Utils.enhancedDeepEquals(this.size, other.size) &&
+            Utils.enhancedDeepEquals(this.xOrganizationId, other.xOrganizationId);
     }
     
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
             statusIn, stateCode, filingFrequencyIn,
-            countryCodeIn, orderBy, page,
-            size);
+            countryCodeIn, taxTypeIn, orderBy,
+            page, size, xOrganizationId);
     }
     
     @Override
@@ -333,9 +408,11 @@ public class GetRegistrationsV1RegistrationsGetRequest {
                 "stateCode", stateCode,
                 "filingFrequencyIn", filingFrequencyIn,
                 "countryCodeIn", countryCodeIn,
+                "taxTypeIn", taxTypeIn,
                 "orderBy", orderBy,
                 "page", page,
-                "size", size);
+                "size", size,
+                "xOrganizationId", xOrganizationId);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -347,13 +424,17 @@ public class GetRegistrationsV1RegistrationsGetRequest {
 
         private Optional<String> filingFrequencyIn = Optional.empty();
 
-        private Optional<? extends List<CountryCodeEnum>> countryCodeIn = Optional.empty();
+        private JsonNullable<? extends List<CountryCodeIn>> countryCodeIn = JsonNullable.undefined();
 
-        private Optional<String> orderBy = Optional.empty();
+        private JsonNullable<String> taxTypeIn = JsonNullable.undefined();
+
+        private JsonNullable<String> orderBy = JsonNullable.undefined();
 
         private Optional<Long> page;
 
         private Optional<Long> size;
+
+        private Optional<String> xOrganizationId = Optional.empty();
 
         private Builder() {
           // force use of static builder() method
@@ -425,9 +506,9 @@ public class GetRegistrationsV1RegistrationsGetRequest {
          * Filter registrations by country code in ISO 3166-1 alpha-2 format
          * (e.g., US, CA).
          */
-        public Builder countryCodeIn(List<CountryCodeEnum> countryCodeIn) {
+        public Builder countryCodeIn(List<CountryCodeIn> countryCodeIn) {
             Utils.checkNotNull(countryCodeIn, "countryCodeIn");
-            this.countryCodeIn = Optional.ofNullable(countryCodeIn);
+            this.countryCodeIn = JsonNullable.of(countryCodeIn);
             return this;
         }
 
@@ -435,9 +516,30 @@ public class GetRegistrationsV1RegistrationsGetRequest {
          * Filter registrations by country code in ISO 3166-1 alpha-2 format
          * (e.g., US, CA).
          */
-        public Builder countryCodeIn(Optional<? extends List<CountryCodeEnum>> countryCodeIn) {
+        public Builder countryCodeIn(JsonNullable<? extends List<CountryCodeIn>> countryCodeIn) {
             Utils.checkNotNull(countryCodeIn, "countryCodeIn");
             this.countryCodeIn = countryCodeIn;
+            return this;
+        }
+
+
+        /**
+         * Filter registrations by tax type. Multiple tax types can be
+         * passed, separated by commas (SALES_TAX, USE_TAX, SALES_AND_USE_TAX).
+         */
+        public Builder taxTypeIn(String taxTypeIn) {
+            Utils.checkNotNull(taxTypeIn, "taxTypeIn");
+            this.taxTypeIn = JsonNullable.of(taxTypeIn);
+            return this;
+        }
+
+        /**
+         * Filter registrations by tax type. Multiple tax types can be
+         * passed, separated by commas (SALES_TAX, USE_TAX, SALES_AND_USE_TAX).
+         */
+        public Builder taxTypeIn(JsonNullable<String> taxTypeIn) {
+            Utils.checkNotNull(taxTypeIn, "taxTypeIn");
+            this.taxTypeIn = taxTypeIn;
             return this;
         }
 
@@ -447,14 +549,14 @@ public class GetRegistrationsV1RegistrationsGetRequest {
          */
         public Builder orderBy(String orderBy) {
             Utils.checkNotNull(orderBy, "orderBy");
-            this.orderBy = Optional.ofNullable(orderBy);
+            this.orderBy = JsonNullable.of(orderBy);
             return this;
         }
 
         /**
          * Order results by specified fields (comma-separated)
          */
-        public Builder orderBy(Optional<String> orderBy) {
+        public Builder orderBy(JsonNullable<String> orderBy) {
             Utils.checkNotNull(orderBy, "orderBy");
             this.orderBy = orderBy;
             return this;
@@ -498,6 +600,25 @@ public class GetRegistrationsV1RegistrationsGetRequest {
             return this;
         }
 
+
+        /**
+         * The unique identifier for the organization making the request
+         */
+        public Builder xOrganizationId(String xOrganizationId) {
+            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+            this.xOrganizationId = Optional.ofNullable(xOrganizationId);
+            return this;
+        }
+
+        /**
+         * The unique identifier for the organization making the request
+         */
+        public Builder xOrganizationId(Optional<String> xOrganizationId) {
+            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+            this.xOrganizationId = xOrganizationId;
+            return this;
+        }
+
         public GetRegistrationsV1RegistrationsGetRequest build() {
             if (statusIn == null) {
                 statusIn = _SINGLETON_VALUE_StatusIn.value();
@@ -511,15 +632,15 @@ public class GetRegistrationsV1RegistrationsGetRequest {
 
             return new GetRegistrationsV1RegistrationsGetRequest(
                 statusIn, stateCode, filingFrequencyIn,
-                countryCodeIn, orderBy, page,
-                size);
+                countryCodeIn, taxTypeIn, orderBy,
+                page, size, xOrganizationId);
         }
 
 
         private static final LazySingletonValue<Optional<String>> _SINGLETON_VALUE_StatusIn =
                 new LazySingletonValue<>(
                         "status__in",
-                        "\"REGISTERED,PROCESSING,UNREGISTERED,DEREGISTERING,DEREGISTERED,VALIDATING,AWAITING_CLARIFICATION\"",
+                        "\"REGISTERED,PROCESSING,UNREGISTERED,DEREGISTERING,DEREGISTERED,CANCELLED,VALIDATING,AWAITING_CLARIFICATION,SELF_MANAGED\"",
                         new TypeReference<Optional<String>>() {});
 
         private static final LazySingletonValue<Optional<Long>> _SINGLETON_VALUE_Page =

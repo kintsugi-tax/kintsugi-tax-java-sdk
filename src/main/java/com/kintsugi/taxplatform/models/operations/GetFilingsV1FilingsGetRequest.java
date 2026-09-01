@@ -6,7 +6,6 @@ package com.kintsugi.taxplatform.models.operations;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.kintsugi.taxplatform.models.components.CountryCodeEnum;
 import com.kintsugi.taxplatform.utils.LazySingletonValue;
 import com.kintsugi.taxplatform.utils.SpeakeasyMetadata;
 import com.kintsugi.taxplatform.utils.Utils;
@@ -14,8 +13,10 @@ import java.lang.Long;
 import java.lang.Override;
 import java.lang.String;
 import java.lang.SuppressWarnings;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 public class GetFilingsV1FilingsGetRequest {
@@ -23,49 +24,62 @@ public class GetFilingsV1FilingsGetRequest {
      * Filter filings by status
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=status__in")
-    private Optional<String> statusIn;
+    private JsonNullable<String> statusIn;
 
     /**
      * Filter filings with a start date greater than or equal to this date.
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=start_date")
-    private Optional<String> startDate;
+    private JsonNullable<LocalDate> startDate;
 
     /**
      * Filter filings with an end date less than or equal to this date.
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=end_date")
-    private Optional<String> endDate;
+    private JsonNullable<LocalDate> endDate;
 
     /**
      * Filter filings filed on or after this date.
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=date_filed__gte")
-    private Optional<String> dateFiledGte;
+    private JsonNullable<LocalDate> dateFiledGte;
 
     /**
      * Filter filings filed on or before this date.
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=date_filed__lte")
-    private Optional<String> dateFiledLte;
+    private JsonNullable<LocalDate> dateFiledLte;
 
     /**
      * Comma-separated list of fields to sort the results.
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=order_by")
-    private Optional<String> orderBy;
+    private JsonNullable<String> orderBy;
 
     /**
      * Filter filings by state code (e.g., CA for California).
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=state_code")
-    private Optional<String> stateCode;
+    private JsonNullable<String> stateCode;
 
     /**
      * Filter filings by country code in ISO 3166-1 alpha-2 format (e.g., US).
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=country_code")
-    private Optional<? extends List<CountryCodeEnum>> countryCode;
+    private JsonNullable<? extends List<GetFilingsV1FilingsGetCountryCode>> countryCode;
+
+    /**
+     * Filter filings by category (e.g., REGULAR, BACK_FILING, AMENDMENT).
+     */
+    @SpeakeasyMetadata("queryParam:style=form,explode=true,name=filing_category__in")
+    private JsonNullable<String> filingCategoryIn;
+
+    /**
+     * Filter filings by tax type. Multiple tax types can be
+     * passed, separated by commas (SALES_TAX, USE_TAX, SALES_AND_USE_TAX).
+     */
+    @SpeakeasyMetadata("queryParam:style=form,explode=true,name=tax_type__in")
+    private JsonNullable<String> taxTypeIn;
 
     /**
      * Page number
@@ -79,18 +93,27 @@ public class GetFilingsV1FilingsGetRequest {
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=size")
     private Optional<Long> size;
 
+    /**
+     * The unique identifier for the organization making the request
+     */
+    @SpeakeasyMetadata("header:style=simple,explode=false,name=x-organization-id")
+    private Optional<String> xOrganizationId;
+
     @JsonCreator
     public GetFilingsV1FilingsGetRequest(
-            Optional<String> statusIn,
-            Optional<String> startDate,
-            Optional<String> endDate,
-            Optional<String> dateFiledGte,
-            Optional<String> dateFiledLte,
-            Optional<String> orderBy,
-            Optional<String> stateCode,
-            Optional<? extends List<CountryCodeEnum>> countryCode,
+            JsonNullable<String> statusIn,
+            JsonNullable<LocalDate> startDate,
+            JsonNullable<LocalDate> endDate,
+            JsonNullable<LocalDate> dateFiledGte,
+            JsonNullable<LocalDate> dateFiledLte,
+            JsonNullable<String> orderBy,
+            JsonNullable<String> stateCode,
+            JsonNullable<? extends List<GetFilingsV1FilingsGetCountryCode>> countryCode,
+            JsonNullable<String> filingCategoryIn,
+            JsonNullable<String> taxTypeIn,
             Optional<Long> page,
-            Optional<Long> size) {
+            Optional<Long> size,
+            Optional<String> xOrganizationId) {
         Utils.checkNotNull(statusIn, "statusIn");
         Utils.checkNotNull(startDate, "startDate");
         Utils.checkNotNull(endDate, "endDate");
@@ -99,8 +122,11 @@ public class GetFilingsV1FilingsGetRequest {
         Utils.checkNotNull(orderBy, "orderBy");
         Utils.checkNotNull(stateCode, "stateCode");
         Utils.checkNotNull(countryCode, "countryCode");
+        Utils.checkNotNull(filingCategoryIn, "filingCategoryIn");
+        Utils.checkNotNull(taxTypeIn, "taxTypeIn");
         Utils.checkNotNull(page, "page");
         Utils.checkNotNull(size, "size");
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
         this.statusIn = statusIn;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -109,14 +135,18 @@ public class GetFilingsV1FilingsGetRequest {
         this.orderBy = orderBy;
         this.stateCode = stateCode;
         this.countryCode = countryCode;
+        this.filingCategoryIn = filingCategoryIn;
+        this.taxTypeIn = taxTypeIn;
         this.page = page;
         this.size = size;
+        this.xOrganizationId = xOrganizationId;
     }
     
     public GetFilingsV1FilingsGetRequest() {
-        this(Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
+        this(JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), Optional.empty(), Optional.empty(),
             Optional.empty());
     }
 
@@ -124,7 +154,7 @@ public class GetFilingsV1FilingsGetRequest {
      * Filter filings by status
      */
     @JsonIgnore
-    public Optional<String> statusIn() {
+    public JsonNullable<String> statusIn() {
         return statusIn;
     }
 
@@ -132,7 +162,7 @@ public class GetFilingsV1FilingsGetRequest {
      * Filter filings with a start date greater than or equal to this date.
      */
     @JsonIgnore
-    public Optional<String> startDate() {
+    public JsonNullable<LocalDate> startDate() {
         return startDate;
     }
 
@@ -140,7 +170,7 @@ public class GetFilingsV1FilingsGetRequest {
      * Filter filings with an end date less than or equal to this date.
      */
     @JsonIgnore
-    public Optional<String> endDate() {
+    public JsonNullable<LocalDate> endDate() {
         return endDate;
     }
 
@@ -148,7 +178,7 @@ public class GetFilingsV1FilingsGetRequest {
      * Filter filings filed on or after this date.
      */
     @JsonIgnore
-    public Optional<String> dateFiledGte() {
+    public JsonNullable<LocalDate> dateFiledGte() {
         return dateFiledGte;
     }
 
@@ -156,7 +186,7 @@ public class GetFilingsV1FilingsGetRequest {
      * Filter filings filed on or before this date.
      */
     @JsonIgnore
-    public Optional<String> dateFiledLte() {
+    public JsonNullable<LocalDate> dateFiledLte() {
         return dateFiledLte;
     }
 
@@ -164,7 +194,7 @@ public class GetFilingsV1FilingsGetRequest {
      * Comma-separated list of fields to sort the results.
      */
     @JsonIgnore
-    public Optional<String> orderBy() {
+    public JsonNullable<String> orderBy() {
         return orderBy;
     }
 
@@ -172,7 +202,7 @@ public class GetFilingsV1FilingsGetRequest {
      * Filter filings by state code (e.g., CA for California).
      */
     @JsonIgnore
-    public Optional<String> stateCode() {
+    public JsonNullable<String> stateCode() {
         return stateCode;
     }
 
@@ -181,8 +211,25 @@ public class GetFilingsV1FilingsGetRequest {
      */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<List<CountryCodeEnum>> countryCode() {
-        return (Optional<List<CountryCodeEnum>>) countryCode;
+    public JsonNullable<List<GetFilingsV1FilingsGetCountryCode>> countryCode() {
+        return (JsonNullable<List<GetFilingsV1FilingsGetCountryCode>>) countryCode;
+    }
+
+    /**
+     * Filter filings by category (e.g., REGULAR, BACK_FILING, AMENDMENT).
+     */
+    @JsonIgnore
+    public JsonNullable<String> filingCategoryIn() {
+        return filingCategoryIn;
+    }
+
+    /**
+     * Filter filings by tax type. Multiple tax types can be
+     * passed, separated by commas (SALES_TAX, USE_TAX, SALES_AND_USE_TAX).
+     */
+    @JsonIgnore
+    public JsonNullable<String> taxTypeIn() {
+        return taxTypeIn;
     }
 
     /**
@@ -201,6 +248,14 @@ public class GetFilingsV1FilingsGetRequest {
         return size;
     }
 
+    /**
+     * The unique identifier for the organization making the request
+     */
+    @JsonIgnore
+    public Optional<String> xOrganizationId() {
+        return xOrganizationId;
+    }
+
     public static Builder builder() {
         return new Builder();
     }
@@ -211,15 +266,14 @@ public class GetFilingsV1FilingsGetRequest {
      */
     public GetFilingsV1FilingsGetRequest withStatusIn(String statusIn) {
         Utils.checkNotNull(statusIn, "statusIn");
-        this.statusIn = Optional.ofNullable(statusIn);
+        this.statusIn = JsonNullable.of(statusIn);
         return this;
     }
-
 
     /**
      * Filter filings by status
      */
-    public GetFilingsV1FilingsGetRequest withStatusIn(Optional<String> statusIn) {
+    public GetFilingsV1FilingsGetRequest withStatusIn(JsonNullable<String> statusIn) {
         Utils.checkNotNull(statusIn, "statusIn");
         this.statusIn = statusIn;
         return this;
@@ -228,17 +282,16 @@ public class GetFilingsV1FilingsGetRequest {
     /**
      * Filter filings with a start date greater than or equal to this date.
      */
-    public GetFilingsV1FilingsGetRequest withStartDate(String startDate) {
+    public GetFilingsV1FilingsGetRequest withStartDate(LocalDate startDate) {
         Utils.checkNotNull(startDate, "startDate");
-        this.startDate = Optional.ofNullable(startDate);
+        this.startDate = JsonNullable.of(startDate);
         return this;
     }
-
 
     /**
      * Filter filings with a start date greater than or equal to this date.
      */
-    public GetFilingsV1FilingsGetRequest withStartDate(Optional<String> startDate) {
+    public GetFilingsV1FilingsGetRequest withStartDate(JsonNullable<LocalDate> startDate) {
         Utils.checkNotNull(startDate, "startDate");
         this.startDate = startDate;
         return this;
@@ -247,17 +300,16 @@ public class GetFilingsV1FilingsGetRequest {
     /**
      * Filter filings with an end date less than or equal to this date.
      */
-    public GetFilingsV1FilingsGetRequest withEndDate(String endDate) {
+    public GetFilingsV1FilingsGetRequest withEndDate(LocalDate endDate) {
         Utils.checkNotNull(endDate, "endDate");
-        this.endDate = Optional.ofNullable(endDate);
+        this.endDate = JsonNullable.of(endDate);
         return this;
     }
-
 
     /**
      * Filter filings with an end date less than or equal to this date.
      */
-    public GetFilingsV1FilingsGetRequest withEndDate(Optional<String> endDate) {
+    public GetFilingsV1FilingsGetRequest withEndDate(JsonNullable<LocalDate> endDate) {
         Utils.checkNotNull(endDate, "endDate");
         this.endDate = endDate;
         return this;
@@ -266,17 +318,16 @@ public class GetFilingsV1FilingsGetRequest {
     /**
      * Filter filings filed on or after this date.
      */
-    public GetFilingsV1FilingsGetRequest withDateFiledGte(String dateFiledGte) {
+    public GetFilingsV1FilingsGetRequest withDateFiledGte(LocalDate dateFiledGte) {
         Utils.checkNotNull(dateFiledGte, "dateFiledGte");
-        this.dateFiledGte = Optional.ofNullable(dateFiledGte);
+        this.dateFiledGte = JsonNullable.of(dateFiledGte);
         return this;
     }
-
 
     /**
      * Filter filings filed on or after this date.
      */
-    public GetFilingsV1FilingsGetRequest withDateFiledGte(Optional<String> dateFiledGte) {
+    public GetFilingsV1FilingsGetRequest withDateFiledGte(JsonNullable<LocalDate> dateFiledGte) {
         Utils.checkNotNull(dateFiledGte, "dateFiledGte");
         this.dateFiledGte = dateFiledGte;
         return this;
@@ -285,17 +336,16 @@ public class GetFilingsV1FilingsGetRequest {
     /**
      * Filter filings filed on or before this date.
      */
-    public GetFilingsV1FilingsGetRequest withDateFiledLte(String dateFiledLte) {
+    public GetFilingsV1FilingsGetRequest withDateFiledLte(LocalDate dateFiledLte) {
         Utils.checkNotNull(dateFiledLte, "dateFiledLte");
-        this.dateFiledLte = Optional.ofNullable(dateFiledLte);
+        this.dateFiledLte = JsonNullable.of(dateFiledLte);
         return this;
     }
-
 
     /**
      * Filter filings filed on or before this date.
      */
-    public GetFilingsV1FilingsGetRequest withDateFiledLte(Optional<String> dateFiledLte) {
+    public GetFilingsV1FilingsGetRequest withDateFiledLte(JsonNullable<LocalDate> dateFiledLte) {
         Utils.checkNotNull(dateFiledLte, "dateFiledLte");
         this.dateFiledLte = dateFiledLte;
         return this;
@@ -306,15 +356,14 @@ public class GetFilingsV1FilingsGetRequest {
      */
     public GetFilingsV1FilingsGetRequest withOrderBy(String orderBy) {
         Utils.checkNotNull(orderBy, "orderBy");
-        this.orderBy = Optional.ofNullable(orderBy);
+        this.orderBy = JsonNullable.of(orderBy);
         return this;
     }
-
 
     /**
      * Comma-separated list of fields to sort the results.
      */
-    public GetFilingsV1FilingsGetRequest withOrderBy(Optional<String> orderBy) {
+    public GetFilingsV1FilingsGetRequest withOrderBy(JsonNullable<String> orderBy) {
         Utils.checkNotNull(orderBy, "orderBy");
         this.orderBy = orderBy;
         return this;
@@ -325,15 +374,14 @@ public class GetFilingsV1FilingsGetRequest {
      */
     public GetFilingsV1FilingsGetRequest withStateCode(String stateCode) {
         Utils.checkNotNull(stateCode, "stateCode");
-        this.stateCode = Optional.ofNullable(stateCode);
+        this.stateCode = JsonNullable.of(stateCode);
         return this;
     }
-
 
     /**
      * Filter filings by state code (e.g., CA for California).
      */
-    public GetFilingsV1FilingsGetRequest withStateCode(Optional<String> stateCode) {
+    public GetFilingsV1FilingsGetRequest withStateCode(JsonNullable<String> stateCode) {
         Utils.checkNotNull(stateCode, "stateCode");
         this.stateCode = stateCode;
         return this;
@@ -342,19 +390,56 @@ public class GetFilingsV1FilingsGetRequest {
     /**
      * Filter filings by country code in ISO 3166-1 alpha-2 format (e.g., US).
      */
-    public GetFilingsV1FilingsGetRequest withCountryCode(List<CountryCodeEnum> countryCode) {
+    public GetFilingsV1FilingsGetRequest withCountryCode(List<GetFilingsV1FilingsGetCountryCode> countryCode) {
         Utils.checkNotNull(countryCode, "countryCode");
-        this.countryCode = Optional.ofNullable(countryCode);
+        this.countryCode = JsonNullable.of(countryCode);
         return this;
     }
-
 
     /**
      * Filter filings by country code in ISO 3166-1 alpha-2 format (e.g., US).
      */
-    public GetFilingsV1FilingsGetRequest withCountryCode(Optional<? extends List<CountryCodeEnum>> countryCode) {
+    public GetFilingsV1FilingsGetRequest withCountryCode(JsonNullable<? extends List<GetFilingsV1FilingsGetCountryCode>> countryCode) {
         Utils.checkNotNull(countryCode, "countryCode");
         this.countryCode = countryCode;
+        return this;
+    }
+
+    /**
+     * Filter filings by category (e.g., REGULAR, BACK_FILING, AMENDMENT).
+     */
+    public GetFilingsV1FilingsGetRequest withFilingCategoryIn(String filingCategoryIn) {
+        Utils.checkNotNull(filingCategoryIn, "filingCategoryIn");
+        this.filingCategoryIn = JsonNullable.of(filingCategoryIn);
+        return this;
+    }
+
+    /**
+     * Filter filings by category (e.g., REGULAR, BACK_FILING, AMENDMENT).
+     */
+    public GetFilingsV1FilingsGetRequest withFilingCategoryIn(JsonNullable<String> filingCategoryIn) {
+        Utils.checkNotNull(filingCategoryIn, "filingCategoryIn");
+        this.filingCategoryIn = filingCategoryIn;
+        return this;
+    }
+
+    /**
+     * Filter filings by tax type. Multiple tax types can be
+     * passed, separated by commas (SALES_TAX, USE_TAX, SALES_AND_USE_TAX).
+     */
+    public GetFilingsV1FilingsGetRequest withTaxTypeIn(String taxTypeIn) {
+        Utils.checkNotNull(taxTypeIn, "taxTypeIn");
+        this.taxTypeIn = JsonNullable.of(taxTypeIn);
+        return this;
+    }
+
+    /**
+     * Filter filings by tax type. Multiple tax types can be
+     * passed, separated by commas (SALES_TAX, USE_TAX, SALES_AND_USE_TAX).
+     */
+    public GetFilingsV1FilingsGetRequest withTaxTypeIn(JsonNullable<String> taxTypeIn) {
+        Utils.checkNotNull(taxTypeIn, "taxTypeIn");
+        this.taxTypeIn = taxTypeIn;
         return this;
     }
 
@@ -396,6 +481,25 @@ public class GetFilingsV1FilingsGetRequest {
         return this;
     }
 
+    /**
+     * The unique identifier for the organization making the request
+     */
+    public GetFilingsV1FilingsGetRequest withXOrganizationId(String xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = Optional.ofNullable(xOrganizationId);
+        return this;
+    }
+
+
+    /**
+     * The unique identifier for the organization making the request
+     */
+    public GetFilingsV1FilingsGetRequest withXOrganizationId(Optional<String> xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = xOrganizationId;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -414,8 +518,11 @@ public class GetFilingsV1FilingsGetRequest {
             Utils.enhancedDeepEquals(this.orderBy, other.orderBy) &&
             Utils.enhancedDeepEquals(this.stateCode, other.stateCode) &&
             Utils.enhancedDeepEquals(this.countryCode, other.countryCode) &&
+            Utils.enhancedDeepEquals(this.filingCategoryIn, other.filingCategoryIn) &&
+            Utils.enhancedDeepEquals(this.taxTypeIn, other.taxTypeIn) &&
             Utils.enhancedDeepEquals(this.page, other.page) &&
-            Utils.enhancedDeepEquals(this.size, other.size);
+            Utils.enhancedDeepEquals(this.size, other.size) &&
+            Utils.enhancedDeepEquals(this.xOrganizationId, other.xOrganizationId);
     }
     
     @Override
@@ -423,8 +530,9 @@ public class GetFilingsV1FilingsGetRequest {
         return Utils.enhancedHash(
             statusIn, startDate, endDate,
             dateFiledGte, dateFiledLte, orderBy,
-            stateCode, countryCode, page,
-            size);
+            stateCode, countryCode, filingCategoryIn,
+            taxTypeIn, page, size,
+            xOrganizationId);
     }
     
     @Override
@@ -438,32 +546,41 @@ public class GetFilingsV1FilingsGetRequest {
                 "orderBy", orderBy,
                 "stateCode", stateCode,
                 "countryCode", countryCode,
+                "filingCategoryIn", filingCategoryIn,
+                "taxTypeIn", taxTypeIn,
                 "page", page,
-                "size", size);
+                "size", size,
+                "xOrganizationId", xOrganizationId);
     }
 
     @SuppressWarnings("UnusedReturnValue")
     public final static class Builder {
 
-        private Optional<String> statusIn;
+        private JsonNullable<String> statusIn = JsonNullable.undefined();
 
-        private Optional<String> startDate = Optional.empty();
+        private JsonNullable<LocalDate> startDate = JsonNullable.undefined();
 
-        private Optional<String> endDate = Optional.empty();
+        private JsonNullable<LocalDate> endDate = JsonNullable.undefined();
 
-        private Optional<String> dateFiledGte = Optional.empty();
+        private JsonNullable<LocalDate> dateFiledGte = JsonNullable.undefined();
 
-        private Optional<String> dateFiledLte = Optional.empty();
+        private JsonNullable<LocalDate> dateFiledLte = JsonNullable.undefined();
 
-        private Optional<String> orderBy = Optional.empty();
+        private JsonNullable<String> orderBy = JsonNullable.undefined();
 
-        private Optional<String> stateCode = Optional.empty();
+        private JsonNullable<String> stateCode = JsonNullable.undefined();
 
-        private Optional<? extends List<CountryCodeEnum>> countryCode = Optional.empty();
+        private JsonNullable<? extends List<GetFilingsV1FilingsGetCountryCode>> countryCode = JsonNullable.undefined();
+
+        private JsonNullable<String> filingCategoryIn = JsonNullable.undefined();
+
+        private JsonNullable<String> taxTypeIn = JsonNullable.undefined();
 
         private Optional<Long> page;
 
         private Optional<Long> size;
+
+        private Optional<String> xOrganizationId = Optional.empty();
 
         private Builder() {
           // force use of static builder() method
@@ -475,14 +592,14 @@ public class GetFilingsV1FilingsGetRequest {
          */
         public Builder statusIn(String statusIn) {
             Utils.checkNotNull(statusIn, "statusIn");
-            this.statusIn = Optional.ofNullable(statusIn);
+            this.statusIn = JsonNullable.of(statusIn);
             return this;
         }
 
         /**
          * Filter filings by status
          */
-        public Builder statusIn(Optional<String> statusIn) {
+        public Builder statusIn(JsonNullable<String> statusIn) {
             Utils.checkNotNull(statusIn, "statusIn");
             this.statusIn = statusIn;
             return this;
@@ -492,16 +609,16 @@ public class GetFilingsV1FilingsGetRequest {
         /**
          * Filter filings with a start date greater than or equal to this date.
          */
-        public Builder startDate(String startDate) {
+        public Builder startDate(LocalDate startDate) {
             Utils.checkNotNull(startDate, "startDate");
-            this.startDate = Optional.ofNullable(startDate);
+            this.startDate = JsonNullable.of(startDate);
             return this;
         }
 
         /**
          * Filter filings with a start date greater than or equal to this date.
          */
-        public Builder startDate(Optional<String> startDate) {
+        public Builder startDate(JsonNullable<LocalDate> startDate) {
             Utils.checkNotNull(startDate, "startDate");
             this.startDate = startDate;
             return this;
@@ -511,16 +628,16 @@ public class GetFilingsV1FilingsGetRequest {
         /**
          * Filter filings with an end date less than or equal to this date.
          */
-        public Builder endDate(String endDate) {
+        public Builder endDate(LocalDate endDate) {
             Utils.checkNotNull(endDate, "endDate");
-            this.endDate = Optional.ofNullable(endDate);
+            this.endDate = JsonNullable.of(endDate);
             return this;
         }
 
         /**
          * Filter filings with an end date less than or equal to this date.
          */
-        public Builder endDate(Optional<String> endDate) {
+        public Builder endDate(JsonNullable<LocalDate> endDate) {
             Utils.checkNotNull(endDate, "endDate");
             this.endDate = endDate;
             return this;
@@ -530,16 +647,16 @@ public class GetFilingsV1FilingsGetRequest {
         /**
          * Filter filings filed on or after this date.
          */
-        public Builder dateFiledGte(String dateFiledGte) {
+        public Builder dateFiledGte(LocalDate dateFiledGte) {
             Utils.checkNotNull(dateFiledGte, "dateFiledGte");
-            this.dateFiledGte = Optional.ofNullable(dateFiledGte);
+            this.dateFiledGte = JsonNullable.of(dateFiledGte);
             return this;
         }
 
         /**
          * Filter filings filed on or after this date.
          */
-        public Builder dateFiledGte(Optional<String> dateFiledGte) {
+        public Builder dateFiledGte(JsonNullable<LocalDate> dateFiledGte) {
             Utils.checkNotNull(dateFiledGte, "dateFiledGte");
             this.dateFiledGte = dateFiledGte;
             return this;
@@ -549,16 +666,16 @@ public class GetFilingsV1FilingsGetRequest {
         /**
          * Filter filings filed on or before this date.
          */
-        public Builder dateFiledLte(String dateFiledLte) {
+        public Builder dateFiledLte(LocalDate dateFiledLte) {
             Utils.checkNotNull(dateFiledLte, "dateFiledLte");
-            this.dateFiledLte = Optional.ofNullable(dateFiledLte);
+            this.dateFiledLte = JsonNullable.of(dateFiledLte);
             return this;
         }
 
         /**
          * Filter filings filed on or before this date.
          */
-        public Builder dateFiledLte(Optional<String> dateFiledLte) {
+        public Builder dateFiledLte(JsonNullable<LocalDate> dateFiledLte) {
             Utils.checkNotNull(dateFiledLte, "dateFiledLte");
             this.dateFiledLte = dateFiledLte;
             return this;
@@ -570,14 +687,14 @@ public class GetFilingsV1FilingsGetRequest {
          */
         public Builder orderBy(String orderBy) {
             Utils.checkNotNull(orderBy, "orderBy");
-            this.orderBy = Optional.ofNullable(orderBy);
+            this.orderBy = JsonNullable.of(orderBy);
             return this;
         }
 
         /**
          * Comma-separated list of fields to sort the results.
          */
-        public Builder orderBy(Optional<String> orderBy) {
+        public Builder orderBy(JsonNullable<String> orderBy) {
             Utils.checkNotNull(orderBy, "orderBy");
             this.orderBy = orderBy;
             return this;
@@ -589,14 +706,14 @@ public class GetFilingsV1FilingsGetRequest {
          */
         public Builder stateCode(String stateCode) {
             Utils.checkNotNull(stateCode, "stateCode");
-            this.stateCode = Optional.ofNullable(stateCode);
+            this.stateCode = JsonNullable.of(stateCode);
             return this;
         }
 
         /**
          * Filter filings by state code (e.g., CA for California).
          */
-        public Builder stateCode(Optional<String> stateCode) {
+        public Builder stateCode(JsonNullable<String> stateCode) {
             Utils.checkNotNull(stateCode, "stateCode");
             this.stateCode = stateCode;
             return this;
@@ -606,18 +723,58 @@ public class GetFilingsV1FilingsGetRequest {
         /**
          * Filter filings by country code in ISO 3166-1 alpha-2 format (e.g., US).
          */
-        public Builder countryCode(List<CountryCodeEnum> countryCode) {
+        public Builder countryCode(List<GetFilingsV1FilingsGetCountryCode> countryCode) {
             Utils.checkNotNull(countryCode, "countryCode");
-            this.countryCode = Optional.ofNullable(countryCode);
+            this.countryCode = JsonNullable.of(countryCode);
             return this;
         }
 
         /**
          * Filter filings by country code in ISO 3166-1 alpha-2 format (e.g., US).
          */
-        public Builder countryCode(Optional<? extends List<CountryCodeEnum>> countryCode) {
+        public Builder countryCode(JsonNullable<? extends List<GetFilingsV1FilingsGetCountryCode>> countryCode) {
             Utils.checkNotNull(countryCode, "countryCode");
             this.countryCode = countryCode;
+            return this;
+        }
+
+
+        /**
+         * Filter filings by category (e.g., REGULAR, BACK_FILING, AMENDMENT).
+         */
+        public Builder filingCategoryIn(String filingCategoryIn) {
+            Utils.checkNotNull(filingCategoryIn, "filingCategoryIn");
+            this.filingCategoryIn = JsonNullable.of(filingCategoryIn);
+            return this;
+        }
+
+        /**
+         * Filter filings by category (e.g., REGULAR, BACK_FILING, AMENDMENT).
+         */
+        public Builder filingCategoryIn(JsonNullable<String> filingCategoryIn) {
+            Utils.checkNotNull(filingCategoryIn, "filingCategoryIn");
+            this.filingCategoryIn = filingCategoryIn;
+            return this;
+        }
+
+
+        /**
+         * Filter filings by tax type. Multiple tax types can be
+         * passed, separated by commas (SALES_TAX, USE_TAX, SALES_AND_USE_TAX).
+         */
+        public Builder taxTypeIn(String taxTypeIn) {
+            Utils.checkNotNull(taxTypeIn, "taxTypeIn");
+            this.taxTypeIn = JsonNullable.of(taxTypeIn);
+            return this;
+        }
+
+        /**
+         * Filter filings by tax type. Multiple tax types can be
+         * passed, separated by commas (SALES_TAX, USE_TAX, SALES_AND_USE_TAX).
+         */
+        public Builder taxTypeIn(JsonNullable<String> taxTypeIn) {
+            Utils.checkNotNull(taxTypeIn, "taxTypeIn");
+            this.taxTypeIn = taxTypeIn;
             return this;
         }
 
@@ -659,10 +816,26 @@ public class GetFilingsV1FilingsGetRequest {
             return this;
         }
 
+
+        /**
+         * The unique identifier for the organization making the request
+         */
+        public Builder xOrganizationId(String xOrganizationId) {
+            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+            this.xOrganizationId = Optional.ofNullable(xOrganizationId);
+            return this;
+        }
+
+        /**
+         * The unique identifier for the organization making the request
+         */
+        public Builder xOrganizationId(Optional<String> xOrganizationId) {
+            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+            this.xOrganizationId = xOrganizationId;
+            return this;
+        }
+
         public GetFilingsV1FilingsGetRequest build() {
-            if (statusIn == null) {
-                statusIn = _SINGLETON_VALUE_StatusIn.value();
-            }
             if (page == null) {
                 page = _SINGLETON_VALUE_Page.value();
             }
@@ -673,16 +846,11 @@ public class GetFilingsV1FilingsGetRequest {
             return new GetFilingsV1FilingsGetRequest(
                 statusIn, startDate, endDate,
                 dateFiledGte, dateFiledLte, orderBy,
-                stateCode, countryCode, page,
-                size);
+                stateCode, countryCode, filingCategoryIn,
+                taxTypeIn, page, size,
+                xOrganizationId);
         }
 
-
-        private static final LazySingletonValue<Optional<String>> _SINGLETON_VALUE_StatusIn =
-                new LazySingletonValue<>(
-                        "status__in",
-                        "\"FILED,FILING,UNFILED,PAUSED\"",
-                        new TypeReference<Optional<String>>() {});
 
         private static final LazySingletonValue<Optional<Long>> _SINGLETON_VALUE_Page =
                 new LazySingletonValue<>(

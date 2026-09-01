@@ -1,0 +1,14 @@
+# MassachusettsFields
+
+State-specific fields for Massachusetts registration import (MassTaxConnect).
+
+
+## Fields
+
+| Field                                                                                     | Type                                                                                      | Required                                                                                  | Description                                                                               |
+| ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| `registrationType`                                                                        | [MassachusettsRegistrationType](../../models/components/MassachusettsRegistrationType.md) | :heavy_check_mark:                                                                        | N/A                                                                                       |
+| `businessName`                                                                            | *String*                                                                                  | :heavy_check_mark:                                                                        | Business name as registered with the Commonwealth of Massachusetts.                       |
+| `maStateAccountId`                                                                        | *String*                                                                                  | :heavy_check_mark:                                                                        | Massachusetts state tax account ID from MassTaxConnect.                                   |
+| `mfaCompleted`                                                                            | *Optional\<Boolean>*                                                                      | :heavy_minus_sign:                                                                        | Whether the customer has completed MFA setup in their Massachusetts tax account.          |
+| `thirdPartyAccessEnabled`                                                                 | *Optional\<Boolean>*                                                                      | :heavy_minus_sign:                                                                        | Whether the customer has granted third-party access for Kintsugi in MassTaxConnect.       |

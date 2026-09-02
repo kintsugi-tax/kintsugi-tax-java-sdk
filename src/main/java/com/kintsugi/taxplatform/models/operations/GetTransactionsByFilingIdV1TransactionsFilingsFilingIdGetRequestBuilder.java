@@ -10,10 +10,12 @@ import com.kintsugi.taxplatform.operations.GetTransactionsByFilingIdV1Transactio
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.util.Optional;
 
 public class GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequestBuilder {
 
     private String filingId;
+    private Optional<String> xOrganizationId = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -26,11 +28,24 @@ public class GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequestBui
         this.filingId = filingId;
         return this;
     }
+                
+    public GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequestBuilder xOrganizationId(String xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = Optional.of(xOrganizationId);
+        return this;
+    }
+
+    public GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequestBuilder xOrganizationId(Optional<String> xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = xOrganizationId;
+        return this;
+    }
 
 
     private GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest buildRequest() {
 
-        GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest request = new GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest(filingId);
+        GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest request = new GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest(filingId,
+            xOrganizationId);
 
         return request;
     }

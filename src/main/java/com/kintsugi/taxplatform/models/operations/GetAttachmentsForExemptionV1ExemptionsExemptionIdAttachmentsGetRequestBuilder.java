@@ -10,10 +10,12 @@ import com.kintsugi.taxplatform.operations.GetAttachmentsForExemptionV1Exemption
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.util.Optional;
 
 public class GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequestBuilder {
 
     private String exemptionId;
+    private Optional<String> xOrganizationId = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -26,11 +28,24 @@ public class GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequ
         this.exemptionId = exemptionId;
         return this;
     }
+                
+    public GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequestBuilder xOrganizationId(String xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = Optional.of(xOrganizationId);
+        return this;
+    }
+
+    public GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequestBuilder xOrganizationId(Optional<String> xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = xOrganizationId;
+        return this;
+    }
 
 
     private GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest buildRequest() {
 
-        GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest request = new GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest(exemptionId);
+        GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest request = new GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest(exemptionId,
+            xOrganizationId);
 
         return request;
     }

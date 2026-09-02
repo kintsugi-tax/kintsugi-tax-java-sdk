@@ -1,0 +1,9 @@
+# ListRegistrationJurisdictionsV1RegistrationsJurisdictionsGetRequest
+
+
+## Fields
+
+| Field                                                                        | Type                                                                         | Required                                                                     | Description                                                                  | Example                                                                      |
+| ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| `statusIn`                                                                   | *Optional\<String>*                                                          | :heavy_minus_sign:                                                           | Filter by registration status (comma-separated); same as GET /registrations. |                                                                              |
+| `xOrganizationId`                                                            | *Optional\<String>*                                                          | :heavy_check_mark:                                                           | The unique identifier for the organization making the request                | org_12345                                                                    |

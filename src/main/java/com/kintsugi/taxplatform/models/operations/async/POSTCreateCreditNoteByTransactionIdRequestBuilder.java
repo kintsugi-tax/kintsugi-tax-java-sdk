@@ -12,11 +12,13 @@ import com.kintsugi.taxplatform.operations.POSTCreateCreditNoteByTransactionId;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 public class POSTCreateCreditNoteByTransactionIdRequestBuilder {
 
     private String originalTransactionId;
+    private Optional<String> xOrganizationId = Optional.empty();
     private CreditNoteCreate creditNoteCreate;
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
@@ -30,6 +32,18 @@ public class POSTCreateCreditNoteByTransactionIdRequestBuilder {
         this.originalTransactionId = originalTransactionId;
         return this;
     }
+                
+    public POSTCreateCreditNoteByTransactionIdRequestBuilder xOrganizationId(String xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = Optional.of(xOrganizationId);
+        return this;
+    }
+
+    public POSTCreateCreditNoteByTransactionIdRequestBuilder xOrganizationId(Optional<String> xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = xOrganizationId;
+        return this;
+    }
 
     public POSTCreateCreditNoteByTransactionIdRequestBuilder creditNoteCreate(CreditNoteCreate creditNoteCreate) {
         Utils.checkNotNull(creditNoteCreate, "creditNoteCreate");
@@ -41,6 +55,7 @@ public class POSTCreateCreditNoteByTransactionIdRequestBuilder {
     private POSTCreateCreditNoteByTransactionIdRequest buildRequest() {
 
         POSTCreateCreditNoteByTransactionIdRequest request = new POSTCreateCreditNoteByTransactionIdRequest(originalTransactionId,
+            xOrganizationId,
             creditNoteCreate);
 
         return request;

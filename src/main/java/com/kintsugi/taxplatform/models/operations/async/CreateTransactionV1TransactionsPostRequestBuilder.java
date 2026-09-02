@@ -7,31 +7,57 @@ import static com.kintsugi.taxplatform.operations.Operations.AsyncRequestOperati
 
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.components.TransactionPublicRequest;
+import com.kintsugi.taxplatform.models.operations.CreateTransactionV1TransactionsPostRequest;
 import com.kintsugi.taxplatform.operations.CreateTransactionV1TransactionsPost;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
+import java.lang.String;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 public class CreateTransactionV1TransactionsPostRequestBuilder {
 
-    private TransactionPublicRequest request;
+    private Optional<String> xOrganizationId = Optional.empty();
+    private TransactionPublicRequest transactionPublicRequest;
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
     public CreateTransactionV1TransactionsPostRequestBuilder(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
     }
-
-    public CreateTransactionV1TransactionsPostRequestBuilder request(TransactionPublicRequest request) {
-        Utils.checkNotNull(request, "request");
-        this.request = request;
+                
+    public CreateTransactionV1TransactionsPostRequestBuilder xOrganizationId(String xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = Optional.of(xOrganizationId);
         return this;
+    }
+
+    public CreateTransactionV1TransactionsPostRequestBuilder xOrganizationId(Optional<String> xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = xOrganizationId;
+        return this;
+    }
+
+    public CreateTransactionV1TransactionsPostRequestBuilder transactionPublicRequest(TransactionPublicRequest transactionPublicRequest) {
+        Utils.checkNotNull(transactionPublicRequest, "transactionPublicRequest");
+        this.transactionPublicRequest = transactionPublicRequest;
+        return this;
+    }
+
+
+    private CreateTransactionV1TransactionsPostRequest buildRequest() {
+
+        CreateTransactionV1TransactionsPostRequest request = new CreateTransactionV1TransactionsPostRequest(xOrganizationId,
+            transactionPublicRequest);
+
+        return request;
     }
 
     public CompletableFuture<CreateTransactionV1TransactionsPostResponse> call() {
         
-        AsyncRequestOperation<TransactionPublicRequest, CreateTransactionV1TransactionsPostResponse> operation
+        AsyncRequestOperation<CreateTransactionV1TransactionsPostRequest, CreateTransactionV1TransactionsPostResponse> operation
               = new CreateTransactionV1TransactionsPost.Async(sdkConfiguration, _headers);
+        CreateTransactionV1TransactionsPostRequest request = buildRequest();
 
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);

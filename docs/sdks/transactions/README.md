@@ -4,13 +4,15 @@
 
 ### Available Operations
 
-* [get](#get) - Get Transactions
-* [create](#create) - Create Transaction
-* [getByExternalId](#getbyexternalid) - Get Transaction By External Id
-* [update](#update) - Update Transaction
-* [getById](#getbyid) - Get Transaction By Id
-* [getByFilingId](#getbyfilingid) - Get Transactions By Filing Id
-* [updateCreditNote](#updatecreditnote) - Update Credit Note By Transaction Id
+* [get](#get) - Get transactions
+* [create](#create) - Create transaction
+* [archiveTransactionByIdV1TransactionsArchivePost](#archivetransactionbyidv1transactionsarchivepost) - Archive transaction by id
+* [getByExternalId](#getbyexternalid) - Get transaction by external id
+* [getByFilingId](#getbyfilingid) - Get transactions by filing id
+* [updateCreditNote](#updatecreditnote) - Update credit note by transaction id
+* [getById](#getbyid) - Get transaction by id
+* [update](#update) - Update transaction
+* [setTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPost](#settransactiontaxonlyv1transactionstransactionidtaxonlypost) - Set transaction tax only
 
 ## get
 
@@ -24,7 +26,6 @@ The Get Transactions API retrieves a list of transactions with
 package hello.world;
 
 import com.kintsugi.taxplatform.SDK;
-import com.kintsugi.taxplatform.models.components.Security;
 import com.kintsugi.taxplatform.models.errors.BackendSrcTransactionsResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
 import com.kintsugi.taxplatform.models.operations.GetTransactionsV1TransactionsGetRequest;
@@ -36,13 +37,14 @@ public class Application {
     public static void main(String[] args) throws ErrorResponse, BackendSrcTransactionsResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
-                .security(Security.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
-                    .build())
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
             .build();
 
         GetTransactionsV1TransactionsGetRequest req = GetTransactionsV1TransactionsGetRequest.builder()
+                .xOrganizationId("org_12345")
+                .addressStatusIn("UNVERIFIED,INVALID,PARTIALLY_VERIFIED,VERIFIED,UNVERIFIABLE")
+                .orderBy("date,state,customer_name,status")
+                .connectionIdIn("conn_abc123,conn_def456")
                 .build();
 
         GetTransactionsV1TransactionsGetResponse res = sdk.transactions().get()
@@ -77,7 +79,7 @@ public class Application {
 
 ## create
 
-Create a transaction.
+Create a transaction. Set `marketplace: true` for reseller or marketplace orders where tax was remitted externally; gross sales still count toward nexus, but tax liability is excluded.
 
 ### Example Usage: connection_mismatch
 
@@ -99,26 +101,22 @@ public class Application {
     public static void main(String[] args) throws ErrorResponse, BackendSrcTransactionsResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
-                .security(Security.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
-                    .build())
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
             .build();
 
-        TransactionPublicRequest req = TransactionPublicRequest.builder()
-                .organizationId("<id>")
-                .externalId("<id>")
-                .date(OffsetDateTime.parse("2025-11-05T23:48:53.053Z"))
-                .addresses(List.of())
-                .transactionItems(List.of())
-                .customer(CustomerBaseBase.builder()
-                    .organizationId("<id>")
-                    .build())
-                .type(TransactionTypeEnum.ARCHIVE)
-                .build();
-
         CreateTransactionV1TransactionsPostResponse res = sdk.transactions().create()
-                .request(req)
+                .xOrganizationId("org_12345")
+                .transactionPublicRequest(TransactionPublicRequest.builder()
+                    .organizationId("<id>")
+                    .externalId("<id>")
+                    .date(OffsetDateTime.parse("2025-11-05T23:48:53.053Z"))
+                    .addresses(List.of())
+                    .transactionItems(List.of())
+                    .customer(Customer.of(CustomerBaseBase.builder()
+                        .organizationId("<id>")
+                        .build()))
+                    .type(TransactionTypeEnum.ARCHIVE)
+                    .build())
                 .call();
 
         if (res.transactionRead().isPresent()) {
@@ -147,26 +145,22 @@ public class Application {
     public static void main(String[] args) throws ErrorResponse, BackendSrcTransactionsResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
-                .security(Security.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
-                    .build())
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
             .build();
 
-        TransactionPublicRequest req = TransactionPublicRequest.builder()
-                .organizationId("<id>")
-                .externalId("<id>")
-                .date(OffsetDateTime.parse("2025-11-05T23:48:53.053Z"))
-                .addresses(List.of())
-                .transactionItems(List.of())
-                .customer(CustomerBaseBase.builder()
-                    .organizationId("<id>")
-                    .build())
-                .type(TransactionTypeEnum.ARCHIVE)
-                .build();
-
         CreateTransactionV1TransactionsPostResponse res = sdk.transactions().create()
-                .request(req)
+                .xOrganizationId("org_12345")
+                .transactionPublicRequest(TransactionPublicRequest.builder()
+                    .organizationId("<id>")
+                    .externalId("<id>")
+                    .date(OffsetDateTime.parse("2025-11-05T23:48:53.053Z"))
+                    .addresses(List.of())
+                    .transactionItems(List.of())
+                    .customer(Customer.of(CustomerBaseBase.builder()
+                        .organizationId("<id>")
+                        .build()))
+                    .type(TransactionTypeEnum.ARCHIVE)
+                    .build())
                 .call();
 
         if (res.transactionRead().isPresent()) {
@@ -195,26 +189,22 @@ public class Application {
     public static void main(String[] args) throws ErrorResponse, BackendSrcTransactionsResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
-                .security(Security.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
-                    .build())
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
             .build();
 
-        TransactionPublicRequest req = TransactionPublicRequest.builder()
-                .organizationId("<id>")
-                .externalId("<id>")
-                .date(OffsetDateTime.parse("2025-11-05T23:48:53.053Z"))
-                .addresses(List.of())
-                .transactionItems(List.of())
-                .customer(CustomerBaseBase.builder()
-                    .organizationId("<id>")
-                    .build())
-                .type(TransactionTypeEnum.ARCHIVE)
-                .build();
-
         CreateTransactionV1TransactionsPostResponse res = sdk.transactions().create()
-                .request(req)
+                .xOrganizationId("org_12345")
+                .transactionPublicRequest(TransactionPublicRequest.builder()
+                    .organizationId("<id>")
+                    .externalId("<id>")
+                    .date(OffsetDateTime.parse("2025-11-05T23:48:53.053Z"))
+                    .addresses(List.of())
+                    .transactionItems(List.of())
+                    .customer(Customer.of(CustomerBaseBase.builder()
+                        .organizationId("<id>")
+                        .build()))
+                    .type(TransactionTypeEnum.ARCHIVE)
+                    .build())
                 .call();
 
         if (res.transactionRead().isPresent()) {
@@ -243,26 +233,22 @@ public class Application {
     public static void main(String[] args) throws ErrorResponse, BackendSrcTransactionsResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
-                .security(Security.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
-                    .build())
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
             .build();
 
-        TransactionPublicRequest req = TransactionPublicRequest.builder()
-                .organizationId("<id>")
-                .externalId("<id>")
-                .date(OffsetDateTime.parse("2025-11-05T23:48:53.053Z"))
-                .addresses(List.of())
-                .transactionItems(List.of())
-                .customer(CustomerBaseBase.builder()
-                    .organizationId("<id>")
-                    .build())
-                .type(TransactionTypeEnum.ARCHIVE)
-                .build();
-
         CreateTransactionV1TransactionsPostResponse res = sdk.transactions().create()
-                .request(req)
+                .xOrganizationId("org_12345")
+                .transactionPublicRequest(TransactionPublicRequest.builder()
+                    .organizationId("<id>")
+                    .externalId("<id>")
+                    .date(OffsetDateTime.parse("2025-11-05T23:48:53.053Z"))
+                    .addresses(List.of())
+                    .transactionItems(List.of())
+                    .customer(Customer.of(CustomerBaseBase.builder()
+                        .organizationId("<id>")
+                        .build()))
+                    .type(TransactionTypeEnum.ARCHIVE)
+                    .build())
                 .call();
 
         if (res.transactionRead().isPresent()) {
@@ -291,26 +277,22 @@ public class Application {
     public static void main(String[] args) throws ErrorResponse, BackendSrcTransactionsResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
-                .security(Security.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
-                    .build())
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
             .build();
 
-        TransactionPublicRequest req = TransactionPublicRequest.builder()
-                .organizationId("<id>")
-                .externalId("<id>")
-                .date(OffsetDateTime.parse("2025-11-05T23:48:53.053Z"))
-                .addresses(List.of())
-                .transactionItems(List.of())
-                .customer(CustomerBaseBase.builder()
-                    .organizationId("<id>")
-                    .build())
-                .type(TransactionTypeEnum.ARCHIVE)
-                .build();
-
         CreateTransactionV1TransactionsPostResponse res = sdk.transactions().create()
-                .request(req)
+                .xOrganizationId("org_12345")
+                .transactionPublicRequest(TransactionPublicRequest.builder()
+                    .organizationId("<id>")
+                    .externalId("<id>")
+                    .date(OffsetDateTime.parse("2025-11-05T23:48:53.053Z"))
+                    .addresses(List.of())
+                    .transactionItems(List.of())
+                    .customer(Customer.of(CustomerBaseBase.builder()
+                        .organizationId("<id>")
+                        .build()))
+                    .type(TransactionTypeEnum.ARCHIVE)
+                    .build())
                 .call();
 
         if (res.transactionRead().isPresent()) {
@@ -339,26 +321,22 @@ public class Application {
     public static void main(String[] args) throws ErrorResponse, BackendSrcTransactionsResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
-                .security(Security.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
-                    .build())
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
             .build();
 
-        TransactionPublicRequest req = TransactionPublicRequest.builder()
-                .organizationId("<id>")
-                .externalId("<id>")
-                .date(OffsetDateTime.parse("2025-11-05T23:48:53.053Z"))
-                .addresses(List.of())
-                .transactionItems(List.of())
-                .customer(CustomerBaseBase.builder()
-                    .organizationId("<id>")
-                    .build())
-                .type(TransactionTypeEnum.ARCHIVE)
-                .build();
-
         CreateTransactionV1TransactionsPostResponse res = sdk.transactions().create()
-                .request(req)
+                .xOrganizationId("org_12345")
+                .transactionPublicRequest(TransactionPublicRequest.builder()
+                    .organizationId("<id>")
+                    .externalId("<id>")
+                    .date(OffsetDateTime.parse("2025-11-05T23:48:53.053Z"))
+                    .addresses(List.of())
+                    .transactionItems(List.of())
+                    .customer(Customer.of(CustomerBaseBase.builder()
+                        .organizationId("<id>")
+                        .build()))
+                    .type(TransactionTypeEnum.ARCHIVE)
+                    .build())
                 .call();
 
         if (res.transactionRead().isPresent()) {
@@ -387,26 +365,22 @@ public class Application {
     public static void main(String[] args) throws ErrorResponse, BackendSrcTransactionsResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
-                .security(Security.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
-                    .build())
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
             .build();
 
-        TransactionPublicRequest req = TransactionPublicRequest.builder()
-                .organizationId("<id>")
-                .externalId("<id>")
-                .date(OffsetDateTime.parse("2025-11-05T23:48:53.053Z"))
-                .addresses(List.of())
-                .transactionItems(List.of())
-                .customer(CustomerBaseBase.builder()
-                    .organizationId("<id>")
-                    .build())
-                .type(TransactionTypeEnum.ARCHIVE)
-                .build();
-
         CreateTransactionV1TransactionsPostResponse res = sdk.transactions().create()
-                .request(req)
+                .xOrganizationId("org_12345")
+                .transactionPublicRequest(TransactionPublicRequest.builder()
+                    .organizationId("<id>")
+                    .externalId("<id>")
+                    .date(OffsetDateTime.parse("2025-11-05T23:48:53.053Z"))
+                    .addresses(List.of())
+                    .transactionItems(List.of())
+                    .customer(Customer.of(CustomerBaseBase.builder()
+                        .organizationId("<id>")
+                        .build()))
+                    .type(TransactionTypeEnum.ARCHIVE)
+                    .build())
                 .call();
 
         if (res.transactionRead().isPresent()) {
@@ -435,26 +409,22 @@ public class Application {
     public static void main(String[] args) throws ErrorResponse, BackendSrcTransactionsResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
-                .security(Security.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
-                    .build())
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
             .build();
 
-        TransactionPublicRequest req = TransactionPublicRequest.builder()
-                .organizationId("<id>")
-                .externalId("<id>")
-                .date(OffsetDateTime.parse("2025-11-05T23:48:53.053Z"))
-                .addresses(List.of())
-                .transactionItems(List.of())
-                .customer(CustomerBaseBase.builder()
-                    .organizationId("<id>")
-                    .build())
-                .type(TransactionTypeEnum.ARCHIVE)
-                .build();
-
         CreateTransactionV1TransactionsPostResponse res = sdk.transactions().create()
-                .request(req)
+                .xOrganizationId("org_12345")
+                .transactionPublicRequest(TransactionPublicRequest.builder()
+                    .organizationId("<id>")
+                    .externalId("<id>")
+                    .date(OffsetDateTime.parse("2025-11-05T23:48:53.053Z"))
+                    .addresses(List.of())
+                    .transactionItems(List.of())
+                    .customer(Customer.of(CustomerBaseBase.builder()
+                        .organizationId("<id>")
+                        .build()))
+                    .type(TransactionTypeEnum.ARCHIVE)
+                    .build())
                 .call();
 
         if (res.transactionRead().isPresent()) {
@@ -466,9 +436,10 @@ public class Application {
 
 ### Parameters
 
-| Parameter                                                                   | Type                                                                        | Required                                                                    | Description                                                                 |
-| --------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| `request`                                                                   | [TransactionPublicRequest](../../models/shared/TransactionPublicRequest.md) | :heavy_check_mark:                                                          | The request object to use for the request.                                  |
+| Parameter                                                                       | Type                                                                            | Required                                                                        | Description                                                                     | Example                                                                         |
+| ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| `xOrganizationId`                                                               | *Optional\<String>*                                                             | :heavy_check_mark:                                                              | The unique identifier for the organization making the request                   | org_12345                                                                       |
+| `transactionPublicRequest`                                                      | [TransactionPublicRequest](../../models/components/TransactionPublicRequest.md) | :heavy_check_mark:                                                              | N/A                                                                             |                                                                                 |
 
 ### Response
 
@@ -483,6 +454,59 @@ public class Application {
 | models/errors/ErrorResponse                                          | 500                                                                  | application/json                                                     |
 | models/errors/APIException                                           | 4XX, 5XX                                                             | \*/\*                                                                |
 
+## archiveTransactionByIdV1TransactionsArchivePost
+
+Archive transactions by transaction id
+
+### Example Usage
+
+<!-- UsageSnippet language="java" operationID="archive_transaction_by_id_v1_transactions_archive_post" method="post" path="/v1/transactions/archive" -->
+```java
+package hello.world;
+
+import com.kintsugi.taxplatform.SDK;
+import com.kintsugi.taxplatform.models.errors.HTTPValidationError;
+import com.kintsugi.taxplatform.models.operations.ArchiveTransactionByIdV1TransactionsArchivePostResponse;
+import java.lang.Exception;
+
+public class Application {
+
+    public static void main(String[] args) throws HTTPValidationError, Exception {
+
+        SDK sdk = SDK.builder()
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
+            .build();
+
+        ArchiveTransactionByIdV1TransactionsArchivePostResponse res = sdk.transactions().archiveTransactionByIdV1TransactionsArchivePost()
+                .transactionId("<id>")
+                .xOrganizationId("org_12345")
+                .call();
+
+        if (res.any().isPresent()) {
+            System.out.println(res.any().get());
+        }
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                     | Type                                                          | Required                                                      | Description                                                   | Example                                                       |
+| ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- |
+| `transactionId`                                               | *String*                                                      | :heavy_check_mark:                                            | N/A                                                           |                                                               |
+| `xOrganizationId`                                             | *Optional\<String>*                                           | :heavy_check_mark:                                            | The unique identifier for the organization making the request | org_12345                                                     |
+
+### Response
+
+**[ArchiveTransactionByIdV1TransactionsArchivePostResponse](../../models/operations/ArchiveTransactionByIdV1TransactionsArchivePostResponse.md)**
+
+### Errors
+
+| Error Type                        | Status Code                       | Content Type                      |
+| --------------------------------- | --------------------------------- | --------------------------------- |
+| models/errors/HTTPValidationError | 422                               | application/json                  |
+| models/errors/APIException        | 4XX, 5XX                          | \*/\*                             |
+
 ## getByExternalId
 
 Retrieves a specific transaction based on its external ID.
@@ -495,7 +519,6 @@ Retrieves a specific transaction based on its external ID.
 package hello.world;
 
 import com.kintsugi.taxplatform.SDK;
-import com.kintsugi.taxplatform.models.components.Security;
 import com.kintsugi.taxplatform.models.errors.BackendSrcTransactionsResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
 import com.kintsugi.taxplatform.models.operations.GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse;
@@ -506,14 +529,12 @@ public class Application {
     public static void main(String[] args) throws ErrorResponse, BackendSrcTransactionsResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
-                .security(Security.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
-                    .build())
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
             .build();
 
         GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse res = sdk.transactions().getByExternalId()
                 .externalId("<id>")
+                .xOrganizationId("org_12345")
                 .call();
 
         if (res.transactionRead().isPresent()) {
@@ -525,147 +546,14 @@ public class Application {
 
 ### Parameters
 
-| Parameter                                          | Type                                               | Required                                           | Description                                        |
-| -------------------------------------------------- | -------------------------------------------------- | -------------------------------------------------- | -------------------------------------------------- |
-| `externalId`                                       | *String*                                           | :heavy_check_mark:                                 | The unique external identifier of the transaction. |
+| Parameter                                                     | Type                                                          | Required                                                      | Description                                                   | Example                                                       |
+| ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- |
+| `externalId`                                                  | *String*                                                      | :heavy_check_mark:                                            | The unique external identifier of the transaction.            |                                                               |
+| `xOrganizationId`                                             | *Optional\<String>*                                           | :heavy_check_mark:                                            | The unique identifier for the organization making the request | org_12345                                                     |
 
 ### Response
 
 **[GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse](../../models/operations/GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse.md)**
-
-### Errors
-
-| Error Type                                                           | Status Code                                                          | Content Type                                                         |
-| -------------------------------------------------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------- |
-| models/errors/ErrorResponse                                          | 401, 404                                                             | application/json                                                     |
-| models/errors/BackendSrcTransactionsResponsesValidationErrorResponse | 422                                                                  | application/json                                                     |
-| models/errors/ErrorResponse                                          | 500                                                                  | application/json                                                     |
-| models/errors/APIException                                           | 4XX, 5XX                                                             | \*/\*                                                                |
-
-## update
-
-Update a specific transaction by its ID.
-
-### Example Usage
-
-<!-- UsageSnippet language="java" operationID="update_transaction_v1_transactions__transaction_id__put" method="put" path="/v1/transactions/{transaction_id}" -->
-```java
-package hello.world;
-
-import com.kintsugi.taxplatform.SDK;
-import com.kintsugi.taxplatform.models.components.*;
-import com.kintsugi.taxplatform.models.errors.HTTPValidationError;
-import com.kintsugi.taxplatform.models.operations.UpdateTransactionV1TransactionsTransactionIdPutResponse;
-import java.lang.Exception;
-import java.time.OffsetDateTime;
-import java.util.List;
-
-public class Application {
-
-    public static void main(String[] args) throws HTTPValidationError, Exception {
-
-        SDK sdk = SDK.builder()
-                .security(Security.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
-                    .build())
-            .build();
-
-        UpdateTransactionV1TransactionsTransactionIdPutResponse res = sdk.transactions().update()
-                .transactionId("<id>")
-                .transactionUpdate(TransactionUpdate.builder()
-                    .organizationId("orgn_argaLQwMy2fJc")
-                    .externalId("EXT12345")
-                    .date(OffsetDateTime.parse("2025-04-02T17:36:59.814Z"))
-                    .addresses(List.of(
-                        TransactionAddressBuilder.builder()
-                            .type(AddressType.BILL_TO)
-                            .build()))
-                    .transactionItems(List.of(
-                        TransactionItemCreateUpdate.builder()
-                            .organizationId("orgn_argaLQwMy2fJc")
-                            .date(OffsetDateTime.parse("2025-04-02T17:36:59.814Z"))
-                            .externalProductId("1186DUMMYITEM")
-                            .build()))
-                    .customer(CustomerUpdate.builder()
-                        .build())
-                    .build())
-                .call();
-
-        if (res.transactionRead().isPresent()) {
-            System.out.println(res.transactionRead().get());
-        }
-    }
-}
-```
-
-### Parameters
-
-| Parameter                                                         | Type                                                              | Required                                                          | Description                                                       |
-| ----------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- |
-| `transactionId`                                                   | *String*                                                          | :heavy_check_mark:                                                | N/A                                                               |
-| `transactionUpdate`                                               | [TransactionUpdate](../../models/components/TransactionUpdate.md) | :heavy_check_mark:                                                | N/A                                                               |
-
-### Response
-
-**[UpdateTransactionV1TransactionsTransactionIdPutResponse](../../models/operations/UpdateTransactionV1TransactionsTransactionIdPutResponse.md)**
-
-### Errors
-
-| Error Type                        | Status Code                       | Content Type                      |
-| --------------------------------- | --------------------------------- | --------------------------------- |
-| models/errors/HTTPValidationError | 422                               | application/json                  |
-| models/errors/APIException        | 4XX, 5XX                          | \*/\*                             |
-
-## getById
-
-The Get Transaction By Id API retrieves detailed information
-    about a specific transaction by providing its unique transaction ID.
-
-### Example Usage
-
-<!-- UsageSnippet language="java" operationID="get_transaction_by_id_v1_transactions__transaction_id__get" method="get" path="/v1/transactions/{transaction_id}" -->
-```java
-package hello.world;
-
-import com.kintsugi.taxplatform.SDK;
-import com.kintsugi.taxplatform.models.components.Security;
-import com.kintsugi.taxplatform.models.errors.BackendSrcTransactionsResponsesValidationErrorResponse;
-import com.kintsugi.taxplatform.models.errors.ErrorResponse;
-import com.kintsugi.taxplatform.models.operations.GetTransactionByIdV1TransactionsTransactionIdGetResponse;
-import java.lang.Exception;
-
-public class Application {
-
-    public static void main(String[] args) throws ErrorResponse, BackendSrcTransactionsResponsesValidationErrorResponse, Exception {
-
-        SDK sdk = SDK.builder()
-                .security(Security.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
-                    .build())
-            .build();
-
-        GetTransactionByIdV1TransactionsTransactionIdGetResponse res = sdk.transactions().getById()
-                .transactionId("<id>")
-                .call();
-
-        if (res.transactionRead().isPresent()) {
-            System.out.println(res.transactionRead().get());
-        }
-    }
-}
-```
-
-### Parameters
-
-| Parameter                                             | Type                                                  | Required                                              | Description                                           |
-| ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- |
-| `transactionId`                                       | *String*                                              | :heavy_check_mark:                                    | The unique identifier of the transaction to retrieve. |
-
-### Response
-
-**[GetTransactionByIdV1TransactionsTransactionIdGetResponse](../../models/operations/GetTransactionByIdV1TransactionsTransactionIdGetResponse.md)**
 
 ### Errors
 
@@ -687,7 +575,6 @@ Retrieve transactions by filing ID.
 package hello.world;
 
 import com.kintsugi.taxplatform.SDK;
-import com.kintsugi.taxplatform.models.components.Security;
 import com.kintsugi.taxplatform.models.errors.BackendSrcTransactionsResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
 import com.kintsugi.taxplatform.models.operations.GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetResponse;
@@ -698,14 +585,12 @@ public class Application {
     public static void main(String[] args) throws ErrorResponse, BackendSrcTransactionsResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
-                .security(Security.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
-                    .build())
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
             .build();
 
         GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetResponse res = sdk.transactions().getByFilingId()
                 .filingId("<id>")
+                .xOrganizationId("org_12345")
                 .call();
 
         if (res.response200GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGet().isPresent()) {
@@ -717,9 +602,10 @@ public class Application {
 
 ### Parameters
 
-| Parameter                                                                                     | Type                                                                                          | Required                                                                                      | Description                                                                                   |
-| --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| `filingId`                                                                                    | *String*                                                                                      | :heavy_check_mark:                                                                            | The unique identifier of the filing<br/>        whose transactions you wish to retrieve.<br/>         |
+| Parameter                                                                                     | Type                                                                                          | Required                                                                                      | Description                                                                                   | Example                                                                                       |
+| --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `filingId`                                                                                    | *String*                                                                                      | :heavy_check_mark:                                                                            | The unique identifier of the filing<br/>        whose transactions you wish to retrieve.<br/>         |                                                                                               |
+| `xOrganizationId`                                                                             | *Optional\<String>*                                                                           | :heavy_check_mark:                                                                            | The unique identifier for the organization making the request                                 | org_12345                                                                                     |
 
 ### Response
 
@@ -757,28 +643,26 @@ public class Application {
     public static void main(String[] args) throws HTTPValidationError, Exception {
 
         SDK sdk = SDK.builder()
-                .security(Security.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
-                    .build())
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
             .build();
 
         PUTUpdateCreditNoteByTransactionIdResponse res = sdk.transactions().updateCreditNote()
                 .originalTransactionId("<id>")
                 .creditNoteId("<id>")
+                .xOrganizationId("org_12345")
                 .creditNoteCreate(CreditNoteCreate.builder()
                     .externalId("<id>")
                     .date(OffsetDateTime.parse("2023-07-25T11:01:44.924Z"))
                     .status(Status.CANCELLED)
-                    .totalAmount(0d)
+                    .totalAmount(CreditNoteCreateTotalAmount.of(0d))
                     .currency(CurrencyEnum.SPL)
                     .transactionItems(List.of(
                         CreditNoteItemCreateUpdate.builder()
                             .externalId("<id>")
                             .date(OffsetDateTime.parse("2024-09-15T23:01:02.880Z"))
                             .externalProductId("<id>")
-                            .quantity(1d)
-                            .amount(0d)
+                            .quantity(CreditNoteItemCreateUpdateQuantity.of(1d))
+                            .amount(CreditNoteItemCreateUpdateAmount.of(0d))
                             .build()))
                     .build())
                 .call();
@@ -792,15 +676,203 @@ public class Application {
 
 ### Parameters
 
-| Parameter                                                       | Type                                                            | Required                                                        | Description                                                     |
-| --------------------------------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------- |
-| `originalTransactionId`                                         | *String*                                                        | :heavy_check_mark:                                              | N/A                                                             |
-| `creditNoteId`                                                  | *String*                                                        | :heavy_check_mark:                                              | N/A                                                             |
-| `creditNoteCreate`                                              | [CreditNoteCreate](../../models/components/CreditNoteCreate.md) | :heavy_check_mark:                                              | N/A                                                             |
+| Parameter                                                       | Type                                                            | Required                                                        | Description                                                     | Example                                                         |
+| --------------------------------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------- |
+| `originalTransactionId`                                         | *String*                                                        | :heavy_check_mark:                                              | N/A                                                             |                                                                 |
+| `creditNoteId`                                                  | *String*                                                        | :heavy_check_mark:                                              | N/A                                                             |                                                                 |
+| `xOrganizationId`                                               | *Optional\<String>*                                             | :heavy_check_mark:                                              | The unique identifier for the organization making the request   | org_12345                                                       |
+| `creditNoteCreate`                                              | [CreditNoteCreate](../../models/components/CreditNoteCreate.md) | :heavy_check_mark:                                              | N/A                                                             |                                                                 |
 
 ### Response
 
 **[PUTUpdateCreditNoteByTransactionIdResponse](../../models/operations/PUTUpdateCreditNoteByTransactionIdResponse.md)**
+
+### Errors
+
+| Error Type                        | Status Code                       | Content Type                      |
+| --------------------------------- | --------------------------------- | --------------------------------- |
+| models/errors/HTTPValidationError | 422                               | application/json                  |
+| models/errors/APIException        | 4XX, 5XX                          | \*/\*                             |
+
+## getById
+
+The Get Transaction By Id API retrieves detailed information
+    about a specific transaction by providing its unique transaction ID.
+
+### Example Usage
+
+<!-- UsageSnippet language="java" operationID="get_transaction_by_id_v1_transactions__transaction_id__get" method="get" path="/v1/transactions/{transaction_id}" -->
+```java
+package hello.world;
+
+import com.kintsugi.taxplatform.SDK;
+import com.kintsugi.taxplatform.models.errors.BackendSrcTransactionsResponsesValidationErrorResponse;
+import com.kintsugi.taxplatform.models.errors.ErrorResponse;
+import com.kintsugi.taxplatform.models.operations.GetTransactionByIdV1TransactionsTransactionIdGetResponse;
+import java.lang.Exception;
+
+public class Application {
+
+    public static void main(String[] args) throws ErrorResponse, BackendSrcTransactionsResponsesValidationErrorResponse, Exception {
+
+        SDK sdk = SDK.builder()
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
+            .build();
+
+        GetTransactionByIdV1TransactionsTransactionIdGetResponse res = sdk.transactions().getById()
+                .transactionId("<id>")
+                .xOrganizationId("org_12345")
+                .call();
+
+        if (res.transactionRead().isPresent()) {
+            System.out.println(res.transactionRead().get());
+        }
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                     | Type                                                          | Required                                                      | Description                                                   | Example                                                       |
+| ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- |
+| `transactionId`                                               | *String*                                                      | :heavy_check_mark:                                            | The unique identifier of the transaction to retrieve.         |                                                               |
+| `xOrganizationId`                                             | *Optional\<String>*                                           | :heavy_check_mark:                                            | The unique identifier for the organization making the request | org_12345                                                     |
+
+### Response
+
+**[GetTransactionByIdV1TransactionsTransactionIdGetResponse](../../models/operations/GetTransactionByIdV1TransactionsTransactionIdGetResponse.md)**
+
+### Errors
+
+| Error Type                                                           | Status Code                                                          | Content Type                                                         |
+| -------------------------------------------------------------------- | -------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| models/errors/ErrorResponse                                          | 401, 404                                                             | application/json                                                     |
+| models/errors/BackendSrcTransactionsResponsesValidationErrorResponse | 422                                                                  | application/json                                                     |
+| models/errors/ErrorResponse                                          | 500                                                                  | application/json                                                     |
+| models/errors/APIException                                           | 4XX, 5XX                                                             | \*/\*                                                                |
+
+## update
+
+Update a specific transaction by its ID.
+
+### Example Usage
+
+<!-- UsageSnippet language="java" operationID="update_transaction_v1_transactions__transaction_id__put" method="put" path="/v1/transactions/{transaction_id}" -->
+```java
+package hello.world;
+
+import com.kintsugi.taxplatform.SDK;
+import com.kintsugi.taxplatform.models.components.*;
+import com.kintsugi.taxplatform.models.errors.HTTPValidationError;
+import com.kintsugi.taxplatform.models.operations.UpdateTransactionV1TransactionsTransactionIdPutResponse;
+import java.lang.Exception;
+import java.time.OffsetDateTime;
+import java.util.List;
+
+public class Application {
+
+    public static void main(String[] args) throws HTTPValidationError, Exception {
+
+        SDK sdk = SDK.builder()
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
+            .build();
+
+        UpdateTransactionV1TransactionsTransactionIdPutResponse res = sdk.transactions().update()
+                .transactionId("<id>")
+                .xOrganizationId("org_12345")
+                .transactionUpdate(TransactionUpdate.builder()
+                    .organizationId("orgn_argaLQwMy2fJc")
+                    .externalId("EXT12345")
+                    .date(OffsetDateTime.parse("2025-04-02T17:36:59.814Z"))
+                    .addresses(TransactionUpdateAddresses.ofTransactionAddressBuilder(List.of(
+                        TransactionAddressBuilder.builder()
+                            .type(AddressType.BILL_TO)
+                            .build())))
+                    .transactionItems(List.of(
+                        TransactionItemCreateUpdate.builder()
+                            .organizationId("orgn_argaLQwMy2fJc")
+                            .date(OffsetDateTime.parse("2025-04-02T17:36:59.814Z"))
+                            .externalProductId("1186DUMMYITEM")
+                            .build()))
+                    .customer(CustomerUpdate.builder()
+                        .build())
+                    .build())
+                .call();
+
+        if (res.transactionRead().isPresent()) {
+            System.out.println(res.transactionRead().get());
+        }
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                         | Type                                                              | Required                                                          | Description                                                       | Example                                                           |
+| ----------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- |
+| `transactionId`                                                   | *String*                                                          | :heavy_check_mark:                                                | N/A                                                               |                                                                   |
+| `xOrganizationId`                                                 | *Optional\<String>*                                               | :heavy_check_mark:                                                | The unique identifier for the organization making the request     | org_12345                                                         |
+| `transactionUpdate`                                               | [TransactionUpdate](../../models/components/TransactionUpdate.md) | :heavy_check_mark:                                                | N/A                                                               |                                                                   |
+
+### Response
+
+**[UpdateTransactionV1TransactionsTransactionIdPutResponse](../../models/operations/UpdateTransactionV1TransactionsTransactionIdPutResponse.md)**
+
+### Errors
+
+| Error Type                        | Status Code                       | Content Type                      |
+| --------------------------------- | --------------------------------- | --------------------------------- |
+| models/errors/HTTPValidationError | 422                               | application/json                  |
+| models/errors/APIException        | 4XX, 5XX                          | \*/\*                             |
+
+## setTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPost
+
+Mark or unmark a transaction as tax-only. SALE becomes TAX_COLLECTION; credit notes become TAX_REFUND. Unmark restores SALE or re-derives FULL/PARTIAL credit note. Only the type is changed; amounts are preserved.
+
+### Example Usage
+
+<!-- UsageSnippet language="java" operationID="set_transaction_tax_only_v1_transactions__transaction_id__tax_only_post" method="post" path="/v1/transactions/{transaction_id}/tax_only" -->
+```java
+package hello.world;
+
+import com.kintsugi.taxplatform.SDK;
+import com.kintsugi.taxplatform.models.components.TaxOnlyUpdate;
+import com.kintsugi.taxplatform.models.errors.HTTPValidationError;
+import com.kintsugi.taxplatform.models.operations.SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostResponse;
+import java.lang.Exception;
+
+public class Application {
+
+    public static void main(String[] args) throws HTTPValidationError, Exception {
+
+        SDK sdk = SDK.builder()
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
+            .build();
+
+        SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostResponse res = sdk.transactions().setTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPost()
+                .transactionId("<id>")
+                .xOrganizationId("org_12345")
+                .taxOnlyUpdate(TaxOnlyUpdate.builder()
+                    .taxOnly(false)
+                    .build())
+                .call();
+
+        // handle response
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                     | Type                                                          | Required                                                      | Description                                                   | Example                                                       |
+| ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- |
+| `transactionId`                                               | *String*                                                      | :heavy_check_mark:                                            | N/A                                                           |                                                               |
+| `xOrganizationId`                                             | *Optional\<String>*                                           | :heavy_check_mark:                                            | The unique identifier for the organization making the request | org_12345                                                     |
+| `taxOnlyUpdate`                                               | [TaxOnlyUpdate](../../models/components/TaxOnlyUpdate.md)     | :heavy_check_mark:                                            | N/A                                                           |                                                               |
+
+### Response
+
+**[SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostResponse](../../models/operations/SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostResponse.md)**
 
 ### Errors
 

@@ -12,7 +12,10 @@ public enum FilingStatusEnum {
     UNFILED("UNFILED"),
     FILED("FILED"),
     FILING("FILING"),
-    PAUSED("PAUSED");
+    PAUSED("PAUSED"),
+    SKIPPED("SKIPPED"),
+    CANCELLED("CANCELLED"),
+    ISSUE("ISSUE");
 
     @JsonValue
     private final String value;

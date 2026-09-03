@@ -14,7 +14,6 @@ import com.kintsugi.taxplatform.utils.Utils;
 public class SearchV1AddressValidationSearchPostRequestBuilder {
 
     private AddressBase request;
-    private SearchV1AddressValidationSearchPostSecurity security;
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -28,16 +27,10 @@ public class SearchV1AddressValidationSearchPostRequestBuilder {
         return this;
     }
 
-    public SearchV1AddressValidationSearchPostRequestBuilder security(SearchV1AddressValidationSearchPostSecurity security) {
-        Utils.checkNotNull(security, "security");
-        this.security = security;
-        return this;
-    }
-
     public SearchV1AddressValidationSearchPostResponse call() {
         
         RequestOperation<AddressBase, SearchV1AddressValidationSearchPostResponse> operation
-              = new SearchV1AddressValidationSearchPost.Sync(sdkConfiguration, security, _headers);
+              = new SearchV1AddressValidationSearchPost.Sync(sdkConfiguration, _headers);
 
         return operation.handleResponse(operation.doRequest(request));
     }

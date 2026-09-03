@@ -13,6 +13,13 @@ import java.lang.String;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * Kintsugi Customer API: Publicly documented Kintsugi Customer API endpoints. The source
+ * (openapi/_source/openapi-master.json) is the platform spec filtered to the documented customer
+ * surface (openapi/customer-endpoints.json); scripts/build-specs.mjs re-applies that filter here.
+ * 
+ * <p>Do not edit by hand.
+ */
 public class SDK {
     private static final Headers _headers = Headers.EMPTY;
 
@@ -22,7 +29,7 @@ public class SDK {
      */
     public static final String[] SERVERS = {
         /*
-         * Production API server URL
+         * Production
          */
         "https://api.trykintsugi.com",
     };
@@ -32,6 +39,9 @@ public class SDK {
 
 
     private final Customers customers;
+
+
+    private final CustomerTaxRegistration customerTaxRegistration;
 
 
     private final Exemptions exemptions;
@@ -49,10 +59,10 @@ public class SDK {
     private final Registrations registrations;
 
 
-    private final Transactions transactions;
-
-
     private final TaxEstimation taxEstimation;
+
+
+    private final Transactions transactions;
 
 
     public AddressValidation addressValidation() {
@@ -62,6 +72,11 @@ public class SDK {
 
     public Customers customers() {
         return customers;
+    }
+
+
+    public CustomerTaxRegistration customerTaxRegistration() {
+        return customerTaxRegistration;
     }
 
 
@@ -90,13 +105,13 @@ public class SDK {
     }
 
 
-    public Transactions transactions() {
-        return transactions;
+    public TaxEstimation taxEstimation() {
+        return taxEstimation;
     }
 
 
-    public TaxEstimation taxEstimation() {
-        return taxEstimation;
+    public Transactions transactions() {
+        return transactions;
     }
     private final AsyncSDK asyncSDK;
 
@@ -123,15 +138,16 @@ public class SDK {
             this.sdkConfiguration.setClient(client);
             return this;
         }
-        
         /**
-         * Configures the SDK to use the provided security details.
+         * Configures the SDK security to use the provided secret.
          *
-         * @param security The security details to use for all requests. Can be {@code null}.
+         * @param apiKeyHeader The secret to use for all requests.
          * @return The builder instance.
          */
-        public Builder security(com.kintsugi.taxplatform.models.components.Security security) {
-            this.sdkConfiguration.setSecuritySource(SecuritySource.of(security));
+        public Builder apiKeyHeader(String apiKeyHeader) {
+            this.sdkConfiguration.setSecuritySource(SecuritySource.of(com.kintsugi.taxplatform.models.components.Security.builder()
+              .apiKeyHeader(apiKeyHeader)
+              .build()));
             return this;
         }
 
@@ -238,13 +254,14 @@ public class SDK {
         sdkConfiguration.initialize();
         this.addressValidation = new AddressValidation(sdkConfiguration);
         this.customers = new Customers(sdkConfiguration);
+        this.customerTaxRegistration = new CustomerTaxRegistration(sdkConfiguration);
         this.exemptions = new Exemptions(sdkConfiguration);
         this.filings = new Filings(sdkConfiguration);
         this.nexus = new Nexus(sdkConfiguration);
         this.products = new Products(sdkConfiguration);
         this.registrations = new Registrations(sdkConfiguration);
-        this.transactions = new Transactions(sdkConfiguration);
         this.taxEstimation = new TaxEstimation(sdkConfiguration);
+        this.transactions = new Transactions(sdkConfiguration);
         this.asyncSDK = new AsyncSDK(this, sdkConfiguration);
     }
 

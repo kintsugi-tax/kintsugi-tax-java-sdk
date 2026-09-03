@@ -4,11 +4,11 @@
 
 ### Available Operations
 
-* [getProductsV1ProductsGet](#getproductsv1productsget) - Get Products
-* [createProductV1ProductsPost](#createproductv1productspost) - Create Product
-* [getProductCategoriesV1ProductsCategoriesGet](#getproductcategoriesv1productscategoriesget) - Get Product Categories
-* [getById](#getbyid) - Get Product By Id
-* [update](#update) - Update Product
+* [getProductsV1ProductsGet](#getproductsv1productsget) - Get products
+* [createProductV1ProductsPost](#createproductv1productspost) - Create product
+* [getProductCategoriesV1ProductsCategoriesGet](#getproductcategoriesv1productscategoriesget) - Get product categories
+* [getById](#getbyid) - Get product by id
+* [update](#update) - Update product
 
 ## getProductsV1ProductsGet
 
@@ -21,8 +21,7 @@ Retrieve a paginated list of products based on filters and search query.
 package hello.world;
 
 import com.kintsugi.taxplatform.SDK;
-import com.kintsugi.taxplatform.models.components.Security;
-import com.kintsugi.taxplatform.models.errors.BackendSrcProductsResponsesValidationErrorResponse;
+import com.kintsugi.taxplatform.models.errors.BackendSrcProductsSchemasResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
 import com.kintsugi.taxplatform.models.operations.GetProductsV1ProductsGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetProductsV1ProductsGetResponse;
@@ -30,16 +29,14 @@ import java.lang.Exception;
 
 public class Application {
 
-    public static void main(String[] args) throws ErrorResponse, BackendSrcProductsResponsesValidationErrorResponse, Exception {
+    public static void main(String[] args) throws ErrorResponse, BackendSrcProductsSchemasResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
-                .security(Security.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
-                    .build())
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
             .build();
 
         GetProductsV1ProductsGetRequest req = GetProductsV1ProductsGetRequest.builder()
+                .xOrganizationId("org_12345")
                 .build();
 
         GetProductsV1ProductsGetResponse res = sdk.products().getProductsV1ProductsGet()
@@ -65,20 +62,22 @@ public class Application {
 
 ### Errors
 
-| Error Type                                                       | Status Code                                                      | Content Type                                                     |
-| ---------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------- |
-| models/errors/ErrorResponse                                      | 401, 404                                                         | application/json                                                 |
-| models/errors/BackendSrcProductsResponsesValidationErrorResponse | 422                                                              | application/json                                                 |
-| models/errors/ErrorResponse                                      | 500                                                              | application/json                                                 |
-| models/errors/APIException                                       | 4XX, 5XX                                                         | \*/\*                                                            |
+| Error Type                                                              | Status Code                                                             | Content Type                                                            |
+| ----------------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| models/errors/ErrorResponse                                             | 401, 404                                                                | application/json                                                        |
+| models/errors/BackendSrcProductsSchemasResponsesValidationErrorResponse | 422                                                                     | application/json                                                        |
+| models/errors/ErrorResponse                                             | 500                                                                     | application/json                                                        |
+| models/errors/APIException                                              | 4XX, 5XX                                                                | \*/\*                                                                   |
 
 ## createProductV1ProductsPost
 
 The Create Product API allows users to manually create a new product
     in the system. This includes specifying product details such as category,
     subcategory, and tax exemption status, etc. You can
-    retrieve supported categories and subcategories from
-    [GET /products/categories endpoint](/reference/api/products/get-product-categories)
+    retrieve supported categories and subcategories from the
+    [GET /products/categories endpoint](/reference/api/products/get-product-categories),
+    or browse the full catalog with descriptions and examples in the
+    [Product Categories guide](/docs/guides/product-categories)
 
 ### Example Usage
 
@@ -88,35 +87,31 @@ package hello.world;
 
 import com.kintsugi.taxplatform.SDK;
 import com.kintsugi.taxplatform.models.components.*;
-import com.kintsugi.taxplatform.models.errors.BackendSrcProductsResponsesValidationErrorResponse;
+import com.kintsugi.taxplatform.models.errors.BackendSrcProductsSchemasResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
 import com.kintsugi.taxplatform.models.operations.CreateProductV1ProductsPostResponse;
 import java.lang.Exception;
 
 public class Application {
 
-    public static void main(String[] args) throws ErrorResponse, BackendSrcProductsResponsesValidationErrorResponse, Exception {
+    public static void main(String[] args) throws ErrorResponse, BackendSrcProductsSchemasResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
-                .security(Security.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
-                    .build())
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
             .build();
 
-        ProductCreateManual req = ProductCreateManual.builder()
-                .externalId("prod_001")
-                .name("T-shirts")
-                .productCategory()
-                .productSubcategory()
-                .taxExempt(false)
-                .description("Common items of everyday wearing apparel designed for human use, covering a wide variety of non-specialized garments.")
-                .status(ProductStatusEnum.APPROVED)
-                .source(SourceEnum.BIGCOMMERCE)
-                .build();
-
         CreateProductV1ProductsPostResponse res = sdk.products().createProductV1ProductsPost()
-                .request(req)
+                .xOrganizationId("org_12345")
+                .productCreateManual(ProductCreateManual.builder()
+                    .externalId("prod_001")
+                    .name("T-shirts")
+                    .productCategory(PublicProductCategoryEnum.PHYSICAL)
+                    .productSubcategory(ProductSubcategoryUnion.of("General Clothing"))
+                    .taxExempt(false)
+                    .description("Common items of everyday wearing apparel designed for human use, covering a wide variety of non-specialized garments.")
+                    .status(ProductStatusEnum.APPROVED)
+                    .source(SourceEnum.BIGCOMMERCE)
+                    .build())
                 .call();
 
         if (res.productRead().isPresent()) {
@@ -128,9 +123,10 @@ public class Application {
 
 ### Parameters
 
-| Parameter                                                         | Type                                                              | Required                                                          | Description                                                       |
-| ----------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- |
-| `request`                                                         | [ProductCreateManual](../../models/shared/ProductCreateManual.md) | :heavy_check_mark:                                                | The request object to use for the request.                        |
+| Parameter                                                             | Type                                                                  | Required                                                              | Description                                                           | Example                                                               |
+| --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| `xOrganizationId`                                                     | *Optional\<String>*                                                   | :heavy_check_mark:                                                    | The unique identifier for the organization making the request         | org_12345                                                             |
+| `productCreateManual`                                                 | [ProductCreateManual](../../models/components/ProductCreateManual.md) | :heavy_check_mark:                                                    | N/A                                                                   |                                                                       |
 
 ### Response
 
@@ -138,12 +134,12 @@ public class Application {
 
 ### Errors
 
-| Error Type                                                       | Status Code                                                      | Content Type                                                     |
-| ---------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------- |
-| models/errors/ErrorResponse                                      | 401                                                              | application/json                                                 |
-| models/errors/BackendSrcProductsResponsesValidationErrorResponse | 422                                                              | application/json                                                 |
-| models/errors/ErrorResponse                                      | 500                                                              | application/json                                                 |
-| models/errors/APIException                                       | 4XX, 5XX                                                         | \*/\*                                                            |
+| Error Type                                                              | Status Code                                                             | Content Type                                                            |
+| ----------------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| models/errors/ErrorResponse                                             | 401                                                                     | application/json                                                        |
+| models/errors/BackendSrcProductsSchemasResponsesValidationErrorResponse | 422                                                                     | application/json                                                        |
+| models/errors/ErrorResponse                                             | 500                                                                     | application/json                                                        |
+| models/errors/APIException                                              | 4XX, 5XX                                                                | \*/\*                                                                   |
 
 ## getProductCategoriesV1ProductsCategoriesGet
 
@@ -158,32 +154,35 @@ The Get Product Categories API retrieves all
 package hello.world;
 
 import com.kintsugi.taxplatform.SDK;
-import com.kintsugi.taxplatform.models.components.Security;
-import com.kintsugi.taxplatform.models.errors.BackendSrcProductsResponsesValidationErrorResponse;
+import com.kintsugi.taxplatform.models.errors.BackendSrcProductsSchemasResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
 import com.kintsugi.taxplatform.models.operations.GetProductCategoriesV1ProductsCategoriesGetResponse;
 import java.lang.Exception;
 
 public class Application {
 
-    public static void main(String[] args) throws ErrorResponse, BackendSrcProductsResponsesValidationErrorResponse, Exception {
+    public static void main(String[] args) throws ErrorResponse, BackendSrcProductsSchemasResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
-                .security(Security.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
-                    .build())
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
             .build();
 
         GetProductCategoriesV1ProductsCategoriesGetResponse res = sdk.products().getProductCategoriesV1ProductsCategoriesGet()
+                .xOrganizationId("org_12345")
                 .call();
 
-        if (res.productCategories().isPresent()) {
-            System.out.println(res.productCategories().get());
+        if (res.productCategoryRead().isPresent()) {
+            System.out.println(res.productCategoryRead().get());
         }
     }
 }
 ```
+
+### Parameters
+
+| Parameter                                                     | Type                                                          | Required                                                      | Description                                                   | Example                                                       |
+| ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- |
+| `xOrganizationId`                                             | *Optional\<String>*                                           | :heavy_check_mark:                                            | The unique identifier for the organization making the request | org_12345                                                     |
 
 ### Response
 
@@ -191,12 +190,12 @@ public class Application {
 
 ### Errors
 
-| Error Type                                                       | Status Code                                                      | Content Type                                                     |
-| ---------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------- |
-| models/errors/ErrorResponse                                      | 401                                                              | application/json                                                 |
-| models/errors/BackendSrcProductsResponsesValidationErrorResponse | 422                                                              | application/json                                                 |
-| models/errors/ErrorResponse                                      | 500                                                              | application/json                                                 |
-| models/errors/APIException                                       | 4XX, 5XX                                                         | \*/\*                                                            |
+| Error Type                                                              | Status Code                                                             | Content Type                                                            |
+| ----------------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| models/errors/ErrorResponse                                             | 401                                                                     | application/json                                                        |
+| models/errors/BackendSrcProductsSchemasResponsesValidationErrorResponse | 422                                                                     | application/json                                                        |
+| models/errors/ErrorResponse                                             | 500                                                                     | application/json                                                        |
+| models/errors/APIException                                              | 4XX, 5XX                                                                | \*/\*                                                                   |
 
 ## getById
 
@@ -211,25 +210,22 @@ The Get Product By ID API retrieves detailed information about
 package hello.world;
 
 import com.kintsugi.taxplatform.SDK;
-import com.kintsugi.taxplatform.models.components.Security;
-import com.kintsugi.taxplatform.models.errors.BackendSrcProductsResponsesValidationErrorResponse;
+import com.kintsugi.taxplatform.models.errors.BackendSrcProductsSchemasResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
 import com.kintsugi.taxplatform.models.operations.GetProductByIdV1ProductsProductIdGetResponse;
 import java.lang.Exception;
 
 public class Application {
 
-    public static void main(String[] args) throws ErrorResponse, BackendSrcProductsResponsesValidationErrorResponse, Exception {
+    public static void main(String[] args) throws ErrorResponse, BackendSrcProductsSchemasResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
-                .security(Security.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
-                    .build())
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
             .build();
 
         GetProductByIdV1ProductsProductIdGetResponse res = sdk.products().getById()
                 .productId("<id>")
+                .xOrganizationId("org_12345")
                 .call();
 
         if (res.productRead().isPresent()) {
@@ -241,9 +237,10 @@ public class Application {
 
 ### Parameters
 
-| Parameter                                                   | Type                                                        | Required                                                    | Description                                                 |
-| ----------------------------------------------------------- | ----------------------------------------------------------- | ----------------------------------------------------------- | ----------------------------------------------------------- |
-| `productId`                                                 | *String*                                                    | :heavy_check_mark:                                          | The unique identifier for the product you want to retrieve. |
+| Parameter                                                     | Type                                                          | Required                                                      | Description                                                   | Example                                                       |
+| ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- |
+| `productId`                                                   | *String*                                                      | :heavy_check_mark:                                            | The unique identifier for the product you want to retrieve.   |                                                               |
+| `xOrganizationId`                                             | *Optional\<String>*                                           | :heavy_check_mark:                                            | The unique identifier for the organization making the request | org_12345                                                     |
 
 ### Response
 
@@ -251,19 +248,21 @@ public class Application {
 
 ### Errors
 
-| Error Type                                                       | Status Code                                                      | Content Type                                                     |
-| ---------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------- |
-| models/errors/ErrorResponse                                      | 401                                                              | application/json                                                 |
-| models/errors/BackendSrcProductsResponsesValidationErrorResponse | 422                                                              | application/json                                                 |
-| models/errors/ErrorResponse                                      | 500                                                              | application/json                                                 |
-| models/errors/APIException                                       | 4XX, 5XX                                                         | \*/\*                                                            |
+| Error Type                                                              | Status Code                                                             | Content Type                                                            |
+| ----------------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| models/errors/ErrorResponse                                             | 401                                                                     | application/json                                                        |
+| models/errors/BackendSrcProductsSchemasResponsesValidationErrorResponse | 422                                                                     | application/json                                                        |
+| models/errors/ErrorResponse                                             | 500                                                                     | application/json                                                        |
+| models/errors/APIException                                              | 4XX, 5XX                                                                | \*/\*                                                                   |
 
 ## update
 
 The Update Product API allows users to modify the details of
     an existing product identified by its unique product_id. You can
-    retrieve supported categories and subcategories from
-    [GET /products/categories endpoint](/reference/api/products/get-product-categories)
+    retrieve supported categories and subcategories from the
+    [GET /products/categories endpoint](/reference/api/products/get-product-categories),
+    or browse the full catalog with descriptions and examples in the
+    [Product Categories guide](/docs/guides/product-categories)
 
 ### Example Usage
 
@@ -272,34 +271,35 @@ The Update Product API allows users to modify the details of
 package hello.world;
 
 import com.kintsugi.taxplatform.SDK;
-import com.kintsugi.taxplatform.models.components.*;
-import com.kintsugi.taxplatform.models.errors.BackendSrcProductsResponsesValidationErrorResponse;
+import com.kintsugi.taxplatform.models.components.ProductStatusEnum;
+import com.kintsugi.taxplatform.models.components.ProductUpdateV2;
+import com.kintsugi.taxplatform.models.errors.BackendSrcProductsSchemasResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
+import com.kintsugi.taxplatform.models.operations.Product;
 import com.kintsugi.taxplatform.models.operations.UpdateProductV1ProductsProductIdPutResponse;
 import java.lang.Exception;
 
 public class Application {
 
-    public static void main(String[] args) throws ErrorResponse, BackendSrcProductsResponsesValidationErrorResponse, Exception {
+    public static void main(String[] args) throws ErrorResponse, BackendSrcProductsSchemasResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
-                .security(Security.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
-                    .build())
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
             .build();
 
         UpdateProductV1ProductsProductIdPutResponse res = sdk.products().update()
                 .productId("<id>")
-                .productUpdate(ProductUpdate.builder()
+                .xOrganizationId("org_12345")
+                .requestBody(Product.of(ProductUpdateV2.builder()
                     .name("Updated T-Shirt")
+                    .status(ProductStatusEnum.APPROVED)
                     .productCategory("Physical")
                     .productSubcategory("General Clothing")
                     .taxExempt(false)
                     .externalId("prod_001")
                     .description("An updated description for the product")
-                    .status(ProductStatusEnum.APPROVED)
-                    .build())
+                    .classificationFailed(false)
+                    .build()))
                 .call();
 
         if (res.productRead().isPresent()) {
@@ -311,10 +311,11 @@ public class Application {
 
 ### Parameters
 
-| Parameter                                                 | Type                                                      | Required                                                  | Description                                               |
-| --------------------------------------------------------- | --------------------------------------------------------- | --------------------------------------------------------- | --------------------------------------------------------- |
-| `productId`                                               | *String*                                                  | :heavy_check_mark:                                        | Unique identifier of the product to be updated.           |
-| `productUpdate`                                           | [ProductUpdate](../../models/components/ProductUpdate.md) | :heavy_check_mark:                                        | N/A                                                       |
+| Parameter                                                     | Type                                                          | Required                                                      | Description                                                   | Example                                                       |
+| ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- |
+| `productId`                                                   | *String*                                                      | :heavy_check_mark:                                            | Unique identifier of the product to be updated.               |                                                               |
+| `xOrganizationId`                                             | *Optional\<String>*                                           | :heavy_check_mark:                                            | The unique identifier for the organization making the request | org_12345                                                     |
+| `requestBody`                                                 | [Product](../../models/operations/Product.md)                 | :heavy_check_mark:                                            | N/A                                                           |                                                               |
 
 ### Response
 
@@ -322,9 +323,9 @@ public class Application {
 
 ### Errors
 
-| Error Type                                                       | Status Code                                                      | Content Type                                                     |
-| ---------------------------------------------------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------- |
-| models/errors/ErrorResponse                                      | 401                                                              | application/json                                                 |
-| models/errors/BackendSrcProductsResponsesValidationErrorResponse | 422                                                              | application/json                                                 |
-| models/errors/ErrorResponse                                      | 500                                                              | application/json                                                 |
-| models/errors/APIException                                       | 4XX, 5XX                                                         | \*/\*                                                            |
+| Error Type                                                              | Status Code                                                             | Content Type                                                            |
+| ----------------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| models/errors/ErrorResponse                                             | 401                                                                     | application/json                                                        |
+| models/errors/BackendSrcProductsSchemasResponsesValidationErrorResponse | 422                                                                     | application/json                                                        |
+| models/errors/ErrorResponse                                             | 500                                                                     | application/json                                                        |
+| models/errors/APIException                                              | 4XX, 5XX                                                                | \*/\*                                                                   |

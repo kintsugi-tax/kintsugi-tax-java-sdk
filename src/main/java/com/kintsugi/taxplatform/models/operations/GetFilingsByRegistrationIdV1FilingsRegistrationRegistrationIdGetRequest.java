@@ -35,22 +35,32 @@ public class GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetReq
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=size")
     private Optional<Long> size;
 
+    /**
+     * The unique identifier for the organization making the request
+     */
+    @SpeakeasyMetadata("header:style=simple,explode=false,name=x-organization-id")
+    private Optional<String> xOrganizationId;
+
     @JsonCreator
     public GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequest(
             String registrationId,
             Optional<Long> page,
-            Optional<Long> size) {
+            Optional<Long> size,
+            Optional<String> xOrganizationId) {
         Utils.checkNotNull(registrationId, "registrationId");
         Utils.checkNotNull(page, "page");
         Utils.checkNotNull(size, "size");
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
         this.registrationId = registrationId;
         this.page = page;
         this.size = size;
+        this.xOrganizationId = xOrganizationId;
     }
     
     public GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequest(
             String registrationId) {
-        this(registrationId, Optional.empty(), Optional.empty());
+        this(registrationId, Optional.empty(), Optional.empty(),
+            Optional.empty());
     }
 
     /**
@@ -76,6 +86,14 @@ public class GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetReq
     @JsonIgnore
     public Optional<Long> size() {
         return size;
+    }
+
+    /**
+     * The unique identifier for the organization making the request
+     */
+    @JsonIgnore
+    public Optional<String> xOrganizationId() {
+        return xOrganizationId;
     }
 
     public static Builder builder() {
@@ -131,6 +149,25 @@ public class GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetReq
         return this;
     }
 
+    /**
+     * The unique identifier for the organization making the request
+     */
+    public GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequest withXOrganizationId(String xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = Optional.ofNullable(xOrganizationId);
+        return this;
+    }
+
+
+    /**
+     * The unique identifier for the organization making the request
+     */
+    public GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequest withXOrganizationId(Optional<String> xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = xOrganizationId;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -143,13 +180,15 @@ public class GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetReq
         return 
             Utils.enhancedDeepEquals(this.registrationId, other.registrationId) &&
             Utils.enhancedDeepEquals(this.page, other.page) &&
-            Utils.enhancedDeepEquals(this.size, other.size);
+            Utils.enhancedDeepEquals(this.size, other.size) &&
+            Utils.enhancedDeepEquals(this.xOrganizationId, other.xOrganizationId);
     }
     
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-            registrationId, page, size);
+            registrationId, page, size,
+            xOrganizationId);
     }
     
     @Override
@@ -157,7 +196,8 @@ public class GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetReq
         return Utils.toString(GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequest.class,
                 "registrationId", registrationId,
                 "page", page,
-                "size", size);
+                "size", size,
+                "xOrganizationId", xOrganizationId);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -168,6 +208,8 @@ public class GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetReq
         private Optional<Long> page;
 
         private Optional<Long> size;
+
+        private Optional<String> xOrganizationId = Optional.empty();
 
         private Builder() {
           // force use of static builder() method
@@ -222,6 +264,25 @@ public class GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetReq
             return this;
         }
 
+
+        /**
+         * The unique identifier for the organization making the request
+         */
+        public Builder xOrganizationId(String xOrganizationId) {
+            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+            this.xOrganizationId = Optional.ofNullable(xOrganizationId);
+            return this;
+        }
+
+        /**
+         * The unique identifier for the organization making the request
+         */
+        public Builder xOrganizationId(Optional<String> xOrganizationId) {
+            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+            this.xOrganizationId = xOrganizationId;
+            return this;
+        }
+
         public GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequest build() {
             if (page == null) {
                 page = _SINGLETON_VALUE_Page.value();
@@ -231,7 +292,8 @@ public class GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetReq
             }
 
             return new GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequest(
-                registrationId, page, size);
+                registrationId, page, size,
+                xOrganizationId);
         }
 
 

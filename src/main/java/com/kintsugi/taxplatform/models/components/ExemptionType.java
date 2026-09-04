@@ -11,7 +11,8 @@ import java.util.Optional;
 public enum ExemptionType {
     CUSTOMER("customer"),
     WHOLESALE("wholesale"),
-    TRANSACTION("transaction");
+    TRANSACTION("transaction"),
+    REVERSE_CHARGE("reverse_charge");
 
     @JsonValue
     private final String value;

@@ -11,7 +11,8 @@ import java.util.Optional;
 public enum ProductStatusEnum {
     APPROVED("APPROVED"),
     PARTIALLY_APPROVED("PARTIALLY_APPROVED"),
-    PENDING("PENDING");
+    PENDING("PENDING"),
+    ARCHIVED("ARCHIVED");
 
     @JsonValue
     private final String value;

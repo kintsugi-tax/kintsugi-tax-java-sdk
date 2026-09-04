@@ -5,7 +5,7 @@ package com.kintsugi.taxplatform.models.operations.async;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.kintsugi.taxplatform.models.components.TransactionRead;
+import com.kintsugi.taxplatform.models.operations.ResponseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet;
 import com.kintsugi.taxplatform.utils.AsyncResponse;
 import com.kintsugi.taxplatform.utils.Blob;
 import com.kintsugi.taxplatform.utils.Utils;
@@ -14,7 +14,6 @@ import java.lang.Override;
 import java.lang.String;
 import java.lang.SuppressWarnings;
 import java.net.http.HttpResponse;
-import java.util.List;
 import java.util.Optional;
 
 
@@ -37,14 +36,14 @@ public class GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResp
     /**
      * Successful Response
      */
-    private Optional<? extends List<TransactionRead>> responseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet;
+    private Optional<? extends ResponseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet> responseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet;
 
     @JsonCreator
     public GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse(
             String contentType,
             int statusCode,
             HttpResponse<Blob> rawResponse,
-            Optional<? extends List<TransactionRead>> responseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet) {
+            Optional<? extends ResponseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet> responseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet) {
         Utils.checkNotNull(contentType, "contentType");
         Utils.checkNotNull(statusCode, "statusCode");
         Utils.checkNotNull(rawResponse, "rawResponse");
@@ -92,8 +91,8 @@ public class GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResp
      */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<List<TransactionRead>> responseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet() {
-        return (Optional<List<TransactionRead>>) responseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet;
+    public Optional<ResponseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet> responseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet() {
+        return (Optional<ResponseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet>) responseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet;
     }
 
     public static Builder builder() {
@@ -131,7 +130,7 @@ public class GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResp
     /**
      * Successful Response
      */
-    public GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse withResponseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet(List<TransactionRead> responseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet) {
+    public GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse withResponseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet(ResponseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet responseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet) {
         Utils.checkNotNull(responseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet, "responseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet");
         this.responseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet = Optional.ofNullable(responseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet);
         return this;
@@ -141,7 +140,7 @@ public class GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResp
     /**
      * Successful Response
      */
-    public GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse withResponseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet(Optional<? extends List<TransactionRead>> responseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet) {
+    public GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse withResponseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet(Optional<? extends ResponseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet> responseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet) {
         Utils.checkNotNull(responseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet, "responseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet");
         this.responseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet = responseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet;
         return this;
@@ -188,7 +187,7 @@ public class GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResp
 
         private HttpResponse<Blob> rawResponse;
 
-        private Optional<? extends List<TransactionRead>> responseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet = Optional.empty();
+        private Optional<? extends ResponseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet> responseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet = Optional.empty();
 
         private Builder() {
           // force use of static builder() method
@@ -228,7 +227,7 @@ public class GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResp
         /**
          * Successful Response
          */
-        public Builder responseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet(List<TransactionRead> responseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet) {
+        public Builder responseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet(ResponseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet responseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet) {
             Utils.checkNotNull(responseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet, "responseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet");
             this.responseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet = Optional.ofNullable(responseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet);
             return this;
@@ -237,7 +236,7 @@ public class GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResp
         /**
          * Successful Response
          */
-        public Builder responseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet(Optional<? extends List<TransactionRead>> responseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet) {
+        public Builder responseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet(Optional<? extends ResponseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet> responseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet) {
             Utils.checkNotNull(responseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet, "responseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet");
             this.responseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet = responseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet;
             return this;

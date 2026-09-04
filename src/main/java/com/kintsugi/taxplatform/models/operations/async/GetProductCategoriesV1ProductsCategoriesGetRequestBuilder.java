@@ -3,28 +3,54 @@
  */
 package com.kintsugi.taxplatform.models.operations.async;
 
-import static com.kintsugi.taxplatform.operations.Operations.AsyncRequestlessOperation;
+import static com.kintsugi.taxplatform.operations.Operations.AsyncRequestOperation;
 
 import com.kintsugi.taxplatform.SDKConfiguration;
+import com.kintsugi.taxplatform.models.operations.GetProductCategoriesV1ProductsCategoriesGetRequest;
 import com.kintsugi.taxplatform.operations.GetProductCategoriesV1ProductsCategoriesGet;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Utils;
+import java.lang.String;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 public class GetProductCategoriesV1ProductsCategoriesGetRequestBuilder {
 
+    private Optional<String> xOrganizationId = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
     public GetProductCategoriesV1ProductsCategoriesGetRequestBuilder(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
     }
+                
+    public GetProductCategoriesV1ProductsCategoriesGetRequestBuilder xOrganizationId(String xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = Optional.of(xOrganizationId);
+        return this;
+    }
+
+    public GetProductCategoriesV1ProductsCategoriesGetRequestBuilder xOrganizationId(Optional<String> xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = xOrganizationId;
+        return this;
+    }
+
+
+    private GetProductCategoriesV1ProductsCategoriesGetRequest buildRequest() {
+
+        GetProductCategoriesV1ProductsCategoriesGetRequest request = new GetProductCategoriesV1ProductsCategoriesGetRequest(xOrganizationId);
+
+        return request;
+    }
 
     public CompletableFuture<GetProductCategoriesV1ProductsCategoriesGetResponse> call() {
         
-        AsyncRequestlessOperation<GetProductCategoriesV1ProductsCategoriesGetResponse> operation
-            = new GetProductCategoriesV1ProductsCategoriesGet.Async(sdkConfiguration, _headers);
+        AsyncRequestOperation<GetProductCategoriesV1ProductsCategoriesGetRequest, GetProductCategoriesV1ProductsCategoriesGetResponse> operation
+              = new GetProductCategoriesV1ProductsCategoriesGet.Async(sdkConfiguration, _headers);
+        GetProductCategoriesV1ProductsCategoriesGetRequest request = buildRequest();
 
-        return operation.doRequest()
+        return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
 }

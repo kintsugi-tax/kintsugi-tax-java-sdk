@@ -3,23 +3,470 @@
  */
 package com.kintsugi.taxplatform.models.operations;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
-import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.databind.annotation.JsonTypeIdResolver;
+import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.kintsugi.taxplatform.models.components.AlabamaRegistrationPayload;
+import com.kintsugi.taxplatform.models.components.ArizonaRegistrationPayload;
+import com.kintsugi.taxplatform.models.components.ArkansasRegistrationPayload;
+import com.kintsugi.taxplatform.models.components.CaliforniaRegistrationPayload;
+import com.kintsugi.taxplatform.models.components.ColoradoRegistrationPayload;
+import com.kintsugi.taxplatform.models.components.ConnecticutRegistrationPayload;
+import com.kintsugi.taxplatform.models.components.DistrictOfColumbiaRegistrationPayload;
+import com.kintsugi.taxplatform.models.components.FloridaRegistrationPayload;
+import com.kintsugi.taxplatform.models.components.GeorgiaRegistrationPayload;
+import com.kintsugi.taxplatform.models.components.HawaiiRegistrationPayload;
+import com.kintsugi.taxplatform.models.components.IdahoRegistrationPayload;
+import com.kintsugi.taxplatform.models.components.IllinoisRegistrationPayload;
+import com.kintsugi.taxplatform.models.components.IndianaRegistrationPayload;
+import com.kintsugi.taxplatform.models.components.IowaRegistrationPayload;
+import com.kintsugi.taxplatform.models.components.KansasRegistrationPayload;
+import com.kintsugi.taxplatform.models.components.KentuckyRegistrationPayload;
+import com.kintsugi.taxplatform.models.components.LouisianaRegistrationPayload;
+import com.kintsugi.taxplatform.models.components.MaineRegistrationPayload;
+import com.kintsugi.taxplatform.models.components.MarylandRegistrationPayload;
+import com.kintsugi.taxplatform.models.components.MassachusettsRegistrationPayload;
+import com.kintsugi.taxplatform.models.components.MichiganRegistrationPayload;
+import com.kintsugi.taxplatform.models.components.MinnesotaRegistrationPayload;
+import com.kintsugi.taxplatform.models.components.MississippiRegistrationPayload;
+import com.kintsugi.taxplatform.models.components.MissouriRegistrationPayload;
+import com.kintsugi.taxplatform.models.components.NebraskaRegistrationPayload;
+import com.kintsugi.taxplatform.models.components.NevadaRegistrationPayload;
+import com.kintsugi.taxplatform.models.components.NewJerseyRegistrationPayload;
+import com.kintsugi.taxplatform.models.components.NewMexicoRegistrationPayload;
+import com.kintsugi.taxplatform.models.components.NewYorkRegistrationPayload;
+import com.kintsugi.taxplatform.models.components.NorthCarolinaRegistrationPayload;
+import com.kintsugi.taxplatform.models.components.NorthDakotaRegistrationPayload;
+import com.kintsugi.taxplatform.models.components.OSSRegistrationCreatePayload;
+import com.kintsugi.taxplatform.models.components.OhioRegistrationPayload;
+import com.kintsugi.taxplatform.models.components.OklahomaRegistrationPayload;
+import com.kintsugi.taxplatform.models.components.PennsylvaniaRegistrationPayload;
+import com.kintsugi.taxplatform.models.components.RegistrationCreatePayload;
+import com.kintsugi.taxplatform.models.components.RhodeIslandRegistrationPayload;
+import com.kintsugi.taxplatform.models.components.SSTRegistrationCreatePayload;
+import com.kintsugi.taxplatform.models.components.SouthCarolinaRegistrationPayload;
+import com.kintsugi.taxplatform.models.components.SouthDakotaRegistrationPayload;
+import com.kintsugi.taxplatform.models.components.TennesseeRegistrationPayload;
+import com.kintsugi.taxplatform.models.components.TexasRegistrationPayload;
+import com.kintsugi.taxplatform.models.components.UtahRegistrationPayload;
+import com.kintsugi.taxplatform.models.components.VermontRegistrationPayload;
+import com.kintsugi.taxplatform.models.components.VirginiaRegistrationPayload;
+import com.kintsugi.taxplatform.models.components.WashingtonRegistrationPayload;
+import com.kintsugi.taxplatform.models.components.WestVirginiaRegistrationPayload;
+import com.kintsugi.taxplatform.models.components.WisconsinRegistrationPayload;
+import com.kintsugi.taxplatform.models.components.WyomingRegistrationPayload;
+import com.kintsugi.taxplatform.utils.OneOfDeserializer;
+import com.kintsugi.taxplatform.utils.TypedObject;
+import com.kintsugi.taxplatform.utils.Utils.JsonShape;
+import com.kintsugi.taxplatform.utils.Utils.TypeReferenceWithShape;
+import com.kintsugi.taxplatform.utils.Utils;
+import java.lang.Override;
 import java.lang.String;
+import java.lang.SuppressWarnings;
 
-@JsonTypeInfo(
-        use = Id.CUSTOM,
-        property = "registration_import_type",
-        include = As.EXISTING_PROPERTY,
-        visible = true,
-        defaultImpl = UnknownCreateRegistration.class
-)
-@JsonTypeIdResolver(CreateRegistrationTypeIdResolver.class)
-public interface CreateRegistration {
+@JsonDeserialize(using = CreateRegistration._Deserializer.class)
+public class CreateRegistration {
 
-    String registrationImportType();
+    @JsonValue
+    private final TypedObject value;
+    
+    private CreateRegistration(TypedObject value) {
+        this.value = value;
+    }
+
+    public static CreateRegistration of(AlabamaRegistrationPayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(ArizonaRegistrationPayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(ArkansasRegistrationPayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(CaliforniaRegistrationPayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(ConnecticutRegistrationPayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(ColoradoRegistrationPayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(DistrictOfColumbiaRegistrationPayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(GeorgiaRegistrationPayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(HawaiiRegistrationPayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(IdahoRegistrationPayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(IllinoisRegistrationPayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(IndianaRegistrationPayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(IowaRegistrationPayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(KansasRegistrationPayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(MassachusettsRegistrationPayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(MississippiRegistrationPayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(MichiganRegistrationPayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(MissouriRegistrationPayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(TennesseeRegistrationPayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(TexasRegistrationPayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(UtahRegistrationPayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(VermontRegistrationPayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(VirginiaRegistrationPayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(WashingtonRegistrationPayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(WestVirginiaRegistrationPayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(WisconsinRegistrationPayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(MaineRegistrationPayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(MinnesotaRegistrationPayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(RegistrationCreatePayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(OSSRegistrationCreatePayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(SSTRegistrationCreatePayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(KentuckyRegistrationPayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(MarylandRegistrationPayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(NebraskaRegistrationPayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(NevadaRegistrationPayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(NewJerseyRegistrationPayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(NewMexicoRegistrationPayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(NewYorkRegistrationPayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(NorthDakotaRegistrationPayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(SouthCarolinaRegistrationPayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(OklahomaRegistrationPayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(LouisianaRegistrationPayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(OhioRegistrationPayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(PennsylvaniaRegistrationPayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(RhodeIslandRegistrationPayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(SouthDakotaRegistrationPayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(FloridaRegistrationPayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(NorthCarolinaRegistrationPayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+
+    public static CreateRegistration of(WyomingRegistrationPayload value) {
+        Utils.checkNotNull(value, "value");
+        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
+    }
+    
+    /**
+     * Returns an instance of one of these types:
+     * <ul>
+     * <li>{@code com.kintsugi.taxplatform.models.components.AlabamaRegistrationPayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.ArizonaRegistrationPayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.ArkansasRegistrationPayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.CaliforniaRegistrationPayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.ConnecticutRegistrationPayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.ColoradoRegistrationPayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.DistrictOfColumbiaRegistrationPayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.GeorgiaRegistrationPayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.HawaiiRegistrationPayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.IdahoRegistrationPayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.IllinoisRegistrationPayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.IndianaRegistrationPayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.IowaRegistrationPayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.KansasRegistrationPayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.MassachusettsRegistrationPayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.MississippiRegistrationPayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.MichiganRegistrationPayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.MissouriRegistrationPayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.TennesseeRegistrationPayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.TexasRegistrationPayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.UtahRegistrationPayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.VermontRegistrationPayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.VirginiaRegistrationPayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.WashingtonRegistrationPayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.WestVirginiaRegistrationPayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.WisconsinRegistrationPayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.MaineRegistrationPayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.MinnesotaRegistrationPayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.RegistrationCreatePayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.OSSRegistrationCreatePayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.SSTRegistrationCreatePayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.KentuckyRegistrationPayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.MarylandRegistrationPayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.NebraskaRegistrationPayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.NevadaRegistrationPayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.NewJerseyRegistrationPayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.NewMexicoRegistrationPayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.NewYorkRegistrationPayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.NorthDakotaRegistrationPayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.SouthCarolinaRegistrationPayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.OklahomaRegistrationPayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.LouisianaRegistrationPayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.OhioRegistrationPayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.PennsylvaniaRegistrationPayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.RhodeIslandRegistrationPayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.SouthDakotaRegistrationPayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.FloridaRegistrationPayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.NorthCarolinaRegistrationPayload}</li>
+     * <li>{@code com.kintsugi.taxplatform.models.components.WyomingRegistrationPayload}</li>
+     * </ul>
+     * 
+     * <p>Use {@code instanceof} to determine what type is returned. For example:
+     * 
+     * <pre>
+     * if (obj.value() instanceof String) {
+     *     String answer = (String) obj.value();
+     *     System.out.println("answer=" + answer);
+     * }
+     * </pre>
+     * 
+     * @return value of oneOf type
+     **/ 
+    public java.lang.Object value() {
+        return value.value();
+    }
+    
+    @Override
+    public boolean equals(java.lang.Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        CreateRegistration other = (CreateRegistration) o;
+        return Utils.enhancedDeepEquals(this.value.value(), other.value.value());
+    }
+    
+    @Override
+    public int hashCode() {
+        return Utils.enhancedHash(value.value());
+    }
+    
+    @SuppressWarnings("serial")
+    public static final class _Deserializer extends OneOfDeserializer<CreateRegistration> {
+
+        public _Deserializer() {
+            super(CreateRegistration.class, false,
+                  TypeReferenceWithShape.of(new TypeReference<AlabamaRegistrationPayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<ArizonaRegistrationPayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<ArkansasRegistrationPayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<CaliforniaRegistrationPayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<ConnecticutRegistrationPayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<ColoradoRegistrationPayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<DistrictOfColumbiaRegistrationPayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<GeorgiaRegistrationPayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<HawaiiRegistrationPayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<IdahoRegistrationPayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<IllinoisRegistrationPayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<IndianaRegistrationPayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<IowaRegistrationPayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<KansasRegistrationPayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<MassachusettsRegistrationPayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<MississippiRegistrationPayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<MichiganRegistrationPayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<MissouriRegistrationPayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<TennesseeRegistrationPayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<TexasRegistrationPayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<UtahRegistrationPayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<VermontRegistrationPayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<VirginiaRegistrationPayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<WashingtonRegistrationPayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<WestVirginiaRegistrationPayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<WisconsinRegistrationPayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<MaineRegistrationPayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<MinnesotaRegistrationPayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<RegistrationCreatePayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<OSSRegistrationCreatePayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<SSTRegistrationCreatePayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<KentuckyRegistrationPayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<MarylandRegistrationPayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<NebraskaRegistrationPayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<NevadaRegistrationPayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<NewJerseyRegistrationPayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<NewMexicoRegistrationPayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<NewYorkRegistrationPayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<NorthDakotaRegistrationPayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<SouthCarolinaRegistrationPayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<OklahomaRegistrationPayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<LouisianaRegistrationPayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<OhioRegistrationPayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<PennsylvaniaRegistrationPayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<RhodeIslandRegistrationPayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<SouthDakotaRegistrationPayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<FloridaRegistrationPayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<NorthCarolinaRegistrationPayload>() {}, JsonShape.DEFAULT),
+                  TypeReferenceWithShape.of(new TypeReference<WyomingRegistrationPayload>() {}, JsonShape.DEFAULT));
+        }
+    }
+    
+    @Override
+    public String toString() {
+        return Utils.toString(CreateRegistration.class,
+                "value", value);
+    }
 
 }
 

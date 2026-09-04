@@ -4,7 +4,7 @@
 
 ### Available Operations
 
-* [estimate](#estimate) - Estimate Tax
+* [estimate](#estimate) - Estimate tax
 
 ## estimate
 
@@ -32,13 +32,11 @@ public class Application {
     public static void main(String[] args) throws ErrorResponse, BackendSrcTaxEstimationResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
-                .security(Security.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
-                    .build())
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
             .build();
 
         EstimateTaxV1TaxEstimatePostResponse res = sdk.taxEstimation().estimate()
+                .xOrganizationId("org_12345")
                 .transactionEstimatePublicRequest(TransactionEstimatePublicRequest.builder()
                     .date(OffsetDateTime.parse("2025-01-23T13:01:29.949Z"))
                     .externalId("txn_12345")
@@ -46,16 +44,17 @@ public class Application {
                     .transactionItems(List.of(
                         TransactionItemEstimateBase.builder()
                             .date(OffsetDateTime.parse("2024-10-28T10:00:00Z"))
-                            .amount(100d)
+                            .amount(TotalAmountOfThisTransactionItemAfterDiscounts.of(100d))
                             .externalId("item_A")
                             .externalProductId("prod_abc")
-                            .quantity(2d)
+                            .quantity(QuantityOfTheProduct.of(2d))
                             .build(),
                         TransactionItemEstimateBase.builder()
                             .date(OffsetDateTime.parse("2024-10-28T10:00:00Z"))
-                            .amount(75.5)
+                            .amount(TotalAmountOfThisTransactionItemAfterDiscounts.of(75.5))
                             .externalId("item_B")
                             .externalProductId("prod_xyz")
+                            .quantity(QuantityOfTheProduct.of(1d))
                             .build()))
                     .addresses(List.of(
                         TransactionEstimatePublicRequestAddress.builder()
@@ -69,8 +68,8 @@ public class Application {
                     .build())
                 .call();
 
-        if (res.pageTransactionEstimateResponse().isPresent()) {
-            System.out.println(res.pageTransactionEstimateResponse().get());
+        if (res.transactionEstimateResponse().isPresent()) {
+            System.out.println(res.transactionEstimateResponse().get());
         }
     }
 }
@@ -78,10 +77,11 @@ public class Application {
 
 ### Parameters
 
-| Parameter                                                                                                                                                                                                | Type                                                                                                                                                                                                     | Required                                                                                                                                                                                                 | Description                                                                                                                                                                                              |
-| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `simulateNexusMet`                                                                                                                                                                                       | *Optional\<Boolean>*                                                                                                                                                                                     | :heavy_minus_sign:                                                                                                                                                                                       | : warning: ** DEPRECATED **: This will be removed in a future release, please migrate away from it as soon as possible.<br/><br/>**Deprecated:** Use `simulate_active_registration` in the request body instead. |
-| `transactionEstimatePublicRequest`                                                                                                                                                                       | [TransactionEstimatePublicRequest](../../models/components/TransactionEstimatePublicRequest.md)                                                                                                          | :heavy_check_mark:                                                                                                                                                                                       | N/A                                                                                                                                                                                                      |
+| Parameter                                                                                                                                                                                                | Type                                                                                                                                                                                                     | Required                                                                                                                                                                                                 | Description                                                                                                                                                                                              | Example                                                                                                                                                                                                  |
+| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `simulateNexusMet`                                                                                                                                                                                       | *Optional\<Boolean>*                                                                                                                                                                                     | :heavy_minus_sign:                                                                                                                                                                                       | : warning: ** DEPRECATED **: This will be removed in a future release, please migrate away from it as soon as possible.<br/><br/>**Deprecated:** Use `simulate_active_registration` in the request body instead. |                                                                                                                                                                                                          |
+| `xOrganizationId`                                                                                                                                                                                        | *Optional\<String>*                                                                                                                                                                                      | :heavy_check_mark:                                                                                                                                                                                       | The unique identifier for the organization making the request                                                                                                                                            | org_12345                                                                                                                                                                                                |
+| `transactionEstimatePublicRequest`                                                                                                                                                                       | [TransactionEstimatePublicRequest](../../models/components/TransactionEstimatePublicRequest.md)                                                                                                          | :heavy_check_mark:                                                                                                                                                                                       | N/A                                                                                                                                                                                                      |                                                                                                                                                                                                          |
 
 ### Response
 
@@ -91,7 +91,7 @@ public class Application {
 
 | Error Type                                                            | Status Code                                                           | Content Type                                                          |
 | --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- |
-| models/errors/ErrorResponse                                           | 401                                                                   | application/json                                                      |
+| models/errors/ErrorResponse                                           | 400, 401                                                              | application/json                                                      |
 | models/errors/BackendSrcTaxEstimationResponsesValidationErrorResponse | 422                                                                   | application/json                                                      |
-| models/errors/ErrorResponse                                           | 500                                                                   | application/json                                                      |
+| models/errors/ErrorResponse                                           | 500, 503                                                              | application/json                                                      |
 | models/errors/APIException                                            | 4XX, 5XX                                                              | \*/\*                                                                 |

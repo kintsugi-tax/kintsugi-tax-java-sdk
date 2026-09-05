@@ -14,9 +14,10 @@ import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Override;
 import java.lang.String;
 import java.util.Optional;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
-public class SSTRegistrationCreatePayload implements com.kintsugi.taxplatform.models.operations.CreateRegistration {
+public class SSTRegistrationCreatePayload {
     /**
      * Specifies this is an SST registration import.
      */
@@ -29,57 +30,53 @@ public class SSTRegistrationCreatePayload implements com.kintsugi.taxplatform.mo
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("password_plain_text")
-    private Optional<String> passwordPlainText;
+    private JsonNullable<String> passwordPlainText;
 
     /**
      * Metadata related to the password.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("password_metadata_plain_text")
-    private Optional<String> passwordMetadataPlainText;
+    private JsonNullable<String> passwordMetadataPlainText;
 
     /**
      * Username for accessing the tax registration account.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("username")
-    private Optional<String> username;
+    private JsonNullable<String> username;
 
     @JsonCreator
     public SSTRegistrationCreatePayload(
-            @JsonProperty("registration_import_type") Optional<String> registrationImportType,
-            @JsonProperty("password_plain_text") Optional<String> passwordPlainText,
-            @JsonProperty("password_metadata_plain_text") Optional<String> passwordMetadataPlainText,
-            @JsonProperty("username") Optional<String> username) {
-        Utils.checkNotNull(registrationImportType, "registrationImportType");
+            @JsonProperty("password_plain_text") JsonNullable<String> passwordPlainText,
+            @JsonProperty("password_metadata_plain_text") JsonNullable<String> passwordMetadataPlainText,
+            @JsonProperty("username") JsonNullable<String> username) {
         Utils.checkNotNull(passwordPlainText, "passwordPlainText");
         Utils.checkNotNull(passwordMetadataPlainText, "passwordMetadataPlainText");
         Utils.checkNotNull(username, "username");
-        this.registrationImportType = registrationImportType;
+        this.registrationImportType = Builder._SINGLETON_VALUE_RegistrationImportType.value();
         this.passwordPlainText = passwordPlainText;
         this.passwordMetadataPlainText = passwordMetadataPlainText;
         this.username = username;
     }
     
     public SSTRegistrationCreatePayload() {
-        this(Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty());
+        this(JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined());
     }
 
     /**
      * Specifies this is an SST registration import.
      */
     @JsonIgnore
-    @Override
-    public String registrationImportType() {
-        return Utils.discriminatorToString(registrationImportType);
+    public Optional<String> registrationImportType() {
+        return registrationImportType;
     }
 
     /**
      * The plaintext password for accessing the tax registration account.
      */
     @JsonIgnore
-    public Optional<String> passwordPlainText() {
+    public JsonNullable<String> passwordPlainText() {
         return passwordPlainText;
     }
 
@@ -87,7 +84,7 @@ public class SSTRegistrationCreatePayload implements com.kintsugi.taxplatform.mo
      * Metadata related to the password.
      */
     @JsonIgnore
-    public Optional<String> passwordMetadataPlainText() {
+    public JsonNullable<String> passwordMetadataPlainText() {
         return passwordMetadataPlainText;
     }
 
@@ -95,7 +92,7 @@ public class SSTRegistrationCreatePayload implements com.kintsugi.taxplatform.mo
      * Username for accessing the tax registration account.
      */
     @JsonIgnore
-    public Optional<String> username() {
+    public JsonNullable<String> username() {
         return username;
     }
 
@@ -105,38 +102,18 @@ public class SSTRegistrationCreatePayload implements com.kintsugi.taxplatform.mo
 
 
     /**
-     * Specifies this is an SST registration import.
-     */
-    public SSTRegistrationCreatePayload withRegistrationImportType(String registrationImportType) {
-        Utils.checkNotNull(registrationImportType, "registrationImportType");
-        this.registrationImportType = Optional.ofNullable(registrationImportType);
-        return this;
-    }
-
-
-    /**
-     * Specifies this is an SST registration import.
-     */
-    public SSTRegistrationCreatePayload withRegistrationImportType(Optional<String> registrationImportType) {
-        Utils.checkNotNull(registrationImportType, "registrationImportType");
-        this.registrationImportType = registrationImportType;
-        return this;
-    }
-
-    /**
      * The plaintext password for accessing the tax registration account.
      */
     public SSTRegistrationCreatePayload withPasswordPlainText(String passwordPlainText) {
         Utils.checkNotNull(passwordPlainText, "passwordPlainText");
-        this.passwordPlainText = Optional.ofNullable(passwordPlainText);
+        this.passwordPlainText = JsonNullable.of(passwordPlainText);
         return this;
     }
-
 
     /**
      * The plaintext password for accessing the tax registration account.
      */
-    public SSTRegistrationCreatePayload withPasswordPlainText(Optional<String> passwordPlainText) {
+    public SSTRegistrationCreatePayload withPasswordPlainText(JsonNullable<String> passwordPlainText) {
         Utils.checkNotNull(passwordPlainText, "passwordPlainText");
         this.passwordPlainText = passwordPlainText;
         return this;
@@ -147,15 +124,14 @@ public class SSTRegistrationCreatePayload implements com.kintsugi.taxplatform.mo
      */
     public SSTRegistrationCreatePayload withPasswordMetadataPlainText(String passwordMetadataPlainText) {
         Utils.checkNotNull(passwordMetadataPlainText, "passwordMetadataPlainText");
-        this.passwordMetadataPlainText = Optional.ofNullable(passwordMetadataPlainText);
+        this.passwordMetadataPlainText = JsonNullable.of(passwordMetadataPlainText);
         return this;
     }
-
 
     /**
      * Metadata related to the password.
      */
-    public SSTRegistrationCreatePayload withPasswordMetadataPlainText(Optional<String> passwordMetadataPlainText) {
+    public SSTRegistrationCreatePayload withPasswordMetadataPlainText(JsonNullable<String> passwordMetadataPlainText) {
         Utils.checkNotNull(passwordMetadataPlainText, "passwordMetadataPlainText");
         this.passwordMetadataPlainText = passwordMetadataPlainText;
         return this;
@@ -166,15 +142,14 @@ public class SSTRegistrationCreatePayload implements com.kintsugi.taxplatform.mo
      */
     public SSTRegistrationCreatePayload withUsername(String username) {
         Utils.checkNotNull(username, "username");
-        this.username = Optional.ofNullable(username);
+        this.username = JsonNullable.of(username);
         return this;
     }
-
 
     /**
      * Username for accessing the tax registration account.
      */
-    public SSTRegistrationCreatePayload withUsername(Optional<String> username) {
+    public SSTRegistrationCreatePayload withUsername(JsonNullable<String> username) {
         Utils.checkNotNull(username, "username");
         this.username = username;
         return this;
@@ -215,35 +190,14 @@ public class SSTRegistrationCreatePayload implements com.kintsugi.taxplatform.mo
     @SuppressWarnings("UnusedReturnValue")
     public final static class Builder {
 
-        private Optional<String> registrationImportType;
+        private JsonNullable<String> passwordPlainText = JsonNullable.undefined();
 
-        private Optional<String> passwordPlainText = Optional.empty();
+        private JsonNullable<String> passwordMetadataPlainText = JsonNullable.undefined();
 
-        private Optional<String> passwordMetadataPlainText = Optional.empty();
-
-        private Optional<String> username = Optional.empty();
+        private JsonNullable<String> username = JsonNullable.undefined();
 
         private Builder() {
           // force use of static builder() method
-        }
-
-
-        /**
-         * Specifies this is an SST registration import.
-         */
-        public Builder registrationImportType(String registrationImportType) {
-            Utils.checkNotNull(registrationImportType, "registrationImportType");
-            this.registrationImportType = Optional.ofNullable(registrationImportType);
-            return this;
-        }
-
-        /**
-         * Specifies this is an SST registration import.
-         */
-        public Builder registrationImportType(Optional<String> registrationImportType) {
-            Utils.checkNotNull(registrationImportType, "registrationImportType");
-            this.registrationImportType = registrationImportType;
-            return this;
         }
 
 
@@ -252,14 +206,14 @@ public class SSTRegistrationCreatePayload implements com.kintsugi.taxplatform.mo
          */
         public Builder passwordPlainText(String passwordPlainText) {
             Utils.checkNotNull(passwordPlainText, "passwordPlainText");
-            this.passwordPlainText = Optional.ofNullable(passwordPlainText);
+            this.passwordPlainText = JsonNullable.of(passwordPlainText);
             return this;
         }
 
         /**
          * The plaintext password for accessing the tax registration account.
          */
-        public Builder passwordPlainText(Optional<String> passwordPlainText) {
+        public Builder passwordPlainText(JsonNullable<String> passwordPlainText) {
             Utils.checkNotNull(passwordPlainText, "passwordPlainText");
             this.passwordPlainText = passwordPlainText;
             return this;
@@ -271,14 +225,14 @@ public class SSTRegistrationCreatePayload implements com.kintsugi.taxplatform.mo
          */
         public Builder passwordMetadataPlainText(String passwordMetadataPlainText) {
             Utils.checkNotNull(passwordMetadataPlainText, "passwordMetadataPlainText");
-            this.passwordMetadataPlainText = Optional.ofNullable(passwordMetadataPlainText);
+            this.passwordMetadataPlainText = JsonNullable.of(passwordMetadataPlainText);
             return this;
         }
 
         /**
          * Metadata related to the password.
          */
-        public Builder passwordMetadataPlainText(Optional<String> passwordMetadataPlainText) {
+        public Builder passwordMetadataPlainText(JsonNullable<String> passwordMetadataPlainText) {
             Utils.checkNotNull(passwordMetadataPlainText, "passwordMetadataPlainText");
             this.passwordMetadataPlainText = passwordMetadataPlainText;
             return this;
@@ -290,27 +244,23 @@ public class SSTRegistrationCreatePayload implements com.kintsugi.taxplatform.mo
          */
         public Builder username(String username) {
             Utils.checkNotNull(username, "username");
-            this.username = Optional.ofNullable(username);
+            this.username = JsonNullable.of(username);
             return this;
         }
 
         /**
          * Username for accessing the tax registration account.
          */
-        public Builder username(Optional<String> username) {
+        public Builder username(JsonNullable<String> username) {
             Utils.checkNotNull(username, "username");
             this.username = username;
             return this;
         }
 
         public SSTRegistrationCreatePayload build() {
-            if (registrationImportType == null) {
-                registrationImportType = _SINGLETON_VALUE_RegistrationImportType.value();
-            }
 
             return new SSTRegistrationCreatePayload(
-                registrationImportType, passwordPlainText, passwordMetadataPlainText,
-                username);
+                passwordPlainText, passwordMetadataPlainText, username);
         }
 
 

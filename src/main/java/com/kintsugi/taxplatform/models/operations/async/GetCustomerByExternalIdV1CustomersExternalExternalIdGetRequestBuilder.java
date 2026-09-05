@@ -11,11 +11,13 @@ import com.kintsugi.taxplatform.operations.GetCustomerByExternalIdV1CustomersExt
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 public class GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequestBuilder {
 
     private String externalId;
+    private Optional<String> xOrganizationId = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -28,11 +30,24 @@ public class GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequestBuild
         this.externalId = externalId;
         return this;
     }
+                
+    public GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequestBuilder xOrganizationId(String xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = Optional.of(xOrganizationId);
+        return this;
+    }
+
+    public GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequestBuilder xOrganizationId(Optional<String> xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = xOrganizationId;
+        return this;
+    }
 
 
     private GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest buildRequest() {
 
-        GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest request = new GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest(externalId);
+        GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest request = new GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest(externalId,
+            xOrganizationId);
 
         return request;
     }

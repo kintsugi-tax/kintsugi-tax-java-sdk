@@ -4,20 +4,21 @@
 package com.kintsugi.taxplatform;
 
 import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
-import static com.kintsugi.taxplatform.operations.Operations.RequestlessOperation;
 
 import com.kintsugi.taxplatform.models.components.ProductCreateManual;
-import com.kintsugi.taxplatform.models.components.ProductUpdate;
+import com.kintsugi.taxplatform.models.operations.CreateProductV1ProductsPostRequest;
 import com.kintsugi.taxplatform.models.operations.CreateProductV1ProductsPostRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.CreateProductV1ProductsPostResponse;
 import com.kintsugi.taxplatform.models.operations.GetProductByIdV1ProductsProductIdGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetProductByIdV1ProductsProductIdGetRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.GetProductByIdV1ProductsProductIdGetResponse;
+import com.kintsugi.taxplatform.models.operations.GetProductCategoriesV1ProductsCategoriesGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetProductCategoriesV1ProductsCategoriesGetRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.GetProductCategoriesV1ProductsCategoriesGetResponse;
 import com.kintsugi.taxplatform.models.operations.GetProductsV1ProductsGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetProductsV1ProductsGetRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.GetProductsV1ProductsGetResponse;
+import com.kintsugi.taxplatform.models.operations.Product;
 import com.kintsugi.taxplatform.models.operations.UpdateProductV1ProductsProductIdPutRequest;
 import com.kintsugi.taxplatform.models.operations.UpdateProductV1ProductsProductIdPutRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.UpdateProductV1ProductsProductIdPutResponse;
@@ -28,6 +29,7 @@ import com.kintsugi.taxplatform.operations.GetProductsV1ProductsGet;
 import com.kintsugi.taxplatform.operations.UpdateProductV1ProductsProductIdPut;
 import com.kintsugi.taxplatform.utils.Headers;
 import java.lang.String;
+import java.util.Optional;
 
 
 public class Products {
@@ -50,7 +52,7 @@ public class Products {
     }
 
     /**
-     * Get Products
+     * Get products
      * 
      * <p>Retrieve a paginated list of products based on filters and search query.
      * 
@@ -61,7 +63,7 @@ public class Products {
     }
 
     /**
-     * Get Products
+     * Get products
      * 
      * <p>Retrieve a paginated list of products based on filters and search query.
      * 
@@ -76,13 +78,15 @@ public class Products {
     }
 
     /**
-     * Create Product
+     * Create product
      * 
      * <p>The Create Product API allows users to manually create a new product
      * in the system. This includes specifying product details such as category,
      * subcategory, and tax exemption status, etc. You can
-     * retrieve supported categories and subcategories from
-     * [GET /products/categories endpoint](/reference/api/products/get-product-categories)
+     * retrieve supported categories and subcategories from the
+     * [GET /products/categories endpoint](/reference/api/products/get-product-categories),
+     * or browse the full catalog with descriptions and examples in the
+     * [Product Categories guide](/docs/guides/product-categories)
      * 
      * @return The call builder
      */
@@ -91,26 +95,54 @@ public class Products {
     }
 
     /**
-     * Create Product
+     * Create product
      * 
      * <p>The Create Product API allows users to manually create a new product
      * in the system. This includes specifying product details such as category,
      * subcategory, and tax exemption status, etc. You can
-     * retrieve supported categories and subcategories from
-     * [GET /products/categories endpoint](/reference/api/products/get-product-categories)
+     * retrieve supported categories and subcategories from the
+     * [GET /products/categories endpoint](/reference/api/products/get-product-categories),
+     * or browse the full catalog with descriptions and examples in the
+     * [Product Categories guide](/docs/guides/product-categories)
      * 
-     * @param request The request object containing all the parameters for the API call.
+     * @param productCreateManual 
      * @return The response from the API call
      * @throws RuntimeException subclass if the API call fails
      */
-    public CreateProductV1ProductsPostResponse createProductV1ProductsPost(ProductCreateManual request) {
-        RequestOperation<ProductCreateManual, CreateProductV1ProductsPostResponse> operation
+    public CreateProductV1ProductsPostResponse createProductV1ProductsPost(ProductCreateManual productCreateManual) {
+        return createProductV1ProductsPost(Optional.empty(), productCreateManual);
+    }
+
+    /**
+     * Create product
+     * 
+     * <p>The Create Product API allows users to manually create a new product
+     * in the system. This includes specifying product details such as category,
+     * subcategory, and tax exemption status, etc. You can
+     * retrieve supported categories and subcategories from the
+     * [GET /products/categories endpoint](/reference/api/products/get-product-categories),
+     * or browse the full catalog with descriptions and examples in the
+     * [Product Categories guide](/docs/guides/product-categories)
+     * 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param productCreateManual 
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public CreateProductV1ProductsPostResponse createProductV1ProductsPost(Optional<String> xOrganizationId, ProductCreateManual productCreateManual) {
+        CreateProductV1ProductsPostRequest request =
+            CreateProductV1ProductsPostRequest
+                .builder()
+                .xOrganizationId(xOrganizationId)
+                .productCreateManual(productCreateManual)
+                .build();
+        RequestOperation<CreateProductV1ProductsPostRequest, CreateProductV1ProductsPostResponse> operation
               = new CreateProductV1ProductsPost.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
     /**
-     * Get Product Categories
+     * Get product categories
      * 
      * <p>The Get Product Categories API retrieves all
      * product categories. This endpoint helps users understand and select the
@@ -123,7 +155,7 @@ public class Products {
     }
 
     /**
-     * Get Product Categories
+     * Get product categories
      * 
      * <p>The Get Product Categories API retrieves all
      * product categories. This endpoint helps users understand and select the
@@ -133,13 +165,33 @@ public class Products {
      * @throws RuntimeException subclass if the API call fails
      */
     public GetProductCategoriesV1ProductsCategoriesGetResponse getProductCategoriesV1ProductsCategoriesGetDirect() {
-        RequestlessOperation<GetProductCategoriesV1ProductsCategoriesGetResponse> operation
-            = new GetProductCategoriesV1ProductsCategoriesGet.Sync(sdkConfiguration, _headers);
-        return operation.handleResponse(operation.doRequest());
+        return getProductCategoriesV1ProductsCategoriesGet(Optional.empty());
     }
 
     /**
-     * Get Product By Id
+     * Get product categories
+     * 
+     * <p>The Get Product Categories API retrieves all
+     * product categories. This endpoint helps users understand and select the
+     * appropriate categories for their products.
+     * 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public GetProductCategoriesV1ProductsCategoriesGetResponse getProductCategoriesV1ProductsCategoriesGet(Optional<String> xOrganizationId) {
+        GetProductCategoriesV1ProductsCategoriesGetRequest request =
+            GetProductCategoriesV1ProductsCategoriesGetRequest
+                .builder()
+                .xOrganizationId(xOrganizationId)
+                .build();
+        RequestOperation<GetProductCategoriesV1ProductsCategoriesGetRequest, GetProductCategoriesV1ProductsCategoriesGetResponse> operation
+              = new GetProductCategoriesV1ProductsCategoriesGet.Sync(sdkConfiguration, _headers);
+        return operation.handleResponse(operation.doRequest(request));
+    }
+
+    /**
+     * Get product by id
      * 
      * <p>The Get Product By ID API retrieves detailed information about
      * a single product by its unique ID. This API helps in viewing the specific details
@@ -152,7 +204,7 @@ public class Products {
     }
 
     /**
-     * Get Product By Id
+     * Get product by id
      * 
      * <p>The Get Product By ID API retrieves detailed information about
      * a single product by its unique ID. This API helps in viewing the specific details
@@ -163,10 +215,27 @@ public class Products {
      * @throws RuntimeException subclass if the API call fails
      */
     public GetProductByIdV1ProductsProductIdGetResponse getById(String productId) {
+        return getById(productId, Optional.empty());
+    }
+
+    /**
+     * Get product by id
+     * 
+     * <p>The Get Product By ID API retrieves detailed information about
+     * a single product by its unique ID. This API helps in viewing the specific details
+     * of a product, including its attributes, status, and categorization.
+     * 
+     * @param productId The unique identifier for the product you want to retrieve.
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public GetProductByIdV1ProductsProductIdGetResponse getById(String productId, Optional<String> xOrganizationId) {
         GetProductByIdV1ProductsProductIdGetRequest request =
             GetProductByIdV1ProductsProductIdGetRequest
                 .builder()
                 .productId(productId)
+                .xOrganizationId(xOrganizationId)
                 .build();
         RequestOperation<GetProductByIdV1ProductsProductIdGetRequest, GetProductByIdV1ProductsProductIdGetResponse> operation
               = new GetProductByIdV1ProductsProductIdGet.Sync(sdkConfiguration, _headers);
@@ -174,12 +243,14 @@ public class Products {
     }
 
     /**
-     * Update Product
+     * Update product
      * 
      * <p>The Update Product API allows users to modify the details of
      * an existing product identified by its unique product_id. You can
-     * retrieve supported categories and subcategories from
-     * [GET /products/categories endpoint](/reference/api/products/get-product-categories)
+     * retrieve supported categories and subcategories from the
+     * [GET /products/categories endpoint](/reference/api/products/get-product-categories),
+     * or browse the full catalog with descriptions and examples in the
+     * [Product Categories guide](/docs/guides/product-categories)
      * 
      * @return The call builder
      */
@@ -188,24 +259,49 @@ public class Products {
     }
 
     /**
-     * Update Product
+     * Update product
      * 
      * <p>The Update Product API allows users to modify the details of
      * an existing product identified by its unique product_id. You can
-     * retrieve supported categories and subcategories from
-     * [GET /products/categories endpoint](/reference/api/products/get-product-categories)
+     * retrieve supported categories and subcategories from the
+     * [GET /products/categories endpoint](/reference/api/products/get-product-categories),
+     * or browse the full catalog with descriptions and examples in the
+     * [Product Categories guide](/docs/guides/product-categories)
      * 
      * @param productId Unique identifier of the product to be updated.
-     * @param productUpdate 
+     * @param requestBody 
      * @return The response from the API call
      * @throws RuntimeException subclass if the API call fails
      */
-    public UpdateProductV1ProductsProductIdPutResponse update(String productId, ProductUpdate productUpdate) {
+    public UpdateProductV1ProductsProductIdPutResponse update(String productId, Product requestBody) {
+        return update(productId, Optional.empty(), requestBody);
+    }
+
+    /**
+     * Update product
+     * 
+     * <p>The Update Product API allows users to modify the details of
+     * an existing product identified by its unique product_id. You can
+     * retrieve supported categories and subcategories from the
+     * [GET /products/categories endpoint](/reference/api/products/get-product-categories),
+     * or browse the full catalog with descriptions and examples in the
+     * [Product Categories guide](/docs/guides/product-categories)
+     * 
+     * @param productId Unique identifier of the product to be updated.
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param requestBody 
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public UpdateProductV1ProductsProductIdPutResponse update(
+            String productId, Optional<String> xOrganizationId,
+            Product requestBody) {
         UpdateProductV1ProductsProductIdPutRequest request =
             UpdateProductV1ProductsProductIdPutRequest
                 .builder()
                 .productId(productId)
-                .productUpdate(productUpdate)
+                .xOrganizationId(xOrganizationId)
+                .requestBody(requestBody)
                 .build();
         RequestOperation<UpdateProductV1ProductsProductIdPutRequest, UpdateProductV1ProductsProductIdPutResponse> operation
               = new UpdateProductV1ProductsProductIdPut.Sync(sdkConfiguration, _headers);

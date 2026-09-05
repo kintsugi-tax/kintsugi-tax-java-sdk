@@ -18,6 +18,7 @@ import java.lang.SuppressWarnings;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.Optional;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 public class Exemption {
@@ -40,7 +41,7 @@ public class Exemption {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("updated_at")
-    private Optional<String> updatedAt;
+    private JsonNullable<OffsetDateTime> updatedAt;
 
 
     @JsonProperty("exemption_type")
@@ -51,12 +52,14 @@ public class Exemption {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("jurisdiction")
-    private Optional<String> jurisdiction;
+    private JsonNullable<String> jurisdiction;
 
-
+    /**
+     * Country code in ISO 3166-1 alpha-2 format (e.g., 'US')
+     */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("country_code")
-    private Optional<? extends CountryCodeEnum> countryCode;
+    private JsonNullable<? extends CountryCodeEnum> countryCode;
 
     /**
      * Start date for the exemption validity period (YYYY-MM-DD format)
@@ -69,14 +72,14 @@ public class Exemption {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("end_date")
-    private Optional<String> endDate;
+    private JsonNullable<LocalDate> endDate;
 
     /**
      * Unique identifier for the customer associated with the exemption
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("customer_id")
-    private Optional<String> customerId;
+    private JsonNullable<String> customerId;
 
     /**
      * Unique identifier for the transaction
@@ -84,7 +87,7 @@ public class Exemption {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("transaction_id")
-    private Optional<String> transactionId;
+    private JsonNullable<String> transactionId;
 
     /**
      * Indicates whether the exemption is for a reseller
@@ -99,42 +102,61 @@ public class Exemption {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("FEIN")
-    private Optional<String> fein;
+    private JsonNullable<String> fein;
 
     /**
      * Sales tax ID for the exemption
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("sales_tax_id")
-    private Optional<String> salesTaxId;
+    private JsonNullable<String> salesTaxId;
 
-
+    /**
+     * The status of the exemption.
+     * Defaults to ACTIVE if not provided.
+     */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("status")
-    private Optional<? extends ExemptionStatus> status;
+    private JsonNullable<? extends ExemptionStatus> status;
 
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("organization_id")
     private Optional<String> organizationId;
 
+    /**
+     * FK to bulk-imported certificate; NULL for manually-created exemptions
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("certificate_import_id")
+    private JsonNullable<String> certificateImportId;
+
+    /**
+     * Source of exemption.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("source")
+    private JsonNullable<? extends ExemptionSourceEnum> source;
+
     @JsonCreator
     public Exemption(
             @JsonProperty("id") Optional<String> id,
             @JsonProperty("created_at") Optional<OffsetDateTime> createdAt,
-            @JsonProperty("updated_at") Optional<String> updatedAt,
+            @JsonProperty("updated_at") JsonNullable<OffsetDateTime> updatedAt,
             @JsonProperty("exemption_type") ExemptionType exemptionType,
-            @JsonProperty("jurisdiction") Optional<String> jurisdiction,
-            @JsonProperty("country_code") Optional<? extends CountryCodeEnum> countryCode,
+            @JsonProperty("jurisdiction") JsonNullable<String> jurisdiction,
+            @JsonProperty("country_code") JsonNullable<? extends CountryCodeEnum> countryCode,
             @JsonProperty("start_date") LocalDate startDate,
-            @JsonProperty("end_date") Optional<String> endDate,
-            @JsonProperty("customer_id") Optional<String> customerId,
-            @JsonProperty("transaction_id") Optional<String> transactionId,
+            @JsonProperty("end_date") JsonNullable<LocalDate> endDate,
+            @JsonProperty("customer_id") JsonNullable<String> customerId,
+            @JsonProperty("transaction_id") JsonNullable<String> transactionId,
             @JsonProperty("reseller") Optional<Boolean> reseller,
-            @JsonProperty("FEIN") Optional<String> fein,
-            @JsonProperty("sales_tax_id") Optional<String> salesTaxId,
-            @JsonProperty("status") Optional<? extends ExemptionStatus> status,
-            @JsonProperty("organization_id") Optional<String> organizationId) {
+            @JsonProperty("FEIN") JsonNullable<String> fein,
+            @JsonProperty("sales_tax_id") JsonNullable<String> salesTaxId,
+            @JsonProperty("status") JsonNullable<? extends ExemptionStatus> status,
+            @JsonProperty("organization_id") Optional<String> organizationId,
+            @JsonProperty("certificate_import_id") JsonNullable<String> certificateImportId,
+            @JsonProperty("source") JsonNullable<? extends ExemptionSourceEnum> source) {
         Utils.checkNotNull(id, "id");
         Utils.checkNotNull(createdAt, "createdAt");
         Utils.checkNotNull(updatedAt, "updatedAt");
@@ -150,6 +172,8 @@ public class Exemption {
         Utils.checkNotNull(salesTaxId, "salesTaxId");
         Utils.checkNotNull(status, "status");
         Utils.checkNotNull(organizationId, "organizationId");
+        Utils.checkNotNull(certificateImportId, "certificateImportId");
+        Utils.checkNotNull(source, "source");
         this.id = id;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
@@ -165,16 +189,19 @@ public class Exemption {
         this.salesTaxId = salesTaxId;
         this.status = status;
         this.organizationId = organizationId;
+        this.certificateImportId = certificateImportId;
+        this.source = source;
     }
     
     public Exemption(
             ExemptionType exemptionType,
             LocalDate startDate) {
-        this(Optional.empty(), Optional.empty(), Optional.empty(),
-            exemptionType, Optional.empty(), Optional.empty(),
-            startDate, Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty());
+        this(Optional.empty(), Optional.empty(), JsonNullable.undefined(),
+            exemptionType, JsonNullable.undefined(), JsonNullable.undefined(),
+            startDate, JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), Optional.empty(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty(),
+            JsonNullable.undefined(), JsonNullable.undefined());
     }
 
     /**
@@ -197,7 +224,7 @@ public class Exemption {
      * Timestamp when transaction was last updated.
      */
     @JsonIgnore
-    public Optional<String> updatedAt() {
+    public JsonNullable<OffsetDateTime> updatedAt() {
         return updatedAt;
     }
 
@@ -210,14 +237,17 @@ public class Exemption {
      * The jurisdiction identifier for the exemption
      */
     @JsonIgnore
-    public Optional<String> jurisdiction() {
+    public JsonNullable<String> jurisdiction() {
         return jurisdiction;
     }
 
+    /**
+     * Country code in ISO 3166-1 alpha-2 format (e.g., 'US')
+     */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<CountryCodeEnum> countryCode() {
-        return (Optional<CountryCodeEnum>) countryCode;
+    public JsonNullable<CountryCodeEnum> countryCode() {
+        return (JsonNullable<CountryCodeEnum>) countryCode;
     }
 
     /**
@@ -232,7 +262,7 @@ public class Exemption {
      * End date for the exemption validity period (YYYY-MM-DD format)
      */
     @JsonIgnore
-    public Optional<String> endDate() {
+    public JsonNullable<LocalDate> endDate() {
         return endDate;
     }
 
@@ -240,7 +270,7 @@ public class Exemption {
      * Unique identifier for the customer associated with the exemption
      */
     @JsonIgnore
-    public Optional<String> customerId() {
+    public JsonNullable<String> customerId() {
         return customerId;
     }
 
@@ -249,7 +279,7 @@ public class Exemption {
      * associated with the exemption, if applicable.
      */
     @JsonIgnore
-    public Optional<String> transactionId() {
+    public JsonNullable<String> transactionId() {
         return transactionId;
     }
 
@@ -266,7 +296,7 @@ public class Exemption {
      * associated with the exemption.
      */
     @JsonIgnore
-    public Optional<String> fein() {
+    public JsonNullable<String> fein() {
         return fein;
     }
 
@@ -274,19 +304,40 @@ public class Exemption {
      * Sales tax ID for the exemption
      */
     @JsonIgnore
-    public Optional<String> salesTaxId() {
+    public JsonNullable<String> salesTaxId() {
         return salesTaxId;
     }
 
+    /**
+     * The status of the exemption.
+     * Defaults to ACTIVE if not provided.
+     */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<ExemptionStatus> status() {
-        return (Optional<ExemptionStatus>) status;
+    public JsonNullable<ExemptionStatus> status() {
+        return (JsonNullable<ExemptionStatus>) status;
     }
 
     @JsonIgnore
     public Optional<String> organizationId() {
         return organizationId;
+    }
+
+    /**
+     * FK to bulk-imported certificate; NULL for manually-created exemptions
+     */
+    @JsonIgnore
+    public JsonNullable<String> certificateImportId() {
+        return certificateImportId;
+    }
+
+    /**
+     * Source of exemption.
+     */
+    @SuppressWarnings("unchecked")
+    @JsonIgnore
+    public JsonNullable<ExemptionSourceEnum> source() {
+        return (JsonNullable<ExemptionSourceEnum>) source;
     }
 
     public static Builder builder() {
@@ -335,17 +386,16 @@ public class Exemption {
     /**
      * Timestamp when transaction was last updated.
      */
-    public Exemption withUpdatedAt(String updatedAt) {
+    public Exemption withUpdatedAt(OffsetDateTime updatedAt) {
         Utils.checkNotNull(updatedAt, "updatedAt");
-        this.updatedAt = Optional.ofNullable(updatedAt);
+        this.updatedAt = JsonNullable.of(updatedAt);
         return this;
     }
-
 
     /**
      * Timestamp when transaction was last updated.
      */
-    public Exemption withUpdatedAt(Optional<String> updatedAt) {
+    public Exemption withUpdatedAt(JsonNullable<OffsetDateTime> updatedAt) {
         Utils.checkNotNull(updatedAt, "updatedAt");
         this.updatedAt = updatedAt;
         return this;
@@ -362,28 +412,32 @@ public class Exemption {
      */
     public Exemption withJurisdiction(String jurisdiction) {
         Utils.checkNotNull(jurisdiction, "jurisdiction");
-        this.jurisdiction = Optional.ofNullable(jurisdiction);
+        this.jurisdiction = JsonNullable.of(jurisdiction);
         return this;
     }
-
 
     /**
      * The jurisdiction identifier for the exemption
      */
-    public Exemption withJurisdiction(Optional<String> jurisdiction) {
+    public Exemption withJurisdiction(JsonNullable<String> jurisdiction) {
         Utils.checkNotNull(jurisdiction, "jurisdiction");
         this.jurisdiction = jurisdiction;
         return this;
     }
 
+    /**
+     * Country code in ISO 3166-1 alpha-2 format (e.g., 'US')
+     */
     public Exemption withCountryCode(CountryCodeEnum countryCode) {
         Utils.checkNotNull(countryCode, "countryCode");
-        this.countryCode = Optional.ofNullable(countryCode);
+        this.countryCode = JsonNullable.of(countryCode);
         return this;
     }
 
-
-    public Exemption withCountryCode(Optional<? extends CountryCodeEnum> countryCode) {
+    /**
+     * Country code in ISO 3166-1 alpha-2 format (e.g., 'US')
+     */
+    public Exemption withCountryCode(JsonNullable<? extends CountryCodeEnum> countryCode) {
         Utils.checkNotNull(countryCode, "countryCode");
         this.countryCode = countryCode;
         return this;
@@ -401,17 +455,16 @@ public class Exemption {
     /**
      * End date for the exemption validity period (YYYY-MM-DD format)
      */
-    public Exemption withEndDate(String endDate) {
+    public Exemption withEndDate(LocalDate endDate) {
         Utils.checkNotNull(endDate, "endDate");
-        this.endDate = Optional.ofNullable(endDate);
+        this.endDate = JsonNullable.of(endDate);
         return this;
     }
-
 
     /**
      * End date for the exemption validity period (YYYY-MM-DD format)
      */
-    public Exemption withEndDate(Optional<String> endDate) {
+    public Exemption withEndDate(JsonNullable<LocalDate> endDate) {
         Utils.checkNotNull(endDate, "endDate");
         this.endDate = endDate;
         return this;
@@ -422,15 +475,14 @@ public class Exemption {
      */
     public Exemption withCustomerId(String customerId) {
         Utils.checkNotNull(customerId, "customerId");
-        this.customerId = Optional.ofNullable(customerId);
+        this.customerId = JsonNullable.of(customerId);
         return this;
     }
-
 
     /**
      * Unique identifier for the customer associated with the exemption
      */
-    public Exemption withCustomerId(Optional<String> customerId) {
+    public Exemption withCustomerId(JsonNullable<String> customerId) {
         Utils.checkNotNull(customerId, "customerId");
         this.customerId = customerId;
         return this;
@@ -442,16 +494,15 @@ public class Exemption {
      */
     public Exemption withTransactionId(String transactionId) {
         Utils.checkNotNull(transactionId, "transactionId");
-        this.transactionId = Optional.ofNullable(transactionId);
+        this.transactionId = JsonNullable.of(transactionId);
         return this;
     }
-
 
     /**
      * Unique identifier for the transaction
      * associated with the exemption, if applicable.
      */
-    public Exemption withTransactionId(Optional<String> transactionId) {
+    public Exemption withTransactionId(JsonNullable<String> transactionId) {
         Utils.checkNotNull(transactionId, "transactionId");
         this.transactionId = transactionId;
         return this;
@@ -482,16 +533,15 @@ public class Exemption {
      */
     public Exemption withFein(String fein) {
         Utils.checkNotNull(fein, "fein");
-        this.fein = Optional.ofNullable(fein);
+        this.fein = JsonNullable.of(fein);
         return this;
     }
-
 
     /**
      * Federal Employer Identification Number
      * associated with the exemption.
      */
-    public Exemption withFein(Optional<String> fein) {
+    public Exemption withFein(JsonNullable<String> fein) {
         Utils.checkNotNull(fein, "fein");
         this.fein = fein;
         return this;
@@ -502,28 +552,34 @@ public class Exemption {
      */
     public Exemption withSalesTaxId(String salesTaxId) {
         Utils.checkNotNull(salesTaxId, "salesTaxId");
-        this.salesTaxId = Optional.ofNullable(salesTaxId);
+        this.salesTaxId = JsonNullable.of(salesTaxId);
         return this;
     }
-
 
     /**
      * Sales tax ID for the exemption
      */
-    public Exemption withSalesTaxId(Optional<String> salesTaxId) {
+    public Exemption withSalesTaxId(JsonNullable<String> salesTaxId) {
         Utils.checkNotNull(salesTaxId, "salesTaxId");
         this.salesTaxId = salesTaxId;
         return this;
     }
 
+    /**
+     * The status of the exemption.
+     * Defaults to ACTIVE if not provided.
+     */
     public Exemption withStatus(ExemptionStatus status) {
         Utils.checkNotNull(status, "status");
-        this.status = Optional.ofNullable(status);
+        this.status = JsonNullable.of(status);
         return this;
     }
 
-
-    public Exemption withStatus(Optional<? extends ExemptionStatus> status) {
+    /**
+     * The status of the exemption.
+     * Defaults to ACTIVE if not provided.
+     */
+    public Exemption withStatus(JsonNullable<? extends ExemptionStatus> status) {
         Utils.checkNotNull(status, "status");
         this.status = status;
         return this;
@@ -539,6 +595,42 @@ public class Exemption {
     public Exemption withOrganizationId(Optional<String> organizationId) {
         Utils.checkNotNull(organizationId, "organizationId");
         this.organizationId = organizationId;
+        return this;
+    }
+
+    /**
+     * FK to bulk-imported certificate; NULL for manually-created exemptions
+     */
+    public Exemption withCertificateImportId(String certificateImportId) {
+        Utils.checkNotNull(certificateImportId, "certificateImportId");
+        this.certificateImportId = JsonNullable.of(certificateImportId);
+        return this;
+    }
+
+    /**
+     * FK to bulk-imported certificate; NULL for manually-created exemptions
+     */
+    public Exemption withCertificateImportId(JsonNullable<String> certificateImportId) {
+        Utils.checkNotNull(certificateImportId, "certificateImportId");
+        this.certificateImportId = certificateImportId;
+        return this;
+    }
+
+    /**
+     * Source of exemption.
+     */
+    public Exemption withSource(ExemptionSourceEnum source) {
+        Utils.checkNotNull(source, "source");
+        this.source = JsonNullable.of(source);
+        return this;
+    }
+
+    /**
+     * Source of exemption.
+     */
+    public Exemption withSource(JsonNullable<? extends ExemptionSourceEnum> source) {
+        Utils.checkNotNull(source, "source");
+        this.source = source;
         return this;
     }
 
@@ -566,7 +658,9 @@ public class Exemption {
             Utils.enhancedDeepEquals(this.fein, other.fein) &&
             Utils.enhancedDeepEquals(this.salesTaxId, other.salesTaxId) &&
             Utils.enhancedDeepEquals(this.status, other.status) &&
-            Utils.enhancedDeepEquals(this.organizationId, other.organizationId);
+            Utils.enhancedDeepEquals(this.organizationId, other.organizationId) &&
+            Utils.enhancedDeepEquals(this.certificateImportId, other.certificateImportId) &&
+            Utils.enhancedDeepEquals(this.source, other.source);
     }
     
     @Override
@@ -576,7 +670,8 @@ public class Exemption {
             exemptionType, jurisdiction, countryCode,
             startDate, endDate, customerId,
             transactionId, reseller, fein,
-            salesTaxId, status, organizationId);
+            salesTaxId, status, organizationId,
+            certificateImportId, source);
     }
     
     @Override
@@ -596,7 +691,9 @@ public class Exemption {
                 "fein", fein,
                 "salesTaxId", salesTaxId,
                 "status", status,
-                "organizationId", organizationId);
+                "organizationId", organizationId,
+                "certificateImportId", certificateImportId,
+                "source", source);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -606,31 +703,35 @@ public class Exemption {
 
         private Optional<OffsetDateTime> createdAt = Optional.empty();
 
-        private Optional<String> updatedAt = Optional.empty();
+        private JsonNullable<OffsetDateTime> updatedAt = JsonNullable.undefined();
 
         private ExemptionType exemptionType;
 
-        private Optional<String> jurisdiction = Optional.empty();
+        private JsonNullable<String> jurisdiction = JsonNullable.undefined();
 
-        private Optional<? extends CountryCodeEnum> countryCode = Optional.empty();
+        private JsonNullable<? extends CountryCodeEnum> countryCode = JsonNullable.undefined();
 
         private LocalDate startDate;
 
-        private Optional<String> endDate = Optional.empty();
+        private JsonNullable<LocalDate> endDate = JsonNullable.undefined();
 
-        private Optional<String> customerId = Optional.empty();
+        private JsonNullable<String> customerId = JsonNullable.undefined();
 
-        private Optional<String> transactionId = Optional.empty();
+        private JsonNullable<String> transactionId = JsonNullable.undefined();
 
         private Optional<Boolean> reseller;
 
-        private Optional<String> fein = Optional.empty();
+        private JsonNullable<String> fein = JsonNullable.undefined();
 
-        private Optional<String> salesTaxId = Optional.empty();
+        private JsonNullable<String> salesTaxId = JsonNullable.undefined();
 
-        private Optional<? extends ExemptionStatus> status = Optional.empty();
+        private JsonNullable<? extends ExemptionStatus> status = JsonNullable.undefined();
 
         private Optional<String> organizationId = Optional.empty();
+
+        private JsonNullable<String> certificateImportId = JsonNullable.undefined();
+
+        private JsonNullable<? extends ExemptionSourceEnum> source = JsonNullable.undefined();
 
         private Builder() {
           // force use of static builder() method
@@ -678,16 +779,16 @@ public class Exemption {
         /**
          * Timestamp when transaction was last updated.
          */
-        public Builder updatedAt(String updatedAt) {
+        public Builder updatedAt(OffsetDateTime updatedAt) {
             Utils.checkNotNull(updatedAt, "updatedAt");
-            this.updatedAt = Optional.ofNullable(updatedAt);
+            this.updatedAt = JsonNullable.of(updatedAt);
             return this;
         }
 
         /**
          * Timestamp when transaction was last updated.
          */
-        public Builder updatedAt(Optional<String> updatedAt) {
+        public Builder updatedAt(JsonNullable<OffsetDateTime> updatedAt) {
             Utils.checkNotNull(updatedAt, "updatedAt");
             this.updatedAt = updatedAt;
             return this;
@@ -706,27 +807,33 @@ public class Exemption {
          */
         public Builder jurisdiction(String jurisdiction) {
             Utils.checkNotNull(jurisdiction, "jurisdiction");
-            this.jurisdiction = Optional.ofNullable(jurisdiction);
+            this.jurisdiction = JsonNullable.of(jurisdiction);
             return this;
         }
 
         /**
          * The jurisdiction identifier for the exemption
          */
-        public Builder jurisdiction(Optional<String> jurisdiction) {
+        public Builder jurisdiction(JsonNullable<String> jurisdiction) {
             Utils.checkNotNull(jurisdiction, "jurisdiction");
             this.jurisdiction = jurisdiction;
             return this;
         }
 
 
+        /**
+         * Country code in ISO 3166-1 alpha-2 format (e.g., 'US')
+         */
         public Builder countryCode(CountryCodeEnum countryCode) {
             Utils.checkNotNull(countryCode, "countryCode");
-            this.countryCode = Optional.ofNullable(countryCode);
+            this.countryCode = JsonNullable.of(countryCode);
             return this;
         }
 
-        public Builder countryCode(Optional<? extends CountryCodeEnum> countryCode) {
+        /**
+         * Country code in ISO 3166-1 alpha-2 format (e.g., 'US')
+         */
+        public Builder countryCode(JsonNullable<? extends CountryCodeEnum> countryCode) {
             Utils.checkNotNull(countryCode, "countryCode");
             this.countryCode = countryCode;
             return this;
@@ -746,16 +853,16 @@ public class Exemption {
         /**
          * End date for the exemption validity period (YYYY-MM-DD format)
          */
-        public Builder endDate(String endDate) {
+        public Builder endDate(LocalDate endDate) {
             Utils.checkNotNull(endDate, "endDate");
-            this.endDate = Optional.ofNullable(endDate);
+            this.endDate = JsonNullable.of(endDate);
             return this;
         }
 
         /**
          * End date for the exemption validity period (YYYY-MM-DD format)
          */
-        public Builder endDate(Optional<String> endDate) {
+        public Builder endDate(JsonNullable<LocalDate> endDate) {
             Utils.checkNotNull(endDate, "endDate");
             this.endDate = endDate;
             return this;
@@ -767,14 +874,14 @@ public class Exemption {
          */
         public Builder customerId(String customerId) {
             Utils.checkNotNull(customerId, "customerId");
-            this.customerId = Optional.ofNullable(customerId);
+            this.customerId = JsonNullable.of(customerId);
             return this;
         }
 
         /**
          * Unique identifier for the customer associated with the exemption
          */
-        public Builder customerId(Optional<String> customerId) {
+        public Builder customerId(JsonNullable<String> customerId) {
             Utils.checkNotNull(customerId, "customerId");
             this.customerId = customerId;
             return this;
@@ -787,7 +894,7 @@ public class Exemption {
          */
         public Builder transactionId(String transactionId) {
             Utils.checkNotNull(transactionId, "transactionId");
-            this.transactionId = Optional.ofNullable(transactionId);
+            this.transactionId = JsonNullable.of(transactionId);
             return this;
         }
 
@@ -795,7 +902,7 @@ public class Exemption {
          * Unique identifier for the transaction
          * associated with the exemption, if applicable.
          */
-        public Builder transactionId(Optional<String> transactionId) {
+        public Builder transactionId(JsonNullable<String> transactionId) {
             Utils.checkNotNull(transactionId, "transactionId");
             this.transactionId = transactionId;
             return this;
@@ -827,7 +934,7 @@ public class Exemption {
          */
         public Builder fein(String fein) {
             Utils.checkNotNull(fein, "fein");
-            this.fein = Optional.ofNullable(fein);
+            this.fein = JsonNullable.of(fein);
             return this;
         }
 
@@ -835,7 +942,7 @@ public class Exemption {
          * Federal Employer Identification Number
          * associated with the exemption.
          */
-        public Builder fein(Optional<String> fein) {
+        public Builder fein(JsonNullable<String> fein) {
             Utils.checkNotNull(fein, "fein");
             this.fein = fein;
             return this;
@@ -847,27 +954,35 @@ public class Exemption {
          */
         public Builder salesTaxId(String salesTaxId) {
             Utils.checkNotNull(salesTaxId, "salesTaxId");
-            this.salesTaxId = Optional.ofNullable(salesTaxId);
+            this.salesTaxId = JsonNullable.of(salesTaxId);
             return this;
         }
 
         /**
          * Sales tax ID for the exemption
          */
-        public Builder salesTaxId(Optional<String> salesTaxId) {
+        public Builder salesTaxId(JsonNullable<String> salesTaxId) {
             Utils.checkNotNull(salesTaxId, "salesTaxId");
             this.salesTaxId = salesTaxId;
             return this;
         }
 
 
+        /**
+         * The status of the exemption.
+         * Defaults to ACTIVE if not provided.
+         */
         public Builder status(ExemptionStatus status) {
             Utils.checkNotNull(status, "status");
-            this.status = Optional.ofNullable(status);
+            this.status = JsonNullable.of(status);
             return this;
         }
 
-        public Builder status(Optional<? extends ExemptionStatus> status) {
+        /**
+         * The status of the exemption.
+         * Defaults to ACTIVE if not provided.
+         */
+        public Builder status(JsonNullable<? extends ExemptionStatus> status) {
             Utils.checkNotNull(status, "status");
             this.status = status;
             return this;
@@ -886,6 +1001,44 @@ public class Exemption {
             return this;
         }
 
+
+        /**
+         * FK to bulk-imported certificate; NULL for manually-created exemptions
+         */
+        public Builder certificateImportId(String certificateImportId) {
+            Utils.checkNotNull(certificateImportId, "certificateImportId");
+            this.certificateImportId = JsonNullable.of(certificateImportId);
+            return this;
+        }
+
+        /**
+         * FK to bulk-imported certificate; NULL for manually-created exemptions
+         */
+        public Builder certificateImportId(JsonNullable<String> certificateImportId) {
+            Utils.checkNotNull(certificateImportId, "certificateImportId");
+            this.certificateImportId = certificateImportId;
+            return this;
+        }
+
+
+        /**
+         * Source of exemption.
+         */
+        public Builder source(ExemptionSourceEnum source) {
+            Utils.checkNotNull(source, "source");
+            this.source = JsonNullable.of(source);
+            return this;
+        }
+
+        /**
+         * Source of exemption.
+         */
+        public Builder source(JsonNullable<? extends ExemptionSourceEnum> source) {
+            Utils.checkNotNull(source, "source");
+            this.source = source;
+            return this;
+        }
+
         public Exemption build() {
             if (reseller == null) {
                 reseller = _SINGLETON_VALUE_Reseller.value();
@@ -896,7 +1049,8 @@ public class Exemption {
                 exemptionType, jurisdiction, countryCode,
                 startDate, endDate, customerId,
                 transactionId, reseller, fein,
-                salesTaxId, status, organizationId);
+                salesTaxId, status, organizationId,
+                certificateImportId, source);
         }
 
 

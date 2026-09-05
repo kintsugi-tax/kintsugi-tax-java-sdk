@@ -13,20 +13,21 @@ import java.lang.Boolean;
 import java.lang.Deprecated;
 import java.lang.Override;
 import java.lang.String;
+import java.lang.SuppressWarnings;
 import java.time.OffsetDateTime;
-import java.util.Optional;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 public class ExemptionRequired {
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("jurisdiction")
-    private Optional<String> jurisdiction;
+    private JsonNullable<String> jurisdiction;
 
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("customer_id")
-    private Optional<String> customerId;
+    private JsonNullable<String> customerId;
 
     /**
      * Unique identifier of the organization. This field is deprecated, and should no longer be used. The
@@ -54,15 +55,45 @@ public class ExemptionRequired {
     @JsonProperty("reseller")
     private boolean reseller;
 
+
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("country_code")
+    private JsonNullable<? extends CountryCodeEnum> countryCode;
+
+
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("end_date")
+    private JsonNullable<OffsetDateTime> endDate;
+
+
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("FEIN")
+    private JsonNullable<String> fein;
+
+
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("sales_tax_id")
+    private JsonNullable<String> salesTaxId;
+
+
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("source")
+    private JsonNullable<? extends ExemptionSourceEnum> source;
+
     @JsonCreator
     public ExemptionRequired(
-            @JsonProperty("jurisdiction") Optional<String> jurisdiction,
-            @JsonProperty("customer_id") Optional<String> customerId,
+            @JsonProperty("jurisdiction") JsonNullable<String> jurisdiction,
+            @JsonProperty("customer_id") JsonNullable<String> customerId,
             @JsonProperty("organization_id") String organizationId,
             @JsonProperty("exemption_type") ExemptionType exemptionType,
             @JsonProperty("start_date") OffsetDateTime startDate,
             @JsonProperty("status") ExemptionStatus status,
-            @JsonProperty("reseller") boolean reseller) {
+            @JsonProperty("reseller") boolean reseller,
+            @JsonProperty("country_code") JsonNullable<? extends CountryCodeEnum> countryCode,
+            @JsonProperty("end_date") JsonNullable<OffsetDateTime> endDate,
+            @JsonProperty("FEIN") JsonNullable<String> fein,
+            @JsonProperty("sales_tax_id") JsonNullable<String> salesTaxId,
+            @JsonProperty("source") JsonNullable<? extends ExemptionSourceEnum> source) {
         Utils.checkNotNull(jurisdiction, "jurisdiction");
         Utils.checkNotNull(customerId, "customerId");
         Utils.checkNotNull(organizationId, "organizationId");
@@ -70,6 +101,11 @@ public class ExemptionRequired {
         Utils.checkNotNull(startDate, "startDate");
         Utils.checkNotNull(status, "status");
         Utils.checkNotNull(reseller, "reseller");
+        Utils.checkNotNull(countryCode, "countryCode");
+        Utils.checkNotNull(endDate, "endDate");
+        Utils.checkNotNull(fein, "fein");
+        Utils.checkNotNull(salesTaxId, "salesTaxId");
+        Utils.checkNotNull(source, "source");
         this.jurisdiction = jurisdiction;
         this.customerId = customerId;
         this.organizationId = organizationId;
@@ -77,6 +113,11 @@ public class ExemptionRequired {
         this.startDate = startDate;
         this.status = status;
         this.reseller = reseller;
+        this.countryCode = countryCode;
+        this.endDate = endDate;
+        this.fein = fein;
+        this.salesTaxId = salesTaxId;
+        this.source = source;
     }
     
     public ExemptionRequired(
@@ -85,18 +126,19 @@ public class ExemptionRequired {
             OffsetDateTime startDate,
             ExemptionStatus status,
             boolean reseller) {
-        this(Optional.empty(), Optional.empty(), organizationId,
+        this(JsonNullable.undefined(), JsonNullable.undefined(), organizationId,
             exemptionType, startDate, status,
-            reseller);
+            reseller, JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined());
     }
 
     @JsonIgnore
-    public Optional<String> jurisdiction() {
+    public JsonNullable<String> jurisdiction() {
         return jurisdiction;
     }
 
     @JsonIgnore
-    public Optional<String> customerId() {
+    public JsonNullable<String> customerId() {
         return customerId;
     }
 
@@ -132,6 +174,33 @@ public class ExemptionRequired {
         return reseller;
     }
 
+    @SuppressWarnings("unchecked")
+    @JsonIgnore
+    public JsonNullable<CountryCodeEnum> countryCode() {
+        return (JsonNullable<CountryCodeEnum>) countryCode;
+    }
+
+    @JsonIgnore
+    public JsonNullable<OffsetDateTime> endDate() {
+        return endDate;
+    }
+
+    @JsonIgnore
+    public JsonNullable<String> fein() {
+        return fein;
+    }
+
+    @JsonIgnore
+    public JsonNullable<String> salesTaxId() {
+        return salesTaxId;
+    }
+
+    @SuppressWarnings("unchecked")
+    @JsonIgnore
+    public JsonNullable<ExemptionSourceEnum> source() {
+        return (JsonNullable<ExemptionSourceEnum>) source;
+    }
+
     public static Builder builder() {
         return new Builder();
     }
@@ -139,12 +208,11 @@ public class ExemptionRequired {
 
     public ExemptionRequired withJurisdiction(String jurisdiction) {
         Utils.checkNotNull(jurisdiction, "jurisdiction");
-        this.jurisdiction = Optional.ofNullable(jurisdiction);
+        this.jurisdiction = JsonNullable.of(jurisdiction);
         return this;
     }
 
-
-    public ExemptionRequired withJurisdiction(Optional<String> jurisdiction) {
+    public ExemptionRequired withJurisdiction(JsonNullable<String> jurisdiction) {
         Utils.checkNotNull(jurisdiction, "jurisdiction");
         this.jurisdiction = jurisdiction;
         return this;
@@ -152,12 +220,11 @@ public class ExemptionRequired {
 
     public ExemptionRequired withCustomerId(String customerId) {
         Utils.checkNotNull(customerId, "customerId");
-        this.customerId = Optional.ofNullable(customerId);
+        this.customerId = JsonNullable.of(customerId);
         return this;
     }
 
-
-    public ExemptionRequired withCustomerId(Optional<String> customerId) {
+    public ExemptionRequired withCustomerId(JsonNullable<String> customerId) {
         Utils.checkNotNull(customerId, "customerId");
         this.customerId = customerId;
         return this;
@@ -200,6 +267,66 @@ public class ExemptionRequired {
         return this;
     }
 
+    public ExemptionRequired withCountryCode(CountryCodeEnum countryCode) {
+        Utils.checkNotNull(countryCode, "countryCode");
+        this.countryCode = JsonNullable.of(countryCode);
+        return this;
+    }
+
+    public ExemptionRequired withCountryCode(JsonNullable<? extends CountryCodeEnum> countryCode) {
+        Utils.checkNotNull(countryCode, "countryCode");
+        this.countryCode = countryCode;
+        return this;
+    }
+
+    public ExemptionRequired withEndDate(OffsetDateTime endDate) {
+        Utils.checkNotNull(endDate, "endDate");
+        this.endDate = JsonNullable.of(endDate);
+        return this;
+    }
+
+    public ExemptionRequired withEndDate(JsonNullable<OffsetDateTime> endDate) {
+        Utils.checkNotNull(endDate, "endDate");
+        this.endDate = endDate;
+        return this;
+    }
+
+    public ExemptionRequired withFein(String fein) {
+        Utils.checkNotNull(fein, "fein");
+        this.fein = JsonNullable.of(fein);
+        return this;
+    }
+
+    public ExemptionRequired withFein(JsonNullable<String> fein) {
+        Utils.checkNotNull(fein, "fein");
+        this.fein = fein;
+        return this;
+    }
+
+    public ExemptionRequired withSalesTaxId(String salesTaxId) {
+        Utils.checkNotNull(salesTaxId, "salesTaxId");
+        this.salesTaxId = JsonNullable.of(salesTaxId);
+        return this;
+    }
+
+    public ExemptionRequired withSalesTaxId(JsonNullable<String> salesTaxId) {
+        Utils.checkNotNull(salesTaxId, "salesTaxId");
+        this.salesTaxId = salesTaxId;
+        return this;
+    }
+
+    public ExemptionRequired withSource(ExemptionSourceEnum source) {
+        Utils.checkNotNull(source, "source");
+        this.source = JsonNullable.of(source);
+        return this;
+    }
+
+    public ExemptionRequired withSource(JsonNullable<? extends ExemptionSourceEnum> source) {
+        Utils.checkNotNull(source, "source");
+        this.source = source;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -216,7 +343,12 @@ public class ExemptionRequired {
             Utils.enhancedDeepEquals(this.exemptionType, other.exemptionType) &&
             Utils.enhancedDeepEquals(this.startDate, other.startDate) &&
             Utils.enhancedDeepEquals(this.status, other.status) &&
-            Utils.enhancedDeepEquals(this.reseller, other.reseller);
+            Utils.enhancedDeepEquals(this.reseller, other.reseller) &&
+            Utils.enhancedDeepEquals(this.countryCode, other.countryCode) &&
+            Utils.enhancedDeepEquals(this.endDate, other.endDate) &&
+            Utils.enhancedDeepEquals(this.fein, other.fein) &&
+            Utils.enhancedDeepEquals(this.salesTaxId, other.salesTaxId) &&
+            Utils.enhancedDeepEquals(this.source, other.source);
     }
     
     @Override
@@ -224,7 +356,8 @@ public class ExemptionRequired {
         return Utils.enhancedHash(
             jurisdiction, customerId, organizationId,
             exemptionType, startDate, status,
-            reseller);
+            reseller, countryCode, endDate,
+            fein, salesTaxId, source);
     }
     
     @Override
@@ -236,15 +369,20 @@ public class ExemptionRequired {
                 "exemptionType", exemptionType,
                 "startDate", startDate,
                 "status", status,
-                "reseller", reseller);
+                "reseller", reseller,
+                "countryCode", countryCode,
+                "endDate", endDate,
+                "fein", fein,
+                "salesTaxId", salesTaxId,
+                "source", source);
     }
 
     @SuppressWarnings("UnusedReturnValue")
     public final static class Builder {
 
-        private Optional<String> jurisdiction = Optional.empty();
+        private JsonNullable<String> jurisdiction = JsonNullable.undefined();
 
-        private Optional<String> customerId = Optional.empty();
+        private JsonNullable<String> customerId = JsonNullable.undefined();
 
         @Deprecated
         private String organizationId;
@@ -257,6 +395,16 @@ public class ExemptionRequired {
 
         private Boolean reseller;
 
+        private JsonNullable<? extends CountryCodeEnum> countryCode = JsonNullable.undefined();
+
+        private JsonNullable<OffsetDateTime> endDate = JsonNullable.undefined();
+
+        private JsonNullable<String> fein = JsonNullable.undefined();
+
+        private JsonNullable<String> salesTaxId = JsonNullable.undefined();
+
+        private JsonNullable<? extends ExemptionSourceEnum> source = JsonNullable.undefined();
+
         private Builder() {
           // force use of static builder() method
         }
@@ -264,11 +412,11 @@ public class ExemptionRequired {
 
         public Builder jurisdiction(String jurisdiction) {
             Utils.checkNotNull(jurisdiction, "jurisdiction");
-            this.jurisdiction = Optional.ofNullable(jurisdiction);
+            this.jurisdiction = JsonNullable.of(jurisdiction);
             return this;
         }
 
-        public Builder jurisdiction(Optional<String> jurisdiction) {
+        public Builder jurisdiction(JsonNullable<String> jurisdiction) {
             Utils.checkNotNull(jurisdiction, "jurisdiction");
             this.jurisdiction = jurisdiction;
             return this;
@@ -277,11 +425,11 @@ public class ExemptionRequired {
 
         public Builder customerId(String customerId) {
             Utils.checkNotNull(customerId, "customerId");
-            this.customerId = Optional.ofNullable(customerId);
+            this.customerId = JsonNullable.of(customerId);
             return this;
         }
 
-        public Builder customerId(Optional<String> customerId) {
+        public Builder customerId(JsonNullable<String> customerId) {
             Utils.checkNotNull(customerId, "customerId");
             this.customerId = customerId;
             return this;
@@ -329,12 +477,78 @@ public class ExemptionRequired {
             return this;
         }
 
+
+        public Builder countryCode(CountryCodeEnum countryCode) {
+            Utils.checkNotNull(countryCode, "countryCode");
+            this.countryCode = JsonNullable.of(countryCode);
+            return this;
+        }
+
+        public Builder countryCode(JsonNullable<? extends CountryCodeEnum> countryCode) {
+            Utils.checkNotNull(countryCode, "countryCode");
+            this.countryCode = countryCode;
+            return this;
+        }
+
+
+        public Builder endDate(OffsetDateTime endDate) {
+            Utils.checkNotNull(endDate, "endDate");
+            this.endDate = JsonNullable.of(endDate);
+            return this;
+        }
+
+        public Builder endDate(JsonNullable<OffsetDateTime> endDate) {
+            Utils.checkNotNull(endDate, "endDate");
+            this.endDate = endDate;
+            return this;
+        }
+
+
+        public Builder fein(String fein) {
+            Utils.checkNotNull(fein, "fein");
+            this.fein = JsonNullable.of(fein);
+            return this;
+        }
+
+        public Builder fein(JsonNullable<String> fein) {
+            Utils.checkNotNull(fein, "fein");
+            this.fein = fein;
+            return this;
+        }
+
+
+        public Builder salesTaxId(String salesTaxId) {
+            Utils.checkNotNull(salesTaxId, "salesTaxId");
+            this.salesTaxId = JsonNullable.of(salesTaxId);
+            return this;
+        }
+
+        public Builder salesTaxId(JsonNullable<String> salesTaxId) {
+            Utils.checkNotNull(salesTaxId, "salesTaxId");
+            this.salesTaxId = salesTaxId;
+            return this;
+        }
+
+
+        public Builder source(ExemptionSourceEnum source) {
+            Utils.checkNotNull(source, "source");
+            this.source = JsonNullable.of(source);
+            return this;
+        }
+
+        public Builder source(JsonNullable<? extends ExemptionSourceEnum> source) {
+            Utils.checkNotNull(source, "source");
+            this.source = source;
+            return this;
+        }
+
         public ExemptionRequired build() {
 
             return new ExemptionRequired(
                 jurisdiction, customerId, organizationId,
                 exemptionType, startDate, status,
-                reseller);
+                reseller, countryCode, endDate,
+                fein, salesTaxId, source);
         }
 
     }

@@ -10,10 +10,10 @@ import static com.kintsugi.taxplatform.operations.Operations.AsyncRequestOperati
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.SecuritySource;
-import com.kintsugi.taxplatform.models.components.ValidationAddress;
 import com.kintsugi.taxplatform.models.errors.APIException;
 import com.kintsugi.taxplatform.models.errors.BackendSrcAddressValidationResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
+import com.kintsugi.taxplatform.models.operations.SuggestionsV1AddressValidationSuggestionsPostRequest;
 import com.kintsugi.taxplatform.models.operations.SuggestionsV1AddressValidationSuggestionsPostResponse;
 import com.kintsugi.taxplatform.utils.Blob;
 import com.kintsugi.taxplatform.utils.HTTPClient;
@@ -96,7 +96,7 @@ public class SuggestionsV1AddressValidationSuggestionsPost {
                     typeReference);
             SerializedBody serializedRequestBody = Utils.serializeRequestBody(
                     convertedRequest,
-                    "",
+                    "validationAddress",
                     "json",
                     false);
             if (serializedRequestBody == null) {
@@ -106,6 +106,7 @@ public class SuggestionsV1AddressValidationSuggestionsPost {
             req.addHeader("Accept", "application/json")
                     .addHeader("user-agent", SDKConfiguration.USER_AGENT);
             _headers.forEach((k, list) -> list.forEach(v -> req.addHeader(k, v)));
+            req.addHeaders(Utils.getHeadersFromMetadata(request, null));
             Utils.configureSecurity(req, this.sdkConfiguration.securitySource().getSecurity());
 
             return req.build();
@@ -113,13 +114,13 @@ public class SuggestionsV1AddressValidationSuggestionsPost {
     }
 
     public static class Sync extends Base
-            implements RequestOperation<ValidationAddress, SuggestionsV1AddressValidationSuggestionsPostResponse> {
+            implements RequestOperation<SuggestionsV1AddressValidationSuggestionsPostRequest, SuggestionsV1AddressValidationSuggestionsPostResponse> {
         public Sync(SDKConfiguration sdkConfiguration, Headers _headers) {
             super(sdkConfiguration, _headers);
         }
 
-        private HttpRequest onBuildRequest(ValidationAddress request) throws Exception {
-            HttpRequest req = buildRequest(request, new TypeReference<ValidationAddress>() {});
+        private HttpRequest onBuildRequest(SuggestionsV1AddressValidationSuggestionsPostRequest request) throws Exception {
+            HttpRequest req = buildRequest(request, new TypeReference<SuggestionsV1AddressValidationSuggestionsPostRequest>() {});
             return sdkConfiguration.hooks().beforeRequest(createBeforeRequestContext(), req);
         }
 
@@ -135,7 +136,7 @@ public class SuggestionsV1AddressValidationSuggestionsPost {
         }
 
         @Override
-        public HttpResponse<InputStream> doRequest(ValidationAddress request) {
+        public HttpResponse<InputStream> doRequest(SuggestionsV1AddressValidationSuggestionsPostRequest request) {
             HttpRequest r = unchecked(() -> onBuildRequest(request)).get();
             HttpResponse<InputStream> httpRes;
             try {
@@ -208,14 +209,14 @@ public class SuggestionsV1AddressValidationSuggestionsPost {
         }
     }
     public static class Async extends Base
-            implements AsyncRequestOperation<ValidationAddress, com.kintsugi.taxplatform.models.operations.async.SuggestionsV1AddressValidationSuggestionsPostResponse> {
+            implements AsyncRequestOperation<SuggestionsV1AddressValidationSuggestionsPostRequest, com.kintsugi.taxplatform.models.operations.async.SuggestionsV1AddressValidationSuggestionsPostResponse> {
 
         public Async(SDKConfiguration sdkConfiguration, Headers _headers) {
             super(sdkConfiguration, _headers);
         }
 
-        private CompletableFuture<HttpRequest> onBuildRequest(ValidationAddress request) throws Exception {
-            HttpRequest req = buildRequest(request, new TypeReference<ValidationAddress>() {});
+        private CompletableFuture<HttpRequest> onBuildRequest(SuggestionsV1AddressValidationSuggestionsPostRequest request) throws Exception {
+            HttpRequest req = buildRequest(request, new TypeReference<SuggestionsV1AddressValidationSuggestionsPostRequest>() {});
             return this.sdkConfiguration.asyncHooks().beforeRequest(createBeforeRequestContext(), req);
         }
 
@@ -228,7 +229,7 @@ public class SuggestionsV1AddressValidationSuggestionsPost {
         }
 
         @Override
-        public CompletableFuture<HttpResponse<Blob>> doRequest(ValidationAddress request) {
+        public CompletableFuture<HttpResponse<Blob>> doRequest(SuggestionsV1AddressValidationSuggestionsPostRequest request) {
             return unchecked(() -> onBuildRequest(request)).get().thenCompose(client::sendAsync)
                     .handle((resp, err) -> {
                         if (err != null) {

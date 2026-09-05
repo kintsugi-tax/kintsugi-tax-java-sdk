@@ -18,6 +18,7 @@ import java.lang.SuppressWarnings;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 public class TransactionItemEstimateResponse {
@@ -26,7 +27,7 @@ public class TransactionItemEstimateResponse {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("external_id")
-    private Optional<String> externalId;
+    private JsonNullable<String> externalId;
 
     /**
      * The date of the transaction item.
@@ -39,7 +40,7 @@ public class TransactionItemEstimateResponse {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("description")
-    private Optional<String> description;
+    private JsonNullable<String> description;
 
     /**
      * External product identifier. If not found and product_subcategory
@@ -47,26 +48,26 @@ public class TransactionItemEstimateResponse {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("external_product_id")
-    private Optional<String> externalProductId;
+    private JsonNullable<String> externalProductId;
 
     /**
      * Name of the product. Used if creating a new product.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("product_name")
-    private Optional<String> productName;
+    private JsonNullable<String> productName;
 
     /**
      * Description of the product. Used if creating a new product.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("product_description")
-    private Optional<String> productDescription;
+    private JsonNullable<String> productDescription;
 
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("product_source")
-    private Optional<? extends SourceEnum> productSource;
+    private JsonNullable<? extends SourceEnum> productSource;
 
     /**
      * Subcategory of the product. Required if product_category is used
@@ -74,7 +75,7 @@ public class TransactionItemEstimateResponse {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("product_subcategory")
-    private Optional<String> productSubcategory;
+    private JsonNullable<String> productSubcategory;
 
     /**
      * Category of the product. Required if product_subcategory is used
@@ -82,7 +83,7 @@ public class TransactionItemEstimateResponse {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("product_category")
-    private Optional<String> productCategory;
+    private JsonNullable<String> productCategory;
 
     /**
      * Defaults to 1.0. The quantity of the item.
@@ -103,6 +104,27 @@ public class TransactionItemEstimateResponse {
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("exempt")
     private Optional<Boolean> exempt;
+
+    /**
+     * **Beta — not yet available in production.** When it is not enabled for your environment the field is
+     * accepted but ignored, and the response echoes `false`.
+     * 
+     * <p>Defaults to false. When true, `amount` is the gross (tax-included) price and the tax is backed out
+     * of it rather than added on top; for a taxable line, `taxable_amount` in the response is then the net
+     * base.
+     * 
+     * <p>When the line is not taxed - exempt, or no tax rule applies in the destination - `taxable_amount` is
+     * `0.00` rather than the net base, matching how exempt tax-exclusive lines already behave. Read the
+     * net amount as `taxable_amount` when `tax_amount` is non-zero, and as `amount` otherwise.
+     * 
+     * <p>This applies to the estimate in this request only. Transactions imported through a connection carry
+     * no such flag, so an order quoted here as gross is treated as net when it later syncs, and its
+     * recorded tax will be higher than this estimate. Send net amounts on the connection side, or
+     * reconcile the difference, until tax-inclusive import support ships.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("is_tax_inclusive")
+    private Optional<Boolean> isTaxInclusive;
 
     /**
      * The total tax amount for the transaction item.
@@ -126,11 +148,11 @@ public class TransactionItemEstimateResponse {
     private Optional<String> taxRate;
 
     /**
-     * This enum is used to determine if a transaction is exempt from tax.
+     * Reason for exemption, if applicable.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("exempt_reason")
-    private Optional<? extends TaxExemptionEnum> exemptReason;
+    private JsonNullable<? extends TaxExemptionEnum> exemptReason;
 
     /**
      * List of tax items applied to the transaction item.
@@ -141,22 +163,23 @@ public class TransactionItemEstimateResponse {
 
     @JsonCreator
     public TransactionItemEstimateResponse(
-            @JsonProperty("external_id") Optional<String> externalId,
+            @JsonProperty("external_id") JsonNullable<String> externalId,
             @JsonProperty("date") OffsetDateTime date,
-            @JsonProperty("description") Optional<String> description,
-            @JsonProperty("external_product_id") Optional<String> externalProductId,
-            @JsonProperty("product_name") Optional<String> productName,
-            @JsonProperty("product_description") Optional<String> productDescription,
-            @JsonProperty("product_source") Optional<? extends SourceEnum> productSource,
-            @JsonProperty("product_subcategory") Optional<String> productSubcategory,
-            @JsonProperty("product_category") Optional<String> productCategory,
+            @JsonProperty("description") JsonNullable<String> description,
+            @JsonProperty("external_product_id") JsonNullable<String> externalProductId,
+            @JsonProperty("product_name") JsonNullable<String> productName,
+            @JsonProperty("product_description") JsonNullable<String> productDescription,
+            @JsonProperty("product_source") JsonNullable<? extends SourceEnum> productSource,
+            @JsonProperty("product_subcategory") JsonNullable<String> productSubcategory,
+            @JsonProperty("product_category") JsonNullable<String> productCategory,
             @JsonProperty("quantity") Optional<String> quantity,
             @JsonProperty("amount") String amount,
             @JsonProperty("exempt") Optional<Boolean> exempt,
+            @JsonProperty("is_tax_inclusive") Optional<Boolean> isTaxInclusive,
             @JsonProperty("tax_amount") Optional<String> taxAmount,
             @JsonProperty("taxable_amount") Optional<String> taxableAmount,
             @JsonProperty("tax_rate") Optional<String> taxRate,
-            @JsonProperty("exempt_reason") Optional<? extends TaxExemptionEnum> exemptReason,
+            @JsonProperty("exempt_reason") JsonNullable<? extends TaxExemptionEnum> exemptReason,
             @JsonProperty("tax_items") Optional<? extends List<TaxItemEstimate>> taxItems) {
         Utils.checkNotNull(externalId, "externalId");
         Utils.checkNotNull(date, "date");
@@ -170,6 +193,7 @@ public class TransactionItemEstimateResponse {
         Utils.checkNotNull(quantity, "quantity");
         Utils.checkNotNull(amount, "amount");
         Utils.checkNotNull(exempt, "exempt");
+        Utils.checkNotNull(isTaxInclusive, "isTaxInclusive");
         Utils.checkNotNull(taxAmount, "taxAmount");
         Utils.checkNotNull(taxableAmount, "taxableAmount");
         Utils.checkNotNull(taxRate, "taxRate");
@@ -187,6 +211,7 @@ public class TransactionItemEstimateResponse {
         this.quantity = quantity;
         this.amount = amount;
         this.exempt = exempt;
+        this.isTaxInclusive = isTaxInclusive;
         this.taxAmount = taxAmount;
         this.taxableAmount = taxableAmount;
         this.taxRate = taxRate;
@@ -197,19 +222,19 @@ public class TransactionItemEstimateResponse {
     public TransactionItemEstimateResponse(
             OffsetDateTime date,
             String amount) {
-        this(Optional.empty(), date, Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
+        this(JsonNullable.undefined(), date, JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
             Optional.empty(), amount, Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty());
+            Optional.empty(), JsonNullable.undefined(), Optional.empty());
     }
 
     /**
      * A unique identifier for the transaction item.
      */
     @JsonIgnore
-    public Optional<String> externalId() {
+    public JsonNullable<String> externalId() {
         return externalId;
     }
 
@@ -225,7 +250,7 @@ public class TransactionItemEstimateResponse {
      * A description of the item.
      */
     @JsonIgnore
-    public Optional<String> description() {
+    public JsonNullable<String> description() {
         return description;
     }
 
@@ -234,7 +259,7 @@ public class TransactionItemEstimateResponse {
      * and product_category are not provided, an error occurs.
      */
     @JsonIgnore
-    public Optional<String> externalProductId() {
+    public JsonNullable<String> externalProductId() {
         return externalProductId;
     }
 
@@ -242,7 +267,7 @@ public class TransactionItemEstimateResponse {
      * Name of the product. Used if creating a new product.
      */
     @JsonIgnore
-    public Optional<String> productName() {
+    public JsonNullable<String> productName() {
         return productName;
     }
 
@@ -250,14 +275,14 @@ public class TransactionItemEstimateResponse {
      * Description of the product. Used if creating a new product.
      */
     @JsonIgnore
-    public Optional<String> productDescription() {
+    public JsonNullable<String> productDescription() {
         return productDescription;
     }
 
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<SourceEnum> productSource() {
-        return (Optional<SourceEnum>) productSource;
+    public JsonNullable<SourceEnum> productSource() {
+        return (JsonNullable<SourceEnum>) productSource;
     }
 
     /**
@@ -265,7 +290,7 @@ public class TransactionItemEstimateResponse {
      * in place of external_product_id.
      */
     @JsonIgnore
-    public Optional<String> productSubcategory() {
+    public JsonNullable<String> productSubcategory() {
         return productSubcategory;
     }
 
@@ -274,7 +299,7 @@ public class TransactionItemEstimateResponse {
      * in place of external_product_id.
      */
     @JsonIgnore
-    public Optional<String> productCategory() {
+    public JsonNullable<String> productCategory() {
         return productCategory;
     }
 
@@ -303,6 +328,28 @@ public class TransactionItemEstimateResponse {
     }
 
     /**
+     * **Beta — not yet available in production.** When it is not enabled for your environment the field is
+     * accepted but ignored, and the response echoes `false`.
+     * 
+     * <p>Defaults to false. When true, `amount` is the gross (tax-included) price and the tax is backed out
+     * of it rather than added on top; for a taxable line, `taxable_amount` in the response is then the net
+     * base.
+     * 
+     * <p>When the line is not taxed - exempt, or no tax rule applies in the destination - `taxable_amount` is
+     * `0.00` rather than the net base, matching how exempt tax-exclusive lines already behave. Read the
+     * net amount as `taxable_amount` when `tax_amount` is non-zero, and as `amount` otherwise.
+     * 
+     * <p>This applies to the estimate in this request only. Transactions imported through a connection carry
+     * no such flag, so an order quoted here as gross is treated as net when it later syncs, and its
+     * recorded tax will be higher than this estimate. Send net amounts on the connection side, or
+     * reconcile the difference, until tax-inclusive import support ships.
+     */
+    @JsonIgnore
+    public Optional<Boolean> isTaxInclusive() {
+        return isTaxInclusive;
+    }
+
+    /**
      * The total tax amount for the transaction item.
      */
     @JsonIgnore
@@ -327,12 +374,12 @@ public class TransactionItemEstimateResponse {
     }
 
     /**
-     * This enum is used to determine if a transaction is exempt from tax.
+     * Reason for exemption, if applicable.
      */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<TaxExemptionEnum> exemptReason() {
-        return (Optional<TaxExemptionEnum>) exemptReason;
+    public JsonNullable<TaxExemptionEnum> exemptReason() {
+        return (JsonNullable<TaxExemptionEnum>) exemptReason;
     }
 
     /**
@@ -354,15 +401,14 @@ public class TransactionItemEstimateResponse {
      */
     public TransactionItemEstimateResponse withExternalId(String externalId) {
         Utils.checkNotNull(externalId, "externalId");
-        this.externalId = Optional.ofNullable(externalId);
+        this.externalId = JsonNullable.of(externalId);
         return this;
     }
-
 
     /**
      * A unique identifier for the transaction item.
      */
-    public TransactionItemEstimateResponse withExternalId(Optional<String> externalId) {
+    public TransactionItemEstimateResponse withExternalId(JsonNullable<String> externalId) {
         Utils.checkNotNull(externalId, "externalId");
         this.externalId = externalId;
         return this;
@@ -382,15 +428,14 @@ public class TransactionItemEstimateResponse {
      */
     public TransactionItemEstimateResponse withDescription(String description) {
         Utils.checkNotNull(description, "description");
-        this.description = Optional.ofNullable(description);
+        this.description = JsonNullable.of(description);
         return this;
     }
-
 
     /**
      * A description of the item.
      */
-    public TransactionItemEstimateResponse withDescription(Optional<String> description) {
+    public TransactionItemEstimateResponse withDescription(JsonNullable<String> description) {
         Utils.checkNotNull(description, "description");
         this.description = description;
         return this;
@@ -402,16 +447,15 @@ public class TransactionItemEstimateResponse {
      */
     public TransactionItemEstimateResponse withExternalProductId(String externalProductId) {
         Utils.checkNotNull(externalProductId, "externalProductId");
-        this.externalProductId = Optional.ofNullable(externalProductId);
+        this.externalProductId = JsonNullable.of(externalProductId);
         return this;
     }
-
 
     /**
      * External product identifier. If not found and product_subcategory
      * and product_category are not provided, an error occurs.
      */
-    public TransactionItemEstimateResponse withExternalProductId(Optional<String> externalProductId) {
+    public TransactionItemEstimateResponse withExternalProductId(JsonNullable<String> externalProductId) {
         Utils.checkNotNull(externalProductId, "externalProductId");
         this.externalProductId = externalProductId;
         return this;
@@ -422,15 +466,14 @@ public class TransactionItemEstimateResponse {
      */
     public TransactionItemEstimateResponse withProductName(String productName) {
         Utils.checkNotNull(productName, "productName");
-        this.productName = Optional.ofNullable(productName);
+        this.productName = JsonNullable.of(productName);
         return this;
     }
-
 
     /**
      * Name of the product. Used if creating a new product.
      */
-    public TransactionItemEstimateResponse withProductName(Optional<String> productName) {
+    public TransactionItemEstimateResponse withProductName(JsonNullable<String> productName) {
         Utils.checkNotNull(productName, "productName");
         this.productName = productName;
         return this;
@@ -441,15 +484,14 @@ public class TransactionItemEstimateResponse {
      */
     public TransactionItemEstimateResponse withProductDescription(String productDescription) {
         Utils.checkNotNull(productDescription, "productDescription");
-        this.productDescription = Optional.ofNullable(productDescription);
+        this.productDescription = JsonNullable.of(productDescription);
         return this;
     }
-
 
     /**
      * Description of the product. Used if creating a new product.
      */
-    public TransactionItemEstimateResponse withProductDescription(Optional<String> productDescription) {
+    public TransactionItemEstimateResponse withProductDescription(JsonNullable<String> productDescription) {
         Utils.checkNotNull(productDescription, "productDescription");
         this.productDescription = productDescription;
         return this;
@@ -457,12 +499,11 @@ public class TransactionItemEstimateResponse {
 
     public TransactionItemEstimateResponse withProductSource(SourceEnum productSource) {
         Utils.checkNotNull(productSource, "productSource");
-        this.productSource = Optional.ofNullable(productSource);
+        this.productSource = JsonNullable.of(productSource);
         return this;
     }
 
-
-    public TransactionItemEstimateResponse withProductSource(Optional<? extends SourceEnum> productSource) {
+    public TransactionItemEstimateResponse withProductSource(JsonNullable<? extends SourceEnum> productSource) {
         Utils.checkNotNull(productSource, "productSource");
         this.productSource = productSource;
         return this;
@@ -474,16 +515,15 @@ public class TransactionItemEstimateResponse {
      */
     public TransactionItemEstimateResponse withProductSubcategory(String productSubcategory) {
         Utils.checkNotNull(productSubcategory, "productSubcategory");
-        this.productSubcategory = Optional.ofNullable(productSubcategory);
+        this.productSubcategory = JsonNullable.of(productSubcategory);
         return this;
     }
-
 
     /**
      * Subcategory of the product. Required if product_category is used
      * in place of external_product_id.
      */
-    public TransactionItemEstimateResponse withProductSubcategory(Optional<String> productSubcategory) {
+    public TransactionItemEstimateResponse withProductSubcategory(JsonNullable<String> productSubcategory) {
         Utils.checkNotNull(productSubcategory, "productSubcategory");
         this.productSubcategory = productSubcategory;
         return this;
@@ -495,16 +535,15 @@ public class TransactionItemEstimateResponse {
      */
     public TransactionItemEstimateResponse withProductCategory(String productCategory) {
         Utils.checkNotNull(productCategory, "productCategory");
-        this.productCategory = Optional.ofNullable(productCategory);
+        this.productCategory = JsonNullable.of(productCategory);
         return this;
     }
-
 
     /**
      * Category of the product. Required if product_subcategory is used
      * in place of external_product_id.
      */
-    public TransactionItemEstimateResponse withProductCategory(Optional<String> productCategory) {
+    public TransactionItemEstimateResponse withProductCategory(JsonNullable<String> productCategory) {
         Utils.checkNotNull(productCategory, "productCategory");
         this.productCategory = productCategory;
         return this;
@@ -554,6 +593,53 @@ public class TransactionItemEstimateResponse {
     public TransactionItemEstimateResponse withExempt(Optional<Boolean> exempt) {
         Utils.checkNotNull(exempt, "exempt");
         this.exempt = exempt;
+        return this;
+    }
+
+    /**
+     * **Beta — not yet available in production.** When it is not enabled for your environment the field is
+     * accepted but ignored, and the response echoes `false`.
+     * 
+     * <p>Defaults to false. When true, `amount` is the gross (tax-included) price and the tax is backed out
+     * of it rather than added on top; for a taxable line, `taxable_amount` in the response is then the net
+     * base.
+     * 
+     * <p>When the line is not taxed - exempt, or no tax rule applies in the destination - `taxable_amount` is
+     * `0.00` rather than the net base, matching how exempt tax-exclusive lines already behave. Read the
+     * net amount as `taxable_amount` when `tax_amount` is non-zero, and as `amount` otherwise.
+     * 
+     * <p>This applies to the estimate in this request only. Transactions imported through a connection carry
+     * no such flag, so an order quoted here as gross is treated as net when it later syncs, and its
+     * recorded tax will be higher than this estimate. Send net amounts on the connection side, or
+     * reconcile the difference, until tax-inclusive import support ships.
+     */
+    public TransactionItemEstimateResponse withIsTaxInclusive(boolean isTaxInclusive) {
+        Utils.checkNotNull(isTaxInclusive, "isTaxInclusive");
+        this.isTaxInclusive = Optional.ofNullable(isTaxInclusive);
+        return this;
+    }
+
+
+    /**
+     * **Beta — not yet available in production.** When it is not enabled for your environment the field is
+     * accepted but ignored, and the response echoes `false`.
+     * 
+     * <p>Defaults to false. When true, `amount` is the gross (tax-included) price and the tax is backed out
+     * of it rather than added on top; for a taxable line, `taxable_amount` in the response is then the net
+     * base.
+     * 
+     * <p>When the line is not taxed - exempt, or no tax rule applies in the destination - `taxable_amount` is
+     * `0.00` rather than the net base, matching how exempt tax-exclusive lines already behave. Read the
+     * net amount as `taxable_amount` when `tax_amount` is non-zero, and as `amount` otherwise.
+     * 
+     * <p>This applies to the estimate in this request only. Transactions imported through a connection carry
+     * no such flag, so an order quoted here as gross is treated as net when it later syncs, and its
+     * recorded tax will be higher than this estimate. Send net amounts on the connection side, or
+     * reconcile the difference, until tax-inclusive import support ships.
+     */
+    public TransactionItemEstimateResponse withIsTaxInclusive(Optional<Boolean> isTaxInclusive) {
+        Utils.checkNotNull(isTaxInclusive, "isTaxInclusive");
+        this.isTaxInclusive = isTaxInclusive;
         return this;
     }
 
@@ -615,19 +701,18 @@ public class TransactionItemEstimateResponse {
     }
 
     /**
-     * This enum is used to determine if a transaction is exempt from tax.
+     * Reason for exemption, if applicable.
      */
     public TransactionItemEstimateResponse withExemptReason(TaxExemptionEnum exemptReason) {
         Utils.checkNotNull(exemptReason, "exemptReason");
-        this.exemptReason = Optional.ofNullable(exemptReason);
+        this.exemptReason = JsonNullable.of(exemptReason);
         return this;
     }
 
-
     /**
-     * This enum is used to determine if a transaction is exempt from tax.
+     * Reason for exemption, if applicable.
      */
-    public TransactionItemEstimateResponse withExemptReason(Optional<? extends TaxExemptionEnum> exemptReason) {
+    public TransactionItemEstimateResponse withExemptReason(JsonNullable<? extends TaxExemptionEnum> exemptReason) {
         Utils.checkNotNull(exemptReason, "exemptReason");
         this.exemptReason = exemptReason;
         return this;
@@ -674,6 +759,7 @@ public class TransactionItemEstimateResponse {
             Utils.enhancedDeepEquals(this.quantity, other.quantity) &&
             Utils.enhancedDeepEquals(this.amount, other.amount) &&
             Utils.enhancedDeepEquals(this.exempt, other.exempt) &&
+            Utils.enhancedDeepEquals(this.isTaxInclusive, other.isTaxInclusive) &&
             Utils.enhancedDeepEquals(this.taxAmount, other.taxAmount) &&
             Utils.enhancedDeepEquals(this.taxableAmount, other.taxableAmount) &&
             Utils.enhancedDeepEquals(this.taxRate, other.taxRate) &&
@@ -688,8 +774,8 @@ public class TransactionItemEstimateResponse {
             externalProductId, productName, productDescription,
             productSource, productSubcategory, productCategory,
             quantity, amount, exempt,
-            taxAmount, taxableAmount, taxRate,
-            exemptReason, taxItems);
+            isTaxInclusive, taxAmount, taxableAmount,
+            taxRate, exemptReason, taxItems);
     }
     
     @Override
@@ -707,6 +793,7 @@ public class TransactionItemEstimateResponse {
                 "quantity", quantity,
                 "amount", amount,
                 "exempt", exempt,
+                "isTaxInclusive", isTaxInclusive,
                 "taxAmount", taxAmount,
                 "taxableAmount", taxableAmount,
                 "taxRate", taxRate,
@@ -717,23 +804,23 @@ public class TransactionItemEstimateResponse {
     @SuppressWarnings("UnusedReturnValue")
     public final static class Builder {
 
-        private Optional<String> externalId = Optional.empty();
+        private JsonNullable<String> externalId = JsonNullable.undefined();
 
         private OffsetDateTime date;
 
-        private Optional<String> description = Optional.empty();
+        private JsonNullable<String> description = JsonNullable.undefined();
 
-        private Optional<String> externalProductId = Optional.empty();
+        private JsonNullable<String> externalProductId = JsonNullable.undefined();
 
-        private Optional<String> productName = Optional.empty();
+        private JsonNullable<String> productName = JsonNullable.undefined();
 
-        private Optional<String> productDescription = Optional.empty();
+        private JsonNullable<String> productDescription = JsonNullable.undefined();
 
-        private Optional<? extends SourceEnum> productSource = Optional.empty();
+        private JsonNullable<? extends SourceEnum> productSource = JsonNullable.undefined();
 
-        private Optional<String> productSubcategory = Optional.empty();
+        private JsonNullable<String> productSubcategory = JsonNullable.undefined();
 
-        private Optional<String> productCategory = Optional.empty();
+        private JsonNullable<String> productCategory = JsonNullable.undefined();
 
         private Optional<String> quantity;
 
@@ -741,13 +828,15 @@ public class TransactionItemEstimateResponse {
 
         private Optional<Boolean> exempt;
 
+        private Optional<Boolean> isTaxInclusive;
+
         private Optional<String> taxAmount;
 
         private Optional<String> taxableAmount;
 
         private Optional<String> taxRate;
 
-        private Optional<? extends TaxExemptionEnum> exemptReason = Optional.empty();
+        private JsonNullable<? extends TaxExemptionEnum> exemptReason = JsonNullable.undefined();
 
         private Optional<? extends List<TaxItemEstimate>> taxItems = Optional.empty();
 
@@ -761,14 +850,14 @@ public class TransactionItemEstimateResponse {
          */
         public Builder externalId(String externalId) {
             Utils.checkNotNull(externalId, "externalId");
-            this.externalId = Optional.ofNullable(externalId);
+            this.externalId = JsonNullable.of(externalId);
             return this;
         }
 
         /**
          * A unique identifier for the transaction item.
          */
-        public Builder externalId(Optional<String> externalId) {
+        public Builder externalId(JsonNullable<String> externalId) {
             Utils.checkNotNull(externalId, "externalId");
             this.externalId = externalId;
             return this;
@@ -790,14 +879,14 @@ public class TransactionItemEstimateResponse {
          */
         public Builder description(String description) {
             Utils.checkNotNull(description, "description");
-            this.description = Optional.ofNullable(description);
+            this.description = JsonNullable.of(description);
             return this;
         }
 
         /**
          * A description of the item.
          */
-        public Builder description(Optional<String> description) {
+        public Builder description(JsonNullable<String> description) {
             Utils.checkNotNull(description, "description");
             this.description = description;
             return this;
@@ -810,7 +899,7 @@ public class TransactionItemEstimateResponse {
          */
         public Builder externalProductId(String externalProductId) {
             Utils.checkNotNull(externalProductId, "externalProductId");
-            this.externalProductId = Optional.ofNullable(externalProductId);
+            this.externalProductId = JsonNullable.of(externalProductId);
             return this;
         }
 
@@ -818,7 +907,7 @@ public class TransactionItemEstimateResponse {
          * External product identifier. If not found and product_subcategory
          * and product_category are not provided, an error occurs.
          */
-        public Builder externalProductId(Optional<String> externalProductId) {
+        public Builder externalProductId(JsonNullable<String> externalProductId) {
             Utils.checkNotNull(externalProductId, "externalProductId");
             this.externalProductId = externalProductId;
             return this;
@@ -830,14 +919,14 @@ public class TransactionItemEstimateResponse {
          */
         public Builder productName(String productName) {
             Utils.checkNotNull(productName, "productName");
-            this.productName = Optional.ofNullable(productName);
+            this.productName = JsonNullable.of(productName);
             return this;
         }
 
         /**
          * Name of the product. Used if creating a new product.
          */
-        public Builder productName(Optional<String> productName) {
+        public Builder productName(JsonNullable<String> productName) {
             Utils.checkNotNull(productName, "productName");
             this.productName = productName;
             return this;
@@ -849,14 +938,14 @@ public class TransactionItemEstimateResponse {
          */
         public Builder productDescription(String productDescription) {
             Utils.checkNotNull(productDescription, "productDescription");
-            this.productDescription = Optional.ofNullable(productDescription);
+            this.productDescription = JsonNullable.of(productDescription);
             return this;
         }
 
         /**
          * Description of the product. Used if creating a new product.
          */
-        public Builder productDescription(Optional<String> productDescription) {
+        public Builder productDescription(JsonNullable<String> productDescription) {
             Utils.checkNotNull(productDescription, "productDescription");
             this.productDescription = productDescription;
             return this;
@@ -865,11 +954,11 @@ public class TransactionItemEstimateResponse {
 
         public Builder productSource(SourceEnum productSource) {
             Utils.checkNotNull(productSource, "productSource");
-            this.productSource = Optional.ofNullable(productSource);
+            this.productSource = JsonNullable.of(productSource);
             return this;
         }
 
-        public Builder productSource(Optional<? extends SourceEnum> productSource) {
+        public Builder productSource(JsonNullable<? extends SourceEnum> productSource) {
             Utils.checkNotNull(productSource, "productSource");
             this.productSource = productSource;
             return this;
@@ -882,7 +971,7 @@ public class TransactionItemEstimateResponse {
          */
         public Builder productSubcategory(String productSubcategory) {
             Utils.checkNotNull(productSubcategory, "productSubcategory");
-            this.productSubcategory = Optional.ofNullable(productSubcategory);
+            this.productSubcategory = JsonNullable.of(productSubcategory);
             return this;
         }
 
@@ -890,7 +979,7 @@ public class TransactionItemEstimateResponse {
          * Subcategory of the product. Required if product_category is used
          * in place of external_product_id.
          */
-        public Builder productSubcategory(Optional<String> productSubcategory) {
+        public Builder productSubcategory(JsonNullable<String> productSubcategory) {
             Utils.checkNotNull(productSubcategory, "productSubcategory");
             this.productSubcategory = productSubcategory;
             return this;
@@ -903,7 +992,7 @@ public class TransactionItemEstimateResponse {
          */
         public Builder productCategory(String productCategory) {
             Utils.checkNotNull(productCategory, "productCategory");
-            this.productCategory = Optional.ofNullable(productCategory);
+            this.productCategory = JsonNullable.of(productCategory);
             return this;
         }
 
@@ -911,7 +1000,7 @@ public class TransactionItemEstimateResponse {
          * Category of the product. Required if product_subcategory is used
          * in place of external_product_id.
          */
-        public Builder productCategory(Optional<String> productCategory) {
+        public Builder productCategory(JsonNullable<String> productCategory) {
             Utils.checkNotNull(productCategory, "productCategory");
             this.productCategory = productCategory;
             return this;
@@ -962,6 +1051,53 @@ public class TransactionItemEstimateResponse {
         public Builder exempt(Optional<Boolean> exempt) {
             Utils.checkNotNull(exempt, "exempt");
             this.exempt = exempt;
+            return this;
+        }
+
+
+        /**
+         * **Beta — not yet available in production.** When it is not enabled for your environment the field is
+         * accepted but ignored, and the response echoes `false`.
+         * 
+         * <p>Defaults to false. When true, `amount` is the gross (tax-included) price and the tax is backed out
+         * of it rather than added on top; for a taxable line, `taxable_amount` in the response is then the net
+         * base.
+         * 
+         * <p>When the line is not taxed - exempt, or no tax rule applies in the destination - `taxable_amount` is
+         * `0.00` rather than the net base, matching how exempt tax-exclusive lines already behave. Read the
+         * net amount as `taxable_amount` when `tax_amount` is non-zero, and as `amount` otherwise.
+         * 
+         * <p>This applies to the estimate in this request only. Transactions imported through a connection carry
+         * no such flag, so an order quoted here as gross is treated as net when it later syncs, and its
+         * recorded tax will be higher than this estimate. Send net amounts on the connection side, or
+         * reconcile the difference, until tax-inclusive import support ships.
+         */
+        public Builder isTaxInclusive(boolean isTaxInclusive) {
+            Utils.checkNotNull(isTaxInclusive, "isTaxInclusive");
+            this.isTaxInclusive = Optional.ofNullable(isTaxInclusive);
+            return this;
+        }
+
+        /**
+         * **Beta — not yet available in production.** When it is not enabled for your environment the field is
+         * accepted but ignored, and the response echoes `false`.
+         * 
+         * <p>Defaults to false. When true, `amount` is the gross (tax-included) price and the tax is backed out
+         * of it rather than added on top; for a taxable line, `taxable_amount` in the response is then the net
+         * base.
+         * 
+         * <p>When the line is not taxed - exempt, or no tax rule applies in the destination - `taxable_amount` is
+         * `0.00` rather than the net base, matching how exempt tax-exclusive lines already behave. Read the
+         * net amount as `taxable_amount` when `tax_amount` is non-zero, and as `amount` otherwise.
+         * 
+         * <p>This applies to the estimate in this request only. Transactions imported through a connection carry
+         * no such flag, so an order quoted here as gross is treated as net when it later syncs, and its
+         * recorded tax will be higher than this estimate. Send net amounts on the connection side, or
+         * reconcile the difference, until tax-inclusive import support ships.
+         */
+        public Builder isTaxInclusive(Optional<Boolean> isTaxInclusive) {
+            Utils.checkNotNull(isTaxInclusive, "isTaxInclusive");
+            this.isTaxInclusive = isTaxInclusive;
             return this;
         }
 
@@ -1024,18 +1160,18 @@ public class TransactionItemEstimateResponse {
 
 
         /**
-         * This enum is used to determine if a transaction is exempt from tax.
+         * Reason for exemption, if applicable.
          */
         public Builder exemptReason(TaxExemptionEnum exemptReason) {
             Utils.checkNotNull(exemptReason, "exemptReason");
-            this.exemptReason = Optional.ofNullable(exemptReason);
+            this.exemptReason = JsonNullable.of(exemptReason);
             return this;
         }
 
         /**
-         * This enum is used to determine if a transaction is exempt from tax.
+         * Reason for exemption, if applicable.
          */
-        public Builder exemptReason(Optional<? extends TaxExemptionEnum> exemptReason) {
+        public Builder exemptReason(JsonNullable<? extends TaxExemptionEnum> exemptReason) {
             Utils.checkNotNull(exemptReason, "exemptReason");
             this.exemptReason = exemptReason;
             return this;
@@ -1067,6 +1203,9 @@ public class TransactionItemEstimateResponse {
             if (exempt == null) {
                 exempt = _SINGLETON_VALUE_Exempt.value();
             }
+            if (isTaxInclusive == null) {
+                isTaxInclusive = _SINGLETON_VALUE_IsTaxInclusive.value();
+            }
             if (taxAmount == null) {
                 taxAmount = _SINGLETON_VALUE_TaxAmount.value();
             }
@@ -1082,8 +1221,8 @@ public class TransactionItemEstimateResponse {
                 externalProductId, productName, productDescription,
                 productSource, productSubcategory, productCategory,
                 quantity, amount, exempt,
-                taxAmount, taxableAmount, taxRate,
-                exemptReason, taxItems);
+                isTaxInclusive, taxAmount, taxableAmount,
+                taxRate, exemptReason, taxItems);
         }
 
 
@@ -1096,6 +1235,12 @@ public class TransactionItemEstimateResponse {
         private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_Exempt =
                 new LazySingletonValue<>(
                         "exempt",
+                        "false",
+                        new TypeReference<Optional<Boolean>>() {});
+
+        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_IsTaxInclusive =
+                new LazySingletonValue<>(
+                        "is_tax_inclusive",
                         "false",
                         new TypeReference<Optional<Boolean>>() {});
 

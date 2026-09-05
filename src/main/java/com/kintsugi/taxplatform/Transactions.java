@@ -6,8 +6,13 @@ package com.kintsugi.taxplatform;
 import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 
 import com.kintsugi.taxplatform.models.components.CreditNoteCreate;
+import com.kintsugi.taxplatform.models.components.TaxOnlyUpdate;
 import com.kintsugi.taxplatform.models.components.TransactionPublicRequest;
 import com.kintsugi.taxplatform.models.components.TransactionUpdate;
+import com.kintsugi.taxplatform.models.operations.ArchiveTransactionByIdV1TransactionsArchivePostRequest;
+import com.kintsugi.taxplatform.models.operations.ArchiveTransactionByIdV1TransactionsArchivePostRequestBuilder;
+import com.kintsugi.taxplatform.models.operations.ArchiveTransactionByIdV1TransactionsArchivePostResponse;
+import com.kintsugi.taxplatform.models.operations.CreateTransactionV1TransactionsPostRequest;
 import com.kintsugi.taxplatform.models.operations.CreateTransactionV1TransactionsPostRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.CreateTransactionV1TransactionsPostResponse;
 import com.kintsugi.taxplatform.models.operations.GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest;
@@ -25,18 +30,24 @@ import com.kintsugi.taxplatform.models.operations.GetTransactionsV1TransactionsG
 import com.kintsugi.taxplatform.models.operations.PUTUpdateCreditNoteByTransactionIdRequest;
 import com.kintsugi.taxplatform.models.operations.PUTUpdateCreditNoteByTransactionIdRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.PUTUpdateCreditNoteByTransactionIdResponse;
+import com.kintsugi.taxplatform.models.operations.SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostRequest;
+import com.kintsugi.taxplatform.models.operations.SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostRequestBuilder;
+import com.kintsugi.taxplatform.models.operations.SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostResponse;
 import com.kintsugi.taxplatform.models.operations.UpdateTransactionV1TransactionsTransactionIdPutRequest;
 import com.kintsugi.taxplatform.models.operations.UpdateTransactionV1TransactionsTransactionIdPutRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.UpdateTransactionV1TransactionsTransactionIdPutResponse;
+import com.kintsugi.taxplatform.operations.ArchiveTransactionByIdV1TransactionsArchivePost;
 import com.kintsugi.taxplatform.operations.CreateTransactionV1TransactionsPost;
 import com.kintsugi.taxplatform.operations.GetTransactionByExternalIdV1TransactionsExternalExternalIdGet;
 import com.kintsugi.taxplatform.operations.GetTransactionByIdV1TransactionsTransactionIdGet;
 import com.kintsugi.taxplatform.operations.GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGet;
 import com.kintsugi.taxplatform.operations.GetTransactionsV1TransactionsGet;
 import com.kintsugi.taxplatform.operations.PUTUpdateCreditNoteByTransactionId;
+import com.kintsugi.taxplatform.operations.SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPost;
 import com.kintsugi.taxplatform.operations.UpdateTransactionV1TransactionsTransactionIdPut;
 import com.kintsugi.taxplatform.utils.Headers;
 import java.lang.String;
+import java.util.Optional;
 
 
 public class Transactions {
@@ -65,7 +76,7 @@ public class Transactions {
     }
 
     /**
-     * Get Transactions
+     * Get transactions
      * 
      * <p>The Get Transactions API retrieves a list of transactions with
      * optional filtering, sorting, and pagination.
@@ -77,7 +88,7 @@ public class Transactions {
     }
 
     /**
-     * Get Transactions
+     * Get transactions
      * 
      * <p>The Get Transactions API retrieves a list of transactions with
      * optional filtering, sorting, and pagination.
@@ -93,9 +104,10 @@ public class Transactions {
     }
 
     /**
-     * Create Transaction
+     * Create transaction
      * 
-     * <p>Create a transaction.
+     * <p>Create a transaction. Set `marketplace: true` for reseller or marketplace orders where tax was
+     * remitted externally; gross sales still count toward nexus, but tax liability is excluded.
      * 
      * @return The call builder
      */
@@ -104,22 +116,90 @@ public class Transactions {
     }
 
     /**
-     * Create Transaction
+     * Create transaction
      * 
-     * <p>Create a transaction.
+     * <p>Create a transaction. Set `marketplace: true` for reseller or marketplace orders where tax was
+     * remitted externally; gross sales still count toward nexus, but tax liability is excluded.
      * 
-     * @param request The request object containing all the parameters for the API call.
+     * @param transactionPublicRequest 
      * @return The response from the API call
      * @throws RuntimeException subclass if the API call fails
      */
-    public CreateTransactionV1TransactionsPostResponse create(TransactionPublicRequest request) {
-        RequestOperation<TransactionPublicRequest, CreateTransactionV1TransactionsPostResponse> operation
+    public CreateTransactionV1TransactionsPostResponse create(TransactionPublicRequest transactionPublicRequest) {
+        return create(Optional.empty(), transactionPublicRequest);
+    }
+
+    /**
+     * Create transaction
+     * 
+     * <p>Create a transaction. Set `marketplace: true` for reseller or marketplace orders where tax was
+     * remitted externally; gross sales still count toward nexus, but tax liability is excluded.
+     * 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param transactionPublicRequest 
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public CreateTransactionV1TransactionsPostResponse create(Optional<String> xOrganizationId, TransactionPublicRequest transactionPublicRequest) {
+        CreateTransactionV1TransactionsPostRequest request =
+            CreateTransactionV1TransactionsPostRequest
+                .builder()
+                .xOrganizationId(xOrganizationId)
+                .transactionPublicRequest(transactionPublicRequest)
+                .build();
+        RequestOperation<CreateTransactionV1TransactionsPostRequest, CreateTransactionV1TransactionsPostResponse> operation
               = new CreateTransactionV1TransactionsPost.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
     /**
-     * Get Transaction By External Id
+     * Archive transaction by id
+     * 
+     * <p>Archive transactions by transaction id
+     * 
+     * @return The call builder
+     */
+    public ArchiveTransactionByIdV1TransactionsArchivePostRequestBuilder archiveTransactionByIdV1TransactionsArchivePost() {
+        return new ArchiveTransactionByIdV1TransactionsArchivePostRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Archive transaction by id
+     * 
+     * <p>Archive transactions by transaction id
+     * 
+     * @param transactionId 
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public ArchiveTransactionByIdV1TransactionsArchivePostResponse archiveTransactionByIdV1TransactionsArchivePost(String transactionId) {
+        return archiveTransactionByIdV1TransactionsArchivePost(transactionId, Optional.empty());
+    }
+
+    /**
+     * Archive transaction by id
+     * 
+     * <p>Archive transactions by transaction id
+     * 
+     * @param transactionId 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public ArchiveTransactionByIdV1TransactionsArchivePostResponse archiveTransactionByIdV1TransactionsArchivePost(String transactionId, Optional<String> xOrganizationId) {
+        ArchiveTransactionByIdV1TransactionsArchivePostRequest request =
+            ArchiveTransactionByIdV1TransactionsArchivePostRequest
+                .builder()
+                .transactionId(transactionId)
+                .xOrganizationId(xOrganizationId)
+                .build();
+        RequestOperation<ArchiveTransactionByIdV1TransactionsArchivePostRequest, ArchiveTransactionByIdV1TransactionsArchivePostResponse> operation
+              = new ArchiveTransactionByIdV1TransactionsArchivePost.Sync(sdkConfiguration, _headers);
+        return operation.handleResponse(operation.doRequest(request));
+    }
+
+    /**
+     * Get transaction by external id
      * 
      * <p>Retrieves a specific transaction based on its external ID.
      * This allows users to fetch transaction details using an identifier from an external system.
@@ -131,7 +211,7 @@ public class Transactions {
     }
 
     /**
-     * Get Transaction By External Id
+     * Get transaction by external id
      * 
      * <p>Retrieves a specific transaction based on its external ID.
      * This allows users to fetch transaction details using an identifier from an external system.
@@ -141,10 +221,26 @@ public class Transactions {
      * @throws RuntimeException subclass if the API call fails
      */
     public GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse getByExternalId(String externalId) {
+        return getByExternalId(externalId, Optional.empty());
+    }
+
+    /**
+     * Get transaction by external id
+     * 
+     * <p>Retrieves a specific transaction based on its external ID.
+     * This allows users to fetch transaction details using an identifier from an external system.
+     * 
+     * @param externalId The unique external identifier of the transaction.
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse getByExternalId(String externalId, Optional<String> xOrganizationId) {
         GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest request =
             GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest
                 .builder()
                 .externalId(externalId)
+                .xOrganizationId(xOrganizationId)
                 .build();
         RequestOperation<GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest, GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse> operation
               = new GetTransactionByExternalIdV1TransactionsExternalExternalIdGet.Sync(sdkConfiguration, _headers);
@@ -152,73 +248,7 @@ public class Transactions {
     }
 
     /**
-     * Update Transaction
-     * 
-     * <p>Update a specific transaction by its ID.
-     * 
-     * @return The call builder
-     */
-    public UpdateTransactionV1TransactionsTransactionIdPutRequestBuilder update() {
-        return new UpdateTransactionV1TransactionsTransactionIdPutRequestBuilder(sdkConfiguration);
-    }
-
-    /**
-     * Update Transaction
-     * 
-     * <p>Update a specific transaction by its ID.
-     * 
-     * @param transactionId 
-     * @param transactionUpdate 
-     * @return The response from the API call
-     * @throws RuntimeException subclass if the API call fails
-     */
-    public UpdateTransactionV1TransactionsTransactionIdPutResponse update(String transactionId, TransactionUpdate transactionUpdate) {
-        UpdateTransactionV1TransactionsTransactionIdPutRequest request =
-            UpdateTransactionV1TransactionsTransactionIdPutRequest
-                .builder()
-                .transactionId(transactionId)
-                .transactionUpdate(transactionUpdate)
-                .build();
-        RequestOperation<UpdateTransactionV1TransactionsTransactionIdPutRequest, UpdateTransactionV1TransactionsTransactionIdPutResponse> operation
-              = new UpdateTransactionV1TransactionsTransactionIdPut.Sync(sdkConfiguration, _headers);
-        return operation.handleResponse(operation.doRequest(request));
-    }
-
-    /**
-     * Get Transaction By Id
-     * 
-     * <p>The Get Transaction By Id API retrieves detailed information
-     * about a specific transaction by providing its unique transaction ID.
-     * 
-     * @return The call builder
-     */
-    public GetTransactionByIdV1TransactionsTransactionIdGetRequestBuilder getById() {
-        return new GetTransactionByIdV1TransactionsTransactionIdGetRequestBuilder(sdkConfiguration);
-    }
-
-    /**
-     * Get Transaction By Id
-     * 
-     * <p>The Get Transaction By Id API retrieves detailed information
-     * about a specific transaction by providing its unique transaction ID.
-     * 
-     * @param transactionId The unique identifier of the transaction to retrieve.
-     * @return The response from the API call
-     * @throws RuntimeException subclass if the API call fails
-     */
-    public GetTransactionByIdV1TransactionsTransactionIdGetResponse getById(String transactionId) {
-        GetTransactionByIdV1TransactionsTransactionIdGetRequest request =
-            GetTransactionByIdV1TransactionsTransactionIdGetRequest
-                .builder()
-                .transactionId(transactionId)
-                .build();
-        RequestOperation<GetTransactionByIdV1TransactionsTransactionIdGetRequest, GetTransactionByIdV1TransactionsTransactionIdGetResponse> operation
-              = new GetTransactionByIdV1TransactionsTransactionIdGet.Sync(sdkConfiguration, _headers);
-        return operation.handleResponse(operation.doRequest(request));
-    }
-
-    /**
-     * Get Transactions By Filing Id
+     * Get transactions by filing id
      * 
      * <p>Retrieve transactions by filing ID.
      * 
@@ -229,7 +259,7 @@ public class Transactions {
     }
 
     /**
-     * Get Transactions By Filing Id
+     * Get transactions by filing id
      * 
      * <p>Retrieve transactions by filing ID.
      * 
@@ -240,10 +270,27 @@ public class Transactions {
      * @throws RuntimeException subclass if the API call fails
      */
     public GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetResponse getByFilingId(String filingId) {
+        return getByFilingId(filingId, Optional.empty());
+    }
+
+    /**
+     * Get transactions by filing id
+     * 
+     * <p>Retrieve transactions by filing ID.
+     * 
+     * @param filingId The unique identifier of the filing
+     *                 whose transactions you wish to retrieve.
+     *                 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetResponse getByFilingId(String filingId, Optional<String> xOrganizationId) {
         GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest request =
             GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest
                 .builder()
                 .filingId(filingId)
+                .xOrganizationId(xOrganizationId)
                 .build();
         RequestOperation<GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest, GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetResponse> operation
               = new GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGet.Sync(sdkConfiguration, _headers);
@@ -251,7 +298,7 @@ public class Transactions {
     }
 
     /**
-     * Update Credit Note By Transaction Id
+     * Update credit note by transaction id
      * 
      * <p>Update an existing credit note for a specific transaction.
      * 
@@ -262,7 +309,7 @@ public class Transactions {
     }
 
     /**
-     * Update Credit Note By Transaction Id
+     * Update credit note by transaction id
      * 
      * <p>Update an existing credit note for a specific transaction.
      * 
@@ -275,15 +322,195 @@ public class Transactions {
     public PUTUpdateCreditNoteByTransactionIdResponse updateCreditNote(
             String originalTransactionId, String creditNoteId,
             CreditNoteCreate creditNoteCreate) {
+        return updateCreditNote(originalTransactionId, creditNoteId, Optional.empty(),
+            creditNoteCreate);
+    }
+
+    /**
+     * Update credit note by transaction id
+     * 
+     * <p>Update an existing credit note for a specific transaction.
+     * 
+     * @param originalTransactionId 
+     * @param creditNoteId 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param creditNoteCreate 
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public PUTUpdateCreditNoteByTransactionIdResponse updateCreditNote(
+            String originalTransactionId, String creditNoteId,
+            Optional<String> xOrganizationId, CreditNoteCreate creditNoteCreate) {
         PUTUpdateCreditNoteByTransactionIdRequest request =
             PUTUpdateCreditNoteByTransactionIdRequest
                 .builder()
                 .originalTransactionId(originalTransactionId)
                 .creditNoteId(creditNoteId)
+                .xOrganizationId(xOrganizationId)
                 .creditNoteCreate(creditNoteCreate)
                 .build();
         RequestOperation<PUTUpdateCreditNoteByTransactionIdRequest, PUTUpdateCreditNoteByTransactionIdResponse> operation
               = new PUTUpdateCreditNoteByTransactionId.Sync(sdkConfiguration, _headers);
+        return operation.handleResponse(operation.doRequest(request));
+    }
+
+    /**
+     * Get transaction by id
+     * 
+     * <p>The Get Transaction By Id API retrieves detailed information
+     * about a specific transaction by providing its unique transaction ID.
+     * 
+     * @return The call builder
+     */
+    public GetTransactionByIdV1TransactionsTransactionIdGetRequestBuilder getById() {
+        return new GetTransactionByIdV1TransactionsTransactionIdGetRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Get transaction by id
+     * 
+     * <p>The Get Transaction By Id API retrieves detailed information
+     * about a specific transaction by providing its unique transaction ID.
+     * 
+     * @param transactionId The unique identifier of the transaction to retrieve.
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public GetTransactionByIdV1TransactionsTransactionIdGetResponse getById(String transactionId) {
+        return getById(transactionId, Optional.empty());
+    }
+
+    /**
+     * Get transaction by id
+     * 
+     * <p>The Get Transaction By Id API retrieves detailed information
+     * about a specific transaction by providing its unique transaction ID.
+     * 
+     * @param transactionId The unique identifier of the transaction to retrieve.
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public GetTransactionByIdV1TransactionsTransactionIdGetResponse getById(String transactionId, Optional<String> xOrganizationId) {
+        GetTransactionByIdV1TransactionsTransactionIdGetRequest request =
+            GetTransactionByIdV1TransactionsTransactionIdGetRequest
+                .builder()
+                .transactionId(transactionId)
+                .xOrganizationId(xOrganizationId)
+                .build();
+        RequestOperation<GetTransactionByIdV1TransactionsTransactionIdGetRequest, GetTransactionByIdV1TransactionsTransactionIdGetResponse> operation
+              = new GetTransactionByIdV1TransactionsTransactionIdGet.Sync(sdkConfiguration, _headers);
+        return operation.handleResponse(operation.doRequest(request));
+    }
+
+    /**
+     * Update transaction
+     * 
+     * <p>Update a specific transaction by its ID.
+     * 
+     * @return The call builder
+     */
+    public UpdateTransactionV1TransactionsTransactionIdPutRequestBuilder update() {
+        return new UpdateTransactionV1TransactionsTransactionIdPutRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Update transaction
+     * 
+     * <p>Update a specific transaction by its ID.
+     * 
+     * @param transactionId 
+     * @param transactionUpdate 
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public UpdateTransactionV1TransactionsTransactionIdPutResponse update(String transactionId, TransactionUpdate transactionUpdate) {
+        return update(transactionId, Optional.empty(), transactionUpdate);
+    }
+
+    /**
+     * Update transaction
+     * 
+     * <p>Update a specific transaction by its ID.
+     * 
+     * @param transactionId 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param transactionUpdate 
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public UpdateTransactionV1TransactionsTransactionIdPutResponse update(
+            String transactionId, Optional<String> xOrganizationId,
+            TransactionUpdate transactionUpdate) {
+        UpdateTransactionV1TransactionsTransactionIdPutRequest request =
+            UpdateTransactionV1TransactionsTransactionIdPutRequest
+                .builder()
+                .transactionId(transactionId)
+                .xOrganizationId(xOrganizationId)
+                .transactionUpdate(transactionUpdate)
+                .build();
+        RequestOperation<UpdateTransactionV1TransactionsTransactionIdPutRequest, UpdateTransactionV1TransactionsTransactionIdPutResponse> operation
+              = new UpdateTransactionV1TransactionsTransactionIdPut.Sync(sdkConfiguration, _headers);
+        return operation.handleResponse(operation.doRequest(request));
+    }
+
+    /**
+     * Set transaction tax only
+     * 
+     * <p>Mark or unmark a transaction as tax-only. SALE becomes TAX_COLLECTION; credit notes become
+     * TAX_REFUND. Unmark restores SALE or re-derives FULL/PARTIAL credit note.
+     * 
+     * <p>Only the type is changed; amounts are preserved.
+     * 
+     * @return The call builder
+     */
+    public SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostRequestBuilder setTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPost() {
+        return new SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Set transaction tax only
+     * 
+     * <p>Mark or unmark a transaction as tax-only. SALE becomes TAX_COLLECTION; credit notes become
+     * TAX_REFUND. Unmark restores SALE or re-derives FULL/PARTIAL credit note.
+     * 
+     * <p>Only the type is changed; amounts are preserved.
+     * 
+     * @param transactionId 
+     * @param taxOnlyUpdate 
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostResponse setTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPost(String transactionId, TaxOnlyUpdate taxOnlyUpdate) {
+        return setTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPost(transactionId, Optional.empty(), taxOnlyUpdate);
+    }
+
+    /**
+     * Set transaction tax only
+     * 
+     * <p>Mark or unmark a transaction as tax-only. SALE becomes TAX_COLLECTION; credit notes become
+     * TAX_REFUND. Unmark restores SALE or re-derives FULL/PARTIAL credit note.
+     * 
+     * <p>Only the type is changed; amounts are preserved.
+     * 
+     * @param transactionId 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param taxOnlyUpdate 
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostResponse setTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPost(
+            String transactionId, Optional<String> xOrganizationId,
+            TaxOnlyUpdate taxOnlyUpdate) {
+        SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostRequest request =
+            SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostRequest
+                .builder()
+                .transactionId(transactionId)
+                .xOrganizationId(xOrganizationId)
+                .taxOnlyUpdate(taxOnlyUpdate)
+                .build();
+        RequestOperation<SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostRequest, SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostResponse> operation
+              = new SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPost.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 

@@ -5,8 +5,8 @@
 
 | Field                           | Type                            | Required                        | Description                     |
 | ------------------------------- | ------------------------------- | ------------------------------- | ------------------------------- |
-| `lastTxnId`                     | *Optional\<String>*             | :heavy_minus_sign:              | N/A                             |
-| `lastTxnDatetime`               | *Optional\<String>*             | :heavy_minus_sign:              | N/A                             |
+| `lastTxnId`                     | *JsonNullable\<String>*         | :heavy_minus_sign:              | N/A                             |
+| `lastTxnDatetime`               | *JsonNullable\<String>*         | :heavy_minus_sign:              | N/A                             |
 | `periodStartDate`               | *String*                        | :heavy_check_mark:              | N/A                             |
 | `periodEndDate`                 | *String*                        | :heavy_check_mark:              | N/A                             |
 | `runningSalesTotalDecimal`      | *String*                        | :heavy_check_mark:              | N/A                             |

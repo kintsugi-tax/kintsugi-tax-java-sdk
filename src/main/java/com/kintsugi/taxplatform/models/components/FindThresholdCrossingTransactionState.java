@@ -13,19 +13,19 @@ import java.lang.Boolean;
 import java.lang.Long;
 import java.lang.Override;
 import java.lang.String;
-import java.util.Optional;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 public class FindThresholdCrossingTransactionState {
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("last_txn_id")
-    private Optional<String> lastTxnId;
+    private JsonNullable<String> lastTxnId;
 
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("last_txn_datetime")
-    private Optional<String> lastTxnDatetime;
+    private JsonNullable<String> lastTxnDatetime;
 
 
     @JsonProperty("period_start_date")
@@ -49,8 +49,8 @@ public class FindThresholdCrossingTransactionState {
 
     @JsonCreator
     public FindThresholdCrossingTransactionState(
-            @JsonProperty("last_txn_id") Optional<String> lastTxnId,
-            @JsonProperty("last_txn_datetime") Optional<String> lastTxnDatetime,
+            @JsonProperty("last_txn_id") JsonNullable<String> lastTxnId,
+            @JsonProperty("last_txn_datetime") JsonNullable<String> lastTxnDatetime,
             @JsonProperty("period_start_date") String periodStartDate,
             @JsonProperty("period_end_date") String periodEndDate,
             @JsonProperty("running_sales_total_decimal") String runningSalesTotalDecimal,
@@ -78,18 +78,18 @@ public class FindThresholdCrossingTransactionState {
             String runningSalesTotalDecimal,
             long runningTransactionCount,
             boolean hasAllMarketplaceTransactions) {
-        this(Optional.empty(), Optional.empty(), periodStartDate,
+        this(JsonNullable.undefined(), JsonNullable.undefined(), periodStartDate,
             periodEndDate, runningSalesTotalDecimal, runningTransactionCount,
             hasAllMarketplaceTransactions);
     }
 
     @JsonIgnore
-    public Optional<String> lastTxnId() {
+    public JsonNullable<String> lastTxnId() {
         return lastTxnId;
     }
 
     @JsonIgnore
-    public Optional<String> lastTxnDatetime() {
+    public JsonNullable<String> lastTxnDatetime() {
         return lastTxnDatetime;
     }
 
@@ -125,12 +125,11 @@ public class FindThresholdCrossingTransactionState {
 
     public FindThresholdCrossingTransactionState withLastTxnId(String lastTxnId) {
         Utils.checkNotNull(lastTxnId, "lastTxnId");
-        this.lastTxnId = Optional.ofNullable(lastTxnId);
+        this.lastTxnId = JsonNullable.of(lastTxnId);
         return this;
     }
 
-
-    public FindThresholdCrossingTransactionState withLastTxnId(Optional<String> lastTxnId) {
+    public FindThresholdCrossingTransactionState withLastTxnId(JsonNullable<String> lastTxnId) {
         Utils.checkNotNull(lastTxnId, "lastTxnId");
         this.lastTxnId = lastTxnId;
         return this;
@@ -138,12 +137,11 @@ public class FindThresholdCrossingTransactionState {
 
     public FindThresholdCrossingTransactionState withLastTxnDatetime(String lastTxnDatetime) {
         Utils.checkNotNull(lastTxnDatetime, "lastTxnDatetime");
-        this.lastTxnDatetime = Optional.ofNullable(lastTxnDatetime);
+        this.lastTxnDatetime = JsonNullable.of(lastTxnDatetime);
         return this;
     }
 
-
-    public FindThresholdCrossingTransactionState withLastTxnDatetime(Optional<String> lastTxnDatetime) {
+    public FindThresholdCrossingTransactionState withLastTxnDatetime(JsonNullable<String> lastTxnDatetime) {
         Utils.checkNotNull(lastTxnDatetime, "lastTxnDatetime");
         this.lastTxnDatetime = lastTxnDatetime;
         return this;
@@ -221,9 +219,9 @@ public class FindThresholdCrossingTransactionState {
     @SuppressWarnings("UnusedReturnValue")
     public final static class Builder {
 
-        private Optional<String> lastTxnId = Optional.empty();
+        private JsonNullable<String> lastTxnId = JsonNullable.undefined();
 
-        private Optional<String> lastTxnDatetime = Optional.empty();
+        private JsonNullable<String> lastTxnDatetime = JsonNullable.undefined();
 
         private String periodStartDate;
 
@@ -242,11 +240,11 @@ public class FindThresholdCrossingTransactionState {
 
         public Builder lastTxnId(String lastTxnId) {
             Utils.checkNotNull(lastTxnId, "lastTxnId");
-            this.lastTxnId = Optional.ofNullable(lastTxnId);
+            this.lastTxnId = JsonNullable.of(lastTxnId);
             return this;
         }
 
-        public Builder lastTxnId(Optional<String> lastTxnId) {
+        public Builder lastTxnId(JsonNullable<String> lastTxnId) {
             Utils.checkNotNull(lastTxnId, "lastTxnId");
             this.lastTxnId = lastTxnId;
             return this;
@@ -255,11 +253,11 @@ public class FindThresholdCrossingTransactionState {
 
         public Builder lastTxnDatetime(String lastTxnDatetime) {
             Utils.checkNotNull(lastTxnDatetime, "lastTxnDatetime");
-            this.lastTxnDatetime = Optional.ofNullable(lastTxnDatetime);
+            this.lastTxnDatetime = JsonNullable.of(lastTxnDatetime);
             return this;
         }
 
-        public Builder lastTxnDatetime(Optional<String> lastTxnDatetime) {
+        public Builder lastTxnDatetime(JsonNullable<String> lastTxnDatetime) {
             Utils.checkNotNull(lastTxnDatetime, "lastTxnDatetime");
             this.lastTxnDatetime = lastTxnDatetime;
             return this;

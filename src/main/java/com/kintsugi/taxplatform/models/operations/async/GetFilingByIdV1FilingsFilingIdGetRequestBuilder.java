@@ -11,11 +11,13 @@ import com.kintsugi.taxplatform.operations.GetFilingByIdV1FilingsFilingIdGet;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 public class GetFilingByIdV1FilingsFilingIdGetRequestBuilder {
 
     private String filingId;
+    private Optional<String> xOrganizationId = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -28,11 +30,24 @@ public class GetFilingByIdV1FilingsFilingIdGetRequestBuilder {
         this.filingId = filingId;
         return this;
     }
+                
+    public GetFilingByIdV1FilingsFilingIdGetRequestBuilder xOrganizationId(String xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = Optional.of(xOrganizationId);
+        return this;
+    }
+
+    public GetFilingByIdV1FilingsFilingIdGetRequestBuilder xOrganizationId(Optional<String> xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = xOrganizationId;
+        return this;
+    }
 
 
     private GetFilingByIdV1FilingsFilingIdGetRequest buildRequest() {
 
-        GetFilingByIdV1FilingsFilingIdGetRequest request = new GetFilingByIdV1FilingsFilingIdGetRequest(filingId);
+        GetFilingByIdV1FilingsFilingIdGetRequest request = new GetFilingByIdV1FilingsFilingIdGetRequest(filingId,
+            xOrganizationId);
 
         return request;
     }

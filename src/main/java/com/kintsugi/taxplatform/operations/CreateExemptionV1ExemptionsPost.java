@@ -11,10 +11,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.SecuritySource;
 import com.kintsugi.taxplatform.models.components.BackendSrcExemptionsSerializersExemptionRead;
-import com.kintsugi.taxplatform.models.components.ExemptionCreate;
 import com.kintsugi.taxplatform.models.errors.APIException;
 import com.kintsugi.taxplatform.models.errors.BackendSrcExemptionsResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
+import com.kintsugi.taxplatform.models.operations.CreateExemptionV1ExemptionsPostRequest;
 import com.kintsugi.taxplatform.models.operations.CreateExemptionV1ExemptionsPostResponse;
 import com.kintsugi.taxplatform.utils.Blob;
 import com.kintsugi.taxplatform.utils.HTTPClient;
@@ -97,7 +97,7 @@ public class CreateExemptionV1ExemptionsPost {
                     typeReference);
             SerializedBody serializedRequestBody = Utils.serializeRequestBody(
                     convertedRequest,
-                    "",
+                    "exemptionCreate",
                     "json",
                     false);
             if (serializedRequestBody == null) {
@@ -107,6 +107,7 @@ public class CreateExemptionV1ExemptionsPost {
             req.addHeader("Accept", "application/json")
                     .addHeader("user-agent", SDKConfiguration.USER_AGENT);
             _headers.forEach((k, list) -> list.forEach(v -> req.addHeader(k, v)));
+            req.addHeaders(Utils.getHeadersFromMetadata(request, null));
             Utils.configureSecurity(req, this.sdkConfiguration.securitySource().getSecurity());
 
             return req.build();
@@ -114,13 +115,13 @@ public class CreateExemptionV1ExemptionsPost {
     }
 
     public static class Sync extends Base
-            implements RequestOperation<ExemptionCreate, CreateExemptionV1ExemptionsPostResponse> {
+            implements RequestOperation<CreateExemptionV1ExemptionsPostRequest, CreateExemptionV1ExemptionsPostResponse> {
         public Sync(SDKConfiguration sdkConfiguration, Headers _headers) {
             super(sdkConfiguration, _headers);
         }
 
-        private HttpRequest onBuildRequest(ExemptionCreate request) throws Exception {
-            HttpRequest req = buildRequest(request, new TypeReference<ExemptionCreate>() {});
+        private HttpRequest onBuildRequest(CreateExemptionV1ExemptionsPostRequest request) throws Exception {
+            HttpRequest req = buildRequest(request, new TypeReference<CreateExemptionV1ExemptionsPostRequest>() {});
             return sdkConfiguration.hooks().beforeRequest(createBeforeRequestContext(), req);
         }
 
@@ -136,7 +137,7 @@ public class CreateExemptionV1ExemptionsPost {
         }
 
         @Override
-        public HttpResponse<InputStream> doRequest(ExemptionCreate request) {
+        public HttpResponse<InputStream> doRequest(CreateExemptionV1ExemptionsPostRequest request) {
             HttpRequest r = unchecked(() -> onBuildRequest(request)).get();
             HttpResponse<InputStream> httpRes;
             try {
@@ -209,14 +210,14 @@ public class CreateExemptionV1ExemptionsPost {
         }
     }
     public static class Async extends Base
-            implements AsyncRequestOperation<ExemptionCreate, com.kintsugi.taxplatform.models.operations.async.CreateExemptionV1ExemptionsPostResponse> {
+            implements AsyncRequestOperation<CreateExemptionV1ExemptionsPostRequest, com.kintsugi.taxplatform.models.operations.async.CreateExemptionV1ExemptionsPostResponse> {
 
         public Async(SDKConfiguration sdkConfiguration, Headers _headers) {
             super(sdkConfiguration, _headers);
         }
 
-        private CompletableFuture<HttpRequest> onBuildRequest(ExemptionCreate request) throws Exception {
-            HttpRequest req = buildRequest(request, new TypeReference<ExemptionCreate>() {});
+        private CompletableFuture<HttpRequest> onBuildRequest(CreateExemptionV1ExemptionsPostRequest request) throws Exception {
+            HttpRequest req = buildRequest(request, new TypeReference<CreateExemptionV1ExemptionsPostRequest>() {});
             return this.sdkConfiguration.asyncHooks().beforeRequest(createBeforeRequestContext(), req);
         }
 
@@ -229,7 +230,7 @@ public class CreateExemptionV1ExemptionsPost {
         }
 
         @Override
-        public CompletableFuture<HttpResponse<Blob>> doRequest(ExemptionCreate request) {
+        public CompletableFuture<HttpResponse<Blob>> doRequest(CreateExemptionV1ExemptionsPostRequest request) {
             return unchecked(() -> onBuildRequest(request)).get().thenCompose(client::sendAsync)
                     .handle((resp, err) -> {
                         if (err != null) {

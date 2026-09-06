@@ -7,31 +7,57 @@ import static com.kintsugi.taxplatform.operations.Operations.AsyncRequestOperati
 
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.operations.CreateRegistration;
+import com.kintsugi.taxplatform.models.operations.CreateRegistrationV1RegistrationsPostRequest;
 import com.kintsugi.taxplatform.operations.CreateRegistrationV1RegistrationsPost;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
+import java.lang.String;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 public class CreateRegistrationV1RegistrationsPostRequestBuilder {
 
-    private CreateRegistration request;
+    private Optional<String> xOrganizationId = Optional.empty();
+    private CreateRegistration requestBody;
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
     public CreateRegistrationV1RegistrationsPostRequestBuilder(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
     }
-
-    public CreateRegistrationV1RegistrationsPostRequestBuilder request(CreateRegistration request) {
-        Utils.checkNotNull(request, "request");
-        this.request = request;
+                
+    public CreateRegistrationV1RegistrationsPostRequestBuilder xOrganizationId(String xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = Optional.of(xOrganizationId);
         return this;
+    }
+
+    public CreateRegistrationV1RegistrationsPostRequestBuilder xOrganizationId(Optional<String> xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = xOrganizationId;
+        return this;
+    }
+
+    public CreateRegistrationV1RegistrationsPostRequestBuilder requestBody(CreateRegistration requestBody) {
+        Utils.checkNotNull(requestBody, "requestBody");
+        this.requestBody = requestBody;
+        return this;
+    }
+
+
+    private CreateRegistrationV1RegistrationsPostRequest buildRequest() {
+
+        CreateRegistrationV1RegistrationsPostRequest request = new CreateRegistrationV1RegistrationsPostRequest(xOrganizationId,
+            requestBody);
+
+        return request;
     }
 
     public CompletableFuture<CreateRegistrationV1RegistrationsPostResponse> call() {
         
-        AsyncRequestOperation<CreateRegistration, CreateRegistrationV1RegistrationsPostResponse> operation
+        AsyncRequestOperation<CreateRegistrationV1RegistrationsPostRequest, CreateRegistrationV1RegistrationsPostResponse> operation
               = new CreateRegistrationV1RegistrationsPost.Async(sdkConfiguration, _headers);
+        CreateRegistrationV1RegistrationsPostRequest request = buildRequest();
 
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);

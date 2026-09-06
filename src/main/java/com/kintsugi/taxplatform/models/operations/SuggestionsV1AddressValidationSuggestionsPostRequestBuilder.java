@@ -10,27 +10,52 @@ import com.kintsugi.taxplatform.models.components.ValidationAddress;
 import com.kintsugi.taxplatform.operations.SuggestionsV1AddressValidationSuggestionsPost;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
+import java.lang.String;
+import java.util.Optional;
 
 public class SuggestionsV1AddressValidationSuggestionsPostRequestBuilder {
 
-    private ValidationAddress request;
+    private Optional<String> xOrganizationId = Optional.empty();
+    private ValidationAddress validationAddress;
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
     public SuggestionsV1AddressValidationSuggestionsPostRequestBuilder(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
     }
-
-    public SuggestionsV1AddressValidationSuggestionsPostRequestBuilder request(ValidationAddress request) {
-        Utils.checkNotNull(request, "request");
-        this.request = request;
+                
+    public SuggestionsV1AddressValidationSuggestionsPostRequestBuilder xOrganizationId(String xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = Optional.of(xOrganizationId);
         return this;
+    }
+
+    public SuggestionsV1AddressValidationSuggestionsPostRequestBuilder xOrganizationId(Optional<String> xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = xOrganizationId;
+        return this;
+    }
+
+    public SuggestionsV1AddressValidationSuggestionsPostRequestBuilder validationAddress(ValidationAddress validationAddress) {
+        Utils.checkNotNull(validationAddress, "validationAddress");
+        this.validationAddress = validationAddress;
+        return this;
+    }
+
+
+    private SuggestionsV1AddressValidationSuggestionsPostRequest buildRequest() {
+
+        SuggestionsV1AddressValidationSuggestionsPostRequest request = new SuggestionsV1AddressValidationSuggestionsPostRequest(xOrganizationId,
+            validationAddress);
+
+        return request;
     }
 
     public SuggestionsV1AddressValidationSuggestionsPostResponse call() {
         
-        RequestOperation<ValidationAddress, SuggestionsV1AddressValidationSuggestionsPostResponse> operation
+        RequestOperation<SuggestionsV1AddressValidationSuggestionsPostRequest, SuggestionsV1AddressValidationSuggestionsPostResponse> operation
               = new SuggestionsV1AddressValidationSuggestionsPost.Sync(sdkConfiguration, _headers);
+        SuggestionsV1AddressValidationSuggestionsPostRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));
     }

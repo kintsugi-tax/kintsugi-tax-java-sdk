@@ -1,0 +1,10 @@
+# GetPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGetRequest
+
+
+## Fields
+
+| Field                                                                        | Type                                                                         | Required                                                                     | Description                                                                  | Example                                                                      |
+| ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| `countryCode`                                                                | [JsonNullable\<CountryCodeEnum>](../../models/components/CountryCodeEnum.md) | :heavy_minus_sign:                                                           | N/A                                                                          |                                                                              |
+| `stateCode`                                                                  | *JsonNullable\<String>*                                                      | :heavy_minus_sign:                                                           | N/A                                                                          |                                                                              |
+| `xOrganizationId`                                                            | *Optional\<String>*                                                          | :heavy_check_mark:                                                           | The unique identifier for the organization making the request                | org_12345                                                                    |

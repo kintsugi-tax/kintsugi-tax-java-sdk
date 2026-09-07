@@ -8,16 +8,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.kintsugi.taxplatform.utils.LazySingletonValue;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Boolean;
+import java.lang.Deprecated;
 import java.lang.Override;
 import java.lang.String;
 import java.lang.SuppressWarnings;
 import java.time.OffsetDateTime;
 import java.util.List;
-import java.util.Optional;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 /**
  * TransactionEstimatePublicRequest
@@ -48,19 +47,25 @@ public class TransactionEstimatePublicRequest {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("description")
-    private Optional<String> description;
+    private JsonNullable<String> description;
 
-
+    /**
+     * While currently not used, it may be used in the future to determine taxability. The source of the
+     * transaction (e.g., OTHER).
+     * 
+     * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
+     */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("source")
-    private Optional<? extends SourceEnum> source;
+    @Deprecated
+    private JsonNullable<? extends SourceEnum> source;
 
     /**
      * Indicates if the transaction involves a marketplace.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("marketplace")
-    private Optional<Boolean> marketplace;
+    private JsonNullable<Boolean> marketplace;
 
     /**
      * List of items involved in the transaction.
@@ -68,10 +73,12 @@ public class TransactionEstimatePublicRequest {
     @JsonProperty("transaction_items")
     private List<TransactionItemEstimateBase> transactionItems;
 
-
+    /**
+     * Details about the customer. If the customer is not found, it will be ignored.
+     */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("customer")
-    private Optional<? extends CustomerBasePublic> customer;
+    private JsonNullable<? extends CustomerBasePublic> customer;
 
     /**
      * List of addresses related to the transaction. At least one BILL_TO or SHIP_TO address must be
@@ -88,11 +95,11 @@ public class TransactionEstimatePublicRequest {
             @JsonProperty("date") OffsetDateTime date,
             @JsonProperty("external_id") String externalId,
             @JsonProperty("currency") CurrencyEnum currency,
-            @JsonProperty("description") Optional<String> description,
-            @JsonProperty("source") Optional<? extends SourceEnum> source,
-            @JsonProperty("marketplace") Optional<Boolean> marketplace,
+            @JsonProperty("description") JsonNullable<String> description,
+            @JsonProperty("source") JsonNullable<? extends SourceEnum> source,
+            @JsonProperty("marketplace") JsonNullable<Boolean> marketplace,
             @JsonProperty("transaction_items") List<TransactionItemEstimateBase> transactionItems,
-            @JsonProperty("customer") Optional<? extends CustomerBasePublic> customer,
+            @JsonProperty("customer") JsonNullable<? extends CustomerBasePublic> customer,
             @JsonProperty("addresses") List<TransactionEstimatePublicRequestAddress> addresses) {
         Utils.checkNotNull(date, "date");
         Utils.checkNotNull(externalId, "externalId");
@@ -121,8 +128,8 @@ public class TransactionEstimatePublicRequest {
             List<TransactionItemEstimateBase> transactionItems,
             List<TransactionEstimatePublicRequestAddress> addresses) {
         this(date, externalId, currency,
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            transactionItems, Optional.empty(), addresses);
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            transactionItems, JsonNullable.undefined(), addresses);
     }
 
     /**
@@ -150,21 +157,28 @@ public class TransactionEstimatePublicRequest {
      * An optional description of the transaction.
      */
     @JsonIgnore
-    public Optional<String> description() {
+    public JsonNullable<String> description() {
         return description;
     }
 
+    /**
+     * While currently not used, it may be used in the future to determine taxability. The source of the
+     * transaction (e.g., OTHER).
+     * 
+     * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
+     */
+    @Deprecated
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<SourceEnum> source() {
-        return (Optional<SourceEnum>) source;
+    public JsonNullable<SourceEnum> source() {
+        return (JsonNullable<SourceEnum>) source;
     }
 
     /**
      * Indicates if the transaction involves a marketplace.
      */
     @JsonIgnore
-    public Optional<Boolean> marketplace() {
+    public JsonNullable<Boolean> marketplace() {
         return marketplace;
     }
 
@@ -176,10 +190,13 @@ public class TransactionEstimatePublicRequest {
         return transactionItems;
     }
 
+    /**
+     * Details about the customer. If the customer is not found, it will be ignored.
+     */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<CustomerBasePublic> customer() {
-        return (Optional<CustomerBasePublic>) customer;
+    public JsonNullable<CustomerBasePublic> customer() {
+        return (JsonNullable<CustomerBasePublic>) customer;
     }
 
     /**
@@ -228,28 +245,40 @@ public class TransactionEstimatePublicRequest {
      */
     public TransactionEstimatePublicRequest withDescription(String description) {
         Utils.checkNotNull(description, "description");
-        this.description = Optional.ofNullable(description);
+        this.description = JsonNullable.of(description);
         return this;
     }
-
 
     /**
      * An optional description of the transaction.
      */
-    public TransactionEstimatePublicRequest withDescription(Optional<String> description) {
+    public TransactionEstimatePublicRequest withDescription(JsonNullable<String> description) {
         Utils.checkNotNull(description, "description");
         this.description = description;
         return this;
     }
 
+    /**
+     * While currently not used, it may be used in the future to determine taxability. The source of the
+     * transaction (e.g., OTHER).
+     * 
+     * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
+     */
+    @Deprecated
     public TransactionEstimatePublicRequest withSource(SourceEnum source) {
         Utils.checkNotNull(source, "source");
-        this.source = Optional.ofNullable(source);
+        this.source = JsonNullable.of(source);
         return this;
     }
 
-
-    public TransactionEstimatePublicRequest withSource(Optional<? extends SourceEnum> source) {
+    /**
+     * While currently not used, it may be used in the future to determine taxability. The source of the
+     * transaction (e.g., OTHER).
+     * 
+     * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
+     */
+    @Deprecated
+    public TransactionEstimatePublicRequest withSource(JsonNullable<? extends SourceEnum> source) {
         Utils.checkNotNull(source, "source");
         this.source = source;
         return this;
@@ -260,15 +289,14 @@ public class TransactionEstimatePublicRequest {
      */
     public TransactionEstimatePublicRequest withMarketplace(boolean marketplace) {
         Utils.checkNotNull(marketplace, "marketplace");
-        this.marketplace = Optional.ofNullable(marketplace);
+        this.marketplace = JsonNullable.of(marketplace);
         return this;
     }
-
 
     /**
      * Indicates if the transaction involves a marketplace.
      */
-    public TransactionEstimatePublicRequest withMarketplace(Optional<Boolean> marketplace) {
+    public TransactionEstimatePublicRequest withMarketplace(JsonNullable<Boolean> marketplace) {
         Utils.checkNotNull(marketplace, "marketplace");
         this.marketplace = marketplace;
         return this;
@@ -283,14 +311,19 @@ public class TransactionEstimatePublicRequest {
         return this;
     }
 
+    /**
+     * Details about the customer. If the customer is not found, it will be ignored.
+     */
     public TransactionEstimatePublicRequest withCustomer(CustomerBasePublic customer) {
         Utils.checkNotNull(customer, "customer");
-        this.customer = Optional.ofNullable(customer);
+        this.customer = JsonNullable.of(customer);
         return this;
     }
 
-
-    public TransactionEstimatePublicRequest withCustomer(Optional<? extends CustomerBasePublic> customer) {
+    /**
+     * Details about the customer. If the customer is not found, it will be ignored.
+     */
+    public TransactionEstimatePublicRequest withCustomer(JsonNullable<? extends CustomerBasePublic> customer) {
         Utils.checkNotNull(customer, "customer");
         this.customer = customer;
         return this;
@@ -361,15 +394,16 @@ public class TransactionEstimatePublicRequest {
 
         private CurrencyEnum currency;
 
-        private Optional<String> description = Optional.empty();
+        private JsonNullable<String> description = JsonNullable.undefined();
 
-        private Optional<? extends SourceEnum> source = Optional.empty();
+        @Deprecated
+        private JsonNullable<? extends SourceEnum> source = JsonNullable.undefined();
 
-        private Optional<Boolean> marketplace;
+        private JsonNullable<Boolean> marketplace = JsonNullable.undefined();
 
         private List<TransactionItemEstimateBase> transactionItems;
 
-        private Optional<? extends CustomerBasePublic> customer = Optional.empty();
+        private JsonNullable<? extends CustomerBasePublic> customer = JsonNullable.undefined();
 
         private List<TransactionEstimatePublicRequestAddress> addresses;
 
@@ -410,27 +444,41 @@ public class TransactionEstimatePublicRequest {
          */
         public Builder description(String description) {
             Utils.checkNotNull(description, "description");
-            this.description = Optional.ofNullable(description);
+            this.description = JsonNullable.of(description);
             return this;
         }
 
         /**
          * An optional description of the transaction.
          */
-        public Builder description(Optional<String> description) {
+        public Builder description(JsonNullable<String> description) {
             Utils.checkNotNull(description, "description");
             this.description = description;
             return this;
         }
 
 
+        /**
+         * While currently not used, it may be used in the future to determine taxability. The source of the
+         * transaction (e.g., OTHER).
+         * 
+         * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
+         */
+        @Deprecated
         public Builder source(SourceEnum source) {
             Utils.checkNotNull(source, "source");
-            this.source = Optional.ofNullable(source);
+            this.source = JsonNullable.of(source);
             return this;
         }
 
-        public Builder source(Optional<? extends SourceEnum> source) {
+        /**
+         * While currently not used, it may be used in the future to determine taxability. The source of the
+         * transaction (e.g., OTHER).
+         * 
+         * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
+         */
+        @Deprecated
+        public Builder source(JsonNullable<? extends SourceEnum> source) {
             Utils.checkNotNull(source, "source");
             this.source = source;
             return this;
@@ -442,14 +490,14 @@ public class TransactionEstimatePublicRequest {
          */
         public Builder marketplace(boolean marketplace) {
             Utils.checkNotNull(marketplace, "marketplace");
-            this.marketplace = Optional.ofNullable(marketplace);
+            this.marketplace = JsonNullable.of(marketplace);
             return this;
         }
 
         /**
          * Indicates if the transaction involves a marketplace.
          */
-        public Builder marketplace(Optional<Boolean> marketplace) {
+        public Builder marketplace(JsonNullable<Boolean> marketplace) {
             Utils.checkNotNull(marketplace, "marketplace");
             this.marketplace = marketplace;
             return this;
@@ -466,13 +514,19 @@ public class TransactionEstimatePublicRequest {
         }
 
 
+        /**
+         * Details about the customer. If the customer is not found, it will be ignored.
+         */
         public Builder customer(CustomerBasePublic customer) {
             Utils.checkNotNull(customer, "customer");
-            this.customer = Optional.ofNullable(customer);
+            this.customer = JsonNullable.of(customer);
             return this;
         }
 
-        public Builder customer(Optional<? extends CustomerBasePublic> customer) {
+        /**
+         * Details about the customer. If the customer is not found, it will be ignored.
+         */
+        public Builder customer(JsonNullable<? extends CustomerBasePublic> customer) {
             Utils.checkNotNull(customer, "customer");
             this.customer = customer;
             return this;
@@ -493,9 +547,6 @@ public class TransactionEstimatePublicRequest {
         }
 
         public TransactionEstimatePublicRequest build() {
-            if (marketplace == null) {
-                marketplace = _SINGLETON_VALUE_Marketplace.value();
-            }
 
             return new TransactionEstimatePublicRequest(
                 date, externalId, currency,
@@ -503,11 +554,5 @@ public class TransactionEstimatePublicRequest {
                 transactionItems, customer, addresses);
         }
 
-
-        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_Marketplace =
-                new LazySingletonValue<>(
-                        "marketplace",
-                        "false",
-                        new TypeReference<Optional<Boolean>>() {});
     }
 }

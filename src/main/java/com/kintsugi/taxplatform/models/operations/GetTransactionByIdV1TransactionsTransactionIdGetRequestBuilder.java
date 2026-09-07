@@ -10,10 +10,12 @@ import com.kintsugi.taxplatform.operations.GetTransactionByIdV1TransactionsTrans
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.util.Optional;
 
 public class GetTransactionByIdV1TransactionsTransactionIdGetRequestBuilder {
 
     private String transactionId;
+    private Optional<String> xOrganizationId = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -26,11 +28,24 @@ public class GetTransactionByIdV1TransactionsTransactionIdGetRequestBuilder {
         this.transactionId = transactionId;
         return this;
     }
+                
+    public GetTransactionByIdV1TransactionsTransactionIdGetRequestBuilder xOrganizationId(String xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = Optional.of(xOrganizationId);
+        return this;
+    }
+
+    public GetTransactionByIdV1TransactionsTransactionIdGetRequestBuilder xOrganizationId(Optional<String> xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = xOrganizationId;
+        return this;
+    }
 
 
     private GetTransactionByIdV1TransactionsTransactionIdGetRequest buildRequest() {
 
-        GetTransactionByIdV1TransactionsTransactionIdGetRequest request = new GetTransactionByIdV1TransactionsTransactionIdGetRequest(transactionId);
+        GetTransactionByIdV1TransactionsTransactionIdGetRequest request = new GetTransactionByIdV1TransactionsTransactionIdGetRequest(transactionId,
+            xOrganizationId);
 
         return request;
     }

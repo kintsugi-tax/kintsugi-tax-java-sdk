@@ -3,17 +3,18 @@
  */
 package com.kintsugi.taxplatform.operations;
 
-import static com.kintsugi.taxplatform.operations.Operations.RequestlessOperation;
+import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 import static com.kintsugi.taxplatform.utils.Exceptions.unchecked;
-import static com.kintsugi.taxplatform.operations.Operations.AsyncRequestlessOperation;
+import static com.kintsugi.taxplatform.operations.Operations.AsyncRequestOperation;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.SecuritySource;
-import com.kintsugi.taxplatform.models.components.ProductCategories;
+import com.kintsugi.taxplatform.models.components.ProductCategoryRead;
 import com.kintsugi.taxplatform.models.errors.APIException;
-import com.kintsugi.taxplatform.models.errors.BackendSrcProductsResponsesValidationErrorResponse;
+import com.kintsugi.taxplatform.models.errors.BackendSrcProductsSchemasResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
+import com.kintsugi.taxplatform.models.operations.GetProductCategoriesV1ProductsCategoriesGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetProductCategoriesV1ProductsCategoriesGetResponse;
 import com.kintsugi.taxplatform.utils.Blob;
 import com.kintsugi.taxplatform.utils.HTTPClient;
@@ -81,7 +82,7 @@ public class GetProductCategoriesV1ProductsCategoriesGet {
                     java.util.Optional.empty(),
                     securitySource());
         }
-        HttpRequest buildRequest() throws Exception {
+        <T>HttpRequest buildRequest(T request) throws Exception {
             String url = Utils.generateURL(
                     this.baseUrl,
                     "/v1/products/categories");
@@ -89,6 +90,7 @@ public class GetProductCategoriesV1ProductsCategoriesGet {
             req.addHeader("Accept", "application/json")
                     .addHeader("user-agent", SDKConfiguration.USER_AGENT);
             _headers.forEach((k, list) -> list.forEach(v -> req.addHeader(k, v)));
+            req.addHeaders(Utils.getHeadersFromMetadata(request, null));
             Utils.configureSecurity(req, this.sdkConfiguration.securitySource().getSecurity());
 
             return req.build();
@@ -96,13 +98,13 @@ public class GetProductCategoriesV1ProductsCategoriesGet {
     }
 
     public static class Sync extends Base
-            implements RequestlessOperation<GetProductCategoriesV1ProductsCategoriesGetResponse> {
+            implements RequestOperation<GetProductCategoriesV1ProductsCategoriesGetRequest, GetProductCategoriesV1ProductsCategoriesGetResponse> {
         public Sync(SDKConfiguration sdkConfiguration, Headers _headers) {
             super(sdkConfiguration, _headers);
         }
 
-        private HttpRequest onBuildRequest() throws Exception {
-            HttpRequest req = buildRequest();
+        private HttpRequest onBuildRequest(GetProductCategoriesV1ProductsCategoriesGetRequest request) throws Exception {
+            HttpRequest req = buildRequest(request);
             return sdkConfiguration.hooks().beforeRequest(createBeforeRequestContext(), req);
         }
 
@@ -118,8 +120,8 @@ public class GetProductCategoriesV1ProductsCategoriesGet {
         }
 
         @Override
-        public HttpResponse<InputStream> doRequest() {
-            HttpRequest r = unchecked(() -> onBuildRequest()).get();
+        public HttpResponse<InputStream> doRequest(GetProductCategoriesV1ProductsCategoriesGetRequest request) {
+            HttpRequest r = unchecked(() -> onBuildRequest(request)).get();
             HttpResponse<InputStream> httpRes;
             try {
                 httpRes = client.send(r);
@@ -153,7 +155,7 @@ public class GetProductCategoriesV1ProductsCategoriesGet {
             
             if (Utils.statusCodeMatches(response.statusCode(), "200")) {
                 if (Utils.contentTypeMatches(contentType, "application/json")) {
-                    return res.withProductCategories(Utils.unmarshal(response, new TypeReference<ProductCategories>() {}));
+                    return res.withProductCategoryRead(Utils.unmarshal(response, new TypeReference<ProductCategoryRead>() {}));
                 } else {
                     throw APIException.from("Unexpected content-type received: " + contentType, response);
                 }
@@ -167,7 +169,7 @@ public class GetProductCategoriesV1ProductsCategoriesGet {
             }
             if (Utils.statusCodeMatches(response.statusCode(), "422")) {
                 if (Utils.contentTypeMatches(contentType, "application/json")) {
-                    throw BackendSrcProductsResponsesValidationErrorResponse.from(response);
+                    throw BackendSrcProductsSchemasResponsesValidationErrorResponse.from(response);
                 } else {
                     throw APIException.from("Unexpected content-type received: " + contentType, response);
                 }
@@ -191,14 +193,14 @@ public class GetProductCategoriesV1ProductsCategoriesGet {
         }
     }
     public static class Async extends Base
-            implements AsyncRequestlessOperation<com.kintsugi.taxplatform.models.operations.async.GetProductCategoriesV1ProductsCategoriesGetResponse> {
+            implements AsyncRequestOperation<GetProductCategoriesV1ProductsCategoriesGetRequest, com.kintsugi.taxplatform.models.operations.async.GetProductCategoriesV1ProductsCategoriesGetResponse> {
 
         public Async(SDKConfiguration sdkConfiguration, Headers _headers) {
             super(sdkConfiguration, _headers);
         }
 
-        private CompletableFuture<HttpRequest> onBuildRequest() throws Exception {
-            HttpRequest req = buildRequest();
+        private CompletableFuture<HttpRequest> onBuildRequest(GetProductCategoriesV1ProductsCategoriesGetRequest request) throws Exception {
+            HttpRequest req = buildRequest(request);
             return this.sdkConfiguration.asyncHooks().beforeRequest(createBeforeRequestContext(), req);
         }
 
@@ -211,8 +213,8 @@ public class GetProductCategoriesV1ProductsCategoriesGet {
         }
 
         @Override
-        public CompletableFuture<HttpResponse<Blob>> doRequest() {
-            return unchecked(() -> onBuildRequest()).get().thenCompose(client::sendAsync)
+        public CompletableFuture<HttpResponse<Blob>> doRequest(GetProductCategoriesV1ProductsCategoriesGetRequest request) {
+            return unchecked(() -> onBuildRequest(request)).get().thenCompose(client::sendAsync)
                     .handle((resp, err) -> {
                         if (err != null) {
                             return onError(null, err);
@@ -244,8 +246,8 @@ public class GetProductCategoriesV1ProductsCategoriesGet {
             
             if (Utils.statusCodeMatches(response.statusCode(), "200")) {
                 if (Utils.contentTypeMatches(contentType, "application/json")) {
-                    return Utils.unmarshalAsync(response, new TypeReference<ProductCategories>() {})
-                            .thenApply(res::withProductCategories);
+                    return Utils.unmarshalAsync(response, new TypeReference<ProductCategoryRead>() {})
+                            .thenApply(res::withProductCategoryRead);
                 } else {
                     return Utils.createAsyncApiError(response, "Unexpected content-type received: " + contentType);
                 }
@@ -260,7 +262,7 @@ public class GetProductCategoriesV1ProductsCategoriesGet {
             }
             if (Utils.statusCodeMatches(response.statusCode(), "422")) {
                 if (Utils.contentTypeMatches(contentType, "application/json")) {
-                    return BackendSrcProductsResponsesValidationErrorResponse.fromAsync(response)
+                    return BackendSrcProductsSchemasResponsesValidationErrorResponse.fromAsync(response)
                             .thenCompose(CompletableFuture::failedFuture);
                 } else {
                     return Utils.createAsyncApiError(response, "Unexpected content-type received: " + contentType);

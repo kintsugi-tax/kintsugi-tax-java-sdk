@@ -7,7 +7,7 @@ import static com.kintsugi.taxplatform.operations.Operations.AsyncRequestOperati
 
 import com.kintsugi.taxplatform.models.components.AddressBase;
 import com.kintsugi.taxplatform.models.components.ValidationAddress;
-import com.kintsugi.taxplatform.models.operations.SearchV1AddressValidationSearchPostSecurity;
+import com.kintsugi.taxplatform.models.operations.SuggestionsV1AddressValidationSuggestionsPostRequest;
 import com.kintsugi.taxplatform.models.operations.async.SearchV1AddressValidationSearchPostRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.async.SearchV1AddressValidationSearchPostResponse;
 import com.kintsugi.taxplatform.models.operations.async.SuggestionsV1AddressValidationSuggestionsPostRequestBuilder;
@@ -15,6 +15,8 @@ import com.kintsugi.taxplatform.models.operations.async.SuggestionsV1AddressVali
 import com.kintsugi.taxplatform.operations.SearchV1AddressValidationSearchPost;
 import com.kintsugi.taxplatform.operations.SuggestionsV1AddressValidationSuggestionsPost;
 import com.kintsugi.taxplatform.utils.Headers;
+import java.lang.String;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 
@@ -61,12 +63,11 @@ public class AsyncAddressValidation {
      * The API also adds additional fields, such as county, when possible.
      * 
      * @param request The request object containing all the parameters for the API call.
-     * @param security The security details to use for authentication.
      * @return {@code CompletableFuture<SearchV1AddressValidationSearchPostResponse>} - The async response
      */
-    public CompletableFuture<SearchV1AddressValidationSearchPostResponse> search(AddressBase request, SearchV1AddressValidationSearchPostSecurity security) {
+    public CompletableFuture<SearchV1AddressValidationSearchPostResponse> search(AddressBase request) {
         AsyncRequestOperation<AddressBase, SearchV1AddressValidationSearchPostResponse> operation
-              = new SearchV1AddressValidationSearchPost.Async(sdkConfiguration, security, _headers);
+              = new SearchV1AddressValidationSearchPost.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -96,11 +97,34 @@ public class AsyncAddressValidation {
      * This improves accuracy, increases speed, reduces errors,
      * and streamlines the data entry process.
      * 
-     * @param request The request object containing all the parameters for the API call.
+     * @param validationAddress 
      * @return {@code CompletableFuture<SuggestionsV1AddressValidationSuggestionsPostResponse>} - The async response
      */
-    public CompletableFuture<SuggestionsV1AddressValidationSuggestionsPostResponse> suggest(ValidationAddress request) {
-        AsyncRequestOperation<ValidationAddress, SuggestionsV1AddressValidationSuggestionsPostResponse> operation
+    public CompletableFuture<SuggestionsV1AddressValidationSuggestionsPostResponse> suggest(ValidationAddress validationAddress) {
+        return suggest(Optional.empty(), validationAddress);
+    }
+
+    /**
+     * Suggestions
+     * 
+     * <p>This API endpoint provides address suggestions based on
+     * partial input data. It helps users auto-complete and validate addresses efficiently
+     * by returning a list of suggested addresses that match the input criteria.
+     * This improves accuracy, increases speed, reduces errors,
+     * and streamlines the data entry process.
+     * 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param validationAddress 
+     * @return {@code CompletableFuture<SuggestionsV1AddressValidationSuggestionsPostResponse>} - The async response
+     */
+    public CompletableFuture<SuggestionsV1AddressValidationSuggestionsPostResponse> suggest(Optional<String> xOrganizationId, ValidationAddress validationAddress) {
+        SuggestionsV1AddressValidationSuggestionsPostRequest request =
+            SuggestionsV1AddressValidationSuggestionsPostRequest
+                .builder()
+                .xOrganizationId(xOrganizationId)
+                .validationAddress(validationAddress)
+                .build();
+        AsyncRequestOperation<SuggestionsV1AddressValidationSuggestionsPostRequest, SuggestionsV1AddressValidationSuggestionsPostResponse> operation
               = new SuggestionsV1AddressValidationSuggestionsPost.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);

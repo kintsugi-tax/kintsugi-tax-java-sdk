@@ -1,0 +1,17 @@
+# DocumentTypeEnum
+
+## Example Usage
+
+```java
+import com.kintsugi.taxplatform.models.components.DocumentTypeEnum;
+
+DocumentTypeEnum value = DocumentTypeEnum.INVOICE;
+```
+
+
+## Values
+
+| Name          | Value         |
+| ------------- | ------------- |
+| `INVOICE`     | INVOICE       |
+| `SALES_ORDER` | SALES_ORDER   |

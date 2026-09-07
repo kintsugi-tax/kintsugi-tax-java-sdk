@@ -11,11 +11,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.kintsugi.taxplatform.utils.LazySingletonValue;
 import com.kintsugi.taxplatform.utils.Utils;
-import java.lang.Double;
 import java.lang.Override;
 import java.lang.String;
 import java.lang.SuppressWarnings;
 import java.util.Optional;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 public class TaxItemBuilder {
@@ -28,31 +28,31 @@ public class TaxItemBuilder {
 
 
     @JsonProperty("rate")
-    private double rate;
+    private Rate rate;
 
 
     @JsonProperty("amount")
-    private double amount;
+    private TaxItemBuilderAmount amount;
 
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("converted_amount")
-    private Optional<Double> convertedAmount;
+    private JsonNullable<? extends TaxItemBuilderConvertedAmount> convertedAmount;
 
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("currency")
-    private Optional<? extends CurrencyEnum> currency;
+    private JsonNullable<? extends CurrencyEnum> currency;
 
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("destination_currency")
-    private Optional<? extends CurrencyEnum> destinationCurrency;
+    private JsonNullable<? extends CurrencyEnum> destinationCurrency;
 
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("external_id")
-    private Optional<String> externalId;
+    private JsonNullable<String> externalId;
 
     /**
      * Deprecated: use `jurisdiction_type` instead
@@ -68,31 +68,32 @@ public class TaxItemBuilder {
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("jurisdiction_type")
-    private Optional<? extends JurisdictionType> jurisdictionType;
+    private JsonNullable<? extends JurisdictionType> jurisdictionType;
 
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("jurisdiction_name")
-    private Optional<String> jurisdictionName;
+    private JsonNullable<String> jurisdictionName;
 
 
+    @JsonInclude(Include.ALWAYS)
     @JsonProperty("organization_id")
-    private String organizationId;
+    private Optional<String> organizationId;
 
     @JsonCreator
     public TaxItemBuilder(
             @JsonProperty("rule_id") Optional<String> ruleId,
-            @JsonProperty("rate") double rate,
-            @JsonProperty("amount") double amount,
-            @JsonProperty("converted_amount") Optional<Double> convertedAmount,
-            @JsonProperty("currency") Optional<? extends CurrencyEnum> currency,
-            @JsonProperty("destination_currency") Optional<? extends CurrencyEnum> destinationCurrency,
-            @JsonProperty("external_id") Optional<String> externalId,
+            @JsonProperty("rate") Rate rate,
+            @JsonProperty("amount") TaxItemBuilderAmount amount,
+            @JsonProperty("converted_amount") JsonNullable<? extends TaxItemBuilderConvertedAmount> convertedAmount,
+            @JsonProperty("currency") JsonNullable<? extends CurrencyEnum> currency,
+            @JsonProperty("destination_currency") JsonNullable<? extends CurrencyEnum> destinationCurrency,
+            @JsonProperty("external_id") JsonNullable<String> externalId,
             @JsonProperty("name") String name,
             @JsonProperty("type") Optional<? extends TaxItemTypeEnum> type,
-            @JsonProperty("jurisdiction_type") Optional<? extends JurisdictionType> jurisdictionType,
-            @JsonProperty("jurisdiction_name") Optional<String> jurisdictionName,
-            @JsonProperty("organization_id") String organizationId) {
+            @JsonProperty("jurisdiction_type") JsonNullable<? extends JurisdictionType> jurisdictionType,
+            @JsonProperty("jurisdiction_name") JsonNullable<String> jurisdictionName,
+            @JsonProperty("organization_id") Optional<String> organizationId) {
         Utils.checkNotNull(ruleId, "ruleId");
         Utils.checkNotNull(rate, "rate");
         Utils.checkNotNull(amount, "amount");
@@ -120,14 +121,13 @@ public class TaxItemBuilder {
     }
     
     public TaxItemBuilder(
-            double rate,
-            double amount,
-            String name,
-            String organizationId) {
+            Rate rate,
+            TaxItemBuilderAmount amount,
+            String name) {
         this(Optional.empty(), rate, amount,
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), name, Optional.empty(),
-            Optional.empty(), Optional.empty(), organizationId);
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), name, Optional.empty(),
+            JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty());
     }
 
     /**
@@ -139,34 +139,35 @@ public class TaxItemBuilder {
     }
 
     @JsonIgnore
-    public double rate() {
+    public Rate rate() {
         return rate;
     }
 
     @JsonIgnore
-    public double amount() {
+    public TaxItemBuilderAmount amount() {
         return amount;
     }
 
+    @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<Double> convertedAmount() {
-        return convertedAmount;
+    public JsonNullable<TaxItemBuilderConvertedAmount> convertedAmount() {
+        return (JsonNullable<TaxItemBuilderConvertedAmount>) convertedAmount;
     }
 
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<CurrencyEnum> currency() {
-        return (Optional<CurrencyEnum>) currency;
+    public JsonNullable<CurrencyEnum> currency() {
+        return (JsonNullable<CurrencyEnum>) currency;
     }
 
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<CurrencyEnum> destinationCurrency() {
-        return (Optional<CurrencyEnum>) destinationCurrency;
+    public JsonNullable<CurrencyEnum> destinationCurrency() {
+        return (JsonNullable<CurrencyEnum>) destinationCurrency;
     }
 
     @JsonIgnore
-    public Optional<String> externalId() {
+    public JsonNullable<String> externalId() {
         return externalId;
     }
 
@@ -186,17 +187,17 @@ public class TaxItemBuilder {
 
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<JurisdictionType> jurisdictionType() {
-        return (Optional<JurisdictionType>) jurisdictionType;
+    public JsonNullable<JurisdictionType> jurisdictionType() {
+        return (JsonNullable<JurisdictionType>) jurisdictionType;
     }
 
     @JsonIgnore
-    public Optional<String> jurisdictionName() {
+    public JsonNullable<String> jurisdictionName() {
         return jurisdictionName;
     }
 
     @JsonIgnore
-    public String organizationId() {
+    public Optional<String> organizationId() {
         return organizationId;
     }
 
@@ -224,26 +225,25 @@ public class TaxItemBuilder {
         return this;
     }
 
-    public TaxItemBuilder withRate(double rate) {
+    public TaxItemBuilder withRate(Rate rate) {
         Utils.checkNotNull(rate, "rate");
         this.rate = rate;
         return this;
     }
 
-    public TaxItemBuilder withAmount(double amount) {
+    public TaxItemBuilder withAmount(TaxItemBuilderAmount amount) {
         Utils.checkNotNull(amount, "amount");
         this.amount = amount;
         return this;
     }
 
-    public TaxItemBuilder withConvertedAmount(double convertedAmount) {
+    public TaxItemBuilder withConvertedAmount(TaxItemBuilderConvertedAmount convertedAmount) {
         Utils.checkNotNull(convertedAmount, "convertedAmount");
-        this.convertedAmount = Optional.ofNullable(convertedAmount);
+        this.convertedAmount = JsonNullable.of(convertedAmount);
         return this;
     }
 
-
-    public TaxItemBuilder withConvertedAmount(Optional<Double> convertedAmount) {
+    public TaxItemBuilder withConvertedAmount(JsonNullable<? extends TaxItemBuilderConvertedAmount> convertedAmount) {
         Utils.checkNotNull(convertedAmount, "convertedAmount");
         this.convertedAmount = convertedAmount;
         return this;
@@ -251,12 +251,11 @@ public class TaxItemBuilder {
 
     public TaxItemBuilder withCurrency(CurrencyEnum currency) {
         Utils.checkNotNull(currency, "currency");
-        this.currency = Optional.ofNullable(currency);
+        this.currency = JsonNullable.of(currency);
         return this;
     }
 
-
-    public TaxItemBuilder withCurrency(Optional<? extends CurrencyEnum> currency) {
+    public TaxItemBuilder withCurrency(JsonNullable<? extends CurrencyEnum> currency) {
         Utils.checkNotNull(currency, "currency");
         this.currency = currency;
         return this;
@@ -264,12 +263,11 @@ public class TaxItemBuilder {
 
     public TaxItemBuilder withDestinationCurrency(CurrencyEnum destinationCurrency) {
         Utils.checkNotNull(destinationCurrency, "destinationCurrency");
-        this.destinationCurrency = Optional.ofNullable(destinationCurrency);
+        this.destinationCurrency = JsonNullable.of(destinationCurrency);
         return this;
     }
 
-
-    public TaxItemBuilder withDestinationCurrency(Optional<? extends CurrencyEnum> destinationCurrency) {
+    public TaxItemBuilder withDestinationCurrency(JsonNullable<? extends CurrencyEnum> destinationCurrency) {
         Utils.checkNotNull(destinationCurrency, "destinationCurrency");
         this.destinationCurrency = destinationCurrency;
         return this;
@@ -277,12 +275,11 @@ public class TaxItemBuilder {
 
     public TaxItemBuilder withExternalId(String externalId) {
         Utils.checkNotNull(externalId, "externalId");
-        this.externalId = Optional.ofNullable(externalId);
+        this.externalId = JsonNullable.of(externalId);
         return this;
     }
 
-
-    public TaxItemBuilder withExternalId(Optional<String> externalId) {
+    public TaxItemBuilder withExternalId(JsonNullable<String> externalId) {
         Utils.checkNotNull(externalId, "externalId");
         this.externalId = externalId;
         return this;
@@ -312,12 +309,11 @@ public class TaxItemBuilder {
 
     public TaxItemBuilder withJurisdictionType(JurisdictionType jurisdictionType) {
         Utils.checkNotNull(jurisdictionType, "jurisdictionType");
-        this.jurisdictionType = Optional.ofNullable(jurisdictionType);
+        this.jurisdictionType = JsonNullable.of(jurisdictionType);
         return this;
     }
 
-
-    public TaxItemBuilder withJurisdictionType(Optional<? extends JurisdictionType> jurisdictionType) {
+    public TaxItemBuilder withJurisdictionType(JsonNullable<? extends JurisdictionType> jurisdictionType) {
         Utils.checkNotNull(jurisdictionType, "jurisdictionType");
         this.jurisdictionType = jurisdictionType;
         return this;
@@ -325,18 +321,24 @@ public class TaxItemBuilder {
 
     public TaxItemBuilder withJurisdictionName(String jurisdictionName) {
         Utils.checkNotNull(jurisdictionName, "jurisdictionName");
-        this.jurisdictionName = Optional.ofNullable(jurisdictionName);
+        this.jurisdictionName = JsonNullable.of(jurisdictionName);
         return this;
     }
 
-
-    public TaxItemBuilder withJurisdictionName(Optional<String> jurisdictionName) {
+    public TaxItemBuilder withJurisdictionName(JsonNullable<String> jurisdictionName) {
         Utils.checkNotNull(jurisdictionName, "jurisdictionName");
         this.jurisdictionName = jurisdictionName;
         return this;
     }
 
     public TaxItemBuilder withOrganizationId(String organizationId) {
+        Utils.checkNotNull(organizationId, "organizationId");
+        this.organizationId = Optional.ofNullable(organizationId);
+        return this;
+    }
+
+
+    public TaxItemBuilder withOrganizationId(Optional<String> organizationId) {
         Utils.checkNotNull(organizationId, "organizationId");
         this.organizationId = organizationId;
         return this;
@@ -397,27 +399,27 @@ public class TaxItemBuilder {
 
         private Optional<String> ruleId;
 
-        private Double rate;
+        private Rate rate;
 
-        private Double amount;
+        private TaxItemBuilderAmount amount;
 
-        private Optional<Double> convertedAmount = Optional.empty();
+        private JsonNullable<? extends TaxItemBuilderConvertedAmount> convertedAmount = JsonNullable.undefined();
 
-        private Optional<? extends CurrencyEnum> currency = Optional.empty();
+        private JsonNullable<? extends CurrencyEnum> currency = JsonNullable.undefined();
 
-        private Optional<? extends CurrencyEnum> destinationCurrency = Optional.empty();
+        private JsonNullable<? extends CurrencyEnum> destinationCurrency = JsonNullable.undefined();
 
-        private Optional<String> externalId = Optional.empty();
+        private JsonNullable<String> externalId = JsonNullable.undefined();
 
         private String name;
 
         private Optional<? extends TaxItemTypeEnum> type = Optional.empty();
 
-        private Optional<? extends JurisdictionType> jurisdictionType = Optional.empty();
+        private JsonNullable<? extends JurisdictionType> jurisdictionType = JsonNullable.undefined();
 
-        private Optional<String> jurisdictionName = Optional.empty();
+        private JsonNullable<String> jurisdictionName = JsonNullable.undefined();
 
-        private String organizationId;
+        private Optional<String> organizationId = Optional.empty();
 
         private Builder() {
           // force use of static builder() method
@@ -443,27 +445,27 @@ public class TaxItemBuilder {
         }
 
 
-        public Builder rate(double rate) {
+        public Builder rate(Rate rate) {
             Utils.checkNotNull(rate, "rate");
             this.rate = rate;
             return this;
         }
 
 
-        public Builder amount(double amount) {
+        public Builder amount(TaxItemBuilderAmount amount) {
             Utils.checkNotNull(amount, "amount");
             this.amount = amount;
             return this;
         }
 
 
-        public Builder convertedAmount(double convertedAmount) {
+        public Builder convertedAmount(TaxItemBuilderConvertedAmount convertedAmount) {
             Utils.checkNotNull(convertedAmount, "convertedAmount");
-            this.convertedAmount = Optional.ofNullable(convertedAmount);
+            this.convertedAmount = JsonNullable.of(convertedAmount);
             return this;
         }
 
-        public Builder convertedAmount(Optional<Double> convertedAmount) {
+        public Builder convertedAmount(JsonNullable<? extends TaxItemBuilderConvertedAmount> convertedAmount) {
             Utils.checkNotNull(convertedAmount, "convertedAmount");
             this.convertedAmount = convertedAmount;
             return this;
@@ -472,11 +474,11 @@ public class TaxItemBuilder {
 
         public Builder currency(CurrencyEnum currency) {
             Utils.checkNotNull(currency, "currency");
-            this.currency = Optional.ofNullable(currency);
+            this.currency = JsonNullable.of(currency);
             return this;
         }
 
-        public Builder currency(Optional<? extends CurrencyEnum> currency) {
+        public Builder currency(JsonNullable<? extends CurrencyEnum> currency) {
             Utils.checkNotNull(currency, "currency");
             this.currency = currency;
             return this;
@@ -485,11 +487,11 @@ public class TaxItemBuilder {
 
         public Builder destinationCurrency(CurrencyEnum destinationCurrency) {
             Utils.checkNotNull(destinationCurrency, "destinationCurrency");
-            this.destinationCurrency = Optional.ofNullable(destinationCurrency);
+            this.destinationCurrency = JsonNullable.of(destinationCurrency);
             return this;
         }
 
-        public Builder destinationCurrency(Optional<? extends CurrencyEnum> destinationCurrency) {
+        public Builder destinationCurrency(JsonNullable<? extends CurrencyEnum> destinationCurrency) {
             Utils.checkNotNull(destinationCurrency, "destinationCurrency");
             this.destinationCurrency = destinationCurrency;
             return this;
@@ -498,11 +500,11 @@ public class TaxItemBuilder {
 
         public Builder externalId(String externalId) {
             Utils.checkNotNull(externalId, "externalId");
-            this.externalId = Optional.ofNullable(externalId);
+            this.externalId = JsonNullable.of(externalId);
             return this;
         }
 
-        public Builder externalId(Optional<String> externalId) {
+        public Builder externalId(JsonNullable<String> externalId) {
             Utils.checkNotNull(externalId, "externalId");
             this.externalId = externalId;
             return this;
@@ -534,11 +536,11 @@ public class TaxItemBuilder {
 
         public Builder jurisdictionType(JurisdictionType jurisdictionType) {
             Utils.checkNotNull(jurisdictionType, "jurisdictionType");
-            this.jurisdictionType = Optional.ofNullable(jurisdictionType);
+            this.jurisdictionType = JsonNullable.of(jurisdictionType);
             return this;
         }
 
-        public Builder jurisdictionType(Optional<? extends JurisdictionType> jurisdictionType) {
+        public Builder jurisdictionType(JsonNullable<? extends JurisdictionType> jurisdictionType) {
             Utils.checkNotNull(jurisdictionType, "jurisdictionType");
             this.jurisdictionType = jurisdictionType;
             return this;
@@ -547,11 +549,11 @@ public class TaxItemBuilder {
 
         public Builder jurisdictionName(String jurisdictionName) {
             Utils.checkNotNull(jurisdictionName, "jurisdictionName");
-            this.jurisdictionName = Optional.ofNullable(jurisdictionName);
+            this.jurisdictionName = JsonNullable.of(jurisdictionName);
             return this;
         }
 
-        public Builder jurisdictionName(Optional<String> jurisdictionName) {
+        public Builder jurisdictionName(JsonNullable<String> jurisdictionName) {
             Utils.checkNotNull(jurisdictionName, "jurisdictionName");
             this.jurisdictionName = jurisdictionName;
             return this;
@@ -559,6 +561,12 @@ public class TaxItemBuilder {
 
 
         public Builder organizationId(String organizationId) {
+            Utils.checkNotNull(organizationId, "organizationId");
+            this.organizationId = Optional.ofNullable(organizationId);
+            return this;
+        }
+
+        public Builder organizationId(Optional<String> organizationId) {
             Utils.checkNotNull(organizationId, "organizationId");
             this.organizationId = organizationId;
             return this;

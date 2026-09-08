@@ -14,6 +14,7 @@ import java.lang.String;
 import java.lang.SuppressWarnings;
 import java.time.LocalDate;
 import java.util.Optional;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 public class PhysicalNexusRead {
@@ -41,7 +42,7 @@ public class PhysicalNexusRead {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("end_date")
-    private Optional<String> endDate;
+    private JsonNullable<LocalDate> endDate;
 
 
     @JsonProperty("category")
@@ -53,7 +54,7 @@ public class PhysicalNexusRead {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("external_id")
-    private Optional<String> externalId;
+    private JsonNullable<String> externalId;
 
 
     @JsonInclude(Include.NON_ABSENT)
@@ -65,28 +66,28 @@ public class PhysicalNexusRead {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("street_1")
-    private Optional<String> street1;
+    private JsonNullable<String> street1;
 
     /**
      * Additional street address details, such as suite or unit number.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("street_2")
-    private Optional<String> street2;
+    private JsonNullable<String> street2;
 
     /**
      * City of the physical presence location.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("city")
-    private Optional<String> city;
+    private JsonNullable<String> city;
 
     /**
      * ZIP or postal code of the physical presence location.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("postal_code")
-    private Optional<String> postalCode;
+    private JsonNullable<String> postalCode;
 
     /**
      * The unique identifier for the physical nexus.
@@ -99,14 +100,14 @@ public class PhysicalNexusRead {
             @JsonProperty("country_code") CountryCodeEnum countryCode,
             @JsonProperty("state_code") String stateCode,
             @JsonProperty("start_date") LocalDate startDate,
-            @JsonProperty("end_date") Optional<String> endDate,
+            @JsonProperty("end_date") JsonNullable<LocalDate> endDate,
             @JsonProperty("category") PhysicalNexusCategory category,
-            @JsonProperty("external_id") Optional<String> externalId,
+            @JsonProperty("external_id") JsonNullable<String> externalId,
             @JsonProperty("source") Optional<? extends PhysicalNexusSource> source,
-            @JsonProperty("street_1") Optional<String> street1,
-            @JsonProperty("street_2") Optional<String> street2,
-            @JsonProperty("city") Optional<String> city,
-            @JsonProperty("postal_code") Optional<String> postalCode,
+            @JsonProperty("street_1") JsonNullable<String> street1,
+            @JsonProperty("street_2") JsonNullable<String> street2,
+            @JsonProperty("city") JsonNullable<String> city,
+            @JsonProperty("postal_code") JsonNullable<String> postalCode,
             @JsonProperty("id") String id) {
         Utils.checkNotNull(countryCode, "countryCode");
         Utils.checkNotNull(stateCode, "stateCode");
@@ -141,9 +142,9 @@ public class PhysicalNexusRead {
             PhysicalNexusCategory category,
             String id) {
         this(countryCode, stateCode, startDate,
-            Optional.empty(), category, Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), id);
+            JsonNullable.undefined(), category, JsonNullable.undefined(),
+            Optional.empty(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), id);
     }
 
     @JsonIgnore
@@ -174,7 +175,7 @@ public class PhysicalNexusRead {
      * nexus ended, if applicable.
      */
     @JsonIgnore
-    public Optional<String> endDate() {
+    public JsonNullable<LocalDate> endDate() {
         return endDate;
     }
 
@@ -188,7 +189,7 @@ public class PhysicalNexusRead {
      * external identifier for the nexus.
      */
     @JsonIgnore
-    public Optional<String> externalId() {
+    public JsonNullable<String> externalId() {
         return externalId;
     }
 
@@ -202,7 +203,7 @@ public class PhysicalNexusRead {
      * Primary street address for the physical presence location.
      */
     @JsonIgnore
-    public Optional<String> street1() {
+    public JsonNullable<String> street1() {
         return street1;
     }
 
@@ -210,7 +211,7 @@ public class PhysicalNexusRead {
      * Additional street address details, such as suite or unit number.
      */
     @JsonIgnore
-    public Optional<String> street2() {
+    public JsonNullable<String> street2() {
         return street2;
     }
 
@@ -218,7 +219,7 @@ public class PhysicalNexusRead {
      * City of the physical presence location.
      */
     @JsonIgnore
-    public Optional<String> city() {
+    public JsonNullable<String> city() {
         return city;
     }
 
@@ -226,7 +227,7 @@ public class PhysicalNexusRead {
      * ZIP or postal code of the physical presence location.
      */
     @JsonIgnore
-    public Optional<String> postalCode() {
+    public JsonNullable<String> postalCode() {
         return postalCode;
     }
 
@@ -273,18 +274,17 @@ public class PhysicalNexusRead {
      * The date when the
      * nexus ended, if applicable.
      */
-    public PhysicalNexusRead withEndDate(String endDate) {
+    public PhysicalNexusRead withEndDate(LocalDate endDate) {
         Utils.checkNotNull(endDate, "endDate");
-        this.endDate = Optional.ofNullable(endDate);
+        this.endDate = JsonNullable.of(endDate);
         return this;
     }
-
 
     /**
      * The date when the
      * nexus ended, if applicable.
      */
-    public PhysicalNexusRead withEndDate(Optional<String> endDate) {
+    public PhysicalNexusRead withEndDate(JsonNullable<LocalDate> endDate) {
         Utils.checkNotNull(endDate, "endDate");
         this.endDate = endDate;
         return this;
@@ -302,16 +302,15 @@ public class PhysicalNexusRead {
      */
     public PhysicalNexusRead withExternalId(String externalId) {
         Utils.checkNotNull(externalId, "externalId");
-        this.externalId = Optional.ofNullable(externalId);
+        this.externalId = JsonNullable.of(externalId);
         return this;
     }
-
 
     /**
      * Optional
      * external identifier for the nexus.
      */
-    public PhysicalNexusRead withExternalId(Optional<String> externalId) {
+    public PhysicalNexusRead withExternalId(JsonNullable<String> externalId) {
         Utils.checkNotNull(externalId, "externalId");
         this.externalId = externalId;
         return this;
@@ -335,15 +334,14 @@ public class PhysicalNexusRead {
      */
     public PhysicalNexusRead withStreet1(String street1) {
         Utils.checkNotNull(street1, "street1");
-        this.street1 = Optional.ofNullable(street1);
+        this.street1 = JsonNullable.of(street1);
         return this;
     }
-
 
     /**
      * Primary street address for the physical presence location.
      */
-    public PhysicalNexusRead withStreet1(Optional<String> street1) {
+    public PhysicalNexusRead withStreet1(JsonNullable<String> street1) {
         Utils.checkNotNull(street1, "street1");
         this.street1 = street1;
         return this;
@@ -354,15 +352,14 @@ public class PhysicalNexusRead {
      */
     public PhysicalNexusRead withStreet2(String street2) {
         Utils.checkNotNull(street2, "street2");
-        this.street2 = Optional.ofNullable(street2);
+        this.street2 = JsonNullable.of(street2);
         return this;
     }
-
 
     /**
      * Additional street address details, such as suite or unit number.
      */
-    public PhysicalNexusRead withStreet2(Optional<String> street2) {
+    public PhysicalNexusRead withStreet2(JsonNullable<String> street2) {
         Utils.checkNotNull(street2, "street2");
         this.street2 = street2;
         return this;
@@ -373,15 +370,14 @@ public class PhysicalNexusRead {
      */
     public PhysicalNexusRead withCity(String city) {
         Utils.checkNotNull(city, "city");
-        this.city = Optional.ofNullable(city);
+        this.city = JsonNullable.of(city);
         return this;
     }
-
 
     /**
      * City of the physical presence location.
      */
-    public PhysicalNexusRead withCity(Optional<String> city) {
+    public PhysicalNexusRead withCity(JsonNullable<String> city) {
         Utils.checkNotNull(city, "city");
         this.city = city;
         return this;
@@ -392,15 +388,14 @@ public class PhysicalNexusRead {
      */
     public PhysicalNexusRead withPostalCode(String postalCode) {
         Utils.checkNotNull(postalCode, "postalCode");
-        this.postalCode = Optional.ofNullable(postalCode);
+        this.postalCode = JsonNullable.of(postalCode);
         return this;
     }
-
 
     /**
      * ZIP or postal code of the physical presence location.
      */
-    public PhysicalNexusRead withPostalCode(Optional<String> postalCode) {
+    public PhysicalNexusRead withPostalCode(JsonNullable<String> postalCode) {
         Utils.checkNotNull(postalCode, "postalCode");
         this.postalCode = postalCode;
         return this;
@@ -474,21 +469,21 @@ public class PhysicalNexusRead {
 
         private LocalDate startDate;
 
-        private Optional<String> endDate = Optional.empty();
+        private JsonNullable<LocalDate> endDate = JsonNullable.undefined();
 
         private PhysicalNexusCategory category;
 
-        private Optional<String> externalId = Optional.empty();
+        private JsonNullable<String> externalId = JsonNullable.undefined();
 
         private Optional<? extends PhysicalNexusSource> source = Optional.empty();
 
-        private Optional<String> street1 = Optional.empty();
+        private JsonNullable<String> street1 = JsonNullable.undefined();
 
-        private Optional<String> street2 = Optional.empty();
+        private JsonNullable<String> street2 = JsonNullable.undefined();
 
-        private Optional<String> city = Optional.empty();
+        private JsonNullable<String> city = JsonNullable.undefined();
 
-        private Optional<String> postalCode = Optional.empty();
+        private JsonNullable<String> postalCode = JsonNullable.undefined();
 
         private String id;
 
@@ -530,9 +525,9 @@ public class PhysicalNexusRead {
          * The date when the
          * nexus ended, if applicable.
          */
-        public Builder endDate(String endDate) {
+        public Builder endDate(LocalDate endDate) {
             Utils.checkNotNull(endDate, "endDate");
-            this.endDate = Optional.ofNullable(endDate);
+            this.endDate = JsonNullable.of(endDate);
             return this;
         }
 
@@ -540,7 +535,7 @@ public class PhysicalNexusRead {
          * The date when the
          * nexus ended, if applicable.
          */
-        public Builder endDate(Optional<String> endDate) {
+        public Builder endDate(JsonNullable<LocalDate> endDate) {
             Utils.checkNotNull(endDate, "endDate");
             this.endDate = endDate;
             return this;
@@ -560,7 +555,7 @@ public class PhysicalNexusRead {
          */
         public Builder externalId(String externalId) {
             Utils.checkNotNull(externalId, "externalId");
-            this.externalId = Optional.ofNullable(externalId);
+            this.externalId = JsonNullable.of(externalId);
             return this;
         }
 
@@ -568,7 +563,7 @@ public class PhysicalNexusRead {
          * Optional
          * external identifier for the nexus.
          */
-        public Builder externalId(Optional<String> externalId) {
+        public Builder externalId(JsonNullable<String> externalId) {
             Utils.checkNotNull(externalId, "externalId");
             this.externalId = externalId;
             return this;
@@ -593,14 +588,14 @@ public class PhysicalNexusRead {
          */
         public Builder street1(String street1) {
             Utils.checkNotNull(street1, "street1");
-            this.street1 = Optional.ofNullable(street1);
+            this.street1 = JsonNullable.of(street1);
             return this;
         }
 
         /**
          * Primary street address for the physical presence location.
          */
-        public Builder street1(Optional<String> street1) {
+        public Builder street1(JsonNullable<String> street1) {
             Utils.checkNotNull(street1, "street1");
             this.street1 = street1;
             return this;
@@ -612,14 +607,14 @@ public class PhysicalNexusRead {
          */
         public Builder street2(String street2) {
             Utils.checkNotNull(street2, "street2");
-            this.street2 = Optional.ofNullable(street2);
+            this.street2 = JsonNullable.of(street2);
             return this;
         }
 
         /**
          * Additional street address details, such as suite or unit number.
          */
-        public Builder street2(Optional<String> street2) {
+        public Builder street2(JsonNullable<String> street2) {
             Utils.checkNotNull(street2, "street2");
             this.street2 = street2;
             return this;
@@ -631,14 +626,14 @@ public class PhysicalNexusRead {
          */
         public Builder city(String city) {
             Utils.checkNotNull(city, "city");
-            this.city = Optional.ofNullable(city);
+            this.city = JsonNullable.of(city);
             return this;
         }
 
         /**
          * City of the physical presence location.
          */
-        public Builder city(Optional<String> city) {
+        public Builder city(JsonNullable<String> city) {
             Utils.checkNotNull(city, "city");
             this.city = city;
             return this;
@@ -650,14 +645,14 @@ public class PhysicalNexusRead {
          */
         public Builder postalCode(String postalCode) {
             Utils.checkNotNull(postalCode, "postalCode");
-            this.postalCode = Optional.ofNullable(postalCode);
+            this.postalCode = JsonNullable.of(postalCode);
             return this;
         }
 
         /**
          * ZIP or postal code of the physical presence location.
          */
-        public Builder postalCode(Optional<String> postalCode) {
+        public Builder postalCode(JsonNullable<String> postalCode) {
             Utils.checkNotNull(postalCode, "postalCode");
             this.postalCode = postalCode;
             return this;

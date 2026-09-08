@@ -9,11 +9,17 @@ import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.operations.GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
+import java.lang.Long;
 import java.lang.String;
+import java.util.Optional;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 public class GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequestBuilder {
 
     private String customerId;
+    private JsonNullable<Long> page = JsonNullable.undefined();
+    private JsonNullable<Long> size = JsonNullable.undefined();
+    private Optional<String> xOrganizationId = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -27,10 +33,49 @@ public class GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequ
         return this;
     }
 
+    public GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequestBuilder page(long page) {
+        Utils.checkNotNull(page, "page");
+        this.page = JsonNullable.of(page);
+        return this;
+    }
+
+    public GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequestBuilder page(JsonNullable<Long> page) {
+        Utils.checkNotNull(page, "page");
+        this.page = page;
+        return this;
+    }
+
+    public GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequestBuilder size(long size) {
+        Utils.checkNotNull(size, "size");
+        this.size = JsonNullable.of(size);
+        return this;
+    }
+
+    public GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequestBuilder size(JsonNullable<Long> size) {
+        Utils.checkNotNull(size, "size");
+        this.size = size;
+        return this;
+    }
+                
+    public GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequestBuilder xOrganizationId(String xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = Optional.of(xOrganizationId);
+        return this;
+    }
+
+    public GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequestBuilder xOrganizationId(Optional<String> xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = xOrganizationId;
+        return this;
+    }
+
 
     private GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest buildRequest() {
 
-        GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest request = new GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest(customerId);
+        GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest request = new GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest(customerId,
+            page,
+            size,
+            xOrganizationId);
 
         return request;
     }

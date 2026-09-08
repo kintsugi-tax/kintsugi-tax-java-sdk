@@ -10,11 +10,11 @@ import static com.kintsugi.taxplatform.operations.Operations.AsyncRequestOperati
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.SecuritySource;
-import com.kintsugi.taxplatform.models.components.PhysicalNexusCreate;
 import com.kintsugi.taxplatform.models.components.PhysicalNexusRead;
 import com.kintsugi.taxplatform.models.errors.APIException;
 import com.kintsugi.taxplatform.models.errors.BackendSrcNexusResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
+import com.kintsugi.taxplatform.models.operations.CreatePhysicalNexusV1NexusPhysicalNexusPostRequest;
 import com.kintsugi.taxplatform.models.operations.CreatePhysicalNexusV1NexusPhysicalNexusPostResponse;
 import com.kintsugi.taxplatform.utils.Blob;
 import com.kintsugi.taxplatform.utils.HTTPClient;
@@ -97,7 +97,7 @@ public class CreatePhysicalNexusV1NexusPhysicalNexusPost {
                     typeReference);
             SerializedBody serializedRequestBody = Utils.serializeRequestBody(
                     convertedRequest,
-                    "",
+                    "physicalNexusCreate",
                     "json",
                     false);
             if (serializedRequestBody == null) {
@@ -107,6 +107,7 @@ public class CreatePhysicalNexusV1NexusPhysicalNexusPost {
             req.addHeader("Accept", "application/json")
                     .addHeader("user-agent", SDKConfiguration.USER_AGENT);
             _headers.forEach((k, list) -> list.forEach(v -> req.addHeader(k, v)));
+            req.addHeaders(Utils.getHeadersFromMetadata(request, null));
             Utils.configureSecurity(req, this.sdkConfiguration.securitySource().getSecurity());
 
             return req.build();
@@ -114,13 +115,13 @@ public class CreatePhysicalNexusV1NexusPhysicalNexusPost {
     }
 
     public static class Sync extends Base
-            implements RequestOperation<PhysicalNexusCreate, CreatePhysicalNexusV1NexusPhysicalNexusPostResponse> {
+            implements RequestOperation<CreatePhysicalNexusV1NexusPhysicalNexusPostRequest, CreatePhysicalNexusV1NexusPhysicalNexusPostResponse> {
         public Sync(SDKConfiguration sdkConfiguration, Headers _headers) {
             super(sdkConfiguration, _headers);
         }
 
-        private HttpRequest onBuildRequest(PhysicalNexusCreate request) throws Exception {
-            HttpRequest req = buildRequest(request, new TypeReference<PhysicalNexusCreate>() {});
+        private HttpRequest onBuildRequest(CreatePhysicalNexusV1NexusPhysicalNexusPostRequest request) throws Exception {
+            HttpRequest req = buildRequest(request, new TypeReference<CreatePhysicalNexusV1NexusPhysicalNexusPostRequest>() {});
             return sdkConfiguration.hooks().beforeRequest(createBeforeRequestContext(), req);
         }
 
@@ -136,7 +137,7 @@ public class CreatePhysicalNexusV1NexusPhysicalNexusPost {
         }
 
         @Override
-        public HttpResponse<InputStream> doRequest(PhysicalNexusCreate request) {
+        public HttpResponse<InputStream> doRequest(CreatePhysicalNexusV1NexusPhysicalNexusPostRequest request) {
             HttpRequest r = unchecked(() -> onBuildRequest(request)).get();
             HttpResponse<InputStream> httpRes;
             try {
@@ -209,14 +210,14 @@ public class CreatePhysicalNexusV1NexusPhysicalNexusPost {
         }
     }
     public static class Async extends Base
-            implements AsyncRequestOperation<PhysicalNexusCreate, com.kintsugi.taxplatform.models.operations.async.CreatePhysicalNexusV1NexusPhysicalNexusPostResponse> {
+            implements AsyncRequestOperation<CreatePhysicalNexusV1NexusPhysicalNexusPostRequest, com.kintsugi.taxplatform.models.operations.async.CreatePhysicalNexusV1NexusPhysicalNexusPostResponse> {
 
         public Async(SDKConfiguration sdkConfiguration, Headers _headers) {
             super(sdkConfiguration, _headers);
         }
 
-        private CompletableFuture<HttpRequest> onBuildRequest(PhysicalNexusCreate request) throws Exception {
-            HttpRequest req = buildRequest(request, new TypeReference<PhysicalNexusCreate>() {});
+        private CompletableFuture<HttpRequest> onBuildRequest(CreatePhysicalNexusV1NexusPhysicalNexusPostRequest request) throws Exception {
+            HttpRequest req = buildRequest(request, new TypeReference<CreatePhysicalNexusV1NexusPhysicalNexusPostRequest>() {});
             return this.sdkConfiguration.asyncHooks().beforeRequest(createBeforeRequestContext(), req);
         }
 
@@ -229,7 +230,7 @@ public class CreatePhysicalNexusV1NexusPhysicalNexusPost {
         }
 
         @Override
-        public CompletableFuture<HttpResponse<Blob>> doRequest(PhysicalNexusCreate request) {
+        public CompletableFuture<HttpResponse<Blob>> doRequest(CreatePhysicalNexusV1NexusPhysicalNexusPostRequest request) {
             return unchecked(() -> onBuildRequest(request)).get().thenCompose(client::sendAsync)
                     .handle((resp, err) -> {
                         if (err != null) {

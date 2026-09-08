@@ -10,10 +10,12 @@ import com.kintsugi.taxplatform.operations.GetTransactionByExternalIdV1Transacti
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.util.Optional;
 
 public class GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequestBuilder {
 
     private String externalId;
+    private Optional<String> xOrganizationId = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -26,11 +28,24 @@ public class GetTransactionByExternalIdV1TransactionsExternalExternalIdGetReques
         this.externalId = externalId;
         return this;
     }
+                
+    public GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequestBuilder xOrganizationId(String xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = Optional.of(xOrganizationId);
+        return this;
+    }
+
+    public GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequestBuilder xOrganizationId(Optional<String> xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = xOrganizationId;
+        return this;
+    }
 
 
     private GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest buildRequest() {
 
-        GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest request = new GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest(externalId);
+        GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest request = new GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest(externalId,
+            xOrganizationId);
 
         return request;
     }

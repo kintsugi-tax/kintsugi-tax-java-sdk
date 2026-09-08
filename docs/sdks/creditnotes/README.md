@@ -4,7 +4,7 @@
 
 ### Available Operations
 
-* [create](#create) - Create Credit Note By Transaction Id
+* [create](#create) - Create credit note by transaction id
 
 ## create
 
@@ -29,27 +29,25 @@ public class Application {
     public static void main(String[] args) throws HTTPValidationError, Exception {
 
         SDK sdk = SDK.builder()
-                .security(Security.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
-                    .build())
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
             .build();
 
         POSTCreateCreditNoteByTransactionIdResponse res = sdk.transactions().creditNotes().create()
                 .originalTransactionId("<id>")
+                .xOrganizationId("org_12345")
                 .creditNoteCreate(CreditNoteCreate.builder()
                     .externalId("CN-12345")
                     .date(OffsetDateTime.parse("2024-10-27T14:30:00Z"))
                     .status(Status.PENDING)
-                    .totalAmount(50d)
+                    .totalAmount(CreditNoteCreateTotalAmount.of(50d))
                     .currency(CurrencyEnum.USD)
                     .transactionItems(List.of(
                         CreditNoteItemCreateUpdate.builder()
                             .externalId("ITEM-1")
                             .date(OffsetDateTime.parse("2024-10-27T14:30:00Z"))
                             .externalProductId("PROD-ABC")
-                            .quantity(1d)
-                            .amount(50d)
+                            .quantity(CreditNoteItemCreateUpdateQuantity.of(1d))
+                            .amount(CreditNoteItemCreateUpdateAmount.of(50d))
                             .build()))
                     .description("Refund for damaged product")
                     .build())
@@ -64,10 +62,11 @@ public class Application {
 
 ### Parameters
 
-| Parameter                                                       | Type                                                            | Required                                                        | Description                                                     |
-| --------------------------------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------- |
-| `originalTransactionId`                                         | *String*                                                        | :heavy_check_mark:                                              | N/A                                                             |
-| `creditNoteCreate`                                              | [CreditNoteCreate](../../models/components/CreditNoteCreate.md) | :heavy_check_mark:                                              | N/A                                                             |
+| Parameter                                                       | Type                                                            | Required                                                        | Description                                                     | Example                                                         |
+| --------------------------------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------- | --------------------------------------------------------------- |
+| `originalTransactionId`                                         | *String*                                                        | :heavy_check_mark:                                              | N/A                                                             |                                                                 |
+| `xOrganizationId`                                               | *Optional\<String>*                                             | :heavy_check_mark:                                              | The unique identifier for the organization making the request   | org_12345                                                       |
+| `creditNoteCreate`                                              | [CreditNoteCreate](../../models/components/CreditNoteCreate.md) | :heavy_check_mark:                                              | N/A                                                             |                                                                 |
 
 ### Response
 

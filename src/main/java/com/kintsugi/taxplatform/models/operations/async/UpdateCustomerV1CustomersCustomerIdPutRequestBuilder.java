@@ -12,11 +12,13 @@ import com.kintsugi.taxplatform.operations.UpdateCustomerV1CustomersCustomerIdPu
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 public class UpdateCustomerV1CustomersCustomerIdPutRequestBuilder {
 
     private String customerId;
+    private Optional<String> xOrganizationId = Optional.empty();
     private CustomerUpdate customerUpdate;
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
@@ -30,6 +32,18 @@ public class UpdateCustomerV1CustomersCustomerIdPutRequestBuilder {
         this.customerId = customerId;
         return this;
     }
+                
+    public UpdateCustomerV1CustomersCustomerIdPutRequestBuilder xOrganizationId(String xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = Optional.of(xOrganizationId);
+        return this;
+    }
+
+    public UpdateCustomerV1CustomersCustomerIdPutRequestBuilder xOrganizationId(Optional<String> xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = xOrganizationId;
+        return this;
+    }
 
     public UpdateCustomerV1CustomersCustomerIdPutRequestBuilder customerUpdate(CustomerUpdate customerUpdate) {
         Utils.checkNotNull(customerUpdate, "customerUpdate");
@@ -41,6 +55,7 @@ public class UpdateCustomerV1CustomersCustomerIdPutRequestBuilder {
     private UpdateCustomerV1CustomersCustomerIdPutRequest buildRequest() {
 
         UpdateCustomerV1CustomersCustomerIdPutRequest request = new UpdateCustomerV1CustomersCustomerIdPutRequest(customerId,
+            xOrganizationId,
             customerUpdate);
 
         return request;

@@ -24,6 +24,7 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 public class NexusResponse {
@@ -62,12 +63,14 @@ public class NexusResponse {
     private SalesOrTransactionsEnum salesOrTransactions;
 
 
-    @JsonProperty("threshold_sales")
-    private long thresholdSales;
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("threshold_sales_bigint")
+    private Optional<Long> thresholdSalesBigint;
 
 
+    @JsonInclude(Include.ALWAYS)
     @JsonProperty("threshold_transactions")
-    private long thresholdTransactions;
+    private Optional<Long> thresholdTransactions;
 
 
     @JsonProperty("start_date")
@@ -85,7 +88,7 @@ public class NexusResponse {
 
     /**
      * Deprecated: transaction_count now includes both current and previous period values when period_model
-     * is CURRENT_OR_PREVIOUS
+     * is CURRENT_OR_PREVIOUS, CURRENT_OR_TWO_PREVIOUS, or CURRENT_OR_PREVIOUS_12_MONTHS
      * 
      * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
      */
@@ -96,7 +99,7 @@ public class NexusResponse {
 
     /**
      * Deprecated: transactions_amount now includes both current and previous period values when
-     * period_model is CURRENT_OR_PREVIOUS
+     * period_model is CURRENT_OR_PREVIOUS, CURRENT_OR_TWO_PREVIOUS, or CURRENT_OR_PREVIOUS_12_MONTHS
      * 
      * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
      */
@@ -108,12 +111,12 @@ public class NexusResponse {
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("calculated_tax_liability")
-    private Optional<String> calculatedTaxLiability;
+    private JsonNullable<String> calculatedTaxLiability;
 
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("imported_tax_liability")
-    private Optional<String> importedTaxLiability;
+    private JsonNullable<String> importedTaxLiability;
 
 
     @JsonInclude(Include.NON_ABSENT)
@@ -128,7 +131,20 @@ public class NexusResponse {
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("nexus_met_date")
-    private Optional<String> nexusMetDate;
+    private JsonNullable<LocalDate> nexusMetDate;
+
+    /**
+     * Tax obligation on a nexus, registration, or filing row.
+     * 
+     * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
+     * one return can cover both taxes, and each is stored as a single row.
+     * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
+     * separate obligations with their own met dates, period models, and liability
+     * accrual.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("tax_type")
+    private Optional<? extends TaxTypeEnum> taxType;
 
 
     @JsonInclude(Include.NON_ABSENT)
@@ -138,7 +154,7 @@ public class NexusResponse {
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("economic_nexus_met_date")
-    private Optional<String> economicNexusMetDate;
+    private JsonNullable<LocalDate> economicNexusMetDate;
 
 
     @JsonInclude(Include.NON_ABSENT)
@@ -148,17 +164,17 @@ public class NexusResponse {
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("physical_nexus_met_date")
-    private Optional<String> physicalNexusMetDate;
+    private JsonNullable<LocalDate> physicalNexusMetDate;
 
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("collected_tax_nexus_met")
-    private Optional<Boolean> collectedTaxNexusMet;
+    private JsonNullable<Boolean> collectedTaxNexusMet;
 
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("collected_tax_nexus_met_date")
-    private Optional<String> collectedTaxNexusMetDate;
+    private JsonNullable<LocalDate> collectedTaxNexusMetDate;
 
 
     @JsonProperty("period_model")
@@ -173,27 +189,29 @@ public class NexusResponse {
     private LocalDate periodEndDate;
 
 
+    @JsonInclude(Include.ALWAYS)
     @JsonProperty("previous_period_start_date")
-    private String previousPeriodStartDate;
+    private Optional<LocalDate> previousPeriodStartDate;
 
 
+    @JsonInclude(Include.ALWAYS)
     @JsonProperty("previous_period_end_date")
-    private String previousPeriodEndDate;
+    private Optional<LocalDate> previousPeriodEndDate;
 
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("earliest_transaction_date")
-    private Optional<String> earliestTransactionDate;
+    private JsonNullable<OffsetDateTime> earliestTransactionDate;
 
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("most_recent_transaction_date")
-    private Optional<String> mostRecentTransactionDate;
+    private JsonNullable<OffsetDateTime> mostRecentTransactionDate;
 
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("find_threshold_crossing_transaction_state")
-    private Optional<? extends FindThresholdCrossingTransactionState> findThresholdCrossingTransactionState;
+    private JsonNullable<? extends FindThresholdCrossingTransactionState> findThresholdCrossingTransactionState;
 
 
     @JsonInclude(Include.NON_ABSENT)
@@ -203,37 +221,39 @@ public class NexusResponse {
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("predicted_month_from_today")
-    private Optional<Long> predictedMonthFromToday;
+    private JsonNullable<Long> predictedMonthFromToday;
 
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("vda_eligible")
-    private Optional<Boolean> vdaEligible;
+    private JsonNullable<Boolean> vdaEligible;
 
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("confidence_level")
-    private Optional<Double> confidenceLevel;
+    private JsonNullable<Double> confidenceLevel;
 
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("last_processed_at")
-    private Optional<String> lastProcessedAt;
+    private JsonNullable<OffsetDateTime> lastProcessedAt;
 
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("last_tax_liability_processed_at")
-    private Optional<String> lastTaxLiabilityProcessedAt;
+    private JsonNullable<OffsetDateTime> lastTaxLiabilityProcessedAt;
 
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("periods")
     private Optional<? extends List<Map<String, Object>>> periods;
 
-
+    /**
+     * Currency code for the nexus (e.g., USD, CAD).
+     */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("currency")
-    private Optional<? extends CurrencyEnum> currency;
+    private JsonNullable<? extends CurrencyEnum> currency;
 
 
     @JsonProperty("id")
@@ -254,22 +274,27 @@ public class NexusResponse {
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("registration")
-    private Optional<? extends Registration> registration;
+    private JsonNullable<? extends Map<String, Object>> registration;
 
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("registration_regime")
-    private Optional<? extends RegistrationsRegimeEnum> registrationRegime;
+    private JsonNullable<? extends RegistrationsRegimeEnum> registrationRegime;
 
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("disregarded_at")
-    private Optional<String> disregardedAt;
+    private JsonNullable<OffsetDateTime> disregardedAt;
 
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("disregarded_by")
-    private Optional<String> disregardedBy;
+    private JsonNullable<String> disregardedBy;
+
+
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("disregarded_type")
+    private JsonNullable<? extends DisregardedTypeEnum> disregardedType;
 
 
     @JsonInclude(Include.NON_ABSENT)
@@ -280,6 +305,25 @@ public class NexusResponse {
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("is_currently_disregarded")
     private Optional<Boolean> isCurrentlyDisregarded;
+
+
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("ior_opt_out_eligible")
+    private Optional<Boolean> iorOptOutEligible;
+
+
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("ior_eligible_at_registration")
+    private Optional<Boolean> iorEligibleAtRegistration;
+
+
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("requires_ior_number_to_register")
+    private Optional<Boolean> requiresIorNumberToRegister;
+
+
+    @JsonProperty("threshold_sales")
+    private long thresholdSales;
 
 
     @JsonProperty("is_vda_eligible")
@@ -306,8 +350,9 @@ public class NexusResponse {
     private long totalTransactionsMarketplace;
 
 
+    @JsonInclude(Include.ALWAYS)
     @JsonProperty("marketplace_included")
-    private boolean marketplaceIncluded;
+    private Optional<Boolean> marketplaceIncluded;
 
     @JsonCreator
     public NexusResponse(
@@ -319,57 +364,63 @@ public class NexusResponse {
             @JsonProperty("treatment_of_exempt_transactions") TreatmentEnum treatmentOfExemptTransactions,
             @JsonProperty("trigger") String trigger,
             @JsonProperty("sales_or_transactions") SalesOrTransactionsEnum salesOrTransactions,
-            @JsonProperty("threshold_sales") long thresholdSales,
-            @JsonProperty("threshold_transactions") long thresholdTransactions,
+            @JsonProperty("threshold_sales_bigint") Optional<Long> thresholdSalesBigint,
+            @JsonProperty("threshold_transactions") Optional<Long> thresholdTransactions,
             @JsonProperty("start_date") LocalDate startDate,
             @JsonProperty("transaction_count") Optional<Long> transactionCount,
             @JsonProperty("transactions_amount") Optional<String> transactionsAmount,
             @JsonProperty("previous_transaction_count") Optional<Long> previousTransactionCount,
             @JsonProperty("previous_transactions_amount") Optional<String> previousTransactionsAmount,
-            @JsonProperty("calculated_tax_liability") Optional<String> calculatedTaxLiability,
-            @JsonProperty("imported_tax_liability") Optional<String> importedTaxLiability,
+            @JsonProperty("calculated_tax_liability") JsonNullable<String> calculatedTaxLiability,
+            @JsonProperty("imported_tax_liability") JsonNullable<String> importedTaxLiability,
             @JsonProperty("tax_liability") Optional<String> taxLiability,
             @JsonProperty("nexus_met") Optional<Boolean> nexusMet,
-            @JsonProperty("nexus_met_date") Optional<String> nexusMetDate,
+            @JsonProperty("nexus_met_date") JsonNullable<LocalDate> nexusMetDate,
+            @JsonProperty("tax_type") Optional<? extends TaxTypeEnum> taxType,
             @JsonProperty("economic_nexus_met") Optional<Boolean> economicNexusMet,
-            @JsonProperty("economic_nexus_met_date") Optional<String> economicNexusMetDate,
+            @JsonProperty("economic_nexus_met_date") JsonNullable<LocalDate> economicNexusMetDate,
             @JsonProperty("physical_nexus_met") Optional<Boolean> physicalNexusMet,
-            @JsonProperty("physical_nexus_met_date") Optional<String> physicalNexusMetDate,
-            @JsonProperty("collected_tax_nexus_met") Optional<Boolean> collectedTaxNexusMet,
-            @JsonProperty("collected_tax_nexus_met_date") Optional<String> collectedTaxNexusMetDate,
+            @JsonProperty("physical_nexus_met_date") JsonNullable<LocalDate> physicalNexusMetDate,
+            @JsonProperty("collected_tax_nexus_met") JsonNullable<Boolean> collectedTaxNexusMet,
+            @JsonProperty("collected_tax_nexus_met_date") JsonNullable<LocalDate> collectedTaxNexusMetDate,
             @JsonProperty("period_model") PeriodModelEnum periodModel,
             @JsonProperty("period_start_date") LocalDate periodStartDate,
             @JsonProperty("period_end_date") LocalDate periodEndDate,
-            @JsonProperty("previous_period_start_date") String previousPeriodStartDate,
-            @JsonProperty("previous_period_end_date") String previousPeriodEndDate,
-            @JsonProperty("earliest_transaction_date") Optional<String> earliestTransactionDate,
-            @JsonProperty("most_recent_transaction_date") Optional<String> mostRecentTransactionDate,
-            @JsonProperty("find_threshold_crossing_transaction_state") Optional<? extends FindThresholdCrossingTransactionState> findThresholdCrossingTransactionState,
+            @JsonProperty("previous_period_start_date") Optional<LocalDate> previousPeriodStartDate,
+            @JsonProperty("previous_period_end_date") Optional<LocalDate> previousPeriodEndDate,
+            @JsonProperty("earliest_transaction_date") JsonNullable<OffsetDateTime> earliestTransactionDate,
+            @JsonProperty("most_recent_transaction_date") JsonNullable<OffsetDateTime> mostRecentTransactionDate,
+            @JsonProperty("find_threshold_crossing_transaction_state") JsonNullable<? extends FindThresholdCrossingTransactionState> findThresholdCrossingTransactionState,
             @JsonProperty("earliest_collected_date") Optional<OffsetDateTime> earliestCollectedDate,
-            @JsonProperty("predicted_month_from_today") Optional<Long> predictedMonthFromToday,
-            @JsonProperty("vda_eligible") Optional<Boolean> vdaEligible,
-            @JsonProperty("confidence_level") Optional<Double> confidenceLevel,
-            @JsonProperty("last_processed_at") Optional<String> lastProcessedAt,
-            @JsonProperty("last_tax_liability_processed_at") Optional<String> lastTaxLiabilityProcessedAt,
+            @JsonProperty("predicted_month_from_today") JsonNullable<Long> predictedMonthFromToday,
+            @JsonProperty("vda_eligible") JsonNullable<Boolean> vdaEligible,
+            @JsonProperty("confidence_level") JsonNullable<Double> confidenceLevel,
+            @JsonProperty("last_processed_at") JsonNullable<OffsetDateTime> lastProcessedAt,
+            @JsonProperty("last_tax_liability_processed_at") JsonNullable<OffsetDateTime> lastTaxLiabilityProcessedAt,
             @JsonProperty("periods") Optional<? extends List<Map<String, Object>>> periods,
-            @JsonProperty("currency") Optional<? extends CurrencyEnum> currency,
+            @JsonProperty("currency") JsonNullable<? extends CurrencyEnum> currency,
             @JsonProperty("id") String id,
             @JsonProperty("created_at") OffsetDateTime createdAt,
             @JsonProperty("updated_at") OffsetDateTime updatedAt,
             @JsonProperty("organization_id") String organizationId,
-            @JsonProperty("registration") Optional<? extends Registration> registration,
-            @JsonProperty("registration_regime") Optional<? extends RegistrationsRegimeEnum> registrationRegime,
-            @JsonProperty("disregarded_at") Optional<String> disregardedAt,
-            @JsonProperty("disregarded_by") Optional<String> disregardedBy,
+            @JsonProperty("registration") JsonNullable<? extends Map<String, Object>> registration,
+            @JsonProperty("registration_regime") JsonNullable<? extends RegistrationsRegimeEnum> registrationRegime,
+            @JsonProperty("disregarded_at") JsonNullable<OffsetDateTime> disregardedAt,
+            @JsonProperty("disregarded_by") JsonNullable<String> disregardedBy,
+            @JsonProperty("disregarded_type") JsonNullable<? extends DisregardedTypeEnum> disregardedType,
             @JsonProperty("disregarded_nexus_types") Optional<? extends List<String>> disregardedNexusTypes,
             @JsonProperty("is_currently_disregarded") Optional<Boolean> isCurrentlyDisregarded,
+            @JsonProperty("ior_opt_out_eligible") Optional<Boolean> iorOptOutEligible,
+            @JsonProperty("ior_eligible_at_registration") Optional<Boolean> iorEligibleAtRegistration,
+            @JsonProperty("requires_ior_number_to_register") Optional<Boolean> requiresIorNumberToRegister,
+            @JsonProperty("threshold_sales") long thresholdSales,
             @JsonProperty("is_vda_eligible") boolean isVdaEligible,
             @JsonProperty("nexus_type") NexusTypeEnum nexusType,
             @JsonProperty("total_transactions") long totalTransactions,
             @JsonProperty("total_transactions_included") long totalTransactionsIncluded,
             @JsonProperty("total_transactions_exempted") long totalTransactionsExempted,
             @JsonProperty("total_transactions_marketplace") long totalTransactionsMarketplace,
-            @JsonProperty("marketplace_included") boolean marketplaceIncluded) {
+            @JsonProperty("marketplace_included") Optional<Boolean> marketplaceIncluded) {
         Utils.checkNotNull(processingStatus, "processingStatus");
         Utils.checkNotNull(status, "status");
         Utils.checkNotNull(countryCode, "countryCode");
@@ -378,7 +429,7 @@ public class NexusResponse {
         Utils.checkNotNull(treatmentOfExemptTransactions, "treatmentOfExemptTransactions");
         Utils.checkNotNull(trigger, "trigger");
         Utils.checkNotNull(salesOrTransactions, "salesOrTransactions");
-        Utils.checkNotNull(thresholdSales, "thresholdSales");
+        Utils.checkNotNull(thresholdSalesBigint, "thresholdSalesBigint");
         Utils.checkNotNull(thresholdTransactions, "thresholdTransactions");
         Utils.checkNotNull(startDate, "startDate");
         Utils.checkNotNull(transactionCount, "transactionCount");
@@ -390,6 +441,7 @@ public class NexusResponse {
         Utils.checkNotNull(taxLiability, "taxLiability");
         Utils.checkNotNull(nexusMet, "nexusMet");
         Utils.checkNotNull(nexusMetDate, "nexusMetDate");
+        Utils.checkNotNull(taxType, "taxType");
         Utils.checkNotNull(economicNexusMet, "economicNexusMet");
         Utils.checkNotNull(economicNexusMetDate, "economicNexusMetDate");
         Utils.checkNotNull(physicalNexusMet, "physicalNexusMet");
@@ -420,8 +472,13 @@ public class NexusResponse {
         Utils.checkNotNull(registrationRegime, "registrationRegime");
         Utils.checkNotNull(disregardedAt, "disregardedAt");
         Utils.checkNotNull(disregardedBy, "disregardedBy");
+        Utils.checkNotNull(disregardedType, "disregardedType");
         Utils.checkNotNull(disregardedNexusTypes, "disregardedNexusTypes");
         Utils.checkNotNull(isCurrentlyDisregarded, "isCurrentlyDisregarded");
+        Utils.checkNotNull(iorOptOutEligible, "iorOptOutEligible");
+        Utils.checkNotNull(iorEligibleAtRegistration, "iorEligibleAtRegistration");
+        Utils.checkNotNull(requiresIorNumberToRegister, "requiresIorNumberToRegister");
+        Utils.checkNotNull(thresholdSales, "thresholdSales");
         Utils.checkNotNull(isVdaEligible, "isVdaEligible");
         Utils.checkNotNull(nexusType, "nexusType");
         Utils.checkNotNull(totalTransactions, "totalTransactions");
@@ -437,7 +494,7 @@ public class NexusResponse {
         this.treatmentOfExemptTransactions = treatmentOfExemptTransactions;
         this.trigger = trigger;
         this.salesOrTransactions = salesOrTransactions;
-        this.thresholdSales = thresholdSales;
+        this.thresholdSalesBigint = thresholdSalesBigint;
         this.thresholdTransactions = thresholdTransactions;
         this.startDate = startDate;
         this.transactionCount = transactionCount;
@@ -449,6 +506,7 @@ public class NexusResponse {
         this.taxLiability = taxLiability;
         this.nexusMet = nexusMet;
         this.nexusMetDate = nexusMetDate;
+        this.taxType = taxType;
         this.economicNexusMet = economicNexusMet;
         this.economicNexusMetDate = economicNexusMetDate;
         this.physicalNexusMet = physicalNexusMet;
@@ -479,8 +537,13 @@ public class NexusResponse {
         this.registrationRegime = registrationRegime;
         this.disregardedAt = disregardedAt;
         this.disregardedBy = disregardedBy;
+        this.disregardedType = disregardedType;
         this.disregardedNexusTypes = disregardedNexusTypes;
         this.isCurrentlyDisregarded = isCurrentlyDisregarded;
+        this.iorOptOutEligible = iorOptOutEligible;
+        this.iorEligibleAtRegistration = iorEligibleAtRegistration;
+        this.requiresIorNumberToRegister = requiresIorNumberToRegister;
+        this.thresholdSales = thresholdSales;
         this.isVdaEligible = isVdaEligible;
         this.nexusType = nexusType;
         this.totalTransactions = totalTransactions;
@@ -497,45 +560,43 @@ public class NexusResponse {
             TreatmentEnum treatmentOfExemptTransactions,
             String trigger,
             SalesOrTransactionsEnum salesOrTransactions,
-            long thresholdSales,
-            long thresholdTransactions,
             LocalDate startDate,
             PeriodModelEnum periodModel,
             LocalDate periodStartDate,
             LocalDate periodEndDate,
-            String previousPeriodStartDate,
-            String previousPeriodEndDate,
             String id,
             OffsetDateTime createdAt,
             OffsetDateTime updatedAt,
             String organizationId,
+            long thresholdSales,
             boolean isVdaEligible,
             NexusTypeEnum nexusType,
             long totalTransactions,
             long totalTransactionsIncluded,
             long totalTransactionsExempted,
-            long totalTransactionsMarketplace,
-            boolean marketplaceIncluded) {
+            long totalTransactionsMarketplace) {
         this(Optional.empty(), Optional.empty(), countryCode,
             stateCode, stateName, treatmentOfExemptTransactions,
-            trigger, salesOrTransactions, thresholdSales,
-            thresholdTransactions, startDate, Optional.empty(),
+            trigger, salesOrTransactions, Optional.empty(),
+            Optional.empty(), startDate, Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
+            JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty(),
+            Optional.empty(), JsonNullable.undefined(), Optional.empty(),
+            Optional.empty(), JsonNullable.undefined(), Optional.empty(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            periodModel, periodStartDate, periodEndDate,
+            Optional.empty(), Optional.empty(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty(),
+            JsonNullable.undefined(), id, createdAt,
+            updatedAt, organizationId, JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), periodModel,
-            periodStartDate, periodEndDate, previousPeriodStartDate,
-            previousPeriodEndDate, Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            id, createdAt, updatedAt,
-            organizationId, Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), isVdaEligible, nexusType,
+            thresholdSales, isVdaEligible, nexusType,
             totalTransactions, totalTransactionsIncluded, totalTransactionsExempted,
-            totalTransactionsMarketplace, marketplaceIncluded);
+            totalTransactionsMarketplace, Optional.empty());
     }
 
     @SuppressWarnings("unchecked")
@@ -581,12 +642,12 @@ public class NexusResponse {
     }
 
     @JsonIgnore
-    public long thresholdSales() {
-        return thresholdSales;
+    public Optional<Long> thresholdSalesBigint() {
+        return thresholdSalesBigint;
     }
 
     @JsonIgnore
-    public long thresholdTransactions() {
+    public Optional<Long> thresholdTransactions() {
         return thresholdTransactions;
     }
 
@@ -607,7 +668,7 @@ public class NexusResponse {
 
     /**
      * Deprecated: transaction_count now includes both current and previous period values when period_model
-     * is CURRENT_OR_PREVIOUS
+     * is CURRENT_OR_PREVIOUS, CURRENT_OR_TWO_PREVIOUS, or CURRENT_OR_PREVIOUS_12_MONTHS
      * 
      * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
      */
@@ -619,7 +680,7 @@ public class NexusResponse {
 
     /**
      * Deprecated: transactions_amount now includes both current and previous period values when
-     * period_model is CURRENT_OR_PREVIOUS
+     * period_model is CURRENT_OR_PREVIOUS, CURRENT_OR_TWO_PREVIOUS, or CURRENT_OR_PREVIOUS_12_MONTHS
      * 
      * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
      */
@@ -630,12 +691,12 @@ public class NexusResponse {
     }
 
     @JsonIgnore
-    public Optional<String> calculatedTaxLiability() {
+    public JsonNullable<String> calculatedTaxLiability() {
         return calculatedTaxLiability;
     }
 
     @JsonIgnore
-    public Optional<String> importedTaxLiability() {
+    public JsonNullable<String> importedTaxLiability() {
         return importedTaxLiability;
     }
 
@@ -650,8 +711,23 @@ public class NexusResponse {
     }
 
     @JsonIgnore
-    public Optional<String> nexusMetDate() {
+    public JsonNullable<LocalDate> nexusMetDate() {
         return nexusMetDate;
+    }
+
+    /**
+     * Tax obligation on a nexus, registration, or filing row.
+     * 
+     * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
+     * one return can cover both taxes, and each is stored as a single row.
+     * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
+     * separate obligations with their own met dates, period models, and liability
+     * accrual.
+     */
+    @SuppressWarnings("unchecked")
+    @JsonIgnore
+    public Optional<TaxTypeEnum> taxType() {
+        return (Optional<TaxTypeEnum>) taxType;
     }
 
     @JsonIgnore
@@ -660,7 +736,7 @@ public class NexusResponse {
     }
 
     @JsonIgnore
-    public Optional<String> economicNexusMetDate() {
+    public JsonNullable<LocalDate> economicNexusMetDate() {
         return economicNexusMetDate;
     }
 
@@ -670,17 +746,17 @@ public class NexusResponse {
     }
 
     @JsonIgnore
-    public Optional<String> physicalNexusMetDate() {
+    public JsonNullable<LocalDate> physicalNexusMetDate() {
         return physicalNexusMetDate;
     }
 
     @JsonIgnore
-    public Optional<Boolean> collectedTaxNexusMet() {
+    public JsonNullable<Boolean> collectedTaxNexusMet() {
         return collectedTaxNexusMet;
     }
 
     @JsonIgnore
-    public Optional<String> collectedTaxNexusMetDate() {
+    public JsonNullable<LocalDate> collectedTaxNexusMetDate() {
         return collectedTaxNexusMetDate;
     }
 
@@ -700,29 +776,29 @@ public class NexusResponse {
     }
 
     @JsonIgnore
-    public String previousPeriodStartDate() {
+    public Optional<LocalDate> previousPeriodStartDate() {
         return previousPeriodStartDate;
     }
 
     @JsonIgnore
-    public String previousPeriodEndDate() {
+    public Optional<LocalDate> previousPeriodEndDate() {
         return previousPeriodEndDate;
     }
 
     @JsonIgnore
-    public Optional<String> earliestTransactionDate() {
+    public JsonNullable<OffsetDateTime> earliestTransactionDate() {
         return earliestTransactionDate;
     }
 
     @JsonIgnore
-    public Optional<String> mostRecentTransactionDate() {
+    public JsonNullable<OffsetDateTime> mostRecentTransactionDate() {
         return mostRecentTransactionDate;
     }
 
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<FindThresholdCrossingTransactionState> findThresholdCrossingTransactionState() {
-        return (Optional<FindThresholdCrossingTransactionState>) findThresholdCrossingTransactionState;
+    public JsonNullable<FindThresholdCrossingTransactionState> findThresholdCrossingTransactionState() {
+        return (JsonNullable<FindThresholdCrossingTransactionState>) findThresholdCrossingTransactionState;
     }
 
     @JsonIgnore
@@ -731,27 +807,27 @@ public class NexusResponse {
     }
 
     @JsonIgnore
-    public Optional<Long> predictedMonthFromToday() {
+    public JsonNullable<Long> predictedMonthFromToday() {
         return predictedMonthFromToday;
     }
 
     @JsonIgnore
-    public Optional<Boolean> vdaEligible() {
+    public JsonNullable<Boolean> vdaEligible() {
         return vdaEligible;
     }
 
     @JsonIgnore
-    public Optional<Double> confidenceLevel() {
+    public JsonNullable<Double> confidenceLevel() {
         return confidenceLevel;
     }
 
     @JsonIgnore
-    public Optional<String> lastProcessedAt() {
+    public JsonNullable<OffsetDateTime> lastProcessedAt() {
         return lastProcessedAt;
     }
 
     @JsonIgnore
-    public Optional<String> lastTaxLiabilityProcessedAt() {
+    public JsonNullable<OffsetDateTime> lastTaxLiabilityProcessedAt() {
         return lastTaxLiabilityProcessedAt;
     }
 
@@ -761,10 +837,13 @@ public class NexusResponse {
         return (Optional<List<Map<String, Object>>>) periods;
     }
 
+    /**
+     * Currency code for the nexus (e.g., USD, CAD).
+     */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<CurrencyEnum> currency() {
-        return (Optional<CurrencyEnum>) currency;
+    public JsonNullable<CurrencyEnum> currency() {
+        return (JsonNullable<CurrencyEnum>) currency;
     }
 
     @JsonIgnore
@@ -789,24 +868,30 @@ public class NexusResponse {
 
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<Registration> registration() {
-        return (Optional<Registration>) registration;
+    public JsonNullable<Map<String, Object>> registration() {
+        return (JsonNullable<Map<String, Object>>) registration;
     }
 
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<RegistrationsRegimeEnum> registrationRegime() {
-        return (Optional<RegistrationsRegimeEnum>) registrationRegime;
+    public JsonNullable<RegistrationsRegimeEnum> registrationRegime() {
+        return (JsonNullable<RegistrationsRegimeEnum>) registrationRegime;
     }
 
     @JsonIgnore
-    public Optional<String> disregardedAt() {
+    public JsonNullable<OffsetDateTime> disregardedAt() {
         return disregardedAt;
     }
 
     @JsonIgnore
-    public Optional<String> disregardedBy() {
+    public JsonNullable<String> disregardedBy() {
         return disregardedBy;
+    }
+
+    @SuppressWarnings("unchecked")
+    @JsonIgnore
+    public JsonNullable<DisregardedTypeEnum> disregardedType() {
+        return (JsonNullable<DisregardedTypeEnum>) disregardedType;
     }
 
     @SuppressWarnings("unchecked")
@@ -818,6 +903,26 @@ public class NexusResponse {
     @JsonIgnore
     public Optional<Boolean> isCurrentlyDisregarded() {
         return isCurrentlyDisregarded;
+    }
+
+    @JsonIgnore
+    public Optional<Boolean> iorOptOutEligible() {
+        return iorOptOutEligible;
+    }
+
+    @JsonIgnore
+    public Optional<Boolean> iorEligibleAtRegistration() {
+        return iorEligibleAtRegistration;
+    }
+
+    @JsonIgnore
+    public Optional<Boolean> requiresIorNumberToRegister() {
+        return requiresIorNumberToRegister;
+    }
+
+    @JsonIgnore
+    public long thresholdSales() {
+        return thresholdSales;
     }
 
     @JsonIgnore
@@ -851,7 +956,7 @@ public class NexusResponse {
     }
 
     @JsonIgnore
-    public boolean marketplaceIncluded() {
+    public Optional<Boolean> marketplaceIncluded() {
         return marketplaceIncluded;
     }
 
@@ -922,13 +1027,27 @@ public class NexusResponse {
         return this;
     }
 
-    public NexusResponse withThresholdSales(long thresholdSales) {
-        Utils.checkNotNull(thresholdSales, "thresholdSales");
-        this.thresholdSales = thresholdSales;
+    public NexusResponse withThresholdSalesBigint(long thresholdSalesBigint) {
+        Utils.checkNotNull(thresholdSalesBigint, "thresholdSalesBigint");
+        this.thresholdSalesBigint = Optional.ofNullable(thresholdSalesBigint);
+        return this;
+    }
+
+
+    public NexusResponse withThresholdSalesBigint(Optional<Long> thresholdSalesBigint) {
+        Utils.checkNotNull(thresholdSalesBigint, "thresholdSalesBigint");
+        this.thresholdSalesBigint = thresholdSalesBigint;
         return this;
     }
 
     public NexusResponse withThresholdTransactions(long thresholdTransactions) {
+        Utils.checkNotNull(thresholdTransactions, "thresholdTransactions");
+        this.thresholdTransactions = Optional.ofNullable(thresholdTransactions);
+        return this;
+    }
+
+
+    public NexusResponse withThresholdTransactions(Optional<Long> thresholdTransactions) {
         Utils.checkNotNull(thresholdTransactions, "thresholdTransactions");
         this.thresholdTransactions = thresholdTransactions;
         return this;
@@ -968,7 +1087,7 @@ public class NexusResponse {
 
     /**
      * Deprecated: transaction_count now includes both current and previous period values when period_model
-     * is CURRENT_OR_PREVIOUS
+     * is CURRENT_OR_PREVIOUS, CURRENT_OR_TWO_PREVIOUS, or CURRENT_OR_PREVIOUS_12_MONTHS
      * 
      * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
      */
@@ -982,7 +1101,7 @@ public class NexusResponse {
 
     /**
      * Deprecated: transaction_count now includes both current and previous period values when period_model
-     * is CURRENT_OR_PREVIOUS
+     * is CURRENT_OR_PREVIOUS, CURRENT_OR_TWO_PREVIOUS, or CURRENT_OR_PREVIOUS_12_MONTHS
      * 
      * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
      */
@@ -995,7 +1114,7 @@ public class NexusResponse {
 
     /**
      * Deprecated: transactions_amount now includes both current and previous period values when
-     * period_model is CURRENT_OR_PREVIOUS
+     * period_model is CURRENT_OR_PREVIOUS, CURRENT_OR_TWO_PREVIOUS, or CURRENT_OR_PREVIOUS_12_MONTHS
      * 
      * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
      */
@@ -1009,7 +1128,7 @@ public class NexusResponse {
 
     /**
      * Deprecated: transactions_amount now includes both current and previous period values when
-     * period_model is CURRENT_OR_PREVIOUS
+     * period_model is CURRENT_OR_PREVIOUS, CURRENT_OR_TWO_PREVIOUS, or CURRENT_OR_PREVIOUS_12_MONTHS
      * 
      * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
      */
@@ -1022,12 +1141,11 @@ public class NexusResponse {
 
     public NexusResponse withCalculatedTaxLiability(String calculatedTaxLiability) {
         Utils.checkNotNull(calculatedTaxLiability, "calculatedTaxLiability");
-        this.calculatedTaxLiability = Optional.ofNullable(calculatedTaxLiability);
+        this.calculatedTaxLiability = JsonNullable.of(calculatedTaxLiability);
         return this;
     }
 
-
-    public NexusResponse withCalculatedTaxLiability(Optional<String> calculatedTaxLiability) {
+    public NexusResponse withCalculatedTaxLiability(JsonNullable<String> calculatedTaxLiability) {
         Utils.checkNotNull(calculatedTaxLiability, "calculatedTaxLiability");
         this.calculatedTaxLiability = calculatedTaxLiability;
         return this;
@@ -1035,12 +1153,11 @@ public class NexusResponse {
 
     public NexusResponse withImportedTaxLiability(String importedTaxLiability) {
         Utils.checkNotNull(importedTaxLiability, "importedTaxLiability");
-        this.importedTaxLiability = Optional.ofNullable(importedTaxLiability);
+        this.importedTaxLiability = JsonNullable.of(importedTaxLiability);
         return this;
     }
 
-
-    public NexusResponse withImportedTaxLiability(Optional<String> importedTaxLiability) {
+    public NexusResponse withImportedTaxLiability(JsonNullable<String> importedTaxLiability) {
         Utils.checkNotNull(importedTaxLiability, "importedTaxLiability");
         this.importedTaxLiability = importedTaxLiability;
         return this;
@@ -1072,16 +1189,46 @@ public class NexusResponse {
         return this;
     }
 
-    public NexusResponse withNexusMetDate(String nexusMetDate) {
+    public NexusResponse withNexusMetDate(LocalDate nexusMetDate) {
         Utils.checkNotNull(nexusMetDate, "nexusMetDate");
-        this.nexusMetDate = Optional.ofNullable(nexusMetDate);
+        this.nexusMetDate = JsonNullable.of(nexusMetDate);
+        return this;
+    }
+
+    public NexusResponse withNexusMetDate(JsonNullable<LocalDate> nexusMetDate) {
+        Utils.checkNotNull(nexusMetDate, "nexusMetDate");
+        this.nexusMetDate = nexusMetDate;
+        return this;
+    }
+
+    /**
+     * Tax obligation on a nexus, registration, or filing row.
+     * 
+     * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
+     * one return can cover both taxes, and each is stored as a single row.
+     * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
+     * separate obligations with their own met dates, period models, and liability
+     * accrual.
+     */
+    public NexusResponse withTaxType(TaxTypeEnum taxType) {
+        Utils.checkNotNull(taxType, "taxType");
+        this.taxType = Optional.ofNullable(taxType);
         return this;
     }
 
 
-    public NexusResponse withNexusMetDate(Optional<String> nexusMetDate) {
-        Utils.checkNotNull(nexusMetDate, "nexusMetDate");
-        this.nexusMetDate = nexusMetDate;
+    /**
+     * Tax obligation on a nexus, registration, or filing row.
+     * 
+     * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
+     * one return can cover both taxes, and each is stored as a single row.
+     * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
+     * separate obligations with their own met dates, period models, and liability
+     * accrual.
+     */
+    public NexusResponse withTaxType(Optional<? extends TaxTypeEnum> taxType) {
+        Utils.checkNotNull(taxType, "taxType");
+        this.taxType = taxType;
         return this;
     }
 
@@ -1098,14 +1245,13 @@ public class NexusResponse {
         return this;
     }
 
-    public NexusResponse withEconomicNexusMetDate(String economicNexusMetDate) {
+    public NexusResponse withEconomicNexusMetDate(LocalDate economicNexusMetDate) {
         Utils.checkNotNull(economicNexusMetDate, "economicNexusMetDate");
-        this.economicNexusMetDate = Optional.ofNullable(economicNexusMetDate);
+        this.economicNexusMetDate = JsonNullable.of(economicNexusMetDate);
         return this;
     }
 
-
-    public NexusResponse withEconomicNexusMetDate(Optional<String> economicNexusMetDate) {
+    public NexusResponse withEconomicNexusMetDate(JsonNullable<LocalDate> economicNexusMetDate) {
         Utils.checkNotNull(economicNexusMetDate, "economicNexusMetDate");
         this.economicNexusMetDate = economicNexusMetDate;
         return this;
@@ -1124,14 +1270,13 @@ public class NexusResponse {
         return this;
     }
 
-    public NexusResponse withPhysicalNexusMetDate(String physicalNexusMetDate) {
+    public NexusResponse withPhysicalNexusMetDate(LocalDate physicalNexusMetDate) {
         Utils.checkNotNull(physicalNexusMetDate, "physicalNexusMetDate");
-        this.physicalNexusMetDate = Optional.ofNullable(physicalNexusMetDate);
+        this.physicalNexusMetDate = JsonNullable.of(physicalNexusMetDate);
         return this;
     }
 
-
-    public NexusResponse withPhysicalNexusMetDate(Optional<String> physicalNexusMetDate) {
+    public NexusResponse withPhysicalNexusMetDate(JsonNullable<LocalDate> physicalNexusMetDate) {
         Utils.checkNotNull(physicalNexusMetDate, "physicalNexusMetDate");
         this.physicalNexusMetDate = physicalNexusMetDate;
         return this;
@@ -1139,25 +1284,23 @@ public class NexusResponse {
 
     public NexusResponse withCollectedTaxNexusMet(boolean collectedTaxNexusMet) {
         Utils.checkNotNull(collectedTaxNexusMet, "collectedTaxNexusMet");
-        this.collectedTaxNexusMet = Optional.ofNullable(collectedTaxNexusMet);
+        this.collectedTaxNexusMet = JsonNullable.of(collectedTaxNexusMet);
         return this;
     }
 
-
-    public NexusResponse withCollectedTaxNexusMet(Optional<Boolean> collectedTaxNexusMet) {
+    public NexusResponse withCollectedTaxNexusMet(JsonNullable<Boolean> collectedTaxNexusMet) {
         Utils.checkNotNull(collectedTaxNexusMet, "collectedTaxNexusMet");
         this.collectedTaxNexusMet = collectedTaxNexusMet;
         return this;
     }
 
-    public NexusResponse withCollectedTaxNexusMetDate(String collectedTaxNexusMetDate) {
+    public NexusResponse withCollectedTaxNexusMetDate(LocalDate collectedTaxNexusMetDate) {
         Utils.checkNotNull(collectedTaxNexusMetDate, "collectedTaxNexusMetDate");
-        this.collectedTaxNexusMetDate = Optional.ofNullable(collectedTaxNexusMetDate);
+        this.collectedTaxNexusMetDate = JsonNullable.of(collectedTaxNexusMetDate);
         return this;
     }
 
-
-    public NexusResponse withCollectedTaxNexusMetDate(Optional<String> collectedTaxNexusMetDate) {
+    public NexusResponse withCollectedTaxNexusMetDate(JsonNullable<LocalDate> collectedTaxNexusMetDate) {
         Utils.checkNotNull(collectedTaxNexusMetDate, "collectedTaxNexusMetDate");
         this.collectedTaxNexusMetDate = collectedTaxNexusMetDate;
         return this;
@@ -1181,39 +1324,51 @@ public class NexusResponse {
         return this;
     }
 
-    public NexusResponse withPreviousPeriodStartDate(String previousPeriodStartDate) {
+    public NexusResponse withPreviousPeriodStartDate(LocalDate previousPeriodStartDate) {
+        Utils.checkNotNull(previousPeriodStartDate, "previousPeriodStartDate");
+        this.previousPeriodStartDate = Optional.ofNullable(previousPeriodStartDate);
+        return this;
+    }
+
+
+    public NexusResponse withPreviousPeriodStartDate(Optional<LocalDate> previousPeriodStartDate) {
         Utils.checkNotNull(previousPeriodStartDate, "previousPeriodStartDate");
         this.previousPeriodStartDate = previousPeriodStartDate;
         return this;
     }
 
-    public NexusResponse withPreviousPeriodEndDate(String previousPeriodEndDate) {
+    public NexusResponse withPreviousPeriodEndDate(LocalDate previousPeriodEndDate) {
+        Utils.checkNotNull(previousPeriodEndDate, "previousPeriodEndDate");
+        this.previousPeriodEndDate = Optional.ofNullable(previousPeriodEndDate);
+        return this;
+    }
+
+
+    public NexusResponse withPreviousPeriodEndDate(Optional<LocalDate> previousPeriodEndDate) {
         Utils.checkNotNull(previousPeriodEndDate, "previousPeriodEndDate");
         this.previousPeriodEndDate = previousPeriodEndDate;
         return this;
     }
 
-    public NexusResponse withEarliestTransactionDate(String earliestTransactionDate) {
+    public NexusResponse withEarliestTransactionDate(OffsetDateTime earliestTransactionDate) {
         Utils.checkNotNull(earliestTransactionDate, "earliestTransactionDate");
-        this.earliestTransactionDate = Optional.ofNullable(earliestTransactionDate);
+        this.earliestTransactionDate = JsonNullable.of(earliestTransactionDate);
         return this;
     }
 
-
-    public NexusResponse withEarliestTransactionDate(Optional<String> earliestTransactionDate) {
+    public NexusResponse withEarliestTransactionDate(JsonNullable<OffsetDateTime> earliestTransactionDate) {
         Utils.checkNotNull(earliestTransactionDate, "earliestTransactionDate");
         this.earliestTransactionDate = earliestTransactionDate;
         return this;
     }
 
-    public NexusResponse withMostRecentTransactionDate(String mostRecentTransactionDate) {
+    public NexusResponse withMostRecentTransactionDate(OffsetDateTime mostRecentTransactionDate) {
         Utils.checkNotNull(mostRecentTransactionDate, "mostRecentTransactionDate");
-        this.mostRecentTransactionDate = Optional.ofNullable(mostRecentTransactionDate);
+        this.mostRecentTransactionDate = JsonNullable.of(mostRecentTransactionDate);
         return this;
     }
 
-
-    public NexusResponse withMostRecentTransactionDate(Optional<String> mostRecentTransactionDate) {
+    public NexusResponse withMostRecentTransactionDate(JsonNullable<OffsetDateTime> mostRecentTransactionDate) {
         Utils.checkNotNull(mostRecentTransactionDate, "mostRecentTransactionDate");
         this.mostRecentTransactionDate = mostRecentTransactionDate;
         return this;
@@ -1221,12 +1376,11 @@ public class NexusResponse {
 
     public NexusResponse withFindThresholdCrossingTransactionState(FindThresholdCrossingTransactionState findThresholdCrossingTransactionState) {
         Utils.checkNotNull(findThresholdCrossingTransactionState, "findThresholdCrossingTransactionState");
-        this.findThresholdCrossingTransactionState = Optional.ofNullable(findThresholdCrossingTransactionState);
+        this.findThresholdCrossingTransactionState = JsonNullable.of(findThresholdCrossingTransactionState);
         return this;
     }
 
-
-    public NexusResponse withFindThresholdCrossingTransactionState(Optional<? extends FindThresholdCrossingTransactionState> findThresholdCrossingTransactionState) {
+    public NexusResponse withFindThresholdCrossingTransactionState(JsonNullable<? extends FindThresholdCrossingTransactionState> findThresholdCrossingTransactionState) {
         Utils.checkNotNull(findThresholdCrossingTransactionState, "findThresholdCrossingTransactionState");
         this.findThresholdCrossingTransactionState = findThresholdCrossingTransactionState;
         return this;
@@ -1247,12 +1401,11 @@ public class NexusResponse {
 
     public NexusResponse withPredictedMonthFromToday(long predictedMonthFromToday) {
         Utils.checkNotNull(predictedMonthFromToday, "predictedMonthFromToday");
-        this.predictedMonthFromToday = Optional.ofNullable(predictedMonthFromToday);
+        this.predictedMonthFromToday = JsonNullable.of(predictedMonthFromToday);
         return this;
     }
 
-
-    public NexusResponse withPredictedMonthFromToday(Optional<Long> predictedMonthFromToday) {
+    public NexusResponse withPredictedMonthFromToday(JsonNullable<Long> predictedMonthFromToday) {
         Utils.checkNotNull(predictedMonthFromToday, "predictedMonthFromToday");
         this.predictedMonthFromToday = predictedMonthFromToday;
         return this;
@@ -1260,12 +1413,11 @@ public class NexusResponse {
 
     public NexusResponse withVdaEligible(boolean vdaEligible) {
         Utils.checkNotNull(vdaEligible, "vdaEligible");
-        this.vdaEligible = Optional.ofNullable(vdaEligible);
+        this.vdaEligible = JsonNullable.of(vdaEligible);
         return this;
     }
 
-
-    public NexusResponse withVdaEligible(Optional<Boolean> vdaEligible) {
+    public NexusResponse withVdaEligible(JsonNullable<Boolean> vdaEligible) {
         Utils.checkNotNull(vdaEligible, "vdaEligible");
         this.vdaEligible = vdaEligible;
         return this;
@@ -1273,38 +1425,35 @@ public class NexusResponse {
 
     public NexusResponse withConfidenceLevel(double confidenceLevel) {
         Utils.checkNotNull(confidenceLevel, "confidenceLevel");
-        this.confidenceLevel = Optional.ofNullable(confidenceLevel);
+        this.confidenceLevel = JsonNullable.of(confidenceLevel);
         return this;
     }
 
-
-    public NexusResponse withConfidenceLevel(Optional<Double> confidenceLevel) {
+    public NexusResponse withConfidenceLevel(JsonNullable<Double> confidenceLevel) {
         Utils.checkNotNull(confidenceLevel, "confidenceLevel");
         this.confidenceLevel = confidenceLevel;
         return this;
     }
 
-    public NexusResponse withLastProcessedAt(String lastProcessedAt) {
+    public NexusResponse withLastProcessedAt(OffsetDateTime lastProcessedAt) {
         Utils.checkNotNull(lastProcessedAt, "lastProcessedAt");
-        this.lastProcessedAt = Optional.ofNullable(lastProcessedAt);
+        this.lastProcessedAt = JsonNullable.of(lastProcessedAt);
         return this;
     }
 
-
-    public NexusResponse withLastProcessedAt(Optional<String> lastProcessedAt) {
+    public NexusResponse withLastProcessedAt(JsonNullable<OffsetDateTime> lastProcessedAt) {
         Utils.checkNotNull(lastProcessedAt, "lastProcessedAt");
         this.lastProcessedAt = lastProcessedAt;
         return this;
     }
 
-    public NexusResponse withLastTaxLiabilityProcessedAt(String lastTaxLiabilityProcessedAt) {
+    public NexusResponse withLastTaxLiabilityProcessedAt(OffsetDateTime lastTaxLiabilityProcessedAt) {
         Utils.checkNotNull(lastTaxLiabilityProcessedAt, "lastTaxLiabilityProcessedAt");
-        this.lastTaxLiabilityProcessedAt = Optional.ofNullable(lastTaxLiabilityProcessedAt);
+        this.lastTaxLiabilityProcessedAt = JsonNullable.of(lastTaxLiabilityProcessedAt);
         return this;
     }
 
-
-    public NexusResponse withLastTaxLiabilityProcessedAt(Optional<String> lastTaxLiabilityProcessedAt) {
+    public NexusResponse withLastTaxLiabilityProcessedAt(JsonNullable<OffsetDateTime> lastTaxLiabilityProcessedAt) {
         Utils.checkNotNull(lastTaxLiabilityProcessedAt, "lastTaxLiabilityProcessedAt");
         this.lastTaxLiabilityProcessedAt = lastTaxLiabilityProcessedAt;
         return this;
@@ -1323,14 +1472,19 @@ public class NexusResponse {
         return this;
     }
 
+    /**
+     * Currency code for the nexus (e.g., USD, CAD).
+     */
     public NexusResponse withCurrency(CurrencyEnum currency) {
         Utils.checkNotNull(currency, "currency");
-        this.currency = Optional.ofNullable(currency);
+        this.currency = JsonNullable.of(currency);
         return this;
     }
 
-
-    public NexusResponse withCurrency(Optional<? extends CurrencyEnum> currency) {
+    /**
+     * Currency code for the nexus (e.g., USD, CAD).
+     */
+    public NexusResponse withCurrency(JsonNullable<? extends CurrencyEnum> currency) {
         Utils.checkNotNull(currency, "currency");
         this.currency = currency;
         return this;
@@ -1360,14 +1514,13 @@ public class NexusResponse {
         return this;
     }
 
-    public NexusResponse withRegistration(Registration registration) {
+    public NexusResponse withRegistration(Map<String, Object> registration) {
         Utils.checkNotNull(registration, "registration");
-        this.registration = Optional.ofNullable(registration);
+        this.registration = JsonNullable.of(registration);
         return this;
     }
 
-
-    public NexusResponse withRegistration(Optional<? extends Registration> registration) {
+    public NexusResponse withRegistration(JsonNullable<? extends Map<String, Object>> registration) {
         Utils.checkNotNull(registration, "registration");
         this.registration = registration;
         return this;
@@ -1375,25 +1528,23 @@ public class NexusResponse {
 
     public NexusResponse withRegistrationRegime(RegistrationsRegimeEnum registrationRegime) {
         Utils.checkNotNull(registrationRegime, "registrationRegime");
-        this.registrationRegime = Optional.ofNullable(registrationRegime);
+        this.registrationRegime = JsonNullable.of(registrationRegime);
         return this;
     }
 
-
-    public NexusResponse withRegistrationRegime(Optional<? extends RegistrationsRegimeEnum> registrationRegime) {
+    public NexusResponse withRegistrationRegime(JsonNullable<? extends RegistrationsRegimeEnum> registrationRegime) {
         Utils.checkNotNull(registrationRegime, "registrationRegime");
         this.registrationRegime = registrationRegime;
         return this;
     }
 
-    public NexusResponse withDisregardedAt(String disregardedAt) {
+    public NexusResponse withDisregardedAt(OffsetDateTime disregardedAt) {
         Utils.checkNotNull(disregardedAt, "disregardedAt");
-        this.disregardedAt = Optional.ofNullable(disregardedAt);
+        this.disregardedAt = JsonNullable.of(disregardedAt);
         return this;
     }
 
-
-    public NexusResponse withDisregardedAt(Optional<String> disregardedAt) {
+    public NexusResponse withDisregardedAt(JsonNullable<OffsetDateTime> disregardedAt) {
         Utils.checkNotNull(disregardedAt, "disregardedAt");
         this.disregardedAt = disregardedAt;
         return this;
@@ -1401,14 +1552,25 @@ public class NexusResponse {
 
     public NexusResponse withDisregardedBy(String disregardedBy) {
         Utils.checkNotNull(disregardedBy, "disregardedBy");
-        this.disregardedBy = Optional.ofNullable(disregardedBy);
+        this.disregardedBy = JsonNullable.of(disregardedBy);
         return this;
     }
 
-
-    public NexusResponse withDisregardedBy(Optional<String> disregardedBy) {
+    public NexusResponse withDisregardedBy(JsonNullable<String> disregardedBy) {
         Utils.checkNotNull(disregardedBy, "disregardedBy");
         this.disregardedBy = disregardedBy;
+        return this;
+    }
+
+    public NexusResponse withDisregardedType(DisregardedTypeEnum disregardedType) {
+        Utils.checkNotNull(disregardedType, "disregardedType");
+        this.disregardedType = JsonNullable.of(disregardedType);
+        return this;
+    }
+
+    public NexusResponse withDisregardedType(JsonNullable<? extends DisregardedTypeEnum> disregardedType) {
+        Utils.checkNotNull(disregardedType, "disregardedType");
+        this.disregardedType = disregardedType;
         return this;
     }
 
@@ -1435,6 +1597,51 @@ public class NexusResponse {
     public NexusResponse withIsCurrentlyDisregarded(Optional<Boolean> isCurrentlyDisregarded) {
         Utils.checkNotNull(isCurrentlyDisregarded, "isCurrentlyDisregarded");
         this.isCurrentlyDisregarded = isCurrentlyDisregarded;
+        return this;
+    }
+
+    public NexusResponse withIorOptOutEligible(boolean iorOptOutEligible) {
+        Utils.checkNotNull(iorOptOutEligible, "iorOptOutEligible");
+        this.iorOptOutEligible = Optional.ofNullable(iorOptOutEligible);
+        return this;
+    }
+
+
+    public NexusResponse withIorOptOutEligible(Optional<Boolean> iorOptOutEligible) {
+        Utils.checkNotNull(iorOptOutEligible, "iorOptOutEligible");
+        this.iorOptOutEligible = iorOptOutEligible;
+        return this;
+    }
+
+    public NexusResponse withIorEligibleAtRegistration(boolean iorEligibleAtRegistration) {
+        Utils.checkNotNull(iorEligibleAtRegistration, "iorEligibleAtRegistration");
+        this.iorEligibleAtRegistration = Optional.ofNullable(iorEligibleAtRegistration);
+        return this;
+    }
+
+
+    public NexusResponse withIorEligibleAtRegistration(Optional<Boolean> iorEligibleAtRegistration) {
+        Utils.checkNotNull(iorEligibleAtRegistration, "iorEligibleAtRegistration");
+        this.iorEligibleAtRegistration = iorEligibleAtRegistration;
+        return this;
+    }
+
+    public NexusResponse withRequiresIorNumberToRegister(boolean requiresIorNumberToRegister) {
+        Utils.checkNotNull(requiresIorNumberToRegister, "requiresIorNumberToRegister");
+        this.requiresIorNumberToRegister = Optional.ofNullable(requiresIorNumberToRegister);
+        return this;
+    }
+
+
+    public NexusResponse withRequiresIorNumberToRegister(Optional<Boolean> requiresIorNumberToRegister) {
+        Utils.checkNotNull(requiresIorNumberToRegister, "requiresIorNumberToRegister");
+        this.requiresIorNumberToRegister = requiresIorNumberToRegister;
+        return this;
+    }
+
+    public NexusResponse withThresholdSales(long thresholdSales) {
+        Utils.checkNotNull(thresholdSales, "thresholdSales");
+        this.thresholdSales = thresholdSales;
         return this;
     }
 
@@ -1476,6 +1683,13 @@ public class NexusResponse {
 
     public NexusResponse withMarketplaceIncluded(boolean marketplaceIncluded) {
         Utils.checkNotNull(marketplaceIncluded, "marketplaceIncluded");
+        this.marketplaceIncluded = Optional.ofNullable(marketplaceIncluded);
+        return this;
+    }
+
+
+    public NexusResponse withMarketplaceIncluded(Optional<Boolean> marketplaceIncluded) {
+        Utils.checkNotNull(marketplaceIncluded, "marketplaceIncluded");
         this.marketplaceIncluded = marketplaceIncluded;
         return this;
     }
@@ -1498,7 +1712,7 @@ public class NexusResponse {
             Utils.enhancedDeepEquals(this.treatmentOfExemptTransactions, other.treatmentOfExemptTransactions) &&
             Utils.enhancedDeepEquals(this.trigger, other.trigger) &&
             Utils.enhancedDeepEquals(this.salesOrTransactions, other.salesOrTransactions) &&
-            Utils.enhancedDeepEquals(this.thresholdSales, other.thresholdSales) &&
+            Utils.enhancedDeepEquals(this.thresholdSalesBigint, other.thresholdSalesBigint) &&
             Utils.enhancedDeepEquals(this.thresholdTransactions, other.thresholdTransactions) &&
             Utils.enhancedDeepEquals(this.startDate, other.startDate) &&
             Utils.enhancedDeepEquals(this.transactionCount, other.transactionCount) &&
@@ -1510,6 +1724,7 @@ public class NexusResponse {
             Utils.enhancedDeepEquals(this.taxLiability, other.taxLiability) &&
             Utils.enhancedDeepEquals(this.nexusMet, other.nexusMet) &&
             Utils.enhancedDeepEquals(this.nexusMetDate, other.nexusMetDate) &&
+            Utils.enhancedDeepEquals(this.taxType, other.taxType) &&
             Utils.enhancedDeepEquals(this.economicNexusMet, other.economicNexusMet) &&
             Utils.enhancedDeepEquals(this.economicNexusMetDate, other.economicNexusMetDate) &&
             Utils.enhancedDeepEquals(this.physicalNexusMet, other.physicalNexusMet) &&
@@ -1540,8 +1755,13 @@ public class NexusResponse {
             Utils.enhancedDeepEquals(this.registrationRegime, other.registrationRegime) &&
             Utils.enhancedDeepEquals(this.disregardedAt, other.disregardedAt) &&
             Utils.enhancedDeepEquals(this.disregardedBy, other.disregardedBy) &&
+            Utils.enhancedDeepEquals(this.disregardedType, other.disregardedType) &&
             Utils.enhancedDeepEquals(this.disregardedNexusTypes, other.disregardedNexusTypes) &&
             Utils.enhancedDeepEquals(this.isCurrentlyDisregarded, other.isCurrentlyDisregarded) &&
+            Utils.enhancedDeepEquals(this.iorOptOutEligible, other.iorOptOutEligible) &&
+            Utils.enhancedDeepEquals(this.iorEligibleAtRegistration, other.iorEligibleAtRegistration) &&
+            Utils.enhancedDeepEquals(this.requiresIorNumberToRegister, other.requiresIorNumberToRegister) &&
+            Utils.enhancedDeepEquals(this.thresholdSales, other.thresholdSales) &&
             Utils.enhancedDeepEquals(this.isVdaEligible, other.isVdaEligible) &&
             Utils.enhancedDeepEquals(this.nexusType, other.nexusType) &&
             Utils.enhancedDeepEquals(this.totalTransactions, other.totalTransactions) &&
@@ -1556,22 +1776,24 @@ public class NexusResponse {
         return Utils.enhancedHash(
             processingStatus, status, countryCode,
             stateCode, stateName, treatmentOfExemptTransactions,
-            trigger, salesOrTransactions, thresholdSales,
+            trigger, salesOrTransactions, thresholdSalesBigint,
             thresholdTransactions, startDate, transactionCount,
             transactionsAmount, previousTransactionCount, previousTransactionsAmount,
             calculatedTaxLiability, importedTaxLiability, taxLiability,
-            nexusMet, nexusMetDate, economicNexusMet,
-            economicNexusMetDate, physicalNexusMet, physicalNexusMetDate,
-            collectedTaxNexusMet, collectedTaxNexusMetDate, periodModel,
-            periodStartDate, periodEndDate, previousPeriodStartDate,
-            previousPeriodEndDate, earliestTransactionDate, mostRecentTransactionDate,
-            findThresholdCrossingTransactionState, earliestCollectedDate, predictedMonthFromToday,
-            vdaEligible, confidenceLevel, lastProcessedAt,
-            lastTaxLiabilityProcessedAt, periods, currency,
-            id, createdAt, updatedAt,
-            organizationId, registration, registrationRegime,
-            disregardedAt, disregardedBy, disregardedNexusTypes,
-            isCurrentlyDisregarded, isVdaEligible, nexusType,
+            nexusMet, nexusMetDate, taxType,
+            economicNexusMet, economicNexusMetDate, physicalNexusMet,
+            physicalNexusMetDate, collectedTaxNexusMet, collectedTaxNexusMetDate,
+            periodModel, periodStartDate, periodEndDate,
+            previousPeriodStartDate, previousPeriodEndDate, earliestTransactionDate,
+            mostRecentTransactionDate, findThresholdCrossingTransactionState, earliestCollectedDate,
+            predictedMonthFromToday, vdaEligible, confidenceLevel,
+            lastProcessedAt, lastTaxLiabilityProcessedAt, periods,
+            currency, id, createdAt,
+            updatedAt, organizationId, registration,
+            registrationRegime, disregardedAt, disregardedBy,
+            disregardedType, disregardedNexusTypes, isCurrentlyDisregarded,
+            iorOptOutEligible, iorEligibleAtRegistration, requiresIorNumberToRegister,
+            thresholdSales, isVdaEligible, nexusType,
             totalTransactions, totalTransactionsIncluded, totalTransactionsExempted,
             totalTransactionsMarketplace, marketplaceIncluded);
     }
@@ -1587,7 +1809,7 @@ public class NexusResponse {
                 "treatmentOfExemptTransactions", treatmentOfExemptTransactions,
                 "trigger", trigger,
                 "salesOrTransactions", salesOrTransactions,
-                "thresholdSales", thresholdSales,
+                "thresholdSalesBigint", thresholdSalesBigint,
                 "thresholdTransactions", thresholdTransactions,
                 "startDate", startDate,
                 "transactionCount", transactionCount,
@@ -1599,6 +1821,7 @@ public class NexusResponse {
                 "taxLiability", taxLiability,
                 "nexusMet", nexusMet,
                 "nexusMetDate", nexusMetDate,
+                "taxType", taxType,
                 "economicNexusMet", economicNexusMet,
                 "economicNexusMetDate", economicNexusMetDate,
                 "physicalNexusMet", physicalNexusMet,
@@ -1629,8 +1852,13 @@ public class NexusResponse {
                 "registrationRegime", registrationRegime,
                 "disregardedAt", disregardedAt,
                 "disregardedBy", disregardedBy,
+                "disregardedType", disregardedType,
                 "disregardedNexusTypes", disregardedNexusTypes,
                 "isCurrentlyDisregarded", isCurrentlyDisregarded,
+                "iorOptOutEligible", iorOptOutEligible,
+                "iorEligibleAtRegistration", iorEligibleAtRegistration,
+                "requiresIorNumberToRegister", requiresIorNumberToRegister,
+                "thresholdSales", thresholdSales,
                 "isVdaEligible", isVdaEligible,
                 "nexusType", nexusType,
                 "totalTransactions", totalTransactions,
@@ -1659,9 +1887,9 @@ public class NexusResponse {
 
         private SalesOrTransactionsEnum salesOrTransactions;
 
-        private Long thresholdSales;
+        private Optional<Long> thresholdSalesBigint;
 
-        private Long thresholdTransactions;
+        private Optional<Long> thresholdTransactions = Optional.empty();
 
         private LocalDate startDate;
 
@@ -1675,27 +1903,29 @@ public class NexusResponse {
         @Deprecated
         private Optional<String> previousTransactionsAmount;
 
-        private Optional<String> calculatedTaxLiability;
+        private JsonNullable<String> calculatedTaxLiability = JsonNullable.undefined();
 
-        private Optional<String> importedTaxLiability;
+        private JsonNullable<String> importedTaxLiability = JsonNullable.undefined();
 
         private Optional<String> taxLiability;
 
         private Optional<Boolean> nexusMet;
 
-        private Optional<String> nexusMetDate = Optional.empty();
+        private JsonNullable<LocalDate> nexusMetDate = JsonNullable.undefined();
+
+        private Optional<? extends TaxTypeEnum> taxType = Optional.empty();
 
         private Optional<Boolean> economicNexusMet;
 
-        private Optional<String> economicNexusMetDate = Optional.empty();
+        private JsonNullable<LocalDate> economicNexusMetDate = JsonNullable.undefined();
 
         private Optional<Boolean> physicalNexusMet;
 
-        private Optional<String> physicalNexusMetDate = Optional.empty();
+        private JsonNullable<LocalDate> physicalNexusMetDate = JsonNullable.undefined();
 
-        private Optional<Boolean> collectedTaxNexusMet;
+        private JsonNullable<Boolean> collectedTaxNexusMet = JsonNullable.undefined();
 
-        private Optional<String> collectedTaxNexusMetDate = Optional.empty();
+        private JsonNullable<LocalDate> collectedTaxNexusMetDate = JsonNullable.undefined();
 
         private PeriodModelEnum periodModel;
 
@@ -1703,31 +1933,31 @@ public class NexusResponse {
 
         private LocalDate periodEndDate;
 
-        private String previousPeriodStartDate;
+        private Optional<LocalDate> previousPeriodStartDate = Optional.empty();
 
-        private String previousPeriodEndDate;
+        private Optional<LocalDate> previousPeriodEndDate = Optional.empty();
 
-        private Optional<String> earliestTransactionDate = Optional.empty();
+        private JsonNullable<OffsetDateTime> earliestTransactionDate = JsonNullable.undefined();
 
-        private Optional<String> mostRecentTransactionDate = Optional.empty();
+        private JsonNullable<OffsetDateTime> mostRecentTransactionDate = JsonNullable.undefined();
 
-        private Optional<? extends FindThresholdCrossingTransactionState> findThresholdCrossingTransactionState = Optional.empty();
+        private JsonNullable<? extends FindThresholdCrossingTransactionState> findThresholdCrossingTransactionState = JsonNullable.undefined();
 
         private Optional<OffsetDateTime> earliestCollectedDate;
 
-        private Optional<Long> predictedMonthFromToday = Optional.empty();
+        private JsonNullable<Long> predictedMonthFromToday = JsonNullable.undefined();
 
-        private Optional<Boolean> vdaEligible;
+        private JsonNullable<Boolean> vdaEligible = JsonNullable.undefined();
 
-        private Optional<Double> confidenceLevel = Optional.empty();
+        private JsonNullable<Double> confidenceLevel = JsonNullable.undefined();
 
-        private Optional<String> lastProcessedAt = Optional.empty();
+        private JsonNullable<OffsetDateTime> lastProcessedAt = JsonNullable.undefined();
 
-        private Optional<String> lastTaxLiabilityProcessedAt = Optional.empty();
+        private JsonNullable<OffsetDateTime> lastTaxLiabilityProcessedAt = JsonNullable.undefined();
 
         private Optional<? extends List<Map<String, Object>>> periods = Optional.empty();
 
-        private Optional<? extends CurrencyEnum> currency = Optional.empty();
+        private JsonNullable<? extends CurrencyEnum> currency = JsonNullable.undefined();
 
         private String id;
 
@@ -1737,17 +1967,27 @@ public class NexusResponse {
 
         private String organizationId;
 
-        private Optional<? extends Registration> registration = Optional.empty();
+        private JsonNullable<? extends Map<String, Object>> registration = JsonNullable.undefined();
 
-        private Optional<? extends RegistrationsRegimeEnum> registrationRegime = Optional.empty();
+        private JsonNullable<? extends RegistrationsRegimeEnum> registrationRegime = JsonNullable.undefined();
 
-        private Optional<String> disregardedAt = Optional.empty();
+        private JsonNullable<OffsetDateTime> disregardedAt = JsonNullable.undefined();
 
-        private Optional<String> disregardedBy = Optional.empty();
+        private JsonNullable<String> disregardedBy = JsonNullable.undefined();
+
+        private JsonNullable<? extends DisregardedTypeEnum> disregardedType = JsonNullable.undefined();
 
         private Optional<? extends List<String>> disregardedNexusTypes = Optional.empty();
 
         private Optional<Boolean> isCurrentlyDisregarded;
+
+        private Optional<Boolean> iorOptOutEligible;
+
+        private Optional<Boolean> iorEligibleAtRegistration;
+
+        private Optional<Boolean> requiresIorNumberToRegister;
+
+        private Long thresholdSales;
 
         private Boolean isVdaEligible;
 
@@ -1761,7 +2001,7 @@ public class NexusResponse {
 
         private Long totalTransactionsMarketplace;
 
-        private Boolean marketplaceIncluded;
+        private Optional<Boolean> marketplaceIncluded = Optional.empty();
 
         private Builder() {
           // force use of static builder() method
@@ -1836,14 +2076,26 @@ public class NexusResponse {
         }
 
 
-        public Builder thresholdSales(long thresholdSales) {
-            Utils.checkNotNull(thresholdSales, "thresholdSales");
-            this.thresholdSales = thresholdSales;
+        public Builder thresholdSalesBigint(long thresholdSalesBigint) {
+            Utils.checkNotNull(thresholdSalesBigint, "thresholdSalesBigint");
+            this.thresholdSalesBigint = Optional.ofNullable(thresholdSalesBigint);
+            return this;
+        }
+
+        public Builder thresholdSalesBigint(Optional<Long> thresholdSalesBigint) {
+            Utils.checkNotNull(thresholdSalesBigint, "thresholdSalesBigint");
+            this.thresholdSalesBigint = thresholdSalesBigint;
             return this;
         }
 
 
         public Builder thresholdTransactions(long thresholdTransactions) {
+            Utils.checkNotNull(thresholdTransactions, "thresholdTransactions");
+            this.thresholdTransactions = Optional.ofNullable(thresholdTransactions);
+            return this;
+        }
+
+        public Builder thresholdTransactions(Optional<Long> thresholdTransactions) {
             Utils.checkNotNull(thresholdTransactions, "thresholdTransactions");
             this.thresholdTransactions = thresholdTransactions;
             return this;
@@ -1885,7 +2137,7 @@ public class NexusResponse {
 
         /**
          * Deprecated: transaction_count now includes both current and previous period values when period_model
-         * is CURRENT_OR_PREVIOUS
+         * is CURRENT_OR_PREVIOUS, CURRENT_OR_TWO_PREVIOUS, or CURRENT_OR_PREVIOUS_12_MONTHS
          * 
          * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
          */
@@ -1898,7 +2150,7 @@ public class NexusResponse {
 
         /**
          * Deprecated: transaction_count now includes both current and previous period values when period_model
-         * is CURRENT_OR_PREVIOUS
+         * is CURRENT_OR_PREVIOUS, CURRENT_OR_TWO_PREVIOUS, or CURRENT_OR_PREVIOUS_12_MONTHS
          * 
          * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
          */
@@ -1912,7 +2164,7 @@ public class NexusResponse {
 
         /**
          * Deprecated: transactions_amount now includes both current and previous period values when
-         * period_model is CURRENT_OR_PREVIOUS
+         * period_model is CURRENT_OR_PREVIOUS, CURRENT_OR_TWO_PREVIOUS, or CURRENT_OR_PREVIOUS_12_MONTHS
          * 
          * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
          */
@@ -1925,7 +2177,7 @@ public class NexusResponse {
 
         /**
          * Deprecated: transactions_amount now includes both current and previous period values when
-         * period_model is CURRENT_OR_PREVIOUS
+         * period_model is CURRENT_OR_PREVIOUS, CURRENT_OR_TWO_PREVIOUS, or CURRENT_OR_PREVIOUS_12_MONTHS
          * 
          * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
          */
@@ -1939,11 +2191,11 @@ public class NexusResponse {
 
         public Builder calculatedTaxLiability(String calculatedTaxLiability) {
             Utils.checkNotNull(calculatedTaxLiability, "calculatedTaxLiability");
-            this.calculatedTaxLiability = Optional.ofNullable(calculatedTaxLiability);
+            this.calculatedTaxLiability = JsonNullable.of(calculatedTaxLiability);
             return this;
         }
 
-        public Builder calculatedTaxLiability(Optional<String> calculatedTaxLiability) {
+        public Builder calculatedTaxLiability(JsonNullable<String> calculatedTaxLiability) {
             Utils.checkNotNull(calculatedTaxLiability, "calculatedTaxLiability");
             this.calculatedTaxLiability = calculatedTaxLiability;
             return this;
@@ -1952,11 +2204,11 @@ public class NexusResponse {
 
         public Builder importedTaxLiability(String importedTaxLiability) {
             Utils.checkNotNull(importedTaxLiability, "importedTaxLiability");
-            this.importedTaxLiability = Optional.ofNullable(importedTaxLiability);
+            this.importedTaxLiability = JsonNullable.of(importedTaxLiability);
             return this;
         }
 
-        public Builder importedTaxLiability(Optional<String> importedTaxLiability) {
+        public Builder importedTaxLiability(JsonNullable<String> importedTaxLiability) {
             Utils.checkNotNull(importedTaxLiability, "importedTaxLiability");
             this.importedTaxLiability = importedTaxLiability;
             return this;
@@ -1989,15 +2241,46 @@ public class NexusResponse {
         }
 
 
-        public Builder nexusMetDate(String nexusMetDate) {
+        public Builder nexusMetDate(LocalDate nexusMetDate) {
             Utils.checkNotNull(nexusMetDate, "nexusMetDate");
-            this.nexusMetDate = Optional.ofNullable(nexusMetDate);
+            this.nexusMetDate = JsonNullable.of(nexusMetDate);
             return this;
         }
 
-        public Builder nexusMetDate(Optional<String> nexusMetDate) {
+        public Builder nexusMetDate(JsonNullable<LocalDate> nexusMetDate) {
             Utils.checkNotNull(nexusMetDate, "nexusMetDate");
             this.nexusMetDate = nexusMetDate;
+            return this;
+        }
+
+
+        /**
+         * Tax obligation on a nexus, registration, or filing row.
+         * 
+         * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
+         * one return can cover both taxes, and each is stored as a single row.
+         * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
+         * separate obligations with their own met dates, period models, and liability
+         * accrual.
+         */
+        public Builder taxType(TaxTypeEnum taxType) {
+            Utils.checkNotNull(taxType, "taxType");
+            this.taxType = Optional.ofNullable(taxType);
+            return this;
+        }
+
+        /**
+         * Tax obligation on a nexus, registration, or filing row.
+         * 
+         * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
+         * one return can cover both taxes, and each is stored as a single row.
+         * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
+         * separate obligations with their own met dates, period models, and liability
+         * accrual.
+         */
+        public Builder taxType(Optional<? extends TaxTypeEnum> taxType) {
+            Utils.checkNotNull(taxType, "taxType");
+            this.taxType = taxType;
             return this;
         }
 
@@ -2015,13 +2298,13 @@ public class NexusResponse {
         }
 
 
-        public Builder economicNexusMetDate(String economicNexusMetDate) {
+        public Builder economicNexusMetDate(LocalDate economicNexusMetDate) {
             Utils.checkNotNull(economicNexusMetDate, "economicNexusMetDate");
-            this.economicNexusMetDate = Optional.ofNullable(economicNexusMetDate);
+            this.economicNexusMetDate = JsonNullable.of(economicNexusMetDate);
             return this;
         }
 
-        public Builder economicNexusMetDate(Optional<String> economicNexusMetDate) {
+        public Builder economicNexusMetDate(JsonNullable<LocalDate> economicNexusMetDate) {
             Utils.checkNotNull(economicNexusMetDate, "economicNexusMetDate");
             this.economicNexusMetDate = economicNexusMetDate;
             return this;
@@ -2041,13 +2324,13 @@ public class NexusResponse {
         }
 
 
-        public Builder physicalNexusMetDate(String physicalNexusMetDate) {
+        public Builder physicalNexusMetDate(LocalDate physicalNexusMetDate) {
             Utils.checkNotNull(physicalNexusMetDate, "physicalNexusMetDate");
-            this.physicalNexusMetDate = Optional.ofNullable(physicalNexusMetDate);
+            this.physicalNexusMetDate = JsonNullable.of(physicalNexusMetDate);
             return this;
         }
 
-        public Builder physicalNexusMetDate(Optional<String> physicalNexusMetDate) {
+        public Builder physicalNexusMetDate(JsonNullable<LocalDate> physicalNexusMetDate) {
             Utils.checkNotNull(physicalNexusMetDate, "physicalNexusMetDate");
             this.physicalNexusMetDate = physicalNexusMetDate;
             return this;
@@ -2056,24 +2339,24 @@ public class NexusResponse {
 
         public Builder collectedTaxNexusMet(boolean collectedTaxNexusMet) {
             Utils.checkNotNull(collectedTaxNexusMet, "collectedTaxNexusMet");
-            this.collectedTaxNexusMet = Optional.ofNullable(collectedTaxNexusMet);
+            this.collectedTaxNexusMet = JsonNullable.of(collectedTaxNexusMet);
             return this;
         }
 
-        public Builder collectedTaxNexusMet(Optional<Boolean> collectedTaxNexusMet) {
+        public Builder collectedTaxNexusMet(JsonNullable<Boolean> collectedTaxNexusMet) {
             Utils.checkNotNull(collectedTaxNexusMet, "collectedTaxNexusMet");
             this.collectedTaxNexusMet = collectedTaxNexusMet;
             return this;
         }
 
 
-        public Builder collectedTaxNexusMetDate(String collectedTaxNexusMetDate) {
+        public Builder collectedTaxNexusMetDate(LocalDate collectedTaxNexusMetDate) {
             Utils.checkNotNull(collectedTaxNexusMetDate, "collectedTaxNexusMetDate");
-            this.collectedTaxNexusMetDate = Optional.ofNullable(collectedTaxNexusMetDate);
+            this.collectedTaxNexusMetDate = JsonNullable.of(collectedTaxNexusMetDate);
             return this;
         }
 
-        public Builder collectedTaxNexusMetDate(Optional<String> collectedTaxNexusMetDate) {
+        public Builder collectedTaxNexusMetDate(JsonNullable<LocalDate> collectedTaxNexusMetDate) {
             Utils.checkNotNull(collectedTaxNexusMetDate, "collectedTaxNexusMetDate");
             this.collectedTaxNexusMetDate = collectedTaxNexusMetDate;
             return this;
@@ -2101,40 +2384,52 @@ public class NexusResponse {
         }
 
 
-        public Builder previousPeriodStartDate(String previousPeriodStartDate) {
+        public Builder previousPeriodStartDate(LocalDate previousPeriodStartDate) {
+            Utils.checkNotNull(previousPeriodStartDate, "previousPeriodStartDate");
+            this.previousPeriodStartDate = Optional.ofNullable(previousPeriodStartDate);
+            return this;
+        }
+
+        public Builder previousPeriodStartDate(Optional<LocalDate> previousPeriodStartDate) {
             Utils.checkNotNull(previousPeriodStartDate, "previousPeriodStartDate");
             this.previousPeriodStartDate = previousPeriodStartDate;
             return this;
         }
 
 
-        public Builder previousPeriodEndDate(String previousPeriodEndDate) {
+        public Builder previousPeriodEndDate(LocalDate previousPeriodEndDate) {
+            Utils.checkNotNull(previousPeriodEndDate, "previousPeriodEndDate");
+            this.previousPeriodEndDate = Optional.ofNullable(previousPeriodEndDate);
+            return this;
+        }
+
+        public Builder previousPeriodEndDate(Optional<LocalDate> previousPeriodEndDate) {
             Utils.checkNotNull(previousPeriodEndDate, "previousPeriodEndDate");
             this.previousPeriodEndDate = previousPeriodEndDate;
             return this;
         }
 
 
-        public Builder earliestTransactionDate(String earliestTransactionDate) {
+        public Builder earliestTransactionDate(OffsetDateTime earliestTransactionDate) {
             Utils.checkNotNull(earliestTransactionDate, "earliestTransactionDate");
-            this.earliestTransactionDate = Optional.ofNullable(earliestTransactionDate);
+            this.earliestTransactionDate = JsonNullable.of(earliestTransactionDate);
             return this;
         }
 
-        public Builder earliestTransactionDate(Optional<String> earliestTransactionDate) {
+        public Builder earliestTransactionDate(JsonNullable<OffsetDateTime> earliestTransactionDate) {
             Utils.checkNotNull(earliestTransactionDate, "earliestTransactionDate");
             this.earliestTransactionDate = earliestTransactionDate;
             return this;
         }
 
 
-        public Builder mostRecentTransactionDate(String mostRecentTransactionDate) {
+        public Builder mostRecentTransactionDate(OffsetDateTime mostRecentTransactionDate) {
             Utils.checkNotNull(mostRecentTransactionDate, "mostRecentTransactionDate");
-            this.mostRecentTransactionDate = Optional.ofNullable(mostRecentTransactionDate);
+            this.mostRecentTransactionDate = JsonNullable.of(mostRecentTransactionDate);
             return this;
         }
 
-        public Builder mostRecentTransactionDate(Optional<String> mostRecentTransactionDate) {
+        public Builder mostRecentTransactionDate(JsonNullable<OffsetDateTime> mostRecentTransactionDate) {
             Utils.checkNotNull(mostRecentTransactionDate, "mostRecentTransactionDate");
             this.mostRecentTransactionDate = mostRecentTransactionDate;
             return this;
@@ -2143,11 +2438,11 @@ public class NexusResponse {
 
         public Builder findThresholdCrossingTransactionState(FindThresholdCrossingTransactionState findThresholdCrossingTransactionState) {
             Utils.checkNotNull(findThresholdCrossingTransactionState, "findThresholdCrossingTransactionState");
-            this.findThresholdCrossingTransactionState = Optional.ofNullable(findThresholdCrossingTransactionState);
+            this.findThresholdCrossingTransactionState = JsonNullable.of(findThresholdCrossingTransactionState);
             return this;
         }
 
-        public Builder findThresholdCrossingTransactionState(Optional<? extends FindThresholdCrossingTransactionState> findThresholdCrossingTransactionState) {
+        public Builder findThresholdCrossingTransactionState(JsonNullable<? extends FindThresholdCrossingTransactionState> findThresholdCrossingTransactionState) {
             Utils.checkNotNull(findThresholdCrossingTransactionState, "findThresholdCrossingTransactionState");
             this.findThresholdCrossingTransactionState = findThresholdCrossingTransactionState;
             return this;
@@ -2169,11 +2464,11 @@ public class NexusResponse {
 
         public Builder predictedMonthFromToday(long predictedMonthFromToday) {
             Utils.checkNotNull(predictedMonthFromToday, "predictedMonthFromToday");
-            this.predictedMonthFromToday = Optional.ofNullable(predictedMonthFromToday);
+            this.predictedMonthFromToday = JsonNullable.of(predictedMonthFromToday);
             return this;
         }
 
-        public Builder predictedMonthFromToday(Optional<Long> predictedMonthFromToday) {
+        public Builder predictedMonthFromToday(JsonNullable<Long> predictedMonthFromToday) {
             Utils.checkNotNull(predictedMonthFromToday, "predictedMonthFromToday");
             this.predictedMonthFromToday = predictedMonthFromToday;
             return this;
@@ -2182,11 +2477,11 @@ public class NexusResponse {
 
         public Builder vdaEligible(boolean vdaEligible) {
             Utils.checkNotNull(vdaEligible, "vdaEligible");
-            this.vdaEligible = Optional.ofNullable(vdaEligible);
+            this.vdaEligible = JsonNullable.of(vdaEligible);
             return this;
         }
 
-        public Builder vdaEligible(Optional<Boolean> vdaEligible) {
+        public Builder vdaEligible(JsonNullable<Boolean> vdaEligible) {
             Utils.checkNotNull(vdaEligible, "vdaEligible");
             this.vdaEligible = vdaEligible;
             return this;
@@ -2195,37 +2490,37 @@ public class NexusResponse {
 
         public Builder confidenceLevel(double confidenceLevel) {
             Utils.checkNotNull(confidenceLevel, "confidenceLevel");
-            this.confidenceLevel = Optional.ofNullable(confidenceLevel);
+            this.confidenceLevel = JsonNullable.of(confidenceLevel);
             return this;
         }
 
-        public Builder confidenceLevel(Optional<Double> confidenceLevel) {
+        public Builder confidenceLevel(JsonNullable<Double> confidenceLevel) {
             Utils.checkNotNull(confidenceLevel, "confidenceLevel");
             this.confidenceLevel = confidenceLevel;
             return this;
         }
 
 
-        public Builder lastProcessedAt(String lastProcessedAt) {
+        public Builder lastProcessedAt(OffsetDateTime lastProcessedAt) {
             Utils.checkNotNull(lastProcessedAt, "lastProcessedAt");
-            this.lastProcessedAt = Optional.ofNullable(lastProcessedAt);
+            this.lastProcessedAt = JsonNullable.of(lastProcessedAt);
             return this;
         }
 
-        public Builder lastProcessedAt(Optional<String> lastProcessedAt) {
+        public Builder lastProcessedAt(JsonNullable<OffsetDateTime> lastProcessedAt) {
             Utils.checkNotNull(lastProcessedAt, "lastProcessedAt");
             this.lastProcessedAt = lastProcessedAt;
             return this;
         }
 
 
-        public Builder lastTaxLiabilityProcessedAt(String lastTaxLiabilityProcessedAt) {
+        public Builder lastTaxLiabilityProcessedAt(OffsetDateTime lastTaxLiabilityProcessedAt) {
             Utils.checkNotNull(lastTaxLiabilityProcessedAt, "lastTaxLiabilityProcessedAt");
-            this.lastTaxLiabilityProcessedAt = Optional.ofNullable(lastTaxLiabilityProcessedAt);
+            this.lastTaxLiabilityProcessedAt = JsonNullable.of(lastTaxLiabilityProcessedAt);
             return this;
         }
 
-        public Builder lastTaxLiabilityProcessedAt(Optional<String> lastTaxLiabilityProcessedAt) {
+        public Builder lastTaxLiabilityProcessedAt(JsonNullable<OffsetDateTime> lastTaxLiabilityProcessedAt) {
             Utils.checkNotNull(lastTaxLiabilityProcessedAt, "lastTaxLiabilityProcessedAt");
             this.lastTaxLiabilityProcessedAt = lastTaxLiabilityProcessedAt;
             return this;
@@ -2245,13 +2540,19 @@ public class NexusResponse {
         }
 
 
+        /**
+         * Currency code for the nexus (e.g., USD, CAD).
+         */
         public Builder currency(CurrencyEnum currency) {
             Utils.checkNotNull(currency, "currency");
-            this.currency = Optional.ofNullable(currency);
+            this.currency = JsonNullable.of(currency);
             return this;
         }
 
-        public Builder currency(Optional<? extends CurrencyEnum> currency) {
+        /**
+         * Currency code for the nexus (e.g., USD, CAD).
+         */
+        public Builder currency(JsonNullable<? extends CurrencyEnum> currency) {
             Utils.checkNotNull(currency, "currency");
             this.currency = currency;
             return this;
@@ -2286,13 +2587,13 @@ public class NexusResponse {
         }
 
 
-        public Builder registration(Registration registration) {
+        public Builder registration(Map<String, Object> registration) {
             Utils.checkNotNull(registration, "registration");
-            this.registration = Optional.ofNullable(registration);
+            this.registration = JsonNullable.of(registration);
             return this;
         }
 
-        public Builder registration(Optional<? extends Registration> registration) {
+        public Builder registration(JsonNullable<? extends Map<String, Object>> registration) {
             Utils.checkNotNull(registration, "registration");
             this.registration = registration;
             return this;
@@ -2301,24 +2602,24 @@ public class NexusResponse {
 
         public Builder registrationRegime(RegistrationsRegimeEnum registrationRegime) {
             Utils.checkNotNull(registrationRegime, "registrationRegime");
-            this.registrationRegime = Optional.ofNullable(registrationRegime);
+            this.registrationRegime = JsonNullable.of(registrationRegime);
             return this;
         }
 
-        public Builder registrationRegime(Optional<? extends RegistrationsRegimeEnum> registrationRegime) {
+        public Builder registrationRegime(JsonNullable<? extends RegistrationsRegimeEnum> registrationRegime) {
             Utils.checkNotNull(registrationRegime, "registrationRegime");
             this.registrationRegime = registrationRegime;
             return this;
         }
 
 
-        public Builder disregardedAt(String disregardedAt) {
+        public Builder disregardedAt(OffsetDateTime disregardedAt) {
             Utils.checkNotNull(disregardedAt, "disregardedAt");
-            this.disregardedAt = Optional.ofNullable(disregardedAt);
+            this.disregardedAt = JsonNullable.of(disregardedAt);
             return this;
         }
 
-        public Builder disregardedAt(Optional<String> disregardedAt) {
+        public Builder disregardedAt(JsonNullable<OffsetDateTime> disregardedAt) {
             Utils.checkNotNull(disregardedAt, "disregardedAt");
             this.disregardedAt = disregardedAt;
             return this;
@@ -2327,13 +2628,26 @@ public class NexusResponse {
 
         public Builder disregardedBy(String disregardedBy) {
             Utils.checkNotNull(disregardedBy, "disregardedBy");
-            this.disregardedBy = Optional.ofNullable(disregardedBy);
+            this.disregardedBy = JsonNullable.of(disregardedBy);
             return this;
         }
 
-        public Builder disregardedBy(Optional<String> disregardedBy) {
+        public Builder disregardedBy(JsonNullable<String> disregardedBy) {
             Utils.checkNotNull(disregardedBy, "disregardedBy");
             this.disregardedBy = disregardedBy;
+            return this;
+        }
+
+
+        public Builder disregardedType(DisregardedTypeEnum disregardedType) {
+            Utils.checkNotNull(disregardedType, "disregardedType");
+            this.disregardedType = JsonNullable.of(disregardedType);
+            return this;
+        }
+
+        public Builder disregardedType(JsonNullable<? extends DisregardedTypeEnum> disregardedType) {
+            Utils.checkNotNull(disregardedType, "disregardedType");
+            this.disregardedType = disregardedType;
             return this;
         }
 
@@ -2360,6 +2674,52 @@ public class NexusResponse {
         public Builder isCurrentlyDisregarded(Optional<Boolean> isCurrentlyDisregarded) {
             Utils.checkNotNull(isCurrentlyDisregarded, "isCurrentlyDisregarded");
             this.isCurrentlyDisregarded = isCurrentlyDisregarded;
+            return this;
+        }
+
+
+        public Builder iorOptOutEligible(boolean iorOptOutEligible) {
+            Utils.checkNotNull(iorOptOutEligible, "iorOptOutEligible");
+            this.iorOptOutEligible = Optional.ofNullable(iorOptOutEligible);
+            return this;
+        }
+
+        public Builder iorOptOutEligible(Optional<Boolean> iorOptOutEligible) {
+            Utils.checkNotNull(iorOptOutEligible, "iorOptOutEligible");
+            this.iorOptOutEligible = iorOptOutEligible;
+            return this;
+        }
+
+
+        public Builder iorEligibleAtRegistration(boolean iorEligibleAtRegistration) {
+            Utils.checkNotNull(iorEligibleAtRegistration, "iorEligibleAtRegistration");
+            this.iorEligibleAtRegistration = Optional.ofNullable(iorEligibleAtRegistration);
+            return this;
+        }
+
+        public Builder iorEligibleAtRegistration(Optional<Boolean> iorEligibleAtRegistration) {
+            Utils.checkNotNull(iorEligibleAtRegistration, "iorEligibleAtRegistration");
+            this.iorEligibleAtRegistration = iorEligibleAtRegistration;
+            return this;
+        }
+
+
+        public Builder requiresIorNumberToRegister(boolean requiresIorNumberToRegister) {
+            Utils.checkNotNull(requiresIorNumberToRegister, "requiresIorNumberToRegister");
+            this.requiresIorNumberToRegister = Optional.ofNullable(requiresIorNumberToRegister);
+            return this;
+        }
+
+        public Builder requiresIorNumberToRegister(Optional<Boolean> requiresIorNumberToRegister) {
+            Utils.checkNotNull(requiresIorNumberToRegister, "requiresIorNumberToRegister");
+            this.requiresIorNumberToRegister = requiresIorNumberToRegister;
+            return this;
+        }
+
+
+        public Builder thresholdSales(long thresholdSales) {
+            Utils.checkNotNull(thresholdSales, "thresholdSales");
+            this.thresholdSales = thresholdSales;
             return this;
         }
 
@@ -2408,11 +2768,20 @@ public class NexusResponse {
 
         public Builder marketplaceIncluded(boolean marketplaceIncluded) {
             Utils.checkNotNull(marketplaceIncluded, "marketplaceIncluded");
+            this.marketplaceIncluded = Optional.ofNullable(marketplaceIncluded);
+            return this;
+        }
+
+        public Builder marketplaceIncluded(Optional<Boolean> marketplaceIncluded) {
+            Utils.checkNotNull(marketplaceIncluded, "marketplaceIncluded");
             this.marketplaceIncluded = marketplaceIncluded;
             return this;
         }
 
         public NexusResponse build() {
+            if (thresholdSalesBigint == null) {
+                thresholdSalesBigint = _SINGLETON_VALUE_ThresholdSalesBigint.value();
+            }
             if (transactionCount == null) {
                 transactionCount = _SINGLETON_VALUE_TransactionCount.value();
             }
@@ -2424,12 +2793,6 @@ public class NexusResponse {
             }
             if (previousTransactionsAmount == null) {
                 previousTransactionsAmount = _SINGLETON_VALUE_PreviousTransactionsAmount.value();
-            }
-            if (calculatedTaxLiability == null) {
-                calculatedTaxLiability = _SINGLETON_VALUE_CalculatedTaxLiability.value();
-            }
-            if (importedTaxLiability == null) {
-                importedTaxLiability = _SINGLETON_VALUE_ImportedTaxLiability.value();
             }
             if (taxLiability == null) {
                 taxLiability = _SINGLETON_VALUE_TaxLiability.value();
@@ -2443,42 +2806,53 @@ public class NexusResponse {
             if (physicalNexusMet == null) {
                 physicalNexusMet = _SINGLETON_VALUE_PhysicalNexusMet.value();
             }
-            if (collectedTaxNexusMet == null) {
-                collectedTaxNexusMet = _SINGLETON_VALUE_CollectedTaxNexusMet.value();
-            }
             if (earliestCollectedDate == null) {
                 earliestCollectedDate = _SINGLETON_VALUE_EarliestCollectedDate.value();
             }
-            if (vdaEligible == null) {
-                vdaEligible = _SINGLETON_VALUE_VdaEligible.value();
-            }
             if (isCurrentlyDisregarded == null) {
                 isCurrentlyDisregarded = _SINGLETON_VALUE_IsCurrentlyDisregarded.value();
+            }
+            if (iorOptOutEligible == null) {
+                iorOptOutEligible = _SINGLETON_VALUE_IorOptOutEligible.value();
+            }
+            if (iorEligibleAtRegistration == null) {
+                iorEligibleAtRegistration = _SINGLETON_VALUE_IorEligibleAtRegistration.value();
+            }
+            if (requiresIorNumberToRegister == null) {
+                requiresIorNumberToRegister = _SINGLETON_VALUE_RequiresIorNumberToRegister.value();
             }
 
             return new NexusResponse(
                 processingStatus, status, countryCode,
                 stateCode, stateName, treatmentOfExemptTransactions,
-                trigger, salesOrTransactions, thresholdSales,
+                trigger, salesOrTransactions, thresholdSalesBigint,
                 thresholdTransactions, startDate, transactionCount,
                 transactionsAmount, previousTransactionCount, previousTransactionsAmount,
                 calculatedTaxLiability, importedTaxLiability, taxLiability,
-                nexusMet, nexusMetDate, economicNexusMet,
-                economicNexusMetDate, physicalNexusMet, physicalNexusMetDate,
-                collectedTaxNexusMet, collectedTaxNexusMetDate, periodModel,
-                periodStartDate, periodEndDate, previousPeriodStartDate,
-                previousPeriodEndDate, earliestTransactionDate, mostRecentTransactionDate,
-                findThresholdCrossingTransactionState, earliestCollectedDate, predictedMonthFromToday,
-                vdaEligible, confidenceLevel, lastProcessedAt,
-                lastTaxLiabilityProcessedAt, periods, currency,
-                id, createdAt, updatedAt,
-                organizationId, registration, registrationRegime,
-                disregardedAt, disregardedBy, disregardedNexusTypes,
-                isCurrentlyDisregarded, isVdaEligible, nexusType,
+                nexusMet, nexusMetDate, taxType,
+                economicNexusMet, economicNexusMetDate, physicalNexusMet,
+                physicalNexusMetDate, collectedTaxNexusMet, collectedTaxNexusMetDate,
+                periodModel, periodStartDate, periodEndDate,
+                previousPeriodStartDate, previousPeriodEndDate, earliestTransactionDate,
+                mostRecentTransactionDate, findThresholdCrossingTransactionState, earliestCollectedDate,
+                predictedMonthFromToday, vdaEligible, confidenceLevel,
+                lastProcessedAt, lastTaxLiabilityProcessedAt, periods,
+                currency, id, createdAt,
+                updatedAt, organizationId, registration,
+                registrationRegime, disregardedAt, disregardedBy,
+                disregardedType, disregardedNexusTypes, isCurrentlyDisregarded,
+                iorOptOutEligible, iorEligibleAtRegistration, requiresIorNumberToRegister,
+                thresholdSales, isVdaEligible, nexusType,
                 totalTransactions, totalTransactionsIncluded, totalTransactionsExempted,
                 totalTransactionsMarketplace, marketplaceIncluded);
         }
 
+
+        private static final LazySingletonValue<Optional<Long>> _SINGLETON_VALUE_ThresholdSalesBigint =
+                new LazySingletonValue<>(
+                        "threshold_sales_bigint",
+                        "0",
+                        new TypeReference<Optional<Long>>() {});
 
         private static final LazySingletonValue<Optional<Long>> _SINGLETON_VALUE_TransactionCount =
                 new LazySingletonValue<>(
@@ -2501,18 +2875,6 @@ public class NexusResponse {
         private static final LazySingletonValue<Optional<String>> _SINGLETON_VALUE_PreviousTransactionsAmount =
                 new LazySingletonValue<>(
                         "previous_transactions_amount",
-                        "\"0.00\"",
-                        new TypeReference<Optional<String>>() {});
-
-        private static final LazySingletonValue<Optional<String>> _SINGLETON_VALUE_CalculatedTaxLiability =
-                new LazySingletonValue<>(
-                        "calculated_tax_liability",
-                        "\"0.00\"",
-                        new TypeReference<Optional<String>>() {});
-
-        private static final LazySingletonValue<Optional<String>> _SINGLETON_VALUE_ImportedTaxLiability =
-                new LazySingletonValue<>(
-                        "imported_tax_liability",
                         "\"0.00\"",
                         new TypeReference<Optional<String>>() {});
 
@@ -2540,27 +2902,33 @@ public class NexusResponse {
                         "false",
                         new TypeReference<Optional<Boolean>>() {});
 
-        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_CollectedTaxNexusMet =
-                new LazySingletonValue<>(
-                        "collected_tax_nexus_met",
-                        "false",
-                        new TypeReference<Optional<Boolean>>() {});
-
         private static final LazySingletonValue<Optional<OffsetDateTime>> _SINGLETON_VALUE_EarliestCollectedDate =
                 new LazySingletonValue<>(
                         "earliest_collected_date",
                         "\"2018-01-01T00:00:00\"",
                         new TypeReference<Optional<OffsetDateTime>>() {});
 
-        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_VdaEligible =
-                new LazySingletonValue<>(
-                        "vda_eligible",
-                        "false",
-                        new TypeReference<Optional<Boolean>>() {});
-
         private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_IsCurrentlyDisregarded =
                 new LazySingletonValue<>(
                         "is_currently_disregarded",
+                        "false",
+                        new TypeReference<Optional<Boolean>>() {});
+
+        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_IorOptOutEligible =
+                new LazySingletonValue<>(
+                        "ior_opt_out_eligible",
+                        "false",
+                        new TypeReference<Optional<Boolean>>() {});
+
+        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_IorEligibleAtRegistration =
+                new LazySingletonValue<>(
+                        "ior_eligible_at_registration",
+                        "false",
+                        new TypeReference<Optional<Boolean>>() {});
+
+        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_RequiresIorNumberToRegister =
+                new LazySingletonValue<>(
+                        "requires_ior_number_to_register",
                         "false",
                         new TypeReference<Optional<Boolean>>() {});
     }

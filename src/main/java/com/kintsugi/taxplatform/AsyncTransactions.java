@@ -6,14 +6,20 @@ package com.kintsugi.taxplatform;
 import static com.kintsugi.taxplatform.operations.Operations.AsyncRequestOperation;
 
 import com.kintsugi.taxplatform.models.components.CreditNoteCreate;
+import com.kintsugi.taxplatform.models.components.TaxOnlyUpdate;
 import com.kintsugi.taxplatform.models.components.TransactionPublicRequest;
 import com.kintsugi.taxplatform.models.components.TransactionUpdate;
+import com.kintsugi.taxplatform.models.operations.ArchiveTransactionByIdV1TransactionsArchivePostRequest;
+import com.kintsugi.taxplatform.models.operations.CreateTransactionV1TransactionsPostRequest;
 import com.kintsugi.taxplatform.models.operations.GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetTransactionByIdV1TransactionsTransactionIdGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetTransactionsV1TransactionsGetRequest;
 import com.kintsugi.taxplatform.models.operations.PUTUpdateCreditNoteByTransactionIdRequest;
+import com.kintsugi.taxplatform.models.operations.SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostRequest;
 import com.kintsugi.taxplatform.models.operations.UpdateTransactionV1TransactionsTransactionIdPutRequest;
+import com.kintsugi.taxplatform.models.operations.async.ArchiveTransactionByIdV1TransactionsArchivePostRequestBuilder;
+import com.kintsugi.taxplatform.models.operations.async.ArchiveTransactionByIdV1TransactionsArchivePostResponse;
 import com.kintsugi.taxplatform.models.operations.async.CreateTransactionV1TransactionsPostRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.async.CreateTransactionV1TransactionsPostResponse;
 import com.kintsugi.taxplatform.models.operations.async.GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequestBuilder;
@@ -26,17 +32,22 @@ import com.kintsugi.taxplatform.models.operations.async.GetTransactionsV1Transac
 import com.kintsugi.taxplatform.models.operations.async.GetTransactionsV1TransactionsGetResponse;
 import com.kintsugi.taxplatform.models.operations.async.PUTUpdateCreditNoteByTransactionIdRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.async.PUTUpdateCreditNoteByTransactionIdResponse;
+import com.kintsugi.taxplatform.models.operations.async.SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostRequestBuilder;
+import com.kintsugi.taxplatform.models.operations.async.SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostResponse;
 import com.kintsugi.taxplatform.models.operations.async.UpdateTransactionV1TransactionsTransactionIdPutRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.async.UpdateTransactionV1TransactionsTransactionIdPutResponse;
+import com.kintsugi.taxplatform.operations.ArchiveTransactionByIdV1TransactionsArchivePost;
 import com.kintsugi.taxplatform.operations.CreateTransactionV1TransactionsPost;
 import com.kintsugi.taxplatform.operations.GetTransactionByExternalIdV1TransactionsExternalExternalIdGet;
 import com.kintsugi.taxplatform.operations.GetTransactionByIdV1TransactionsTransactionIdGet;
 import com.kintsugi.taxplatform.operations.GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGet;
 import com.kintsugi.taxplatform.operations.GetTransactionsV1TransactionsGet;
 import com.kintsugi.taxplatform.operations.PUTUpdateCreditNoteByTransactionId;
+import com.kintsugi.taxplatform.operations.SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPost;
 import com.kintsugi.taxplatform.operations.UpdateTransactionV1TransactionsTransactionIdPut;
 import com.kintsugi.taxplatform.utils.Headers;
 import java.lang.String;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 
@@ -67,7 +78,7 @@ public class AsyncTransactions {
 
 
     /**
-     * Get Transactions
+     * Get transactions
      * 
      * <p>The Get Transactions API retrieves a list of transactions with
      * optional filtering, sorting, and pagination.
@@ -79,7 +90,7 @@ public class AsyncTransactions {
     }
 
     /**
-     * Get Transactions
+     * Get transactions
      * 
      * <p>The Get Transactions API retrieves a list of transactions with
      * optional filtering, sorting, and pagination.
@@ -96,9 +107,10 @@ public class AsyncTransactions {
 
 
     /**
-     * Create Transaction
+     * Create transaction
      * 
-     * <p>Create a transaction.
+     * <p>Create a transaction. Set `marketplace: true` for reseller or marketplace orders where tax was
+     * remitted externally; gross sales still count toward nexus, but tax liability is excluded.
      * 
      * @return The async call builder
      */
@@ -107,15 +119,36 @@ public class AsyncTransactions {
     }
 
     /**
-     * Create Transaction
+     * Create transaction
      * 
-     * <p>Create a transaction.
+     * <p>Create a transaction. Set `marketplace: true` for reseller or marketplace orders where tax was
+     * remitted externally; gross sales still count toward nexus, but tax liability is excluded.
      * 
-     * @param request The request object containing all the parameters for the API call.
+     * @param transactionPublicRequest 
      * @return {@code CompletableFuture<CreateTransactionV1TransactionsPostResponse>} - The async response
      */
-    public CompletableFuture<CreateTransactionV1TransactionsPostResponse> create(TransactionPublicRequest request) {
-        AsyncRequestOperation<TransactionPublicRequest, CreateTransactionV1TransactionsPostResponse> operation
+    public CompletableFuture<CreateTransactionV1TransactionsPostResponse> create(TransactionPublicRequest transactionPublicRequest) {
+        return create(Optional.empty(), transactionPublicRequest);
+    }
+
+    /**
+     * Create transaction
+     * 
+     * <p>Create a transaction. Set `marketplace: true` for reseller or marketplace orders where tax was
+     * remitted externally; gross sales still count toward nexus, but tax liability is excluded.
+     * 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param transactionPublicRequest 
+     * @return {@code CompletableFuture<CreateTransactionV1TransactionsPostResponse>} - The async response
+     */
+    public CompletableFuture<CreateTransactionV1TransactionsPostResponse> create(Optional<String> xOrganizationId, TransactionPublicRequest transactionPublicRequest) {
+        CreateTransactionV1TransactionsPostRequest request =
+            CreateTransactionV1TransactionsPostRequest
+                .builder()
+                .xOrganizationId(xOrganizationId)
+                .transactionPublicRequest(transactionPublicRequest)
+                .build();
+        AsyncRequestOperation<CreateTransactionV1TransactionsPostRequest, CreateTransactionV1TransactionsPostResponse> operation
               = new CreateTransactionV1TransactionsPost.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
@@ -123,7 +156,53 @@ public class AsyncTransactions {
 
 
     /**
-     * Get Transaction By External Id
+     * Archive transaction by id
+     * 
+     * <p>Archive transactions by transaction id
+     * 
+     * @return The async call builder
+     */
+    public ArchiveTransactionByIdV1TransactionsArchivePostRequestBuilder archiveTransactionByIdV1TransactionsArchivePost() {
+        return new ArchiveTransactionByIdV1TransactionsArchivePostRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Archive transaction by id
+     * 
+     * <p>Archive transactions by transaction id
+     * 
+     * @param transactionId 
+     * @return {@code CompletableFuture<ArchiveTransactionByIdV1TransactionsArchivePostResponse>} - The async response
+     */
+    public CompletableFuture<ArchiveTransactionByIdV1TransactionsArchivePostResponse> archiveTransactionByIdV1TransactionsArchivePost(String transactionId) {
+        return archiveTransactionByIdV1TransactionsArchivePost(transactionId, Optional.empty());
+    }
+
+    /**
+     * Archive transaction by id
+     * 
+     * <p>Archive transactions by transaction id
+     * 
+     * @param transactionId 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @return {@code CompletableFuture<ArchiveTransactionByIdV1TransactionsArchivePostResponse>} - The async response
+     */
+    public CompletableFuture<ArchiveTransactionByIdV1TransactionsArchivePostResponse> archiveTransactionByIdV1TransactionsArchivePost(String transactionId, Optional<String> xOrganizationId) {
+        ArchiveTransactionByIdV1TransactionsArchivePostRequest request =
+            ArchiveTransactionByIdV1TransactionsArchivePostRequest
+                .builder()
+                .transactionId(transactionId)
+                .xOrganizationId(xOrganizationId)
+                .build();
+        AsyncRequestOperation<ArchiveTransactionByIdV1TransactionsArchivePostRequest, ArchiveTransactionByIdV1TransactionsArchivePostResponse> operation
+              = new ArchiveTransactionByIdV1TransactionsArchivePost.Async(sdkConfiguration, _headers);
+        return operation.doRequest(request)
+            .thenCompose(operation::handleResponse);
+    }
+
+
+    /**
+     * Get transaction by external id
      * 
      * <p>Retrieves a specific transaction based on its external ID.
      * This allows users to fetch transaction details using an identifier from an external system.
@@ -135,7 +214,7 @@ public class AsyncTransactions {
     }
 
     /**
-     * Get Transaction By External Id
+     * Get transaction by external id
      * 
      * <p>Retrieves a specific transaction based on its external ID.
      * This allows users to fetch transaction details using an identifier from an external system.
@@ -144,10 +223,25 @@ public class AsyncTransactions {
      * @return {@code CompletableFuture<GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse>} - The async response
      */
     public CompletableFuture<GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse> getByExternalId(String externalId) {
+        return getByExternalId(externalId, Optional.empty());
+    }
+
+    /**
+     * Get transaction by external id
+     * 
+     * <p>Retrieves a specific transaction based on its external ID.
+     * This allows users to fetch transaction details using an identifier from an external system.
+     * 
+     * @param externalId The unique external identifier of the transaction.
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @return {@code CompletableFuture<GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse>} - The async response
+     */
+    public CompletableFuture<GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse> getByExternalId(String externalId, Optional<String> xOrganizationId) {
         GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest request =
             GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest
                 .builder()
                 .externalId(externalId)
+                .xOrganizationId(xOrganizationId)
                 .build();
         AsyncRequestOperation<GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest, GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse> operation
               = new GetTransactionByExternalIdV1TransactionsExternalExternalIdGet.Async(sdkConfiguration, _headers);
@@ -157,75 +251,7 @@ public class AsyncTransactions {
 
 
     /**
-     * Update Transaction
-     * 
-     * <p>Update a specific transaction by its ID.
-     * 
-     * @return The async call builder
-     */
-    public UpdateTransactionV1TransactionsTransactionIdPutRequestBuilder update() {
-        return new UpdateTransactionV1TransactionsTransactionIdPutRequestBuilder(sdkConfiguration);
-    }
-
-    /**
-     * Update Transaction
-     * 
-     * <p>Update a specific transaction by its ID.
-     * 
-     * @param transactionId 
-     * @param transactionUpdate 
-     * @return {@code CompletableFuture<UpdateTransactionV1TransactionsTransactionIdPutResponse>} - The async response
-     */
-    public CompletableFuture<UpdateTransactionV1TransactionsTransactionIdPutResponse> update(String transactionId, TransactionUpdate transactionUpdate) {
-        UpdateTransactionV1TransactionsTransactionIdPutRequest request =
-            UpdateTransactionV1TransactionsTransactionIdPutRequest
-                .builder()
-                .transactionId(transactionId)
-                .transactionUpdate(transactionUpdate)
-                .build();
-        AsyncRequestOperation<UpdateTransactionV1TransactionsTransactionIdPutRequest, UpdateTransactionV1TransactionsTransactionIdPutResponse> operation
-              = new UpdateTransactionV1TransactionsTransactionIdPut.Async(sdkConfiguration, _headers);
-        return operation.doRequest(request)
-            .thenCompose(operation::handleResponse);
-    }
-
-
-    /**
-     * Get Transaction By Id
-     * 
-     * <p>The Get Transaction By Id API retrieves detailed information
-     * about a specific transaction by providing its unique transaction ID.
-     * 
-     * @return The async call builder
-     */
-    public GetTransactionByIdV1TransactionsTransactionIdGetRequestBuilder getById() {
-        return new GetTransactionByIdV1TransactionsTransactionIdGetRequestBuilder(sdkConfiguration);
-    }
-
-    /**
-     * Get Transaction By Id
-     * 
-     * <p>The Get Transaction By Id API retrieves detailed information
-     * about a specific transaction by providing its unique transaction ID.
-     * 
-     * @param transactionId The unique identifier of the transaction to retrieve.
-     * @return {@code CompletableFuture<GetTransactionByIdV1TransactionsTransactionIdGetResponse>} - The async response
-     */
-    public CompletableFuture<GetTransactionByIdV1TransactionsTransactionIdGetResponse> getById(String transactionId) {
-        GetTransactionByIdV1TransactionsTransactionIdGetRequest request =
-            GetTransactionByIdV1TransactionsTransactionIdGetRequest
-                .builder()
-                .transactionId(transactionId)
-                .build();
-        AsyncRequestOperation<GetTransactionByIdV1TransactionsTransactionIdGetRequest, GetTransactionByIdV1TransactionsTransactionIdGetResponse> operation
-              = new GetTransactionByIdV1TransactionsTransactionIdGet.Async(sdkConfiguration, _headers);
-        return operation.doRequest(request)
-            .thenCompose(operation::handleResponse);
-    }
-
-
-    /**
-     * Get Transactions By Filing Id
+     * Get transactions by filing id
      * 
      * <p>Retrieve transactions by filing ID.
      * 
@@ -236,7 +262,7 @@ public class AsyncTransactions {
     }
 
     /**
-     * Get Transactions By Filing Id
+     * Get transactions by filing id
      * 
      * <p>Retrieve transactions by filing ID.
      * 
@@ -246,10 +272,26 @@ public class AsyncTransactions {
      * @return {@code CompletableFuture<GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetResponse>} - The async response
      */
     public CompletableFuture<GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetResponse> getByFilingId(String filingId) {
+        return getByFilingId(filingId, Optional.empty());
+    }
+
+    /**
+     * Get transactions by filing id
+     * 
+     * <p>Retrieve transactions by filing ID.
+     * 
+     * @param filingId The unique identifier of the filing
+     *                 whose transactions you wish to retrieve.
+     *                 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @return {@code CompletableFuture<GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetResponse>} - The async response
+     */
+    public CompletableFuture<GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetResponse> getByFilingId(String filingId, Optional<String> xOrganizationId) {
         GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest request =
             GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest
                 .builder()
                 .filingId(filingId)
+                .xOrganizationId(xOrganizationId)
                 .build();
         AsyncRequestOperation<GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest, GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetResponse> operation
               = new GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGet.Async(sdkConfiguration, _headers);
@@ -259,7 +301,7 @@ public class AsyncTransactions {
 
 
     /**
-     * Update Credit Note By Transaction Id
+     * Update credit note by transaction id
      * 
      * <p>Update an existing credit note for a specific transaction.
      * 
@@ -270,7 +312,7 @@ public class AsyncTransactions {
     }
 
     /**
-     * Update Credit Note By Transaction Id
+     * Update credit note by transaction id
      * 
      * <p>Update an existing credit note for a specific transaction.
      * 
@@ -282,15 +324,195 @@ public class AsyncTransactions {
     public CompletableFuture<PUTUpdateCreditNoteByTransactionIdResponse> updateCreditNote(
             String originalTransactionId, String creditNoteId,
             CreditNoteCreate creditNoteCreate) {
+        return updateCreditNote(
+                originalTransactionId, creditNoteId, Optional.empty(),
+                creditNoteCreate);
+    }
+
+    /**
+     * Update credit note by transaction id
+     * 
+     * <p>Update an existing credit note for a specific transaction.
+     * 
+     * @param originalTransactionId 
+     * @param creditNoteId 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param creditNoteCreate 
+     * @return {@code CompletableFuture<PUTUpdateCreditNoteByTransactionIdResponse>} - The async response
+     */
+    public CompletableFuture<PUTUpdateCreditNoteByTransactionIdResponse> updateCreditNote(
+            String originalTransactionId, String creditNoteId,
+            Optional<String> xOrganizationId, CreditNoteCreate creditNoteCreate) {
         PUTUpdateCreditNoteByTransactionIdRequest request =
             PUTUpdateCreditNoteByTransactionIdRequest
                 .builder()
                 .originalTransactionId(originalTransactionId)
                 .creditNoteId(creditNoteId)
+                .xOrganizationId(xOrganizationId)
                 .creditNoteCreate(creditNoteCreate)
                 .build();
         AsyncRequestOperation<PUTUpdateCreditNoteByTransactionIdRequest, PUTUpdateCreditNoteByTransactionIdResponse> operation
               = new PUTUpdateCreditNoteByTransactionId.Async(sdkConfiguration, _headers);
+        return operation.doRequest(request)
+            .thenCompose(operation::handleResponse);
+    }
+
+
+    /**
+     * Get transaction by id
+     * 
+     * <p>The Get Transaction By Id API retrieves detailed information
+     * about a specific transaction by providing its unique transaction ID.
+     * 
+     * @return The async call builder
+     */
+    public GetTransactionByIdV1TransactionsTransactionIdGetRequestBuilder getById() {
+        return new GetTransactionByIdV1TransactionsTransactionIdGetRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Get transaction by id
+     * 
+     * <p>The Get Transaction By Id API retrieves detailed information
+     * about a specific transaction by providing its unique transaction ID.
+     * 
+     * @param transactionId The unique identifier of the transaction to retrieve.
+     * @return {@code CompletableFuture<GetTransactionByIdV1TransactionsTransactionIdGetResponse>} - The async response
+     */
+    public CompletableFuture<GetTransactionByIdV1TransactionsTransactionIdGetResponse> getById(String transactionId) {
+        return getById(transactionId, Optional.empty());
+    }
+
+    /**
+     * Get transaction by id
+     * 
+     * <p>The Get Transaction By Id API retrieves detailed information
+     * about a specific transaction by providing its unique transaction ID.
+     * 
+     * @param transactionId The unique identifier of the transaction to retrieve.
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @return {@code CompletableFuture<GetTransactionByIdV1TransactionsTransactionIdGetResponse>} - The async response
+     */
+    public CompletableFuture<GetTransactionByIdV1TransactionsTransactionIdGetResponse> getById(String transactionId, Optional<String> xOrganizationId) {
+        GetTransactionByIdV1TransactionsTransactionIdGetRequest request =
+            GetTransactionByIdV1TransactionsTransactionIdGetRequest
+                .builder()
+                .transactionId(transactionId)
+                .xOrganizationId(xOrganizationId)
+                .build();
+        AsyncRequestOperation<GetTransactionByIdV1TransactionsTransactionIdGetRequest, GetTransactionByIdV1TransactionsTransactionIdGetResponse> operation
+              = new GetTransactionByIdV1TransactionsTransactionIdGet.Async(sdkConfiguration, _headers);
+        return operation.doRequest(request)
+            .thenCompose(operation::handleResponse);
+    }
+
+
+    /**
+     * Update transaction
+     * 
+     * <p>Update a specific transaction by its ID.
+     * 
+     * @return The async call builder
+     */
+    public UpdateTransactionV1TransactionsTransactionIdPutRequestBuilder update() {
+        return new UpdateTransactionV1TransactionsTransactionIdPutRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Update transaction
+     * 
+     * <p>Update a specific transaction by its ID.
+     * 
+     * @param transactionId 
+     * @param transactionUpdate 
+     * @return {@code CompletableFuture<UpdateTransactionV1TransactionsTransactionIdPutResponse>} - The async response
+     */
+    public CompletableFuture<UpdateTransactionV1TransactionsTransactionIdPutResponse> update(String transactionId, TransactionUpdate transactionUpdate) {
+        return update(transactionId, Optional.empty(), transactionUpdate);
+    }
+
+    /**
+     * Update transaction
+     * 
+     * <p>Update a specific transaction by its ID.
+     * 
+     * @param transactionId 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param transactionUpdate 
+     * @return {@code CompletableFuture<UpdateTransactionV1TransactionsTransactionIdPutResponse>} - The async response
+     */
+    public CompletableFuture<UpdateTransactionV1TransactionsTransactionIdPutResponse> update(
+            String transactionId, Optional<String> xOrganizationId,
+            TransactionUpdate transactionUpdate) {
+        UpdateTransactionV1TransactionsTransactionIdPutRequest request =
+            UpdateTransactionV1TransactionsTransactionIdPutRequest
+                .builder()
+                .transactionId(transactionId)
+                .xOrganizationId(xOrganizationId)
+                .transactionUpdate(transactionUpdate)
+                .build();
+        AsyncRequestOperation<UpdateTransactionV1TransactionsTransactionIdPutRequest, UpdateTransactionV1TransactionsTransactionIdPutResponse> operation
+              = new UpdateTransactionV1TransactionsTransactionIdPut.Async(sdkConfiguration, _headers);
+        return operation.doRequest(request)
+            .thenCompose(operation::handleResponse);
+    }
+
+
+    /**
+     * Set transaction tax only
+     * 
+     * <p>Mark or unmark a transaction as tax-only. SALE becomes TAX_COLLECTION; credit notes become
+     * TAX_REFUND. Unmark restores SALE or re-derives FULL/PARTIAL credit note.
+     * 
+     * <p>Only the type is changed; amounts are preserved.
+     * 
+     * @return The async call builder
+     */
+    public SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostRequestBuilder setTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPost() {
+        return new SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Set transaction tax only
+     * 
+     * <p>Mark or unmark a transaction as tax-only. SALE becomes TAX_COLLECTION; credit notes become
+     * TAX_REFUND. Unmark restores SALE or re-derives FULL/PARTIAL credit note.
+     * 
+     * <p>Only the type is changed; amounts are preserved.
+     * 
+     * @param transactionId 
+     * @param taxOnlyUpdate 
+     * @return {@code CompletableFuture<SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostResponse>} - The async response
+     */
+    public CompletableFuture<SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostResponse> setTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPost(String transactionId, TaxOnlyUpdate taxOnlyUpdate) {
+        return setTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPost(transactionId, Optional.empty(), taxOnlyUpdate);
+    }
+
+    /**
+     * Set transaction tax only
+     * 
+     * <p>Mark or unmark a transaction as tax-only. SALE becomes TAX_COLLECTION; credit notes become
+     * TAX_REFUND. Unmark restores SALE or re-derives FULL/PARTIAL credit note.
+     * 
+     * <p>Only the type is changed; amounts are preserved.
+     * 
+     * @param transactionId 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param taxOnlyUpdate 
+     * @return {@code CompletableFuture<SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostResponse>} - The async response
+     */
+    public CompletableFuture<SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostResponse> setTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPost(
+            String transactionId, Optional<String> xOrganizationId,
+            TaxOnlyUpdate taxOnlyUpdate) {
+        SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostRequest request =
+            SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostRequest
+                .builder()
+                .transactionId(transactionId)
+                .xOrganizationId(xOrganizationId)
+                .taxOnlyUpdate(taxOnlyUpdate)
+                .build();
+        AsyncRequestOperation<SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostRequest, SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostResponse> operation
+              = new SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPost.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }

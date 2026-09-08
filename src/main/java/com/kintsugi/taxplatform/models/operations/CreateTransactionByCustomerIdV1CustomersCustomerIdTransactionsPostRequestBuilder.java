@@ -11,10 +11,12 @@ import com.kintsugi.taxplatform.operations.CreateTransactionByCustomerIdV1Custom
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.util.Optional;
 
 public class CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequestBuilder {
 
     private String customerId;
+    private Optional<String> xOrganizationId = Optional.empty();
     private TransactionCreate transactionCreate;
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
@@ -28,6 +30,18 @@ public class CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostR
         this.customerId = customerId;
         return this;
     }
+                
+    public CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequestBuilder xOrganizationId(String xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = Optional.of(xOrganizationId);
+        return this;
+    }
+
+    public CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequestBuilder xOrganizationId(Optional<String> xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = xOrganizationId;
+        return this;
+    }
 
     public CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequestBuilder transactionCreate(TransactionCreate transactionCreate) {
         Utils.checkNotNull(transactionCreate, "transactionCreate");
@@ -39,6 +53,7 @@ public class CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostR
     private CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest buildRequest() {
 
         CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest request = new CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest(customerId,
+            xOrganizationId,
             transactionCreate);
 
         return request;

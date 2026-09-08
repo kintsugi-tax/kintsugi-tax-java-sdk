@@ -12,12 +12,14 @@ import com.kintsugi.taxplatform.operations.EstimateTaxV1TaxEstimatePost;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Boolean;
+import java.lang.String;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 public class EstimateTaxV1TaxEstimatePostRequestBuilder {
 
     private Optional<Boolean> simulateNexusMet = Optional.empty();
+    private Optional<String> xOrganizationId = Optional.empty();
     private TransactionEstimatePublicRequest transactionEstimatePublicRequest;
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
@@ -37,6 +39,18 @@ public class EstimateTaxV1TaxEstimatePostRequestBuilder {
         this.simulateNexusMet = simulateNexusMet;
         return this;
     }
+                
+    public EstimateTaxV1TaxEstimatePostRequestBuilder xOrganizationId(String xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = Optional.of(xOrganizationId);
+        return this;
+    }
+
+    public EstimateTaxV1TaxEstimatePostRequestBuilder xOrganizationId(Optional<String> xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = xOrganizationId;
+        return this;
+    }
 
     public EstimateTaxV1TaxEstimatePostRequestBuilder transactionEstimatePublicRequest(TransactionEstimatePublicRequest transactionEstimatePublicRequest) {
         Utils.checkNotNull(transactionEstimatePublicRequest, "transactionEstimatePublicRequest");
@@ -48,6 +62,7 @@ public class EstimateTaxV1TaxEstimatePostRequestBuilder {
     private EstimateTaxV1TaxEstimatePostRequest buildRequest() {
 
         EstimateTaxV1TaxEstimatePostRequest request = new EstimateTaxV1TaxEstimatePostRequest(simulateNexusMet,
+            xOrganizationId,
             transactionEstimatePublicRequest);
 
         return request;

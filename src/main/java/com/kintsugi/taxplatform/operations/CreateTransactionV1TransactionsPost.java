@@ -10,11 +10,11 @@ import static com.kintsugi.taxplatform.operations.Operations.AsyncRequestOperati
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.SecuritySource;
-import com.kintsugi.taxplatform.models.components.TransactionPublicRequest;
 import com.kintsugi.taxplatform.models.components.TransactionRead;
 import com.kintsugi.taxplatform.models.errors.APIException;
 import com.kintsugi.taxplatform.models.errors.BackendSrcTransactionsResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
+import com.kintsugi.taxplatform.models.operations.CreateTransactionV1TransactionsPostRequest;
 import com.kintsugi.taxplatform.models.operations.CreateTransactionV1TransactionsPostResponse;
 import com.kintsugi.taxplatform.utils.Blob;
 import com.kintsugi.taxplatform.utils.HTTPClient;
@@ -97,7 +97,7 @@ public class CreateTransactionV1TransactionsPost {
                     typeReference);
             SerializedBody serializedRequestBody = Utils.serializeRequestBody(
                     convertedRequest,
-                    "",
+                    "transactionPublicRequest",
                     "json",
                     false);
             if (serializedRequestBody == null) {
@@ -107,6 +107,7 @@ public class CreateTransactionV1TransactionsPost {
             req.addHeader("Accept", "application/json")
                     .addHeader("user-agent", SDKConfiguration.USER_AGENT);
             _headers.forEach((k, list) -> list.forEach(v -> req.addHeader(k, v)));
+            req.addHeaders(Utils.getHeadersFromMetadata(request, null));
             Utils.configureSecurity(req, this.sdkConfiguration.securitySource().getSecurity());
 
             return req.build();
@@ -114,13 +115,13 @@ public class CreateTransactionV1TransactionsPost {
     }
 
     public static class Sync extends Base
-            implements RequestOperation<TransactionPublicRequest, CreateTransactionV1TransactionsPostResponse> {
+            implements RequestOperation<CreateTransactionV1TransactionsPostRequest, CreateTransactionV1TransactionsPostResponse> {
         public Sync(SDKConfiguration sdkConfiguration, Headers _headers) {
             super(sdkConfiguration, _headers);
         }
 
-        private HttpRequest onBuildRequest(TransactionPublicRequest request) throws Exception {
-            HttpRequest req = buildRequest(request, new TypeReference<TransactionPublicRequest>() {});
+        private HttpRequest onBuildRequest(CreateTransactionV1TransactionsPostRequest request) throws Exception {
+            HttpRequest req = buildRequest(request, new TypeReference<CreateTransactionV1TransactionsPostRequest>() {});
             return sdkConfiguration.hooks().beforeRequest(createBeforeRequestContext(), req);
         }
 
@@ -136,7 +137,7 @@ public class CreateTransactionV1TransactionsPost {
         }
 
         @Override
-        public HttpResponse<InputStream> doRequest(TransactionPublicRequest request) {
+        public HttpResponse<InputStream> doRequest(CreateTransactionV1TransactionsPostRequest request) {
             HttpRequest r = unchecked(() -> onBuildRequest(request)).get();
             HttpResponse<InputStream> httpRes;
             try {
@@ -209,14 +210,14 @@ public class CreateTransactionV1TransactionsPost {
         }
     }
     public static class Async extends Base
-            implements AsyncRequestOperation<TransactionPublicRequest, com.kintsugi.taxplatform.models.operations.async.CreateTransactionV1TransactionsPostResponse> {
+            implements AsyncRequestOperation<CreateTransactionV1TransactionsPostRequest, com.kintsugi.taxplatform.models.operations.async.CreateTransactionV1TransactionsPostResponse> {
 
         public Async(SDKConfiguration sdkConfiguration, Headers _headers) {
             super(sdkConfiguration, _headers);
         }
 
-        private CompletableFuture<HttpRequest> onBuildRequest(TransactionPublicRequest request) throws Exception {
-            HttpRequest req = buildRequest(request, new TypeReference<TransactionPublicRequest>() {});
+        private CompletableFuture<HttpRequest> onBuildRequest(CreateTransactionV1TransactionsPostRequest request) throws Exception {
+            HttpRequest req = buildRequest(request, new TypeReference<CreateTransactionV1TransactionsPostRequest>() {});
             return this.sdkConfiguration.asyncHooks().beforeRequest(createBeforeRequestContext(), req);
         }
 
@@ -229,7 +230,7 @@ public class CreateTransactionV1TransactionsPost {
         }
 
         @Override
-        public CompletableFuture<HttpResponse<Blob>> doRequest(TransactionPublicRequest request) {
+        public CompletableFuture<HttpResponse<Blob>> doRequest(CreateTransactionV1TransactionsPostRequest request) {
             return unchecked(() -> onBuildRequest(request)).get().thenCompose(client::sendAsync)
                     .handle((resp, err) -> {
                         if (err != null) {

@@ -15,7 +15,8 @@ import java.util.Optional;
  */
 public enum OssTypeEnum {
     UNION("UNION"),
-    NON_UNION("NON_UNION");
+    NON_UNION("NON_UNION"),
+    IOSS("IOSS");
 
     @JsonValue
     private final String value;

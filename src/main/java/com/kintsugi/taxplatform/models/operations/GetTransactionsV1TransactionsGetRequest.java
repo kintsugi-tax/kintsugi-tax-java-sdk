@@ -6,7 +6,8 @@ package com.kintsugi.taxplatform.models.operations;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.kintsugi.taxplatform.models.components.CountryCodeEnum;
+import com.kintsugi.taxplatform.models.components.TransactionDirectionEnum;
+import com.kintsugi.taxplatform.models.components.TransactionRefundStatus;
 import com.kintsugi.taxplatform.models.components.TransactionStatusEnum;
 import com.kintsugi.taxplatform.utils.LazySingletonValue;
 import com.kintsugi.taxplatform.utils.SpeakeasyMetadata;
@@ -18,6 +19,7 @@ import java.lang.String;
 import java.lang.SuppressWarnings;
 import java.util.List;
 import java.util.Optional;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 public class GetTransactionsV1TransactionsGetRequest {
@@ -25,101 +27,131 @@ public class GetTransactionsV1TransactionsGetRequest {
      * Filter transactions by state code.
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=state_code")
-    private Optional<String> stateCode;
+    private JsonNullable<String> stateCode;
 
     /**
      * Filter by transaction type (e.g., SALE, FULL_CREDIT_NOTE,
      * PARTIAL_CREDIT_NOTE, ARCHIVE etc.).
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=transaction_type")
-    private Optional<String> transactionType;
+    private JsonNullable<String> transactionType;
 
     /**
      * Filter transactions based on the source.
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=transaction_source")
-    private Optional<String> transactionSource;
+    private JsonNullable<String> transactionSource;
 
     /**
      * Search for transactions using a general query
      * (e.g., order ID, customer name).
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=search_query")
-    private Optional<String> searchQuery;
+    private JsonNullable<String> searchQuery;
 
     /**
      * Filter transactions by country code
      * (ISO 3166-1 alpha-2 format, e.g., US).
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=country")
-    private Optional<? extends List<CountryCodeEnum>> country;
+    private JsonNullable<? extends List<GetTransactionsV1TransactionsGetCountry>> country;
 
     /**
      * Filter by full state name (e.g., California).
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=state")
-    private Optional<String> state;
+    private JsonNullable<String> state;
 
     /**
      * Filter by address status (e.g., UNVERIFIED, INVALID,
      * PARTIALLY_VERIFIED, VERIFIED, UNVERIFIABLE).
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=address_status__in")
-    private Optional<String> addressStatusIn;
+    private JsonNullable<String> addressStatusIn;
 
     /**
      * Filter by transaction status (e.g., PENDING, COMMITTED,
-     * CANCELLED, FULLY_REFUNDED, PARTIALLY_REFUNDED, ARCHIVED).
+     * CANCELLED, ARCHIVED). For refund filtering use the refund_status parameter.
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=status")
-    private Optional<? extends TransactionStatusEnum> status;
+    private JsonNullable<? extends TransactionStatusEnum> status;
+
+    /**
+     * Filter by refund status (e.g., FULLY_REFUNDED,
+     * PARTIALLY_REFUNDED).
+     */
+    @SpeakeasyMetadata("queryParam:style=form,explode=true,name=refund_status")
+    private JsonNullable<? extends TransactionRefundStatus> refundStatus;
 
     /**
      * Retrieve transactions linked to a specific filing ID.
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=filing_id")
-    private Optional<String> filingId;
+    private JsonNullable<String> filingId;
 
     /**
      * Sort results based on specified fields.
      * Prefix with - for descending order (e.g., -date for newest first).
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=order_by")
-    private Optional<String> orderBy;
+    private JsonNullable<String> orderBy;
 
     /**
-     * Retrieve transactions with a date
-     * greater than or equal to (YYYY-MM-DD).
+     * Retrieve transactions with a date greater than or equal to the bound
+     * (YYYY-MM-DD or ISO datetime in UTC).
+     * Defaults to 12 months ago when neither date__gte nor date__lte is provided.
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=date__gte")
-    private Optional<String> dateGte;
+    private JsonNullable<String> dateGte;
 
     /**
-     * Retrieve transactions with a date
-     * less than or equal to (YYYY-MM-DD).
+     * Retrieve transactions with a date less than or equal to the bound
+     * (YYYY-MM-DD or ISO datetime in UTC).
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=date__lte")
-    private Optional<String> dateLte;
+    private JsonNullable<String> dateLte;
 
     /**
      * Filter transactions based on processing status.
      * Multiple values can be passed as a comma-separated list.
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=processing_status__in")
-    private Optional<String> processingStatusIn;
+    private JsonNullable<String> processingStatusIn;
 
     /**
      * Filter transactions by marketplace (e.g., AMAZON, EBAY).
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=marketplace")
-    private Optional<Boolean> marketplace;
+    private JsonNullable<Boolean> marketplace;
 
     /**
      * Filter transactions by exemption status.
      * Multiple values can be passed as a comma-separated list (e.g., EXEMPT,TAXABLE).
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=exempt__in")
-    private Optional<String> exemptIn;
+    private JsonNullable<String> exemptIn;
+
+    /**
+     * Filter transactions by connection ID (comma-separated)
+     */
+    @SpeakeasyMetadata("queryParam:style=form,explode=true,name=connection_id__in")
+    private JsonNullable<String> connectionIdIn;
+
+    /**
+     * Filter by transaction direction (SALE or PURCHASE). When unset, the list includes both directions.
+     */
+    @SpeakeasyMetadata("queryParam:style=form,explode=true,name=direction")
+    private JsonNullable<? extends TransactionDirectionEnum> direction;
+
+    /**
+     * Optional upper bound for the pagination COUNT query.
+     * When set, the returned `total` is capped at this value and `pages`
+     * is derived from the capped total, making large result sets faster
+     * to paginate at the cost of approximate totals. When unset, `total`
+     * and `pages` reflect the exact count (existing behavior).
+     */
+    @SpeakeasyMetadata("queryParam:style=form,explode=true,name=count_limit")
+    private JsonNullable<Long> countLimit;
 
     /**
      * Page number
@@ -133,25 +165,36 @@ public class GetTransactionsV1TransactionsGetRequest {
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=size")
     private Optional<Long> size;
 
+    /**
+     * The unique identifier for the organization making the request
+     */
+    @SpeakeasyMetadata("header:style=simple,explode=false,name=x-organization-id")
+    private Optional<String> xOrganizationId;
+
     @JsonCreator
     public GetTransactionsV1TransactionsGetRequest(
-            Optional<String> stateCode,
-            Optional<String> transactionType,
-            Optional<String> transactionSource,
-            Optional<String> searchQuery,
-            Optional<? extends List<CountryCodeEnum>> country,
-            Optional<String> state,
-            Optional<String> addressStatusIn,
-            Optional<? extends TransactionStatusEnum> status,
-            Optional<String> filingId,
-            Optional<String> orderBy,
-            Optional<String> dateGte,
-            Optional<String> dateLte,
-            Optional<String> processingStatusIn,
-            Optional<Boolean> marketplace,
-            Optional<String> exemptIn,
+            JsonNullable<String> stateCode,
+            JsonNullable<String> transactionType,
+            JsonNullable<String> transactionSource,
+            JsonNullable<String> searchQuery,
+            JsonNullable<? extends List<GetTransactionsV1TransactionsGetCountry>> country,
+            JsonNullable<String> state,
+            JsonNullable<String> addressStatusIn,
+            JsonNullable<? extends TransactionStatusEnum> status,
+            JsonNullable<? extends TransactionRefundStatus> refundStatus,
+            JsonNullable<String> filingId,
+            JsonNullable<String> orderBy,
+            JsonNullable<String> dateGte,
+            JsonNullable<String> dateLte,
+            JsonNullable<String> processingStatusIn,
+            JsonNullable<Boolean> marketplace,
+            JsonNullable<String> exemptIn,
+            JsonNullable<String> connectionIdIn,
+            JsonNullable<? extends TransactionDirectionEnum> direction,
+            JsonNullable<Long> countLimit,
             Optional<Long> page,
-            Optional<Long> size) {
+            Optional<Long> size,
+            Optional<String> xOrganizationId) {
         Utils.checkNotNull(stateCode, "stateCode");
         Utils.checkNotNull(transactionType, "transactionType");
         Utils.checkNotNull(transactionSource, "transactionSource");
@@ -160,6 +203,7 @@ public class GetTransactionsV1TransactionsGetRequest {
         Utils.checkNotNull(state, "state");
         Utils.checkNotNull(addressStatusIn, "addressStatusIn");
         Utils.checkNotNull(status, "status");
+        Utils.checkNotNull(refundStatus, "refundStatus");
         Utils.checkNotNull(filingId, "filingId");
         Utils.checkNotNull(orderBy, "orderBy");
         Utils.checkNotNull(dateGte, "dateGte");
@@ -167,8 +211,12 @@ public class GetTransactionsV1TransactionsGetRequest {
         Utils.checkNotNull(processingStatusIn, "processingStatusIn");
         Utils.checkNotNull(marketplace, "marketplace");
         Utils.checkNotNull(exemptIn, "exemptIn");
+        Utils.checkNotNull(connectionIdIn, "connectionIdIn");
+        Utils.checkNotNull(direction, "direction");
+        Utils.checkNotNull(countLimit, "countLimit");
         Utils.checkNotNull(page, "page");
         Utils.checkNotNull(size, "size");
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
         this.stateCode = stateCode;
         this.transactionType = transactionType;
         this.transactionSource = transactionSource;
@@ -177,6 +225,7 @@ public class GetTransactionsV1TransactionsGetRequest {
         this.state = state;
         this.addressStatusIn = addressStatusIn;
         this.status = status;
+        this.refundStatus = refundStatus;
         this.filingId = filingId;
         this.orderBy = orderBy;
         this.dateGte = dateGte;
@@ -184,24 +233,30 @@ public class GetTransactionsV1TransactionsGetRequest {
         this.processingStatusIn = processingStatusIn;
         this.marketplace = marketplace;
         this.exemptIn = exemptIn;
+        this.connectionIdIn = connectionIdIn;
+        this.direction = direction;
+        this.countLimit = countLimit;
         this.page = page;
         this.size = size;
+        this.xOrganizationId = xOrganizationId;
     }
     
     public GetTransactionsV1TransactionsGetRequest() {
-        this(Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty());
+        this(JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), Optional.empty(), Optional.empty(),
+            Optional.empty());
     }
 
     /**
      * Filter transactions by state code.
      */
     @JsonIgnore
-    public Optional<String> stateCode() {
+    public JsonNullable<String> stateCode() {
         return stateCode;
     }
 
@@ -210,7 +265,7 @@ public class GetTransactionsV1TransactionsGetRequest {
      * PARTIAL_CREDIT_NOTE, ARCHIVE etc.).
      */
     @JsonIgnore
-    public Optional<String> transactionType() {
+    public JsonNullable<String> transactionType() {
         return transactionType;
     }
 
@@ -218,7 +273,7 @@ public class GetTransactionsV1TransactionsGetRequest {
      * Filter transactions based on the source.
      */
     @JsonIgnore
-    public Optional<String> transactionSource() {
+    public JsonNullable<String> transactionSource() {
         return transactionSource;
     }
 
@@ -227,7 +282,7 @@ public class GetTransactionsV1TransactionsGetRequest {
      * (e.g., order ID, customer name).
      */
     @JsonIgnore
-    public Optional<String> searchQuery() {
+    public JsonNullable<String> searchQuery() {
         return searchQuery;
     }
 
@@ -237,15 +292,15 @@ public class GetTransactionsV1TransactionsGetRequest {
      */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<List<CountryCodeEnum>> country() {
-        return (Optional<List<CountryCodeEnum>>) country;
+    public JsonNullable<List<GetTransactionsV1TransactionsGetCountry>> country() {
+        return (JsonNullable<List<GetTransactionsV1TransactionsGetCountry>>) country;
     }
 
     /**
      * Filter by full state name (e.g., California).
      */
     @JsonIgnore
-    public Optional<String> state() {
+    public JsonNullable<String> state() {
         return state;
     }
 
@@ -254,25 +309,35 @@ public class GetTransactionsV1TransactionsGetRequest {
      * PARTIALLY_VERIFIED, VERIFIED, UNVERIFIABLE).
      */
     @JsonIgnore
-    public Optional<String> addressStatusIn() {
+    public JsonNullable<String> addressStatusIn() {
         return addressStatusIn;
     }
 
     /**
      * Filter by transaction status (e.g., PENDING, COMMITTED,
-     * CANCELLED, FULLY_REFUNDED, PARTIALLY_REFUNDED, ARCHIVED).
+     * CANCELLED, ARCHIVED). For refund filtering use the refund_status parameter.
      */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<TransactionStatusEnum> status() {
-        return (Optional<TransactionStatusEnum>) status;
+    public JsonNullable<TransactionStatusEnum> status() {
+        return (JsonNullable<TransactionStatusEnum>) status;
+    }
+
+    /**
+     * Filter by refund status (e.g., FULLY_REFUNDED,
+     * PARTIALLY_REFUNDED).
+     */
+    @SuppressWarnings("unchecked")
+    @JsonIgnore
+    public JsonNullable<TransactionRefundStatus> refundStatus() {
+        return (JsonNullable<TransactionRefundStatus>) refundStatus;
     }
 
     /**
      * Retrieve transactions linked to a specific filing ID.
      */
     @JsonIgnore
-    public Optional<String> filingId() {
+    public JsonNullable<String> filingId() {
         return filingId;
     }
 
@@ -281,25 +346,26 @@ public class GetTransactionsV1TransactionsGetRequest {
      * Prefix with - for descending order (e.g., -date for newest first).
      */
     @JsonIgnore
-    public Optional<String> orderBy() {
+    public JsonNullable<String> orderBy() {
         return orderBy;
     }
 
     /**
-     * Retrieve transactions with a date
-     * greater than or equal to (YYYY-MM-DD).
+     * Retrieve transactions with a date greater than or equal to the bound
+     * (YYYY-MM-DD or ISO datetime in UTC).
+     * Defaults to 12 months ago when neither date__gte nor date__lte is provided.
      */
     @JsonIgnore
-    public Optional<String> dateGte() {
+    public JsonNullable<String> dateGte() {
         return dateGte;
     }
 
     /**
-     * Retrieve transactions with a date
-     * less than or equal to (YYYY-MM-DD).
+     * Retrieve transactions with a date less than or equal to the bound
+     * (YYYY-MM-DD or ISO datetime in UTC).
      */
     @JsonIgnore
-    public Optional<String> dateLte() {
+    public JsonNullable<String> dateLte() {
         return dateLte;
     }
 
@@ -308,7 +374,7 @@ public class GetTransactionsV1TransactionsGetRequest {
      * Multiple values can be passed as a comma-separated list.
      */
     @JsonIgnore
-    public Optional<String> processingStatusIn() {
+    public JsonNullable<String> processingStatusIn() {
         return processingStatusIn;
     }
 
@@ -316,7 +382,7 @@ public class GetTransactionsV1TransactionsGetRequest {
      * Filter transactions by marketplace (e.g., AMAZON, EBAY).
      */
     @JsonIgnore
-    public Optional<Boolean> marketplace() {
+    public JsonNullable<Boolean> marketplace() {
         return marketplace;
     }
 
@@ -325,8 +391,37 @@ public class GetTransactionsV1TransactionsGetRequest {
      * Multiple values can be passed as a comma-separated list (e.g., EXEMPT,TAXABLE).
      */
     @JsonIgnore
-    public Optional<String> exemptIn() {
+    public JsonNullable<String> exemptIn() {
         return exemptIn;
+    }
+
+    /**
+     * Filter transactions by connection ID (comma-separated)
+     */
+    @JsonIgnore
+    public JsonNullable<String> connectionIdIn() {
+        return connectionIdIn;
+    }
+
+    /**
+     * Filter by transaction direction (SALE or PURCHASE). When unset, the list includes both directions.
+     */
+    @SuppressWarnings("unchecked")
+    @JsonIgnore
+    public JsonNullable<TransactionDirectionEnum> direction() {
+        return (JsonNullable<TransactionDirectionEnum>) direction;
+    }
+
+    /**
+     * Optional upper bound for the pagination COUNT query.
+     * When set, the returned `total` is capped at this value and `pages`
+     * is derived from the capped total, making large result sets faster
+     * to paginate at the cost of approximate totals. When unset, `total`
+     * and `pages` reflect the exact count (existing behavior).
+     */
+    @JsonIgnore
+    public JsonNullable<Long> countLimit() {
+        return countLimit;
     }
 
     /**
@@ -345,6 +440,14 @@ public class GetTransactionsV1TransactionsGetRequest {
         return size;
     }
 
+    /**
+     * The unique identifier for the organization making the request
+     */
+    @JsonIgnore
+    public Optional<String> xOrganizationId() {
+        return xOrganizationId;
+    }
+
     public static Builder builder() {
         return new Builder();
     }
@@ -355,15 +458,14 @@ public class GetTransactionsV1TransactionsGetRequest {
      */
     public GetTransactionsV1TransactionsGetRequest withStateCode(String stateCode) {
         Utils.checkNotNull(stateCode, "stateCode");
-        this.stateCode = Optional.ofNullable(stateCode);
+        this.stateCode = JsonNullable.of(stateCode);
         return this;
     }
-
 
     /**
      * Filter transactions by state code.
      */
-    public GetTransactionsV1TransactionsGetRequest withStateCode(Optional<String> stateCode) {
+    public GetTransactionsV1TransactionsGetRequest withStateCode(JsonNullable<String> stateCode) {
         Utils.checkNotNull(stateCode, "stateCode");
         this.stateCode = stateCode;
         return this;
@@ -375,16 +477,15 @@ public class GetTransactionsV1TransactionsGetRequest {
      */
     public GetTransactionsV1TransactionsGetRequest withTransactionType(String transactionType) {
         Utils.checkNotNull(transactionType, "transactionType");
-        this.transactionType = Optional.ofNullable(transactionType);
+        this.transactionType = JsonNullable.of(transactionType);
         return this;
     }
-
 
     /**
      * Filter by transaction type (e.g., SALE, FULL_CREDIT_NOTE,
      * PARTIAL_CREDIT_NOTE, ARCHIVE etc.).
      */
-    public GetTransactionsV1TransactionsGetRequest withTransactionType(Optional<String> transactionType) {
+    public GetTransactionsV1TransactionsGetRequest withTransactionType(JsonNullable<String> transactionType) {
         Utils.checkNotNull(transactionType, "transactionType");
         this.transactionType = transactionType;
         return this;
@@ -395,15 +496,14 @@ public class GetTransactionsV1TransactionsGetRequest {
      */
     public GetTransactionsV1TransactionsGetRequest withTransactionSource(String transactionSource) {
         Utils.checkNotNull(transactionSource, "transactionSource");
-        this.transactionSource = Optional.ofNullable(transactionSource);
+        this.transactionSource = JsonNullable.of(transactionSource);
         return this;
     }
-
 
     /**
      * Filter transactions based on the source.
      */
-    public GetTransactionsV1TransactionsGetRequest withTransactionSource(Optional<String> transactionSource) {
+    public GetTransactionsV1TransactionsGetRequest withTransactionSource(JsonNullable<String> transactionSource) {
         Utils.checkNotNull(transactionSource, "transactionSource");
         this.transactionSource = transactionSource;
         return this;
@@ -415,16 +515,15 @@ public class GetTransactionsV1TransactionsGetRequest {
      */
     public GetTransactionsV1TransactionsGetRequest withSearchQuery(String searchQuery) {
         Utils.checkNotNull(searchQuery, "searchQuery");
-        this.searchQuery = Optional.ofNullable(searchQuery);
+        this.searchQuery = JsonNullable.of(searchQuery);
         return this;
     }
-
 
     /**
      * Search for transactions using a general query
      * (e.g., order ID, customer name).
      */
-    public GetTransactionsV1TransactionsGetRequest withSearchQuery(Optional<String> searchQuery) {
+    public GetTransactionsV1TransactionsGetRequest withSearchQuery(JsonNullable<String> searchQuery) {
         Utils.checkNotNull(searchQuery, "searchQuery");
         this.searchQuery = searchQuery;
         return this;
@@ -434,18 +533,17 @@ public class GetTransactionsV1TransactionsGetRequest {
      * Filter transactions by country code
      * (ISO 3166-1 alpha-2 format, e.g., US).
      */
-    public GetTransactionsV1TransactionsGetRequest withCountry(List<CountryCodeEnum> country) {
+    public GetTransactionsV1TransactionsGetRequest withCountry(List<GetTransactionsV1TransactionsGetCountry> country) {
         Utils.checkNotNull(country, "country");
-        this.country = Optional.ofNullable(country);
+        this.country = JsonNullable.of(country);
         return this;
     }
-
 
     /**
      * Filter transactions by country code
      * (ISO 3166-1 alpha-2 format, e.g., US).
      */
-    public GetTransactionsV1TransactionsGetRequest withCountry(Optional<? extends List<CountryCodeEnum>> country) {
+    public GetTransactionsV1TransactionsGetRequest withCountry(JsonNullable<? extends List<GetTransactionsV1TransactionsGetCountry>> country) {
         Utils.checkNotNull(country, "country");
         this.country = country;
         return this;
@@ -456,15 +554,14 @@ public class GetTransactionsV1TransactionsGetRequest {
      */
     public GetTransactionsV1TransactionsGetRequest withState(String state) {
         Utils.checkNotNull(state, "state");
-        this.state = Optional.ofNullable(state);
+        this.state = JsonNullable.of(state);
         return this;
     }
-
 
     /**
      * Filter by full state name (e.g., California).
      */
-    public GetTransactionsV1TransactionsGetRequest withState(Optional<String> state) {
+    public GetTransactionsV1TransactionsGetRequest withState(JsonNullable<String> state) {
         Utils.checkNotNull(state, "state");
         this.state = state;
         return this;
@@ -476,16 +573,15 @@ public class GetTransactionsV1TransactionsGetRequest {
      */
     public GetTransactionsV1TransactionsGetRequest withAddressStatusIn(String addressStatusIn) {
         Utils.checkNotNull(addressStatusIn, "addressStatusIn");
-        this.addressStatusIn = Optional.ofNullable(addressStatusIn);
+        this.addressStatusIn = JsonNullable.of(addressStatusIn);
         return this;
     }
-
 
     /**
      * Filter by address status (e.g., UNVERIFIED, INVALID,
      * PARTIALLY_VERIFIED, VERIFIED, UNVERIFIABLE).
      */
-    public GetTransactionsV1TransactionsGetRequest withAddressStatusIn(Optional<String> addressStatusIn) {
+    public GetTransactionsV1TransactionsGetRequest withAddressStatusIn(JsonNullable<String> addressStatusIn) {
         Utils.checkNotNull(addressStatusIn, "addressStatusIn");
         this.addressStatusIn = addressStatusIn;
         return this;
@@ -493,22 +589,41 @@ public class GetTransactionsV1TransactionsGetRequest {
 
     /**
      * Filter by transaction status (e.g., PENDING, COMMITTED,
-     * CANCELLED, FULLY_REFUNDED, PARTIALLY_REFUNDED, ARCHIVED).
+     * CANCELLED, ARCHIVED). For refund filtering use the refund_status parameter.
      */
     public GetTransactionsV1TransactionsGetRequest withStatus(TransactionStatusEnum status) {
         Utils.checkNotNull(status, "status");
-        this.status = Optional.ofNullable(status);
+        this.status = JsonNullable.of(status);
         return this;
     }
 
-
     /**
      * Filter by transaction status (e.g., PENDING, COMMITTED,
-     * CANCELLED, FULLY_REFUNDED, PARTIALLY_REFUNDED, ARCHIVED).
+     * CANCELLED, ARCHIVED). For refund filtering use the refund_status parameter.
      */
-    public GetTransactionsV1TransactionsGetRequest withStatus(Optional<? extends TransactionStatusEnum> status) {
+    public GetTransactionsV1TransactionsGetRequest withStatus(JsonNullable<? extends TransactionStatusEnum> status) {
         Utils.checkNotNull(status, "status");
         this.status = status;
+        return this;
+    }
+
+    /**
+     * Filter by refund status (e.g., FULLY_REFUNDED,
+     * PARTIALLY_REFUNDED).
+     */
+    public GetTransactionsV1TransactionsGetRequest withRefundStatus(TransactionRefundStatus refundStatus) {
+        Utils.checkNotNull(refundStatus, "refundStatus");
+        this.refundStatus = JsonNullable.of(refundStatus);
+        return this;
+    }
+
+    /**
+     * Filter by refund status (e.g., FULLY_REFUNDED,
+     * PARTIALLY_REFUNDED).
+     */
+    public GetTransactionsV1TransactionsGetRequest withRefundStatus(JsonNullable<? extends TransactionRefundStatus> refundStatus) {
+        Utils.checkNotNull(refundStatus, "refundStatus");
+        this.refundStatus = refundStatus;
         return this;
     }
 
@@ -517,15 +632,14 @@ public class GetTransactionsV1TransactionsGetRequest {
      */
     public GetTransactionsV1TransactionsGetRequest withFilingId(String filingId) {
         Utils.checkNotNull(filingId, "filingId");
-        this.filingId = Optional.ofNullable(filingId);
+        this.filingId = JsonNullable.of(filingId);
         return this;
     }
-
 
     /**
      * Retrieve transactions linked to a specific filing ID.
      */
-    public GetTransactionsV1TransactionsGetRequest withFilingId(Optional<String> filingId) {
+    public GetTransactionsV1TransactionsGetRequest withFilingId(JsonNullable<String> filingId) {
         Utils.checkNotNull(filingId, "filingId");
         this.filingId = filingId;
         return this;
@@ -537,58 +651,57 @@ public class GetTransactionsV1TransactionsGetRequest {
      */
     public GetTransactionsV1TransactionsGetRequest withOrderBy(String orderBy) {
         Utils.checkNotNull(orderBy, "orderBy");
-        this.orderBy = Optional.ofNullable(orderBy);
+        this.orderBy = JsonNullable.of(orderBy);
         return this;
     }
-
 
     /**
      * Sort results based on specified fields.
      * Prefix with - for descending order (e.g., -date for newest first).
      */
-    public GetTransactionsV1TransactionsGetRequest withOrderBy(Optional<String> orderBy) {
+    public GetTransactionsV1TransactionsGetRequest withOrderBy(JsonNullable<String> orderBy) {
         Utils.checkNotNull(orderBy, "orderBy");
         this.orderBy = orderBy;
         return this;
     }
 
     /**
-     * Retrieve transactions with a date
-     * greater than or equal to (YYYY-MM-DD).
+     * Retrieve transactions with a date greater than or equal to the bound
+     * (YYYY-MM-DD or ISO datetime in UTC).
+     * Defaults to 12 months ago when neither date__gte nor date__lte is provided.
      */
     public GetTransactionsV1TransactionsGetRequest withDateGte(String dateGte) {
         Utils.checkNotNull(dateGte, "dateGte");
-        this.dateGte = Optional.ofNullable(dateGte);
+        this.dateGte = JsonNullable.of(dateGte);
         return this;
     }
 
-
     /**
-     * Retrieve transactions with a date
-     * greater than or equal to (YYYY-MM-DD).
+     * Retrieve transactions with a date greater than or equal to the bound
+     * (YYYY-MM-DD or ISO datetime in UTC).
+     * Defaults to 12 months ago when neither date__gte nor date__lte is provided.
      */
-    public GetTransactionsV1TransactionsGetRequest withDateGte(Optional<String> dateGte) {
+    public GetTransactionsV1TransactionsGetRequest withDateGte(JsonNullable<String> dateGte) {
         Utils.checkNotNull(dateGte, "dateGte");
         this.dateGte = dateGte;
         return this;
     }
 
     /**
-     * Retrieve transactions with a date
-     * less than or equal to (YYYY-MM-DD).
+     * Retrieve transactions with a date less than or equal to the bound
+     * (YYYY-MM-DD or ISO datetime in UTC).
      */
     public GetTransactionsV1TransactionsGetRequest withDateLte(String dateLte) {
         Utils.checkNotNull(dateLte, "dateLte");
-        this.dateLte = Optional.ofNullable(dateLte);
+        this.dateLte = JsonNullable.of(dateLte);
         return this;
     }
 
-
     /**
-     * Retrieve transactions with a date
-     * less than or equal to (YYYY-MM-DD).
+     * Retrieve transactions with a date less than or equal to the bound
+     * (YYYY-MM-DD or ISO datetime in UTC).
      */
-    public GetTransactionsV1TransactionsGetRequest withDateLte(Optional<String> dateLte) {
+    public GetTransactionsV1TransactionsGetRequest withDateLte(JsonNullable<String> dateLte) {
         Utils.checkNotNull(dateLte, "dateLte");
         this.dateLte = dateLte;
         return this;
@@ -600,16 +713,15 @@ public class GetTransactionsV1TransactionsGetRequest {
      */
     public GetTransactionsV1TransactionsGetRequest withProcessingStatusIn(String processingStatusIn) {
         Utils.checkNotNull(processingStatusIn, "processingStatusIn");
-        this.processingStatusIn = Optional.ofNullable(processingStatusIn);
+        this.processingStatusIn = JsonNullable.of(processingStatusIn);
         return this;
     }
-
 
     /**
      * Filter transactions based on processing status.
      * Multiple values can be passed as a comma-separated list.
      */
-    public GetTransactionsV1TransactionsGetRequest withProcessingStatusIn(Optional<String> processingStatusIn) {
+    public GetTransactionsV1TransactionsGetRequest withProcessingStatusIn(JsonNullable<String> processingStatusIn) {
         Utils.checkNotNull(processingStatusIn, "processingStatusIn");
         this.processingStatusIn = processingStatusIn;
         return this;
@@ -620,15 +732,14 @@ public class GetTransactionsV1TransactionsGetRequest {
      */
     public GetTransactionsV1TransactionsGetRequest withMarketplace(boolean marketplace) {
         Utils.checkNotNull(marketplace, "marketplace");
-        this.marketplace = Optional.ofNullable(marketplace);
+        this.marketplace = JsonNullable.of(marketplace);
         return this;
     }
-
 
     /**
      * Filter transactions by marketplace (e.g., AMAZON, EBAY).
      */
-    public GetTransactionsV1TransactionsGetRequest withMarketplace(Optional<Boolean> marketplace) {
+    public GetTransactionsV1TransactionsGetRequest withMarketplace(JsonNullable<Boolean> marketplace) {
         Utils.checkNotNull(marketplace, "marketplace");
         this.marketplace = marketplace;
         return this;
@@ -640,18 +751,79 @@ public class GetTransactionsV1TransactionsGetRequest {
      */
     public GetTransactionsV1TransactionsGetRequest withExemptIn(String exemptIn) {
         Utils.checkNotNull(exemptIn, "exemptIn");
-        this.exemptIn = Optional.ofNullable(exemptIn);
+        this.exemptIn = JsonNullable.of(exemptIn);
         return this;
     }
-
 
     /**
      * Filter transactions by exemption status.
      * Multiple values can be passed as a comma-separated list (e.g., EXEMPT,TAXABLE).
      */
-    public GetTransactionsV1TransactionsGetRequest withExemptIn(Optional<String> exemptIn) {
+    public GetTransactionsV1TransactionsGetRequest withExemptIn(JsonNullable<String> exemptIn) {
         Utils.checkNotNull(exemptIn, "exemptIn");
         this.exemptIn = exemptIn;
+        return this;
+    }
+
+    /**
+     * Filter transactions by connection ID (comma-separated)
+     */
+    public GetTransactionsV1TransactionsGetRequest withConnectionIdIn(String connectionIdIn) {
+        Utils.checkNotNull(connectionIdIn, "connectionIdIn");
+        this.connectionIdIn = JsonNullable.of(connectionIdIn);
+        return this;
+    }
+
+    /**
+     * Filter transactions by connection ID (comma-separated)
+     */
+    public GetTransactionsV1TransactionsGetRequest withConnectionIdIn(JsonNullable<String> connectionIdIn) {
+        Utils.checkNotNull(connectionIdIn, "connectionIdIn");
+        this.connectionIdIn = connectionIdIn;
+        return this;
+    }
+
+    /**
+     * Filter by transaction direction (SALE or PURCHASE). When unset, the list includes both directions.
+     */
+    public GetTransactionsV1TransactionsGetRequest withDirection(TransactionDirectionEnum direction) {
+        Utils.checkNotNull(direction, "direction");
+        this.direction = JsonNullable.of(direction);
+        return this;
+    }
+
+    /**
+     * Filter by transaction direction (SALE or PURCHASE). When unset, the list includes both directions.
+     */
+    public GetTransactionsV1TransactionsGetRequest withDirection(JsonNullable<? extends TransactionDirectionEnum> direction) {
+        Utils.checkNotNull(direction, "direction");
+        this.direction = direction;
+        return this;
+    }
+
+    /**
+     * Optional upper bound for the pagination COUNT query.
+     * When set, the returned `total` is capped at this value and `pages`
+     * is derived from the capped total, making large result sets faster
+     * to paginate at the cost of approximate totals. When unset, `total`
+     * and `pages` reflect the exact count (existing behavior).
+     */
+    public GetTransactionsV1TransactionsGetRequest withCountLimit(long countLimit) {
+        Utils.checkNotNull(countLimit, "countLimit");
+        this.countLimit = JsonNullable.of(countLimit);
+        return this;
+    }
+
+    /**
+     * Optional upper bound for the pagination COUNT query.
+     * When set, the returned `total` is capped at this value and `pages`
+     * is derived from the capped total, making large result sets faster
+     * to paginate at the cost of approximate totals. When unset, `total`
+     * and `pages` reflect the exact count (existing behavior).
+     */
+    public GetTransactionsV1TransactionsGetRequest withCountLimit(JsonNullable<Long> countLimit) {
+        Utils.checkNotNull(countLimit, "countLimit");
+        this.countLimit = countLimit;
         return this;
     }
 
@@ -693,6 +865,25 @@ public class GetTransactionsV1TransactionsGetRequest {
         return this;
     }
 
+    /**
+     * The unique identifier for the organization making the request
+     */
+    public GetTransactionsV1TransactionsGetRequest withXOrganizationId(String xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = Optional.ofNullable(xOrganizationId);
+        return this;
+    }
+
+
+    /**
+     * The unique identifier for the organization making the request
+     */
+    public GetTransactionsV1TransactionsGetRequest withXOrganizationId(Optional<String> xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = xOrganizationId;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -711,6 +902,7 @@ public class GetTransactionsV1TransactionsGetRequest {
             Utils.enhancedDeepEquals(this.state, other.state) &&
             Utils.enhancedDeepEquals(this.addressStatusIn, other.addressStatusIn) &&
             Utils.enhancedDeepEquals(this.status, other.status) &&
+            Utils.enhancedDeepEquals(this.refundStatus, other.refundStatus) &&
             Utils.enhancedDeepEquals(this.filingId, other.filingId) &&
             Utils.enhancedDeepEquals(this.orderBy, other.orderBy) &&
             Utils.enhancedDeepEquals(this.dateGte, other.dateGte) &&
@@ -718,8 +910,12 @@ public class GetTransactionsV1TransactionsGetRequest {
             Utils.enhancedDeepEquals(this.processingStatusIn, other.processingStatusIn) &&
             Utils.enhancedDeepEquals(this.marketplace, other.marketplace) &&
             Utils.enhancedDeepEquals(this.exemptIn, other.exemptIn) &&
+            Utils.enhancedDeepEquals(this.connectionIdIn, other.connectionIdIn) &&
+            Utils.enhancedDeepEquals(this.direction, other.direction) &&
+            Utils.enhancedDeepEquals(this.countLimit, other.countLimit) &&
             Utils.enhancedDeepEquals(this.page, other.page) &&
-            Utils.enhancedDeepEquals(this.size, other.size);
+            Utils.enhancedDeepEquals(this.size, other.size) &&
+            Utils.enhancedDeepEquals(this.xOrganizationId, other.xOrganizationId);
     }
     
     @Override
@@ -727,10 +923,12 @@ public class GetTransactionsV1TransactionsGetRequest {
         return Utils.enhancedHash(
             stateCode, transactionType, transactionSource,
             searchQuery, country, state,
-            addressStatusIn, status, filingId,
-            orderBy, dateGte, dateLte,
-            processingStatusIn, marketplace, exemptIn,
-            page, size);
+            addressStatusIn, status, refundStatus,
+            filingId, orderBy, dateGte,
+            dateLte, processingStatusIn, marketplace,
+            exemptIn, connectionIdIn, direction,
+            countLimit, page, size,
+            xOrganizationId);
     }
     
     @Override
@@ -744,6 +942,7 @@ public class GetTransactionsV1TransactionsGetRequest {
                 "state", state,
                 "addressStatusIn", addressStatusIn,
                 "status", status,
+                "refundStatus", refundStatus,
                 "filingId", filingId,
                 "orderBy", orderBy,
                 "dateGte", dateGte,
@@ -751,46 +950,60 @@ public class GetTransactionsV1TransactionsGetRequest {
                 "processingStatusIn", processingStatusIn,
                 "marketplace", marketplace,
                 "exemptIn", exemptIn,
+                "connectionIdIn", connectionIdIn,
+                "direction", direction,
+                "countLimit", countLimit,
                 "page", page,
-                "size", size);
+                "size", size,
+                "xOrganizationId", xOrganizationId);
     }
 
     @SuppressWarnings("UnusedReturnValue")
     public final static class Builder {
 
-        private Optional<String> stateCode = Optional.empty();
+        private JsonNullable<String> stateCode = JsonNullable.undefined();
 
-        private Optional<String> transactionType = Optional.empty();
+        private JsonNullable<String> transactionType = JsonNullable.undefined();
 
-        private Optional<String> transactionSource = Optional.empty();
+        private JsonNullable<String> transactionSource = JsonNullable.undefined();
 
-        private Optional<String> searchQuery = Optional.empty();
+        private JsonNullable<String> searchQuery = JsonNullable.undefined();
 
-        private Optional<? extends List<CountryCodeEnum>> country = Optional.empty();
+        private JsonNullable<? extends List<GetTransactionsV1TransactionsGetCountry>> country = JsonNullable.undefined();
 
-        private Optional<String> state = Optional.empty();
+        private JsonNullable<String> state = JsonNullable.undefined();
 
-        private Optional<String> addressStatusIn;
+        private JsonNullable<String> addressStatusIn = JsonNullable.undefined();
 
-        private Optional<? extends TransactionStatusEnum> status = Optional.empty();
+        private JsonNullable<? extends TransactionStatusEnum> status = JsonNullable.undefined();
 
-        private Optional<String> filingId = Optional.empty();
+        private JsonNullable<? extends TransactionRefundStatus> refundStatus = JsonNullable.undefined();
 
-        private Optional<String> orderBy;
+        private JsonNullable<String> filingId = JsonNullable.undefined();
 
-        private Optional<String> dateGte = Optional.empty();
+        private JsonNullable<String> orderBy = JsonNullable.undefined();
 
-        private Optional<String> dateLte = Optional.empty();
+        private JsonNullable<String> dateGte = JsonNullable.undefined();
 
-        private Optional<String> processingStatusIn = Optional.empty();
+        private JsonNullable<String> dateLte = JsonNullable.undefined();
 
-        private Optional<Boolean> marketplace = Optional.empty();
+        private JsonNullable<String> processingStatusIn = JsonNullable.undefined();
 
-        private Optional<String> exemptIn = Optional.empty();
+        private JsonNullable<Boolean> marketplace = JsonNullable.undefined();
+
+        private JsonNullable<String> exemptIn = JsonNullable.undefined();
+
+        private JsonNullable<String> connectionIdIn = JsonNullable.undefined();
+
+        private JsonNullable<? extends TransactionDirectionEnum> direction = JsonNullable.undefined();
+
+        private JsonNullable<Long> countLimit = JsonNullable.undefined();
 
         private Optional<Long> page;
 
         private Optional<Long> size;
+
+        private Optional<String> xOrganizationId = Optional.empty();
 
         private Builder() {
           // force use of static builder() method
@@ -802,14 +1015,14 @@ public class GetTransactionsV1TransactionsGetRequest {
          */
         public Builder stateCode(String stateCode) {
             Utils.checkNotNull(stateCode, "stateCode");
-            this.stateCode = Optional.ofNullable(stateCode);
+            this.stateCode = JsonNullable.of(stateCode);
             return this;
         }
 
         /**
          * Filter transactions by state code.
          */
-        public Builder stateCode(Optional<String> stateCode) {
+        public Builder stateCode(JsonNullable<String> stateCode) {
             Utils.checkNotNull(stateCode, "stateCode");
             this.stateCode = stateCode;
             return this;
@@ -822,7 +1035,7 @@ public class GetTransactionsV1TransactionsGetRequest {
          */
         public Builder transactionType(String transactionType) {
             Utils.checkNotNull(transactionType, "transactionType");
-            this.transactionType = Optional.ofNullable(transactionType);
+            this.transactionType = JsonNullable.of(transactionType);
             return this;
         }
 
@@ -830,7 +1043,7 @@ public class GetTransactionsV1TransactionsGetRequest {
          * Filter by transaction type (e.g., SALE, FULL_CREDIT_NOTE,
          * PARTIAL_CREDIT_NOTE, ARCHIVE etc.).
          */
-        public Builder transactionType(Optional<String> transactionType) {
+        public Builder transactionType(JsonNullable<String> transactionType) {
             Utils.checkNotNull(transactionType, "transactionType");
             this.transactionType = transactionType;
             return this;
@@ -842,14 +1055,14 @@ public class GetTransactionsV1TransactionsGetRequest {
          */
         public Builder transactionSource(String transactionSource) {
             Utils.checkNotNull(transactionSource, "transactionSource");
-            this.transactionSource = Optional.ofNullable(transactionSource);
+            this.transactionSource = JsonNullable.of(transactionSource);
             return this;
         }
 
         /**
          * Filter transactions based on the source.
          */
-        public Builder transactionSource(Optional<String> transactionSource) {
+        public Builder transactionSource(JsonNullable<String> transactionSource) {
             Utils.checkNotNull(transactionSource, "transactionSource");
             this.transactionSource = transactionSource;
             return this;
@@ -862,7 +1075,7 @@ public class GetTransactionsV1TransactionsGetRequest {
          */
         public Builder searchQuery(String searchQuery) {
             Utils.checkNotNull(searchQuery, "searchQuery");
-            this.searchQuery = Optional.ofNullable(searchQuery);
+            this.searchQuery = JsonNullable.of(searchQuery);
             return this;
         }
 
@@ -870,7 +1083,7 @@ public class GetTransactionsV1TransactionsGetRequest {
          * Search for transactions using a general query
          * (e.g., order ID, customer name).
          */
-        public Builder searchQuery(Optional<String> searchQuery) {
+        public Builder searchQuery(JsonNullable<String> searchQuery) {
             Utils.checkNotNull(searchQuery, "searchQuery");
             this.searchQuery = searchQuery;
             return this;
@@ -881,9 +1094,9 @@ public class GetTransactionsV1TransactionsGetRequest {
          * Filter transactions by country code
          * (ISO 3166-1 alpha-2 format, e.g., US).
          */
-        public Builder country(List<CountryCodeEnum> country) {
+        public Builder country(List<GetTransactionsV1TransactionsGetCountry> country) {
             Utils.checkNotNull(country, "country");
-            this.country = Optional.ofNullable(country);
+            this.country = JsonNullable.of(country);
             return this;
         }
 
@@ -891,7 +1104,7 @@ public class GetTransactionsV1TransactionsGetRequest {
          * Filter transactions by country code
          * (ISO 3166-1 alpha-2 format, e.g., US).
          */
-        public Builder country(Optional<? extends List<CountryCodeEnum>> country) {
+        public Builder country(JsonNullable<? extends List<GetTransactionsV1TransactionsGetCountry>> country) {
             Utils.checkNotNull(country, "country");
             this.country = country;
             return this;
@@ -903,14 +1116,14 @@ public class GetTransactionsV1TransactionsGetRequest {
          */
         public Builder state(String state) {
             Utils.checkNotNull(state, "state");
-            this.state = Optional.ofNullable(state);
+            this.state = JsonNullable.of(state);
             return this;
         }
 
         /**
          * Filter by full state name (e.g., California).
          */
-        public Builder state(Optional<String> state) {
+        public Builder state(JsonNullable<String> state) {
             Utils.checkNotNull(state, "state");
             this.state = state;
             return this;
@@ -923,7 +1136,7 @@ public class GetTransactionsV1TransactionsGetRequest {
          */
         public Builder addressStatusIn(String addressStatusIn) {
             Utils.checkNotNull(addressStatusIn, "addressStatusIn");
-            this.addressStatusIn = Optional.ofNullable(addressStatusIn);
+            this.addressStatusIn = JsonNullable.of(addressStatusIn);
             return this;
         }
 
@@ -931,7 +1144,7 @@ public class GetTransactionsV1TransactionsGetRequest {
          * Filter by address status (e.g., UNVERIFIED, INVALID,
          * PARTIALLY_VERIFIED, VERIFIED, UNVERIFIABLE).
          */
-        public Builder addressStatusIn(Optional<String> addressStatusIn) {
+        public Builder addressStatusIn(JsonNullable<String> addressStatusIn) {
             Utils.checkNotNull(addressStatusIn, "addressStatusIn");
             this.addressStatusIn = addressStatusIn;
             return this;
@@ -940,21 +1153,42 @@ public class GetTransactionsV1TransactionsGetRequest {
 
         /**
          * Filter by transaction status (e.g., PENDING, COMMITTED,
-         * CANCELLED, FULLY_REFUNDED, PARTIALLY_REFUNDED, ARCHIVED).
+         * CANCELLED, ARCHIVED). For refund filtering use the refund_status parameter.
          */
         public Builder status(TransactionStatusEnum status) {
             Utils.checkNotNull(status, "status");
-            this.status = Optional.ofNullable(status);
+            this.status = JsonNullable.of(status);
             return this;
         }
 
         /**
          * Filter by transaction status (e.g., PENDING, COMMITTED,
-         * CANCELLED, FULLY_REFUNDED, PARTIALLY_REFUNDED, ARCHIVED).
+         * CANCELLED, ARCHIVED). For refund filtering use the refund_status parameter.
          */
-        public Builder status(Optional<? extends TransactionStatusEnum> status) {
+        public Builder status(JsonNullable<? extends TransactionStatusEnum> status) {
             Utils.checkNotNull(status, "status");
             this.status = status;
+            return this;
+        }
+
+
+        /**
+         * Filter by refund status (e.g., FULLY_REFUNDED,
+         * PARTIALLY_REFUNDED).
+         */
+        public Builder refundStatus(TransactionRefundStatus refundStatus) {
+            Utils.checkNotNull(refundStatus, "refundStatus");
+            this.refundStatus = JsonNullable.of(refundStatus);
+            return this;
+        }
+
+        /**
+         * Filter by refund status (e.g., FULLY_REFUNDED,
+         * PARTIALLY_REFUNDED).
+         */
+        public Builder refundStatus(JsonNullable<? extends TransactionRefundStatus> refundStatus) {
+            Utils.checkNotNull(refundStatus, "refundStatus");
+            this.refundStatus = refundStatus;
             return this;
         }
 
@@ -964,14 +1198,14 @@ public class GetTransactionsV1TransactionsGetRequest {
          */
         public Builder filingId(String filingId) {
             Utils.checkNotNull(filingId, "filingId");
-            this.filingId = Optional.ofNullable(filingId);
+            this.filingId = JsonNullable.of(filingId);
             return this;
         }
 
         /**
          * Retrieve transactions linked to a specific filing ID.
          */
-        public Builder filingId(Optional<String> filingId) {
+        public Builder filingId(JsonNullable<String> filingId) {
             Utils.checkNotNull(filingId, "filingId");
             this.filingId = filingId;
             return this;
@@ -984,7 +1218,7 @@ public class GetTransactionsV1TransactionsGetRequest {
          */
         public Builder orderBy(String orderBy) {
             Utils.checkNotNull(orderBy, "orderBy");
-            this.orderBy = Optional.ofNullable(orderBy);
+            this.orderBy = JsonNullable.of(orderBy);
             return this;
         }
 
@@ -992,7 +1226,7 @@ public class GetTransactionsV1TransactionsGetRequest {
          * Sort results based on specified fields.
          * Prefix with - for descending order (e.g., -date for newest first).
          */
-        public Builder orderBy(Optional<String> orderBy) {
+        public Builder orderBy(JsonNullable<String> orderBy) {
             Utils.checkNotNull(orderBy, "orderBy");
             this.orderBy = orderBy;
             return this;
@@ -1000,20 +1234,22 @@ public class GetTransactionsV1TransactionsGetRequest {
 
 
         /**
-         * Retrieve transactions with a date
-         * greater than or equal to (YYYY-MM-DD).
+         * Retrieve transactions with a date greater than or equal to the bound
+         * (YYYY-MM-DD or ISO datetime in UTC).
+         * Defaults to 12 months ago when neither date__gte nor date__lte is provided.
          */
         public Builder dateGte(String dateGte) {
             Utils.checkNotNull(dateGte, "dateGte");
-            this.dateGte = Optional.ofNullable(dateGte);
+            this.dateGte = JsonNullable.of(dateGte);
             return this;
         }
 
         /**
-         * Retrieve transactions with a date
-         * greater than or equal to (YYYY-MM-DD).
+         * Retrieve transactions with a date greater than or equal to the bound
+         * (YYYY-MM-DD or ISO datetime in UTC).
+         * Defaults to 12 months ago when neither date__gte nor date__lte is provided.
          */
-        public Builder dateGte(Optional<String> dateGte) {
+        public Builder dateGte(JsonNullable<String> dateGte) {
             Utils.checkNotNull(dateGte, "dateGte");
             this.dateGte = dateGte;
             return this;
@@ -1021,20 +1257,20 @@ public class GetTransactionsV1TransactionsGetRequest {
 
 
         /**
-         * Retrieve transactions with a date
-         * less than or equal to (YYYY-MM-DD).
+         * Retrieve transactions with a date less than or equal to the bound
+         * (YYYY-MM-DD or ISO datetime in UTC).
          */
         public Builder dateLte(String dateLte) {
             Utils.checkNotNull(dateLte, "dateLte");
-            this.dateLte = Optional.ofNullable(dateLte);
+            this.dateLte = JsonNullable.of(dateLte);
             return this;
         }
 
         /**
-         * Retrieve transactions with a date
-         * less than or equal to (YYYY-MM-DD).
+         * Retrieve transactions with a date less than or equal to the bound
+         * (YYYY-MM-DD or ISO datetime in UTC).
          */
-        public Builder dateLte(Optional<String> dateLte) {
+        public Builder dateLte(JsonNullable<String> dateLte) {
             Utils.checkNotNull(dateLte, "dateLte");
             this.dateLte = dateLte;
             return this;
@@ -1047,7 +1283,7 @@ public class GetTransactionsV1TransactionsGetRequest {
          */
         public Builder processingStatusIn(String processingStatusIn) {
             Utils.checkNotNull(processingStatusIn, "processingStatusIn");
-            this.processingStatusIn = Optional.ofNullable(processingStatusIn);
+            this.processingStatusIn = JsonNullable.of(processingStatusIn);
             return this;
         }
 
@@ -1055,7 +1291,7 @@ public class GetTransactionsV1TransactionsGetRequest {
          * Filter transactions based on processing status.
          * Multiple values can be passed as a comma-separated list.
          */
-        public Builder processingStatusIn(Optional<String> processingStatusIn) {
+        public Builder processingStatusIn(JsonNullable<String> processingStatusIn) {
             Utils.checkNotNull(processingStatusIn, "processingStatusIn");
             this.processingStatusIn = processingStatusIn;
             return this;
@@ -1067,14 +1303,14 @@ public class GetTransactionsV1TransactionsGetRequest {
          */
         public Builder marketplace(boolean marketplace) {
             Utils.checkNotNull(marketplace, "marketplace");
-            this.marketplace = Optional.ofNullable(marketplace);
+            this.marketplace = JsonNullable.of(marketplace);
             return this;
         }
 
         /**
          * Filter transactions by marketplace (e.g., AMAZON, EBAY).
          */
-        public Builder marketplace(Optional<Boolean> marketplace) {
+        public Builder marketplace(JsonNullable<Boolean> marketplace) {
             Utils.checkNotNull(marketplace, "marketplace");
             this.marketplace = marketplace;
             return this;
@@ -1087,7 +1323,7 @@ public class GetTransactionsV1TransactionsGetRequest {
          */
         public Builder exemptIn(String exemptIn) {
             Utils.checkNotNull(exemptIn, "exemptIn");
-            this.exemptIn = Optional.ofNullable(exemptIn);
+            this.exemptIn = JsonNullable.of(exemptIn);
             return this;
         }
 
@@ -1095,9 +1331,74 @@ public class GetTransactionsV1TransactionsGetRequest {
          * Filter transactions by exemption status.
          * Multiple values can be passed as a comma-separated list (e.g., EXEMPT,TAXABLE).
          */
-        public Builder exemptIn(Optional<String> exemptIn) {
+        public Builder exemptIn(JsonNullable<String> exemptIn) {
             Utils.checkNotNull(exemptIn, "exemptIn");
             this.exemptIn = exemptIn;
+            return this;
+        }
+
+
+        /**
+         * Filter transactions by connection ID (comma-separated)
+         */
+        public Builder connectionIdIn(String connectionIdIn) {
+            Utils.checkNotNull(connectionIdIn, "connectionIdIn");
+            this.connectionIdIn = JsonNullable.of(connectionIdIn);
+            return this;
+        }
+
+        /**
+         * Filter transactions by connection ID (comma-separated)
+         */
+        public Builder connectionIdIn(JsonNullable<String> connectionIdIn) {
+            Utils.checkNotNull(connectionIdIn, "connectionIdIn");
+            this.connectionIdIn = connectionIdIn;
+            return this;
+        }
+
+
+        /**
+         * Filter by transaction direction (SALE or PURCHASE). When unset, the list includes both directions.
+         */
+        public Builder direction(TransactionDirectionEnum direction) {
+            Utils.checkNotNull(direction, "direction");
+            this.direction = JsonNullable.of(direction);
+            return this;
+        }
+
+        /**
+         * Filter by transaction direction (SALE or PURCHASE). When unset, the list includes both directions.
+         */
+        public Builder direction(JsonNullable<? extends TransactionDirectionEnum> direction) {
+            Utils.checkNotNull(direction, "direction");
+            this.direction = direction;
+            return this;
+        }
+
+
+        /**
+         * Optional upper bound for the pagination COUNT query.
+         * When set, the returned `total` is capped at this value and `pages`
+         * is derived from the capped total, making large result sets faster
+         * to paginate at the cost of approximate totals. When unset, `total`
+         * and `pages` reflect the exact count (existing behavior).
+         */
+        public Builder countLimit(long countLimit) {
+            Utils.checkNotNull(countLimit, "countLimit");
+            this.countLimit = JsonNullable.of(countLimit);
+            return this;
+        }
+
+        /**
+         * Optional upper bound for the pagination COUNT query.
+         * When set, the returned `total` is capped at this value and `pages`
+         * is derived from the capped total, making large result sets faster
+         * to paginate at the cost of approximate totals. When unset, `total`
+         * and `pages` reflect the exact count (existing behavior).
+         */
+        public Builder countLimit(JsonNullable<Long> countLimit) {
+            Utils.checkNotNull(countLimit, "countLimit");
+            this.countLimit = countLimit;
             return this;
         }
 
@@ -1139,13 +1440,26 @@ public class GetTransactionsV1TransactionsGetRequest {
             return this;
         }
 
+
+        /**
+         * The unique identifier for the organization making the request
+         */
+        public Builder xOrganizationId(String xOrganizationId) {
+            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+            this.xOrganizationId = Optional.ofNullable(xOrganizationId);
+            return this;
+        }
+
+        /**
+         * The unique identifier for the organization making the request
+         */
+        public Builder xOrganizationId(Optional<String> xOrganizationId) {
+            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+            this.xOrganizationId = xOrganizationId;
+            return this;
+        }
+
         public GetTransactionsV1TransactionsGetRequest build() {
-            if (addressStatusIn == null) {
-                addressStatusIn = _SINGLETON_VALUE_AddressStatusIn.value();
-            }
-            if (orderBy == null) {
-                orderBy = _SINGLETON_VALUE_OrderBy.value();
-            }
             if (page == null) {
                 page = _SINGLETON_VALUE_Page.value();
             }
@@ -1156,24 +1470,14 @@ public class GetTransactionsV1TransactionsGetRequest {
             return new GetTransactionsV1TransactionsGetRequest(
                 stateCode, transactionType, transactionSource,
                 searchQuery, country, state,
-                addressStatusIn, status, filingId,
-                orderBy, dateGte, dateLte,
-                processingStatusIn, marketplace, exemptIn,
-                page, size);
+                addressStatusIn, status, refundStatus,
+                filingId, orderBy, dateGte,
+                dateLte, processingStatusIn, marketplace,
+                exemptIn, connectionIdIn, direction,
+                countLimit, page, size,
+                xOrganizationId);
         }
 
-
-        private static final LazySingletonValue<Optional<String>> _SINGLETON_VALUE_AddressStatusIn =
-                new LazySingletonValue<>(
-                        "address_status__in",
-                        "\"UNVERIFIED,INVALID,PARTIALLY_VERIFIED,VERIFIED,UNVERIFIABLE\"",
-                        new TypeReference<Optional<String>>() {});
-
-        private static final LazySingletonValue<Optional<String>> _SINGLETON_VALUE_OrderBy =
-                new LazySingletonValue<>(
-                        "order_by",
-                        "\"date,state,customer_name,status\"",
-                        new TypeReference<Optional<String>>() {});
 
         private static final LazySingletonValue<Optional<Long>> _SINGLETON_VALUE_Page =
                 new LazySingletonValue<>(

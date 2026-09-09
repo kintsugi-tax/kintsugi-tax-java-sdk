@@ -7,31 +7,57 @@ import static com.kintsugi.taxplatform.operations.Operations.AsyncRequestOperati
 
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.components.ProductCreateManual;
+import com.kintsugi.taxplatform.models.operations.CreateProductV1ProductsPostRequest;
 import com.kintsugi.taxplatform.operations.CreateProductV1ProductsPost;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
+import java.lang.String;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 public class CreateProductV1ProductsPostRequestBuilder {
 
-    private ProductCreateManual request;
+    private Optional<String> xOrganizationId = Optional.empty();
+    private ProductCreateManual productCreateManual;
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
     public CreateProductV1ProductsPostRequestBuilder(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
     }
-
-    public CreateProductV1ProductsPostRequestBuilder request(ProductCreateManual request) {
-        Utils.checkNotNull(request, "request");
-        this.request = request;
+                
+    public CreateProductV1ProductsPostRequestBuilder xOrganizationId(String xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = Optional.of(xOrganizationId);
         return this;
+    }
+
+    public CreateProductV1ProductsPostRequestBuilder xOrganizationId(Optional<String> xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = xOrganizationId;
+        return this;
+    }
+
+    public CreateProductV1ProductsPostRequestBuilder productCreateManual(ProductCreateManual productCreateManual) {
+        Utils.checkNotNull(productCreateManual, "productCreateManual");
+        this.productCreateManual = productCreateManual;
+        return this;
+    }
+
+
+    private CreateProductV1ProductsPostRequest buildRequest() {
+
+        CreateProductV1ProductsPostRequest request = new CreateProductV1ProductsPostRequest(xOrganizationId,
+            productCreateManual);
+
+        return request;
     }
 
     public CompletableFuture<CreateProductV1ProductsPostResponse> call() {
         
-        AsyncRequestOperation<ProductCreateManual, CreateProductV1ProductsPostResponse> operation
+        AsyncRequestOperation<CreateProductV1ProductsPostRequest, CreateProductV1ProductsPostResponse> operation
               = new CreateProductV1ProductsPost.Async(sdkConfiguration, _headers);
+        CreateProductV1ProductsPostRequest request = buildRequest();
 
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);

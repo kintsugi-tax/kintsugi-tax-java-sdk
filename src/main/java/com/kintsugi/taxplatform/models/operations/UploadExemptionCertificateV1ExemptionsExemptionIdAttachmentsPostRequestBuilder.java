@@ -11,10 +11,12 @@ import com.kintsugi.taxplatform.operations.UploadExemptionCertificateV1Exemption
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.util.Optional;
 
 public class UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequestBuilder {
 
     private String exemptionId;
+    private Optional<String> xOrganizationId = Optional.empty();
     private BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost;
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
@@ -28,6 +30,18 @@ public class UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostReq
         this.exemptionId = exemptionId;
         return this;
     }
+                
+    public UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequestBuilder xOrganizationId(String xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = Optional.of(xOrganizationId);
+        return this;
+    }
+
+    public UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequestBuilder xOrganizationId(Optional<String> xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = xOrganizationId;
+        return this;
+    }
 
     public UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequestBuilder bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost(BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost) {
         Utils.checkNotNull(bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost, "bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost");
@@ -39,6 +53,7 @@ public class UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostReq
     private UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest buildRequest() {
 
         UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest request = new UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest(exemptionId,
+            xOrganizationId,
             bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost);
 
         return request;

@@ -7,8 +7,11 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.kintsugi.taxplatform.utils.SpeakeasyMetadata;
 import com.kintsugi.taxplatform.utils.Utils;
+import java.lang.Long;
 import java.lang.Override;
 import java.lang.String;
+import java.util.Optional;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 public class GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest {
@@ -16,16 +19,63 @@ public class GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequ
     @SpeakeasyMetadata("pathParam:style=simple,explode=false,name=customer_id")
     private String customerId;
 
+
+    @SpeakeasyMetadata("queryParam:style=form,explode=true,name=page")
+    private JsonNullable<Long> page;
+
+
+    @SpeakeasyMetadata("queryParam:style=form,explode=true,name=size")
+    private JsonNullable<Long> size;
+
+    /**
+     * The unique identifier for the organization making the request
+     */
+    @SpeakeasyMetadata("header:style=simple,explode=false,name=x-organization-id")
+    private Optional<String> xOrganizationId;
+
     @JsonCreator
     public GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest(
-            String customerId) {
+            String customerId,
+            JsonNullable<Long> page,
+            JsonNullable<Long> size,
+            Optional<String> xOrganizationId) {
         Utils.checkNotNull(customerId, "customerId");
+        Utils.checkNotNull(page, "page");
+        Utils.checkNotNull(size, "size");
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
         this.customerId = customerId;
+        this.page = page;
+        this.size = size;
+        this.xOrganizationId = xOrganizationId;
+    }
+    
+    public GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest(
+            String customerId) {
+        this(customerId, JsonNullable.undefined(), JsonNullable.undefined(),
+            Optional.empty());
     }
 
     @JsonIgnore
     public String customerId() {
         return customerId;
+    }
+
+    @JsonIgnore
+    public JsonNullable<Long> page() {
+        return page;
+    }
+
+    @JsonIgnore
+    public JsonNullable<Long> size() {
+        return size;
+    }
+
+    /**
+     * The unique identifier for the organization making the request
+     */
+    @JsonIgnore
+    public Optional<String> xOrganizationId() {
+        return xOrganizationId;
     }
 
     public static Builder builder() {
@@ -39,6 +89,49 @@ public class GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequ
         return this;
     }
 
+    public GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest withPage(long page) {
+        Utils.checkNotNull(page, "page");
+        this.page = JsonNullable.of(page);
+        return this;
+    }
+
+    public GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest withPage(JsonNullable<Long> page) {
+        Utils.checkNotNull(page, "page");
+        this.page = page;
+        return this;
+    }
+
+    public GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest withSize(long size) {
+        Utils.checkNotNull(size, "size");
+        this.size = JsonNullable.of(size);
+        return this;
+    }
+
+    public GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest withSize(JsonNullable<Long> size) {
+        Utils.checkNotNull(size, "size");
+        this.size = size;
+        return this;
+    }
+
+    /**
+     * The unique identifier for the organization making the request
+     */
+    public GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest withXOrganizationId(String xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = Optional.ofNullable(xOrganizationId);
+        return this;
+    }
+
+
+    /**
+     * The unique identifier for the organization making the request
+     */
+    public GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest withXOrganizationId(Optional<String> xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = xOrganizationId;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -49,25 +142,38 @@ public class GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequ
         }
         GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest other = (GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest) o;
         return 
-            Utils.enhancedDeepEquals(this.customerId, other.customerId);
+            Utils.enhancedDeepEquals(this.customerId, other.customerId) &&
+            Utils.enhancedDeepEquals(this.page, other.page) &&
+            Utils.enhancedDeepEquals(this.size, other.size) &&
+            Utils.enhancedDeepEquals(this.xOrganizationId, other.xOrganizationId);
     }
     
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-            customerId);
+            customerId, page, size,
+            xOrganizationId);
     }
     
     @Override
     public String toString() {
         return Utils.toString(GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest.class,
-                "customerId", customerId);
+                "customerId", customerId,
+                "page", page,
+                "size", size,
+                "xOrganizationId", xOrganizationId);
     }
 
     @SuppressWarnings("UnusedReturnValue")
     public final static class Builder {
 
         private String customerId;
+
+        private JsonNullable<Long> page = JsonNullable.undefined();
+
+        private JsonNullable<Long> size = JsonNullable.undefined();
+
+        private Optional<String> xOrganizationId = Optional.empty();
 
         private Builder() {
           // force use of static builder() method
@@ -80,10 +186,56 @@ public class GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequ
             return this;
         }
 
+
+        public Builder page(long page) {
+            Utils.checkNotNull(page, "page");
+            this.page = JsonNullable.of(page);
+            return this;
+        }
+
+        public Builder page(JsonNullable<Long> page) {
+            Utils.checkNotNull(page, "page");
+            this.page = page;
+            return this;
+        }
+
+
+        public Builder size(long size) {
+            Utils.checkNotNull(size, "size");
+            this.size = JsonNullable.of(size);
+            return this;
+        }
+
+        public Builder size(JsonNullable<Long> size) {
+            Utils.checkNotNull(size, "size");
+            this.size = size;
+            return this;
+        }
+
+
+        /**
+         * The unique identifier for the organization making the request
+         */
+        public Builder xOrganizationId(String xOrganizationId) {
+            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+            this.xOrganizationId = Optional.ofNullable(xOrganizationId);
+            return this;
+        }
+
+        /**
+         * The unique identifier for the organization making the request
+         */
+        public Builder xOrganizationId(Optional<String> xOrganizationId) {
+            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+            this.xOrganizationId = xOrganizationId;
+            return this;
+        }
+
         public GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest build() {
 
             return new GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest(
-                customerId);
+                customerId, page, size,
+                xOrganizationId);
         }
 
     }

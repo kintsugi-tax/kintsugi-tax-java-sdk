@@ -12,7 +12,7 @@ import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.SecuritySource;
 import com.kintsugi.taxplatform.models.components.PageProductRead;
 import com.kintsugi.taxplatform.models.errors.APIException;
-import com.kintsugi.taxplatform.models.errors.BackendSrcProductsResponsesValidationErrorResponse;
+import com.kintsugi.taxplatform.models.errors.BackendSrcProductsSchemasResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
 import com.kintsugi.taxplatform.models.operations.GetProductsV1ProductsGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetProductsV1ProductsGetResponse;
@@ -95,6 +95,7 @@ public class GetProductsV1ProductsGet {
                     klass,
                     request,
                     null));
+            req.addHeaders(Utils.getHeadersFromMetadata(request, null));
             Utils.configureSecurity(req, this.sdkConfiguration.securitySource().getSecurity());
 
             return req.build();
@@ -173,7 +174,7 @@ public class GetProductsV1ProductsGet {
             }
             if (Utils.statusCodeMatches(response.statusCode(), "422")) {
                 if (Utils.contentTypeMatches(contentType, "application/json")) {
-                    throw BackendSrcProductsResponsesValidationErrorResponse.from(response);
+                    throw BackendSrcProductsSchemasResponsesValidationErrorResponse.from(response);
                 } else {
                     throw APIException.from("Unexpected content-type received: " + contentType, response);
                 }
@@ -266,7 +267,7 @@ public class GetProductsV1ProductsGet {
             }
             if (Utils.statusCodeMatches(response.statusCode(), "422")) {
                 if (Utils.contentTypeMatches(contentType, "application/json")) {
-                    return BackendSrcProductsResponsesValidationErrorResponse.fromAsync(response)
+                    return BackendSrcProductsSchemasResponsesValidationErrorResponse.fromAsync(response)
                             .thenCompose(CompletableFuture::failedFuture);
                 } else {
                     return Utils.createAsyncApiError(response, "Unexpected content-type received: " + contentType);

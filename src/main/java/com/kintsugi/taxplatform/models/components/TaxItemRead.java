@@ -15,6 +15,7 @@ import java.lang.Override;
 import java.lang.String;
 import java.lang.SuppressWarnings;
 import java.util.Optional;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 public class TaxItemRead {
@@ -36,22 +37,22 @@ public class TaxItemRead {
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("converted_amount")
-    private Optional<String> convertedAmount;
+    private JsonNullable<String> convertedAmount;
 
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("currency")
-    private Optional<? extends CurrencyEnum> currency;
+    private JsonNullable<? extends CurrencyEnum> currency;
 
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("destination_currency")
-    private Optional<? extends CurrencyEnum> destinationCurrency;
+    private JsonNullable<? extends CurrencyEnum> destinationCurrency;
 
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("external_id")
-    private Optional<String> externalId;
+    private JsonNullable<String> externalId;
 
     /**
      * Deprecated: use `jurisdiction_type` instead
@@ -67,26 +68,26 @@ public class TaxItemRead {
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("jurisdiction_type")
-    private Optional<? extends JurisdictionType> jurisdictionType;
+    private JsonNullable<? extends JurisdictionType> jurisdictionType;
 
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("jurisdiction_name")
-    private Optional<String> jurisdictionName;
+    private JsonNullable<String> jurisdictionName;
 
     @JsonCreator
     public TaxItemRead(
             @JsonProperty("rule_id") Optional<String> ruleId,
             @JsonProperty("rate") String rate,
             @JsonProperty("amount") String amount,
-            @JsonProperty("converted_amount") Optional<String> convertedAmount,
-            @JsonProperty("currency") Optional<? extends CurrencyEnum> currency,
-            @JsonProperty("destination_currency") Optional<? extends CurrencyEnum> destinationCurrency,
-            @JsonProperty("external_id") Optional<String> externalId,
+            @JsonProperty("converted_amount") JsonNullable<String> convertedAmount,
+            @JsonProperty("currency") JsonNullable<? extends CurrencyEnum> currency,
+            @JsonProperty("destination_currency") JsonNullable<? extends CurrencyEnum> destinationCurrency,
+            @JsonProperty("external_id") JsonNullable<String> externalId,
             @JsonProperty("name") String name,
             @JsonProperty("type") Optional<? extends TaxItemTypeEnum> type,
-            @JsonProperty("jurisdiction_type") Optional<? extends JurisdictionType> jurisdictionType,
-            @JsonProperty("jurisdiction_name") Optional<String> jurisdictionName) {
+            @JsonProperty("jurisdiction_type") JsonNullable<? extends JurisdictionType> jurisdictionType,
+            @JsonProperty("jurisdiction_name") JsonNullable<String> jurisdictionName) {
         Utils.checkNotNull(ruleId, "ruleId");
         Utils.checkNotNull(rate, "rate");
         Utils.checkNotNull(amount, "amount");
@@ -116,9 +117,9 @@ public class TaxItemRead {
             String amount,
             String name) {
         this(Optional.empty(), rate, amount,
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), name, Optional.empty(),
-            Optional.empty(), Optional.empty());
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), name, Optional.empty(),
+            JsonNullable.undefined(), JsonNullable.undefined());
     }
 
     /**
@@ -140,24 +141,24 @@ public class TaxItemRead {
     }
 
     @JsonIgnore
-    public Optional<String> convertedAmount() {
+    public JsonNullable<String> convertedAmount() {
         return convertedAmount;
     }
 
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<CurrencyEnum> currency() {
-        return (Optional<CurrencyEnum>) currency;
+    public JsonNullable<CurrencyEnum> currency() {
+        return (JsonNullable<CurrencyEnum>) currency;
     }
 
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<CurrencyEnum> destinationCurrency() {
-        return (Optional<CurrencyEnum>) destinationCurrency;
+    public JsonNullable<CurrencyEnum> destinationCurrency() {
+        return (JsonNullable<CurrencyEnum>) destinationCurrency;
     }
 
     @JsonIgnore
-    public Optional<String> externalId() {
+    public JsonNullable<String> externalId() {
         return externalId;
     }
 
@@ -177,12 +178,12 @@ public class TaxItemRead {
 
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<JurisdictionType> jurisdictionType() {
-        return (Optional<JurisdictionType>) jurisdictionType;
+    public JsonNullable<JurisdictionType> jurisdictionType() {
+        return (JsonNullable<JurisdictionType>) jurisdictionType;
     }
 
     @JsonIgnore
-    public Optional<String> jurisdictionName() {
+    public JsonNullable<String> jurisdictionName() {
         return jurisdictionName;
     }
 
@@ -224,12 +225,11 @@ public class TaxItemRead {
 
     public TaxItemRead withConvertedAmount(String convertedAmount) {
         Utils.checkNotNull(convertedAmount, "convertedAmount");
-        this.convertedAmount = Optional.ofNullable(convertedAmount);
+        this.convertedAmount = JsonNullable.of(convertedAmount);
         return this;
     }
 
-
-    public TaxItemRead withConvertedAmount(Optional<String> convertedAmount) {
+    public TaxItemRead withConvertedAmount(JsonNullable<String> convertedAmount) {
         Utils.checkNotNull(convertedAmount, "convertedAmount");
         this.convertedAmount = convertedAmount;
         return this;
@@ -237,12 +237,11 @@ public class TaxItemRead {
 
     public TaxItemRead withCurrency(CurrencyEnum currency) {
         Utils.checkNotNull(currency, "currency");
-        this.currency = Optional.ofNullable(currency);
+        this.currency = JsonNullable.of(currency);
         return this;
     }
 
-
-    public TaxItemRead withCurrency(Optional<? extends CurrencyEnum> currency) {
+    public TaxItemRead withCurrency(JsonNullable<? extends CurrencyEnum> currency) {
         Utils.checkNotNull(currency, "currency");
         this.currency = currency;
         return this;
@@ -250,12 +249,11 @@ public class TaxItemRead {
 
     public TaxItemRead withDestinationCurrency(CurrencyEnum destinationCurrency) {
         Utils.checkNotNull(destinationCurrency, "destinationCurrency");
-        this.destinationCurrency = Optional.ofNullable(destinationCurrency);
+        this.destinationCurrency = JsonNullable.of(destinationCurrency);
         return this;
     }
 
-
-    public TaxItemRead withDestinationCurrency(Optional<? extends CurrencyEnum> destinationCurrency) {
+    public TaxItemRead withDestinationCurrency(JsonNullable<? extends CurrencyEnum> destinationCurrency) {
         Utils.checkNotNull(destinationCurrency, "destinationCurrency");
         this.destinationCurrency = destinationCurrency;
         return this;
@@ -263,12 +261,11 @@ public class TaxItemRead {
 
     public TaxItemRead withExternalId(String externalId) {
         Utils.checkNotNull(externalId, "externalId");
-        this.externalId = Optional.ofNullable(externalId);
+        this.externalId = JsonNullable.of(externalId);
         return this;
     }
 
-
-    public TaxItemRead withExternalId(Optional<String> externalId) {
+    public TaxItemRead withExternalId(JsonNullable<String> externalId) {
         Utils.checkNotNull(externalId, "externalId");
         this.externalId = externalId;
         return this;
@@ -298,12 +295,11 @@ public class TaxItemRead {
 
     public TaxItemRead withJurisdictionType(JurisdictionType jurisdictionType) {
         Utils.checkNotNull(jurisdictionType, "jurisdictionType");
-        this.jurisdictionType = Optional.ofNullable(jurisdictionType);
+        this.jurisdictionType = JsonNullable.of(jurisdictionType);
         return this;
     }
 
-
-    public TaxItemRead withJurisdictionType(Optional<? extends JurisdictionType> jurisdictionType) {
+    public TaxItemRead withJurisdictionType(JsonNullable<? extends JurisdictionType> jurisdictionType) {
         Utils.checkNotNull(jurisdictionType, "jurisdictionType");
         this.jurisdictionType = jurisdictionType;
         return this;
@@ -311,12 +307,11 @@ public class TaxItemRead {
 
     public TaxItemRead withJurisdictionName(String jurisdictionName) {
         Utils.checkNotNull(jurisdictionName, "jurisdictionName");
-        this.jurisdictionName = Optional.ofNullable(jurisdictionName);
+        this.jurisdictionName = JsonNullable.of(jurisdictionName);
         return this;
     }
 
-
-    public TaxItemRead withJurisdictionName(Optional<String> jurisdictionName) {
+    public TaxItemRead withJurisdictionName(JsonNullable<String> jurisdictionName) {
         Utils.checkNotNull(jurisdictionName, "jurisdictionName");
         this.jurisdictionName = jurisdictionName;
         return this;
@@ -379,21 +374,21 @@ public class TaxItemRead {
 
         private String amount;
 
-        private Optional<String> convertedAmount = Optional.empty();
+        private JsonNullable<String> convertedAmount = JsonNullable.undefined();
 
-        private Optional<? extends CurrencyEnum> currency = Optional.empty();
+        private JsonNullable<? extends CurrencyEnum> currency = JsonNullable.undefined();
 
-        private Optional<? extends CurrencyEnum> destinationCurrency = Optional.empty();
+        private JsonNullable<? extends CurrencyEnum> destinationCurrency = JsonNullable.undefined();
 
-        private Optional<String> externalId = Optional.empty();
+        private JsonNullable<String> externalId = JsonNullable.undefined();
 
         private String name;
 
         private Optional<? extends TaxItemTypeEnum> type = Optional.empty();
 
-        private Optional<? extends JurisdictionType> jurisdictionType = Optional.empty();
+        private JsonNullable<? extends JurisdictionType> jurisdictionType = JsonNullable.undefined();
 
-        private Optional<String> jurisdictionName = Optional.empty();
+        private JsonNullable<String> jurisdictionName = JsonNullable.undefined();
 
         private Builder() {
           // force use of static builder() method
@@ -435,11 +430,11 @@ public class TaxItemRead {
 
         public Builder convertedAmount(String convertedAmount) {
             Utils.checkNotNull(convertedAmount, "convertedAmount");
-            this.convertedAmount = Optional.ofNullable(convertedAmount);
+            this.convertedAmount = JsonNullable.of(convertedAmount);
             return this;
         }
 
-        public Builder convertedAmount(Optional<String> convertedAmount) {
+        public Builder convertedAmount(JsonNullable<String> convertedAmount) {
             Utils.checkNotNull(convertedAmount, "convertedAmount");
             this.convertedAmount = convertedAmount;
             return this;
@@ -448,11 +443,11 @@ public class TaxItemRead {
 
         public Builder currency(CurrencyEnum currency) {
             Utils.checkNotNull(currency, "currency");
-            this.currency = Optional.ofNullable(currency);
+            this.currency = JsonNullable.of(currency);
             return this;
         }
 
-        public Builder currency(Optional<? extends CurrencyEnum> currency) {
+        public Builder currency(JsonNullable<? extends CurrencyEnum> currency) {
             Utils.checkNotNull(currency, "currency");
             this.currency = currency;
             return this;
@@ -461,11 +456,11 @@ public class TaxItemRead {
 
         public Builder destinationCurrency(CurrencyEnum destinationCurrency) {
             Utils.checkNotNull(destinationCurrency, "destinationCurrency");
-            this.destinationCurrency = Optional.ofNullable(destinationCurrency);
+            this.destinationCurrency = JsonNullable.of(destinationCurrency);
             return this;
         }
 
-        public Builder destinationCurrency(Optional<? extends CurrencyEnum> destinationCurrency) {
+        public Builder destinationCurrency(JsonNullable<? extends CurrencyEnum> destinationCurrency) {
             Utils.checkNotNull(destinationCurrency, "destinationCurrency");
             this.destinationCurrency = destinationCurrency;
             return this;
@@ -474,11 +469,11 @@ public class TaxItemRead {
 
         public Builder externalId(String externalId) {
             Utils.checkNotNull(externalId, "externalId");
-            this.externalId = Optional.ofNullable(externalId);
+            this.externalId = JsonNullable.of(externalId);
             return this;
         }
 
-        public Builder externalId(Optional<String> externalId) {
+        public Builder externalId(JsonNullable<String> externalId) {
             Utils.checkNotNull(externalId, "externalId");
             this.externalId = externalId;
             return this;
@@ -510,11 +505,11 @@ public class TaxItemRead {
 
         public Builder jurisdictionType(JurisdictionType jurisdictionType) {
             Utils.checkNotNull(jurisdictionType, "jurisdictionType");
-            this.jurisdictionType = Optional.ofNullable(jurisdictionType);
+            this.jurisdictionType = JsonNullable.of(jurisdictionType);
             return this;
         }
 
-        public Builder jurisdictionType(Optional<? extends JurisdictionType> jurisdictionType) {
+        public Builder jurisdictionType(JsonNullable<? extends JurisdictionType> jurisdictionType) {
             Utils.checkNotNull(jurisdictionType, "jurisdictionType");
             this.jurisdictionType = jurisdictionType;
             return this;
@@ -523,11 +518,11 @@ public class TaxItemRead {
 
         public Builder jurisdictionName(String jurisdictionName) {
             Utils.checkNotNull(jurisdictionName, "jurisdictionName");
-            this.jurisdictionName = Optional.ofNullable(jurisdictionName);
+            this.jurisdictionName = JsonNullable.of(jurisdictionName);
             return this;
         }
 
-        public Builder jurisdictionName(Optional<String> jurisdictionName) {
+        public Builder jurisdictionName(JsonNullable<String> jurisdictionName) {
             Utils.checkNotNull(jurisdictionName, "jurisdictionName");
             this.jurisdictionName = jurisdictionName;
             return this;

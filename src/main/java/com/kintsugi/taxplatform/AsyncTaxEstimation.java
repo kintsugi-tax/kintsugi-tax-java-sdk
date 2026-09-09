@@ -12,6 +12,7 @@ import com.kintsugi.taxplatform.models.operations.async.EstimateTaxV1TaxEstimate
 import com.kintsugi.taxplatform.operations.EstimateTaxV1TaxEstimatePost;
 import com.kintsugi.taxplatform.utils.Headers;
 import java.lang.Boolean;
+import java.lang.String;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
@@ -37,7 +38,7 @@ public class AsyncTaxEstimation {
 
 
     /**
-     * Estimate Tax
+     * Estimate tax
      * 
      * <p>The Estimate Tax API calculates the estimated tax for a specific
      * transaction based on the provided details, including organization nexus,
@@ -52,7 +53,7 @@ public class AsyncTaxEstimation {
     }
 
     /**
-     * Estimate Tax
+     * Estimate tax
      * 
      * <p>The Estimate Tax API calculates the estimated tax for a specific
      * transaction based on the provided details, including organization nexus,
@@ -65,11 +66,11 @@ public class AsyncTaxEstimation {
      * @return {@code CompletableFuture<EstimateTaxV1TaxEstimatePostResponse>} - The async response
      */
     public CompletableFuture<EstimateTaxV1TaxEstimatePostResponse> estimate(TransactionEstimatePublicRequest transactionEstimatePublicRequest) {
-        return estimate(Optional.empty(), transactionEstimatePublicRequest);
+        return estimate(Optional.empty(), Optional.empty(), transactionEstimatePublicRequest);
     }
 
     /**
-     * Estimate Tax
+     * Estimate tax
      * 
      * <p>The Estimate Tax API calculates the estimated tax for a specific
      * transaction based on the provided details, including organization nexus,
@@ -78,15 +79,19 @@ public class AsyncTaxEstimation {
      * releases.
      * 
      * @param simulateNexusMet **Deprecated:** Use `simulate_active_registration` in the request body instead.
+     * @param xOrganizationId The unique identifier for the organization making the request
      * @param transactionEstimatePublicRequest Public request model for tax estimation API documentation.
      *         This model excludes internal fields like enriched_fields and total_amount that should not be exposed in API docs.
      * @return {@code CompletableFuture<EstimateTaxV1TaxEstimatePostResponse>} - The async response
      */
-    public CompletableFuture<EstimateTaxV1TaxEstimatePostResponse> estimate(Optional<Boolean> simulateNexusMet, TransactionEstimatePublicRequest transactionEstimatePublicRequest) {
+    public CompletableFuture<EstimateTaxV1TaxEstimatePostResponse> estimate(
+            Optional<Boolean> simulateNexusMet, Optional<String> xOrganizationId,
+            TransactionEstimatePublicRequest transactionEstimatePublicRequest) {
         EstimateTaxV1TaxEstimatePostRequest request =
             EstimateTaxV1TaxEstimatePostRequest
                 .builder()
                 .simulateNexusMet(simulateNexusMet)
+                .xOrganizationId(xOrganizationId)
                 .transactionEstimatePublicRequest(transactionEstimatePublicRequest)
                 .build();
         AsyncRequestOperation<EstimateTaxV1TaxEstimatePostRequest, EstimateTaxV1TaxEstimatePostResponse> operation

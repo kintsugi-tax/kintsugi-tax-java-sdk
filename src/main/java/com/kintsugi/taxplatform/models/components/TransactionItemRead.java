@@ -19,6 +19,7 @@ import java.lang.SuppressWarnings;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 public class TransactionItemRead {
@@ -27,7 +28,7 @@ public class TransactionItemRead {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("external_id")
-    private Optional<String> externalId;
+    private JsonNullable<String> externalId;
 
     /**
      * Unique identifier of the organization. This field is deprecated, and should no longer be used. The
@@ -35,9 +36,10 @@ public class TransactionItemRead {
      * 
      * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
      */
+    @JsonInclude(Include.ALWAYS)
     @JsonProperty("organization_id")
     @Deprecated
-    private String organizationId;
+    private Optional<String> organizationId;
 
     /**
      * Date/time of item.
@@ -50,7 +52,7 @@ public class TransactionItemRead {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("description")
-    private Optional<String> description;
+    private JsonNullable<String> description;
 
     /**
      * External product identifier.
@@ -63,28 +65,28 @@ public class TransactionItemRead {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("product")
-    private Optional<String> product;
+    private JsonNullable<String> product;
 
     /**
      * Product identifier.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("product_id")
-    private Optional<String> productId;
+    private JsonNullable<String> productId;
 
     /**
      * Product name (detailed)
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("product_name")
-    private Optional<String> productName;
+    private JsonNullable<String> productName;
 
     /**
      * Product description
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("product_description")
-    private Optional<String> productDescription;
+    private JsonNullable<String> productDescription;
 
     /**
      * Quantity of item.
@@ -128,57 +130,61 @@ public class TransactionItemRead {
     @JsonProperty("tax_rate_calculated")
     private Optional<String> taxRateCalculated;
 
-
+    /**
+     * Original currency code.
+     */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("original_currency")
-    private Optional<? extends CurrencyEnum> originalCurrency;
+    private JsonNullable<? extends CurrencyEnum> originalCurrency;
 
-
+    /**
+     * Destination currency code.
+     */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("destination_currency")
-    private Optional<? extends CurrencyEnum> destinationCurrency;
+    private JsonNullable<? extends CurrencyEnum> destinationCurrency;
 
     /**
      * Converted item amount.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("converted_amount")
-    private Optional<String> convertedAmount;
+    private JsonNullable<String> convertedAmount;
 
     /**
      * Converted taxable amount.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("converted_taxable_amount")
-    private Optional<String> convertedTaxableAmount;
+    private JsonNullable<String> convertedTaxableAmount;
 
     /**
      * Converted imported tax amount.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("converted_tax_amount_imported")
-    private Optional<String> convertedTaxAmountImported;
+    private JsonNullable<String> convertedTaxAmountImported;
 
     /**
      * Converted calculated tax amount
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("converted_tax_amount_calculated")
-    private Optional<String> convertedTaxAmountCalculated;
+    private JsonNullable<String> convertedTaxAmountCalculated;
 
     /**
      * Converted total discount amount.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("converted_total_discount")
-    private Optional<String> convertedTotalDiscount;
+    private JsonNullable<String> convertedTotalDiscount;
 
     /**
      * Converted subtotal amount.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("converted_subtotal")
-    private Optional<String> convertedSubtotal;
+    private JsonNullable<String> convertedSubtotal;
 
     /**
      * Taxable amount for the item.
@@ -188,11 +194,11 @@ public class TransactionItemRead {
     private Optional<String> taxableAmount;
 
     /**
-     * This enum is used to determine if a transaction is exempt from tax.
+     * Tax exemption status.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("tax_exemption")
-    private Optional<? extends TaxExemptionEnum> taxExemption;
+    private JsonNullable<? extends TaxExemptionEnum> taxExemption;
 
     /**
      * Indicates if the item is exempt.
@@ -218,47 +224,47 @@ public class TransactionItemRead {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("total_discount")
-    private Optional<String> totalDiscount;
+    private JsonNullable<String> totalDiscount;
 
     /**
      * Subtotal amount before any discount is applied.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("subtotal")
-    private Optional<String> subtotal;
+    private JsonNullable<String> subtotal;
 
     @JsonCreator
     public TransactionItemRead(
-            @JsonProperty("external_id") Optional<String> externalId,
-            @JsonProperty("organization_id") String organizationId,
+            @JsonProperty("external_id") JsonNullable<String> externalId,
+            @JsonProperty("organization_id") Optional<String> organizationId,
             @JsonProperty("date") OffsetDateTime date,
-            @JsonProperty("description") Optional<String> description,
+            @JsonProperty("description") JsonNullable<String> description,
             @JsonProperty("external_product_id") String externalProductId,
-            @JsonProperty("product") Optional<String> product,
-            @JsonProperty("product_id") Optional<String> productId,
-            @JsonProperty("product_name") Optional<String> productName,
-            @JsonProperty("product_description") Optional<String> productDescription,
+            @JsonProperty("product") JsonNullable<String> product,
+            @JsonProperty("product_id") JsonNullable<String> productId,
+            @JsonProperty("product_name") JsonNullable<String> productName,
+            @JsonProperty("product_description") JsonNullable<String> productDescription,
             @JsonProperty("quantity") Optional<String> quantity,
             @JsonProperty("amount") Optional<String> amount,
             @JsonProperty("tax_amount_imported") Optional<String> taxAmountImported,
             @JsonProperty("tax_rate_imported") Optional<String> taxRateImported,
             @JsonProperty("tax_amount_calculated") Optional<String> taxAmountCalculated,
             @JsonProperty("tax_rate_calculated") Optional<String> taxRateCalculated,
-            @JsonProperty("original_currency") Optional<? extends CurrencyEnum> originalCurrency,
-            @JsonProperty("destination_currency") Optional<? extends CurrencyEnum> destinationCurrency,
-            @JsonProperty("converted_amount") Optional<String> convertedAmount,
-            @JsonProperty("converted_taxable_amount") Optional<String> convertedTaxableAmount,
-            @JsonProperty("converted_tax_amount_imported") Optional<String> convertedTaxAmountImported,
-            @JsonProperty("converted_tax_amount_calculated") Optional<String> convertedTaxAmountCalculated,
-            @JsonProperty("converted_total_discount") Optional<String> convertedTotalDiscount,
-            @JsonProperty("converted_subtotal") Optional<String> convertedSubtotal,
+            @JsonProperty("original_currency") JsonNullable<? extends CurrencyEnum> originalCurrency,
+            @JsonProperty("destination_currency") JsonNullable<? extends CurrencyEnum> destinationCurrency,
+            @JsonProperty("converted_amount") JsonNullable<String> convertedAmount,
+            @JsonProperty("converted_taxable_amount") JsonNullable<String> convertedTaxableAmount,
+            @JsonProperty("converted_tax_amount_imported") JsonNullable<String> convertedTaxAmountImported,
+            @JsonProperty("converted_tax_amount_calculated") JsonNullable<String> convertedTaxAmountCalculated,
+            @JsonProperty("converted_total_discount") JsonNullable<String> convertedTotalDiscount,
+            @JsonProperty("converted_subtotal") JsonNullable<String> convertedSubtotal,
             @JsonProperty("taxable_amount") Optional<String> taxableAmount,
-            @JsonProperty("tax_exemption") Optional<? extends TaxExemptionEnum> taxExemption,
+            @JsonProperty("tax_exemption") JsonNullable<? extends TaxExemptionEnum> taxExemption,
             @JsonProperty("exempt") Optional<Boolean> exempt,
             @JsonProperty("id") String id,
             @JsonProperty("tax_items") List<TaxItemRead> taxItems,
-            @JsonProperty("total_discount") Optional<String> totalDiscount,
-            @JsonProperty("subtotal") Optional<String> subtotal) {
+            @JsonProperty("total_discount") JsonNullable<String> totalDiscount,
+            @JsonProperty("subtotal") JsonNullable<String> subtotal) {
         Utils.checkNotNull(externalId, "externalId");
         Utils.checkNotNull(organizationId, "organizationId");
         Utils.checkNotNull(date, "date");
@@ -322,28 +328,27 @@ public class TransactionItemRead {
     }
     
     public TransactionItemRead(
-            String organizationId,
             OffsetDateTime date,
             String externalProductId,
             String id,
             List<TaxItemRead> taxItems) {
-        this(Optional.empty(), organizationId, date,
-            Optional.empty(), externalProductId, Optional.empty(),
+        this(JsonNullable.undefined(), Optional.empty(), date,
+            JsonNullable.undefined(), externalProductId, JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), id,
-            taxItems, Optional.empty(), Optional.empty());
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty(),
+            JsonNullable.undefined(), Optional.empty(), id,
+            taxItems, JsonNullable.undefined(), JsonNullable.undefined());
     }
 
     /**
      * External item identifier.
      */
     @JsonIgnore
-    public Optional<String> externalId() {
+    public JsonNullable<String> externalId() {
         return externalId;
     }
 
@@ -355,7 +360,7 @@ public class TransactionItemRead {
      */
     @Deprecated
     @JsonIgnore
-    public String organizationId() {
+    public Optional<String> organizationId() {
         return organizationId;
     }
 
@@ -371,7 +376,7 @@ public class TransactionItemRead {
      * Item description
      */
     @JsonIgnore
-    public Optional<String> description() {
+    public JsonNullable<String> description() {
         return description;
     }
 
@@ -387,7 +392,7 @@ public class TransactionItemRead {
      * Product name
      */
     @JsonIgnore
-    public Optional<String> product() {
+    public JsonNullable<String> product() {
         return product;
     }
 
@@ -395,7 +400,7 @@ public class TransactionItemRead {
      * Product identifier.
      */
     @JsonIgnore
-    public Optional<String> productId() {
+    public JsonNullable<String> productId() {
         return productId;
     }
 
@@ -403,7 +408,7 @@ public class TransactionItemRead {
      * Product name (detailed)
      */
     @JsonIgnore
-    public Optional<String> productName() {
+    public JsonNullable<String> productName() {
         return productName;
     }
 
@@ -411,7 +416,7 @@ public class TransactionItemRead {
      * Product description
      */
     @JsonIgnore
-    public Optional<String> productDescription() {
+    public JsonNullable<String> productDescription() {
         return productDescription;
     }
 
@@ -463,23 +468,29 @@ public class TransactionItemRead {
         return taxRateCalculated;
     }
 
+    /**
+     * Original currency code.
+     */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<CurrencyEnum> originalCurrency() {
-        return (Optional<CurrencyEnum>) originalCurrency;
+    public JsonNullable<CurrencyEnum> originalCurrency() {
+        return (JsonNullable<CurrencyEnum>) originalCurrency;
     }
 
+    /**
+     * Destination currency code.
+     */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<CurrencyEnum> destinationCurrency() {
-        return (Optional<CurrencyEnum>) destinationCurrency;
+    public JsonNullable<CurrencyEnum> destinationCurrency() {
+        return (JsonNullable<CurrencyEnum>) destinationCurrency;
     }
 
     /**
      * Converted item amount.
      */
     @JsonIgnore
-    public Optional<String> convertedAmount() {
+    public JsonNullable<String> convertedAmount() {
         return convertedAmount;
     }
 
@@ -487,7 +498,7 @@ public class TransactionItemRead {
      * Converted taxable amount.
      */
     @JsonIgnore
-    public Optional<String> convertedTaxableAmount() {
+    public JsonNullable<String> convertedTaxableAmount() {
         return convertedTaxableAmount;
     }
 
@@ -495,7 +506,7 @@ public class TransactionItemRead {
      * Converted imported tax amount.
      */
     @JsonIgnore
-    public Optional<String> convertedTaxAmountImported() {
+    public JsonNullable<String> convertedTaxAmountImported() {
         return convertedTaxAmountImported;
     }
 
@@ -503,7 +514,7 @@ public class TransactionItemRead {
      * Converted calculated tax amount
      */
     @JsonIgnore
-    public Optional<String> convertedTaxAmountCalculated() {
+    public JsonNullable<String> convertedTaxAmountCalculated() {
         return convertedTaxAmountCalculated;
     }
 
@@ -511,7 +522,7 @@ public class TransactionItemRead {
      * Converted total discount amount.
      */
     @JsonIgnore
-    public Optional<String> convertedTotalDiscount() {
+    public JsonNullable<String> convertedTotalDiscount() {
         return convertedTotalDiscount;
     }
 
@@ -519,7 +530,7 @@ public class TransactionItemRead {
      * Converted subtotal amount.
      */
     @JsonIgnore
-    public Optional<String> convertedSubtotal() {
+    public JsonNullable<String> convertedSubtotal() {
         return convertedSubtotal;
     }
 
@@ -532,12 +543,12 @@ public class TransactionItemRead {
     }
 
     /**
-     * This enum is used to determine if a transaction is exempt from tax.
+     * Tax exemption status.
      */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<TaxExemptionEnum> taxExemption() {
-        return (Optional<TaxExemptionEnum>) taxExemption;
+    public JsonNullable<TaxExemptionEnum> taxExemption() {
+        return (JsonNullable<TaxExemptionEnum>) taxExemption;
     }
 
     /**
@@ -568,7 +579,7 @@ public class TransactionItemRead {
      * Total discount amount applied to this transaction item.
      */
     @JsonIgnore
-    public Optional<String> totalDiscount() {
+    public JsonNullable<String> totalDiscount() {
         return totalDiscount;
     }
 
@@ -576,7 +587,7 @@ public class TransactionItemRead {
      * Subtotal amount before any discount is applied.
      */
     @JsonIgnore
-    public Optional<String> subtotal() {
+    public JsonNullable<String> subtotal() {
         return subtotal;
     }
 
@@ -590,15 +601,14 @@ public class TransactionItemRead {
      */
     public TransactionItemRead withExternalId(String externalId) {
         Utils.checkNotNull(externalId, "externalId");
-        this.externalId = Optional.ofNullable(externalId);
+        this.externalId = JsonNullable.of(externalId);
         return this;
     }
-
 
     /**
      * External item identifier.
      */
-    public TransactionItemRead withExternalId(Optional<String> externalId) {
+    public TransactionItemRead withExternalId(JsonNullable<String> externalId) {
         Utils.checkNotNull(externalId, "externalId");
         this.externalId = externalId;
         return this;
@@ -612,6 +622,20 @@ public class TransactionItemRead {
      */
     @Deprecated
     public TransactionItemRead withOrganizationId(String organizationId) {
+        Utils.checkNotNull(organizationId, "organizationId");
+        this.organizationId = Optional.ofNullable(organizationId);
+        return this;
+    }
+
+
+    /**
+     * Unique identifier of the organization. This field is deprecated, and should no longer be used. The
+     * value is populated through the 'x-organization-id' header.
+     * 
+     * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
+     */
+    @Deprecated
+    public TransactionItemRead withOrganizationId(Optional<String> organizationId) {
         Utils.checkNotNull(organizationId, "organizationId");
         this.organizationId = organizationId;
         return this;
@@ -631,15 +655,14 @@ public class TransactionItemRead {
      */
     public TransactionItemRead withDescription(String description) {
         Utils.checkNotNull(description, "description");
-        this.description = Optional.ofNullable(description);
+        this.description = JsonNullable.of(description);
         return this;
     }
-
 
     /**
      * Item description
      */
-    public TransactionItemRead withDescription(Optional<String> description) {
+    public TransactionItemRead withDescription(JsonNullable<String> description) {
         Utils.checkNotNull(description, "description");
         this.description = description;
         return this;
@@ -659,15 +682,14 @@ public class TransactionItemRead {
      */
     public TransactionItemRead withProduct(String product) {
         Utils.checkNotNull(product, "product");
-        this.product = Optional.ofNullable(product);
+        this.product = JsonNullable.of(product);
         return this;
     }
-
 
     /**
      * Product name
      */
-    public TransactionItemRead withProduct(Optional<String> product) {
+    public TransactionItemRead withProduct(JsonNullable<String> product) {
         Utils.checkNotNull(product, "product");
         this.product = product;
         return this;
@@ -678,15 +700,14 @@ public class TransactionItemRead {
      */
     public TransactionItemRead withProductId(String productId) {
         Utils.checkNotNull(productId, "productId");
-        this.productId = Optional.ofNullable(productId);
+        this.productId = JsonNullable.of(productId);
         return this;
     }
-
 
     /**
      * Product identifier.
      */
-    public TransactionItemRead withProductId(Optional<String> productId) {
+    public TransactionItemRead withProductId(JsonNullable<String> productId) {
         Utils.checkNotNull(productId, "productId");
         this.productId = productId;
         return this;
@@ -697,15 +718,14 @@ public class TransactionItemRead {
      */
     public TransactionItemRead withProductName(String productName) {
         Utils.checkNotNull(productName, "productName");
-        this.productName = Optional.ofNullable(productName);
+        this.productName = JsonNullable.of(productName);
         return this;
     }
-
 
     /**
      * Product name (detailed)
      */
-    public TransactionItemRead withProductName(Optional<String> productName) {
+    public TransactionItemRead withProductName(JsonNullable<String> productName) {
         Utils.checkNotNull(productName, "productName");
         this.productName = productName;
         return this;
@@ -716,15 +736,14 @@ public class TransactionItemRead {
      */
     public TransactionItemRead withProductDescription(String productDescription) {
         Utils.checkNotNull(productDescription, "productDescription");
-        this.productDescription = Optional.ofNullable(productDescription);
+        this.productDescription = JsonNullable.of(productDescription);
         return this;
     }
-
 
     /**
      * Product description
      */
-    public TransactionItemRead withProductDescription(Optional<String> productDescription) {
+    public TransactionItemRead withProductDescription(JsonNullable<String> productDescription) {
         Utils.checkNotNull(productDescription, "productDescription");
         this.productDescription = productDescription;
         return this;
@@ -844,27 +863,37 @@ public class TransactionItemRead {
         return this;
     }
 
+    /**
+     * Original currency code.
+     */
     public TransactionItemRead withOriginalCurrency(CurrencyEnum originalCurrency) {
         Utils.checkNotNull(originalCurrency, "originalCurrency");
-        this.originalCurrency = Optional.ofNullable(originalCurrency);
+        this.originalCurrency = JsonNullable.of(originalCurrency);
         return this;
     }
 
-
-    public TransactionItemRead withOriginalCurrency(Optional<? extends CurrencyEnum> originalCurrency) {
+    /**
+     * Original currency code.
+     */
+    public TransactionItemRead withOriginalCurrency(JsonNullable<? extends CurrencyEnum> originalCurrency) {
         Utils.checkNotNull(originalCurrency, "originalCurrency");
         this.originalCurrency = originalCurrency;
         return this;
     }
 
+    /**
+     * Destination currency code.
+     */
     public TransactionItemRead withDestinationCurrency(CurrencyEnum destinationCurrency) {
         Utils.checkNotNull(destinationCurrency, "destinationCurrency");
-        this.destinationCurrency = Optional.ofNullable(destinationCurrency);
+        this.destinationCurrency = JsonNullable.of(destinationCurrency);
         return this;
     }
 
-
-    public TransactionItemRead withDestinationCurrency(Optional<? extends CurrencyEnum> destinationCurrency) {
+    /**
+     * Destination currency code.
+     */
+    public TransactionItemRead withDestinationCurrency(JsonNullable<? extends CurrencyEnum> destinationCurrency) {
         Utils.checkNotNull(destinationCurrency, "destinationCurrency");
         this.destinationCurrency = destinationCurrency;
         return this;
@@ -875,15 +904,14 @@ public class TransactionItemRead {
      */
     public TransactionItemRead withConvertedAmount(String convertedAmount) {
         Utils.checkNotNull(convertedAmount, "convertedAmount");
-        this.convertedAmount = Optional.ofNullable(convertedAmount);
+        this.convertedAmount = JsonNullable.of(convertedAmount);
         return this;
     }
-
 
     /**
      * Converted item amount.
      */
-    public TransactionItemRead withConvertedAmount(Optional<String> convertedAmount) {
+    public TransactionItemRead withConvertedAmount(JsonNullable<String> convertedAmount) {
         Utils.checkNotNull(convertedAmount, "convertedAmount");
         this.convertedAmount = convertedAmount;
         return this;
@@ -894,15 +922,14 @@ public class TransactionItemRead {
      */
     public TransactionItemRead withConvertedTaxableAmount(String convertedTaxableAmount) {
         Utils.checkNotNull(convertedTaxableAmount, "convertedTaxableAmount");
-        this.convertedTaxableAmount = Optional.ofNullable(convertedTaxableAmount);
+        this.convertedTaxableAmount = JsonNullable.of(convertedTaxableAmount);
         return this;
     }
-
 
     /**
      * Converted taxable amount.
      */
-    public TransactionItemRead withConvertedTaxableAmount(Optional<String> convertedTaxableAmount) {
+    public TransactionItemRead withConvertedTaxableAmount(JsonNullable<String> convertedTaxableAmount) {
         Utils.checkNotNull(convertedTaxableAmount, "convertedTaxableAmount");
         this.convertedTaxableAmount = convertedTaxableAmount;
         return this;
@@ -913,15 +940,14 @@ public class TransactionItemRead {
      */
     public TransactionItemRead withConvertedTaxAmountImported(String convertedTaxAmountImported) {
         Utils.checkNotNull(convertedTaxAmountImported, "convertedTaxAmountImported");
-        this.convertedTaxAmountImported = Optional.ofNullable(convertedTaxAmountImported);
+        this.convertedTaxAmountImported = JsonNullable.of(convertedTaxAmountImported);
         return this;
     }
-
 
     /**
      * Converted imported tax amount.
      */
-    public TransactionItemRead withConvertedTaxAmountImported(Optional<String> convertedTaxAmountImported) {
+    public TransactionItemRead withConvertedTaxAmountImported(JsonNullable<String> convertedTaxAmountImported) {
         Utils.checkNotNull(convertedTaxAmountImported, "convertedTaxAmountImported");
         this.convertedTaxAmountImported = convertedTaxAmountImported;
         return this;
@@ -932,15 +958,14 @@ public class TransactionItemRead {
      */
     public TransactionItemRead withConvertedTaxAmountCalculated(String convertedTaxAmountCalculated) {
         Utils.checkNotNull(convertedTaxAmountCalculated, "convertedTaxAmountCalculated");
-        this.convertedTaxAmountCalculated = Optional.ofNullable(convertedTaxAmountCalculated);
+        this.convertedTaxAmountCalculated = JsonNullable.of(convertedTaxAmountCalculated);
         return this;
     }
-
 
     /**
      * Converted calculated tax amount
      */
-    public TransactionItemRead withConvertedTaxAmountCalculated(Optional<String> convertedTaxAmountCalculated) {
+    public TransactionItemRead withConvertedTaxAmountCalculated(JsonNullable<String> convertedTaxAmountCalculated) {
         Utils.checkNotNull(convertedTaxAmountCalculated, "convertedTaxAmountCalculated");
         this.convertedTaxAmountCalculated = convertedTaxAmountCalculated;
         return this;
@@ -951,15 +976,14 @@ public class TransactionItemRead {
      */
     public TransactionItemRead withConvertedTotalDiscount(String convertedTotalDiscount) {
         Utils.checkNotNull(convertedTotalDiscount, "convertedTotalDiscount");
-        this.convertedTotalDiscount = Optional.ofNullable(convertedTotalDiscount);
+        this.convertedTotalDiscount = JsonNullable.of(convertedTotalDiscount);
         return this;
     }
-
 
     /**
      * Converted total discount amount.
      */
-    public TransactionItemRead withConvertedTotalDiscount(Optional<String> convertedTotalDiscount) {
+    public TransactionItemRead withConvertedTotalDiscount(JsonNullable<String> convertedTotalDiscount) {
         Utils.checkNotNull(convertedTotalDiscount, "convertedTotalDiscount");
         this.convertedTotalDiscount = convertedTotalDiscount;
         return this;
@@ -970,15 +994,14 @@ public class TransactionItemRead {
      */
     public TransactionItemRead withConvertedSubtotal(String convertedSubtotal) {
         Utils.checkNotNull(convertedSubtotal, "convertedSubtotal");
-        this.convertedSubtotal = Optional.ofNullable(convertedSubtotal);
+        this.convertedSubtotal = JsonNullable.of(convertedSubtotal);
         return this;
     }
-
 
     /**
      * Converted subtotal amount.
      */
-    public TransactionItemRead withConvertedSubtotal(Optional<String> convertedSubtotal) {
+    public TransactionItemRead withConvertedSubtotal(JsonNullable<String> convertedSubtotal) {
         Utils.checkNotNull(convertedSubtotal, "convertedSubtotal");
         this.convertedSubtotal = convertedSubtotal;
         return this;
@@ -1004,19 +1027,18 @@ public class TransactionItemRead {
     }
 
     /**
-     * This enum is used to determine if a transaction is exempt from tax.
+     * Tax exemption status.
      */
     public TransactionItemRead withTaxExemption(TaxExemptionEnum taxExemption) {
         Utils.checkNotNull(taxExemption, "taxExemption");
-        this.taxExemption = Optional.ofNullable(taxExemption);
+        this.taxExemption = JsonNullable.of(taxExemption);
         return this;
     }
 
-
     /**
-     * This enum is used to determine if a transaction is exempt from tax.
+     * Tax exemption status.
      */
-    public TransactionItemRead withTaxExemption(Optional<? extends TaxExemptionEnum> taxExemption) {
+    public TransactionItemRead withTaxExemption(JsonNullable<? extends TaxExemptionEnum> taxExemption) {
         Utils.checkNotNull(taxExemption, "taxExemption");
         this.taxExemption = taxExemption;
         return this;
@@ -1064,15 +1086,14 @@ public class TransactionItemRead {
      */
     public TransactionItemRead withTotalDiscount(String totalDiscount) {
         Utils.checkNotNull(totalDiscount, "totalDiscount");
-        this.totalDiscount = Optional.ofNullable(totalDiscount);
+        this.totalDiscount = JsonNullable.of(totalDiscount);
         return this;
     }
-
 
     /**
      * Total discount amount applied to this transaction item.
      */
-    public TransactionItemRead withTotalDiscount(Optional<String> totalDiscount) {
+    public TransactionItemRead withTotalDiscount(JsonNullable<String> totalDiscount) {
         Utils.checkNotNull(totalDiscount, "totalDiscount");
         this.totalDiscount = totalDiscount;
         return this;
@@ -1083,15 +1104,14 @@ public class TransactionItemRead {
      */
     public TransactionItemRead withSubtotal(String subtotal) {
         Utils.checkNotNull(subtotal, "subtotal");
-        this.subtotal = Optional.ofNullable(subtotal);
+        this.subtotal = JsonNullable.of(subtotal);
         return this;
     }
-
 
     /**
      * Subtotal amount before any discount is applied.
      */
-    public TransactionItemRead withSubtotal(Optional<String> subtotal) {
+    public TransactionItemRead withSubtotal(JsonNullable<String> subtotal) {
         Utils.checkNotNull(subtotal, "subtotal");
         this.subtotal = subtotal;
         return this;
@@ -1192,24 +1212,24 @@ public class TransactionItemRead {
     @SuppressWarnings("UnusedReturnValue")
     public final static class Builder {
 
-        private Optional<String> externalId = Optional.empty();
+        private JsonNullable<String> externalId = JsonNullable.undefined();
 
         @Deprecated
-        private String organizationId;
+        private Optional<String> organizationId = Optional.empty();
 
         private OffsetDateTime date;
 
-        private Optional<String> description = Optional.empty();
+        private JsonNullable<String> description = JsonNullable.undefined();
 
         private String externalProductId;
 
-        private Optional<String> product = Optional.empty();
+        private JsonNullable<String> product = JsonNullable.undefined();
 
-        private Optional<String> productId = Optional.empty();
+        private JsonNullable<String> productId = JsonNullable.undefined();
 
-        private Optional<String> productName = Optional.empty();
+        private JsonNullable<String> productName = JsonNullable.undefined();
 
-        private Optional<String> productDescription = Optional.empty();
+        private JsonNullable<String> productDescription = JsonNullable.undefined();
 
         private Optional<String> quantity;
 
@@ -1223,25 +1243,25 @@ public class TransactionItemRead {
 
         private Optional<String> taxRateCalculated;
 
-        private Optional<? extends CurrencyEnum> originalCurrency = Optional.empty();
+        private JsonNullable<? extends CurrencyEnum> originalCurrency = JsonNullable.undefined();
 
-        private Optional<? extends CurrencyEnum> destinationCurrency = Optional.empty();
+        private JsonNullable<? extends CurrencyEnum> destinationCurrency = JsonNullable.undefined();
 
-        private Optional<String> convertedAmount = Optional.empty();
+        private JsonNullable<String> convertedAmount = JsonNullable.undefined();
 
-        private Optional<String> convertedTaxableAmount = Optional.empty();
+        private JsonNullable<String> convertedTaxableAmount = JsonNullable.undefined();
 
-        private Optional<String> convertedTaxAmountImported = Optional.empty();
+        private JsonNullable<String> convertedTaxAmountImported = JsonNullable.undefined();
 
-        private Optional<String> convertedTaxAmountCalculated = Optional.empty();
+        private JsonNullable<String> convertedTaxAmountCalculated = JsonNullable.undefined();
 
-        private Optional<String> convertedTotalDiscount = Optional.empty();
+        private JsonNullable<String> convertedTotalDiscount = JsonNullable.undefined();
 
-        private Optional<String> convertedSubtotal = Optional.empty();
+        private JsonNullable<String> convertedSubtotal = JsonNullable.undefined();
 
         private Optional<String> taxableAmount;
 
-        private Optional<? extends TaxExemptionEnum> taxExemption = Optional.empty();
+        private JsonNullable<? extends TaxExemptionEnum> taxExemption = JsonNullable.undefined();
 
         private Optional<Boolean> exempt;
 
@@ -1249,9 +1269,9 @@ public class TransactionItemRead {
 
         private List<TaxItemRead> taxItems;
 
-        private Optional<String> totalDiscount = Optional.empty();
+        private JsonNullable<String> totalDiscount = JsonNullable.undefined();
 
-        private Optional<String> subtotal = Optional.empty();
+        private JsonNullable<String> subtotal = JsonNullable.undefined();
 
         private Builder() {
           // force use of static builder() method
@@ -1263,14 +1283,14 @@ public class TransactionItemRead {
          */
         public Builder externalId(String externalId) {
             Utils.checkNotNull(externalId, "externalId");
-            this.externalId = Optional.ofNullable(externalId);
+            this.externalId = JsonNullable.of(externalId);
             return this;
         }
 
         /**
          * External item identifier.
          */
-        public Builder externalId(Optional<String> externalId) {
+        public Builder externalId(JsonNullable<String> externalId) {
             Utils.checkNotNull(externalId, "externalId");
             this.externalId = externalId;
             return this;
@@ -1285,6 +1305,19 @@ public class TransactionItemRead {
          */
         @Deprecated
         public Builder organizationId(String organizationId) {
+            Utils.checkNotNull(organizationId, "organizationId");
+            this.organizationId = Optional.ofNullable(organizationId);
+            return this;
+        }
+
+        /**
+         * Unique identifier of the organization. This field is deprecated, and should no longer be used. The
+         * value is populated through the 'x-organization-id' header.
+         * 
+         * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
+         */
+        @Deprecated
+        public Builder organizationId(Optional<String> organizationId) {
             Utils.checkNotNull(organizationId, "organizationId");
             this.organizationId = organizationId;
             return this;
@@ -1306,14 +1339,14 @@ public class TransactionItemRead {
          */
         public Builder description(String description) {
             Utils.checkNotNull(description, "description");
-            this.description = Optional.ofNullable(description);
+            this.description = JsonNullable.of(description);
             return this;
         }
 
         /**
          * Item description
          */
-        public Builder description(Optional<String> description) {
+        public Builder description(JsonNullable<String> description) {
             Utils.checkNotNull(description, "description");
             this.description = description;
             return this;
@@ -1335,14 +1368,14 @@ public class TransactionItemRead {
          */
         public Builder product(String product) {
             Utils.checkNotNull(product, "product");
-            this.product = Optional.ofNullable(product);
+            this.product = JsonNullable.of(product);
             return this;
         }
 
         /**
          * Product name
          */
-        public Builder product(Optional<String> product) {
+        public Builder product(JsonNullable<String> product) {
             Utils.checkNotNull(product, "product");
             this.product = product;
             return this;
@@ -1354,14 +1387,14 @@ public class TransactionItemRead {
          */
         public Builder productId(String productId) {
             Utils.checkNotNull(productId, "productId");
-            this.productId = Optional.ofNullable(productId);
+            this.productId = JsonNullable.of(productId);
             return this;
         }
 
         /**
          * Product identifier.
          */
-        public Builder productId(Optional<String> productId) {
+        public Builder productId(JsonNullable<String> productId) {
             Utils.checkNotNull(productId, "productId");
             this.productId = productId;
             return this;
@@ -1373,14 +1406,14 @@ public class TransactionItemRead {
          */
         public Builder productName(String productName) {
             Utils.checkNotNull(productName, "productName");
-            this.productName = Optional.ofNullable(productName);
+            this.productName = JsonNullable.of(productName);
             return this;
         }
 
         /**
          * Product name (detailed)
          */
-        public Builder productName(Optional<String> productName) {
+        public Builder productName(JsonNullable<String> productName) {
             Utils.checkNotNull(productName, "productName");
             this.productName = productName;
             return this;
@@ -1392,14 +1425,14 @@ public class TransactionItemRead {
          */
         public Builder productDescription(String productDescription) {
             Utils.checkNotNull(productDescription, "productDescription");
-            this.productDescription = Optional.ofNullable(productDescription);
+            this.productDescription = JsonNullable.of(productDescription);
             return this;
         }
 
         /**
          * Product description
          */
-        public Builder productDescription(Optional<String> productDescription) {
+        public Builder productDescription(JsonNullable<String> productDescription) {
             Utils.checkNotNull(productDescription, "productDescription");
             this.productDescription = productDescription;
             return this;
@@ -1520,26 +1553,38 @@ public class TransactionItemRead {
         }
 
 
+        /**
+         * Original currency code.
+         */
         public Builder originalCurrency(CurrencyEnum originalCurrency) {
             Utils.checkNotNull(originalCurrency, "originalCurrency");
-            this.originalCurrency = Optional.ofNullable(originalCurrency);
+            this.originalCurrency = JsonNullable.of(originalCurrency);
             return this;
         }
 
-        public Builder originalCurrency(Optional<? extends CurrencyEnum> originalCurrency) {
+        /**
+         * Original currency code.
+         */
+        public Builder originalCurrency(JsonNullable<? extends CurrencyEnum> originalCurrency) {
             Utils.checkNotNull(originalCurrency, "originalCurrency");
             this.originalCurrency = originalCurrency;
             return this;
         }
 
 
+        /**
+         * Destination currency code.
+         */
         public Builder destinationCurrency(CurrencyEnum destinationCurrency) {
             Utils.checkNotNull(destinationCurrency, "destinationCurrency");
-            this.destinationCurrency = Optional.ofNullable(destinationCurrency);
+            this.destinationCurrency = JsonNullable.of(destinationCurrency);
             return this;
         }
 
-        public Builder destinationCurrency(Optional<? extends CurrencyEnum> destinationCurrency) {
+        /**
+         * Destination currency code.
+         */
+        public Builder destinationCurrency(JsonNullable<? extends CurrencyEnum> destinationCurrency) {
             Utils.checkNotNull(destinationCurrency, "destinationCurrency");
             this.destinationCurrency = destinationCurrency;
             return this;
@@ -1551,14 +1596,14 @@ public class TransactionItemRead {
          */
         public Builder convertedAmount(String convertedAmount) {
             Utils.checkNotNull(convertedAmount, "convertedAmount");
-            this.convertedAmount = Optional.ofNullable(convertedAmount);
+            this.convertedAmount = JsonNullable.of(convertedAmount);
             return this;
         }
 
         /**
          * Converted item amount.
          */
-        public Builder convertedAmount(Optional<String> convertedAmount) {
+        public Builder convertedAmount(JsonNullable<String> convertedAmount) {
             Utils.checkNotNull(convertedAmount, "convertedAmount");
             this.convertedAmount = convertedAmount;
             return this;
@@ -1570,14 +1615,14 @@ public class TransactionItemRead {
          */
         public Builder convertedTaxableAmount(String convertedTaxableAmount) {
             Utils.checkNotNull(convertedTaxableAmount, "convertedTaxableAmount");
-            this.convertedTaxableAmount = Optional.ofNullable(convertedTaxableAmount);
+            this.convertedTaxableAmount = JsonNullable.of(convertedTaxableAmount);
             return this;
         }
 
         /**
          * Converted taxable amount.
          */
-        public Builder convertedTaxableAmount(Optional<String> convertedTaxableAmount) {
+        public Builder convertedTaxableAmount(JsonNullable<String> convertedTaxableAmount) {
             Utils.checkNotNull(convertedTaxableAmount, "convertedTaxableAmount");
             this.convertedTaxableAmount = convertedTaxableAmount;
             return this;
@@ -1589,14 +1634,14 @@ public class TransactionItemRead {
          */
         public Builder convertedTaxAmountImported(String convertedTaxAmountImported) {
             Utils.checkNotNull(convertedTaxAmountImported, "convertedTaxAmountImported");
-            this.convertedTaxAmountImported = Optional.ofNullable(convertedTaxAmountImported);
+            this.convertedTaxAmountImported = JsonNullable.of(convertedTaxAmountImported);
             return this;
         }
 
         /**
          * Converted imported tax amount.
          */
-        public Builder convertedTaxAmountImported(Optional<String> convertedTaxAmountImported) {
+        public Builder convertedTaxAmountImported(JsonNullable<String> convertedTaxAmountImported) {
             Utils.checkNotNull(convertedTaxAmountImported, "convertedTaxAmountImported");
             this.convertedTaxAmountImported = convertedTaxAmountImported;
             return this;
@@ -1608,14 +1653,14 @@ public class TransactionItemRead {
          */
         public Builder convertedTaxAmountCalculated(String convertedTaxAmountCalculated) {
             Utils.checkNotNull(convertedTaxAmountCalculated, "convertedTaxAmountCalculated");
-            this.convertedTaxAmountCalculated = Optional.ofNullable(convertedTaxAmountCalculated);
+            this.convertedTaxAmountCalculated = JsonNullable.of(convertedTaxAmountCalculated);
             return this;
         }
 
         /**
          * Converted calculated tax amount
          */
-        public Builder convertedTaxAmountCalculated(Optional<String> convertedTaxAmountCalculated) {
+        public Builder convertedTaxAmountCalculated(JsonNullable<String> convertedTaxAmountCalculated) {
             Utils.checkNotNull(convertedTaxAmountCalculated, "convertedTaxAmountCalculated");
             this.convertedTaxAmountCalculated = convertedTaxAmountCalculated;
             return this;
@@ -1627,14 +1672,14 @@ public class TransactionItemRead {
          */
         public Builder convertedTotalDiscount(String convertedTotalDiscount) {
             Utils.checkNotNull(convertedTotalDiscount, "convertedTotalDiscount");
-            this.convertedTotalDiscount = Optional.ofNullable(convertedTotalDiscount);
+            this.convertedTotalDiscount = JsonNullable.of(convertedTotalDiscount);
             return this;
         }
 
         /**
          * Converted total discount amount.
          */
-        public Builder convertedTotalDiscount(Optional<String> convertedTotalDiscount) {
+        public Builder convertedTotalDiscount(JsonNullable<String> convertedTotalDiscount) {
             Utils.checkNotNull(convertedTotalDiscount, "convertedTotalDiscount");
             this.convertedTotalDiscount = convertedTotalDiscount;
             return this;
@@ -1646,14 +1691,14 @@ public class TransactionItemRead {
          */
         public Builder convertedSubtotal(String convertedSubtotal) {
             Utils.checkNotNull(convertedSubtotal, "convertedSubtotal");
-            this.convertedSubtotal = Optional.ofNullable(convertedSubtotal);
+            this.convertedSubtotal = JsonNullable.of(convertedSubtotal);
             return this;
         }
 
         /**
          * Converted subtotal amount.
          */
-        public Builder convertedSubtotal(Optional<String> convertedSubtotal) {
+        public Builder convertedSubtotal(JsonNullable<String> convertedSubtotal) {
             Utils.checkNotNull(convertedSubtotal, "convertedSubtotal");
             this.convertedSubtotal = convertedSubtotal;
             return this;
@@ -1680,18 +1725,18 @@ public class TransactionItemRead {
 
 
         /**
-         * This enum is used to determine if a transaction is exempt from tax.
+         * Tax exemption status.
          */
         public Builder taxExemption(TaxExemptionEnum taxExemption) {
             Utils.checkNotNull(taxExemption, "taxExemption");
-            this.taxExemption = Optional.ofNullable(taxExemption);
+            this.taxExemption = JsonNullable.of(taxExemption);
             return this;
         }
 
         /**
-         * This enum is used to determine if a transaction is exempt from tax.
+         * Tax exemption status.
          */
-        public Builder taxExemption(Optional<? extends TaxExemptionEnum> taxExemption) {
+        public Builder taxExemption(JsonNullable<? extends TaxExemptionEnum> taxExemption) {
             Utils.checkNotNull(taxExemption, "taxExemption");
             this.taxExemption = taxExemption;
             return this;
@@ -1742,14 +1787,14 @@ public class TransactionItemRead {
          */
         public Builder totalDiscount(String totalDiscount) {
             Utils.checkNotNull(totalDiscount, "totalDiscount");
-            this.totalDiscount = Optional.ofNullable(totalDiscount);
+            this.totalDiscount = JsonNullable.of(totalDiscount);
             return this;
         }
 
         /**
          * Total discount amount applied to this transaction item.
          */
-        public Builder totalDiscount(Optional<String> totalDiscount) {
+        public Builder totalDiscount(JsonNullable<String> totalDiscount) {
             Utils.checkNotNull(totalDiscount, "totalDiscount");
             this.totalDiscount = totalDiscount;
             return this;
@@ -1761,14 +1806,14 @@ public class TransactionItemRead {
          */
         public Builder subtotal(String subtotal) {
             Utils.checkNotNull(subtotal, "subtotal");
-            this.subtotal = Optional.ofNullable(subtotal);
+            this.subtotal = JsonNullable.of(subtotal);
             return this;
         }
 
         /**
          * Subtotal amount before any discount is applied.
          */
-        public Builder subtotal(Optional<String> subtotal) {
+        public Builder subtotal(JsonNullable<String> subtotal) {
             Utils.checkNotNull(subtotal, "subtotal");
             this.subtotal = subtotal;
             return this;

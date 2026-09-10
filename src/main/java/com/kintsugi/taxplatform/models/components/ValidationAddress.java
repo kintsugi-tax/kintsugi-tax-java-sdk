@@ -8,13 +8,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.kintsugi.taxplatform.utils.LazySingletonValue;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Long;
 import java.lang.Override;
 import java.lang.String;
-import java.util.Optional;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 public class ValidationAddress {
@@ -23,35 +21,35 @@ public class ValidationAddress {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("line1")
-    private Optional<String> line1;
+    private JsonNullable<String> line1;
 
     /**
      * Additional address details, such as an apartment or suite number
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("line2")
-    private Optional<String> line2;
+    private JsonNullable<String> line2;
 
     /**
      * Additional address details for complex addresses
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("line3")
-    private Optional<String> line3;
+    private JsonNullable<String> line3;
 
     /**
      * The city or town name for the address
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("city")
-    private Optional<String> city;
+    private JsonNullable<String> city;
 
     /**
      * State, province, or region of the address
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("state")
-    private Optional<String> state;
+    private JsonNullable<String> state;
 
     /**
      * Country code in ISO 3166-1 alpha-2 format (e.g., 'US' for the United States).
@@ -61,7 +59,7 @@ public class ValidationAddress {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("country")
-    private Optional<String> country;
+    private JsonNullable<String> country;
 
     /**
      * ZIP or postal code for the address. Can be empty for some locales.
@@ -69,41 +67,41 @@ public class ValidationAddress {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("postalCode")
-    private Optional<String> postalCode;
+    private JsonNullable<String> postalCode;
 
     /**
      * Unique identifier for the request, if applicable
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("id")
-    private Optional<Long> id;
+    private JsonNullable<Long> id;
 
     /**
      * County or district name for the address
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("county")
-    private Optional<String> county;
+    private JsonNullable<String> county;
 
     /**
      * A complete address string that can be used as an alternative to providing individual fields.
      */
     @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("full_address")
-    private Optional<String> fullAddress;
+    @JsonProperty("fullAddress")
+    private JsonNullable<String> fullAddress;
 
     @JsonCreator
     public ValidationAddress(
-            @JsonProperty("line1") Optional<String> line1,
-            @JsonProperty("line2") Optional<String> line2,
-            @JsonProperty("line3") Optional<String> line3,
-            @JsonProperty("city") Optional<String> city,
-            @JsonProperty("state") Optional<String> state,
-            @JsonProperty("country") Optional<String> country,
-            @JsonProperty("postalCode") Optional<String> postalCode,
-            @JsonProperty("id") Optional<Long> id,
-            @JsonProperty("county") Optional<String> county,
-            @JsonProperty("full_address") Optional<String> fullAddress) {
+            @JsonProperty("line1") JsonNullable<String> line1,
+            @JsonProperty("line2") JsonNullable<String> line2,
+            @JsonProperty("line3") JsonNullable<String> line3,
+            @JsonProperty("city") JsonNullable<String> city,
+            @JsonProperty("state") JsonNullable<String> state,
+            @JsonProperty("country") JsonNullable<String> country,
+            @JsonProperty("postalCode") JsonNullable<String> postalCode,
+            @JsonProperty("id") JsonNullable<Long> id,
+            @JsonProperty("county") JsonNullable<String> county,
+            @JsonProperty("fullAddress") JsonNullable<String> fullAddress) {
         Utils.checkNotNull(line1, "line1");
         Utils.checkNotNull(line2, "line2");
         Utils.checkNotNull(line3, "line3");
@@ -127,17 +125,17 @@ public class ValidationAddress {
     }
     
     public ValidationAddress() {
-        this(Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty());
+        this(JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined());
     }
 
     /**
      * Primary address line, such as street name and number
      */
     @JsonIgnore
-    public Optional<String> line1() {
+    public JsonNullable<String> line1() {
         return line1;
     }
 
@@ -145,7 +143,7 @@ public class ValidationAddress {
      * Additional address details, such as an apartment or suite number
      */
     @JsonIgnore
-    public Optional<String> line2() {
+    public JsonNullable<String> line2() {
         return line2;
     }
 
@@ -153,7 +151,7 @@ public class ValidationAddress {
      * Additional address details for complex addresses
      */
     @JsonIgnore
-    public Optional<String> line3() {
+    public JsonNullable<String> line3() {
         return line3;
     }
 
@@ -161,7 +159,7 @@ public class ValidationAddress {
      * The city or town name for the address
      */
     @JsonIgnore
-    public Optional<String> city() {
+    public JsonNullable<String> city() {
         return city;
     }
 
@@ -169,7 +167,7 @@ public class ValidationAddress {
      * State, province, or region of the address
      */
     @JsonIgnore
-    public Optional<String> state() {
+    public JsonNullable<String> state() {
         return state;
     }
 
@@ -180,7 +178,7 @@ public class ValidationAddress {
      * structure can be different for different providers
      */
     @JsonIgnore
-    public Optional<String> country() {
+    public JsonNullable<String> country() {
         return country;
     }
 
@@ -189,7 +187,7 @@ public class ValidationAddress {
      * Not validating here as the validation structure can be different for different providers
      */
     @JsonIgnore
-    public Optional<String> postalCode() {
+    public JsonNullable<String> postalCode() {
         return postalCode;
     }
 
@@ -197,7 +195,7 @@ public class ValidationAddress {
      * Unique identifier for the request, if applicable
      */
     @JsonIgnore
-    public Optional<Long> id() {
+    public JsonNullable<Long> id() {
         return id;
     }
 
@@ -205,7 +203,7 @@ public class ValidationAddress {
      * County or district name for the address
      */
     @JsonIgnore
-    public Optional<String> county() {
+    public JsonNullable<String> county() {
         return county;
     }
 
@@ -213,7 +211,7 @@ public class ValidationAddress {
      * A complete address string that can be used as an alternative to providing individual fields.
      */
     @JsonIgnore
-    public Optional<String> fullAddress() {
+    public JsonNullable<String> fullAddress() {
         return fullAddress;
     }
 
@@ -227,15 +225,14 @@ public class ValidationAddress {
      */
     public ValidationAddress withLine1(String line1) {
         Utils.checkNotNull(line1, "line1");
-        this.line1 = Optional.ofNullable(line1);
+        this.line1 = JsonNullable.of(line1);
         return this;
     }
-
 
     /**
      * Primary address line, such as street name and number
      */
-    public ValidationAddress withLine1(Optional<String> line1) {
+    public ValidationAddress withLine1(JsonNullable<String> line1) {
         Utils.checkNotNull(line1, "line1");
         this.line1 = line1;
         return this;
@@ -246,15 +243,14 @@ public class ValidationAddress {
      */
     public ValidationAddress withLine2(String line2) {
         Utils.checkNotNull(line2, "line2");
-        this.line2 = Optional.ofNullable(line2);
+        this.line2 = JsonNullable.of(line2);
         return this;
     }
-
 
     /**
      * Additional address details, such as an apartment or suite number
      */
-    public ValidationAddress withLine2(Optional<String> line2) {
+    public ValidationAddress withLine2(JsonNullable<String> line2) {
         Utils.checkNotNull(line2, "line2");
         this.line2 = line2;
         return this;
@@ -265,15 +261,14 @@ public class ValidationAddress {
      */
     public ValidationAddress withLine3(String line3) {
         Utils.checkNotNull(line3, "line3");
-        this.line3 = Optional.ofNullable(line3);
+        this.line3 = JsonNullable.of(line3);
         return this;
     }
-
 
     /**
      * Additional address details for complex addresses
      */
-    public ValidationAddress withLine3(Optional<String> line3) {
+    public ValidationAddress withLine3(JsonNullable<String> line3) {
         Utils.checkNotNull(line3, "line3");
         this.line3 = line3;
         return this;
@@ -284,15 +279,14 @@ public class ValidationAddress {
      */
     public ValidationAddress withCity(String city) {
         Utils.checkNotNull(city, "city");
-        this.city = Optional.ofNullable(city);
+        this.city = JsonNullable.of(city);
         return this;
     }
-
 
     /**
      * The city or town name for the address
      */
-    public ValidationAddress withCity(Optional<String> city) {
+    public ValidationAddress withCity(JsonNullable<String> city) {
         Utils.checkNotNull(city, "city");
         this.city = city;
         return this;
@@ -303,15 +297,14 @@ public class ValidationAddress {
      */
     public ValidationAddress withState(String state) {
         Utils.checkNotNull(state, "state");
-        this.state = Optional.ofNullable(state);
+        this.state = JsonNullable.of(state);
         return this;
     }
-
 
     /**
      * State, province, or region of the address
      */
-    public ValidationAddress withState(Optional<String> state) {
+    public ValidationAddress withState(JsonNullable<String> state) {
         Utils.checkNotNull(state, "state");
         this.state = state;
         return this;
@@ -325,10 +318,9 @@ public class ValidationAddress {
      */
     public ValidationAddress withCountry(String country) {
         Utils.checkNotNull(country, "country");
-        this.country = Optional.ofNullable(country);
+        this.country = JsonNullable.of(country);
         return this;
     }
-
 
     /**
      * Country code in ISO 3166-1 alpha-2 format (e.g., 'US' for the United States).
@@ -336,7 +328,7 @@ public class ValidationAddress {
      * should not be empty. Not validating here as the validation
      * structure can be different for different providers
      */
-    public ValidationAddress withCountry(Optional<String> country) {
+    public ValidationAddress withCountry(JsonNullable<String> country) {
         Utils.checkNotNull(country, "country");
         this.country = country;
         return this;
@@ -348,16 +340,15 @@ public class ValidationAddress {
      */
     public ValidationAddress withPostalCode(String postalCode) {
         Utils.checkNotNull(postalCode, "postalCode");
-        this.postalCode = Optional.ofNullable(postalCode);
+        this.postalCode = JsonNullable.of(postalCode);
         return this;
     }
-
 
     /**
      * ZIP or postal code for the address. Can be empty for some locales.
      * Not validating here as the validation structure can be different for different providers
      */
-    public ValidationAddress withPostalCode(Optional<String> postalCode) {
+    public ValidationAddress withPostalCode(JsonNullable<String> postalCode) {
         Utils.checkNotNull(postalCode, "postalCode");
         this.postalCode = postalCode;
         return this;
@@ -368,15 +359,14 @@ public class ValidationAddress {
      */
     public ValidationAddress withId(long id) {
         Utils.checkNotNull(id, "id");
-        this.id = Optional.ofNullable(id);
+        this.id = JsonNullable.of(id);
         return this;
     }
-
 
     /**
      * Unique identifier for the request, if applicable
      */
-    public ValidationAddress withId(Optional<Long> id) {
+    public ValidationAddress withId(JsonNullable<Long> id) {
         Utils.checkNotNull(id, "id");
         this.id = id;
         return this;
@@ -387,15 +377,14 @@ public class ValidationAddress {
      */
     public ValidationAddress withCounty(String county) {
         Utils.checkNotNull(county, "county");
-        this.county = Optional.ofNullable(county);
+        this.county = JsonNullable.of(county);
         return this;
     }
-
 
     /**
      * County or district name for the address
      */
-    public ValidationAddress withCounty(Optional<String> county) {
+    public ValidationAddress withCounty(JsonNullable<String> county) {
         Utils.checkNotNull(county, "county");
         this.county = county;
         return this;
@@ -406,15 +395,14 @@ public class ValidationAddress {
      */
     public ValidationAddress withFullAddress(String fullAddress) {
         Utils.checkNotNull(fullAddress, "fullAddress");
-        this.fullAddress = Optional.ofNullable(fullAddress);
+        this.fullAddress = JsonNullable.of(fullAddress);
         return this;
     }
-
 
     /**
      * A complete address string that can be used as an alternative to providing individual fields.
      */
-    public ValidationAddress withFullAddress(Optional<String> fullAddress) {
+    public ValidationAddress withFullAddress(JsonNullable<String> fullAddress) {
         Utils.checkNotNull(fullAddress, "fullAddress");
         this.fullAddress = fullAddress;
         return this;
@@ -469,25 +457,25 @@ public class ValidationAddress {
     @SuppressWarnings("UnusedReturnValue")
     public final static class Builder {
 
-        private Optional<String> line1 = Optional.empty();
+        private JsonNullable<String> line1 = JsonNullable.undefined();
 
-        private Optional<String> line2 = Optional.empty();
+        private JsonNullable<String> line2 = JsonNullable.undefined();
 
-        private Optional<String> line3 = Optional.empty();
+        private JsonNullable<String> line3 = JsonNullable.undefined();
 
-        private Optional<String> city = Optional.empty();
+        private JsonNullable<String> city = JsonNullable.undefined();
 
-        private Optional<String> state = Optional.empty();
+        private JsonNullable<String> state = JsonNullable.undefined();
 
-        private Optional<String> country;
+        private JsonNullable<String> country = JsonNullable.undefined();
 
-        private Optional<String> postalCode;
+        private JsonNullable<String> postalCode = JsonNullable.undefined();
 
-        private Optional<Long> id = Optional.empty();
+        private JsonNullable<Long> id = JsonNullable.undefined();
 
-        private Optional<String> county = Optional.empty();
+        private JsonNullable<String> county = JsonNullable.undefined();
 
-        private Optional<String> fullAddress = Optional.empty();
+        private JsonNullable<String> fullAddress = JsonNullable.undefined();
 
         private Builder() {
           // force use of static builder() method
@@ -499,14 +487,14 @@ public class ValidationAddress {
          */
         public Builder line1(String line1) {
             Utils.checkNotNull(line1, "line1");
-            this.line1 = Optional.ofNullable(line1);
+            this.line1 = JsonNullable.of(line1);
             return this;
         }
 
         /**
          * Primary address line, such as street name and number
          */
-        public Builder line1(Optional<String> line1) {
+        public Builder line1(JsonNullable<String> line1) {
             Utils.checkNotNull(line1, "line1");
             this.line1 = line1;
             return this;
@@ -518,14 +506,14 @@ public class ValidationAddress {
          */
         public Builder line2(String line2) {
             Utils.checkNotNull(line2, "line2");
-            this.line2 = Optional.ofNullable(line2);
+            this.line2 = JsonNullable.of(line2);
             return this;
         }
 
         /**
          * Additional address details, such as an apartment or suite number
          */
-        public Builder line2(Optional<String> line2) {
+        public Builder line2(JsonNullable<String> line2) {
             Utils.checkNotNull(line2, "line2");
             this.line2 = line2;
             return this;
@@ -537,14 +525,14 @@ public class ValidationAddress {
          */
         public Builder line3(String line3) {
             Utils.checkNotNull(line3, "line3");
-            this.line3 = Optional.ofNullable(line3);
+            this.line3 = JsonNullable.of(line3);
             return this;
         }
 
         /**
          * Additional address details for complex addresses
          */
-        public Builder line3(Optional<String> line3) {
+        public Builder line3(JsonNullable<String> line3) {
             Utils.checkNotNull(line3, "line3");
             this.line3 = line3;
             return this;
@@ -556,14 +544,14 @@ public class ValidationAddress {
          */
         public Builder city(String city) {
             Utils.checkNotNull(city, "city");
-            this.city = Optional.ofNullable(city);
+            this.city = JsonNullable.of(city);
             return this;
         }
 
         /**
          * The city or town name for the address
          */
-        public Builder city(Optional<String> city) {
+        public Builder city(JsonNullable<String> city) {
             Utils.checkNotNull(city, "city");
             this.city = city;
             return this;
@@ -575,14 +563,14 @@ public class ValidationAddress {
          */
         public Builder state(String state) {
             Utils.checkNotNull(state, "state");
-            this.state = Optional.ofNullable(state);
+            this.state = JsonNullable.of(state);
             return this;
         }
 
         /**
          * State, province, or region of the address
          */
-        public Builder state(Optional<String> state) {
+        public Builder state(JsonNullable<String> state) {
             Utils.checkNotNull(state, "state");
             this.state = state;
             return this;
@@ -597,7 +585,7 @@ public class ValidationAddress {
          */
         public Builder country(String country) {
             Utils.checkNotNull(country, "country");
-            this.country = Optional.ofNullable(country);
+            this.country = JsonNullable.of(country);
             return this;
         }
 
@@ -607,7 +595,7 @@ public class ValidationAddress {
          * should not be empty. Not validating here as the validation
          * structure can be different for different providers
          */
-        public Builder country(Optional<String> country) {
+        public Builder country(JsonNullable<String> country) {
             Utils.checkNotNull(country, "country");
             this.country = country;
             return this;
@@ -620,7 +608,7 @@ public class ValidationAddress {
          */
         public Builder postalCode(String postalCode) {
             Utils.checkNotNull(postalCode, "postalCode");
-            this.postalCode = Optional.ofNullable(postalCode);
+            this.postalCode = JsonNullable.of(postalCode);
             return this;
         }
 
@@ -628,7 +616,7 @@ public class ValidationAddress {
          * ZIP or postal code for the address. Can be empty for some locales.
          * Not validating here as the validation structure can be different for different providers
          */
-        public Builder postalCode(Optional<String> postalCode) {
+        public Builder postalCode(JsonNullable<String> postalCode) {
             Utils.checkNotNull(postalCode, "postalCode");
             this.postalCode = postalCode;
             return this;
@@ -640,14 +628,14 @@ public class ValidationAddress {
          */
         public Builder id(long id) {
             Utils.checkNotNull(id, "id");
-            this.id = Optional.ofNullable(id);
+            this.id = JsonNullable.of(id);
             return this;
         }
 
         /**
          * Unique identifier for the request, if applicable
          */
-        public Builder id(Optional<Long> id) {
+        public Builder id(JsonNullable<Long> id) {
             Utils.checkNotNull(id, "id");
             this.id = id;
             return this;
@@ -659,14 +647,14 @@ public class ValidationAddress {
          */
         public Builder county(String county) {
             Utils.checkNotNull(county, "county");
-            this.county = Optional.ofNullable(county);
+            this.county = JsonNullable.of(county);
             return this;
         }
 
         /**
          * County or district name for the address
          */
-        public Builder county(Optional<String> county) {
+        public Builder county(JsonNullable<String> county) {
             Utils.checkNotNull(county, "county");
             this.county = county;
             return this;
@@ -678,26 +666,20 @@ public class ValidationAddress {
          */
         public Builder fullAddress(String fullAddress) {
             Utils.checkNotNull(fullAddress, "fullAddress");
-            this.fullAddress = Optional.ofNullable(fullAddress);
+            this.fullAddress = JsonNullable.of(fullAddress);
             return this;
         }
 
         /**
          * A complete address string that can be used as an alternative to providing individual fields.
          */
-        public Builder fullAddress(Optional<String> fullAddress) {
+        public Builder fullAddress(JsonNullable<String> fullAddress) {
             Utils.checkNotNull(fullAddress, "fullAddress");
             this.fullAddress = fullAddress;
             return this;
         }
 
         public ValidationAddress build() {
-            if (country == null) {
-                country = _SINGLETON_VALUE_Country.value();
-            }
-            if (postalCode == null) {
-                postalCode = _SINGLETON_VALUE_PostalCode.value();
-            }
 
             return new ValidationAddress(
                 line1, line2, line3,
@@ -706,17 +688,5 @@ public class ValidationAddress {
                 fullAddress);
         }
 
-
-        private static final LazySingletonValue<Optional<String>> _SINGLETON_VALUE_Country =
-                new LazySingletonValue<>(
-                        "country",
-                        "\"US\"",
-                        new TypeReference<Optional<String>>() {});
-
-        private static final LazySingletonValue<Optional<String>> _SINGLETON_VALUE_PostalCode =
-                new LazySingletonValue<>(
-                        "postalCode",
-                        "\"\"",
-                        new TypeReference<Optional<String>>() {});
     }
 }

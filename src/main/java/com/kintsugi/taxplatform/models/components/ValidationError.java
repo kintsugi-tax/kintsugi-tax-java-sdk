@@ -5,17 +5,22 @@ package com.kintsugi.taxplatform.models.components;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kintsugi.taxplatform.utils.Utils;
+import java.lang.Object;
 import java.lang.Override;
 import java.lang.String;
+import java.lang.SuppressWarnings;
 import java.util.List;
+import java.util.Optional;
 
 
 public class ValidationError {
 
     @JsonProperty("loc")
-    private List<String> loc;
+    private List<Loc> loc;
 
 
     @JsonProperty("msg")
@@ -25,21 +30,45 @@ public class ValidationError {
     @JsonProperty("type")
     private String type;
 
+
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("input")
+    private Optional<? extends Object> input;
+
+
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("ctx")
+    private Optional<? extends Context> ctx;
+
     @JsonCreator
     public ValidationError(
-            @JsonProperty("loc") List<String> loc,
+            @JsonProperty("loc") List<Loc> loc,
             @JsonProperty("msg") String msg,
-            @JsonProperty("type") String type) {
+            @JsonProperty("type") String type,
+            @JsonProperty("input") Optional<? extends Object> input,
+            @JsonProperty("ctx") Optional<? extends Context> ctx) {
         Utils.checkNotNull(loc, "loc");
         Utils.checkNotNull(msg, "msg");
         Utils.checkNotNull(type, "type");
+        Utils.checkNotNull(input, "input");
+        Utils.checkNotNull(ctx, "ctx");
         this.loc = loc;
         this.msg = msg;
         this.type = type;
+        this.input = input;
+        this.ctx = ctx;
+    }
+    
+    public ValidationError(
+            List<Loc> loc,
+            String msg,
+            String type) {
+        this(loc, msg, type,
+            Optional.empty(), Optional.empty());
     }
 
     @JsonIgnore
-    public List<String> loc() {
+    public List<Loc> loc() {
         return loc;
     }
 
@@ -53,12 +82,24 @@ public class ValidationError {
         return type;
     }
 
+    @SuppressWarnings("unchecked")
+    @JsonIgnore
+    public Optional<Object> input() {
+        return (Optional<Object>) input;
+    }
+
+    @SuppressWarnings("unchecked")
+    @JsonIgnore
+    public Optional<Context> ctx() {
+        return (Optional<Context>) ctx;
+    }
+
     public static Builder builder() {
         return new Builder();
     }
 
 
-    public ValidationError withLoc(List<String> loc) {
+    public ValidationError withLoc(List<Loc> loc) {
         Utils.checkNotNull(loc, "loc");
         this.loc = loc;
         return this;
@@ -76,6 +117,32 @@ public class ValidationError {
         return this;
     }
 
+    public ValidationError withInput(Object input) {
+        Utils.checkNotNull(input, "input");
+        this.input = Optional.ofNullable(input);
+        return this;
+    }
+
+
+    public ValidationError withInput(Optional<? extends Object> input) {
+        Utils.checkNotNull(input, "input");
+        this.input = input;
+        return this;
+    }
+
+    public ValidationError withCtx(Context ctx) {
+        Utils.checkNotNull(ctx, "ctx");
+        this.ctx = Optional.ofNullable(ctx);
+        return this;
+    }
+
+
+    public ValidationError withCtx(Optional<? extends Context> ctx) {
+        Utils.checkNotNull(ctx, "ctx");
+        this.ctx = ctx;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -88,13 +155,16 @@ public class ValidationError {
         return 
             Utils.enhancedDeepEquals(this.loc, other.loc) &&
             Utils.enhancedDeepEquals(this.msg, other.msg) &&
-            Utils.enhancedDeepEquals(this.type, other.type);
+            Utils.enhancedDeepEquals(this.type, other.type) &&
+            Utils.enhancedDeepEquals(this.input, other.input) &&
+            Utils.enhancedDeepEquals(this.ctx, other.ctx);
     }
     
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-            loc, msg, type);
+            loc, msg, type,
+            input, ctx);
     }
     
     @Override
@@ -102,24 +172,30 @@ public class ValidationError {
         return Utils.toString(ValidationError.class,
                 "loc", loc,
                 "msg", msg,
-                "type", type);
+                "type", type,
+                "input", input,
+                "ctx", ctx);
     }
 
     @SuppressWarnings("UnusedReturnValue")
     public final static class Builder {
 
-        private List<String> loc;
+        private List<Loc> loc;
 
         private String msg;
 
         private String type;
+
+        private Optional<? extends Object> input = Optional.empty();
+
+        private Optional<? extends Context> ctx = Optional.empty();
 
         private Builder() {
           // force use of static builder() method
         }
 
 
-        public Builder loc(List<String> loc) {
+        public Builder loc(List<Loc> loc) {
             Utils.checkNotNull(loc, "loc");
             this.loc = loc;
             return this;
@@ -139,10 +215,37 @@ public class ValidationError {
             return this;
         }
 
+
+        public Builder input(Object input) {
+            Utils.checkNotNull(input, "input");
+            this.input = Optional.ofNullable(input);
+            return this;
+        }
+
+        public Builder input(Optional<? extends Object> input) {
+            Utils.checkNotNull(input, "input");
+            this.input = input;
+            return this;
+        }
+
+
+        public Builder ctx(Context ctx) {
+            Utils.checkNotNull(ctx, "ctx");
+            this.ctx = Optional.ofNullable(ctx);
+            return this;
+        }
+
+        public Builder ctx(Optional<? extends Context> ctx) {
+            Utils.checkNotNull(ctx, "ctx");
+            this.ctx = ctx;
+            return this;
+        }
+
         public ValidationError build() {
 
             return new ValidationError(
-                loc, msg, type);
+                loc, msg, type,
+                input, ctx);
         }
 
     }

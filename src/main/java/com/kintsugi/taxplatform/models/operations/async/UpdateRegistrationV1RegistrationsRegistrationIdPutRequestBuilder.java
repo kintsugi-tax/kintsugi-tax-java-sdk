@@ -12,11 +12,13 @@ import com.kintsugi.taxplatform.operations.UpdateRegistrationV1RegistrationsRegi
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 public class UpdateRegistrationV1RegistrationsRegistrationIdPutRequestBuilder {
 
     private String registrationId;
+    private Optional<String> xOrganizationId = Optional.empty();
     private RegistrationUpdateAPI registrationUpdateAPI;
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
@@ -30,6 +32,18 @@ public class UpdateRegistrationV1RegistrationsRegistrationIdPutRequestBuilder {
         this.registrationId = registrationId;
         return this;
     }
+                
+    public UpdateRegistrationV1RegistrationsRegistrationIdPutRequestBuilder xOrganizationId(String xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = Optional.of(xOrganizationId);
+        return this;
+    }
+
+    public UpdateRegistrationV1RegistrationsRegistrationIdPutRequestBuilder xOrganizationId(Optional<String> xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = xOrganizationId;
+        return this;
+    }
 
     public UpdateRegistrationV1RegistrationsRegistrationIdPutRequestBuilder registrationUpdateAPI(RegistrationUpdateAPI registrationUpdateAPI) {
         Utils.checkNotNull(registrationUpdateAPI, "registrationUpdateAPI");
@@ -41,6 +55,7 @@ public class UpdateRegistrationV1RegistrationsRegistrationIdPutRequestBuilder {
     private UpdateRegistrationV1RegistrationsRegistrationIdPutRequest buildRequest() {
 
         UpdateRegistrationV1RegistrationsRegistrationIdPutRequest request = new UpdateRegistrationV1RegistrationsRegistrationIdPutRequest(registrationId,
+            xOrganizationId,
             registrationUpdateAPI);
 
         return request;

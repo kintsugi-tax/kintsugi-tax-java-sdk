@@ -14,6 +14,7 @@ import java.lang.String;
 import java.lang.SuppressWarnings;
 import java.util.List;
 import java.util.Optional;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 public class CustomerRead {
@@ -22,75 +23,77 @@ public class CustomerRead {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("phone")
-    private Optional<String> phone;
+    private JsonNullable<String> phone;
 
     /**
      * Primary street address.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("street_1")
-    private Optional<String> street1;
+    private JsonNullable<String> street1;
 
     /**
      * Additional street address details, such as an apartment or suite number.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("street_2")
-    private Optional<String> street2;
+    private JsonNullable<String> street2;
 
     /**
      * City where the customer resides.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("city")
-    private Optional<String> city;
+    private JsonNullable<String> city;
 
     /**
      * County or district of the customer.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("county")
-    private Optional<String> county;
+    private JsonNullable<String> county;
 
     /**
      * State or province of the customer.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("state")
-    private Optional<String> state;
+    private JsonNullable<String> state;
 
     /**
      * ZIP or Postal code of the customer.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("postal_code")
-    private Optional<String> postalCode;
+    private JsonNullable<String> postalCode;
 
-
+    /**
+     * Country code in ISO 3166-1 alpha-2 format
+     */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("country")
-    private Optional<? extends CountryCodeEnum> country;
+    private JsonNullable<? extends CountryCodeEnum> country;
 
     /**
      * Complete address string of the customer, which can be used as an alternative to individual fields.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("full_address")
-    private Optional<String> fullAddress;
+    private JsonNullable<String> fullAddress;
 
     /**
      * Name of the customer.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("name")
-    private Optional<String> name;
+    private JsonNullable<String> name;
 
     /**
      * External identifier associated with the customer.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("external_id")
-    private Optional<String> externalId;
+    private JsonNullable<String> externalId;
 
 
     @JsonInclude(Include.NON_ABSENT)
@@ -102,19 +105,28 @@ public class CustomerRead {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("email")
-    private Optional<String> email;
+    private JsonNullable<String> email;
 
+    /**
+     * Registered or legal business name of the customer.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("company_name")
+    private JsonNullable<String> companyName;
 
+    /**
+     * Source of the customer's record.
+     */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("source")
-    private Optional<? extends SourceEnum> source;
+    private JsonNullable<? extends SourceEnum> source;
 
     /**
      * Identifier for the connection source, if applicable.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("connection_id")
-    private Optional<String> connectionId;
+    private JsonNullable<String> connectionId;
 
 
     @JsonInclude(Include.NON_ABSENT)
@@ -126,14 +138,14 @@ public class CustomerRead {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("registration_number")
-    private Optional<String> registrationNumber;
+    private JsonNullable<String> registrationNumber;
 
     /**
      * External friendly identifier associated with the customer. We need it for netsuite.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("external_friendly_id")
-    private Optional<String> externalFriendlyId;
+    private JsonNullable<String> externalFriendlyId;
 
     /**
      * Customer tax registrations associated with the customer.
@@ -154,29 +166,38 @@ public class CustomerRead {
     @JsonProperty("organization_id")
     private String organizationId;
 
+    /**
+     * Store name resolved from the customer's connection, if available.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("store_name")
+    private JsonNullable<String> storeName;
+
     @JsonCreator
     public CustomerRead(
-            @JsonProperty("phone") Optional<String> phone,
-            @JsonProperty("street_1") Optional<String> street1,
-            @JsonProperty("street_2") Optional<String> street2,
-            @JsonProperty("city") Optional<String> city,
-            @JsonProperty("county") Optional<String> county,
-            @JsonProperty("state") Optional<String> state,
-            @JsonProperty("postal_code") Optional<String> postalCode,
-            @JsonProperty("country") Optional<? extends CountryCodeEnum> country,
-            @JsonProperty("full_address") Optional<String> fullAddress,
-            @JsonProperty("name") Optional<String> name,
-            @JsonProperty("external_id") Optional<String> externalId,
+            @JsonProperty("phone") JsonNullable<String> phone,
+            @JsonProperty("street_1") JsonNullable<String> street1,
+            @JsonProperty("street_2") JsonNullable<String> street2,
+            @JsonProperty("city") JsonNullable<String> city,
+            @JsonProperty("county") JsonNullable<String> county,
+            @JsonProperty("state") JsonNullable<String> state,
+            @JsonProperty("postal_code") JsonNullable<String> postalCode,
+            @JsonProperty("country") JsonNullable<? extends CountryCodeEnum> country,
+            @JsonProperty("full_address") JsonNullable<String> fullAddress,
+            @JsonProperty("name") JsonNullable<String> name,
+            @JsonProperty("external_id") JsonNullable<String> externalId,
             @JsonProperty("status") Optional<? extends StatusEnum> status,
-            @JsonProperty("email") Optional<String> email,
-            @JsonProperty("source") Optional<? extends SourceEnum> source,
-            @JsonProperty("connection_id") Optional<String> connectionId,
+            @JsonProperty("email") JsonNullable<String> email,
+            @JsonProperty("company_name") JsonNullable<String> companyName,
+            @JsonProperty("source") JsonNullable<? extends SourceEnum> source,
+            @JsonProperty("connection_id") JsonNullable<String> connectionId,
             @JsonProperty("address_status") Optional<? extends AddressStatus> addressStatus,
-            @JsonProperty("registration_number") Optional<String> registrationNumber,
-            @JsonProperty("external_friendly_id") Optional<String> externalFriendlyId,
+            @JsonProperty("registration_number") JsonNullable<String> registrationNumber,
+            @JsonProperty("external_friendly_id") JsonNullable<String> externalFriendlyId,
             @JsonProperty("customer_tax_registrations") Optional<? extends List<CustomerTaxRegistrationRead>> customerTaxRegistrations,
             @JsonProperty("id") String id,
-            @JsonProperty("organization_id") String organizationId) {
+            @JsonProperty("organization_id") String organizationId,
+            @JsonProperty("store_name") JsonNullable<String> storeName) {
         Utils.checkNotNull(phone, "phone");
         Utils.checkNotNull(street1, "street1");
         Utils.checkNotNull(street2, "street2");
@@ -190,6 +211,7 @@ public class CustomerRead {
         Utils.checkNotNull(externalId, "externalId");
         Utils.checkNotNull(status, "status");
         Utils.checkNotNull(email, "email");
+        Utils.checkNotNull(companyName, "companyName");
         Utils.checkNotNull(source, "source");
         Utils.checkNotNull(connectionId, "connectionId");
         Utils.checkNotNull(addressStatus, "addressStatus");
@@ -198,6 +220,7 @@ public class CustomerRead {
         Utils.checkNotNull(customerTaxRegistrations, "customerTaxRegistrations");
         Utils.checkNotNull(id, "id");
         Utils.checkNotNull(organizationId, "organizationId");
+        Utils.checkNotNull(storeName, "storeName");
         this.phone = phone;
         this.street1 = street1;
         this.street2 = street2;
@@ -211,6 +234,7 @@ public class CustomerRead {
         this.externalId = externalId;
         this.status = status;
         this.email = email;
+        this.companyName = companyName;
         this.source = source;
         this.connectionId = connectionId;
         this.addressStatus = addressStatus;
@@ -219,25 +243,27 @@ public class CustomerRead {
         this.customerTaxRegistrations = customerTaxRegistrations;
         this.id = id;
         this.organizationId = organizationId;
+        this.storeName = storeName;
     }
     
     public CustomerRead(
             String id,
             String organizationId) {
-        this(Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), id, organizationId);
+        this(JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), Optional.empty(), JsonNullable.undefined(),
+            JsonNullable.undefined(), Optional.empty(), id,
+            organizationId, JsonNullable.undefined());
     }
 
     /**
      * Customer's phone number
      */
     @JsonIgnore
-    public Optional<String> phone() {
+    public JsonNullable<String> phone() {
         return phone;
     }
 
@@ -245,7 +271,7 @@ public class CustomerRead {
      * Primary street address.
      */
     @JsonIgnore
-    public Optional<String> street1() {
+    public JsonNullable<String> street1() {
         return street1;
     }
 
@@ -253,7 +279,7 @@ public class CustomerRead {
      * Additional street address details, such as an apartment or suite number.
      */
     @JsonIgnore
-    public Optional<String> street2() {
+    public JsonNullable<String> street2() {
         return street2;
     }
 
@@ -261,7 +287,7 @@ public class CustomerRead {
      * City where the customer resides.
      */
     @JsonIgnore
-    public Optional<String> city() {
+    public JsonNullable<String> city() {
         return city;
     }
 
@@ -269,7 +295,7 @@ public class CustomerRead {
      * County or district of the customer.
      */
     @JsonIgnore
-    public Optional<String> county() {
+    public JsonNullable<String> county() {
         return county;
     }
 
@@ -277,7 +303,7 @@ public class CustomerRead {
      * State or province of the customer.
      */
     @JsonIgnore
-    public Optional<String> state() {
+    public JsonNullable<String> state() {
         return state;
     }
 
@@ -285,21 +311,24 @@ public class CustomerRead {
      * ZIP or Postal code of the customer.
      */
     @JsonIgnore
-    public Optional<String> postalCode() {
+    public JsonNullable<String> postalCode() {
         return postalCode;
     }
 
+    /**
+     * Country code in ISO 3166-1 alpha-2 format
+     */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<CountryCodeEnum> country() {
-        return (Optional<CountryCodeEnum>) country;
+    public JsonNullable<CountryCodeEnum> country() {
+        return (JsonNullable<CountryCodeEnum>) country;
     }
 
     /**
      * Complete address string of the customer, which can be used as an alternative to individual fields.
      */
     @JsonIgnore
-    public Optional<String> fullAddress() {
+    public JsonNullable<String> fullAddress() {
         return fullAddress;
     }
 
@@ -307,7 +336,7 @@ public class CustomerRead {
      * Name of the customer.
      */
     @JsonIgnore
-    public Optional<String> name() {
+    public JsonNullable<String> name() {
         return name;
     }
 
@@ -315,7 +344,7 @@ public class CustomerRead {
      * External identifier associated with the customer.
      */
     @JsonIgnore
-    public Optional<String> externalId() {
+    public JsonNullable<String> externalId() {
         return externalId;
     }
 
@@ -329,21 +358,32 @@ public class CustomerRead {
      * Customer's email address
      */
     @JsonIgnore
-    public Optional<String> email() {
+    public JsonNullable<String> email() {
         return email;
     }
 
+    /**
+     * Registered or legal business name of the customer.
+     */
+    @JsonIgnore
+    public JsonNullable<String> companyName() {
+        return companyName;
+    }
+
+    /**
+     * Source of the customer's record.
+     */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<SourceEnum> source() {
-        return (Optional<SourceEnum>) source;
+    public JsonNullable<SourceEnum> source() {
+        return (JsonNullable<SourceEnum>) source;
     }
 
     /**
      * Identifier for the connection source, if applicable.
      */
     @JsonIgnore
-    public Optional<String> connectionId() {
+    public JsonNullable<String> connectionId() {
         return connectionId;
     }
 
@@ -357,7 +397,7 @@ public class CustomerRead {
      * Registration number of the customer.
      */
     @JsonIgnore
-    public Optional<String> registrationNumber() {
+    public JsonNullable<String> registrationNumber() {
         return registrationNumber;
     }
 
@@ -365,7 +405,7 @@ public class CustomerRead {
      * External friendly identifier associated with the customer. We need it for netsuite.
      */
     @JsonIgnore
-    public Optional<String> externalFriendlyId() {
+    public JsonNullable<String> externalFriendlyId() {
         return externalFriendlyId;
     }
 
@@ -394,6 +434,14 @@ public class CustomerRead {
         return organizationId;
     }
 
+    /**
+     * Store name resolved from the customer's connection, if available.
+     */
+    @JsonIgnore
+    public JsonNullable<String> storeName() {
+        return storeName;
+    }
+
     public static Builder builder() {
         return new Builder();
     }
@@ -404,15 +452,14 @@ public class CustomerRead {
      */
     public CustomerRead withPhone(String phone) {
         Utils.checkNotNull(phone, "phone");
-        this.phone = Optional.ofNullable(phone);
+        this.phone = JsonNullable.of(phone);
         return this;
     }
-
 
     /**
      * Customer's phone number
      */
-    public CustomerRead withPhone(Optional<String> phone) {
+    public CustomerRead withPhone(JsonNullable<String> phone) {
         Utils.checkNotNull(phone, "phone");
         this.phone = phone;
         return this;
@@ -423,15 +470,14 @@ public class CustomerRead {
      */
     public CustomerRead withStreet1(String street1) {
         Utils.checkNotNull(street1, "street1");
-        this.street1 = Optional.ofNullable(street1);
+        this.street1 = JsonNullable.of(street1);
         return this;
     }
-
 
     /**
      * Primary street address.
      */
-    public CustomerRead withStreet1(Optional<String> street1) {
+    public CustomerRead withStreet1(JsonNullable<String> street1) {
         Utils.checkNotNull(street1, "street1");
         this.street1 = street1;
         return this;
@@ -442,15 +488,14 @@ public class CustomerRead {
      */
     public CustomerRead withStreet2(String street2) {
         Utils.checkNotNull(street2, "street2");
-        this.street2 = Optional.ofNullable(street2);
+        this.street2 = JsonNullable.of(street2);
         return this;
     }
-
 
     /**
      * Additional street address details, such as an apartment or suite number.
      */
-    public CustomerRead withStreet2(Optional<String> street2) {
+    public CustomerRead withStreet2(JsonNullable<String> street2) {
         Utils.checkNotNull(street2, "street2");
         this.street2 = street2;
         return this;
@@ -461,15 +506,14 @@ public class CustomerRead {
      */
     public CustomerRead withCity(String city) {
         Utils.checkNotNull(city, "city");
-        this.city = Optional.ofNullable(city);
+        this.city = JsonNullable.of(city);
         return this;
     }
-
 
     /**
      * City where the customer resides.
      */
-    public CustomerRead withCity(Optional<String> city) {
+    public CustomerRead withCity(JsonNullable<String> city) {
         Utils.checkNotNull(city, "city");
         this.city = city;
         return this;
@@ -480,15 +524,14 @@ public class CustomerRead {
      */
     public CustomerRead withCounty(String county) {
         Utils.checkNotNull(county, "county");
-        this.county = Optional.ofNullable(county);
+        this.county = JsonNullable.of(county);
         return this;
     }
-
 
     /**
      * County or district of the customer.
      */
-    public CustomerRead withCounty(Optional<String> county) {
+    public CustomerRead withCounty(JsonNullable<String> county) {
         Utils.checkNotNull(county, "county");
         this.county = county;
         return this;
@@ -499,15 +542,14 @@ public class CustomerRead {
      */
     public CustomerRead withState(String state) {
         Utils.checkNotNull(state, "state");
-        this.state = Optional.ofNullable(state);
+        this.state = JsonNullable.of(state);
         return this;
     }
-
 
     /**
      * State or province of the customer.
      */
-    public CustomerRead withState(Optional<String> state) {
+    public CustomerRead withState(JsonNullable<String> state) {
         Utils.checkNotNull(state, "state");
         this.state = state;
         return this;
@@ -518,28 +560,32 @@ public class CustomerRead {
      */
     public CustomerRead withPostalCode(String postalCode) {
         Utils.checkNotNull(postalCode, "postalCode");
-        this.postalCode = Optional.ofNullable(postalCode);
+        this.postalCode = JsonNullable.of(postalCode);
         return this;
     }
-
 
     /**
      * ZIP or Postal code of the customer.
      */
-    public CustomerRead withPostalCode(Optional<String> postalCode) {
+    public CustomerRead withPostalCode(JsonNullable<String> postalCode) {
         Utils.checkNotNull(postalCode, "postalCode");
         this.postalCode = postalCode;
         return this;
     }
 
+    /**
+     * Country code in ISO 3166-1 alpha-2 format
+     */
     public CustomerRead withCountry(CountryCodeEnum country) {
         Utils.checkNotNull(country, "country");
-        this.country = Optional.ofNullable(country);
+        this.country = JsonNullable.of(country);
         return this;
     }
 
-
-    public CustomerRead withCountry(Optional<? extends CountryCodeEnum> country) {
+    /**
+     * Country code in ISO 3166-1 alpha-2 format
+     */
+    public CustomerRead withCountry(JsonNullable<? extends CountryCodeEnum> country) {
         Utils.checkNotNull(country, "country");
         this.country = country;
         return this;
@@ -550,15 +596,14 @@ public class CustomerRead {
      */
     public CustomerRead withFullAddress(String fullAddress) {
         Utils.checkNotNull(fullAddress, "fullAddress");
-        this.fullAddress = Optional.ofNullable(fullAddress);
+        this.fullAddress = JsonNullable.of(fullAddress);
         return this;
     }
-
 
     /**
      * Complete address string of the customer, which can be used as an alternative to individual fields.
      */
-    public CustomerRead withFullAddress(Optional<String> fullAddress) {
+    public CustomerRead withFullAddress(JsonNullable<String> fullAddress) {
         Utils.checkNotNull(fullAddress, "fullAddress");
         this.fullAddress = fullAddress;
         return this;
@@ -569,15 +614,14 @@ public class CustomerRead {
      */
     public CustomerRead withName(String name) {
         Utils.checkNotNull(name, "name");
-        this.name = Optional.ofNullable(name);
+        this.name = JsonNullable.of(name);
         return this;
     }
-
 
     /**
      * Name of the customer.
      */
-    public CustomerRead withName(Optional<String> name) {
+    public CustomerRead withName(JsonNullable<String> name) {
         Utils.checkNotNull(name, "name");
         this.name = name;
         return this;
@@ -588,15 +632,14 @@ public class CustomerRead {
      */
     public CustomerRead withExternalId(String externalId) {
         Utils.checkNotNull(externalId, "externalId");
-        this.externalId = Optional.ofNullable(externalId);
+        this.externalId = JsonNullable.of(externalId);
         return this;
     }
-
 
     /**
      * External identifier associated with the customer.
      */
-    public CustomerRead withExternalId(Optional<String> externalId) {
+    public CustomerRead withExternalId(JsonNullable<String> externalId) {
         Utils.checkNotNull(externalId, "externalId");
         this.externalId = externalId;
         return this;
@@ -620,28 +663,50 @@ public class CustomerRead {
      */
     public CustomerRead withEmail(String email) {
         Utils.checkNotNull(email, "email");
-        this.email = Optional.ofNullable(email);
+        this.email = JsonNullable.of(email);
         return this;
     }
-
 
     /**
      * Customer's email address
      */
-    public CustomerRead withEmail(Optional<String> email) {
+    public CustomerRead withEmail(JsonNullable<String> email) {
         Utils.checkNotNull(email, "email");
         this.email = email;
         return this;
     }
 
-    public CustomerRead withSource(SourceEnum source) {
-        Utils.checkNotNull(source, "source");
-        this.source = Optional.ofNullable(source);
+    /**
+     * Registered or legal business name of the customer.
+     */
+    public CustomerRead withCompanyName(String companyName) {
+        Utils.checkNotNull(companyName, "companyName");
+        this.companyName = JsonNullable.of(companyName);
         return this;
     }
 
+    /**
+     * Registered or legal business name of the customer.
+     */
+    public CustomerRead withCompanyName(JsonNullable<String> companyName) {
+        Utils.checkNotNull(companyName, "companyName");
+        this.companyName = companyName;
+        return this;
+    }
 
-    public CustomerRead withSource(Optional<? extends SourceEnum> source) {
+    /**
+     * Source of the customer's record.
+     */
+    public CustomerRead withSource(SourceEnum source) {
+        Utils.checkNotNull(source, "source");
+        this.source = JsonNullable.of(source);
+        return this;
+    }
+
+    /**
+     * Source of the customer's record.
+     */
+    public CustomerRead withSource(JsonNullable<? extends SourceEnum> source) {
         Utils.checkNotNull(source, "source");
         this.source = source;
         return this;
@@ -652,15 +717,14 @@ public class CustomerRead {
      */
     public CustomerRead withConnectionId(String connectionId) {
         Utils.checkNotNull(connectionId, "connectionId");
-        this.connectionId = Optional.ofNullable(connectionId);
+        this.connectionId = JsonNullable.of(connectionId);
         return this;
     }
-
 
     /**
      * Identifier for the connection source, if applicable.
      */
-    public CustomerRead withConnectionId(Optional<String> connectionId) {
+    public CustomerRead withConnectionId(JsonNullable<String> connectionId) {
         Utils.checkNotNull(connectionId, "connectionId");
         this.connectionId = connectionId;
         return this;
@@ -684,15 +748,14 @@ public class CustomerRead {
      */
     public CustomerRead withRegistrationNumber(String registrationNumber) {
         Utils.checkNotNull(registrationNumber, "registrationNumber");
-        this.registrationNumber = Optional.ofNullable(registrationNumber);
+        this.registrationNumber = JsonNullable.of(registrationNumber);
         return this;
     }
-
 
     /**
      * Registration number of the customer.
      */
-    public CustomerRead withRegistrationNumber(Optional<String> registrationNumber) {
+    public CustomerRead withRegistrationNumber(JsonNullable<String> registrationNumber) {
         Utils.checkNotNull(registrationNumber, "registrationNumber");
         this.registrationNumber = registrationNumber;
         return this;
@@ -703,15 +766,14 @@ public class CustomerRead {
      */
     public CustomerRead withExternalFriendlyId(String externalFriendlyId) {
         Utils.checkNotNull(externalFriendlyId, "externalFriendlyId");
-        this.externalFriendlyId = Optional.ofNullable(externalFriendlyId);
+        this.externalFriendlyId = JsonNullable.of(externalFriendlyId);
         return this;
     }
-
 
     /**
      * External friendly identifier associated with the customer. We need it for netsuite.
      */
-    public CustomerRead withExternalFriendlyId(Optional<String> externalFriendlyId) {
+    public CustomerRead withExternalFriendlyId(JsonNullable<String> externalFriendlyId) {
         Utils.checkNotNull(externalFriendlyId, "externalFriendlyId");
         this.externalFriendlyId = externalFriendlyId;
         return this;
@@ -754,6 +816,24 @@ public class CustomerRead {
         return this;
     }
 
+    /**
+     * Store name resolved from the customer's connection, if available.
+     */
+    public CustomerRead withStoreName(String storeName) {
+        Utils.checkNotNull(storeName, "storeName");
+        this.storeName = JsonNullable.of(storeName);
+        return this;
+    }
+
+    /**
+     * Store name resolved from the customer's connection, if available.
+     */
+    public CustomerRead withStoreName(JsonNullable<String> storeName) {
+        Utils.checkNotNull(storeName, "storeName");
+        this.storeName = storeName;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -777,6 +857,7 @@ public class CustomerRead {
             Utils.enhancedDeepEquals(this.externalId, other.externalId) &&
             Utils.enhancedDeepEquals(this.status, other.status) &&
             Utils.enhancedDeepEquals(this.email, other.email) &&
+            Utils.enhancedDeepEquals(this.companyName, other.companyName) &&
             Utils.enhancedDeepEquals(this.source, other.source) &&
             Utils.enhancedDeepEquals(this.connectionId, other.connectionId) &&
             Utils.enhancedDeepEquals(this.addressStatus, other.addressStatus) &&
@@ -784,7 +865,8 @@ public class CustomerRead {
             Utils.enhancedDeepEquals(this.externalFriendlyId, other.externalFriendlyId) &&
             Utils.enhancedDeepEquals(this.customerTaxRegistrations, other.customerTaxRegistrations) &&
             Utils.enhancedDeepEquals(this.id, other.id) &&
-            Utils.enhancedDeepEquals(this.organizationId, other.organizationId);
+            Utils.enhancedDeepEquals(this.organizationId, other.organizationId) &&
+            Utils.enhancedDeepEquals(this.storeName, other.storeName);
     }
     
     @Override
@@ -794,9 +876,10 @@ public class CustomerRead {
             city, county, state,
             postalCode, country, fullAddress,
             name, externalId, status,
-            email, source, connectionId,
-            addressStatus, registrationNumber, externalFriendlyId,
-            customerTaxRegistrations, id, organizationId);
+            email, companyName, source,
+            connectionId, addressStatus, registrationNumber,
+            externalFriendlyId, customerTaxRegistrations, id,
+            organizationId, storeName);
     }
     
     @Override
@@ -815,6 +898,7 @@ public class CustomerRead {
                 "externalId", externalId,
                 "status", status,
                 "email", email,
+                "companyName", companyName,
                 "source", source,
                 "connectionId", connectionId,
                 "addressStatus", addressStatus,
@@ -822,53 +906,58 @@ public class CustomerRead {
                 "externalFriendlyId", externalFriendlyId,
                 "customerTaxRegistrations", customerTaxRegistrations,
                 "id", id,
-                "organizationId", organizationId);
+                "organizationId", organizationId,
+                "storeName", storeName);
     }
 
     @SuppressWarnings("UnusedReturnValue")
     public final static class Builder {
 
-        private Optional<String> phone = Optional.empty();
+        private JsonNullable<String> phone = JsonNullable.undefined();
 
-        private Optional<String> street1 = Optional.empty();
+        private JsonNullable<String> street1 = JsonNullable.undefined();
 
-        private Optional<String> street2 = Optional.empty();
+        private JsonNullable<String> street2 = JsonNullable.undefined();
 
-        private Optional<String> city = Optional.empty();
+        private JsonNullable<String> city = JsonNullable.undefined();
 
-        private Optional<String> county = Optional.empty();
+        private JsonNullable<String> county = JsonNullable.undefined();
 
-        private Optional<String> state = Optional.empty();
+        private JsonNullable<String> state = JsonNullable.undefined();
 
-        private Optional<String> postalCode = Optional.empty();
+        private JsonNullable<String> postalCode = JsonNullable.undefined();
 
-        private Optional<? extends CountryCodeEnum> country = Optional.empty();
+        private JsonNullable<? extends CountryCodeEnum> country = JsonNullable.undefined();
 
-        private Optional<String> fullAddress = Optional.empty();
+        private JsonNullable<String> fullAddress = JsonNullable.undefined();
 
-        private Optional<String> name = Optional.empty();
+        private JsonNullable<String> name = JsonNullable.undefined();
 
-        private Optional<String> externalId = Optional.empty();
+        private JsonNullable<String> externalId = JsonNullable.undefined();
 
         private Optional<? extends StatusEnum> status = Optional.empty();
 
-        private Optional<String> email = Optional.empty();
+        private JsonNullable<String> email = JsonNullable.undefined();
 
-        private Optional<? extends SourceEnum> source = Optional.empty();
+        private JsonNullable<String> companyName = JsonNullable.undefined();
 
-        private Optional<String> connectionId = Optional.empty();
+        private JsonNullable<? extends SourceEnum> source = JsonNullable.undefined();
+
+        private JsonNullable<String> connectionId = JsonNullable.undefined();
 
         private Optional<? extends AddressStatus> addressStatus = Optional.empty();
 
-        private Optional<String> registrationNumber = Optional.empty();
+        private JsonNullable<String> registrationNumber = JsonNullable.undefined();
 
-        private Optional<String> externalFriendlyId = Optional.empty();
+        private JsonNullable<String> externalFriendlyId = JsonNullable.undefined();
 
         private Optional<? extends List<CustomerTaxRegistrationRead>> customerTaxRegistrations = Optional.empty();
 
         private String id;
 
         private String organizationId;
+
+        private JsonNullable<String> storeName = JsonNullable.undefined();
 
         private Builder() {
           // force use of static builder() method
@@ -880,14 +969,14 @@ public class CustomerRead {
          */
         public Builder phone(String phone) {
             Utils.checkNotNull(phone, "phone");
-            this.phone = Optional.ofNullable(phone);
+            this.phone = JsonNullable.of(phone);
             return this;
         }
 
         /**
          * Customer's phone number
          */
-        public Builder phone(Optional<String> phone) {
+        public Builder phone(JsonNullable<String> phone) {
             Utils.checkNotNull(phone, "phone");
             this.phone = phone;
             return this;
@@ -899,14 +988,14 @@ public class CustomerRead {
          */
         public Builder street1(String street1) {
             Utils.checkNotNull(street1, "street1");
-            this.street1 = Optional.ofNullable(street1);
+            this.street1 = JsonNullable.of(street1);
             return this;
         }
 
         /**
          * Primary street address.
          */
-        public Builder street1(Optional<String> street1) {
+        public Builder street1(JsonNullable<String> street1) {
             Utils.checkNotNull(street1, "street1");
             this.street1 = street1;
             return this;
@@ -918,14 +1007,14 @@ public class CustomerRead {
          */
         public Builder street2(String street2) {
             Utils.checkNotNull(street2, "street2");
-            this.street2 = Optional.ofNullable(street2);
+            this.street2 = JsonNullable.of(street2);
             return this;
         }
 
         /**
          * Additional street address details, such as an apartment or suite number.
          */
-        public Builder street2(Optional<String> street2) {
+        public Builder street2(JsonNullable<String> street2) {
             Utils.checkNotNull(street2, "street2");
             this.street2 = street2;
             return this;
@@ -937,14 +1026,14 @@ public class CustomerRead {
          */
         public Builder city(String city) {
             Utils.checkNotNull(city, "city");
-            this.city = Optional.ofNullable(city);
+            this.city = JsonNullable.of(city);
             return this;
         }
 
         /**
          * City where the customer resides.
          */
-        public Builder city(Optional<String> city) {
+        public Builder city(JsonNullable<String> city) {
             Utils.checkNotNull(city, "city");
             this.city = city;
             return this;
@@ -956,14 +1045,14 @@ public class CustomerRead {
          */
         public Builder county(String county) {
             Utils.checkNotNull(county, "county");
-            this.county = Optional.ofNullable(county);
+            this.county = JsonNullable.of(county);
             return this;
         }
 
         /**
          * County or district of the customer.
          */
-        public Builder county(Optional<String> county) {
+        public Builder county(JsonNullable<String> county) {
             Utils.checkNotNull(county, "county");
             this.county = county;
             return this;
@@ -975,14 +1064,14 @@ public class CustomerRead {
          */
         public Builder state(String state) {
             Utils.checkNotNull(state, "state");
-            this.state = Optional.ofNullable(state);
+            this.state = JsonNullable.of(state);
             return this;
         }
 
         /**
          * State or province of the customer.
          */
-        public Builder state(Optional<String> state) {
+        public Builder state(JsonNullable<String> state) {
             Utils.checkNotNull(state, "state");
             this.state = state;
             return this;
@@ -994,27 +1083,33 @@ public class CustomerRead {
          */
         public Builder postalCode(String postalCode) {
             Utils.checkNotNull(postalCode, "postalCode");
-            this.postalCode = Optional.ofNullable(postalCode);
+            this.postalCode = JsonNullable.of(postalCode);
             return this;
         }
 
         /**
          * ZIP or Postal code of the customer.
          */
-        public Builder postalCode(Optional<String> postalCode) {
+        public Builder postalCode(JsonNullable<String> postalCode) {
             Utils.checkNotNull(postalCode, "postalCode");
             this.postalCode = postalCode;
             return this;
         }
 
 
+        /**
+         * Country code in ISO 3166-1 alpha-2 format
+         */
         public Builder country(CountryCodeEnum country) {
             Utils.checkNotNull(country, "country");
-            this.country = Optional.ofNullable(country);
+            this.country = JsonNullable.of(country);
             return this;
         }
 
-        public Builder country(Optional<? extends CountryCodeEnum> country) {
+        /**
+         * Country code in ISO 3166-1 alpha-2 format
+         */
+        public Builder country(JsonNullable<? extends CountryCodeEnum> country) {
             Utils.checkNotNull(country, "country");
             this.country = country;
             return this;
@@ -1026,14 +1121,14 @@ public class CustomerRead {
          */
         public Builder fullAddress(String fullAddress) {
             Utils.checkNotNull(fullAddress, "fullAddress");
-            this.fullAddress = Optional.ofNullable(fullAddress);
+            this.fullAddress = JsonNullable.of(fullAddress);
             return this;
         }
 
         /**
          * Complete address string of the customer, which can be used as an alternative to individual fields.
          */
-        public Builder fullAddress(Optional<String> fullAddress) {
+        public Builder fullAddress(JsonNullable<String> fullAddress) {
             Utils.checkNotNull(fullAddress, "fullAddress");
             this.fullAddress = fullAddress;
             return this;
@@ -1045,14 +1140,14 @@ public class CustomerRead {
          */
         public Builder name(String name) {
             Utils.checkNotNull(name, "name");
-            this.name = Optional.ofNullable(name);
+            this.name = JsonNullable.of(name);
             return this;
         }
 
         /**
          * Name of the customer.
          */
-        public Builder name(Optional<String> name) {
+        public Builder name(JsonNullable<String> name) {
             Utils.checkNotNull(name, "name");
             this.name = name;
             return this;
@@ -1064,14 +1159,14 @@ public class CustomerRead {
          */
         public Builder externalId(String externalId) {
             Utils.checkNotNull(externalId, "externalId");
-            this.externalId = Optional.ofNullable(externalId);
+            this.externalId = JsonNullable.of(externalId);
             return this;
         }
 
         /**
          * External identifier associated with the customer.
          */
-        public Builder externalId(Optional<String> externalId) {
+        public Builder externalId(JsonNullable<String> externalId) {
             Utils.checkNotNull(externalId, "externalId");
             this.externalId = externalId;
             return this;
@@ -1096,27 +1191,52 @@ public class CustomerRead {
          */
         public Builder email(String email) {
             Utils.checkNotNull(email, "email");
-            this.email = Optional.ofNullable(email);
+            this.email = JsonNullable.of(email);
             return this;
         }
 
         /**
          * Customer's email address
          */
-        public Builder email(Optional<String> email) {
+        public Builder email(JsonNullable<String> email) {
             Utils.checkNotNull(email, "email");
             this.email = email;
             return this;
         }
 
 
-        public Builder source(SourceEnum source) {
-            Utils.checkNotNull(source, "source");
-            this.source = Optional.ofNullable(source);
+        /**
+         * Registered or legal business name of the customer.
+         */
+        public Builder companyName(String companyName) {
+            Utils.checkNotNull(companyName, "companyName");
+            this.companyName = JsonNullable.of(companyName);
             return this;
         }
 
-        public Builder source(Optional<? extends SourceEnum> source) {
+        /**
+         * Registered or legal business name of the customer.
+         */
+        public Builder companyName(JsonNullable<String> companyName) {
+            Utils.checkNotNull(companyName, "companyName");
+            this.companyName = companyName;
+            return this;
+        }
+
+
+        /**
+         * Source of the customer's record.
+         */
+        public Builder source(SourceEnum source) {
+            Utils.checkNotNull(source, "source");
+            this.source = JsonNullable.of(source);
+            return this;
+        }
+
+        /**
+         * Source of the customer's record.
+         */
+        public Builder source(JsonNullable<? extends SourceEnum> source) {
             Utils.checkNotNull(source, "source");
             this.source = source;
             return this;
@@ -1128,14 +1248,14 @@ public class CustomerRead {
          */
         public Builder connectionId(String connectionId) {
             Utils.checkNotNull(connectionId, "connectionId");
-            this.connectionId = Optional.ofNullable(connectionId);
+            this.connectionId = JsonNullable.of(connectionId);
             return this;
         }
 
         /**
          * Identifier for the connection source, if applicable.
          */
-        public Builder connectionId(Optional<String> connectionId) {
+        public Builder connectionId(JsonNullable<String> connectionId) {
             Utils.checkNotNull(connectionId, "connectionId");
             this.connectionId = connectionId;
             return this;
@@ -1160,14 +1280,14 @@ public class CustomerRead {
          */
         public Builder registrationNumber(String registrationNumber) {
             Utils.checkNotNull(registrationNumber, "registrationNumber");
-            this.registrationNumber = Optional.ofNullable(registrationNumber);
+            this.registrationNumber = JsonNullable.of(registrationNumber);
             return this;
         }
 
         /**
          * Registration number of the customer.
          */
-        public Builder registrationNumber(Optional<String> registrationNumber) {
+        public Builder registrationNumber(JsonNullable<String> registrationNumber) {
             Utils.checkNotNull(registrationNumber, "registrationNumber");
             this.registrationNumber = registrationNumber;
             return this;
@@ -1179,14 +1299,14 @@ public class CustomerRead {
          */
         public Builder externalFriendlyId(String externalFriendlyId) {
             Utils.checkNotNull(externalFriendlyId, "externalFriendlyId");
-            this.externalFriendlyId = Optional.ofNullable(externalFriendlyId);
+            this.externalFriendlyId = JsonNullable.of(externalFriendlyId);
             return this;
         }
 
         /**
          * External friendly identifier associated with the customer. We need it for netsuite.
          */
-        public Builder externalFriendlyId(Optional<String> externalFriendlyId) {
+        public Builder externalFriendlyId(JsonNullable<String> externalFriendlyId) {
             Utils.checkNotNull(externalFriendlyId, "externalFriendlyId");
             this.externalFriendlyId = externalFriendlyId;
             return this;
@@ -1231,6 +1351,25 @@ public class CustomerRead {
             return this;
         }
 
+
+        /**
+         * Store name resolved from the customer's connection, if available.
+         */
+        public Builder storeName(String storeName) {
+            Utils.checkNotNull(storeName, "storeName");
+            this.storeName = JsonNullable.of(storeName);
+            return this;
+        }
+
+        /**
+         * Store name resolved from the customer's connection, if available.
+         */
+        public Builder storeName(JsonNullable<String> storeName) {
+            Utils.checkNotNull(storeName, "storeName");
+            this.storeName = storeName;
+            return this;
+        }
+
         public CustomerRead build() {
 
             return new CustomerRead(
@@ -1238,9 +1377,10 @@ public class CustomerRead {
                 city, county, state,
                 postalCode, country, fullAddress,
                 name, externalId, status,
-                email, source, connectionId,
-                addressStatus, registrationNumber, externalFriendlyId,
-                customerTaxRegistrations, id, organizationId);
+                email, companyName, source,
+                connectionId, addressStatus, registrationNumber,
+                externalFriendlyId, customerTaxRegistrations, id,
+                organizationId, storeName);
         }
 
     }

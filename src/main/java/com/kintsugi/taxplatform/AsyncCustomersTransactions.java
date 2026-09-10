@@ -10,8 +10,11 @@ import com.kintsugi.taxplatform.models.operations.async.GetTransactionsByCustome
 import com.kintsugi.taxplatform.models.operations.async.GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse;
 import com.kintsugi.taxplatform.operations.GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet;
 import com.kintsugi.taxplatform.utils.Headers;
+import java.lang.Long;
 import java.lang.String;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 public class AsyncCustomersTransactions {
@@ -35,9 +38,11 @@ public class AsyncCustomersTransactions {
 
 
     /**
-     * Get Transactions By Customer Id
+     * Get transactions by customer id
      * 
-     * <p>Get a list of transactions for a customer by their unique ID.
+     * <p>Get a list of transactions for a customer by their unique ID. When pagination params are provided,
+     * this endpoint returns a paginated response. When omitted, it returns the legacy list response format
+     * (deprecated).
      * 
      * @return The async call builder
      */
@@ -46,18 +51,44 @@ public class AsyncCustomersTransactions {
     }
 
     /**
-     * Get Transactions By Customer Id
+     * Get transactions by customer id
      * 
-     * <p>Get a list of transactions for a customer by their unique ID.
+     * <p>Get a list of transactions for a customer by their unique ID. When pagination params are provided,
+     * this endpoint returns a paginated response. When omitted, it returns the legacy list response format
+     * (deprecated).
      * 
      * @param customerId 
      * @return {@code CompletableFuture<GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse>} - The async response
      */
     public CompletableFuture<GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse> getByCustomerId(String customerId) {
+        return getByCustomerId(
+                customerId, JsonNullable.undefined(), JsonNullable.undefined(),
+                Optional.empty());
+    }
+
+    /**
+     * Get transactions by customer id
+     * 
+     * <p>Get a list of transactions for a customer by their unique ID. When pagination params are provided,
+     * this endpoint returns a paginated response. When omitted, it returns the legacy list response format
+     * (deprecated).
+     * 
+     * @param customerId 
+     * @param page 
+     * @param size 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @return {@code CompletableFuture<GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse>} - The async response
+     */
+    public CompletableFuture<GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse> getByCustomerId(
+            String customerId, JsonNullable<Long> page,
+            JsonNullable<Long> size, Optional<String> xOrganizationId) {
         GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest request =
             GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest
                 .builder()
                 .customerId(customerId)
+                .page(page)
+                .size(size)
+                .xOrganizationId(xOrganizationId)
                 .build();
         AsyncRequestOperation<GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest, GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse> operation
               = new GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet.Async(sdkConfiguration, _headers);

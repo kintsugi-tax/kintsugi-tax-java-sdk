@@ -10,11 +10,11 @@ import static com.kintsugi.taxplatform.operations.Operations.AsyncRequestOperati
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.SecuritySource;
-import com.kintsugi.taxplatform.models.components.TransactionRead;
 import com.kintsugi.taxplatform.models.errors.APIException;
 import com.kintsugi.taxplatform.models.errors.HTTPValidationError;
 import com.kintsugi.taxplatform.models.operations.GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse;
+import com.kintsugi.taxplatform.models.operations.ResponseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet;
 import com.kintsugi.taxplatform.utils.Blob;
 import com.kintsugi.taxplatform.utils.HTTPClient;
 import com.kintsugi.taxplatform.utils.HTTPRequest;
@@ -29,7 +29,6 @@ import java.lang.String;
 import java.lang.Throwable;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
@@ -92,6 +91,12 @@ public class GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet {
             req.addHeader("Accept", "application/json")
                     .addHeader("user-agent", SDKConfiguration.USER_AGENT);
             _headers.forEach((k, list) -> list.forEach(v -> req.addHeader(k, v)));
+
+            req.addQueryParams(Utils.getQueryParams(
+                    klass,
+                    request,
+                    null));
+            req.addHeaders(Utils.getHeadersFromMetadata(request, null));
             Utils.configureSecurity(req, this.sdkConfiguration.securitySource().getSecurity());
 
             return req.build();
@@ -156,7 +161,7 @@ public class GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet {
             
             if (Utils.statusCodeMatches(response.statusCode(), "200")) {
                 if (Utils.contentTypeMatches(contentType, "application/json")) {
-                    return res.withResponseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet(Utils.unmarshal(response, new TypeReference<List<TransactionRead>>() {}));
+                    return res.withResponseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet(Utils.unmarshal(response, new TypeReference<ResponseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet>() {}));
                 } else {
                     throw APIException.from("Unexpected content-type received: " + contentType, response);
                 }
@@ -233,7 +238,7 @@ public class GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet {
             
             if (Utils.statusCodeMatches(response.statusCode(), "200")) {
                 if (Utils.contentTypeMatches(contentType, "application/json")) {
-                    return Utils.unmarshalAsync(response, new TypeReference<List<TransactionRead>>() {})
+                    return Utils.unmarshalAsync(response, new TypeReference<ResponseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet>() {})
                             .thenApply(res::withResponseGetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet);
                 } else {
                     return Utils.createAsyncApiError(response, "Unexpected content-type received: " + contentType);

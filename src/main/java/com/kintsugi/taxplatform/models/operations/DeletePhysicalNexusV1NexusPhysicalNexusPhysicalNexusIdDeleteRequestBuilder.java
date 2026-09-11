@@ -10,10 +10,12 @@ import com.kintsugi.taxplatform.operations.DeletePhysicalNexusV1NexusPhysicalNex
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.util.Optional;
 
 public class DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequestBuilder {
 
     private String physicalNexusId;
+    private Optional<String> xOrganizationId = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -26,11 +28,24 @@ public class DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest
         this.physicalNexusId = physicalNexusId;
         return this;
     }
+                
+    public DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequestBuilder xOrganizationId(String xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = Optional.of(xOrganizationId);
+        return this;
+    }
+
+    public DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequestBuilder xOrganizationId(Optional<String> xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = xOrganizationId;
+        return this;
+    }
 
 
     private DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest buildRequest() {
 
-        DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest request = new DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest(physicalNexusId);
+        DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest request = new DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest(physicalNexusId,
+            xOrganizationId);
 
         return request;
     }

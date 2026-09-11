@@ -10,27 +10,52 @@ import com.kintsugi.taxplatform.models.components.PhysicalNexusCreate;
 import com.kintsugi.taxplatform.operations.CreatePhysicalNexusV1NexusPhysicalNexusPost;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
+import java.lang.String;
+import java.util.Optional;
 
 public class CreatePhysicalNexusV1NexusPhysicalNexusPostRequestBuilder {
 
-    private PhysicalNexusCreate request;
+    private Optional<String> xOrganizationId = Optional.empty();
+    private PhysicalNexusCreate physicalNexusCreate;
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
     public CreatePhysicalNexusV1NexusPhysicalNexusPostRequestBuilder(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
     }
-
-    public CreatePhysicalNexusV1NexusPhysicalNexusPostRequestBuilder request(PhysicalNexusCreate request) {
-        Utils.checkNotNull(request, "request");
-        this.request = request;
+                
+    public CreatePhysicalNexusV1NexusPhysicalNexusPostRequestBuilder xOrganizationId(String xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = Optional.of(xOrganizationId);
         return this;
+    }
+
+    public CreatePhysicalNexusV1NexusPhysicalNexusPostRequestBuilder xOrganizationId(Optional<String> xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = xOrganizationId;
+        return this;
+    }
+
+    public CreatePhysicalNexusV1NexusPhysicalNexusPostRequestBuilder physicalNexusCreate(PhysicalNexusCreate physicalNexusCreate) {
+        Utils.checkNotNull(physicalNexusCreate, "physicalNexusCreate");
+        this.physicalNexusCreate = physicalNexusCreate;
+        return this;
+    }
+
+
+    private CreatePhysicalNexusV1NexusPhysicalNexusPostRequest buildRequest() {
+
+        CreatePhysicalNexusV1NexusPhysicalNexusPostRequest request = new CreatePhysicalNexusV1NexusPhysicalNexusPostRequest(xOrganizationId,
+            physicalNexusCreate);
+
+        return request;
     }
 
     public CreatePhysicalNexusV1NexusPhysicalNexusPostResponse call() {
         
-        RequestOperation<PhysicalNexusCreate, CreatePhysicalNexusV1NexusPhysicalNexusPostResponse> operation
+        RequestOperation<CreatePhysicalNexusV1NexusPhysicalNexusPostRequest, CreatePhysicalNexusV1NexusPhysicalNexusPostResponse> operation
               = new CreatePhysicalNexusV1NexusPhysicalNexusPost.Sync(sdkConfiguration, _headers);
+        CreatePhysicalNexusV1NexusPhysicalNexusPostRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));
     }

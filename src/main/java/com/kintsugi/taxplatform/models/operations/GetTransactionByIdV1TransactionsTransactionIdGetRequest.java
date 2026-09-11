@@ -9,6 +9,7 @@ import com.kintsugi.taxplatform.utils.SpeakeasyMetadata;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Override;
 import java.lang.String;
+import java.util.Optional;
 
 
 public class GetTransactionByIdV1TransactionsTransactionIdGetRequest {
@@ -18,11 +19,25 @@ public class GetTransactionByIdV1TransactionsTransactionIdGetRequest {
     @SpeakeasyMetadata("pathParam:style=simple,explode=false,name=transaction_id")
     private String transactionId;
 
+    /**
+     * The unique identifier for the organization making the request
+     */
+    @SpeakeasyMetadata("header:style=simple,explode=false,name=x-organization-id")
+    private Optional<String> xOrganizationId;
+
     @JsonCreator
     public GetTransactionByIdV1TransactionsTransactionIdGetRequest(
-            String transactionId) {
+            String transactionId,
+            Optional<String> xOrganizationId) {
         Utils.checkNotNull(transactionId, "transactionId");
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
         this.transactionId = transactionId;
+        this.xOrganizationId = xOrganizationId;
+    }
+    
+    public GetTransactionByIdV1TransactionsTransactionIdGetRequest(
+            String transactionId) {
+        this(transactionId, Optional.empty());
     }
 
     /**
@@ -31,6 +46,14 @@ public class GetTransactionByIdV1TransactionsTransactionIdGetRequest {
     @JsonIgnore
     public String transactionId() {
         return transactionId;
+    }
+
+    /**
+     * The unique identifier for the organization making the request
+     */
+    @JsonIgnore
+    public Optional<String> xOrganizationId() {
+        return xOrganizationId;
     }
 
     public static Builder builder() {
@@ -47,6 +70,25 @@ public class GetTransactionByIdV1TransactionsTransactionIdGetRequest {
         return this;
     }
 
+    /**
+     * The unique identifier for the organization making the request
+     */
+    public GetTransactionByIdV1TransactionsTransactionIdGetRequest withXOrganizationId(String xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = Optional.ofNullable(xOrganizationId);
+        return this;
+    }
+
+
+    /**
+     * The unique identifier for the organization making the request
+     */
+    public GetTransactionByIdV1TransactionsTransactionIdGetRequest withXOrganizationId(Optional<String> xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = xOrganizationId;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -57,25 +99,29 @@ public class GetTransactionByIdV1TransactionsTransactionIdGetRequest {
         }
         GetTransactionByIdV1TransactionsTransactionIdGetRequest other = (GetTransactionByIdV1TransactionsTransactionIdGetRequest) o;
         return 
-            Utils.enhancedDeepEquals(this.transactionId, other.transactionId);
+            Utils.enhancedDeepEquals(this.transactionId, other.transactionId) &&
+            Utils.enhancedDeepEquals(this.xOrganizationId, other.xOrganizationId);
     }
     
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-            transactionId);
+            transactionId, xOrganizationId);
     }
     
     @Override
     public String toString() {
         return Utils.toString(GetTransactionByIdV1TransactionsTransactionIdGetRequest.class,
-                "transactionId", transactionId);
+                "transactionId", transactionId,
+                "xOrganizationId", xOrganizationId);
     }
 
     @SuppressWarnings("UnusedReturnValue")
     public final static class Builder {
 
         private String transactionId;
+
+        private Optional<String> xOrganizationId = Optional.empty();
 
         private Builder() {
           // force use of static builder() method
@@ -91,10 +137,29 @@ public class GetTransactionByIdV1TransactionsTransactionIdGetRequest {
             return this;
         }
 
+
+        /**
+         * The unique identifier for the organization making the request
+         */
+        public Builder xOrganizationId(String xOrganizationId) {
+            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+            this.xOrganizationId = Optional.ofNullable(xOrganizationId);
+            return this;
+        }
+
+        /**
+         * The unique identifier for the organization making the request
+         */
+        public Builder xOrganizationId(Optional<String> xOrganizationId) {
+            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+            this.xOrganizationId = xOrganizationId;
+            return this;
+        }
+
         public GetTransactionByIdV1TransactionsTransactionIdGetRequest build() {
 
             return new GetTransactionByIdV1TransactionsTransactionIdGetRequest(
-                transactionId);
+                transactionId, xOrganizationId);
         }
 
     }

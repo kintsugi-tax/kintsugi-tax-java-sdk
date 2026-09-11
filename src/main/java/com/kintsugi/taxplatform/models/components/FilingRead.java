@@ -17,7 +17,9 @@ import java.lang.Override;
 import java.lang.String;
 import java.lang.SuppressWarnings;
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.Optional;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 public class FilingRead {
@@ -43,28 +45,28 @@ public class FilingRead {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("due_date")
-    private Optional<String> dueDate;
+    private JsonNullable<LocalDate> dueDate;
 
     /**
      * The date the filing was completed, if applicable.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("date_filed")
-    private Optional<String> dateFiled;
+    private JsonNullable<LocalDate> dateFiled;
 
     /**
      * Indicates if the filing was done manually.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("is_manual")
-    private Optional<Boolean> isManual;
+    private JsonNullable<Boolean> isManual;
 
     /**
      * The code of the state associated with the filing (e.g., IA, NY).
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("state_code")
-    private Optional<String> stateCode;
+    private JsonNullable<String> stateCode;
 
     /**
      * The name of the state associated with the filing
@@ -72,39 +74,40 @@ public class FilingRead {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("state_name")
-    private Optional<String> stateName;
+    private JsonNullable<String> stateName;
 
 
     @JsonProperty("country_code")
     private CountryCodeEnum countryCode;
 
     /**
-     * The associated JIRA issue key for tracking the filing,
-     * if available. Can be null.
-     */
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("jira_issue_key")
-    private Optional<String> jiraIssueKey;
-
-    /**
      * Indicates if the filing was auto-approved. Defaults to false.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("auto_approved")
-    private Optional<Boolean> autoApproved;
+    private JsonNullable<Boolean> autoApproved;
 
     /**
      * Indicates the date when filing will be unpaused.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("paused_until_date")
-    private Optional<String> pausedUntilDate;
+    private JsonNullable<LocalDate> pausedUntilDate;
+
+    /**
+     * DevRev ticket DON for the active assistance-pause episode. Cleared when the filing is approved from
+     * PAUSED.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("assistance_ticket_id")
+    private JsonNullable<String> assistanceTicketId;
 
     /**
      * Category of filing. Common values:
      * REGULAR (standard periodic filing),
-     * PREPAYMENT (prepayment or estimated tax),
+     * BACK_FILING (past-due period),
      * AMENDMENT (amended return).
+     * Prepayment is ``is_prepayment``, not a category.
      * Different categories can have overlapping periods.
      */
     @JsonInclude(Include.NON_ABSENT)
@@ -112,18 +115,76 @@ public class FilingRead {
     private Optional<String> filingCategory;
 
     /**
+     * True when this filing is a prepayment obligation. Independent of filing_category so a past-due
+     * prepayment can still be BACK_FILING.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("is_prepayment")
+    private Optional<Boolean> isPrepayment;
+
+    /**
+     * True when this filing is a final return for deregistration. Independent of filing_category — finals
+     * stay REGULAR.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("is_final")
+    private Optional<Boolean> isFinal;
+
+    /**
      * User ID of who approved the filing.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("approved_by")
-    private Optional<String> approvedBy;
+    private JsonNullable<String> approvedBy;
 
     /**
      * Timestamp when the filing was approved.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("approved_at")
-    private Optional<String> approvedAt;
+    private JsonNullable<OffsetDateTime> approvedAt;
+
+    /**
+     * Reason why the filing has an issue, if applicable.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("issue_reason")
+    private JsonNullable<String> issueReason;
+
+    /**
+     * Reason why the filing was skipped, if applicable.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("skip_reason")
+    private JsonNullable<String> skipReason;
+
+    /**
+     * Reason why the filing was cancelled, if applicable.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("cancelled_reason")
+    private JsonNullable<String> cancelledReason;
+
+    /**
+     * Tax obligation on a nexus, registration, or filing row.
+     * 
+     * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
+     * one return can cover both taxes, and each is stored as a single row.
+     * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
+     * separate obligations with their own met dates, period models, and liability
+     * accrual.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("tax_type")
+    private Optional<? extends TaxTypeEnum> taxType;
+
+    /**
+     * True when this filing is a state Retail Delivery Fee return, a separate filing from the state's
+     * sales tax return.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("is_rdf")
+    private Optional<Boolean> isRdf;
 
     /**
      * The calculated amount for the filing. Defaults to 0.00.
@@ -147,7 +208,7 @@ public class FilingRead {
     private Optional<String> amountDiscounts;
 
     /**
-     * Discounts applied to the amount.
+     * Fees applied to the filing.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("amount_fees")
@@ -168,6 +229,24 @@ public class FilingRead {
     private Optional<String> amountTaxCollected;
 
     /**
+     * Gross tax the buyer owes on purchases. US use tax, or EU/UK reverse-charge self-assessed VAT. Not
+     * net of recoverable VAT.
+     * 
+     * <p>Defaults to 0.00.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("amount_use_tax")
+    private Optional<String> amountUseTax;
+
+    /**
+     * Input VAT recovered on this filing's purchases. Subtracted from liability; always 0.00 outside EU/UK
+     * VAT AP filings.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("amount_input_vat_recoverable")
+    private Optional<String> amountInputVatRecoverable;
+
+    /**
      * Total sales amount during the filing period.
      */
     @JsonInclude(Include.NON_ABSENT)
@@ -179,7 +258,7 @@ public class FilingRead {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("total_taxable_sales")
-    private Optional<String> totalTaxableSales;
+    private JsonNullable<String> totalTaxableSales;
 
     /**
      * Final amount due for the filing.
@@ -210,16 +289,24 @@ public class FilingRead {
     private Optional<Long> marketplaceTransactionCount;
 
     /**
+     * Estimated schedule line count (distinct jurisdictions). For Tax Ops workload ranking, not portal
+     * accuracy.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("estimated_line_count")
+    private JsonNullable<Long> estimatedLineCount;
+
+    /**
      * Notes or comments related to the filing.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("internal_notes")
-    private Optional<String> internalNotes;
+    private JsonNullable<String> internalNotes;
 
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("recent_details_report_link")
-    private Optional<String> recentDetailsReportLink;
+    private JsonNullable<String> recentDetailsReportLink;
 
     /**
      * The amount of tax remitted.
@@ -229,30 +316,39 @@ public class FilingRead {
     private Optional<String> taxRemitted;
 
     /**
+     * Tax remitted when filing was first confirmed.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("original_tax_remitted")
+    private JsonNullable<String> originalTaxRemitted;
+
+    /**
      * Return confirmation ID, if applicable.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("return_confirmation_id")
-    private Optional<String> returnConfirmationId;
+    private JsonNullable<String> returnConfirmationId;
 
     /**
      * Payment confirmation ID, if applicable.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("payment_confirmation_id")
-    private Optional<String> paymentConfirmationId;
+    private JsonNullable<String> paymentConfirmationId;
 
     /**
      * Indicates if the filing can be approved.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("block_approval")
-    private Optional<Boolean> blockApproval;
+    private JsonNullable<Boolean> blockApproval;
 
-
+    /**
+     * Currency code for the filing (e.g., USD, CAD).
+     */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("currency")
-    private Optional<? extends CurrencyEnum> currency;
+    private JsonNullable<? extends CurrencyEnum> currency;
 
     /**
      * Unique identifier for the filing.
@@ -267,50 +363,119 @@ public class FilingRead {
     private String registrationId;
 
     /**
+     * Filing frequency from the associated registration.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("filing_frequency")
+    private JsonNullable<String> filingFrequency;
+
+    /**
+     * OSS scheme (UNION/NON_UNION/IOSS) from the associated registration, if any.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("oss_type")
+    private JsonNullable<String> ossType;
+
+    /**
+     * Display-only balance-due breakdown for CA Quarterly Prepayment reconciliation filings, populated
+     * only when the org toggle is on and the filing qualifies. When present, clients should show
+     * balance_due instead of total_tax_liability. Absent means show total_tax_liability as usual.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("quarterly_prepay_balance")
+    private JsonNullable<? extends QuarterlyPrepayBalanceDisplay> quarterlyPrepayBalance;
+
+    /**
+     * Display-only CDTFA Option 2 (135% of May liability) for CA Quarterly Prepayment May prepayment
+     * filings. When present, list/CSV/approve copy should prefer prepayment_amount; Tax Overview keeps
+     * Total Liability at 100% and adds a separate CDTFA Option 2 row. Absent means show
+     * total_tax_liability as usual.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("ca_may_prepayment")
+    private JsonNullable<? extends CaMayPrepaymentDisplay> caMayPrepayment;
+
+    /**
+     * Display-only estimated penalties and interest for BACK_FILING rows. Null means unknown
+     * (placeholder). Zero is a genuine not-yet-late or zero-tax outcome.
+     * 
+     * <p>Never persisted on the filing or used for billing.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("estimated_penalty_interest")
+    private JsonNullable<String> estimatedPenaltyInterest;
+
+    /**
+     * Customer-facing P&amp;I timing tag for BACK_FILING rows, e.g. 'Paid with return' or 'State bills you
+     * later'.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("penalty_interest_remittance_tag")
+    private JsonNullable<String> penaltyInterestRemittanceTag;
+
+    /**
      * Get the filing website URL for this filing's jurisdiction
      */
+    @JsonInclude(Include.ALWAYS)
     @JsonProperty("filing_website_url")
-    private String filingWebsiteUrl;
+    private Optional<String> filingWebsiteUrl;
 
     @JsonCreator
     public FilingRead(
             @JsonProperty("status") Optional<? extends FilingStatusEnum> status,
             @JsonProperty("start_date") LocalDate startDate,
             @JsonProperty("end_date") LocalDate endDate,
-            @JsonProperty("due_date") Optional<String> dueDate,
-            @JsonProperty("date_filed") Optional<String> dateFiled,
-            @JsonProperty("is_manual") Optional<Boolean> isManual,
-            @JsonProperty("state_code") Optional<String> stateCode,
-            @JsonProperty("state_name") Optional<String> stateName,
+            @JsonProperty("due_date") JsonNullable<LocalDate> dueDate,
+            @JsonProperty("date_filed") JsonNullable<LocalDate> dateFiled,
+            @JsonProperty("is_manual") JsonNullable<Boolean> isManual,
+            @JsonProperty("state_code") JsonNullable<String> stateCode,
+            @JsonProperty("state_name") JsonNullable<String> stateName,
             @JsonProperty("country_code") CountryCodeEnum countryCode,
-            @JsonProperty("jira_issue_key") Optional<String> jiraIssueKey,
-            @JsonProperty("auto_approved") Optional<Boolean> autoApproved,
-            @JsonProperty("paused_until_date") Optional<String> pausedUntilDate,
+            @JsonProperty("auto_approved") JsonNullable<Boolean> autoApproved,
+            @JsonProperty("paused_until_date") JsonNullable<LocalDate> pausedUntilDate,
+            @JsonProperty("assistance_ticket_id") JsonNullable<String> assistanceTicketId,
             @JsonProperty("filing_category") Optional<String> filingCategory,
-            @JsonProperty("approved_by") Optional<String> approvedBy,
-            @JsonProperty("approved_at") Optional<String> approvedAt,
+            @JsonProperty("is_prepayment") Optional<Boolean> isPrepayment,
+            @JsonProperty("is_final") Optional<Boolean> isFinal,
+            @JsonProperty("approved_by") JsonNullable<String> approvedBy,
+            @JsonProperty("approved_at") JsonNullable<OffsetDateTime> approvedAt,
+            @JsonProperty("issue_reason") JsonNullable<String> issueReason,
+            @JsonProperty("skip_reason") JsonNullable<String> skipReason,
+            @JsonProperty("cancelled_reason") JsonNullable<String> cancelledReason,
+            @JsonProperty("tax_type") Optional<? extends TaxTypeEnum> taxType,
+            @JsonProperty("is_rdf") Optional<Boolean> isRdf,
             @JsonProperty("amount_calculated") Optional<String> amountCalculated,
             @JsonProperty("amount_adjusted") Optional<String> amountAdjusted,
             @JsonProperty("amount_discounts") Optional<String> amountDiscounts,
             @JsonProperty("amount_fees") Optional<String> amountFees,
             @JsonProperty("amount_penalties") Optional<String> amountPenalties,
             @JsonProperty("amount_tax_collected") Optional<String> amountTaxCollected,
+            @JsonProperty("amount_use_tax") Optional<String> amountUseTax,
+            @JsonProperty("amount_input_vat_recoverable") Optional<String> amountInputVatRecoverable,
             @JsonProperty("amount_sales") Optional<String> amountSales,
-            @JsonProperty("total_taxable_sales") Optional<String> totalTaxableSales,
+            @JsonProperty("total_taxable_sales") JsonNullable<String> totalTaxableSales,
             @JsonProperty("amount") Optional<String> amount,
             @JsonProperty("total_tax_liability") Optional<String> totalTaxLiability,
             @JsonProperty("transaction_count") Optional<Long> transactionCount,
             @JsonProperty("marketplace_transaction_count") Optional<Long> marketplaceTransactionCount,
-            @JsonProperty("internal_notes") Optional<String> internalNotes,
-            @JsonProperty("recent_details_report_link") Optional<String> recentDetailsReportLink,
+            @JsonProperty("estimated_line_count") JsonNullable<Long> estimatedLineCount,
+            @JsonProperty("internal_notes") JsonNullable<String> internalNotes,
+            @JsonProperty("recent_details_report_link") JsonNullable<String> recentDetailsReportLink,
             @JsonProperty("tax_remitted") Optional<String> taxRemitted,
-            @JsonProperty("return_confirmation_id") Optional<String> returnConfirmationId,
-            @JsonProperty("payment_confirmation_id") Optional<String> paymentConfirmationId,
-            @JsonProperty("block_approval") Optional<Boolean> blockApproval,
-            @JsonProperty("currency") Optional<? extends CurrencyEnum> currency,
+            @JsonProperty("original_tax_remitted") JsonNullable<String> originalTaxRemitted,
+            @JsonProperty("return_confirmation_id") JsonNullable<String> returnConfirmationId,
+            @JsonProperty("payment_confirmation_id") JsonNullable<String> paymentConfirmationId,
+            @JsonProperty("block_approval") JsonNullable<Boolean> blockApproval,
+            @JsonProperty("currency") JsonNullable<? extends CurrencyEnum> currency,
             @JsonProperty("id") String id,
             @JsonProperty("registration_id") String registrationId,
-            @JsonProperty("filing_website_url") String filingWebsiteUrl) {
+            @JsonProperty("filing_frequency") JsonNullable<String> filingFrequency,
+            @JsonProperty("oss_type") JsonNullable<String> ossType,
+            @JsonProperty("quarterly_prepay_balance") JsonNullable<? extends QuarterlyPrepayBalanceDisplay> quarterlyPrepayBalance,
+            @JsonProperty("ca_may_prepayment") JsonNullable<? extends CaMayPrepaymentDisplay> caMayPrepayment,
+            @JsonProperty("estimated_penalty_interest") JsonNullable<String> estimatedPenaltyInterest,
+            @JsonProperty("penalty_interest_remittance_tag") JsonNullable<String> penaltyInterestRemittanceTag,
+            @JsonProperty("filing_website_url") Optional<String> filingWebsiteUrl) {
         Utils.checkNotNull(status, "status");
         Utils.checkNotNull(startDate, "startDate");
         Utils.checkNotNull(endDate, "endDate");
@@ -320,33 +485,50 @@ public class FilingRead {
         Utils.checkNotNull(stateCode, "stateCode");
         Utils.checkNotNull(stateName, "stateName");
         Utils.checkNotNull(countryCode, "countryCode");
-        Utils.checkNotNull(jiraIssueKey, "jiraIssueKey");
         Utils.checkNotNull(autoApproved, "autoApproved");
         Utils.checkNotNull(pausedUntilDate, "pausedUntilDate");
+        Utils.checkNotNull(assistanceTicketId, "assistanceTicketId");
         Utils.checkNotNull(filingCategory, "filingCategory");
+        Utils.checkNotNull(isPrepayment, "isPrepayment");
+        Utils.checkNotNull(isFinal, "isFinal");
         Utils.checkNotNull(approvedBy, "approvedBy");
         Utils.checkNotNull(approvedAt, "approvedAt");
+        Utils.checkNotNull(issueReason, "issueReason");
+        Utils.checkNotNull(skipReason, "skipReason");
+        Utils.checkNotNull(cancelledReason, "cancelledReason");
+        Utils.checkNotNull(taxType, "taxType");
+        Utils.checkNotNull(isRdf, "isRdf");
         Utils.checkNotNull(amountCalculated, "amountCalculated");
         Utils.checkNotNull(amountAdjusted, "amountAdjusted");
         Utils.checkNotNull(amountDiscounts, "amountDiscounts");
         Utils.checkNotNull(amountFees, "amountFees");
         Utils.checkNotNull(amountPenalties, "amountPenalties");
         Utils.checkNotNull(amountTaxCollected, "amountTaxCollected");
+        Utils.checkNotNull(amountUseTax, "amountUseTax");
+        Utils.checkNotNull(amountInputVatRecoverable, "amountInputVatRecoverable");
         Utils.checkNotNull(amountSales, "amountSales");
         Utils.checkNotNull(totalTaxableSales, "totalTaxableSales");
         Utils.checkNotNull(amount, "amount");
         Utils.checkNotNull(totalTaxLiability, "totalTaxLiability");
         Utils.checkNotNull(transactionCount, "transactionCount");
         Utils.checkNotNull(marketplaceTransactionCount, "marketplaceTransactionCount");
+        Utils.checkNotNull(estimatedLineCount, "estimatedLineCount");
         Utils.checkNotNull(internalNotes, "internalNotes");
         Utils.checkNotNull(recentDetailsReportLink, "recentDetailsReportLink");
         Utils.checkNotNull(taxRemitted, "taxRemitted");
+        Utils.checkNotNull(originalTaxRemitted, "originalTaxRemitted");
         Utils.checkNotNull(returnConfirmationId, "returnConfirmationId");
         Utils.checkNotNull(paymentConfirmationId, "paymentConfirmationId");
         Utils.checkNotNull(blockApproval, "blockApproval");
         Utils.checkNotNull(currency, "currency");
         Utils.checkNotNull(id, "id");
         Utils.checkNotNull(registrationId, "registrationId");
+        Utils.checkNotNull(filingFrequency, "filingFrequency");
+        Utils.checkNotNull(ossType, "ossType");
+        Utils.checkNotNull(quarterlyPrepayBalance, "quarterlyPrepayBalance");
+        Utils.checkNotNull(caMayPrepayment, "caMayPrepayment");
+        Utils.checkNotNull(estimatedPenaltyInterest, "estimatedPenaltyInterest");
+        Utils.checkNotNull(penaltyInterestRemittanceTag, "penaltyInterestRemittanceTag");
         Utils.checkNotNull(filingWebsiteUrl, "filingWebsiteUrl");
         this.status = status;
         this.startDate = startDate;
@@ -357,33 +539,50 @@ public class FilingRead {
         this.stateCode = stateCode;
         this.stateName = stateName;
         this.countryCode = countryCode;
-        this.jiraIssueKey = jiraIssueKey;
         this.autoApproved = autoApproved;
         this.pausedUntilDate = pausedUntilDate;
+        this.assistanceTicketId = assistanceTicketId;
         this.filingCategory = filingCategory;
+        this.isPrepayment = isPrepayment;
+        this.isFinal = isFinal;
         this.approvedBy = approvedBy;
         this.approvedAt = approvedAt;
+        this.issueReason = issueReason;
+        this.skipReason = skipReason;
+        this.cancelledReason = cancelledReason;
+        this.taxType = taxType;
+        this.isRdf = isRdf;
         this.amountCalculated = amountCalculated;
         this.amountAdjusted = amountAdjusted;
         this.amountDiscounts = amountDiscounts;
         this.amountFees = amountFees;
         this.amountPenalties = amountPenalties;
         this.amountTaxCollected = amountTaxCollected;
+        this.amountUseTax = amountUseTax;
+        this.amountInputVatRecoverable = amountInputVatRecoverable;
         this.amountSales = amountSales;
         this.totalTaxableSales = totalTaxableSales;
         this.amount = amount;
         this.totalTaxLiability = totalTaxLiability;
         this.transactionCount = transactionCount;
         this.marketplaceTransactionCount = marketplaceTransactionCount;
+        this.estimatedLineCount = estimatedLineCount;
         this.internalNotes = internalNotes;
         this.recentDetailsReportLink = recentDetailsReportLink;
         this.taxRemitted = taxRemitted;
+        this.originalTaxRemitted = originalTaxRemitted;
         this.returnConfirmationId = returnConfirmationId;
         this.paymentConfirmationId = paymentConfirmationId;
         this.blockApproval = blockApproval;
         this.currency = currency;
         this.id = id;
         this.registrationId = registrationId;
+        this.filingFrequency = filingFrequency;
+        this.ossType = ossType;
+        this.quarterlyPrepayBalance = quarterlyPrepayBalance;
+        this.caMayPrepayment = caMayPrepayment;
+        this.estimatedPenaltyInterest = estimatedPenaltyInterest;
+        this.penaltyInterestRemittanceTag = penaltyInterestRemittanceTag;
         this.filingWebsiteUrl = filingWebsiteUrl;
     }
     
@@ -392,21 +591,25 @@ public class FilingRead {
             LocalDate endDate,
             CountryCodeEnum countryCode,
             String id,
-            String registrationId,
-            String filingWebsiteUrl) {
+            String registrationId) {
         this(Optional.empty(), startDate, endDate,
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), countryCode,
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
             Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), countryCode,
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), id, registrationId,
-            filingWebsiteUrl);
+            Optional.empty(), Optional.empty(), Optional.empty(),
+            Optional.empty(), JsonNullable.undefined(), Optional.empty(),
+            Optional.empty(), Optional.empty(), Optional.empty(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            Optional.empty(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            id, registrationId, JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty());
     }
 
     @SuppressWarnings("unchecked")
@@ -435,7 +638,7 @@ public class FilingRead {
      * The due date of the filing.
      */
     @JsonIgnore
-    public Optional<String> dueDate() {
+    public JsonNullable<LocalDate> dueDate() {
         return dueDate;
     }
 
@@ -443,7 +646,7 @@ public class FilingRead {
      * The date the filing was completed, if applicable.
      */
     @JsonIgnore
-    public Optional<String> dateFiled() {
+    public JsonNullable<LocalDate> dateFiled() {
         return dateFiled;
     }
 
@@ -451,7 +654,7 @@ public class FilingRead {
      * Indicates if the filing was done manually.
      */
     @JsonIgnore
-    public Optional<Boolean> isManual() {
+    public JsonNullable<Boolean> isManual() {
         return isManual;
     }
 
@@ -459,7 +662,7 @@ public class FilingRead {
      * The code of the state associated with the filing (e.g., IA, NY).
      */
     @JsonIgnore
-    public Optional<String> stateCode() {
+    public JsonNullable<String> stateCode() {
         return stateCode;
     }
 
@@ -468,7 +671,7 @@ public class FilingRead {
      * (e.g., Iowa, New York).
      */
     @JsonIgnore
-    public Optional<String> stateName() {
+    public JsonNullable<String> stateName() {
         return stateName;
     }
 
@@ -478,19 +681,10 @@ public class FilingRead {
     }
 
     /**
-     * The associated JIRA issue key for tracking the filing,
-     * if available. Can be null.
-     */
-    @JsonIgnore
-    public Optional<String> jiraIssueKey() {
-        return jiraIssueKey;
-    }
-
-    /**
      * Indicates if the filing was auto-approved. Defaults to false.
      */
     @JsonIgnore
-    public Optional<Boolean> autoApproved() {
+    public JsonNullable<Boolean> autoApproved() {
         return autoApproved;
     }
 
@@ -498,15 +692,25 @@ public class FilingRead {
      * Indicates the date when filing will be unpaused.
      */
     @JsonIgnore
-    public Optional<String> pausedUntilDate() {
+    public JsonNullable<LocalDate> pausedUntilDate() {
         return pausedUntilDate;
+    }
+
+    /**
+     * DevRev ticket DON for the active assistance-pause episode. Cleared when the filing is approved from
+     * PAUSED.
+     */
+    @JsonIgnore
+    public JsonNullable<String> assistanceTicketId() {
+        return assistanceTicketId;
     }
 
     /**
      * Category of filing. Common values:
      * REGULAR (standard periodic filing),
-     * PREPAYMENT (prepayment or estimated tax),
+     * BACK_FILING (past-due period),
      * AMENDMENT (amended return).
+     * Prepayment is ``is_prepayment``, not a category.
      * Different categories can have overlapping periods.
      */
     @JsonIgnore
@@ -515,10 +719,28 @@ public class FilingRead {
     }
 
     /**
+     * True when this filing is a prepayment obligation. Independent of filing_category so a past-due
+     * prepayment can still be BACK_FILING.
+     */
+    @JsonIgnore
+    public Optional<Boolean> isPrepayment() {
+        return isPrepayment;
+    }
+
+    /**
+     * True when this filing is a final return for deregistration. Independent of filing_category — finals
+     * stay REGULAR.
+     */
+    @JsonIgnore
+    public Optional<Boolean> isFinal() {
+        return isFinal;
+    }
+
+    /**
      * User ID of who approved the filing.
      */
     @JsonIgnore
-    public Optional<String> approvedBy() {
+    public JsonNullable<String> approvedBy() {
         return approvedBy;
     }
 
@@ -526,8 +748,56 @@ public class FilingRead {
      * Timestamp when the filing was approved.
      */
     @JsonIgnore
-    public Optional<String> approvedAt() {
+    public JsonNullable<OffsetDateTime> approvedAt() {
         return approvedAt;
+    }
+
+    /**
+     * Reason why the filing has an issue, if applicable.
+     */
+    @JsonIgnore
+    public JsonNullable<String> issueReason() {
+        return issueReason;
+    }
+
+    /**
+     * Reason why the filing was skipped, if applicable.
+     */
+    @JsonIgnore
+    public JsonNullable<String> skipReason() {
+        return skipReason;
+    }
+
+    /**
+     * Reason why the filing was cancelled, if applicable.
+     */
+    @JsonIgnore
+    public JsonNullable<String> cancelledReason() {
+        return cancelledReason;
+    }
+
+    /**
+     * Tax obligation on a nexus, registration, or filing row.
+     * 
+     * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
+     * one return can cover both taxes, and each is stored as a single row.
+     * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
+     * separate obligations with their own met dates, period models, and liability
+     * accrual.
+     */
+    @SuppressWarnings("unchecked")
+    @JsonIgnore
+    public Optional<TaxTypeEnum> taxType() {
+        return (Optional<TaxTypeEnum>) taxType;
+    }
+
+    /**
+     * True when this filing is a state Retail Delivery Fee return, a separate filing from the state's
+     * sales tax return.
+     */
+    @JsonIgnore
+    public Optional<Boolean> isRdf() {
+        return isRdf;
     }
 
     /**
@@ -555,7 +825,7 @@ public class FilingRead {
     }
 
     /**
-     * Discounts applied to the amount.
+     * Fees applied to the filing.
      */
     @JsonIgnore
     public Optional<String> amountFees() {
@@ -579,6 +849,26 @@ public class FilingRead {
     }
 
     /**
+     * Gross tax the buyer owes on purchases. US use tax, or EU/UK reverse-charge self-assessed VAT. Not
+     * net of recoverable VAT.
+     * 
+     * <p>Defaults to 0.00.
+     */
+    @JsonIgnore
+    public Optional<String> amountUseTax() {
+        return amountUseTax;
+    }
+
+    /**
+     * Input VAT recovered on this filing's purchases. Subtracted from liability; always 0.00 outside EU/UK
+     * VAT AP filings.
+     */
+    @JsonIgnore
+    public Optional<String> amountInputVatRecoverable() {
+        return amountInputVatRecoverable;
+    }
+
+    /**
      * Total sales amount during the filing period.
      */
     @JsonIgnore
@@ -590,7 +880,7 @@ public class FilingRead {
      * Total taxable amount during the filing period.
      */
     @JsonIgnore
-    public Optional<String> totalTaxableSales() {
+    public JsonNullable<String> totalTaxableSales() {
         return totalTaxableSales;
     }
 
@@ -627,15 +917,24 @@ public class FilingRead {
     }
 
     /**
+     * Estimated schedule line count (distinct jurisdictions). For Tax Ops workload ranking, not portal
+     * accuracy.
+     */
+    @JsonIgnore
+    public JsonNullable<Long> estimatedLineCount() {
+        return estimatedLineCount;
+    }
+
+    /**
      * Notes or comments related to the filing.
      */
     @JsonIgnore
-    public Optional<String> internalNotes() {
+    public JsonNullable<String> internalNotes() {
         return internalNotes;
     }
 
     @JsonIgnore
-    public Optional<String> recentDetailsReportLink() {
+    public JsonNullable<String> recentDetailsReportLink() {
         return recentDetailsReportLink;
     }
 
@@ -648,10 +947,18 @@ public class FilingRead {
     }
 
     /**
+     * Tax remitted when filing was first confirmed.
+     */
+    @JsonIgnore
+    public JsonNullable<String> originalTaxRemitted() {
+        return originalTaxRemitted;
+    }
+
+    /**
      * Return confirmation ID, if applicable.
      */
     @JsonIgnore
-    public Optional<String> returnConfirmationId() {
+    public JsonNullable<String> returnConfirmationId() {
         return returnConfirmationId;
     }
 
@@ -659,7 +966,7 @@ public class FilingRead {
      * Payment confirmation ID, if applicable.
      */
     @JsonIgnore
-    public Optional<String> paymentConfirmationId() {
+    public JsonNullable<String> paymentConfirmationId() {
         return paymentConfirmationId;
     }
 
@@ -667,14 +974,17 @@ public class FilingRead {
      * Indicates if the filing can be approved.
      */
     @JsonIgnore
-    public Optional<Boolean> blockApproval() {
+    public JsonNullable<Boolean> blockApproval() {
         return blockApproval;
     }
 
+    /**
+     * Currency code for the filing (e.g., USD, CAD).
+     */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<CurrencyEnum> currency() {
-        return (Optional<CurrencyEnum>) currency;
+    public JsonNullable<CurrencyEnum> currency() {
+        return (JsonNullable<CurrencyEnum>) currency;
     }
 
     /**
@@ -694,10 +1004,69 @@ public class FilingRead {
     }
 
     /**
+     * Filing frequency from the associated registration.
+     */
+    @JsonIgnore
+    public JsonNullable<String> filingFrequency() {
+        return filingFrequency;
+    }
+
+    /**
+     * OSS scheme (UNION/NON_UNION/IOSS) from the associated registration, if any.
+     */
+    @JsonIgnore
+    public JsonNullable<String> ossType() {
+        return ossType;
+    }
+
+    /**
+     * Display-only balance-due breakdown for CA Quarterly Prepayment reconciliation filings, populated
+     * only when the org toggle is on and the filing qualifies. When present, clients should show
+     * balance_due instead of total_tax_liability. Absent means show total_tax_liability as usual.
+     */
+    @SuppressWarnings("unchecked")
+    @JsonIgnore
+    public JsonNullable<QuarterlyPrepayBalanceDisplay> quarterlyPrepayBalance() {
+        return (JsonNullable<QuarterlyPrepayBalanceDisplay>) quarterlyPrepayBalance;
+    }
+
+    /**
+     * Display-only CDTFA Option 2 (135% of May liability) for CA Quarterly Prepayment May prepayment
+     * filings. When present, list/CSV/approve copy should prefer prepayment_amount; Tax Overview keeps
+     * Total Liability at 100% and adds a separate CDTFA Option 2 row. Absent means show
+     * total_tax_liability as usual.
+     */
+    @SuppressWarnings("unchecked")
+    @JsonIgnore
+    public JsonNullable<CaMayPrepaymentDisplay> caMayPrepayment() {
+        return (JsonNullable<CaMayPrepaymentDisplay>) caMayPrepayment;
+    }
+
+    /**
+     * Display-only estimated penalties and interest for BACK_FILING rows. Null means unknown
+     * (placeholder). Zero is a genuine not-yet-late or zero-tax outcome.
+     * 
+     * <p>Never persisted on the filing or used for billing.
+     */
+    @JsonIgnore
+    public JsonNullable<String> estimatedPenaltyInterest() {
+        return estimatedPenaltyInterest;
+    }
+
+    /**
+     * Customer-facing P&amp;I timing tag for BACK_FILING rows, e.g. 'Paid with return' or 'State bills you
+     * later'.
+     */
+    @JsonIgnore
+    public JsonNullable<String> penaltyInterestRemittanceTag() {
+        return penaltyInterestRemittanceTag;
+    }
+
+    /**
      * Get the filing website URL for this filing's jurisdiction
      */
     @JsonIgnore
-    public String filingWebsiteUrl() {
+    public Optional<String> filingWebsiteUrl() {
         return filingWebsiteUrl;
     }
 
@@ -740,17 +1109,16 @@ public class FilingRead {
     /**
      * The due date of the filing.
      */
-    public FilingRead withDueDate(String dueDate) {
+    public FilingRead withDueDate(LocalDate dueDate) {
         Utils.checkNotNull(dueDate, "dueDate");
-        this.dueDate = Optional.ofNullable(dueDate);
+        this.dueDate = JsonNullable.of(dueDate);
         return this;
     }
-
 
     /**
      * The due date of the filing.
      */
-    public FilingRead withDueDate(Optional<String> dueDate) {
+    public FilingRead withDueDate(JsonNullable<LocalDate> dueDate) {
         Utils.checkNotNull(dueDate, "dueDate");
         this.dueDate = dueDate;
         return this;
@@ -759,17 +1127,16 @@ public class FilingRead {
     /**
      * The date the filing was completed, if applicable.
      */
-    public FilingRead withDateFiled(String dateFiled) {
+    public FilingRead withDateFiled(LocalDate dateFiled) {
         Utils.checkNotNull(dateFiled, "dateFiled");
-        this.dateFiled = Optional.ofNullable(dateFiled);
+        this.dateFiled = JsonNullable.of(dateFiled);
         return this;
     }
-
 
     /**
      * The date the filing was completed, if applicable.
      */
-    public FilingRead withDateFiled(Optional<String> dateFiled) {
+    public FilingRead withDateFiled(JsonNullable<LocalDate> dateFiled) {
         Utils.checkNotNull(dateFiled, "dateFiled");
         this.dateFiled = dateFiled;
         return this;
@@ -780,15 +1147,14 @@ public class FilingRead {
      */
     public FilingRead withIsManual(boolean isManual) {
         Utils.checkNotNull(isManual, "isManual");
-        this.isManual = Optional.ofNullable(isManual);
+        this.isManual = JsonNullable.of(isManual);
         return this;
     }
-
 
     /**
      * Indicates if the filing was done manually.
      */
-    public FilingRead withIsManual(Optional<Boolean> isManual) {
+    public FilingRead withIsManual(JsonNullable<Boolean> isManual) {
         Utils.checkNotNull(isManual, "isManual");
         this.isManual = isManual;
         return this;
@@ -799,15 +1165,14 @@ public class FilingRead {
      */
     public FilingRead withStateCode(String stateCode) {
         Utils.checkNotNull(stateCode, "stateCode");
-        this.stateCode = Optional.ofNullable(stateCode);
+        this.stateCode = JsonNullable.of(stateCode);
         return this;
     }
-
 
     /**
      * The code of the state associated with the filing (e.g., IA, NY).
      */
-    public FilingRead withStateCode(Optional<String> stateCode) {
+    public FilingRead withStateCode(JsonNullable<String> stateCode) {
         Utils.checkNotNull(stateCode, "stateCode");
         this.stateCode = stateCode;
         return this;
@@ -819,16 +1184,15 @@ public class FilingRead {
      */
     public FilingRead withStateName(String stateName) {
         Utils.checkNotNull(stateName, "stateName");
-        this.stateName = Optional.ofNullable(stateName);
+        this.stateName = JsonNullable.of(stateName);
         return this;
     }
-
 
     /**
      * The name of the state associated with the filing
      * (e.g., Iowa, New York).
      */
-    public FilingRead withStateName(Optional<String> stateName) {
+    public FilingRead withStateName(JsonNullable<String> stateName) {
         Utils.checkNotNull(stateName, "stateName");
         this.stateName = stateName;
         return this;
@@ -841,40 +1205,18 @@ public class FilingRead {
     }
 
     /**
-     * The associated JIRA issue key for tracking the filing,
-     * if available. Can be null.
-     */
-    public FilingRead withJiraIssueKey(String jiraIssueKey) {
-        Utils.checkNotNull(jiraIssueKey, "jiraIssueKey");
-        this.jiraIssueKey = Optional.ofNullable(jiraIssueKey);
-        return this;
-    }
-
-
-    /**
-     * The associated JIRA issue key for tracking the filing,
-     * if available. Can be null.
-     */
-    public FilingRead withJiraIssueKey(Optional<String> jiraIssueKey) {
-        Utils.checkNotNull(jiraIssueKey, "jiraIssueKey");
-        this.jiraIssueKey = jiraIssueKey;
-        return this;
-    }
-
-    /**
      * Indicates if the filing was auto-approved. Defaults to false.
      */
     public FilingRead withAutoApproved(boolean autoApproved) {
         Utils.checkNotNull(autoApproved, "autoApproved");
-        this.autoApproved = Optional.ofNullable(autoApproved);
+        this.autoApproved = JsonNullable.of(autoApproved);
         return this;
     }
-
 
     /**
      * Indicates if the filing was auto-approved. Defaults to false.
      */
-    public FilingRead withAutoApproved(Optional<Boolean> autoApproved) {
+    public FilingRead withAutoApproved(JsonNullable<Boolean> autoApproved) {
         Utils.checkNotNull(autoApproved, "autoApproved");
         this.autoApproved = autoApproved;
         return this;
@@ -883,27 +1225,47 @@ public class FilingRead {
     /**
      * Indicates the date when filing will be unpaused.
      */
-    public FilingRead withPausedUntilDate(String pausedUntilDate) {
+    public FilingRead withPausedUntilDate(LocalDate pausedUntilDate) {
         Utils.checkNotNull(pausedUntilDate, "pausedUntilDate");
-        this.pausedUntilDate = Optional.ofNullable(pausedUntilDate);
+        this.pausedUntilDate = JsonNullable.of(pausedUntilDate);
         return this;
     }
-
 
     /**
      * Indicates the date when filing will be unpaused.
      */
-    public FilingRead withPausedUntilDate(Optional<String> pausedUntilDate) {
+    public FilingRead withPausedUntilDate(JsonNullable<LocalDate> pausedUntilDate) {
         Utils.checkNotNull(pausedUntilDate, "pausedUntilDate");
         this.pausedUntilDate = pausedUntilDate;
         return this;
     }
 
     /**
+     * DevRev ticket DON for the active assistance-pause episode. Cleared when the filing is approved from
+     * PAUSED.
+     */
+    public FilingRead withAssistanceTicketId(String assistanceTicketId) {
+        Utils.checkNotNull(assistanceTicketId, "assistanceTicketId");
+        this.assistanceTicketId = JsonNullable.of(assistanceTicketId);
+        return this;
+    }
+
+    /**
+     * DevRev ticket DON for the active assistance-pause episode. Cleared when the filing is approved from
+     * PAUSED.
+     */
+    public FilingRead withAssistanceTicketId(JsonNullable<String> assistanceTicketId) {
+        Utils.checkNotNull(assistanceTicketId, "assistanceTicketId");
+        this.assistanceTicketId = assistanceTicketId;
+        return this;
+    }
+
+    /**
      * Category of filing. Common values:
      * REGULAR (standard periodic filing),
-     * PREPAYMENT (prepayment or estimated tax),
+     * BACK_FILING (past-due period),
      * AMENDMENT (amended return).
+     * Prepayment is ``is_prepayment``, not a category.
      * Different categories can have overlapping periods.
      */
     public FilingRead withFilingCategory(String filingCategory) {
@@ -916,8 +1278,9 @@ public class FilingRead {
     /**
      * Category of filing. Common values:
      * REGULAR (standard periodic filing),
-     * PREPAYMENT (prepayment or estimated tax),
+     * BACK_FILING (past-due period),
      * AMENDMENT (amended return).
+     * Prepayment is ``is_prepayment``, not a category.
      * Different categories can have overlapping periods.
      */
     public FilingRead withFilingCategory(Optional<String> filingCategory) {
@@ -927,19 +1290,60 @@ public class FilingRead {
     }
 
     /**
-     * User ID of who approved the filing.
+     * True when this filing is a prepayment obligation. Independent of filing_category so a past-due
+     * prepayment can still be BACK_FILING.
      */
-    public FilingRead withApprovedBy(String approvedBy) {
-        Utils.checkNotNull(approvedBy, "approvedBy");
-        this.approvedBy = Optional.ofNullable(approvedBy);
+    public FilingRead withIsPrepayment(boolean isPrepayment) {
+        Utils.checkNotNull(isPrepayment, "isPrepayment");
+        this.isPrepayment = Optional.ofNullable(isPrepayment);
         return this;
     }
 
 
     /**
+     * True when this filing is a prepayment obligation. Independent of filing_category so a past-due
+     * prepayment can still be BACK_FILING.
+     */
+    public FilingRead withIsPrepayment(Optional<Boolean> isPrepayment) {
+        Utils.checkNotNull(isPrepayment, "isPrepayment");
+        this.isPrepayment = isPrepayment;
+        return this;
+    }
+
+    /**
+     * True when this filing is a final return for deregistration. Independent of filing_category — finals
+     * stay REGULAR.
+     */
+    public FilingRead withIsFinal(boolean isFinal) {
+        Utils.checkNotNull(isFinal, "isFinal");
+        this.isFinal = Optional.ofNullable(isFinal);
+        return this;
+    }
+
+
+    /**
+     * True when this filing is a final return for deregistration. Independent of filing_category — finals
+     * stay REGULAR.
+     */
+    public FilingRead withIsFinal(Optional<Boolean> isFinal) {
+        Utils.checkNotNull(isFinal, "isFinal");
+        this.isFinal = isFinal;
+        return this;
+    }
+
+    /**
      * User ID of who approved the filing.
      */
-    public FilingRead withApprovedBy(Optional<String> approvedBy) {
+    public FilingRead withApprovedBy(String approvedBy) {
+        Utils.checkNotNull(approvedBy, "approvedBy");
+        this.approvedBy = JsonNullable.of(approvedBy);
+        return this;
+    }
+
+    /**
+     * User ID of who approved the filing.
+     */
+    public FilingRead withApprovedBy(JsonNullable<String> approvedBy) {
         Utils.checkNotNull(approvedBy, "approvedBy");
         this.approvedBy = approvedBy;
         return this;
@@ -948,19 +1352,124 @@ public class FilingRead {
     /**
      * Timestamp when the filing was approved.
      */
-    public FilingRead withApprovedAt(String approvedAt) {
+    public FilingRead withApprovedAt(OffsetDateTime approvedAt) {
         Utils.checkNotNull(approvedAt, "approvedAt");
-        this.approvedAt = Optional.ofNullable(approvedAt);
+        this.approvedAt = JsonNullable.of(approvedAt);
+        return this;
+    }
+
+    /**
+     * Timestamp when the filing was approved.
+     */
+    public FilingRead withApprovedAt(JsonNullable<OffsetDateTime> approvedAt) {
+        Utils.checkNotNull(approvedAt, "approvedAt");
+        this.approvedAt = approvedAt;
+        return this;
+    }
+
+    /**
+     * Reason why the filing has an issue, if applicable.
+     */
+    public FilingRead withIssueReason(String issueReason) {
+        Utils.checkNotNull(issueReason, "issueReason");
+        this.issueReason = JsonNullable.of(issueReason);
+        return this;
+    }
+
+    /**
+     * Reason why the filing has an issue, if applicable.
+     */
+    public FilingRead withIssueReason(JsonNullable<String> issueReason) {
+        Utils.checkNotNull(issueReason, "issueReason");
+        this.issueReason = issueReason;
+        return this;
+    }
+
+    /**
+     * Reason why the filing was skipped, if applicable.
+     */
+    public FilingRead withSkipReason(String skipReason) {
+        Utils.checkNotNull(skipReason, "skipReason");
+        this.skipReason = JsonNullable.of(skipReason);
+        return this;
+    }
+
+    /**
+     * Reason why the filing was skipped, if applicable.
+     */
+    public FilingRead withSkipReason(JsonNullable<String> skipReason) {
+        Utils.checkNotNull(skipReason, "skipReason");
+        this.skipReason = skipReason;
+        return this;
+    }
+
+    /**
+     * Reason why the filing was cancelled, if applicable.
+     */
+    public FilingRead withCancelledReason(String cancelledReason) {
+        Utils.checkNotNull(cancelledReason, "cancelledReason");
+        this.cancelledReason = JsonNullable.of(cancelledReason);
+        return this;
+    }
+
+    /**
+     * Reason why the filing was cancelled, if applicable.
+     */
+    public FilingRead withCancelledReason(JsonNullable<String> cancelledReason) {
+        Utils.checkNotNull(cancelledReason, "cancelledReason");
+        this.cancelledReason = cancelledReason;
+        return this;
+    }
+
+    /**
+     * Tax obligation on a nexus, registration, or filing row.
+     * 
+     * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
+     * one return can cover both taxes, and each is stored as a single row.
+     * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
+     * separate obligations with their own met dates, period models, and liability
+     * accrual.
+     */
+    public FilingRead withTaxType(TaxTypeEnum taxType) {
+        Utils.checkNotNull(taxType, "taxType");
+        this.taxType = Optional.ofNullable(taxType);
         return this;
     }
 
 
     /**
-     * Timestamp when the filing was approved.
+     * Tax obligation on a nexus, registration, or filing row.
+     * 
+     * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
+     * one return can cover both taxes, and each is stored as a single row.
+     * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
+     * separate obligations with their own met dates, period models, and liability
+     * accrual.
      */
-    public FilingRead withApprovedAt(Optional<String> approvedAt) {
-        Utils.checkNotNull(approvedAt, "approvedAt");
-        this.approvedAt = approvedAt;
+    public FilingRead withTaxType(Optional<? extends TaxTypeEnum> taxType) {
+        Utils.checkNotNull(taxType, "taxType");
+        this.taxType = taxType;
+        return this;
+    }
+
+    /**
+     * True when this filing is a state Retail Delivery Fee return, a separate filing from the state's
+     * sales tax return.
+     */
+    public FilingRead withIsRdf(boolean isRdf) {
+        Utils.checkNotNull(isRdf, "isRdf");
+        this.isRdf = Optional.ofNullable(isRdf);
+        return this;
+    }
+
+
+    /**
+     * True when this filing is a state Retail Delivery Fee return, a separate filing from the state's
+     * sales tax return.
+     */
+    public FilingRead withIsRdf(Optional<Boolean> isRdf) {
+        Utils.checkNotNull(isRdf, "isRdf");
+        this.isRdf = isRdf;
         return this;
     }
 
@@ -1022,7 +1531,7 @@ public class FilingRead {
     }
 
     /**
-     * Discounts applied to the amount.
+     * Fees applied to the filing.
      */
     public FilingRead withAmountFees(String amountFees) {
         Utils.checkNotNull(amountFees, "amountFees");
@@ -1032,7 +1541,7 @@ public class FilingRead {
 
 
     /**
-     * Discounts applied to the amount.
+     * Fees applied to the filing.
      */
     public FilingRead withAmountFees(Optional<String> amountFees) {
         Utils.checkNotNull(amountFees, "amountFees");
@@ -1079,6 +1588,52 @@ public class FilingRead {
     }
 
     /**
+     * Gross tax the buyer owes on purchases. US use tax, or EU/UK reverse-charge self-assessed VAT. Not
+     * net of recoverable VAT.
+     * 
+     * <p>Defaults to 0.00.
+     */
+    public FilingRead withAmountUseTax(String amountUseTax) {
+        Utils.checkNotNull(amountUseTax, "amountUseTax");
+        this.amountUseTax = Optional.ofNullable(amountUseTax);
+        return this;
+    }
+
+
+    /**
+     * Gross tax the buyer owes on purchases. US use tax, or EU/UK reverse-charge self-assessed VAT. Not
+     * net of recoverable VAT.
+     * 
+     * <p>Defaults to 0.00.
+     */
+    public FilingRead withAmountUseTax(Optional<String> amountUseTax) {
+        Utils.checkNotNull(amountUseTax, "amountUseTax");
+        this.amountUseTax = amountUseTax;
+        return this;
+    }
+
+    /**
+     * Input VAT recovered on this filing's purchases. Subtracted from liability; always 0.00 outside EU/UK
+     * VAT AP filings.
+     */
+    public FilingRead withAmountInputVatRecoverable(String amountInputVatRecoverable) {
+        Utils.checkNotNull(amountInputVatRecoverable, "amountInputVatRecoverable");
+        this.amountInputVatRecoverable = Optional.ofNullable(amountInputVatRecoverable);
+        return this;
+    }
+
+
+    /**
+     * Input VAT recovered on this filing's purchases. Subtracted from liability; always 0.00 outside EU/UK
+     * VAT AP filings.
+     */
+    public FilingRead withAmountInputVatRecoverable(Optional<String> amountInputVatRecoverable) {
+        Utils.checkNotNull(amountInputVatRecoverable, "amountInputVatRecoverable");
+        this.amountInputVatRecoverable = amountInputVatRecoverable;
+        return this;
+    }
+
+    /**
      * Total sales amount during the filing period.
      */
     public FilingRead withAmountSales(String amountSales) {
@@ -1102,15 +1657,14 @@ public class FilingRead {
      */
     public FilingRead withTotalTaxableSales(String totalTaxableSales) {
         Utils.checkNotNull(totalTaxableSales, "totalTaxableSales");
-        this.totalTaxableSales = Optional.ofNullable(totalTaxableSales);
+        this.totalTaxableSales = JsonNullable.of(totalTaxableSales);
         return this;
     }
-
 
     /**
      * Total taxable amount during the filing period.
      */
-    public FilingRead withTotalTaxableSales(Optional<String> totalTaxableSales) {
+    public FilingRead withTotalTaxableSales(JsonNullable<String> totalTaxableSales) {
         Utils.checkNotNull(totalTaxableSales, "totalTaxableSales");
         this.totalTaxableSales = totalTaxableSales;
         return this;
@@ -1193,19 +1747,38 @@ public class FilingRead {
     }
 
     /**
-     * Notes or comments related to the filing.
+     * Estimated schedule line count (distinct jurisdictions). For Tax Ops workload ranking, not portal
+     * accuracy.
      */
-    public FilingRead withInternalNotes(String internalNotes) {
-        Utils.checkNotNull(internalNotes, "internalNotes");
-        this.internalNotes = Optional.ofNullable(internalNotes);
+    public FilingRead withEstimatedLineCount(long estimatedLineCount) {
+        Utils.checkNotNull(estimatedLineCount, "estimatedLineCount");
+        this.estimatedLineCount = JsonNullable.of(estimatedLineCount);
         return this;
     }
 
+    /**
+     * Estimated schedule line count (distinct jurisdictions). For Tax Ops workload ranking, not portal
+     * accuracy.
+     */
+    public FilingRead withEstimatedLineCount(JsonNullable<Long> estimatedLineCount) {
+        Utils.checkNotNull(estimatedLineCount, "estimatedLineCount");
+        this.estimatedLineCount = estimatedLineCount;
+        return this;
+    }
 
     /**
      * Notes or comments related to the filing.
      */
-    public FilingRead withInternalNotes(Optional<String> internalNotes) {
+    public FilingRead withInternalNotes(String internalNotes) {
+        Utils.checkNotNull(internalNotes, "internalNotes");
+        this.internalNotes = JsonNullable.of(internalNotes);
+        return this;
+    }
+
+    /**
+     * Notes or comments related to the filing.
+     */
+    public FilingRead withInternalNotes(JsonNullable<String> internalNotes) {
         Utils.checkNotNull(internalNotes, "internalNotes");
         this.internalNotes = internalNotes;
         return this;
@@ -1213,12 +1786,11 @@ public class FilingRead {
 
     public FilingRead withRecentDetailsReportLink(String recentDetailsReportLink) {
         Utils.checkNotNull(recentDetailsReportLink, "recentDetailsReportLink");
-        this.recentDetailsReportLink = Optional.ofNullable(recentDetailsReportLink);
+        this.recentDetailsReportLink = JsonNullable.of(recentDetailsReportLink);
         return this;
     }
 
-
-    public FilingRead withRecentDetailsReportLink(Optional<String> recentDetailsReportLink) {
+    public FilingRead withRecentDetailsReportLink(JsonNullable<String> recentDetailsReportLink) {
         Utils.checkNotNull(recentDetailsReportLink, "recentDetailsReportLink");
         this.recentDetailsReportLink = recentDetailsReportLink;
         return this;
@@ -1244,19 +1816,36 @@ public class FilingRead {
     }
 
     /**
-     * Return confirmation ID, if applicable.
+     * Tax remitted when filing was first confirmed.
      */
-    public FilingRead withReturnConfirmationId(String returnConfirmationId) {
-        Utils.checkNotNull(returnConfirmationId, "returnConfirmationId");
-        this.returnConfirmationId = Optional.ofNullable(returnConfirmationId);
+    public FilingRead withOriginalTaxRemitted(String originalTaxRemitted) {
+        Utils.checkNotNull(originalTaxRemitted, "originalTaxRemitted");
+        this.originalTaxRemitted = JsonNullable.of(originalTaxRemitted);
         return this;
     }
 
+    /**
+     * Tax remitted when filing was first confirmed.
+     */
+    public FilingRead withOriginalTaxRemitted(JsonNullable<String> originalTaxRemitted) {
+        Utils.checkNotNull(originalTaxRemitted, "originalTaxRemitted");
+        this.originalTaxRemitted = originalTaxRemitted;
+        return this;
+    }
 
     /**
      * Return confirmation ID, if applicable.
      */
-    public FilingRead withReturnConfirmationId(Optional<String> returnConfirmationId) {
+    public FilingRead withReturnConfirmationId(String returnConfirmationId) {
+        Utils.checkNotNull(returnConfirmationId, "returnConfirmationId");
+        this.returnConfirmationId = JsonNullable.of(returnConfirmationId);
+        return this;
+    }
+
+    /**
+     * Return confirmation ID, if applicable.
+     */
+    public FilingRead withReturnConfirmationId(JsonNullable<String> returnConfirmationId) {
         Utils.checkNotNull(returnConfirmationId, "returnConfirmationId");
         this.returnConfirmationId = returnConfirmationId;
         return this;
@@ -1267,15 +1856,14 @@ public class FilingRead {
      */
     public FilingRead withPaymentConfirmationId(String paymentConfirmationId) {
         Utils.checkNotNull(paymentConfirmationId, "paymentConfirmationId");
-        this.paymentConfirmationId = Optional.ofNullable(paymentConfirmationId);
+        this.paymentConfirmationId = JsonNullable.of(paymentConfirmationId);
         return this;
     }
-
 
     /**
      * Payment confirmation ID, if applicable.
      */
-    public FilingRead withPaymentConfirmationId(Optional<String> paymentConfirmationId) {
+    public FilingRead withPaymentConfirmationId(JsonNullable<String> paymentConfirmationId) {
         Utils.checkNotNull(paymentConfirmationId, "paymentConfirmationId");
         this.paymentConfirmationId = paymentConfirmationId;
         return this;
@@ -1286,28 +1874,32 @@ public class FilingRead {
      */
     public FilingRead withBlockApproval(boolean blockApproval) {
         Utils.checkNotNull(blockApproval, "blockApproval");
-        this.blockApproval = Optional.ofNullable(blockApproval);
+        this.blockApproval = JsonNullable.of(blockApproval);
         return this;
     }
-
 
     /**
      * Indicates if the filing can be approved.
      */
-    public FilingRead withBlockApproval(Optional<Boolean> blockApproval) {
+    public FilingRead withBlockApproval(JsonNullable<Boolean> blockApproval) {
         Utils.checkNotNull(blockApproval, "blockApproval");
         this.blockApproval = blockApproval;
         return this;
     }
 
+    /**
+     * Currency code for the filing (e.g., USD, CAD).
+     */
     public FilingRead withCurrency(CurrencyEnum currency) {
         Utils.checkNotNull(currency, "currency");
-        this.currency = Optional.ofNullable(currency);
+        this.currency = JsonNullable.of(currency);
         return this;
     }
 
-
-    public FilingRead withCurrency(Optional<? extends CurrencyEnum> currency) {
+    /**
+     * Currency code for the filing (e.g., USD, CAD).
+     */
+    public FilingRead withCurrency(JsonNullable<? extends CurrencyEnum> currency) {
         Utils.checkNotNull(currency, "currency");
         this.currency = currency;
         return this;
@@ -1332,9 +1924,145 @@ public class FilingRead {
     }
 
     /**
+     * Filing frequency from the associated registration.
+     */
+    public FilingRead withFilingFrequency(String filingFrequency) {
+        Utils.checkNotNull(filingFrequency, "filingFrequency");
+        this.filingFrequency = JsonNullable.of(filingFrequency);
+        return this;
+    }
+
+    /**
+     * Filing frequency from the associated registration.
+     */
+    public FilingRead withFilingFrequency(JsonNullable<String> filingFrequency) {
+        Utils.checkNotNull(filingFrequency, "filingFrequency");
+        this.filingFrequency = filingFrequency;
+        return this;
+    }
+
+    /**
+     * OSS scheme (UNION/NON_UNION/IOSS) from the associated registration, if any.
+     */
+    public FilingRead withOssType(String ossType) {
+        Utils.checkNotNull(ossType, "ossType");
+        this.ossType = JsonNullable.of(ossType);
+        return this;
+    }
+
+    /**
+     * OSS scheme (UNION/NON_UNION/IOSS) from the associated registration, if any.
+     */
+    public FilingRead withOssType(JsonNullable<String> ossType) {
+        Utils.checkNotNull(ossType, "ossType");
+        this.ossType = ossType;
+        return this;
+    }
+
+    /**
+     * Display-only balance-due breakdown for CA Quarterly Prepayment reconciliation filings, populated
+     * only when the org toggle is on and the filing qualifies. When present, clients should show
+     * balance_due instead of total_tax_liability. Absent means show total_tax_liability as usual.
+     */
+    public FilingRead withQuarterlyPrepayBalance(QuarterlyPrepayBalanceDisplay quarterlyPrepayBalance) {
+        Utils.checkNotNull(quarterlyPrepayBalance, "quarterlyPrepayBalance");
+        this.quarterlyPrepayBalance = JsonNullable.of(quarterlyPrepayBalance);
+        return this;
+    }
+
+    /**
+     * Display-only balance-due breakdown for CA Quarterly Prepayment reconciliation filings, populated
+     * only when the org toggle is on and the filing qualifies. When present, clients should show
+     * balance_due instead of total_tax_liability. Absent means show total_tax_liability as usual.
+     */
+    public FilingRead withQuarterlyPrepayBalance(JsonNullable<? extends QuarterlyPrepayBalanceDisplay> quarterlyPrepayBalance) {
+        Utils.checkNotNull(quarterlyPrepayBalance, "quarterlyPrepayBalance");
+        this.quarterlyPrepayBalance = quarterlyPrepayBalance;
+        return this;
+    }
+
+    /**
+     * Display-only CDTFA Option 2 (135% of May liability) for CA Quarterly Prepayment May prepayment
+     * filings. When present, list/CSV/approve copy should prefer prepayment_amount; Tax Overview keeps
+     * Total Liability at 100% and adds a separate CDTFA Option 2 row. Absent means show
+     * total_tax_liability as usual.
+     */
+    public FilingRead withCaMayPrepayment(CaMayPrepaymentDisplay caMayPrepayment) {
+        Utils.checkNotNull(caMayPrepayment, "caMayPrepayment");
+        this.caMayPrepayment = JsonNullable.of(caMayPrepayment);
+        return this;
+    }
+
+    /**
+     * Display-only CDTFA Option 2 (135% of May liability) for CA Quarterly Prepayment May prepayment
+     * filings. When present, list/CSV/approve copy should prefer prepayment_amount; Tax Overview keeps
+     * Total Liability at 100% and adds a separate CDTFA Option 2 row. Absent means show
+     * total_tax_liability as usual.
+     */
+    public FilingRead withCaMayPrepayment(JsonNullable<? extends CaMayPrepaymentDisplay> caMayPrepayment) {
+        Utils.checkNotNull(caMayPrepayment, "caMayPrepayment");
+        this.caMayPrepayment = caMayPrepayment;
+        return this;
+    }
+
+    /**
+     * Display-only estimated penalties and interest for BACK_FILING rows. Null means unknown
+     * (placeholder). Zero is a genuine not-yet-late or zero-tax outcome.
+     * 
+     * <p>Never persisted on the filing or used for billing.
+     */
+    public FilingRead withEstimatedPenaltyInterest(String estimatedPenaltyInterest) {
+        Utils.checkNotNull(estimatedPenaltyInterest, "estimatedPenaltyInterest");
+        this.estimatedPenaltyInterest = JsonNullable.of(estimatedPenaltyInterest);
+        return this;
+    }
+
+    /**
+     * Display-only estimated penalties and interest for BACK_FILING rows. Null means unknown
+     * (placeholder). Zero is a genuine not-yet-late or zero-tax outcome.
+     * 
+     * <p>Never persisted on the filing or used for billing.
+     */
+    public FilingRead withEstimatedPenaltyInterest(JsonNullable<String> estimatedPenaltyInterest) {
+        Utils.checkNotNull(estimatedPenaltyInterest, "estimatedPenaltyInterest");
+        this.estimatedPenaltyInterest = estimatedPenaltyInterest;
+        return this;
+    }
+
+    /**
+     * Customer-facing P&amp;I timing tag for BACK_FILING rows, e.g. 'Paid with return' or 'State bills you
+     * later'.
+     */
+    public FilingRead withPenaltyInterestRemittanceTag(String penaltyInterestRemittanceTag) {
+        Utils.checkNotNull(penaltyInterestRemittanceTag, "penaltyInterestRemittanceTag");
+        this.penaltyInterestRemittanceTag = JsonNullable.of(penaltyInterestRemittanceTag);
+        return this;
+    }
+
+    /**
+     * Customer-facing P&amp;I timing tag for BACK_FILING rows, e.g. 'Paid with return' or 'State bills you
+     * later'.
+     */
+    public FilingRead withPenaltyInterestRemittanceTag(JsonNullable<String> penaltyInterestRemittanceTag) {
+        Utils.checkNotNull(penaltyInterestRemittanceTag, "penaltyInterestRemittanceTag");
+        this.penaltyInterestRemittanceTag = penaltyInterestRemittanceTag;
+        return this;
+    }
+
+    /**
      * Get the filing website URL for this filing's jurisdiction
      */
     public FilingRead withFilingWebsiteUrl(String filingWebsiteUrl) {
+        Utils.checkNotNull(filingWebsiteUrl, "filingWebsiteUrl");
+        this.filingWebsiteUrl = Optional.ofNullable(filingWebsiteUrl);
+        return this;
+    }
+
+
+    /**
+     * Get the filing website URL for this filing's jurisdiction
+     */
+    public FilingRead withFilingWebsiteUrl(Optional<String> filingWebsiteUrl) {
         Utils.checkNotNull(filingWebsiteUrl, "filingWebsiteUrl");
         this.filingWebsiteUrl = filingWebsiteUrl;
         return this;
@@ -1359,33 +2087,50 @@ public class FilingRead {
             Utils.enhancedDeepEquals(this.stateCode, other.stateCode) &&
             Utils.enhancedDeepEquals(this.stateName, other.stateName) &&
             Utils.enhancedDeepEquals(this.countryCode, other.countryCode) &&
-            Utils.enhancedDeepEquals(this.jiraIssueKey, other.jiraIssueKey) &&
             Utils.enhancedDeepEquals(this.autoApproved, other.autoApproved) &&
             Utils.enhancedDeepEquals(this.pausedUntilDate, other.pausedUntilDate) &&
+            Utils.enhancedDeepEquals(this.assistanceTicketId, other.assistanceTicketId) &&
             Utils.enhancedDeepEquals(this.filingCategory, other.filingCategory) &&
+            Utils.enhancedDeepEquals(this.isPrepayment, other.isPrepayment) &&
+            Utils.enhancedDeepEquals(this.isFinal, other.isFinal) &&
             Utils.enhancedDeepEquals(this.approvedBy, other.approvedBy) &&
             Utils.enhancedDeepEquals(this.approvedAt, other.approvedAt) &&
+            Utils.enhancedDeepEquals(this.issueReason, other.issueReason) &&
+            Utils.enhancedDeepEquals(this.skipReason, other.skipReason) &&
+            Utils.enhancedDeepEquals(this.cancelledReason, other.cancelledReason) &&
+            Utils.enhancedDeepEquals(this.taxType, other.taxType) &&
+            Utils.enhancedDeepEquals(this.isRdf, other.isRdf) &&
             Utils.enhancedDeepEquals(this.amountCalculated, other.amountCalculated) &&
             Utils.enhancedDeepEquals(this.amountAdjusted, other.amountAdjusted) &&
             Utils.enhancedDeepEquals(this.amountDiscounts, other.amountDiscounts) &&
             Utils.enhancedDeepEquals(this.amountFees, other.amountFees) &&
             Utils.enhancedDeepEquals(this.amountPenalties, other.amountPenalties) &&
             Utils.enhancedDeepEquals(this.amountTaxCollected, other.amountTaxCollected) &&
+            Utils.enhancedDeepEquals(this.amountUseTax, other.amountUseTax) &&
+            Utils.enhancedDeepEquals(this.amountInputVatRecoverable, other.amountInputVatRecoverable) &&
             Utils.enhancedDeepEquals(this.amountSales, other.amountSales) &&
             Utils.enhancedDeepEquals(this.totalTaxableSales, other.totalTaxableSales) &&
             Utils.enhancedDeepEquals(this.amount, other.amount) &&
             Utils.enhancedDeepEquals(this.totalTaxLiability, other.totalTaxLiability) &&
             Utils.enhancedDeepEquals(this.transactionCount, other.transactionCount) &&
             Utils.enhancedDeepEquals(this.marketplaceTransactionCount, other.marketplaceTransactionCount) &&
+            Utils.enhancedDeepEquals(this.estimatedLineCount, other.estimatedLineCount) &&
             Utils.enhancedDeepEquals(this.internalNotes, other.internalNotes) &&
             Utils.enhancedDeepEquals(this.recentDetailsReportLink, other.recentDetailsReportLink) &&
             Utils.enhancedDeepEquals(this.taxRemitted, other.taxRemitted) &&
+            Utils.enhancedDeepEquals(this.originalTaxRemitted, other.originalTaxRemitted) &&
             Utils.enhancedDeepEquals(this.returnConfirmationId, other.returnConfirmationId) &&
             Utils.enhancedDeepEquals(this.paymentConfirmationId, other.paymentConfirmationId) &&
             Utils.enhancedDeepEquals(this.blockApproval, other.blockApproval) &&
             Utils.enhancedDeepEquals(this.currency, other.currency) &&
             Utils.enhancedDeepEquals(this.id, other.id) &&
             Utils.enhancedDeepEquals(this.registrationId, other.registrationId) &&
+            Utils.enhancedDeepEquals(this.filingFrequency, other.filingFrequency) &&
+            Utils.enhancedDeepEquals(this.ossType, other.ossType) &&
+            Utils.enhancedDeepEquals(this.quarterlyPrepayBalance, other.quarterlyPrepayBalance) &&
+            Utils.enhancedDeepEquals(this.caMayPrepayment, other.caMayPrepayment) &&
+            Utils.enhancedDeepEquals(this.estimatedPenaltyInterest, other.estimatedPenaltyInterest) &&
+            Utils.enhancedDeepEquals(this.penaltyInterestRemittanceTag, other.penaltyInterestRemittanceTag) &&
             Utils.enhancedDeepEquals(this.filingWebsiteUrl, other.filingWebsiteUrl);
     }
     
@@ -1395,16 +2140,21 @@ public class FilingRead {
             status, startDate, endDate,
             dueDate, dateFiled, isManual,
             stateCode, stateName, countryCode,
-            jiraIssueKey, autoApproved, pausedUntilDate,
-            filingCategory, approvedBy, approvedAt,
-            amountCalculated, amountAdjusted, amountDiscounts,
-            amountFees, amountPenalties, amountTaxCollected,
+            autoApproved, pausedUntilDate, assistanceTicketId,
+            filingCategory, isPrepayment, isFinal,
+            approvedBy, approvedAt, issueReason,
+            skipReason, cancelledReason, taxType,
+            isRdf, amountCalculated, amountAdjusted,
+            amountDiscounts, amountFees, amountPenalties,
+            amountTaxCollected, amountUseTax, amountInputVatRecoverable,
             amountSales, totalTaxableSales, amount,
             totalTaxLiability, transactionCount, marketplaceTransactionCount,
-            internalNotes, recentDetailsReportLink, taxRemitted,
-            returnConfirmationId, paymentConfirmationId, blockApproval,
-            currency, id, registrationId,
-            filingWebsiteUrl);
+            estimatedLineCount, internalNotes, recentDetailsReportLink,
+            taxRemitted, originalTaxRemitted, returnConfirmationId,
+            paymentConfirmationId, blockApproval, currency,
+            id, registrationId, filingFrequency,
+            ossType, quarterlyPrepayBalance, caMayPrepayment,
+            estimatedPenaltyInterest, penaltyInterestRemittanceTag, filingWebsiteUrl);
     }
     
     @Override
@@ -1419,33 +2169,50 @@ public class FilingRead {
                 "stateCode", stateCode,
                 "stateName", stateName,
                 "countryCode", countryCode,
-                "jiraIssueKey", jiraIssueKey,
                 "autoApproved", autoApproved,
                 "pausedUntilDate", pausedUntilDate,
+                "assistanceTicketId", assistanceTicketId,
                 "filingCategory", filingCategory,
+                "isPrepayment", isPrepayment,
+                "isFinal", isFinal,
                 "approvedBy", approvedBy,
                 "approvedAt", approvedAt,
+                "issueReason", issueReason,
+                "skipReason", skipReason,
+                "cancelledReason", cancelledReason,
+                "taxType", taxType,
+                "isRdf", isRdf,
                 "amountCalculated", amountCalculated,
                 "amountAdjusted", amountAdjusted,
                 "amountDiscounts", amountDiscounts,
                 "amountFees", amountFees,
                 "amountPenalties", amountPenalties,
                 "amountTaxCollected", amountTaxCollected,
+                "amountUseTax", amountUseTax,
+                "amountInputVatRecoverable", amountInputVatRecoverable,
                 "amountSales", amountSales,
                 "totalTaxableSales", totalTaxableSales,
                 "amount", amount,
                 "totalTaxLiability", totalTaxLiability,
                 "transactionCount", transactionCount,
                 "marketplaceTransactionCount", marketplaceTransactionCount,
+                "estimatedLineCount", estimatedLineCount,
                 "internalNotes", internalNotes,
                 "recentDetailsReportLink", recentDetailsReportLink,
                 "taxRemitted", taxRemitted,
+                "originalTaxRemitted", originalTaxRemitted,
                 "returnConfirmationId", returnConfirmationId,
                 "paymentConfirmationId", paymentConfirmationId,
                 "blockApproval", blockApproval,
                 "currency", currency,
                 "id", id,
                 "registrationId", registrationId,
+                "filingFrequency", filingFrequency,
+                "ossType", ossType,
+                "quarterlyPrepayBalance", quarterlyPrepayBalance,
+                "caMayPrepayment", caMayPrepayment,
+                "estimatedPenaltyInterest", estimatedPenaltyInterest,
+                "penaltyInterestRemittanceTag", penaltyInterestRemittanceTag,
                 "filingWebsiteUrl", filingWebsiteUrl);
     }
 
@@ -1458,29 +2225,43 @@ public class FilingRead {
 
         private LocalDate endDate;
 
-        private Optional<String> dueDate = Optional.empty();
+        private JsonNullable<LocalDate> dueDate = JsonNullable.undefined();
 
-        private Optional<String> dateFiled = Optional.empty();
+        private JsonNullable<LocalDate> dateFiled = JsonNullable.undefined();
 
-        private Optional<Boolean> isManual = Optional.empty();
+        private JsonNullable<Boolean> isManual = JsonNullable.undefined();
 
-        private Optional<String> stateCode = Optional.empty();
+        private JsonNullable<String> stateCode = JsonNullable.undefined();
 
-        private Optional<String> stateName = Optional.empty();
+        private JsonNullable<String> stateName = JsonNullable.undefined();
 
         private CountryCodeEnum countryCode;
 
-        private Optional<String> jiraIssueKey = Optional.empty();
+        private JsonNullable<Boolean> autoApproved = JsonNullable.undefined();
 
-        private Optional<Boolean> autoApproved;
+        private JsonNullable<LocalDate> pausedUntilDate = JsonNullable.undefined();
 
-        private Optional<String> pausedUntilDate = Optional.empty();
+        private JsonNullable<String> assistanceTicketId = JsonNullable.undefined();
 
         private Optional<String> filingCategory;
 
-        private Optional<String> approvedBy = Optional.empty();
+        private Optional<Boolean> isPrepayment;
 
-        private Optional<String> approvedAt = Optional.empty();
+        private Optional<Boolean> isFinal;
+
+        private JsonNullable<String> approvedBy = JsonNullable.undefined();
+
+        private JsonNullable<OffsetDateTime> approvedAt = JsonNullable.undefined();
+
+        private JsonNullable<String> issueReason = JsonNullable.undefined();
+
+        private JsonNullable<String> skipReason = JsonNullable.undefined();
+
+        private JsonNullable<String> cancelledReason = JsonNullable.undefined();
+
+        private Optional<? extends TaxTypeEnum> taxType = Optional.empty();
+
+        private Optional<Boolean> isRdf;
 
         private Optional<String> amountCalculated;
 
@@ -1494,9 +2275,13 @@ public class FilingRead {
 
         private Optional<String> amountTaxCollected;
 
+        private Optional<String> amountUseTax;
+
+        private Optional<String> amountInputVatRecoverable;
+
         private Optional<String> amountSales;
 
-        private Optional<String> totalTaxableSales;
+        private JsonNullable<String> totalTaxableSales = JsonNullable.undefined();
 
         private Optional<String> amount;
 
@@ -1506,25 +2291,41 @@ public class FilingRead {
 
         private Optional<Long> marketplaceTransactionCount;
 
-        private Optional<String> internalNotes = Optional.empty();
+        private JsonNullable<Long> estimatedLineCount = JsonNullable.undefined();
 
-        private Optional<String> recentDetailsReportLink = Optional.empty();
+        private JsonNullable<String> internalNotes = JsonNullable.undefined();
+
+        private JsonNullable<String> recentDetailsReportLink = JsonNullable.undefined();
 
         private Optional<String> taxRemitted;
 
-        private Optional<String> returnConfirmationId = Optional.empty();
+        private JsonNullable<String> originalTaxRemitted = JsonNullable.undefined();
 
-        private Optional<String> paymentConfirmationId = Optional.empty();
+        private JsonNullable<String> returnConfirmationId = JsonNullable.undefined();
 
-        private Optional<Boolean> blockApproval = Optional.empty();
+        private JsonNullable<String> paymentConfirmationId = JsonNullable.undefined();
 
-        private Optional<? extends CurrencyEnum> currency = Optional.empty();
+        private JsonNullable<Boolean> blockApproval = JsonNullable.undefined();
+
+        private JsonNullable<? extends CurrencyEnum> currency = JsonNullable.undefined();
 
         private String id;
 
         private String registrationId;
 
-        private String filingWebsiteUrl;
+        private JsonNullable<String> filingFrequency = JsonNullable.undefined();
+
+        private JsonNullable<String> ossType = JsonNullable.undefined();
+
+        private JsonNullable<? extends QuarterlyPrepayBalanceDisplay> quarterlyPrepayBalance = JsonNullable.undefined();
+
+        private JsonNullable<? extends CaMayPrepaymentDisplay> caMayPrepayment = JsonNullable.undefined();
+
+        private JsonNullable<String> estimatedPenaltyInterest = JsonNullable.undefined();
+
+        private JsonNullable<String> penaltyInterestRemittanceTag = JsonNullable.undefined();
+
+        private Optional<String> filingWebsiteUrl = Optional.empty();
 
         private Builder() {
           // force use of static builder() method
@@ -1567,16 +2368,16 @@ public class FilingRead {
         /**
          * The due date of the filing.
          */
-        public Builder dueDate(String dueDate) {
+        public Builder dueDate(LocalDate dueDate) {
             Utils.checkNotNull(dueDate, "dueDate");
-            this.dueDate = Optional.ofNullable(dueDate);
+            this.dueDate = JsonNullable.of(dueDate);
             return this;
         }
 
         /**
          * The due date of the filing.
          */
-        public Builder dueDate(Optional<String> dueDate) {
+        public Builder dueDate(JsonNullable<LocalDate> dueDate) {
             Utils.checkNotNull(dueDate, "dueDate");
             this.dueDate = dueDate;
             return this;
@@ -1586,16 +2387,16 @@ public class FilingRead {
         /**
          * The date the filing was completed, if applicable.
          */
-        public Builder dateFiled(String dateFiled) {
+        public Builder dateFiled(LocalDate dateFiled) {
             Utils.checkNotNull(dateFiled, "dateFiled");
-            this.dateFiled = Optional.ofNullable(dateFiled);
+            this.dateFiled = JsonNullable.of(dateFiled);
             return this;
         }
 
         /**
          * The date the filing was completed, if applicable.
          */
-        public Builder dateFiled(Optional<String> dateFiled) {
+        public Builder dateFiled(JsonNullable<LocalDate> dateFiled) {
             Utils.checkNotNull(dateFiled, "dateFiled");
             this.dateFiled = dateFiled;
             return this;
@@ -1607,14 +2408,14 @@ public class FilingRead {
          */
         public Builder isManual(boolean isManual) {
             Utils.checkNotNull(isManual, "isManual");
-            this.isManual = Optional.ofNullable(isManual);
+            this.isManual = JsonNullable.of(isManual);
             return this;
         }
 
         /**
          * Indicates if the filing was done manually.
          */
-        public Builder isManual(Optional<Boolean> isManual) {
+        public Builder isManual(JsonNullable<Boolean> isManual) {
             Utils.checkNotNull(isManual, "isManual");
             this.isManual = isManual;
             return this;
@@ -1626,14 +2427,14 @@ public class FilingRead {
          */
         public Builder stateCode(String stateCode) {
             Utils.checkNotNull(stateCode, "stateCode");
-            this.stateCode = Optional.ofNullable(stateCode);
+            this.stateCode = JsonNullable.of(stateCode);
             return this;
         }
 
         /**
          * The code of the state associated with the filing (e.g., IA, NY).
          */
-        public Builder stateCode(Optional<String> stateCode) {
+        public Builder stateCode(JsonNullable<String> stateCode) {
             Utils.checkNotNull(stateCode, "stateCode");
             this.stateCode = stateCode;
             return this;
@@ -1646,7 +2447,7 @@ public class FilingRead {
          */
         public Builder stateName(String stateName) {
             Utils.checkNotNull(stateName, "stateName");
-            this.stateName = Optional.ofNullable(stateName);
+            this.stateName = JsonNullable.of(stateName);
             return this;
         }
 
@@ -1654,7 +2455,7 @@ public class FilingRead {
          * The name of the state associated with the filing
          * (e.g., Iowa, New York).
          */
-        public Builder stateName(Optional<String> stateName) {
+        public Builder stateName(JsonNullable<String> stateName) {
             Utils.checkNotNull(stateName, "stateName");
             this.stateName = stateName;
             return this;
@@ -1669,39 +2470,18 @@ public class FilingRead {
 
 
         /**
-         * The associated JIRA issue key for tracking the filing,
-         * if available. Can be null.
-         */
-        public Builder jiraIssueKey(String jiraIssueKey) {
-            Utils.checkNotNull(jiraIssueKey, "jiraIssueKey");
-            this.jiraIssueKey = Optional.ofNullable(jiraIssueKey);
-            return this;
-        }
-
-        /**
-         * The associated JIRA issue key for tracking the filing,
-         * if available. Can be null.
-         */
-        public Builder jiraIssueKey(Optional<String> jiraIssueKey) {
-            Utils.checkNotNull(jiraIssueKey, "jiraIssueKey");
-            this.jiraIssueKey = jiraIssueKey;
-            return this;
-        }
-
-
-        /**
          * Indicates if the filing was auto-approved. Defaults to false.
          */
         public Builder autoApproved(boolean autoApproved) {
             Utils.checkNotNull(autoApproved, "autoApproved");
-            this.autoApproved = Optional.ofNullable(autoApproved);
+            this.autoApproved = JsonNullable.of(autoApproved);
             return this;
         }
 
         /**
          * Indicates if the filing was auto-approved. Defaults to false.
          */
-        public Builder autoApproved(Optional<Boolean> autoApproved) {
+        public Builder autoApproved(JsonNullable<Boolean> autoApproved) {
             Utils.checkNotNull(autoApproved, "autoApproved");
             this.autoApproved = autoApproved;
             return this;
@@ -1711,16 +2491,16 @@ public class FilingRead {
         /**
          * Indicates the date when filing will be unpaused.
          */
-        public Builder pausedUntilDate(String pausedUntilDate) {
+        public Builder pausedUntilDate(LocalDate pausedUntilDate) {
             Utils.checkNotNull(pausedUntilDate, "pausedUntilDate");
-            this.pausedUntilDate = Optional.ofNullable(pausedUntilDate);
+            this.pausedUntilDate = JsonNullable.of(pausedUntilDate);
             return this;
         }
 
         /**
          * Indicates the date when filing will be unpaused.
          */
-        public Builder pausedUntilDate(Optional<String> pausedUntilDate) {
+        public Builder pausedUntilDate(JsonNullable<LocalDate> pausedUntilDate) {
             Utils.checkNotNull(pausedUntilDate, "pausedUntilDate");
             this.pausedUntilDate = pausedUntilDate;
             return this;
@@ -1728,10 +2508,32 @@ public class FilingRead {
 
 
         /**
+         * DevRev ticket DON for the active assistance-pause episode. Cleared when the filing is approved from
+         * PAUSED.
+         */
+        public Builder assistanceTicketId(String assistanceTicketId) {
+            Utils.checkNotNull(assistanceTicketId, "assistanceTicketId");
+            this.assistanceTicketId = JsonNullable.of(assistanceTicketId);
+            return this;
+        }
+
+        /**
+         * DevRev ticket DON for the active assistance-pause episode. Cleared when the filing is approved from
+         * PAUSED.
+         */
+        public Builder assistanceTicketId(JsonNullable<String> assistanceTicketId) {
+            Utils.checkNotNull(assistanceTicketId, "assistanceTicketId");
+            this.assistanceTicketId = assistanceTicketId;
+            return this;
+        }
+
+
+        /**
          * Category of filing. Common values:
          * REGULAR (standard periodic filing),
-         * PREPAYMENT (prepayment or estimated tax),
+         * BACK_FILING (past-due period),
          * AMENDMENT (amended return).
+         * Prepayment is ``is_prepayment``, not a category.
          * Different categories can have overlapping periods.
          */
         public Builder filingCategory(String filingCategory) {
@@ -1743,8 +2545,9 @@ public class FilingRead {
         /**
          * Category of filing. Common values:
          * REGULAR (standard periodic filing),
-         * PREPAYMENT (prepayment or estimated tax),
+         * BACK_FILING (past-due period),
          * AMENDMENT (amended return).
+         * Prepayment is ``is_prepayment``, not a category.
          * Different categories can have overlapping periods.
          */
         public Builder filingCategory(Optional<String> filingCategory) {
@@ -1755,18 +2558,60 @@ public class FilingRead {
 
 
         /**
+         * True when this filing is a prepayment obligation. Independent of filing_category so a past-due
+         * prepayment can still be BACK_FILING.
+         */
+        public Builder isPrepayment(boolean isPrepayment) {
+            Utils.checkNotNull(isPrepayment, "isPrepayment");
+            this.isPrepayment = Optional.ofNullable(isPrepayment);
+            return this;
+        }
+
+        /**
+         * True when this filing is a prepayment obligation. Independent of filing_category so a past-due
+         * prepayment can still be BACK_FILING.
+         */
+        public Builder isPrepayment(Optional<Boolean> isPrepayment) {
+            Utils.checkNotNull(isPrepayment, "isPrepayment");
+            this.isPrepayment = isPrepayment;
+            return this;
+        }
+
+
+        /**
+         * True when this filing is a final return for deregistration. Independent of filing_category — finals
+         * stay REGULAR.
+         */
+        public Builder isFinal(boolean isFinal) {
+            Utils.checkNotNull(isFinal, "isFinal");
+            this.isFinal = Optional.ofNullable(isFinal);
+            return this;
+        }
+
+        /**
+         * True when this filing is a final return for deregistration. Independent of filing_category — finals
+         * stay REGULAR.
+         */
+        public Builder isFinal(Optional<Boolean> isFinal) {
+            Utils.checkNotNull(isFinal, "isFinal");
+            this.isFinal = isFinal;
+            return this;
+        }
+
+
+        /**
          * User ID of who approved the filing.
          */
         public Builder approvedBy(String approvedBy) {
             Utils.checkNotNull(approvedBy, "approvedBy");
-            this.approvedBy = Optional.ofNullable(approvedBy);
+            this.approvedBy = JsonNullable.of(approvedBy);
             return this;
         }
 
         /**
          * User ID of who approved the filing.
          */
-        public Builder approvedBy(Optional<String> approvedBy) {
+        public Builder approvedBy(JsonNullable<String> approvedBy) {
             Utils.checkNotNull(approvedBy, "approvedBy");
             this.approvedBy = approvedBy;
             return this;
@@ -1776,18 +2621,127 @@ public class FilingRead {
         /**
          * Timestamp when the filing was approved.
          */
-        public Builder approvedAt(String approvedAt) {
+        public Builder approvedAt(OffsetDateTime approvedAt) {
             Utils.checkNotNull(approvedAt, "approvedAt");
-            this.approvedAt = Optional.ofNullable(approvedAt);
+            this.approvedAt = JsonNullable.of(approvedAt);
             return this;
         }
 
         /**
          * Timestamp when the filing was approved.
          */
-        public Builder approvedAt(Optional<String> approvedAt) {
+        public Builder approvedAt(JsonNullable<OffsetDateTime> approvedAt) {
             Utils.checkNotNull(approvedAt, "approvedAt");
             this.approvedAt = approvedAt;
+            return this;
+        }
+
+
+        /**
+         * Reason why the filing has an issue, if applicable.
+         */
+        public Builder issueReason(String issueReason) {
+            Utils.checkNotNull(issueReason, "issueReason");
+            this.issueReason = JsonNullable.of(issueReason);
+            return this;
+        }
+
+        /**
+         * Reason why the filing has an issue, if applicable.
+         */
+        public Builder issueReason(JsonNullable<String> issueReason) {
+            Utils.checkNotNull(issueReason, "issueReason");
+            this.issueReason = issueReason;
+            return this;
+        }
+
+
+        /**
+         * Reason why the filing was skipped, if applicable.
+         */
+        public Builder skipReason(String skipReason) {
+            Utils.checkNotNull(skipReason, "skipReason");
+            this.skipReason = JsonNullable.of(skipReason);
+            return this;
+        }
+
+        /**
+         * Reason why the filing was skipped, if applicable.
+         */
+        public Builder skipReason(JsonNullable<String> skipReason) {
+            Utils.checkNotNull(skipReason, "skipReason");
+            this.skipReason = skipReason;
+            return this;
+        }
+
+
+        /**
+         * Reason why the filing was cancelled, if applicable.
+         */
+        public Builder cancelledReason(String cancelledReason) {
+            Utils.checkNotNull(cancelledReason, "cancelledReason");
+            this.cancelledReason = JsonNullable.of(cancelledReason);
+            return this;
+        }
+
+        /**
+         * Reason why the filing was cancelled, if applicable.
+         */
+        public Builder cancelledReason(JsonNullable<String> cancelledReason) {
+            Utils.checkNotNull(cancelledReason, "cancelledReason");
+            this.cancelledReason = cancelledReason;
+            return this;
+        }
+
+
+        /**
+         * Tax obligation on a nexus, registration, or filing row.
+         * 
+         * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
+         * one return can cover both taxes, and each is stored as a single row.
+         * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
+         * separate obligations with their own met dates, period models, and liability
+         * accrual.
+         */
+        public Builder taxType(TaxTypeEnum taxType) {
+            Utils.checkNotNull(taxType, "taxType");
+            this.taxType = Optional.ofNullable(taxType);
+            return this;
+        }
+
+        /**
+         * Tax obligation on a nexus, registration, or filing row.
+         * 
+         * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
+         * one return can cover both taxes, and each is stored as a single row.
+         * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
+         * separate obligations with their own met dates, period models, and liability
+         * accrual.
+         */
+        public Builder taxType(Optional<? extends TaxTypeEnum> taxType) {
+            Utils.checkNotNull(taxType, "taxType");
+            this.taxType = taxType;
+            return this;
+        }
+
+
+        /**
+         * True when this filing is a state Retail Delivery Fee return, a separate filing from the state's
+         * sales tax return.
+         */
+        public Builder isRdf(boolean isRdf) {
+            Utils.checkNotNull(isRdf, "isRdf");
+            this.isRdf = Optional.ofNullable(isRdf);
+            return this;
+        }
+
+        /**
+         * True when this filing is a state Retail Delivery Fee return, a separate filing from the state's
+         * sales tax return.
+         */
+        public Builder isRdf(Optional<Boolean> isRdf) {
+            Utils.checkNotNull(isRdf, "isRdf");
+            this.isRdf = isRdf;
             return this;
         }
 
@@ -1850,7 +2804,7 @@ public class FilingRead {
 
 
         /**
-         * Discounts applied to the amount.
+         * Fees applied to the filing.
          */
         public Builder amountFees(String amountFees) {
             Utils.checkNotNull(amountFees, "amountFees");
@@ -1859,7 +2813,7 @@ public class FilingRead {
         }
 
         /**
-         * Discounts applied to the amount.
+         * Fees applied to the filing.
          */
         public Builder amountFees(Optional<String> amountFees) {
             Utils.checkNotNull(amountFees, "amountFees");
@@ -1907,6 +2861,52 @@ public class FilingRead {
 
 
         /**
+         * Gross tax the buyer owes on purchases. US use tax, or EU/UK reverse-charge self-assessed VAT. Not
+         * net of recoverable VAT.
+         * 
+         * <p>Defaults to 0.00.
+         */
+        public Builder amountUseTax(String amountUseTax) {
+            Utils.checkNotNull(amountUseTax, "amountUseTax");
+            this.amountUseTax = Optional.ofNullable(amountUseTax);
+            return this;
+        }
+
+        /**
+         * Gross tax the buyer owes on purchases. US use tax, or EU/UK reverse-charge self-assessed VAT. Not
+         * net of recoverable VAT.
+         * 
+         * <p>Defaults to 0.00.
+         */
+        public Builder amountUseTax(Optional<String> amountUseTax) {
+            Utils.checkNotNull(amountUseTax, "amountUseTax");
+            this.amountUseTax = amountUseTax;
+            return this;
+        }
+
+
+        /**
+         * Input VAT recovered on this filing's purchases. Subtracted from liability; always 0.00 outside EU/UK
+         * VAT AP filings.
+         */
+        public Builder amountInputVatRecoverable(String amountInputVatRecoverable) {
+            Utils.checkNotNull(amountInputVatRecoverable, "amountInputVatRecoverable");
+            this.amountInputVatRecoverable = Optional.ofNullable(amountInputVatRecoverable);
+            return this;
+        }
+
+        /**
+         * Input VAT recovered on this filing's purchases. Subtracted from liability; always 0.00 outside EU/UK
+         * VAT AP filings.
+         */
+        public Builder amountInputVatRecoverable(Optional<String> amountInputVatRecoverable) {
+            Utils.checkNotNull(amountInputVatRecoverable, "amountInputVatRecoverable");
+            this.amountInputVatRecoverable = amountInputVatRecoverable;
+            return this;
+        }
+
+
+        /**
          * Total sales amount during the filing period.
          */
         public Builder amountSales(String amountSales) {
@@ -1930,14 +2930,14 @@ public class FilingRead {
          */
         public Builder totalTaxableSales(String totalTaxableSales) {
             Utils.checkNotNull(totalTaxableSales, "totalTaxableSales");
-            this.totalTaxableSales = Optional.ofNullable(totalTaxableSales);
+            this.totalTaxableSales = JsonNullable.of(totalTaxableSales);
             return this;
         }
 
         /**
          * Total taxable amount during the filing period.
          */
-        public Builder totalTaxableSales(Optional<String> totalTaxableSales) {
+        public Builder totalTaxableSales(JsonNullable<String> totalTaxableSales) {
             Utils.checkNotNull(totalTaxableSales, "totalTaxableSales");
             this.totalTaxableSales = totalTaxableSales;
             return this;
@@ -2021,18 +3021,39 @@ public class FilingRead {
 
 
         /**
+         * Estimated schedule line count (distinct jurisdictions). For Tax Ops workload ranking, not portal
+         * accuracy.
+         */
+        public Builder estimatedLineCount(long estimatedLineCount) {
+            Utils.checkNotNull(estimatedLineCount, "estimatedLineCount");
+            this.estimatedLineCount = JsonNullable.of(estimatedLineCount);
+            return this;
+        }
+
+        /**
+         * Estimated schedule line count (distinct jurisdictions). For Tax Ops workload ranking, not portal
+         * accuracy.
+         */
+        public Builder estimatedLineCount(JsonNullable<Long> estimatedLineCount) {
+            Utils.checkNotNull(estimatedLineCount, "estimatedLineCount");
+            this.estimatedLineCount = estimatedLineCount;
+            return this;
+        }
+
+
+        /**
          * Notes or comments related to the filing.
          */
         public Builder internalNotes(String internalNotes) {
             Utils.checkNotNull(internalNotes, "internalNotes");
-            this.internalNotes = Optional.ofNullable(internalNotes);
+            this.internalNotes = JsonNullable.of(internalNotes);
             return this;
         }
 
         /**
          * Notes or comments related to the filing.
          */
-        public Builder internalNotes(Optional<String> internalNotes) {
+        public Builder internalNotes(JsonNullable<String> internalNotes) {
             Utils.checkNotNull(internalNotes, "internalNotes");
             this.internalNotes = internalNotes;
             return this;
@@ -2041,11 +3062,11 @@ public class FilingRead {
 
         public Builder recentDetailsReportLink(String recentDetailsReportLink) {
             Utils.checkNotNull(recentDetailsReportLink, "recentDetailsReportLink");
-            this.recentDetailsReportLink = Optional.ofNullable(recentDetailsReportLink);
+            this.recentDetailsReportLink = JsonNullable.of(recentDetailsReportLink);
             return this;
         }
 
-        public Builder recentDetailsReportLink(Optional<String> recentDetailsReportLink) {
+        public Builder recentDetailsReportLink(JsonNullable<String> recentDetailsReportLink) {
             Utils.checkNotNull(recentDetailsReportLink, "recentDetailsReportLink");
             this.recentDetailsReportLink = recentDetailsReportLink;
             return this;
@@ -2072,18 +3093,37 @@ public class FilingRead {
 
 
         /**
+         * Tax remitted when filing was first confirmed.
+         */
+        public Builder originalTaxRemitted(String originalTaxRemitted) {
+            Utils.checkNotNull(originalTaxRemitted, "originalTaxRemitted");
+            this.originalTaxRemitted = JsonNullable.of(originalTaxRemitted);
+            return this;
+        }
+
+        /**
+         * Tax remitted when filing was first confirmed.
+         */
+        public Builder originalTaxRemitted(JsonNullable<String> originalTaxRemitted) {
+            Utils.checkNotNull(originalTaxRemitted, "originalTaxRemitted");
+            this.originalTaxRemitted = originalTaxRemitted;
+            return this;
+        }
+
+
+        /**
          * Return confirmation ID, if applicable.
          */
         public Builder returnConfirmationId(String returnConfirmationId) {
             Utils.checkNotNull(returnConfirmationId, "returnConfirmationId");
-            this.returnConfirmationId = Optional.ofNullable(returnConfirmationId);
+            this.returnConfirmationId = JsonNullable.of(returnConfirmationId);
             return this;
         }
 
         /**
          * Return confirmation ID, if applicable.
          */
-        public Builder returnConfirmationId(Optional<String> returnConfirmationId) {
+        public Builder returnConfirmationId(JsonNullable<String> returnConfirmationId) {
             Utils.checkNotNull(returnConfirmationId, "returnConfirmationId");
             this.returnConfirmationId = returnConfirmationId;
             return this;
@@ -2095,14 +3135,14 @@ public class FilingRead {
          */
         public Builder paymentConfirmationId(String paymentConfirmationId) {
             Utils.checkNotNull(paymentConfirmationId, "paymentConfirmationId");
-            this.paymentConfirmationId = Optional.ofNullable(paymentConfirmationId);
+            this.paymentConfirmationId = JsonNullable.of(paymentConfirmationId);
             return this;
         }
 
         /**
          * Payment confirmation ID, if applicable.
          */
-        public Builder paymentConfirmationId(Optional<String> paymentConfirmationId) {
+        public Builder paymentConfirmationId(JsonNullable<String> paymentConfirmationId) {
             Utils.checkNotNull(paymentConfirmationId, "paymentConfirmationId");
             this.paymentConfirmationId = paymentConfirmationId;
             return this;
@@ -2114,27 +3154,33 @@ public class FilingRead {
          */
         public Builder blockApproval(boolean blockApproval) {
             Utils.checkNotNull(blockApproval, "blockApproval");
-            this.blockApproval = Optional.ofNullable(blockApproval);
+            this.blockApproval = JsonNullable.of(blockApproval);
             return this;
         }
 
         /**
          * Indicates if the filing can be approved.
          */
-        public Builder blockApproval(Optional<Boolean> blockApproval) {
+        public Builder blockApproval(JsonNullable<Boolean> blockApproval) {
             Utils.checkNotNull(blockApproval, "blockApproval");
             this.blockApproval = blockApproval;
             return this;
         }
 
 
+        /**
+         * Currency code for the filing (e.g., USD, CAD).
+         */
         public Builder currency(CurrencyEnum currency) {
             Utils.checkNotNull(currency, "currency");
-            this.currency = Optional.ofNullable(currency);
+            this.currency = JsonNullable.of(currency);
             return this;
         }
 
-        public Builder currency(Optional<? extends CurrencyEnum> currency) {
+        /**
+         * Currency code for the filing (e.g., USD, CAD).
+         */
+        public Builder currency(JsonNullable<? extends CurrencyEnum> currency) {
             Utils.checkNotNull(currency, "currency");
             this.currency = currency;
             return this;
@@ -2162,20 +3208,167 @@ public class FilingRead {
 
 
         /**
+         * Filing frequency from the associated registration.
+         */
+        public Builder filingFrequency(String filingFrequency) {
+            Utils.checkNotNull(filingFrequency, "filingFrequency");
+            this.filingFrequency = JsonNullable.of(filingFrequency);
+            return this;
+        }
+
+        /**
+         * Filing frequency from the associated registration.
+         */
+        public Builder filingFrequency(JsonNullable<String> filingFrequency) {
+            Utils.checkNotNull(filingFrequency, "filingFrequency");
+            this.filingFrequency = filingFrequency;
+            return this;
+        }
+
+
+        /**
+         * OSS scheme (UNION/NON_UNION/IOSS) from the associated registration, if any.
+         */
+        public Builder ossType(String ossType) {
+            Utils.checkNotNull(ossType, "ossType");
+            this.ossType = JsonNullable.of(ossType);
+            return this;
+        }
+
+        /**
+         * OSS scheme (UNION/NON_UNION/IOSS) from the associated registration, if any.
+         */
+        public Builder ossType(JsonNullable<String> ossType) {
+            Utils.checkNotNull(ossType, "ossType");
+            this.ossType = ossType;
+            return this;
+        }
+
+
+        /**
+         * Display-only balance-due breakdown for CA Quarterly Prepayment reconciliation filings, populated
+         * only when the org toggle is on and the filing qualifies. When present, clients should show
+         * balance_due instead of total_tax_liability. Absent means show total_tax_liability as usual.
+         */
+        public Builder quarterlyPrepayBalance(QuarterlyPrepayBalanceDisplay quarterlyPrepayBalance) {
+            Utils.checkNotNull(quarterlyPrepayBalance, "quarterlyPrepayBalance");
+            this.quarterlyPrepayBalance = JsonNullable.of(quarterlyPrepayBalance);
+            return this;
+        }
+
+        /**
+         * Display-only balance-due breakdown for CA Quarterly Prepayment reconciliation filings, populated
+         * only when the org toggle is on and the filing qualifies. When present, clients should show
+         * balance_due instead of total_tax_liability. Absent means show total_tax_liability as usual.
+         */
+        public Builder quarterlyPrepayBalance(JsonNullable<? extends QuarterlyPrepayBalanceDisplay> quarterlyPrepayBalance) {
+            Utils.checkNotNull(quarterlyPrepayBalance, "quarterlyPrepayBalance");
+            this.quarterlyPrepayBalance = quarterlyPrepayBalance;
+            return this;
+        }
+
+
+        /**
+         * Display-only CDTFA Option 2 (135% of May liability) for CA Quarterly Prepayment May prepayment
+         * filings. When present, list/CSV/approve copy should prefer prepayment_amount; Tax Overview keeps
+         * Total Liability at 100% and adds a separate CDTFA Option 2 row. Absent means show
+         * total_tax_liability as usual.
+         */
+        public Builder caMayPrepayment(CaMayPrepaymentDisplay caMayPrepayment) {
+            Utils.checkNotNull(caMayPrepayment, "caMayPrepayment");
+            this.caMayPrepayment = JsonNullable.of(caMayPrepayment);
+            return this;
+        }
+
+        /**
+         * Display-only CDTFA Option 2 (135% of May liability) for CA Quarterly Prepayment May prepayment
+         * filings. When present, list/CSV/approve copy should prefer prepayment_amount; Tax Overview keeps
+         * Total Liability at 100% and adds a separate CDTFA Option 2 row. Absent means show
+         * total_tax_liability as usual.
+         */
+        public Builder caMayPrepayment(JsonNullable<? extends CaMayPrepaymentDisplay> caMayPrepayment) {
+            Utils.checkNotNull(caMayPrepayment, "caMayPrepayment");
+            this.caMayPrepayment = caMayPrepayment;
+            return this;
+        }
+
+
+        /**
+         * Display-only estimated penalties and interest for BACK_FILING rows. Null means unknown
+         * (placeholder). Zero is a genuine not-yet-late or zero-tax outcome.
+         * 
+         * <p>Never persisted on the filing or used for billing.
+         */
+        public Builder estimatedPenaltyInterest(String estimatedPenaltyInterest) {
+            Utils.checkNotNull(estimatedPenaltyInterest, "estimatedPenaltyInterest");
+            this.estimatedPenaltyInterest = JsonNullable.of(estimatedPenaltyInterest);
+            return this;
+        }
+
+        /**
+         * Display-only estimated penalties and interest for BACK_FILING rows. Null means unknown
+         * (placeholder). Zero is a genuine not-yet-late or zero-tax outcome.
+         * 
+         * <p>Never persisted on the filing or used for billing.
+         */
+        public Builder estimatedPenaltyInterest(JsonNullable<String> estimatedPenaltyInterest) {
+            Utils.checkNotNull(estimatedPenaltyInterest, "estimatedPenaltyInterest");
+            this.estimatedPenaltyInterest = estimatedPenaltyInterest;
+            return this;
+        }
+
+
+        /**
+         * Customer-facing P&amp;I timing tag for BACK_FILING rows, e.g. 'Paid with return' or 'State bills you
+         * later'.
+         */
+        public Builder penaltyInterestRemittanceTag(String penaltyInterestRemittanceTag) {
+            Utils.checkNotNull(penaltyInterestRemittanceTag, "penaltyInterestRemittanceTag");
+            this.penaltyInterestRemittanceTag = JsonNullable.of(penaltyInterestRemittanceTag);
+            return this;
+        }
+
+        /**
+         * Customer-facing P&amp;I timing tag for BACK_FILING rows, e.g. 'Paid with return' or 'State bills you
+         * later'.
+         */
+        public Builder penaltyInterestRemittanceTag(JsonNullable<String> penaltyInterestRemittanceTag) {
+            Utils.checkNotNull(penaltyInterestRemittanceTag, "penaltyInterestRemittanceTag");
+            this.penaltyInterestRemittanceTag = penaltyInterestRemittanceTag;
+            return this;
+        }
+
+
+        /**
          * Get the filing website URL for this filing's jurisdiction
          */
         public Builder filingWebsiteUrl(String filingWebsiteUrl) {
+            Utils.checkNotNull(filingWebsiteUrl, "filingWebsiteUrl");
+            this.filingWebsiteUrl = Optional.ofNullable(filingWebsiteUrl);
+            return this;
+        }
+
+        /**
+         * Get the filing website URL for this filing's jurisdiction
+         */
+        public Builder filingWebsiteUrl(Optional<String> filingWebsiteUrl) {
             Utils.checkNotNull(filingWebsiteUrl, "filingWebsiteUrl");
             this.filingWebsiteUrl = filingWebsiteUrl;
             return this;
         }
 
         public FilingRead build() {
-            if (autoApproved == null) {
-                autoApproved = _SINGLETON_VALUE_AutoApproved.value();
-            }
             if (filingCategory == null) {
                 filingCategory = _SINGLETON_VALUE_FilingCategory.value();
+            }
+            if (isPrepayment == null) {
+                isPrepayment = _SINGLETON_VALUE_IsPrepayment.value();
+            }
+            if (isFinal == null) {
+                isFinal = _SINGLETON_VALUE_IsFinal.value();
+            }
+            if (isRdf == null) {
+                isRdf = _SINGLETON_VALUE_IsRdf.value();
             }
             if (amountCalculated == null) {
                 amountCalculated = _SINGLETON_VALUE_AmountCalculated.value();
@@ -2195,11 +3388,14 @@ public class FilingRead {
             if (amountTaxCollected == null) {
                 amountTaxCollected = _SINGLETON_VALUE_AmountTaxCollected.value();
             }
+            if (amountUseTax == null) {
+                amountUseTax = _SINGLETON_VALUE_AmountUseTax.value();
+            }
+            if (amountInputVatRecoverable == null) {
+                amountInputVatRecoverable = _SINGLETON_VALUE_AmountInputVatRecoverable.value();
+            }
             if (amountSales == null) {
                 amountSales = _SINGLETON_VALUE_AmountSales.value();
-            }
-            if (totalTaxableSales == null) {
-                totalTaxableSales = _SINGLETON_VALUE_TotalTaxableSales.value();
             }
             if (amount == null) {
                 amount = _SINGLETON_VALUE_Amount.value();
@@ -2221,30 +3417,47 @@ public class FilingRead {
                 status, startDate, endDate,
                 dueDate, dateFiled, isManual,
                 stateCode, stateName, countryCode,
-                jiraIssueKey, autoApproved, pausedUntilDate,
-                filingCategory, approvedBy, approvedAt,
-                amountCalculated, amountAdjusted, amountDiscounts,
-                amountFees, amountPenalties, amountTaxCollected,
+                autoApproved, pausedUntilDate, assistanceTicketId,
+                filingCategory, isPrepayment, isFinal,
+                approvedBy, approvedAt, issueReason,
+                skipReason, cancelledReason, taxType,
+                isRdf, amountCalculated, amountAdjusted,
+                amountDiscounts, amountFees, amountPenalties,
+                amountTaxCollected, amountUseTax, amountInputVatRecoverable,
                 amountSales, totalTaxableSales, amount,
                 totalTaxLiability, transactionCount, marketplaceTransactionCount,
-                internalNotes, recentDetailsReportLink, taxRemitted,
-                returnConfirmationId, paymentConfirmationId, blockApproval,
-                currency, id, registrationId,
-                filingWebsiteUrl);
+                estimatedLineCount, internalNotes, recentDetailsReportLink,
+                taxRemitted, originalTaxRemitted, returnConfirmationId,
+                paymentConfirmationId, blockApproval, currency,
+                id, registrationId, filingFrequency,
+                ossType, quarterlyPrepayBalance, caMayPrepayment,
+                estimatedPenaltyInterest, penaltyInterestRemittanceTag, filingWebsiteUrl);
         }
 
-
-        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_AutoApproved =
-                new LazySingletonValue<>(
-                        "auto_approved",
-                        "false",
-                        new TypeReference<Optional<Boolean>>() {});
 
         private static final LazySingletonValue<Optional<String>> _SINGLETON_VALUE_FilingCategory =
                 new LazySingletonValue<>(
                         "filing_category",
                         "\"REGULAR\"",
                         new TypeReference<Optional<String>>() {});
+
+        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_IsPrepayment =
+                new LazySingletonValue<>(
+                        "is_prepayment",
+                        "false",
+                        new TypeReference<Optional<Boolean>>() {});
+
+        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_IsFinal =
+                new LazySingletonValue<>(
+                        "is_final",
+                        "false",
+                        new TypeReference<Optional<Boolean>>() {});
+
+        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_IsRdf =
+                new LazySingletonValue<>(
+                        "is_rdf",
+                        "false",
+                        new TypeReference<Optional<Boolean>>() {});
 
         private static final LazySingletonValue<Optional<String>> _SINGLETON_VALUE_AmountCalculated =
                 new LazySingletonValue<>(
@@ -2282,15 +3495,21 @@ public class FilingRead {
                         "\"0.00\"",
                         new TypeReference<Optional<String>>() {});
 
-        private static final LazySingletonValue<Optional<String>> _SINGLETON_VALUE_AmountSales =
+        private static final LazySingletonValue<Optional<String>> _SINGLETON_VALUE_AmountUseTax =
                 new LazySingletonValue<>(
-                        "amount_sales",
+                        "amount_use_tax",
                         "\"0.00\"",
                         new TypeReference<Optional<String>>() {});
 
-        private static final LazySingletonValue<Optional<String>> _SINGLETON_VALUE_TotalTaxableSales =
+        private static final LazySingletonValue<Optional<String>> _SINGLETON_VALUE_AmountInputVatRecoverable =
                 new LazySingletonValue<>(
-                        "total_taxable_sales",
+                        "amount_input_vat_recoverable",
+                        "\"0.00\"",
+                        new TypeReference<Optional<String>>() {});
+
+        private static final LazySingletonValue<Optional<String>> _SINGLETON_VALUE_AmountSales =
+                new LazySingletonValue<>(
+                        "amount_sales",
                         "\"0.00\"",
                         new TypeReference<Optional<String>>() {});
 

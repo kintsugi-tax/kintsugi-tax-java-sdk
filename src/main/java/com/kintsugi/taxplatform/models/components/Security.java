@@ -14,31 +14,19 @@ import java.lang.String;
 
 public class Security implements HasSecurity {
 
-    @SpeakeasyMetadata("security:scheme=true,type=apiKey,subtype=header,composite,name=X-API-KEY")
+    @SpeakeasyMetadata("security:scheme=true,type=apiKey,subtype=header,name=X-API-KEY")
     private String apiKeyHeader;
-
-
-    @SpeakeasyMetadata("security:scheme=true,type=apiKey,subtype=header,composite,name=x-organization-id")
-    private String customHeader;
 
     @JsonCreator
     public Security(
-            String apiKeyHeader,
-            String customHeader) {
+            String apiKeyHeader) {
         Utils.checkNotNull(apiKeyHeader, "apiKeyHeader");
-        Utils.checkNotNull(customHeader, "customHeader");
         this.apiKeyHeader = apiKeyHeader;
-        this.customHeader = customHeader;
     }
 
     @JsonIgnore
     public String apiKeyHeader() {
         return apiKeyHeader;
-    }
-
-    @JsonIgnore
-    public String customHeader() {
-        return customHeader;
     }
 
     public static Builder builder() {
@@ -52,12 +40,6 @@ public class Security implements HasSecurity {
         return this;
     }
 
-    public Security withCustomHeader(String customHeader) {
-        Utils.checkNotNull(customHeader, "customHeader");
-        this.customHeader = customHeader;
-        return this;
-    }
-
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -68,29 +50,25 @@ public class Security implements HasSecurity {
         }
         Security other = (Security) o;
         return 
-            Utils.enhancedDeepEquals(this.apiKeyHeader, other.apiKeyHeader) &&
-            Utils.enhancedDeepEquals(this.customHeader, other.customHeader);
+            Utils.enhancedDeepEquals(this.apiKeyHeader, other.apiKeyHeader);
     }
     
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-            apiKeyHeader, customHeader);
+            apiKeyHeader);
     }
     
     @Override
     public String toString() {
         return Utils.toString(Security.class,
-                "apiKeyHeader", apiKeyHeader,
-                "customHeader", customHeader);
+                "apiKeyHeader", apiKeyHeader);
     }
 
     @SuppressWarnings("UnusedReturnValue")
     public final static class Builder {
 
         private String apiKeyHeader;
-
-        private String customHeader;
 
         private Builder() {
           // force use of static builder() method
@@ -103,17 +81,10 @@ public class Security implements HasSecurity {
             return this;
         }
 
-
-        public Builder customHeader(String customHeader) {
-            Utils.checkNotNull(customHeader, "customHeader");
-            this.customHeader = customHeader;
-            return this;
-        }
-
         public Security build() {
 
             return new Security(
-                apiKeyHeader, customHeader);
+                apiKeyHeader);
         }
 
     }

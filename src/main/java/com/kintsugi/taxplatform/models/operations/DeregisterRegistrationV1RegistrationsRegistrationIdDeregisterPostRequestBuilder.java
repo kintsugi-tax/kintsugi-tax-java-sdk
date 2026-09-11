@@ -10,10 +10,12 @@ import com.kintsugi.taxplatform.operations.DeregisterRegistrationV1Registrations
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.util.Optional;
 
 public class DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequestBuilder {
 
     private String registrationId;
+    private Optional<String> xOrganizationId = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -26,11 +28,24 @@ public class DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRe
         this.registrationId = registrationId;
         return this;
     }
+                
+    public DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequestBuilder xOrganizationId(String xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = Optional.of(xOrganizationId);
+        return this;
+    }
+
+    public DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequestBuilder xOrganizationId(Optional<String> xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = xOrganizationId;
+        return this;
+    }
 
 
     private DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest buildRequest() {
 
-        DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest request = new DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest(registrationId);
+        DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest request = new DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest(registrationId,
+            xOrganizationId);
 
         return request;
     }

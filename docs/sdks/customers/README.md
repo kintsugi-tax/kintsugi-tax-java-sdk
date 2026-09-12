@@ -4,12 +4,12 @@
 
 ### Available Operations
 
-* [get](#get) - Get Customers
-* [create](#create) - Create Customer
-* [getById](#getbyid) - Get Customer By Id
-* [update](#update) - Update Customer
-* [getByExternalId](#getbyexternalid) - Get Customer By External Id
-* [createTransaction](#createtransaction) - Create Transaction By Customer Id
+* [get](#get) - Get customers
+* [create](#create) - Create customer
+* [getByExternalId](#getbyexternalid) - Get customer by external id
+* [getById](#getbyid) - Get customer by id
+* [update](#update) - Update customer
+* [createTransaction](#createtransaction) - Create transaction by customer id
 
 ## get
 
@@ -24,11 +24,9 @@ The Get Customers API retrieves
 package hello.world;
 
 import com.kintsugi.taxplatform.SDK;
-import com.kintsugi.taxplatform.models.components.Security;
 import com.kintsugi.taxplatform.models.errors.BackendSrcCustomersResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
-import com.kintsugi.taxplatform.models.operations.GetCustomersV1Request;
-import com.kintsugi.taxplatform.models.operations.GetCustomersV1Response;
+import com.kintsugi.taxplatform.models.operations.*;
 import java.lang.Exception;
 import java.util.List;
 
@@ -37,18 +35,18 @@ public class Application {
     public static void main(String[] args) throws ErrorResponse, BackendSrcCustomersResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
-                .security(Security.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
-                    .build())
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
             .build();
 
         GetCustomersV1Request req = GetCustomersV1Request.builder()
+                .xOrganizationId("org_12345")
                 .searchQuery("John")
                 .country(List.of(
-                    ,))
+                    GetCustomersV1Country.of("U"),
+                    GetCustomersV1Country.of("S")))
                 .state("CA")
                 .sourceIn("SHOPIFY,API")
+                .connectionIdIn("conn_abc123,conn_def456")
                 .orderBy("created_at,street_1,street_2,city,state,postal_code,country,status")
                 .build();
 
@@ -105,31 +103,27 @@ public class Application {
     public static void main(String[] args) throws ErrorResponse, BackendSrcCustomersResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
-                .security(Security.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
-                    .build())
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
             .build();
 
-        CustomerCreate req = CustomerCreate.builder()
-                .phone("987-654-3210")
-                .street1("456 Elm St")
-                .street2("Suite 202")
-                .city("Metropolis")
-                .county("Wayne")
-                .state("NY")
-                .postalCode("10001")
-                .country(CountryCodeEnum.US)
-                .name("Jane Smith")
-                .externalId("cust_002")
-                .status(StatusEnum.ARCHIVED)
-                .email("jane.smith@example.com")
-                .source(SourceEnum.SHOPIFY)
-                .addressStatus(AddressStatus.PARTIALLY_VERIFIED)
-                .build();
-
         CreateCustomerV1CustomersPostResponse res = sdk.customers().create()
-                .request(req)
+                .xOrganizationId("org_12345")
+                .customerCreate(CustomerCreate.builder()
+                    .phone("987-654-3210")
+                    .street1("456 Elm St")
+                    .street2("Suite 202")
+                    .city("Metropolis")
+                    .county("Wayne")
+                    .state("NY")
+                    .postalCode("10001")
+                    .country(CountryCodeEnum.US)
+                    .name("Jane Smith")
+                    .externalId("cust_002")
+                    .status(StatusEnum.ARCHIVED)
+                    .email("jane.smith@example.com")
+                    .source(SourceEnum.SHOPIFY)
+                    .addressStatus(AddressStatus.PARTIALLY_VERIFIED)
+                    .build())
                 .call();
 
         if (res.customerRead().isPresent()) {
@@ -141,9 +135,10 @@ public class Application {
 
 ### Parameters
 
-| Parameter                                               | Type                                                    | Required                                                | Description                                             |
-| ------------------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------------- | ------------------------------------------------------- |
-| `request`                                               | [CustomerCreate](../../models/shared/CustomerCreate.md) | :heavy_check_mark:                                      | The request object to use for the request.              |
+| Parameter                                                     | Type                                                          | Required                                                      | Description                                                   | Example                                                       |
+| ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- |
+| `xOrganizationId`                                             | *Optional\<String>*                                           | :heavy_check_mark:                                            | The unique identifier for the organization making the request | org_12345                                                     |
+| `customerCreate`                                              | [CustomerCreate](../../models/components/CustomerCreate.md)   | :heavy_check_mark:                                            | N/A                                                           |                                                               |
 
 ### Response
 
@@ -158,6 +153,61 @@ public class Application {
 | models/errors/ErrorResponse                                       | 500                                                               | application/json                                                  |
 | models/errors/APIException                                        | 4XX, 5XX                                                          | \*/\*                                                             |
 
+## getByExternalId
+
+The Get Customer By External ID API retrieves the details of a single customer using
+their external identifier. This endpoint is useful for accessing customer data when only
+an external ID is available.
+
+### Example Usage
+
+<!-- UsageSnippet language="java" operationID="get_customer_by_external_id_v1_customers_external__external_id__get" method="get" path="/v1/customers/external/{external_id}" -->
+```java
+package hello.world;
+
+import com.kintsugi.taxplatform.SDK;
+import com.kintsugi.taxplatform.models.errors.HTTPValidationError;
+import com.kintsugi.taxplatform.models.operations.GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse;
+import java.lang.Exception;
+
+public class Application {
+
+    public static void main(String[] args) throws HTTPValidationError, Exception {
+
+        SDK sdk = SDK.builder()
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
+            .build();
+
+        GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse res = sdk.customers().getByExternalId()
+                .externalId("external_12345")
+                .xOrganizationId("org_12345")
+                .call();
+
+        if (res.customerRead().isPresent()) {
+            System.out.println(res.customerRead().get());
+        }
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                     | Type                                                          | Required                                                      | Description                                                   | Example                                                       |
+| ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- |
+| `externalId`                                                  | *String*                                                      | :heavy_check_mark:                                            | The external identifier of the customer to retrieve.          | external_12345                                                |
+| `xOrganizationId`                                             | *Optional\<String>*                                           | :heavy_check_mark:                                            | The unique identifier for the organization making the request | org_12345                                                     |
+
+### Response
+
+**[GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse](../../models/operations/GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse.md)**
+
+### Errors
+
+| Error Type                        | Status Code                       | Content Type                      |
+| --------------------------------- | --------------------------------- | --------------------------------- |
+| models/errors/HTTPValidationError | 422                               | application/json                  |
+| models/errors/APIException        | 4XX, 5XX                          | \*/\*                             |
+
 ## getById
 
 The Get Customer By ID API retrieves the details of a single customer
@@ -171,7 +221,6 @@ The Get Customer By ID API retrieves the details of a single customer
 package hello.world;
 
 import com.kintsugi.taxplatform.SDK;
-import com.kintsugi.taxplatform.models.components.Security;
 import com.kintsugi.taxplatform.models.errors.HTTPValidationError;
 import com.kintsugi.taxplatform.models.operations.GetCustomerByIdV1CustomersCustomerIdGetResponse;
 import java.lang.Exception;
@@ -181,14 +230,12 @@ public class Application {
     public static void main(String[] args) throws HTTPValidationError, Exception {
 
         SDK sdk = SDK.builder()
-                .security(Security.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
-                    .build())
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
             .build();
 
         GetCustomerByIdV1CustomersCustomerIdGetResponse res = sdk.customers().getById()
                 .customerId("cust_abc123")
+                .xOrganizationId("org_12345")
                 .call();
 
         if (res.customerRead().isPresent()) {
@@ -200,9 +247,10 @@ public class Application {
 
 ### Parameters
 
-| Parameter                         | Type                              | Required                          | Description                       | Example                           |
-| --------------------------------- | --------------------------------- | --------------------------------- | --------------------------------- | --------------------------------- |
-| `customerId`                      | *String*                          | :heavy_check_mark:                | Unique identifier of the customer | cust_abc123                       |
+| Parameter                                                     | Type                                                          | Required                                                      | Description                                                   | Example                                                       |
+| ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- |
+| `customerId`                                                  | *String*                                                      | :heavy_check_mark:                                            | Unique identifier of the customer                             | cust_abc123                                                   |
+| `xOrganizationId`                                             | *Optional\<String>*                                           | :heavy_check_mark:                                            | The unique identifier for the organization making the request | org_12345                                                     |
 
 ### Response
 
@@ -239,14 +287,12 @@ public class Application {
     public static void main(String[] args) throws ErrorResponse, BackendSrcCustomersResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
-                .security(Security.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
-                    .build())
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
             .build();
 
         UpdateCustomerV1CustomersCustomerIdPutResponse res = sdk.customers().update()
                 .customerId("<id>")
+                .xOrganizationId("org_12345")
                 .customerUpdate(CustomerUpdate.builder()
                     .phone("987-654-3210")
                     .street1("456 Elm St")
@@ -275,10 +321,11 @@ public class Application {
 
 ### Parameters
 
-| Parameter                                                   | Type                                                        | Required                                                    | Description                                                 |
-| ----------------------------------------------------------- | ----------------------------------------------------------- | ----------------------------------------------------------- | ----------------------------------------------------------- |
-| `customerId`                                                | *String*                                                    | :heavy_check_mark:                                          | Unique identifier of the customer to be retrieved.          |
-| `customerUpdate`                                            | [CustomerUpdate](../../models/components/CustomerUpdate.md) | :heavy_check_mark:                                          | N/A                                                         |
+| Parameter                                                     | Type                                                          | Required                                                      | Description                                                   | Example                                                       |
+| ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- |
+| `customerId`                                                  | *String*                                                      | :heavy_check_mark:                                            | Unique identifier of the customer to be retrieved.            |                                                               |
+| `xOrganizationId`                                             | *Optional\<String>*                                           | :heavy_check_mark:                                            | The unique identifier for the organization making the request | org_12345                                                     |
+| `customerUpdate`                                              | [CustomerUpdate](../../models/components/CustomerUpdate.md)   | :heavy_check_mark:                                            | N/A                                                           |                                                               |
 
 ### Response
 
@@ -292,63 +339,6 @@ public class Application {
 | models/errors/BackendSrcCustomersResponsesValidationErrorResponse | 422                                                               | application/json                                                  |
 | models/errors/ErrorResponse                                       | 500                                                               | application/json                                                  |
 | models/errors/APIException                                        | 4XX, 5XX                                                          | \*/\*                                                             |
-
-## getByExternalId
-
-The Get Customer By External ID API retrieves the details of a single customer using
-their external identifier. This endpoint is useful for accessing customer data when only
-an external ID is available.
-
-### Example Usage
-
-<!-- UsageSnippet language="java" operationID="get_customer_by_external_id_v1_customers_external__external_id__get" method="get" path="/v1/customers/external/{external_id}" -->
-```java
-package hello.world;
-
-import com.kintsugi.taxplatform.SDK;
-import com.kintsugi.taxplatform.models.components.Security;
-import com.kintsugi.taxplatform.models.errors.HTTPValidationError;
-import com.kintsugi.taxplatform.models.operations.GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse;
-import java.lang.Exception;
-
-public class Application {
-
-    public static void main(String[] args) throws HTTPValidationError, Exception {
-
-        SDK sdk = SDK.builder()
-                .security(Security.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
-                    .build())
-            .build();
-
-        GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse res = sdk.customers().getByExternalId()
-                .externalId("external_12345")
-                .call();
-
-        if (res.customerRead().isPresent()) {
-            System.out.println(res.customerRead().get());
-        }
-    }
-}
-```
-
-### Parameters
-
-| Parameter                                            | Type                                                 | Required                                             | Description                                          | Example                                              |
-| ---------------------------------------------------- | ---------------------------------------------------- | ---------------------------------------------------- | ---------------------------------------------------- | ---------------------------------------------------- |
-| `externalId`                                         | *String*                                             | :heavy_check_mark:                                   | The external identifier of the customer to retrieve. | external_12345                                       |
-
-### Response
-
-**[GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse](../../models/operations/GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse.md)**
-
-### Errors
-
-| Error Type                        | Status Code                       | Content Type                      |
-| --------------------------------- | --------------------------------- | --------------------------------- |
-| models/errors/HTTPValidationError | 422                               | application/json                  |
-| models/errors/APIException        | 4XX, 5XX                          | \*/\*                             |
 
 ## createTransaction
 
@@ -373,24 +363,29 @@ public class Application {
     public static void main(String[] args) throws HTTPValidationError, Exception {
 
         SDK sdk = SDK.builder()
-                .security(Security.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
-                    .build())
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
             .build();
 
         CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostResponse res = sdk.customers().createTransaction()
                 .customerId("<id>")
+                .xOrganizationId("org_12345")
                 .transactionCreate(TransactionCreate.builder()
                     .organizationId("<id>")
                     .externalId("<id>")
                     .date(OffsetDateTime.parse("2023-02-16T04:36:50.697Z"))
-                    .addresses(List.of())
+                    .addresses(TransactionCreateAddresses.ofTransactionAddressBuilder(List.of()))
                     .transactionItems(List.of(
                         TransactionItemCreateUpdate.builder()
                             .organizationId("<id>")
                             .date(OffsetDateTime.parse("2024-05-13T04:49:24.946Z"))
                             .externalProductId("<id>")
+                            .quantity(TransactionItemCreateUpdateQuantity.of(1d))
+                            .amount(TransactionItemCreateUpdateAmount.of(0d))
+                            .taxAmountImported(TransactionItemCreateUpdateTaxAmountImported.of(0d))
+                            .taxRateImported(TransactionItemCreateUpdateTaxRateImported.of(0d))
+                            .taxAmountCalculated(TransactionItemCreateUpdateTaxAmountCalculated.of(0d))
+                            .taxRateCalculated(TransactionItemCreateUpdateTaxRateCalculated.of(0d))
+                            .taxableAmount(TransactionItemCreateUpdateTaxableAmount.of(0d))
                             .build()))
                     .build())
                 .call();
@@ -404,10 +399,11 @@ public class Application {
 
 ### Parameters
 
-| Parameter                                                         | Type                                                              | Required                                                          | Description                                                       |
-| ----------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- |
-| `customerId`                                                      | *String*                                                          | :heavy_check_mark:                                                | N/A                                                               |
-| `transactionCreate`                                               | [TransactionCreate](../../models/components/TransactionCreate.md) | :heavy_check_mark:                                                | N/A                                                               |
+| Parameter                                                         | Type                                                              | Required                                                          | Description                                                       | Example                                                           |
+| ----------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- |
+| `customerId`                                                      | *String*                                                          | :heavy_check_mark:                                                | N/A                                                               |                                                                   |
+| `xOrganizationId`                                                 | *Optional\<String>*                                               | :heavy_check_mark:                                                | The unique identifier for the organization making the request     | org_12345                                                         |
+| `transactionCreate`                                               | [TransactionCreate](../../models/components/TransactionCreate.md) | :heavy_check_mark:                                                | N/A                                                               |                                                                   |
 
 ### Response
 

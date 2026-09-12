@@ -9,6 +9,7 @@ import com.kintsugi.taxplatform.utils.SpeakeasyMetadata;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Override;
 import java.lang.String;
+import java.util.Optional;
 
 
 public class GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest {
@@ -18,11 +19,25 @@ public class GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest {
     @SpeakeasyMetadata("pathParam:style=simple,explode=false,name=external_id")
     private String externalId;
 
+    /**
+     * The unique identifier for the organization making the request
+     */
+    @SpeakeasyMetadata("header:style=simple,explode=false,name=x-organization-id")
+    private Optional<String> xOrganizationId;
+
     @JsonCreator
     public GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest(
-            String externalId) {
+            String externalId,
+            Optional<String> xOrganizationId) {
         Utils.checkNotNull(externalId, "externalId");
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
         this.externalId = externalId;
+        this.xOrganizationId = xOrganizationId;
+    }
+    
+    public GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest(
+            String externalId) {
+        this(externalId, Optional.empty());
     }
 
     /**
@@ -31,6 +46,14 @@ public class GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest {
     @JsonIgnore
     public String externalId() {
         return externalId;
+    }
+
+    /**
+     * The unique identifier for the organization making the request
+     */
+    @JsonIgnore
+    public Optional<String> xOrganizationId() {
+        return xOrganizationId;
     }
 
     public static Builder builder() {
@@ -47,6 +70,25 @@ public class GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest {
         return this;
     }
 
+    /**
+     * The unique identifier for the organization making the request
+     */
+    public GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest withXOrganizationId(String xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = Optional.ofNullable(xOrganizationId);
+        return this;
+    }
+
+
+    /**
+     * The unique identifier for the organization making the request
+     */
+    public GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest withXOrganizationId(Optional<String> xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = xOrganizationId;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -57,25 +99,29 @@ public class GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest {
         }
         GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest other = (GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest) o;
         return 
-            Utils.enhancedDeepEquals(this.externalId, other.externalId);
+            Utils.enhancedDeepEquals(this.externalId, other.externalId) &&
+            Utils.enhancedDeepEquals(this.xOrganizationId, other.xOrganizationId);
     }
     
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-            externalId);
+            externalId, xOrganizationId);
     }
     
     @Override
     public String toString() {
         return Utils.toString(GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest.class,
-                "externalId", externalId);
+                "externalId", externalId,
+                "xOrganizationId", xOrganizationId);
     }
 
     @SuppressWarnings("UnusedReturnValue")
     public final static class Builder {
 
         private String externalId;
+
+        private Optional<String> xOrganizationId = Optional.empty();
 
         private Builder() {
           // force use of static builder() method
@@ -91,10 +137,29 @@ public class GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest {
             return this;
         }
 
+
+        /**
+         * The unique identifier for the organization making the request
+         */
+        public Builder xOrganizationId(String xOrganizationId) {
+            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+            this.xOrganizationId = Optional.ofNullable(xOrganizationId);
+            return this;
+        }
+
+        /**
+         * The unique identifier for the organization making the request
+         */
+        public Builder xOrganizationId(Optional<String> xOrganizationId) {
+            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+            this.xOrganizationId = xOrganizationId;
+            return this;
+        }
+
         public GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest build() {
 
             return new GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest(
-                externalId);
+                externalId, xOrganizationId);
         }
 
     }

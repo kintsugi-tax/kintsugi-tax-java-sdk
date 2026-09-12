@@ -9,12 +9,14 @@ import com.kintsugi.taxplatform.models.components.AddressBase;
 import com.kintsugi.taxplatform.models.components.ValidationAddress;
 import com.kintsugi.taxplatform.models.operations.SearchV1AddressValidationSearchPostRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.SearchV1AddressValidationSearchPostResponse;
-import com.kintsugi.taxplatform.models.operations.SearchV1AddressValidationSearchPostSecurity;
+import com.kintsugi.taxplatform.models.operations.SuggestionsV1AddressValidationSuggestionsPostRequest;
 import com.kintsugi.taxplatform.models.operations.SuggestionsV1AddressValidationSuggestionsPostRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.SuggestionsV1AddressValidationSuggestionsPostResponse;
 import com.kintsugi.taxplatform.operations.SearchV1AddressValidationSearchPost;
 import com.kintsugi.taxplatform.operations.SuggestionsV1AddressValidationSuggestionsPost;
 import com.kintsugi.taxplatform.utils.Headers;
+import java.lang.String;
+import java.util.Optional;
 
 
 public class AddressValidation {
@@ -59,13 +61,12 @@ public class AddressValidation {
      * The API also adds additional fields, such as county, when possible.
      * 
      * @param request The request object containing all the parameters for the API call.
-     * @param security The security details to use for authentication.
      * @return The response from the API call
      * @throws RuntimeException subclass if the API call fails
      */
-    public SearchV1AddressValidationSearchPostResponse search(AddressBase request, SearchV1AddressValidationSearchPostSecurity security) {
+    public SearchV1AddressValidationSearchPostResponse search(AddressBase request) {
         RequestOperation<AddressBase, SearchV1AddressValidationSearchPostResponse> operation
-              = new SearchV1AddressValidationSearchPost.Sync(sdkConfiguration, security, _headers);
+              = new SearchV1AddressValidationSearchPost.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -93,12 +94,36 @@ public class AddressValidation {
      * This improves accuracy, increases speed, reduces errors,
      * and streamlines the data entry process.
      * 
-     * @param request The request object containing all the parameters for the API call.
+     * @param validationAddress 
      * @return The response from the API call
      * @throws RuntimeException subclass if the API call fails
      */
-    public SuggestionsV1AddressValidationSuggestionsPostResponse suggest(ValidationAddress request) {
-        RequestOperation<ValidationAddress, SuggestionsV1AddressValidationSuggestionsPostResponse> operation
+    public SuggestionsV1AddressValidationSuggestionsPostResponse suggest(ValidationAddress validationAddress) {
+        return suggest(Optional.empty(), validationAddress);
+    }
+
+    /**
+     * Suggestions
+     * 
+     * <p>This API endpoint provides address suggestions based on
+     * partial input data. It helps users auto-complete and validate addresses efficiently
+     * by returning a list of suggested addresses that match the input criteria.
+     * This improves accuracy, increases speed, reduces errors,
+     * and streamlines the data entry process.
+     * 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param validationAddress 
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public SuggestionsV1AddressValidationSuggestionsPostResponse suggest(Optional<String> xOrganizationId, ValidationAddress validationAddress) {
+        SuggestionsV1AddressValidationSuggestionsPostRequest request =
+            SuggestionsV1AddressValidationSuggestionsPostRequest
+                .builder()
+                .xOrganizationId(xOrganizationId)
+                .validationAddress(validationAddress)
+                .build();
+        RequestOperation<SuggestionsV1AddressValidationSuggestionsPostRequest, SuggestionsV1AddressValidationSuggestionsPostResponse> operation
               = new SuggestionsV1AddressValidationSuggestionsPost.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }

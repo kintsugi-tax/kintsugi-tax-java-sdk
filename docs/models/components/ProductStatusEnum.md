@@ -16,3 +16,4 @@ ProductStatusEnum value = ProductStatusEnum.APPROVED;
 | `APPROVED`           | APPROVED             |
 | `PARTIALLY_APPROVED` | PARTIALLY_APPROVED   |
 | `PENDING`            | PENDING              |
+| `ARCHIVED`           | ARCHIVED             |

@@ -10,10 +10,12 @@ import com.kintsugi.taxplatform.operations.GetCustomerByIdV1CustomersCustomerIdG
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.util.Optional;
 
 public class GetCustomerByIdV1CustomersCustomerIdGetRequestBuilder {
 
     private String customerId;
+    private Optional<String> xOrganizationId = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -26,11 +28,24 @@ public class GetCustomerByIdV1CustomersCustomerIdGetRequestBuilder {
         this.customerId = customerId;
         return this;
     }
+                
+    public GetCustomerByIdV1CustomersCustomerIdGetRequestBuilder xOrganizationId(String xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = Optional.of(xOrganizationId);
+        return this;
+    }
+
+    public GetCustomerByIdV1CustomersCustomerIdGetRequestBuilder xOrganizationId(Optional<String> xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = xOrganizationId;
+        return this;
+    }
 
 
     private GetCustomerByIdV1CustomersCustomerIdGetRequest buildRequest() {
 
-        GetCustomerByIdV1CustomersCustomerIdGetRequest request = new GetCustomerByIdV1CustomersCustomerIdGetRequest(customerId);
+        GetCustomerByIdV1CustomersCustomerIdGetRequest request = new GetCustomerByIdV1CustomersCustomerIdGetRequest(customerId,
+            xOrganizationId);
 
         return request;
     }

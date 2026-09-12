@@ -3,6 +3,9 @@
 
 ## Fields
 
-| Field              | Type               | Required           | Description        |
-| ------------------ | ------------------ | ------------------ | ------------------ |
-| `customerId`       | *String*           | :heavy_check_mark: | N/A                |
+| Field                                                         | Type                                                          | Required                                                      | Description                                                   | Example                                                       |
+| ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- |
+| `customerId`                                                  | *String*                                                      | :heavy_check_mark:                                            | N/A                                                           |                                                               |
+| `page`                                                        | *JsonNullable\<Long>*                                         | :heavy_minus_sign:                                            | N/A                                                           |                                                               |
+| `size`                                                        | *JsonNullable\<Long>*                                         | :heavy_minus_sign:                                            | N/A                                                           |                                                               |
+| `xOrganizationId`                                             | *Optional\<String>*                                           | :heavy_check_mark:                                            | The unique identifier for the organization making the request | org_12345                                                     |

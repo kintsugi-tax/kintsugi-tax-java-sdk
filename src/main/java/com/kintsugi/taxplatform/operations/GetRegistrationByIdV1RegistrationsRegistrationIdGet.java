@@ -97,6 +97,7 @@ public class GetRegistrationByIdV1RegistrationsRegistrationIdGet {
                     klass,
                     request,
                     null));
+            req.addHeaders(Utils.getHeadersFromMetadata(request, null));
             Utils.configureSecurity(req, this.sdkConfiguration.securitySource().getSecurity());
 
             return req.build();

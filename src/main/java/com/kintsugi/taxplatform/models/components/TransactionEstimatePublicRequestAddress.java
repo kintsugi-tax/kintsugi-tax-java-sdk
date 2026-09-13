@@ -8,7 +8,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.kintsugi.taxplatform.utils.LazySingletonValue;
 import com.kintsugi.taxplatform.utils.Utils;
+import java.lang.Boolean;
 import java.lang.Deprecated;
 import java.lang.Override;
 import java.lang.String;
@@ -84,7 +87,8 @@ public class TransactionEstimatePublicRequestAddress {
     private Optional<String> fullAddress;
 
     /**
-     * Status of the address. Deprecated and ignored.
+     * Deprecated: ignored on estimate. Accepted for backward compatibility; each address is validated from
+     * structured fields.
      * 
      * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
      */
@@ -92,6 +96,13 @@ public class TransactionEstimatePublicRequestAddress {
     @JsonProperty("status")
     @Deprecated
     private Optional<String> status;
+
+    /**
+     * If true, city-level tax rates are not applied for this address.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("is_unincorporated")
+    private Optional<Boolean> isUnincorporated;
 
     @JsonCreator
     public TransactionEstimatePublicRequestAddress(
@@ -105,7 +116,8 @@ public class TransactionEstimatePublicRequestAddress {
             @JsonProperty("postal_code") String postalCode,
             @JsonProperty("country") String country,
             @JsonProperty("full_address") Optional<String> fullAddress,
-            @JsonProperty("status") Optional<String> status) {
+            @JsonProperty("status") Optional<String> status,
+            @JsonProperty("is_unincorporated") Optional<Boolean> isUnincorporated) {
         Utils.checkNotNull(type, "type");
         Utils.checkNotNull(phone, "phone");
         Utils.checkNotNull(street1, "street1");
@@ -117,6 +129,7 @@ public class TransactionEstimatePublicRequestAddress {
         Utils.checkNotNull(country, "country");
         Utils.checkNotNull(fullAddress, "fullAddress");
         Utils.checkNotNull(status, "status");
+        Utils.checkNotNull(isUnincorporated, "isUnincorporated");
         this.type = type;
         this.phone = phone;
         this.street1 = street1;
@@ -128,6 +141,7 @@ public class TransactionEstimatePublicRequestAddress {
         this.country = country;
         this.fullAddress = fullAddress;
         this.status = status;
+        this.isUnincorporated = isUnincorporated;
     }
     
     public TransactionEstimatePublicRequestAddress(
@@ -138,7 +152,7 @@ public class TransactionEstimatePublicRequestAddress {
         this(type, Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
             state, postalCode, country,
-            Optional.empty(), Optional.empty());
+            Optional.empty(), Optional.empty(), Optional.empty());
     }
 
     /**
@@ -223,7 +237,8 @@ public class TransactionEstimatePublicRequestAddress {
     }
 
     /**
-     * Status of the address. Deprecated and ignored.
+     * Deprecated: ignored on estimate. Accepted for backward compatibility; each address is validated from
+     * structured fields.
      * 
      * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
      */
@@ -231,6 +246,14 @@ public class TransactionEstimatePublicRequestAddress {
     @JsonIgnore
     public Optional<String> status() {
         return status;
+    }
+
+    /**
+     * If true, city-level tax rates are not applied for this address.
+     */
+    @JsonIgnore
+    public Optional<Boolean> isUnincorporated() {
+        return isUnincorporated;
     }
 
     public static Builder builder() {
@@ -390,7 +413,8 @@ public class TransactionEstimatePublicRequestAddress {
     }
 
     /**
-     * Status of the address. Deprecated and ignored.
+     * Deprecated: ignored on estimate. Accepted for backward compatibility; each address is validated from
+     * structured fields.
      * 
      * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
      */
@@ -403,7 +427,8 @@ public class TransactionEstimatePublicRequestAddress {
 
 
     /**
-     * Status of the address. Deprecated and ignored.
+     * Deprecated: ignored on estimate. Accepted for backward compatibility; each address is validated from
+     * structured fields.
      * 
      * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
      */
@@ -411,6 +436,25 @@ public class TransactionEstimatePublicRequestAddress {
     public TransactionEstimatePublicRequestAddress withStatus(Optional<String> status) {
         Utils.checkNotNull(status, "status");
         this.status = status;
+        return this;
+    }
+
+    /**
+     * If true, city-level tax rates are not applied for this address.
+     */
+    public TransactionEstimatePublicRequestAddress withIsUnincorporated(boolean isUnincorporated) {
+        Utils.checkNotNull(isUnincorporated, "isUnincorporated");
+        this.isUnincorporated = Optional.ofNullable(isUnincorporated);
+        return this;
+    }
+
+
+    /**
+     * If true, city-level tax rates are not applied for this address.
+     */
+    public TransactionEstimatePublicRequestAddress withIsUnincorporated(Optional<Boolean> isUnincorporated) {
+        Utils.checkNotNull(isUnincorporated, "isUnincorporated");
+        this.isUnincorporated = isUnincorporated;
         return this;
     }
 
@@ -434,7 +478,8 @@ public class TransactionEstimatePublicRequestAddress {
             Utils.enhancedDeepEquals(this.postalCode, other.postalCode) &&
             Utils.enhancedDeepEquals(this.country, other.country) &&
             Utils.enhancedDeepEquals(this.fullAddress, other.fullAddress) &&
-            Utils.enhancedDeepEquals(this.status, other.status);
+            Utils.enhancedDeepEquals(this.status, other.status) &&
+            Utils.enhancedDeepEquals(this.isUnincorporated, other.isUnincorporated);
     }
     
     @Override
@@ -443,7 +488,7 @@ public class TransactionEstimatePublicRequestAddress {
             type, phone, street1,
             street2, city, county,
             state, postalCode, country,
-            fullAddress, status);
+            fullAddress, status, isUnincorporated);
     }
     
     @Override
@@ -459,7 +504,8 @@ public class TransactionEstimatePublicRequestAddress {
                 "postalCode", postalCode,
                 "country", country,
                 "fullAddress", fullAddress,
-                "status", status);
+                "status", status,
+                "isUnincorporated", isUnincorporated);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -487,6 +533,8 @@ public class TransactionEstimatePublicRequestAddress {
 
         @Deprecated
         private Optional<String> status = Optional.empty();
+
+        private Optional<Boolean> isUnincorporated;
 
         private Builder() {
           // force use of static builder() method
@@ -649,7 +697,8 @@ public class TransactionEstimatePublicRequestAddress {
 
 
         /**
-         * Status of the address. Deprecated and ignored.
+         * Deprecated: ignored on estimate. Accepted for backward compatibility; each address is validated from
+         * structured fields.
          * 
          * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
          */
@@ -661,7 +710,8 @@ public class TransactionEstimatePublicRequestAddress {
         }
 
         /**
-         * Status of the address. Deprecated and ignored.
+         * Deprecated: ignored on estimate. Accepted for backward compatibility; each address is validated from
+         * structured fields.
          * 
          * @deprecated field: This will be removed in a future release, please migrate away from it as soon as possible.
          */
@@ -672,14 +722,42 @@ public class TransactionEstimatePublicRequestAddress {
             return this;
         }
 
+
+        /**
+         * If true, city-level tax rates are not applied for this address.
+         */
+        public Builder isUnincorporated(boolean isUnincorporated) {
+            Utils.checkNotNull(isUnincorporated, "isUnincorporated");
+            this.isUnincorporated = Optional.ofNullable(isUnincorporated);
+            return this;
+        }
+
+        /**
+         * If true, city-level tax rates are not applied for this address.
+         */
+        public Builder isUnincorporated(Optional<Boolean> isUnincorporated) {
+            Utils.checkNotNull(isUnincorporated, "isUnincorporated");
+            this.isUnincorporated = isUnincorporated;
+            return this;
+        }
+
         public TransactionEstimatePublicRequestAddress build() {
+            if (isUnincorporated == null) {
+                isUnincorporated = _SINGLETON_VALUE_IsUnincorporated.value();
+            }
 
             return new TransactionEstimatePublicRequestAddress(
                 type, phone, street1,
                 street2, city, county,
                 state, postalCode, country,
-                fullAddress, status);
+                fullAddress, status, isUnincorporated);
         }
 
+
+        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_IsUnincorporated =
+                new LazySingletonValue<>(
+                        "is_unincorporated",
+                        "false",
+                        new TypeReference<Optional<Boolean>>() {});
     }
 }

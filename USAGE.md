@@ -8,7 +8,6 @@ import com.kintsugi.taxplatform.models.components.CountryCodeEnum;
 import com.kintsugi.taxplatform.models.errors.BackendSrcAddressValidationResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
 import com.kintsugi.taxplatform.models.operations.SearchV1AddressValidationSearchPostResponse;
-import com.kintsugi.taxplatform.models.operations.SearchV1AddressValidationSearchPostSecurity;
 import java.lang.Exception;
 
 public class Application {
@@ -16,6 +15,7 @@ public class Application {
     public static void main(String[] args) throws ErrorResponse, BackendSrcAddressValidationResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
             .build();
 
         AddressBase req = AddressBase.builder()
@@ -32,9 +32,6 @@ public class Application {
 
         SearchV1AddressValidationSearchPostResponse res = sdk.addressValidation().search()
                 .request(req)
-                .security(SearchV1AddressValidationSearchPostSecurity.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .build())
                 .call();
 
         if (res.response200SearchV1AddressValidationSearchPost().isPresent()) {

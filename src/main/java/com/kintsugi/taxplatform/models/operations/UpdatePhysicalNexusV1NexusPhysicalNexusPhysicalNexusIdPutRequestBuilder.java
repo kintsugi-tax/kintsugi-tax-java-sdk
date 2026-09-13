@@ -11,10 +11,12 @@ import com.kintsugi.taxplatform.operations.UpdatePhysicalNexusV1NexusPhysicalNex
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.util.Optional;
 
 public class UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequestBuilder {
 
     private String physicalNexusId;
+    private Optional<String> xOrganizationId = Optional.empty();
     private PhysicalNexusUpdate physicalNexusUpdate;
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
@@ -28,6 +30,18 @@ public class UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequestBui
         this.physicalNexusId = physicalNexusId;
         return this;
     }
+                
+    public UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequestBuilder xOrganizationId(String xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = Optional.of(xOrganizationId);
+        return this;
+    }
+
+    public UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequestBuilder xOrganizationId(Optional<String> xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = xOrganizationId;
+        return this;
+    }
 
     public UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequestBuilder physicalNexusUpdate(PhysicalNexusUpdate physicalNexusUpdate) {
         Utils.checkNotNull(physicalNexusUpdate, "physicalNexusUpdate");
@@ -39,6 +53,7 @@ public class UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequestBui
     private UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest buildRequest() {
 
         UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest request = new UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest(physicalNexusId,
+            xOrganizationId,
             physicalNexusUpdate);
 
         return request;

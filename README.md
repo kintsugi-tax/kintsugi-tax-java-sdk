@@ -15,7 +15,7 @@ Developer-friendly & type-safe Java SDK specifically catered to leverage *tax-pl
 <!-- Start Summary [summary] -->
 ## Summary
 
-
+Kintsugi Customer API: Publicly documented Kintsugi Customer API endpoints. The source (openapi/_source/openapi-master.json) is the platform spec filtered to the documented customer surface (openapi/customer-endpoints.json); scripts/build-specs.mjs re-applies that filter here. Do not edit by hand.
 <!-- End Summary [summary] -->
 
 <!-- Start Table of Contents [toc] -->
@@ -50,7 +50,7 @@ The samples below show how a published SDK artifact is used:
 
 Gradle:
 ```groovy
-implementation 'com.trykintsugi:kintsugi-tax-java-sdk:0.15.3'
+implementation 'com.trykintsugi:kintsugi-tax-java-sdk:0.16.0'
 ```
 
 Maven:
@@ -58,7 +58,7 @@ Maven:
 <dependency>
     <groupId>com.trykintsugi</groupId>
     <artifactId>kintsugi-tax-java-sdk</artifactId>
-    <version>0.15.3</version>
+    <version>0.16.0</version>
 </dependency>
 ```
 
@@ -91,7 +91,6 @@ import com.kintsugi.taxplatform.models.components.CountryCodeEnum;
 import com.kintsugi.taxplatform.models.errors.BackendSrcAddressValidationResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
 import com.kintsugi.taxplatform.models.operations.SearchV1AddressValidationSearchPostResponse;
-import com.kintsugi.taxplatform.models.operations.SearchV1AddressValidationSearchPostSecurity;
 import java.lang.Exception;
 
 public class Application {
@@ -99,6 +98,7 @@ public class Application {
     public static void main(String[] args) throws ErrorResponse, BackendSrcAddressValidationResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
             .build();
 
         AddressBase req = AddressBase.builder()
@@ -115,9 +115,6 @@ public class Application {
 
         SearchV1AddressValidationSearchPostResponse res = sdk.addressValidation().search()
                 .request(req)
-                .security(SearchV1AddressValidationSearchPostSecurity.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .build())
                 .call();
 
         if (res.response200SearchV1AddressValidationSearchPost().isPresent()) {
@@ -135,7 +132,6 @@ import com.kintsugi.taxplatform.AsyncSDK;
 import com.kintsugi.taxplatform.SDK;
 import com.kintsugi.taxplatform.models.components.AddressBase;
 import com.kintsugi.taxplatform.models.components.CountryCodeEnum;
-import com.kintsugi.taxplatform.models.operations.SearchV1AddressValidationSearchPostSecurity;
 import com.kintsugi.taxplatform.models.operations.async.SearchV1AddressValidationSearchPostResponse;
 import java.util.concurrent.CompletableFuture;
 
@@ -144,6 +140,7 @@ public class Application {
     public static void main(String[] args) {
 
         AsyncSDK sdk = SDK.builder()
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
             .build()
             .async();
 
@@ -161,9 +158,6 @@ public class Application {
 
         CompletableFuture<SearchV1AddressValidationSearchPostResponse> resFut = sdk.addressValidation().search()
                 .request(req)
-                .security(SearchV1AddressValidationSearchPostSecurity.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .build())
                 .call();
 
         resFut.thenAccept(res -> {
@@ -258,62 +252,13 @@ Async support is available for:
 
 ### Per-Client Security Schemes
 
-This SDK supports the following security schemes globally:
+This SDK supports the following security scheme globally:
 
 | Name           | Type   | Scheme  |
 | -------------- | ------ | ------- |
 | `apiKeyHeader` | apiKey | API key |
-| `customHeader` | apiKey | API key |
 
-You can set the security parameters through the `security` builder method when initializing the SDK client instance. The selected scheme will be used by default to authenticate with the API for all operations that support it. For example:
-```java
-package hello.world;
-
-import com.kintsugi.taxplatform.SDK;
-import com.kintsugi.taxplatform.models.components.Security;
-import com.kintsugi.taxplatform.models.components.ValidationAddress;
-import com.kintsugi.taxplatform.models.errors.BackendSrcAddressValidationResponsesValidationErrorResponse;
-import com.kintsugi.taxplatform.models.errors.ErrorResponse;
-import com.kintsugi.taxplatform.models.operations.SuggestionsV1AddressValidationSuggestionsPostResponse;
-import java.lang.Exception;
-
-public class Application {
-
-    public static void main(String[] args) throws ErrorResponse, BackendSrcAddressValidationResponsesValidationErrorResponse, Exception {
-
-        SDK sdk = SDK.builder()
-                .security(Security.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
-                    .build())
-            .build();
-
-        ValidationAddress req = ValidationAddress.builder()
-                .line1("1600 Amphitheatre Parkway")
-                .line2("")
-                .line3("")
-                .city("Mountain View")
-                .state("CA")
-                .postalCode("94043")
-                .id(215L)
-                .county("")
-                .fullAddress("1600 Amphitheatre Parkway, Mountain View, CA 94043")
-                .build();
-
-        SuggestionsV1AddressValidationSuggestionsPostResponse res = sdk.addressValidation().suggest()
-                .request(req)
-                .call();
-
-        if (res.any().isPresent()) {
-            System.out.println(res.any().get());
-        }
-    }
-}
-```
-
-### Per-Operation Security Schemes
-
-Some operations in this SDK require the security scheme to be specified at the request level. For example:
+To authenticate with the API the `apiKeyHeader` parameter must be set when initializing the SDK client instance. For example:
 ```java
 package hello.world;
 
@@ -323,7 +268,6 @@ import com.kintsugi.taxplatform.models.components.CountryCodeEnum;
 import com.kintsugi.taxplatform.models.errors.BackendSrcAddressValidationResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
 import com.kintsugi.taxplatform.models.operations.SearchV1AddressValidationSearchPostResponse;
-import com.kintsugi.taxplatform.models.operations.SearchV1AddressValidationSearchPostSecurity;
 import java.lang.Exception;
 
 public class Application {
@@ -331,6 +275,7 @@ public class Application {
     public static void main(String[] args) throws ErrorResponse, BackendSrcAddressValidationResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
             .build();
 
         AddressBase req = AddressBase.builder()
@@ -347,9 +292,6 @@ public class Application {
 
         SearchV1AddressValidationSearchPostResponse res = sdk.addressValidation().search()
                 .request(req)
-                .security(SearchV1AddressValidationSearchPostSecurity.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .build())
                 .call();
 
         if (res.response200SearchV1AddressValidationSearchPost().isPresent()) {
@@ -371,74 +313,87 @@ public class Application {
 * [search](docs/sdks/addressvalidation/README.md#search) - Search
 * [suggest](docs/sdks/addressvalidation/README.md#suggest) - Suggestions
 
+### [CustomerTaxRegistration](docs/sdks/customertaxregistration/README.md)
+
+* [upsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPost](docs/sdks/customertaxregistration/README.md#upsertcustomertaxregistrationv1customerscustomeridtaxregistrationspost) - Upsert customer tax registration
+
 ### [Customers](docs/sdks/customers/README.md)
 
-* [get](docs/sdks/customers/README.md#get) - Get Customers
-* [create](docs/sdks/customers/README.md#create) - Create Customer
-* [getById](docs/sdks/customers/README.md#getbyid) - Get Customer By Id
-* [update](docs/sdks/customers/README.md#update) - Update Customer
-* [getByExternalId](docs/sdks/customers/README.md#getbyexternalid) - Get Customer By External Id
-* [createTransaction](docs/sdks/customers/README.md#createtransaction) - Create Transaction By Customer Id
+* [get](docs/sdks/customers/README.md#get) - Get customers
+* [create](docs/sdks/customers/README.md#create) - Create customer
+* [getByExternalId](docs/sdks/customers/README.md#getbyexternalid) - Get customer by external id
+* [getById](docs/sdks/customers/README.md#getbyid) - Get customer by id
+* [update](docs/sdks/customers/README.md#update) - Update customer
+* [createTransaction](docs/sdks/customers/README.md#createtransaction) - Create transaction by customer id
 
 ### [Customers.Transactions](docs/sdks/customerstransactions/README.md)
 
-* [getByCustomerId](docs/sdks/customerstransactions/README.md#getbycustomerid) - Get Transactions By Customer Id
+* [getByCustomerId](docs/sdks/customerstransactions/README.md#getbycustomerid) - Get transactions by customer id
 
 ### [Exemptions](docs/sdks/exemptions/README.md)
 
-* [get](docs/sdks/exemptions/README.md#get) - Get Exemptions
-* [create](docs/sdks/exemptions/README.md#create) - Create Exemption
-* [getById](docs/sdks/exemptions/README.md#getbyid) - Get Exemption By Id
-* [uploadCertificate](docs/sdks/exemptions/README.md#uploadcertificate) - Upload Exemption Certificate
-* [getAttachments](docs/sdks/exemptions/README.md#getattachments) - Get Attachments For Exemption
+* [get](docs/sdks/exemptions/README.md#get) - Get exemptions
+* [create](docs/sdks/exemptions/README.md#create) - Create exemption
+* [getById](docs/sdks/exemptions/README.md#getbyid) - Get exemption by id
+* [getAttachments](docs/sdks/exemptions/README.md#getattachments) - Get attachments for exemption
+* [uploadCertificate](docs/sdks/exemptions/README.md#uploadcertificate) - Upload exemption certificate
 
 ### [Filings](docs/sdks/filings/README.md)
 
-* [get](docs/sdks/filings/README.md#get) - Get Filings
-* [getById](docs/sdks/filings/README.md#getbyid) - Get Filing By Id
-* [getByRegistrationId](docs/sdks/filings/README.md#getbyregistrationid) - Get Filings By Registration Id
+* [get](docs/sdks/filings/README.md#get) - Get filings
+* [getByRegistrationId](docs/sdks/filings/README.md#getbyregistrationid) - Get filings by registration id
+* [getById](docs/sdks/filings/README.md#getbyid) - Get filing by id
+* [approveFilingV1FilingsFilingIdApprovePut](docs/sdks/filings/README.md#approvefilingv1filingsfilingidapproveput) - Approve filing
 
 ### [Nexus](docs/sdks/nexus/README.md)
 
-* [getPhysical](docs/sdks/nexus/README.md#getphysical) - Get Physical Nexus
-* [createPhysical](docs/sdks/nexus/README.md#createphysical) - Create Physical Nexus
-* [updatePhysical](docs/sdks/nexus/README.md#updatephysical) - Update Physical Nexus
-* [deletePhysical](docs/sdks/nexus/README.md#deletephysical) - Delete Physical Nexus
-* [get](docs/sdks/nexus/README.md#get) - Get Nexus For Org
+* [get](docs/sdks/nexus/README.md#get) - Get nexus for org
+* [getPhysical](docs/sdks/nexus/README.md#getphysical) - Get physical nexus
+* [createPhysical](docs/sdks/nexus/README.md#createphysical) - Create physical nexus
+* [getPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGet](docs/sdks/nexus/README.md#getphysicalnexuscategoriesv1nexusphysicalnexuscategoriesget) - Get physical nexus categories
+* [deletePhysical](docs/sdks/nexus/README.md#deletephysical) - Delete physical nexus
+* [updatePhysical](docs/sdks/nexus/README.md#updatephysical) - Update physical nexus
+* [getNexusDetailsForIdV1NexusNexusIdGet](docs/sdks/nexus/README.md#getnexusdetailsforidv1nexusnexusidget) - Get nexus details for id
 
 ### [Products](docs/sdks/products/README.md)
 
-* [getProductsV1ProductsGet](docs/sdks/products/README.md#getproductsv1productsget) - Get Products
-* [createProductV1ProductsPost](docs/sdks/products/README.md#createproductv1productspost) - Create Product
-* [getProductCategoriesV1ProductsCategoriesGet](docs/sdks/products/README.md#getproductcategoriesv1productscategoriesget) - Get Product Categories
-* [getById](docs/sdks/products/README.md#getbyid) - Get Product By Id
-* [update](docs/sdks/products/README.md#update) - Update Product
+* [getProductsV1ProductsGet](docs/sdks/products/README.md#getproductsv1productsget) - Get products
+* [createProductV1ProductsPost](docs/sdks/products/README.md#createproductv1productspost) - Create product
+* [getProductCategoriesV1ProductsCategoriesGet](docs/sdks/products/README.md#getproductcategoriesv1productscategoriesget) - Get product categories
+* [getById](docs/sdks/products/README.md#getbyid) - Get product by id
+* [update](docs/sdks/products/README.md#update) - Update product
 
 ### [Registrations](docs/sdks/registrations/README.md)
 
-* [get](docs/sdks/registrations/README.md#get) - Get Registrations
-* [create](docs/sdks/registrations/README.md#create) - Create Registration
-* [getById](docs/sdks/registrations/README.md#getbyid) - Get Registration By Id
-* [update](docs/sdks/registrations/README.md#update) - Update Registration
-* [deregister](docs/sdks/registrations/README.md#deregister) - Deregister Registration
+* [get](docs/sdks/registrations/README.md#get) - Get registrations
+* [create](docs/sdks/registrations/README.md#create) - Create registration
+* [getJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGet](docs/sdks/registrations/README.md#getjurisdictionspecificfieldsv1registrationsjurisdictionspecificfieldsget) - Get jurisdiction specific fields
+* [listRegistrationJurisdictionsV1RegistrationsJurisdictionsGet](docs/sdks/registrations/README.md#listregistrationjurisdictionsv1registrationsjurisdictionsget) - List registration jurisdictions
+* [getById](docs/sdks/registrations/README.md#getbyid) - Get registration by id
+* [update](docs/sdks/registrations/README.md#update) - Update registration
+* [uploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost](docs/sdks/registrations/README.md#uploadregistrationattachmentv1registrationsregistrationidattachmentspost) - Upload registration attachment
+* [deregister](docs/sdks/registrations/README.md#deregister) - Deregister registration
+* [getOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGet](docs/sdks/registrations/README.md#getosscountriesforregistrationv1registrationsregistrationidosscountriesget) - Get oss countries for registration
 
 ### [TaxEstimation](docs/sdks/taxestimation/README.md)
 
-* [estimate](docs/sdks/taxestimation/README.md#estimate) - Estimate Tax
+* [estimate](docs/sdks/taxestimation/README.md#estimate) - Estimate tax
 
 ### [Transactions](docs/sdks/transactions/README.md)
 
-* [get](docs/sdks/transactions/README.md#get) - Get Transactions
-* [create](docs/sdks/transactions/README.md#create) - Create Transaction
-* [getByExternalId](docs/sdks/transactions/README.md#getbyexternalid) - Get Transaction By External Id
-* [update](docs/sdks/transactions/README.md#update) - Update Transaction
-* [getById](docs/sdks/transactions/README.md#getbyid) - Get Transaction By Id
-* [getByFilingId](docs/sdks/transactions/README.md#getbyfilingid) - Get Transactions By Filing Id
-* [updateCreditNote](docs/sdks/transactions/README.md#updatecreditnote) - Update Credit Note By Transaction Id
+* [get](docs/sdks/transactions/README.md#get) - Get transactions
+* [create](docs/sdks/transactions/README.md#create) - Create transaction
+* [archiveTransactionByIdV1TransactionsArchivePost](docs/sdks/transactions/README.md#archivetransactionbyidv1transactionsarchivepost) - Archive transaction by id
+* [getByExternalId](docs/sdks/transactions/README.md#getbyexternalid) - Get transaction by external id
+* [getByFilingId](docs/sdks/transactions/README.md#getbyfilingid) - Get transactions by filing id
+* [updateCreditNote](docs/sdks/transactions/README.md#updatecreditnote) - Update credit note by transaction id
+* [getById](docs/sdks/transactions/README.md#getbyid) - Get transaction by id
+* [update](docs/sdks/transactions/README.md#update) - Update transaction
+* [setTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPost](docs/sdks/transactions/README.md#settransactiontaxonlyv1transactionstransactionidtaxonlypost) - Set transaction tax only
 
 ### [Transactions.CreditNotes](docs/sdks/creditnotes/README.md)
 
-* [create](docs/sdks/creditnotes/README.md#create) - Create Credit Note By Transaction Id
+* [create](docs/sdks/creditnotes/README.md#create) - Create credit note by transaction id
 
 </details>
 <!-- End Available Resources and Operations [operations] -->
@@ -469,7 +424,6 @@ import com.kintsugi.taxplatform.models.components.AddressBase;
 import com.kintsugi.taxplatform.models.components.CountryCodeEnum;
 import com.kintsugi.taxplatform.models.errors.*;
 import com.kintsugi.taxplatform.models.operations.SearchV1AddressValidationSearchPostResponse;
-import com.kintsugi.taxplatform.models.operations.SearchV1AddressValidationSearchPostSecurity;
 import java.io.UncheckedIOException;
 import java.lang.Exception;
 import java.lang.String;
@@ -480,6 +434,7 @@ public class Application {
     public static void main(String[] args) throws ErrorResponse, BackendSrcAddressValidationResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
             .build();
         try {
 
@@ -497,9 +452,6 @@ public class Application {
 
             SearchV1AddressValidationSearchPostResponse res = sdk.addressValidation().search()
                     .request(req)
-                    .security(SearchV1AddressValidationSearchPostSecurity.builder()
-                        .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                        .build())
                     .call();
 
             if (res.response200SearchV1AddressValidationSearchPost().isPresent()) {
@@ -541,11 +493,10 @@ public class Application {
 ```
 
 ### Error Classes
-**Primary errors:**
+**Primary error:**
 * [`SDKError`](./src/main/java/models/errors/SDKError.java): The base class for HTTP error responses.
-  * [`com.kintsugi.taxplatform.models.errors.ErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.ErrorResponse.java): *
 
-<details><summary>Less common errors (16)</summary>
+<details><summary>Less common errors (17)</summary>
 
 <br />
 
@@ -555,16 +506,17 @@ public class Application {
 many more subclasses in the JDK platform).
 
 **Inherit from [`SDKError`](./src/main/java/models/errors/SDKError.java)**:
-* [`com.kintsugi.taxplatform.models.errors.HTTPValidationError`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.HTTPValidationError.java): Validation Error. Status code `422`. Applicable to 8 of 41 methods.*
-* [`com.kintsugi.taxplatform.models.errors.BackendSrcExemptionsResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcExemptionsResponsesValidationErrorResponse.java): Validation issues, such as missing required fields or invalid field values. Status code `422`. Applicable to 5 of 41 methods.*
-* [`com.kintsugi.taxplatform.models.errors.BackendSrcProductsResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcProductsResponsesValidationErrorResponse.java): Validation error. Status code `422`. Applicable to 5 of 41 methods.*
-* [`com.kintsugi.taxplatform.models.errors.BackendSrcRegistrationsResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcRegistrationsResponsesValidationErrorResponse.java): Validation error. Status code `422`. Applicable to 5 of 41 methods.*
-* [`com.kintsugi.taxplatform.models.errors.BackendSrcTransactionsResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcTransactionsResponsesValidationErrorResponse.java): Status code `422`. Applicable to 5 of 41 methods.*
-* [`com.kintsugi.taxplatform.models.errors.BackendSrcNexusResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcNexusResponsesValidationErrorResponse.java): Validation error. Status code `422`. Applicable to 4 of 41 methods.*
-* [`com.kintsugi.taxplatform.models.errors.BackendSrcCustomersResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcCustomersResponsesValidationErrorResponse.java): Query parameters failed validation, such as an out-of-range page number. Status code `422`. Applicable to 3 of 41 methods.*
-* [`com.kintsugi.taxplatform.models.errors.BackendSrcFilingsResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcFilingsResponsesValidationErrorResponse.java): Validation error. Status code `422`. Applicable to 3 of 41 methods.*
-* [`com.kintsugi.taxplatform.models.errors.BackendSrcAddressValidationResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcAddressValidationResponsesValidationErrorResponse.java): Validation error - Address fields failed validation or are incomplete. Status code `422`. Applicable to 2 of 41 methods.*
-* [`com.kintsugi.taxplatform.models.errors.BackendSrcTaxEstimationResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcTaxEstimationResponsesValidationErrorResponse.java): Validation Error. Status code `422`. Applicable to 1 of 41 methods.*
+* [`com.kintsugi.taxplatform.models.errors.ErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.ErrorResponse.java): Applicable to 33 of 51 methods.*
+* [`com.kintsugi.taxplatform.models.errors.HTTPValidationError`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.HTTPValidationError.java): Validation Error. Status code `422`. Applicable to 18 of 51 methods.*
+* [`com.kintsugi.taxplatform.models.errors.BackendSrcExemptionsResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcExemptionsResponsesValidationErrorResponse.java): Validation issues, such as missing required fields or invalid field values. Status code `422`. Applicable to 5 of 51 methods.*
+* [`com.kintsugi.taxplatform.models.errors.BackendSrcProductsSchemasResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcProductsSchemasResponsesValidationErrorResponse.java): Validation error. Status code `422`. Applicable to 5 of 51 methods.*
+* [`com.kintsugi.taxplatform.models.errors.BackendSrcRegistrationsResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcRegistrationsResponsesValidationErrorResponse.java): Validation error. Status code `422`. Applicable to 5 of 51 methods.*
+* [`com.kintsugi.taxplatform.models.errors.BackendSrcTransactionsResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcTransactionsResponsesValidationErrorResponse.java): Status code `422`. Applicable to 5 of 51 methods.*
+* [`com.kintsugi.taxplatform.models.errors.BackendSrcNexusResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcNexusResponsesValidationErrorResponse.java): Validation error. Status code `422`. Applicable to 4 of 51 methods.*
+* [`com.kintsugi.taxplatform.models.errors.BackendSrcCustomersResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcCustomersResponsesValidationErrorResponse.java): Query parameters failed validation, such as an out-of-range page number. Status code `422`. Applicable to 3 of 51 methods.*
+* [`com.kintsugi.taxplatform.models.errors.BackendSrcFilingsResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcFilingsResponsesValidationErrorResponse.java): Validation error. Status code `422`. Applicable to 3 of 51 methods.*
+* [`com.kintsugi.taxplatform.models.errors.BackendSrcAddressValidationResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcAddressValidationResponsesValidationErrorResponse.java): Validation error - Address fields failed validation or are incomplete. Status code `422`. Applicable to 2 of 51 methods.*
+* [`com.kintsugi.taxplatform.models.errors.BackendSrcTaxEstimationResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcTaxEstimationResponsesValidationErrorResponse.java): Validation Error. Status code `422`. Applicable to 1 of 51 methods.*
 
 
 </details>
@@ -587,7 +539,6 @@ import com.kintsugi.taxplatform.models.components.CountryCodeEnum;
 import com.kintsugi.taxplatform.models.errors.BackendSrcAddressValidationResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
 import com.kintsugi.taxplatform.models.operations.SearchV1AddressValidationSearchPostResponse;
-import com.kintsugi.taxplatform.models.operations.SearchV1AddressValidationSearchPostSecurity;
 import java.lang.Exception;
 
 public class Application {
@@ -596,6 +547,7 @@ public class Application {
 
         SDK sdk = SDK.builder()
                 .serverURL("https://api.trykintsugi.com")
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
             .build();
 
         AddressBase req = AddressBase.builder()
@@ -612,9 +564,6 @@ public class Application {
 
         SearchV1AddressValidationSearchPostResponse res = sdk.addressValidation().search()
                 .request(req)
-                .security(SearchV1AddressValidationSearchPostSecurity.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .build())
                 .call();
 
         if (res.response200SearchV1AddressValidationSearchPost().isPresent()) {

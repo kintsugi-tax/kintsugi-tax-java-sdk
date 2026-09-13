@@ -5,7 +5,7 @@ package com.kintsugi.taxplatform.models.operations.async;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.kintsugi.taxplatform.models.components.ProductCategories;
+import com.kintsugi.taxplatform.models.components.ProductCategoryRead;
 import com.kintsugi.taxplatform.utils.AsyncResponse;
 import com.kintsugi.taxplatform.utils.Blob;
 import com.kintsugi.taxplatform.utils.Utils;
@@ -36,22 +36,22 @@ public class GetProductCategoriesV1ProductsCategoriesGetResponse implements Asyn
     /**
      * Successfully retrieved product categories
      */
-    private Optional<? extends ProductCategories> productCategories;
+    private Optional<? extends ProductCategoryRead> productCategoryRead;
 
     @JsonCreator
     public GetProductCategoriesV1ProductsCategoriesGetResponse(
             String contentType,
             int statusCode,
             HttpResponse<Blob> rawResponse,
-            Optional<? extends ProductCategories> productCategories) {
+            Optional<? extends ProductCategoryRead> productCategoryRead) {
         Utils.checkNotNull(contentType, "contentType");
         Utils.checkNotNull(statusCode, "statusCode");
         Utils.checkNotNull(rawResponse, "rawResponse");
-        Utils.checkNotNull(productCategories, "productCategories");
+        Utils.checkNotNull(productCategoryRead, "productCategoryRead");
         this.contentType = contentType;
         this.statusCode = statusCode;
         this.rawResponse = rawResponse;
-        this.productCategories = productCategories;
+        this.productCategoryRead = productCategoryRead;
     }
     
     public GetProductCategoriesV1ProductsCategoriesGetResponse(
@@ -91,8 +91,8 @@ public class GetProductCategoriesV1ProductsCategoriesGetResponse implements Asyn
      */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<ProductCategories> productCategories() {
-        return (Optional<ProductCategories>) productCategories;
+    public Optional<ProductCategoryRead> productCategoryRead() {
+        return (Optional<ProductCategoryRead>) productCategoryRead;
     }
 
     public static Builder builder() {
@@ -130,9 +130,9 @@ public class GetProductCategoriesV1ProductsCategoriesGetResponse implements Asyn
     /**
      * Successfully retrieved product categories
      */
-    public GetProductCategoriesV1ProductsCategoriesGetResponse withProductCategories(ProductCategories productCategories) {
-        Utils.checkNotNull(productCategories, "productCategories");
-        this.productCategories = Optional.ofNullable(productCategories);
+    public GetProductCategoriesV1ProductsCategoriesGetResponse withProductCategoryRead(ProductCategoryRead productCategoryRead) {
+        Utils.checkNotNull(productCategoryRead, "productCategoryRead");
+        this.productCategoryRead = Optional.ofNullable(productCategoryRead);
         return this;
     }
 
@@ -140,9 +140,9 @@ public class GetProductCategoriesV1ProductsCategoriesGetResponse implements Asyn
     /**
      * Successfully retrieved product categories
      */
-    public GetProductCategoriesV1ProductsCategoriesGetResponse withProductCategories(Optional<? extends ProductCategories> productCategories) {
-        Utils.checkNotNull(productCategories, "productCategories");
-        this.productCategories = productCategories;
+    public GetProductCategoriesV1ProductsCategoriesGetResponse withProductCategoryRead(Optional<? extends ProductCategoryRead> productCategoryRead) {
+        Utils.checkNotNull(productCategoryRead, "productCategoryRead");
+        this.productCategoryRead = productCategoryRead;
         return this;
     }
 
@@ -159,14 +159,14 @@ public class GetProductCategoriesV1ProductsCategoriesGetResponse implements Asyn
             Utils.enhancedDeepEquals(this.contentType, other.contentType) &&
             Utils.enhancedDeepEquals(this.statusCode, other.statusCode) &&
             Utils.enhancedDeepEquals(this.rawResponse, other.rawResponse) &&
-            Utils.enhancedDeepEquals(this.productCategories, other.productCategories);
+            Utils.enhancedDeepEquals(this.productCategoryRead, other.productCategoryRead);
     }
     
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
             contentType, statusCode, rawResponse,
-            productCategories);
+            productCategoryRead);
     }
     
     @Override
@@ -175,7 +175,7 @@ public class GetProductCategoriesV1ProductsCategoriesGetResponse implements Asyn
                 "contentType", contentType,
                 "statusCode", statusCode,
                 "rawResponse", rawResponse,
-                "productCategories", productCategories);
+                "productCategoryRead", productCategoryRead);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -187,7 +187,7 @@ public class GetProductCategoriesV1ProductsCategoriesGetResponse implements Asyn
 
         private HttpResponse<Blob> rawResponse;
 
-        private Optional<? extends ProductCategories> productCategories = Optional.empty();
+        private Optional<? extends ProductCategoryRead> productCategoryRead = Optional.empty();
 
         private Builder() {
           // force use of static builder() method
@@ -227,18 +227,18 @@ public class GetProductCategoriesV1ProductsCategoriesGetResponse implements Asyn
         /**
          * Successfully retrieved product categories
          */
-        public Builder productCategories(ProductCategories productCategories) {
-            Utils.checkNotNull(productCategories, "productCategories");
-            this.productCategories = Optional.ofNullable(productCategories);
+        public Builder productCategoryRead(ProductCategoryRead productCategoryRead) {
+            Utils.checkNotNull(productCategoryRead, "productCategoryRead");
+            this.productCategoryRead = Optional.ofNullable(productCategoryRead);
             return this;
         }
 
         /**
          * Successfully retrieved product categories
          */
-        public Builder productCategories(Optional<? extends ProductCategories> productCategories) {
-            Utils.checkNotNull(productCategories, "productCategories");
-            this.productCategories = productCategories;
+        public Builder productCategoryRead(Optional<? extends ProductCategoryRead> productCategoryRead) {
+            Utils.checkNotNull(productCategoryRead, "productCategoryRead");
+            this.productCategoryRead = productCategoryRead;
             return this;
         }
 
@@ -246,7 +246,7 @@ public class GetProductCategoriesV1ProductsCategoriesGetResponse implements Asyn
 
             return new GetProductCategoriesV1ProductsCategoriesGetResponse(
                 contentType, statusCode, rawResponse,
-                productCategories);
+                productCategoryRead);
         }
 
     }

@@ -26,7 +26,6 @@ import com.kintsugi.taxplatform.models.components.CountryCodeEnum;
 import com.kintsugi.taxplatform.models.errors.BackendSrcAddressValidationResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
 import com.kintsugi.taxplatform.models.operations.SearchV1AddressValidationSearchPostResponse;
-import com.kintsugi.taxplatform.models.operations.SearchV1AddressValidationSearchPostSecurity;
 import java.lang.Exception;
 
 public class Application {
@@ -34,6 +33,7 @@ public class Application {
     public static void main(String[] args) throws ErrorResponse, BackendSrcAddressValidationResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
             .build();
 
         AddressBase req = AddressBase.builder()
@@ -50,9 +50,6 @@ public class Application {
 
         SearchV1AddressValidationSearchPostResponse res = sdk.addressValidation().search()
                 .request(req)
-                .security(SearchV1AddressValidationSearchPostSecurity.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .build())
                 .call();
 
         if (res.response200SearchV1AddressValidationSearchPost().isPresent()) {
@@ -64,10 +61,9 @@ public class Application {
 
 ### Parameters
 
-| Parameter                                                                                                                                                        | Type                                                                                                                                                             | Required                                                                                                                                                         | Description                                                                                                                                                      |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `request`                                                                                                                                                        | [AddressBase](../../models/shared/AddressBase.md)                                                                                                                | :heavy_check_mark:                                                                                                                                               | The request object to use for the request.                                                                                                                       |
-| `security`                                                                                                                                                       | [com.kintsugi.taxplatform.models.operations.SearchV1AddressValidationSearchPostSecurity](../../models/operations/SearchV1AddressValidationSearchPostSecurity.md) | :heavy_check_mark:                                                                                                                                               | The security requirements to use for the request.                                                                                                                |
+| Parameter                                         | Type                                              | Required                                          | Description                                       |
+| ------------------------------------------------- | ------------------------------------------------- | ------------------------------------------------- | ------------------------------------------------- |
+| `request`                                         | [AddressBase](../../models/shared/AddressBase.md) | :heavy_check_mark:                                | The request object to use for the request.        |
 
 ### Response
 
@@ -97,7 +93,6 @@ This API endpoint provides address suggestions based on
 package hello.world;
 
 import com.kintsugi.taxplatform.SDK;
-import com.kintsugi.taxplatform.models.components.Security;
 import com.kintsugi.taxplatform.models.components.ValidationAddress;
 import com.kintsugi.taxplatform.models.errors.BackendSrcAddressValidationResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
@@ -109,26 +104,22 @@ public class Application {
     public static void main(String[] args) throws ErrorResponse, BackendSrcAddressValidationResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
-                .security(Security.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
-                    .build())
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
             .build();
 
-        ValidationAddress req = ValidationAddress.builder()
-                .line1("1600 Amphitheatre Parkway")
-                .line2("")
-                .line3("")
-                .city("Mountain View")
-                .state("CA")
-                .postalCode("94043")
-                .id(215L)
-                .county("")
-                .fullAddress("1600 Amphitheatre Parkway, Mountain View, CA 94043")
-                .build();
-
         SuggestionsV1AddressValidationSuggestionsPostResponse res = sdk.addressValidation().suggest()
-                .request(req)
+                .xOrganizationId("org_12345")
+                .validationAddress(ValidationAddress.builder()
+                    .line1("1600 Amphitheatre Parkway")
+                    .line2("")
+                    .line3("")
+                    .city("Mountain View")
+                    .state("CA")
+                    .country("US")
+                    .postalCode("94043")
+                    .id(215L)
+                    .county("")
+                    .build())
                 .call();
 
         if (res.any().isPresent()) {
@@ -140,9 +131,10 @@ public class Application {
 
 ### Parameters
 
-| Parameter                                                     | Type                                                          | Required                                                      | Description                                                   |
-| ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- |
-| `request`                                                     | [ValidationAddress](../../models/shared/ValidationAddress.md) | :heavy_check_mark:                                            | The request object to use for the request.                    |
+| Parameter                                                         | Type                                                              | Required                                                          | Description                                                       | Example                                                           |
+| ----------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- |
+| `xOrganizationId`                                                 | *Optional\<String>*                                               | :heavy_check_mark:                                                | The unique identifier for the organization making the request     | org_12345                                                         |
+| `validationAddress`                                               | [ValidationAddress](../../models/components/ValidationAddress.md) | :heavy_check_mark:                                                | N/A                                                               |                                                                   |
 
 ### Response
 

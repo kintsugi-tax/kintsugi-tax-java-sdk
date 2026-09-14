@@ -6,18 +6,20 @@ package com.kintsugi.taxplatform.models.operations.async;
 import static com.kintsugi.taxplatform.operations.Operations.AsyncRequestOperation;
 
 import com.kintsugi.taxplatform.SDKConfiguration;
-import com.kintsugi.taxplatform.models.components.ProductUpdate;
+import com.kintsugi.taxplatform.models.operations.Product;
 import com.kintsugi.taxplatform.models.operations.UpdateProductV1ProductsProductIdPutRequest;
 import com.kintsugi.taxplatform.operations.UpdateProductV1ProductsProductIdPut;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 public class UpdateProductV1ProductsProductIdPutRequestBuilder {
 
     private String productId;
-    private ProductUpdate productUpdate;
+    private Optional<String> xOrganizationId = Optional.empty();
+    private Product requestBody;
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -30,10 +32,22 @@ public class UpdateProductV1ProductsProductIdPutRequestBuilder {
         this.productId = productId;
         return this;
     }
+                
+    public UpdateProductV1ProductsProductIdPutRequestBuilder xOrganizationId(String xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = Optional.of(xOrganizationId);
+        return this;
+    }
 
-    public UpdateProductV1ProductsProductIdPutRequestBuilder productUpdate(ProductUpdate productUpdate) {
-        Utils.checkNotNull(productUpdate, "productUpdate");
-        this.productUpdate = productUpdate;
+    public UpdateProductV1ProductsProductIdPutRequestBuilder xOrganizationId(Optional<String> xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = xOrganizationId;
+        return this;
+    }
+
+    public UpdateProductV1ProductsProductIdPutRequestBuilder requestBody(Product requestBody) {
+        Utils.checkNotNull(requestBody, "requestBody");
+        this.requestBody = requestBody;
         return this;
     }
 
@@ -41,7 +55,8 @@ public class UpdateProductV1ProductsProductIdPutRequestBuilder {
     private UpdateProductV1ProductsProductIdPutRequest buildRequest() {
 
         UpdateProductV1ProductsProductIdPutRequest request = new UpdateProductV1ProductsProductIdPutRequest(productId,
-            productUpdate);
+            xOrganizationId,
+            requestBody);
 
         return request;
     }

@@ -5,7 +5,7 @@ package com.kintsugi.taxplatform.models.operations;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.kintsugi.taxplatform.models.components.PageTransactionEstimateResponse;
+import com.kintsugi.taxplatform.models.components.TransactionEstimateResponse;
 import com.kintsugi.taxplatform.utils.Response;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.io.InputStream;
@@ -36,22 +36,22 @@ public class EstimateTaxV1TaxEstimatePostResponse implements Response {
     /**
      * Successfully retrieved data
      */
-    private Optional<? extends PageTransactionEstimateResponse> pageTransactionEstimateResponse;
+    private Optional<? extends TransactionEstimateResponse> transactionEstimateResponse;
 
     @JsonCreator
     public EstimateTaxV1TaxEstimatePostResponse(
             String contentType,
             int statusCode,
             HttpResponse<InputStream> rawResponse,
-            Optional<? extends PageTransactionEstimateResponse> pageTransactionEstimateResponse) {
+            Optional<? extends TransactionEstimateResponse> transactionEstimateResponse) {
         Utils.checkNotNull(contentType, "contentType");
         Utils.checkNotNull(statusCode, "statusCode");
         Utils.checkNotNull(rawResponse, "rawResponse");
-        Utils.checkNotNull(pageTransactionEstimateResponse, "pageTransactionEstimateResponse");
+        Utils.checkNotNull(transactionEstimateResponse, "transactionEstimateResponse");
         this.contentType = contentType;
         this.statusCode = statusCode;
         this.rawResponse = rawResponse;
-        this.pageTransactionEstimateResponse = pageTransactionEstimateResponse;
+        this.transactionEstimateResponse = transactionEstimateResponse;
     }
     
     public EstimateTaxV1TaxEstimatePostResponse(
@@ -91,8 +91,8 @@ public class EstimateTaxV1TaxEstimatePostResponse implements Response {
      */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<PageTransactionEstimateResponse> pageTransactionEstimateResponse() {
-        return (Optional<PageTransactionEstimateResponse>) pageTransactionEstimateResponse;
+    public Optional<TransactionEstimateResponse> transactionEstimateResponse() {
+        return (Optional<TransactionEstimateResponse>) transactionEstimateResponse;
     }
 
     public static Builder builder() {
@@ -130,9 +130,9 @@ public class EstimateTaxV1TaxEstimatePostResponse implements Response {
     /**
      * Successfully retrieved data
      */
-    public EstimateTaxV1TaxEstimatePostResponse withPageTransactionEstimateResponse(PageTransactionEstimateResponse pageTransactionEstimateResponse) {
-        Utils.checkNotNull(pageTransactionEstimateResponse, "pageTransactionEstimateResponse");
-        this.pageTransactionEstimateResponse = Optional.ofNullable(pageTransactionEstimateResponse);
+    public EstimateTaxV1TaxEstimatePostResponse withTransactionEstimateResponse(TransactionEstimateResponse transactionEstimateResponse) {
+        Utils.checkNotNull(transactionEstimateResponse, "transactionEstimateResponse");
+        this.transactionEstimateResponse = Optional.ofNullable(transactionEstimateResponse);
         return this;
     }
 
@@ -140,9 +140,9 @@ public class EstimateTaxV1TaxEstimatePostResponse implements Response {
     /**
      * Successfully retrieved data
      */
-    public EstimateTaxV1TaxEstimatePostResponse withPageTransactionEstimateResponse(Optional<? extends PageTransactionEstimateResponse> pageTransactionEstimateResponse) {
-        Utils.checkNotNull(pageTransactionEstimateResponse, "pageTransactionEstimateResponse");
-        this.pageTransactionEstimateResponse = pageTransactionEstimateResponse;
+    public EstimateTaxV1TaxEstimatePostResponse withTransactionEstimateResponse(Optional<? extends TransactionEstimateResponse> transactionEstimateResponse) {
+        Utils.checkNotNull(transactionEstimateResponse, "transactionEstimateResponse");
+        this.transactionEstimateResponse = transactionEstimateResponse;
         return this;
     }
 
@@ -159,14 +159,14 @@ public class EstimateTaxV1TaxEstimatePostResponse implements Response {
             Utils.enhancedDeepEquals(this.contentType, other.contentType) &&
             Utils.enhancedDeepEquals(this.statusCode, other.statusCode) &&
             Utils.enhancedDeepEquals(this.rawResponse, other.rawResponse) &&
-            Utils.enhancedDeepEquals(this.pageTransactionEstimateResponse, other.pageTransactionEstimateResponse);
+            Utils.enhancedDeepEquals(this.transactionEstimateResponse, other.transactionEstimateResponse);
     }
     
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
             contentType, statusCode, rawResponse,
-            pageTransactionEstimateResponse);
+            transactionEstimateResponse);
     }
     
     @Override
@@ -175,7 +175,7 @@ public class EstimateTaxV1TaxEstimatePostResponse implements Response {
                 "contentType", contentType,
                 "statusCode", statusCode,
                 "rawResponse", rawResponse,
-                "pageTransactionEstimateResponse", pageTransactionEstimateResponse);
+                "transactionEstimateResponse", transactionEstimateResponse);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -187,7 +187,7 @@ public class EstimateTaxV1TaxEstimatePostResponse implements Response {
 
         private HttpResponse<InputStream> rawResponse;
 
-        private Optional<? extends PageTransactionEstimateResponse> pageTransactionEstimateResponse = Optional.empty();
+        private Optional<? extends TransactionEstimateResponse> transactionEstimateResponse = Optional.empty();
 
         private Builder() {
           // force use of static builder() method
@@ -227,18 +227,18 @@ public class EstimateTaxV1TaxEstimatePostResponse implements Response {
         /**
          * Successfully retrieved data
          */
-        public Builder pageTransactionEstimateResponse(PageTransactionEstimateResponse pageTransactionEstimateResponse) {
-            Utils.checkNotNull(pageTransactionEstimateResponse, "pageTransactionEstimateResponse");
-            this.pageTransactionEstimateResponse = Optional.ofNullable(pageTransactionEstimateResponse);
+        public Builder transactionEstimateResponse(TransactionEstimateResponse transactionEstimateResponse) {
+            Utils.checkNotNull(transactionEstimateResponse, "transactionEstimateResponse");
+            this.transactionEstimateResponse = Optional.ofNullable(transactionEstimateResponse);
             return this;
         }
 
         /**
          * Successfully retrieved data
          */
-        public Builder pageTransactionEstimateResponse(Optional<? extends PageTransactionEstimateResponse> pageTransactionEstimateResponse) {
-            Utils.checkNotNull(pageTransactionEstimateResponse, "pageTransactionEstimateResponse");
-            this.pageTransactionEstimateResponse = pageTransactionEstimateResponse;
+        public Builder transactionEstimateResponse(Optional<? extends TransactionEstimateResponse> transactionEstimateResponse) {
+            Utils.checkNotNull(transactionEstimateResponse, "transactionEstimateResponse");
+            this.transactionEstimateResponse = transactionEstimateResponse;
             return this;
         }
 
@@ -246,7 +246,7 @@ public class EstimateTaxV1TaxEstimatePostResponse implements Response {
 
             return new EstimateTaxV1TaxEstimatePostResponse(
                 contentType, statusCode, rawResponse,
-                pageTransactionEstimateResponse);
+                transactionEstimateResponse);
         }
 
     }

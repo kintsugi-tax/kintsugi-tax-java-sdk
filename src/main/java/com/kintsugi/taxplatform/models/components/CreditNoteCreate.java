@@ -8,17 +8,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.kintsugi.taxplatform.utils.LazySingletonValue;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Boolean;
-import java.lang.Double;
 import java.lang.Override;
 import java.lang.String;
 import java.lang.SuppressWarnings;
 import java.time.OffsetDateTime;
 import java.util.List;
-import java.util.Optional;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 public class CreditNoteCreate {
@@ -27,6 +24,21 @@ public class CreditNoteCreate {
      */
     @JsonProperty("external_id")
     private String externalId;
+
+    /**
+     * Human-readable identifier for the credit note, often used for display purposes.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("external_friendly_id")
+    private JsonNullable<String> externalFriendlyId;
+
+    /**
+     * Secondary external identifier, reserved for marketplace/channel source ids (paired with
+     * secondary_source).
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("secondary_external_id")
+    private JsonNullable<String> secondaryExternalId;
 
     /**
      * Date when the credit note was issued or created.
@@ -45,41 +57,41 @@ public class CreditNoteCreate {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("description")
-    private Optional<String> description;
+    private JsonNullable<String> description;
 
     /**
      * Total monetary value of the credit note, including all items and taxes.
      */
     @JsonProperty("total_amount")
-    private double totalAmount;
+    private CreditNoteCreateTotalAmount totalAmount;
 
     /**
      * Indicates whether this credit note is associated with a marketplace transaction.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("marketplace")
-    private Optional<Boolean> marketplace;
+    private JsonNullable<Boolean> marketplace;
 
     /**
      * Pre-calculated total tax amount for the entire credit note, if provided by the external system.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("tax_amount_imported")
-    private Optional<Double> taxAmountImported;
+    private JsonNullable<? extends CreditNoteCreateTaxAmountImported> taxAmountImported;
 
     /**
      * Pre-calculated overall tax rate for the credit note, if provided by the external system.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("tax_rate_imported")
-    private Optional<Double> taxRateImported;
+    private JsonNullable<? extends CreditNoteCreateTaxRateImported> taxRateImported;
 
     /**
      * Total portion of the credit note amount subject to taxation.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("taxable_amount")
-    private Optional<Double> taxableAmount;
+    private JsonNullable<? extends CreditNoteCreateTaxableAmount> taxableAmount;
 
 
     @JsonProperty("currency")
@@ -91,7 +103,7 @@ public class CreditNoteCreate {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("addresses")
-    private Optional<? extends List<TransactionAddressBuilder>> addresses;
+    private JsonNullable<? extends List<TransactionAddressBuilder>> addresses;
 
     /**
      * Detailed list of individual items included in this credit note.
@@ -102,18 +114,22 @@ public class CreditNoteCreate {
     @JsonCreator
     public CreditNoteCreate(
             @JsonProperty("external_id") String externalId,
+            @JsonProperty("external_friendly_id") JsonNullable<String> externalFriendlyId,
+            @JsonProperty("secondary_external_id") JsonNullable<String> secondaryExternalId,
             @JsonProperty("date") OffsetDateTime date,
             @JsonProperty("status") Status status,
-            @JsonProperty("description") Optional<String> description,
-            @JsonProperty("total_amount") double totalAmount,
-            @JsonProperty("marketplace") Optional<Boolean> marketplace,
-            @JsonProperty("tax_amount_imported") Optional<Double> taxAmountImported,
-            @JsonProperty("tax_rate_imported") Optional<Double> taxRateImported,
-            @JsonProperty("taxable_amount") Optional<Double> taxableAmount,
+            @JsonProperty("description") JsonNullable<String> description,
+            @JsonProperty("total_amount") CreditNoteCreateTotalAmount totalAmount,
+            @JsonProperty("marketplace") JsonNullable<Boolean> marketplace,
+            @JsonProperty("tax_amount_imported") JsonNullable<? extends CreditNoteCreateTaxAmountImported> taxAmountImported,
+            @JsonProperty("tax_rate_imported") JsonNullable<? extends CreditNoteCreateTaxRateImported> taxRateImported,
+            @JsonProperty("taxable_amount") JsonNullable<? extends CreditNoteCreateTaxableAmount> taxableAmount,
             @JsonProperty("currency") CurrencyEnum currency,
-            @JsonProperty("addresses") Optional<? extends List<TransactionAddressBuilder>> addresses,
+            @JsonProperty("addresses") JsonNullable<? extends List<TransactionAddressBuilder>> addresses,
             @JsonProperty("transaction_items") List<CreditNoteItemCreateUpdate> transactionItems) {
         Utils.checkNotNull(externalId, "externalId");
+        Utils.checkNotNull(externalFriendlyId, "externalFriendlyId");
+        Utils.checkNotNull(secondaryExternalId, "secondaryExternalId");
         Utils.checkNotNull(date, "date");
         Utils.checkNotNull(status, "status");
         Utils.checkNotNull(description, "description");
@@ -126,6 +142,8 @@ public class CreditNoteCreate {
         Utils.checkNotNull(addresses, "addresses");
         Utils.checkNotNull(transactionItems, "transactionItems");
         this.externalId = externalId;
+        this.externalFriendlyId = externalFriendlyId;
+        this.secondaryExternalId = secondaryExternalId;
         this.date = date;
         this.status = status;
         this.description = description;
@@ -143,13 +161,14 @@ public class CreditNoteCreate {
             String externalId,
             OffsetDateTime date,
             Status status,
-            double totalAmount,
+            CreditNoteCreateTotalAmount totalAmount,
             CurrencyEnum currency,
             List<CreditNoteItemCreateUpdate> transactionItems) {
-        this(externalId, date, status,
-            Optional.empty(), totalAmount, Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            currency, Optional.empty(), transactionItems);
+        this(externalId, JsonNullable.undefined(), JsonNullable.undefined(),
+            date, status, JsonNullable.undefined(),
+            totalAmount, JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), currency,
+            JsonNullable.undefined(), transactionItems);
     }
 
     /**
@@ -158,6 +177,23 @@ public class CreditNoteCreate {
     @JsonIgnore
     public String externalId() {
         return externalId;
+    }
+
+    /**
+     * Human-readable identifier for the credit note, often used for display purposes.
+     */
+    @JsonIgnore
+    public JsonNullable<String> externalFriendlyId() {
+        return externalFriendlyId;
+    }
+
+    /**
+     * Secondary external identifier, reserved for marketplace/channel source ids (paired with
+     * secondary_source).
+     */
+    @JsonIgnore
+    public JsonNullable<String> secondaryExternalId() {
+        return secondaryExternalId;
     }
 
     /**
@@ -180,7 +216,7 @@ public class CreditNoteCreate {
      * Brief explanation or reason for issuing the credit note.
      */
     @JsonIgnore
-    public Optional<String> description() {
+    public JsonNullable<String> description() {
         return description;
     }
 
@@ -188,7 +224,7 @@ public class CreditNoteCreate {
      * Total monetary value of the credit note, including all items and taxes.
      */
     @JsonIgnore
-    public double totalAmount() {
+    public CreditNoteCreateTotalAmount totalAmount() {
         return totalAmount;
     }
 
@@ -196,32 +232,35 @@ public class CreditNoteCreate {
      * Indicates whether this credit note is associated with a marketplace transaction.
      */
     @JsonIgnore
-    public Optional<Boolean> marketplace() {
+    public JsonNullable<Boolean> marketplace() {
         return marketplace;
     }
 
     /**
      * Pre-calculated total tax amount for the entire credit note, if provided by the external system.
      */
+    @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<Double> taxAmountImported() {
-        return taxAmountImported;
+    public JsonNullable<CreditNoteCreateTaxAmountImported> taxAmountImported() {
+        return (JsonNullable<CreditNoteCreateTaxAmountImported>) taxAmountImported;
     }
 
     /**
      * Pre-calculated overall tax rate for the credit note, if provided by the external system.
      */
+    @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<Double> taxRateImported() {
-        return taxRateImported;
+    public JsonNullable<CreditNoteCreateTaxRateImported> taxRateImported() {
+        return (JsonNullable<CreditNoteCreateTaxRateImported>) taxRateImported;
     }
 
     /**
      * Total portion of the credit note amount subject to taxation.
      */
+    @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<Double> taxableAmount() {
-        return taxableAmount;
+    public JsonNullable<CreditNoteCreateTaxableAmount> taxableAmount() {
+        return (JsonNullable<CreditNoteCreateTaxableAmount>) taxableAmount;
     }
 
     @JsonIgnore
@@ -235,8 +274,8 @@ public class CreditNoteCreate {
      */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<List<TransactionAddressBuilder>> addresses() {
-        return (Optional<List<TransactionAddressBuilder>>) addresses;
+    public JsonNullable<List<TransactionAddressBuilder>> addresses() {
+        return (JsonNullable<List<TransactionAddressBuilder>>) addresses;
     }
 
     /**
@@ -258,6 +297,44 @@ public class CreditNoteCreate {
     public CreditNoteCreate withExternalId(String externalId) {
         Utils.checkNotNull(externalId, "externalId");
         this.externalId = externalId;
+        return this;
+    }
+
+    /**
+     * Human-readable identifier for the credit note, often used for display purposes.
+     */
+    public CreditNoteCreate withExternalFriendlyId(String externalFriendlyId) {
+        Utils.checkNotNull(externalFriendlyId, "externalFriendlyId");
+        this.externalFriendlyId = JsonNullable.of(externalFriendlyId);
+        return this;
+    }
+
+    /**
+     * Human-readable identifier for the credit note, often used for display purposes.
+     */
+    public CreditNoteCreate withExternalFriendlyId(JsonNullable<String> externalFriendlyId) {
+        Utils.checkNotNull(externalFriendlyId, "externalFriendlyId");
+        this.externalFriendlyId = externalFriendlyId;
+        return this;
+    }
+
+    /**
+     * Secondary external identifier, reserved for marketplace/channel source ids (paired with
+     * secondary_source).
+     */
+    public CreditNoteCreate withSecondaryExternalId(String secondaryExternalId) {
+        Utils.checkNotNull(secondaryExternalId, "secondaryExternalId");
+        this.secondaryExternalId = JsonNullable.of(secondaryExternalId);
+        return this;
+    }
+
+    /**
+     * Secondary external identifier, reserved for marketplace/channel source ids (paired with
+     * secondary_source).
+     */
+    public CreditNoteCreate withSecondaryExternalId(JsonNullable<String> secondaryExternalId) {
+        Utils.checkNotNull(secondaryExternalId, "secondaryExternalId");
+        this.secondaryExternalId = secondaryExternalId;
         return this;
     }
 
@@ -284,15 +361,14 @@ public class CreditNoteCreate {
      */
     public CreditNoteCreate withDescription(String description) {
         Utils.checkNotNull(description, "description");
-        this.description = Optional.ofNullable(description);
+        this.description = JsonNullable.of(description);
         return this;
     }
-
 
     /**
      * Brief explanation or reason for issuing the credit note.
      */
-    public CreditNoteCreate withDescription(Optional<String> description) {
+    public CreditNoteCreate withDescription(JsonNullable<String> description) {
         Utils.checkNotNull(description, "description");
         this.description = description;
         return this;
@@ -301,7 +377,7 @@ public class CreditNoteCreate {
     /**
      * Total monetary value of the credit note, including all items and taxes.
      */
-    public CreditNoteCreate withTotalAmount(double totalAmount) {
+    public CreditNoteCreate withTotalAmount(CreditNoteCreateTotalAmount totalAmount) {
         Utils.checkNotNull(totalAmount, "totalAmount");
         this.totalAmount = totalAmount;
         return this;
@@ -312,15 +388,14 @@ public class CreditNoteCreate {
      */
     public CreditNoteCreate withMarketplace(boolean marketplace) {
         Utils.checkNotNull(marketplace, "marketplace");
-        this.marketplace = Optional.ofNullable(marketplace);
+        this.marketplace = JsonNullable.of(marketplace);
         return this;
     }
-
 
     /**
      * Indicates whether this credit note is associated with a marketplace transaction.
      */
-    public CreditNoteCreate withMarketplace(Optional<Boolean> marketplace) {
+    public CreditNoteCreate withMarketplace(JsonNullable<Boolean> marketplace) {
         Utils.checkNotNull(marketplace, "marketplace");
         this.marketplace = marketplace;
         return this;
@@ -329,17 +404,16 @@ public class CreditNoteCreate {
     /**
      * Pre-calculated total tax amount for the entire credit note, if provided by the external system.
      */
-    public CreditNoteCreate withTaxAmountImported(double taxAmountImported) {
+    public CreditNoteCreate withTaxAmountImported(CreditNoteCreateTaxAmountImported taxAmountImported) {
         Utils.checkNotNull(taxAmountImported, "taxAmountImported");
-        this.taxAmountImported = Optional.ofNullable(taxAmountImported);
+        this.taxAmountImported = JsonNullable.of(taxAmountImported);
         return this;
     }
-
 
     /**
      * Pre-calculated total tax amount for the entire credit note, if provided by the external system.
      */
-    public CreditNoteCreate withTaxAmountImported(Optional<Double> taxAmountImported) {
+    public CreditNoteCreate withTaxAmountImported(JsonNullable<? extends CreditNoteCreateTaxAmountImported> taxAmountImported) {
         Utils.checkNotNull(taxAmountImported, "taxAmountImported");
         this.taxAmountImported = taxAmountImported;
         return this;
@@ -348,17 +422,16 @@ public class CreditNoteCreate {
     /**
      * Pre-calculated overall tax rate for the credit note, if provided by the external system.
      */
-    public CreditNoteCreate withTaxRateImported(double taxRateImported) {
+    public CreditNoteCreate withTaxRateImported(CreditNoteCreateTaxRateImported taxRateImported) {
         Utils.checkNotNull(taxRateImported, "taxRateImported");
-        this.taxRateImported = Optional.ofNullable(taxRateImported);
+        this.taxRateImported = JsonNullable.of(taxRateImported);
         return this;
     }
-
 
     /**
      * Pre-calculated overall tax rate for the credit note, if provided by the external system.
      */
-    public CreditNoteCreate withTaxRateImported(Optional<Double> taxRateImported) {
+    public CreditNoteCreate withTaxRateImported(JsonNullable<? extends CreditNoteCreateTaxRateImported> taxRateImported) {
         Utils.checkNotNull(taxRateImported, "taxRateImported");
         this.taxRateImported = taxRateImported;
         return this;
@@ -367,17 +440,16 @@ public class CreditNoteCreate {
     /**
      * Total portion of the credit note amount subject to taxation.
      */
-    public CreditNoteCreate withTaxableAmount(double taxableAmount) {
+    public CreditNoteCreate withTaxableAmount(CreditNoteCreateTaxableAmount taxableAmount) {
         Utils.checkNotNull(taxableAmount, "taxableAmount");
-        this.taxableAmount = Optional.ofNullable(taxableAmount);
+        this.taxableAmount = JsonNullable.of(taxableAmount);
         return this;
     }
-
 
     /**
      * Total portion of the credit note amount subject to taxation.
      */
-    public CreditNoteCreate withTaxableAmount(Optional<Double> taxableAmount) {
+    public CreditNoteCreate withTaxableAmount(JsonNullable<? extends CreditNoteCreateTaxableAmount> taxableAmount) {
         Utils.checkNotNull(taxableAmount, "taxableAmount");
         this.taxableAmount = taxableAmount;
         return this;
@@ -395,16 +467,15 @@ public class CreditNoteCreate {
      */
     public CreditNoteCreate withAddresses(List<TransactionAddressBuilder> addresses) {
         Utils.checkNotNull(addresses, "addresses");
-        this.addresses = Optional.ofNullable(addresses);
+        this.addresses = JsonNullable.of(addresses);
         return this;
     }
-
 
     /**
      * A list of TransactionAddressBuilder objects or None if no addresses are provided. This field
      * represents the addresses associated with the transaction.
      */
-    public CreditNoteCreate withAddresses(Optional<? extends List<TransactionAddressBuilder>> addresses) {
+    public CreditNoteCreate withAddresses(JsonNullable<? extends List<TransactionAddressBuilder>> addresses) {
         Utils.checkNotNull(addresses, "addresses");
         this.addresses = addresses;
         return this;
@@ -430,6 +501,8 @@ public class CreditNoteCreate {
         CreditNoteCreate other = (CreditNoteCreate) o;
         return 
             Utils.enhancedDeepEquals(this.externalId, other.externalId) &&
+            Utils.enhancedDeepEquals(this.externalFriendlyId, other.externalFriendlyId) &&
+            Utils.enhancedDeepEquals(this.secondaryExternalId, other.secondaryExternalId) &&
             Utils.enhancedDeepEquals(this.date, other.date) &&
             Utils.enhancedDeepEquals(this.status, other.status) &&
             Utils.enhancedDeepEquals(this.description, other.description) &&
@@ -446,16 +519,19 @@ public class CreditNoteCreate {
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-            externalId, date, status,
-            description, totalAmount, marketplace,
-            taxAmountImported, taxRateImported, taxableAmount,
-            currency, addresses, transactionItems);
+            externalId, externalFriendlyId, secondaryExternalId,
+            date, status, description,
+            totalAmount, marketplace, taxAmountImported,
+            taxRateImported, taxableAmount, currency,
+            addresses, transactionItems);
     }
     
     @Override
     public String toString() {
         return Utils.toString(CreditNoteCreate.class,
                 "externalId", externalId,
+                "externalFriendlyId", externalFriendlyId,
+                "secondaryExternalId", secondaryExternalId,
                 "date", date,
                 "status", status,
                 "description", description,
@@ -474,25 +550,29 @@ public class CreditNoteCreate {
 
         private String externalId;
 
+        private JsonNullable<String> externalFriendlyId = JsonNullable.undefined();
+
+        private JsonNullable<String> secondaryExternalId = JsonNullable.undefined();
+
         private OffsetDateTime date;
 
         private Status status;
 
-        private Optional<String> description = Optional.empty();
+        private JsonNullable<String> description = JsonNullable.undefined();
 
-        private Double totalAmount;
+        private CreditNoteCreateTotalAmount totalAmount;
 
-        private Optional<Boolean> marketplace;
+        private JsonNullable<Boolean> marketplace = JsonNullable.undefined();
 
-        private Optional<Double> taxAmountImported = Optional.empty();
+        private JsonNullable<? extends CreditNoteCreateTaxAmountImported> taxAmountImported = JsonNullable.undefined();
 
-        private Optional<Double> taxRateImported = Optional.empty();
+        private JsonNullable<? extends CreditNoteCreateTaxRateImported> taxRateImported = JsonNullable.undefined();
 
-        private Optional<Double> taxableAmount = Optional.empty();
+        private JsonNullable<? extends CreditNoteCreateTaxableAmount> taxableAmount = JsonNullable.undefined();
 
         private CurrencyEnum currency;
 
-        private Optional<? extends List<TransactionAddressBuilder>> addresses = Optional.empty();
+        private JsonNullable<? extends List<TransactionAddressBuilder>> addresses = JsonNullable.undefined();
 
         private List<CreditNoteItemCreateUpdate> transactionItems;
 
@@ -507,6 +587,46 @@ public class CreditNoteCreate {
         public Builder externalId(String externalId) {
             Utils.checkNotNull(externalId, "externalId");
             this.externalId = externalId;
+            return this;
+        }
+
+
+        /**
+         * Human-readable identifier for the credit note, often used for display purposes.
+         */
+        public Builder externalFriendlyId(String externalFriendlyId) {
+            Utils.checkNotNull(externalFriendlyId, "externalFriendlyId");
+            this.externalFriendlyId = JsonNullable.of(externalFriendlyId);
+            return this;
+        }
+
+        /**
+         * Human-readable identifier for the credit note, often used for display purposes.
+         */
+        public Builder externalFriendlyId(JsonNullable<String> externalFriendlyId) {
+            Utils.checkNotNull(externalFriendlyId, "externalFriendlyId");
+            this.externalFriendlyId = externalFriendlyId;
+            return this;
+        }
+
+
+        /**
+         * Secondary external identifier, reserved for marketplace/channel source ids (paired with
+         * secondary_source).
+         */
+        public Builder secondaryExternalId(String secondaryExternalId) {
+            Utils.checkNotNull(secondaryExternalId, "secondaryExternalId");
+            this.secondaryExternalId = JsonNullable.of(secondaryExternalId);
+            return this;
+        }
+
+        /**
+         * Secondary external identifier, reserved for marketplace/channel source ids (paired with
+         * secondary_source).
+         */
+        public Builder secondaryExternalId(JsonNullable<String> secondaryExternalId) {
+            Utils.checkNotNull(secondaryExternalId, "secondaryExternalId");
+            this.secondaryExternalId = secondaryExternalId;
             return this;
         }
 
@@ -536,14 +656,14 @@ public class CreditNoteCreate {
          */
         public Builder description(String description) {
             Utils.checkNotNull(description, "description");
-            this.description = Optional.ofNullable(description);
+            this.description = JsonNullable.of(description);
             return this;
         }
 
         /**
          * Brief explanation or reason for issuing the credit note.
          */
-        public Builder description(Optional<String> description) {
+        public Builder description(JsonNullable<String> description) {
             Utils.checkNotNull(description, "description");
             this.description = description;
             return this;
@@ -553,7 +673,7 @@ public class CreditNoteCreate {
         /**
          * Total monetary value of the credit note, including all items and taxes.
          */
-        public Builder totalAmount(double totalAmount) {
+        public Builder totalAmount(CreditNoteCreateTotalAmount totalAmount) {
             Utils.checkNotNull(totalAmount, "totalAmount");
             this.totalAmount = totalAmount;
             return this;
@@ -565,14 +685,14 @@ public class CreditNoteCreate {
          */
         public Builder marketplace(boolean marketplace) {
             Utils.checkNotNull(marketplace, "marketplace");
-            this.marketplace = Optional.ofNullable(marketplace);
+            this.marketplace = JsonNullable.of(marketplace);
             return this;
         }
 
         /**
          * Indicates whether this credit note is associated with a marketplace transaction.
          */
-        public Builder marketplace(Optional<Boolean> marketplace) {
+        public Builder marketplace(JsonNullable<Boolean> marketplace) {
             Utils.checkNotNull(marketplace, "marketplace");
             this.marketplace = marketplace;
             return this;
@@ -582,16 +702,16 @@ public class CreditNoteCreate {
         /**
          * Pre-calculated total tax amount for the entire credit note, if provided by the external system.
          */
-        public Builder taxAmountImported(double taxAmountImported) {
+        public Builder taxAmountImported(CreditNoteCreateTaxAmountImported taxAmountImported) {
             Utils.checkNotNull(taxAmountImported, "taxAmountImported");
-            this.taxAmountImported = Optional.ofNullable(taxAmountImported);
+            this.taxAmountImported = JsonNullable.of(taxAmountImported);
             return this;
         }
 
         /**
          * Pre-calculated total tax amount for the entire credit note, if provided by the external system.
          */
-        public Builder taxAmountImported(Optional<Double> taxAmountImported) {
+        public Builder taxAmountImported(JsonNullable<? extends CreditNoteCreateTaxAmountImported> taxAmountImported) {
             Utils.checkNotNull(taxAmountImported, "taxAmountImported");
             this.taxAmountImported = taxAmountImported;
             return this;
@@ -601,16 +721,16 @@ public class CreditNoteCreate {
         /**
          * Pre-calculated overall tax rate for the credit note, if provided by the external system.
          */
-        public Builder taxRateImported(double taxRateImported) {
+        public Builder taxRateImported(CreditNoteCreateTaxRateImported taxRateImported) {
             Utils.checkNotNull(taxRateImported, "taxRateImported");
-            this.taxRateImported = Optional.ofNullable(taxRateImported);
+            this.taxRateImported = JsonNullable.of(taxRateImported);
             return this;
         }
 
         /**
          * Pre-calculated overall tax rate for the credit note, if provided by the external system.
          */
-        public Builder taxRateImported(Optional<Double> taxRateImported) {
+        public Builder taxRateImported(JsonNullable<? extends CreditNoteCreateTaxRateImported> taxRateImported) {
             Utils.checkNotNull(taxRateImported, "taxRateImported");
             this.taxRateImported = taxRateImported;
             return this;
@@ -620,16 +740,16 @@ public class CreditNoteCreate {
         /**
          * Total portion of the credit note amount subject to taxation.
          */
-        public Builder taxableAmount(double taxableAmount) {
+        public Builder taxableAmount(CreditNoteCreateTaxableAmount taxableAmount) {
             Utils.checkNotNull(taxableAmount, "taxableAmount");
-            this.taxableAmount = Optional.ofNullable(taxableAmount);
+            this.taxableAmount = JsonNullable.of(taxableAmount);
             return this;
         }
 
         /**
          * Total portion of the credit note amount subject to taxation.
          */
-        public Builder taxableAmount(Optional<Double> taxableAmount) {
+        public Builder taxableAmount(JsonNullable<? extends CreditNoteCreateTaxableAmount> taxableAmount) {
             Utils.checkNotNull(taxableAmount, "taxableAmount");
             this.taxableAmount = taxableAmount;
             return this;
@@ -649,7 +769,7 @@ public class CreditNoteCreate {
          */
         public Builder addresses(List<TransactionAddressBuilder> addresses) {
             Utils.checkNotNull(addresses, "addresses");
-            this.addresses = Optional.ofNullable(addresses);
+            this.addresses = JsonNullable.of(addresses);
             return this;
         }
 
@@ -657,7 +777,7 @@ public class CreditNoteCreate {
          * A list of TransactionAddressBuilder objects or None if no addresses are provided. This field
          * represents the addresses associated with the transaction.
          */
-        public Builder addresses(Optional<? extends List<TransactionAddressBuilder>> addresses) {
+        public Builder addresses(JsonNullable<? extends List<TransactionAddressBuilder>> addresses) {
             Utils.checkNotNull(addresses, "addresses");
             this.addresses = addresses;
             return this;
@@ -674,22 +794,14 @@ public class CreditNoteCreate {
         }
 
         public CreditNoteCreate build() {
-            if (marketplace == null) {
-                marketplace = _SINGLETON_VALUE_Marketplace.value();
-            }
 
             return new CreditNoteCreate(
-                externalId, date, status,
-                description, totalAmount, marketplace,
-                taxAmountImported, taxRateImported, taxableAmount,
-                currency, addresses, transactionItems);
+                externalId, externalFriendlyId, secondaryExternalId,
+                date, status, description,
+                totalAmount, marketplace, taxAmountImported,
+                taxRateImported, taxableAmount, currency,
+                addresses, transactionItems);
         }
 
-
-        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_Marketplace =
-                new LazySingletonValue<>(
-                        "marketplace",
-                        "false",
-                        new TypeReference<Optional<Boolean>>() {});
     }
 }

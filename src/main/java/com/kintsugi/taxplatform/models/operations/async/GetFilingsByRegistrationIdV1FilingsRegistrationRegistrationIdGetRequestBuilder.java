@@ -28,6 +28,7 @@ public class GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetReq
                             "size",
                             "50",
                             new TypeReference<Optional<Long>>() {});
+    private Optional<String> xOrganizationId = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -64,6 +65,18 @@ public class GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetReq
         this.size = size;
         return this;
     }
+                
+    public GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequestBuilder xOrganizationId(String xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = Optional.of(xOrganizationId);
+        return this;
+    }
+
+    public GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequestBuilder xOrganizationId(Optional<String> xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = xOrganizationId;
+        return this;
+    }
 
 
     private GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequest buildRequest() {
@@ -76,7 +89,8 @@ public class GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetReq
 
         GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequest request = new GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequest(registrationId,
             page,
-            size);
+            size,
+            xOrganizationId);
 
         return request;
     }

@@ -4,11 +4,11 @@
 
 ### Available Operations
 
-* [get](#get) - Get Exemptions
-* [create](#create) - Create Exemption
-* [getById](#getbyid) - Get Exemption By Id
-* [uploadCertificate](#uploadcertificate) - Upload Exemption Certificate
-* [getAttachments](#getattachments) - Get Attachments For Exemption
+* [get](#get) - Get exemptions
+* [create](#create) - Create exemption
+* [getById](#getbyid) - Get exemption by id
+* [getAttachments](#getattachments) - Get attachments for exemption
+* [uploadCertificate](#uploadcertificate) - Upload exemption certificate
 
 ## get
 
@@ -21,12 +21,11 @@ Retrieve a list of exemptions based on filters.
 package hello.world;
 
 import com.kintsugi.taxplatform.SDK;
-import com.kintsugi.taxplatform.models.components.Security;
 import com.kintsugi.taxplatform.models.errors.BackendSrcExemptionsResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
-import com.kintsugi.taxplatform.models.operations.GetExemptionsV1ExemptionsGetRequest;
-import com.kintsugi.taxplatform.models.operations.GetExemptionsV1ExemptionsGetResponse;
+import com.kintsugi.taxplatform.models.operations.*;
 import java.lang.Exception;
+import java.time.LocalDate;
 import java.util.List;
 
 public class Application {
@@ -34,21 +33,23 @@ public class Application {
     public static void main(String[] args) throws ErrorResponse, BackendSrcExemptionsResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
-                .security(Security.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
-                    .build())
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
             .build();
 
         GetExemptionsV1ExemptionsGetRequest req = GetExemptionsV1ExemptionsGetRequest.builder()
+                .xOrganizationId("org_12345")
                 .searchQuery("John")
+                .statusIn("ACTIVE,INACTIVE,EXPIRED")
                 .countryCode(List.of(
-                    ,))
+                    GetExemptionsV1ExemptionsGetCountryCode.of("U"),
+                    GetExemptionsV1ExemptionsGetCountryCode.of("S")))
                 .jurisdiction("CA")
-                .startDate("2024-01-01")
-                .endDate("2024-01-01")
+                .startDate(LocalDate.parse("2024-01-01"))
+                .endDate(LocalDate.parse("2024-01-01"))
                 .customerId("cust_1234")
                 .transactionId("trans_1234")
+                .connectionIdIn("conn_abc123,conn_def456")
+                .orderBy("end_date,FEIN,sales_tax_id,status")
                 .build();
 
         GetExemptionsV1ExemptionsGetResponse res = sdk.exemptions().get()
@@ -106,28 +107,24 @@ public class Application {
     public static void main(String[] args) throws ErrorResponse, BackendSrcExemptionsResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
-                .security(Security.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
-                    .build())
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
             .build();
 
-        ExemptionCreate req = ExemptionCreate.builder()
-                .exemptionType(ExemptionType.WHOLESALE)
-                .startDate(LocalDate.parse("2024-01-01"))
-                .customerId("cust_001")
-                .fein("12-3456789")
-                .salesTaxId("ST-98765")
-                .status(ExemptionStatus.ACTIVE)
-                .jurisdiction("CA")
-                .countryCode(CountryCodeEnum.US)
-                .endDate("2026-01-01")
-                .transactionId("txn_123")
-                .reseller(true)
-                .build();
-
         CreateExemptionV1ExemptionsPostResponse res = sdk.exemptions().create()
-                .request(req)
+                .xOrganizationId("org_12345")
+                .exemptionCreate(ExemptionCreate.builder()
+                    .exemptionType(ExemptionType.WHOLESALE)
+                    .startDate(LocalDate.parse("2024-01-01"))
+                    .customerId("cust_001")
+                    .fein("12-3456789")
+                    .salesTaxId("ST-98765")
+                    .status(ExemptionStatus.ACTIVE)
+                    .jurisdiction("CA")
+                    .countryCode(CountryCodeEnum.US)
+                    .endDate(LocalDate.parse("2026-01-01"))
+                    .transactionId("txn_123")
+                    .reseller(true)
+                    .build())
                 .call();
 
         if (res.backendSrcExemptionsSerializersExemptionRead().isPresent()) {
@@ -139,9 +136,10 @@ public class Application {
 
 ### Parameters
 
-| Parameter                                                 | Type                                                      | Required                                                  | Description                                               |
-| --------------------------------------------------------- | --------------------------------------------------------- | --------------------------------------------------------- | --------------------------------------------------------- |
-| `request`                                                 | [ExemptionCreate](../../models/shared/ExemptionCreate.md) | :heavy_check_mark:                                        | The request object to use for the request.                |
+| Parameter                                                     | Type                                                          | Required                                                      | Description                                                   | Example                                                       |
+| ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- |
+| `xOrganizationId`                                             | *Optional\<String>*                                           | :heavy_check_mark:                                            | The unique identifier for the organization making the request | org_12345                                                     |
+| `exemptionCreate`                                             | [ExemptionCreate](../../models/components/ExemptionCreate.md) | :heavy_check_mark:                                            | N/A                                                           |                                                               |
 
 ### Response
 
@@ -170,7 +168,6 @@ The Get Exemption By ID API retrieves a specific exemption record by
 package hello.world;
 
 import com.kintsugi.taxplatform.SDK;
-import com.kintsugi.taxplatform.models.components.Security;
 import com.kintsugi.taxplatform.models.errors.BackendSrcExemptionsResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
 import com.kintsugi.taxplatform.models.operations.GetExemptionByIdV1ExemptionsExemptionIdGetResponse;
@@ -181,18 +178,16 @@ public class Application {
     public static void main(String[] args) throws ErrorResponse, BackendSrcExemptionsResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
-                .security(Security.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
-                    .build())
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
             .build();
 
         GetExemptionByIdV1ExemptionsExemptionIdGetResponse res = sdk.exemptions().getById()
                 .exemptionId("<id>")
+                .xOrganizationId("org_12345")
                 .call();
 
-        if (res.backendSrcExemptionsModelsExemptionRead().isPresent()) {
-            System.out.println(res.backendSrcExemptionsModelsExemptionRead().get());
+        if (res.backendSrcExemptionsSchemasExemptionExemptionRead().isPresent()) {
+            System.out.println(res.backendSrcExemptionsSchemasExemptionExemptionRead().get());
         }
     }
 }
@@ -200,9 +195,10 @@ public class Application {
 
 ### Parameters
 
-| Parameter                                                | Type                                                     | Required                                                 | Description                                              |
-| -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- | -------------------------------------------------------- |
-| `exemptionId`                                            | *String*                                                 | :heavy_check_mark:                                       | The unique identifier for the exemption being retrieved. |
+| Parameter                                                     | Type                                                          | Required                                                      | Description                                                   | Example                                                       |
+| ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- |
+| `exemptionId`                                                 | *String*                                                      | :heavy_check_mark:                                            | The unique identifier for the exemption being retrieved.      |                                                               |
+| `xOrganizationId`                                             | *Optional\<String>*                                           | :heavy_check_mark:                                            | The unique identifier for the organization making the request | org_12345                                                     |
 
 ### Response
 
@@ -213,73 +209,6 @@ public class Application {
 | Error Type                                                         | Status Code                                                        | Content Type                                                       |
 | ------------------------------------------------------------------ | ------------------------------------------------------------------ | ------------------------------------------------------------------ |
 | models/errors/ErrorResponse                                        | 404                                                                | application/json                                                   |
-| models/errors/BackendSrcExemptionsResponsesValidationErrorResponse | 422                                                                | application/json                                                   |
-| models/errors/ErrorResponse                                        | 500                                                                | application/json                                                   |
-| models/errors/APIException                                         | 4XX, 5XX                                                           | \*/\*                                                              |
-
-## uploadCertificate
-
-The Upload Exemption Certificate API allows you
-    to upload a file attachment (e.g., exemption certificate) for a specific exemption.
-    This is primarily used to associate supporting documents with an exemption record
-    to ensure compliance and facilitate verification.
-
-### Example Usage
-
-<!-- UsageSnippet language="java" operationID="upload_exemption_certificate_v1_exemptions__exemption_id__attachments_post" method="post" path="/v1/exemptions/{exemption_id}/attachments" -->
-```java
-package hello.world;
-
-import com.kintsugi.taxplatform.SDK;
-import com.kintsugi.taxplatform.models.components.*;
-import com.kintsugi.taxplatform.models.errors.BackendSrcExemptionsResponsesValidationErrorResponse;
-import com.kintsugi.taxplatform.models.errors.ErrorResponse;
-import com.kintsugi.taxplatform.models.operations.UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse;
-import com.kintsugi.taxplatform.utils.Utils;
-import java.io.FileInputStream;
-import java.lang.Exception;
-
-public class Application {
-
-    public static void main(String[] args) throws ErrorResponse, BackendSrcExemptionsResponsesValidationErrorResponse, Exception {
-
-        SDK sdk = SDK.builder()
-                .security(Security.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
-                    .build())
-            .build();
-
-        UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse res = sdk.exemptions().uploadCertificate()
-                .exemptionId("<id>")
-                .bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost(BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost.builder()
-                    .file(File.builder()
-                        .fileName("example.file")
-                        .content(Utils.readBytesAndClose(new FileInputStream("example.file")))
-                        .build())
-                    .build())
-                .call();
-
-    }
-}
-```
-
-### Parameters
-
-| Parameter                                                                                                                                                               | Type                                                                                                                                                                    | Required                                                                                                                                                                | Description                                                                                                                                                             |
-| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `exemptionId`                                                                                                                                                           | *String*                                                                                                                                                                | :heavy_check_mark:                                                                                                                                                      | The unique identifier for the exemption to which the attachment will be associated.                                                                                     |
-| `bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost`                                                                                                  | [BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost](../../models/components/BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost.md) | :heavy_check_mark:                                                                                                                                                      | N/A                                                                                                                                                                     |
-
-### Response
-
-**[UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse](../../models/operations/UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse.md)**
-
-### Errors
-
-| Error Type                                                         | Status Code                                                        | Content Type                                                       |
-| ------------------------------------------------------------------ | ------------------------------------------------------------------ | ------------------------------------------------------------------ |
-| models/errors/ErrorResponse                                        | 401                                                                | application/json                                                   |
 | models/errors/BackendSrcExemptionsResponsesValidationErrorResponse | 422                                                                | application/json                                                   |
 | models/errors/ErrorResponse                                        | 500                                                                | application/json                                                   |
 | models/errors/APIException                                         | 4XX, 5XX                                                           | \*/\*                                                              |
@@ -298,7 +227,6 @@ The Get Attachments for Exemption API retrieves all
 package hello.world;
 
 import com.kintsugi.taxplatform.SDK;
-import com.kintsugi.taxplatform.models.components.Security;
 import com.kintsugi.taxplatform.models.errors.BackendSrcExemptionsResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
 import com.kintsugi.taxplatform.models.operations.GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetResponse;
@@ -309,14 +237,12 @@ public class Application {
     public static void main(String[] args) throws ErrorResponse, BackendSrcExemptionsResponsesValidationErrorResponse, Exception {
 
         SDK sdk = SDK.builder()
-                .security(Security.builder()
-                    .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
-                    .customHeader(System.getenv().getOrDefault("CUSTOM_HEADER", ""))
-                    .build())
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
             .build();
 
         GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetResponse res = sdk.exemptions().getAttachments()
                 .exemptionId("<id>")
+                .xOrganizationId("org_12345")
                 .call();
 
         if (res.response200GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGet().isPresent()) {
@@ -328,9 +254,10 @@ public class Application {
 
 ### Parameters
 
-| Parameter                                                                              | Type                                                                                   | Required                                                                               | Description                                                                            |
-| -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| `exemptionId`                                                                          | *String*                                                                               | :heavy_check_mark:                                                                     | The unique identifier for the exemption<br/>        whose attachments are being retrieved. |
+| Parameter                                                                              | Type                                                                                   | Required                                                                               | Description                                                                            | Example                                                                                |
+| -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| `exemptionId`                                                                          | *String*                                                                               | :heavy_check_mark:                                                                     | The unique identifier for the exemption<br/>        whose attachments are being retrieved. |                                                                                        |
+| `xOrganizationId`                                                                      | *Optional\<String>*                                                                    | :heavy_check_mark:                                                                     | The unique identifier for the organization making the request                          | org_12345                                                                              |
 
 ### Response
 
@@ -342,4 +269,69 @@ public class Application {
 | ------------------------------------------------------------------ | ------------------------------------------------------------------ | ------------------------------------------------------------------ |
 | models/errors/ErrorResponse                                        | 401                                                                | application/json                                                   |
 | models/errors/BackendSrcExemptionsResponsesValidationErrorResponse | 422                                                                | application/json                                                   |
+| models/errors/APIException                                         | 4XX, 5XX                                                           | \*/\*                                                              |
+
+## uploadCertificate
+
+The Upload Exemption Certificate API allows you
+    to upload a file attachment (e.g., exemption certificate) for a specific exemption.
+    This is primarily used to associate supporting documents with an exemption record
+    to ensure compliance and facilitate verification.
+
+### Example Usage
+
+<!-- UsageSnippet language="java" operationID="upload_exemption_certificate_v1_exemptions__exemption_id__attachments_post" method="post" path="/v1/exemptions/{exemption_id}/attachments" -->
+```java
+package hello.world;
+
+import com.kintsugi.taxplatform.SDK;
+import com.kintsugi.taxplatform.models.components.BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost;
+import com.kintsugi.taxplatform.models.errors.BackendSrcExemptionsResponsesValidationErrorResponse;
+import com.kintsugi.taxplatform.models.errors.ErrorResponse;
+import com.kintsugi.taxplatform.models.operations.UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse;
+import com.kintsugi.taxplatform.utils.Utils;
+import java.lang.Exception;
+
+public class Application {
+
+    public static void main(String[] args) throws ErrorResponse, BackendSrcExemptionsResponsesValidationErrorResponse, Exception {
+
+        SDK sdk = SDK.builder()
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
+            .build();
+
+        UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse res = sdk.exemptions().uploadCertificate()
+                .exemptionId("<id>")
+                .xOrganizationId("org_12345")
+                .bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost(BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost.builder()
+                    .file(Utils.readString("example.file"))
+                    .build())
+                .call();
+
+        if (res.attachmentRead().isPresent()) {
+            System.out.println(res.attachmentRead().get());
+        }
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                               | Type                                                                                                                                                                    | Required                                                                                                                                                                | Description                                                                                                                                                             | Example                                                                                                                                                                 |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `exemptionId`                                                                                                                                                           | *String*                                                                                                                                                                | :heavy_check_mark:                                                                                                                                                      | The unique identifier for the exemption to which the attachment will be associated.                                                                                     |                                                                                                                                                                         |
+| `xOrganizationId`                                                                                                                                                       | *Optional\<String>*                                                                                                                                                     | :heavy_check_mark:                                                                                                                                                      | The unique identifier for the organization making the request                                                                                                           | org_12345                                                                                                                                                               |
+| `bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost`                                                                                                  | [BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost](../../models/components/BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost.md) | :heavy_check_mark:                                                                                                                                                      | N/A                                                                                                                                                                     |                                                                                                                                                                         |
+
+### Response
+
+**[UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse](../../models/operations/UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse.md)**
+
+### Errors
+
+| Error Type                                                         | Status Code                                                        | Content Type                                                       |
+| ------------------------------------------------------------------ | ------------------------------------------------------------------ | ------------------------------------------------------------------ |
+| models/errors/ErrorResponse                                        | 401                                                                | application/json                                                   |
+| models/errors/BackendSrcExemptionsResponsesValidationErrorResponse | 422                                                                | application/json                                                   |
+| models/errors/ErrorResponse                                        | 500                                                                | application/json                                                   |
 | models/errors/APIException                                         | 4XX, 5XX                                                           | \*/\*                                                              |

@@ -5,31 +5,51 @@ package com.kintsugi.taxplatform;
 
 import static com.kintsugi.taxplatform.operations.Operations.AsyncRequestOperation;
 
+import com.kintsugi.taxplatform.models.components.BodyUploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost;
+import com.kintsugi.taxplatform.models.components.DeregisterRegistrationRequest;
 import com.kintsugi.taxplatform.models.components.RegistrationUpdateAPI;
 import com.kintsugi.taxplatform.models.operations.CreateRegistration;
+import com.kintsugi.taxplatform.models.operations.CreateRegistrationV1RegistrationsPostRequest;
 import com.kintsugi.taxplatform.models.operations.DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest;
+import com.kintsugi.taxplatform.models.operations.GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGetRequest;
+import com.kintsugi.taxplatform.models.operations.GetOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetRegistrationsV1RegistrationsGetRequest;
+import com.kintsugi.taxplatform.models.operations.ListRegistrationJurisdictionsV1RegistrationsJurisdictionsGetRequest;
 import com.kintsugi.taxplatform.models.operations.UpdateRegistrationV1RegistrationsRegistrationIdPutRequest;
+import com.kintsugi.taxplatform.models.operations.UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPostRequest;
 import com.kintsugi.taxplatform.models.operations.async.CreateRegistrationV1RegistrationsPostRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.async.CreateRegistrationV1RegistrationsPostResponse;
 import com.kintsugi.taxplatform.models.operations.async.DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.async.DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse;
+import com.kintsugi.taxplatform.models.operations.async.GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGetRequestBuilder;
+import com.kintsugi.taxplatform.models.operations.async.GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGetResponse;
+import com.kintsugi.taxplatform.models.operations.async.GetOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGetRequestBuilder;
+import com.kintsugi.taxplatform.models.operations.async.GetOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGetResponse;
 import com.kintsugi.taxplatform.models.operations.async.GetRegistrationByIdV1RegistrationsRegistrationIdGetRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.async.GetRegistrationByIdV1RegistrationsRegistrationIdGetResponse;
 import com.kintsugi.taxplatform.models.operations.async.GetRegistrationsV1RegistrationsGetRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.async.GetRegistrationsV1RegistrationsGetResponse;
+import com.kintsugi.taxplatform.models.operations.async.ListRegistrationJurisdictionsV1RegistrationsJurisdictionsGetRequestBuilder;
+import com.kintsugi.taxplatform.models.operations.async.ListRegistrationJurisdictionsV1RegistrationsJurisdictionsGetResponse;
 import com.kintsugi.taxplatform.models.operations.async.UpdateRegistrationV1RegistrationsRegistrationIdPutRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.async.UpdateRegistrationV1RegistrationsRegistrationIdPutResponse;
+import com.kintsugi.taxplatform.models.operations.async.UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPostRequestBuilder;
+import com.kintsugi.taxplatform.models.operations.async.UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPostResponse;
 import com.kintsugi.taxplatform.operations.CreateRegistrationV1RegistrationsPost;
 import com.kintsugi.taxplatform.operations.DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPost;
+import com.kintsugi.taxplatform.operations.GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGet;
+import com.kintsugi.taxplatform.operations.GetOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGet;
 import com.kintsugi.taxplatform.operations.GetRegistrationByIdV1RegistrationsRegistrationIdGet;
 import com.kintsugi.taxplatform.operations.GetRegistrationsV1RegistrationsGet;
+import com.kintsugi.taxplatform.operations.ListRegistrationJurisdictionsV1RegistrationsJurisdictionsGet;
 import com.kintsugi.taxplatform.operations.UpdateRegistrationV1RegistrationsRegistrationIdPut;
+import com.kintsugi.taxplatform.operations.UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost;
 import com.kintsugi.taxplatform.utils.Headers;
 import java.lang.String;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 public class AsyncRegistrations {
@@ -53,7 +73,7 @@ public class AsyncRegistrations {
 
 
     /**
-     * Get Registrations
+     * Get registrations
      * 
      * <p>The Get Registrations API retrieves a
      * paginated list of registrations.
@@ -67,7 +87,7 @@ public class AsyncRegistrations {
     }
 
     /**
-     * Get Registrations
+     * Get registrations
      * 
      * <p>The Get Registrations API retrieves a
      * paginated list of registrations.
@@ -86,7 +106,7 @@ public class AsyncRegistrations {
 
 
     /**
-     * Create Registration
+     * Create registration
      * 
      * <p>The Create Registration API allows users to create a new registration
      * for tracking and managing tax filings efficiently across multiple jurisdictions.
@@ -98,16 +118,36 @@ public class AsyncRegistrations {
     }
 
     /**
-     * Create Registration
+     * Create registration
      * 
      * <p>The Create Registration API allows users to create a new registration
      * for tracking and managing tax filings efficiently across multiple jurisdictions.
      * 
-     * @param request The request object containing all the parameters for the API call.
+     * @param requestBody 
      * @return {@code CompletableFuture<CreateRegistrationV1RegistrationsPostResponse>} - The async response
      */
-    public CompletableFuture<CreateRegistrationV1RegistrationsPostResponse> create(CreateRegistration request) {
-        AsyncRequestOperation<CreateRegistration, CreateRegistrationV1RegistrationsPostResponse> operation
+    public CompletableFuture<CreateRegistrationV1RegistrationsPostResponse> create(CreateRegistration requestBody) {
+        return create(Optional.empty(), requestBody);
+    }
+
+    /**
+     * Create registration
+     * 
+     * <p>The Create Registration API allows users to create a new registration
+     * for tracking and managing tax filings efficiently across multiple jurisdictions.
+     * 
+     * @param xOrganizationId 
+     * @param requestBody 
+     * @return {@code CompletableFuture<CreateRegistrationV1RegistrationsPostResponse>} - The async response
+     */
+    public CompletableFuture<CreateRegistrationV1RegistrationsPostResponse> create(Optional<String> xOrganizationId, CreateRegistration requestBody) {
+        CreateRegistrationV1RegistrationsPostRequest request =
+            CreateRegistrationV1RegistrationsPostRequest
+                .builder()
+                .xOrganizationId(xOrganizationId)
+                .requestBody(requestBody)
+                .build();
+        AsyncRequestOperation<CreateRegistrationV1RegistrationsPostRequest, CreateRegistrationV1RegistrationsPostResponse> operation
               = new CreateRegistrationV1RegistrationsPost.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
@@ -115,7 +155,106 @@ public class AsyncRegistrations {
 
 
     /**
-     * Get Registration By Id
+     * Get jurisdiction specific fields
+     * 
+     * <p>Returns the JSON Schema and UI metadata for a state-specific registration form
+     * 
+     * @return The async call builder
+     */
+    public GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGetRequestBuilder getJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGet() {
+        return new GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGetRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Get jurisdiction specific fields
+     * 
+     * <p>Returns the JSON Schema and UI metadata for a state-specific registration form
+     * 
+     * @param countryCode ISO 3166-1 alpha-2 country code (e.g., US).
+     * @param stateCode State/province code (e.g., AL, LA).
+     * @return {@code CompletableFuture<GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGetResponse>} - The async response
+     */
+    public CompletableFuture<GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGetResponse> getJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGet(String countryCode, String stateCode) {
+        return getJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGet(countryCode, stateCode, Optional.empty());
+    }
+
+    /**
+     * Get jurisdiction specific fields
+     * 
+     * <p>Returns the JSON Schema and UI metadata for a state-specific registration form
+     * 
+     * @param countryCode ISO 3166-1 alpha-2 country code (e.g., US).
+     * @param stateCode State/province code (e.g., AL, LA).
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @return {@code CompletableFuture<GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGetResponse>} - The async response
+     */
+    public CompletableFuture<GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGetResponse> getJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGet(
+            String countryCode, String stateCode,
+            Optional<String> xOrganizationId) {
+        GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGetRequest request =
+            GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGetRequest
+                .builder()
+                .countryCode(countryCode)
+                .stateCode(stateCode)
+                .xOrganizationId(xOrganizationId)
+                .build();
+        AsyncRequestOperation<GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGetRequest, GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGetResponse> operation
+              = new GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGet.Async(sdkConfiguration, _headers);
+        return operation.doRequest(request)
+            .thenCompose(operation::handleResponse);
+    }
+
+
+    /**
+     * List registration jurisdictions
+     * 
+     * <p>Distinct registration jurisdictions (country + state) for filter dropdowns. Non-SST only. Default
+     * status__in matches GET /registrations (all statuses).
+     * 
+     * @return The async call builder
+     */
+    public ListRegistrationJurisdictionsV1RegistrationsJurisdictionsGetRequestBuilder listRegistrationJurisdictionsV1RegistrationsJurisdictionsGet() {
+        return new ListRegistrationJurisdictionsV1RegistrationsJurisdictionsGetRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * List registration jurisdictions
+     * 
+     * <p>Distinct registration jurisdictions (country + state) for filter dropdowns. Non-SST only. Default
+     * status__in matches GET /registrations (all statuses).
+     * 
+     * @return {@code CompletableFuture<ListRegistrationJurisdictionsV1RegistrationsJurisdictionsGetResponse>} - The async response
+     */
+    public CompletableFuture<ListRegistrationJurisdictionsV1RegistrationsJurisdictionsGetResponse> listRegistrationJurisdictionsV1RegistrationsJurisdictionsGetDirect() {
+        return listRegistrationJurisdictionsV1RegistrationsJurisdictionsGet(Optional.empty(), Optional.empty());
+    }
+
+    /**
+     * List registration jurisdictions
+     * 
+     * <p>Distinct registration jurisdictions (country + state) for filter dropdowns. Non-SST only. Default
+     * status__in matches GET /registrations (all statuses).
+     * 
+     * @param statusIn Filter by registration status (comma-separated); same as GET /registrations.
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @return {@code CompletableFuture<ListRegistrationJurisdictionsV1RegistrationsJurisdictionsGetResponse>} - The async response
+     */
+    public CompletableFuture<ListRegistrationJurisdictionsV1RegistrationsJurisdictionsGetResponse> listRegistrationJurisdictionsV1RegistrationsJurisdictionsGet(Optional<String> statusIn, Optional<String> xOrganizationId) {
+        ListRegistrationJurisdictionsV1RegistrationsJurisdictionsGetRequest request =
+            ListRegistrationJurisdictionsV1RegistrationsJurisdictionsGetRequest
+                .builder()
+                .statusIn(statusIn)
+                .xOrganizationId(xOrganizationId)
+                .build();
+        AsyncRequestOperation<ListRegistrationJurisdictionsV1RegistrationsJurisdictionsGetRequest, ListRegistrationJurisdictionsV1RegistrationsJurisdictionsGetResponse> operation
+              = new ListRegistrationJurisdictionsV1RegistrationsJurisdictionsGet.Async(sdkConfiguration, _headers);
+        return operation.doRequest(request)
+            .thenCompose(operation::handleResponse);
+    }
+
+
+    /**
+     * Get registration by id
      * 
      * <p>The Get Registration By ID API retrieves a single registration record
      * based on its unique identifier.
@@ -127,7 +266,7 @@ public class AsyncRegistrations {
     }
 
     /**
-     * Get Registration By Id
+     * Get registration by id
      * 
      * <p>The Get Registration By ID API retrieves a single registration record
      * based on its unique identifier.
@@ -137,11 +276,11 @@ public class AsyncRegistrations {
      * @return {@code CompletableFuture<GetRegistrationByIdV1RegistrationsRegistrationIdGetResponse>} - The async response
      */
     public CompletableFuture<GetRegistrationByIdV1RegistrationsRegistrationIdGetResponse> getById(String registrationId) {
-        return getById(registrationId, Optional.empty());
+        return getById(registrationId, JsonNullable.undefined(), Optional.empty());
     }
 
     /**
-     * Get Registration By Id
+     * Get registration by id
      * 
      * <p>The Get Registration By ID API retrieves a single registration record
      * based on its unique identifier.
@@ -149,14 +288,18 @@ public class AsyncRegistrations {
      * @param registrationId The unique identifier of the
      *                                         registration to retrieve.
      * @param reveal Name of field to reveal
+     * @param xOrganizationId The unique identifier for the organization making the request
      * @return {@code CompletableFuture<GetRegistrationByIdV1RegistrationsRegistrationIdGetResponse>} - The async response
      */
-    public CompletableFuture<GetRegistrationByIdV1RegistrationsRegistrationIdGetResponse> getById(String registrationId, Optional<String> reveal) {
+    public CompletableFuture<GetRegistrationByIdV1RegistrationsRegistrationIdGetResponse> getById(
+            String registrationId, JsonNullable<String> reveal,
+            Optional<String> xOrganizationId) {
         GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest request =
             GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest
                 .builder()
                 .registrationId(registrationId)
                 .reveal(reveal)
+                .xOrganizationId(xOrganizationId)
                 .build();
         AsyncRequestOperation<GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest, GetRegistrationByIdV1RegistrationsRegistrationIdGetResponse> operation
               = new GetRegistrationByIdV1RegistrationsRegistrationIdGet.Async(sdkConfiguration, _headers);
@@ -166,7 +309,7 @@ public class AsyncRegistrations {
 
 
     /**
-     * Update Registration
+     * Update registration
      * 
      * <p>The Update Registration API allows you to modify
      * an existing registration using its unique registration_id.
@@ -178,7 +321,7 @@ public class AsyncRegistrations {
     }
 
     /**
-     * Update Registration
+     * Update registration
      * 
      * <p>The Update Registration API allows you to modify
      * an existing registration using its unique registration_id.
@@ -188,10 +331,28 @@ public class AsyncRegistrations {
      * @return {@code CompletableFuture<UpdateRegistrationV1RegistrationsRegistrationIdPutResponse>} - The async response
      */
     public CompletableFuture<UpdateRegistrationV1RegistrationsRegistrationIdPutResponse> update(String registrationId, RegistrationUpdateAPI registrationUpdateAPI) {
+        return update(registrationId, Optional.empty(), registrationUpdateAPI);
+    }
+
+    /**
+     * Update registration
+     * 
+     * <p>The Update Registration API allows you to modify
+     * an existing registration using its unique registration_id.
+     * 
+     * @param registrationId The unique identifier of the registration to be updated.
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param registrationUpdateAPI 
+     * @return {@code CompletableFuture<UpdateRegistrationV1RegistrationsRegistrationIdPutResponse>} - The async response
+     */
+    public CompletableFuture<UpdateRegistrationV1RegistrationsRegistrationIdPutResponse> update(
+            String registrationId, Optional<String> xOrganizationId,
+            RegistrationUpdateAPI registrationUpdateAPI) {
         UpdateRegistrationV1RegistrationsRegistrationIdPutRequest request =
             UpdateRegistrationV1RegistrationsRegistrationIdPutRequest
                 .builder()
                 .registrationId(registrationId)
+                .xOrganizationId(xOrganizationId)
                 .registrationUpdateAPI(registrationUpdateAPI)
                 .build();
         AsyncRequestOperation<UpdateRegistrationV1RegistrationsRegistrationIdPutRequest, UpdateRegistrationV1RegistrationsRegistrationIdPutResponse> operation
@@ -202,7 +363,58 @@ public class AsyncRegistrations {
 
 
     /**
-     * Deregister Registration
+     * Upload registration attachment
+     * 
+     * <p>Upload an attachment for a specific registration.
+     * 
+     * @return The async call builder
+     */
+    public UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPostRequestBuilder uploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost() {
+        return new UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPostRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Upload registration attachment
+     * 
+     * <p>Upload an attachment for a specific registration.
+     * 
+     * @param registrationId 
+     * @param bodyUploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost 
+     * @return {@code CompletableFuture<UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPostResponse>} - The async response
+     */
+    public CompletableFuture<UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPostResponse> uploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost(String registrationId, BodyUploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost bodyUploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost) {
+        return uploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost(registrationId, Optional.empty(), bodyUploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost);
+    }
+
+    /**
+     * Upload registration attachment
+     * 
+     * <p>Upload an attachment for a specific registration.
+     * 
+     * @param registrationId 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param bodyUploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost 
+     * @return {@code CompletableFuture<UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPostResponse>} - The async response
+     */
+    public CompletableFuture<UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPostResponse> uploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost(
+            String registrationId, Optional<String> xOrganizationId,
+            BodyUploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost bodyUploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost) {
+        UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPostRequest request =
+            UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPostRequest
+                .builder()
+                .registrationId(registrationId)
+                .xOrganizationId(xOrganizationId)
+                .bodyUploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost(bodyUploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost)
+                .build();
+        AsyncRequestOperation<UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPostRequest, UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPostResponse> operation
+              = new UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost.Async(sdkConfiguration, _headers);
+        return operation.doRequest(request)
+            .thenCompose(operation::handleResponse);
+    }
+
+
+    /**
+     * Deregister registration
      * 
      * <p>Deregister an existing registration.
      * 
@@ -213,7 +425,7 @@ public class AsyncRegistrations {
     }
 
     /**
-     * Deregister Registration
+     * Deregister registration
      * 
      * <p>Deregister an existing registration.
      * 
@@ -221,13 +433,80 @@ public class AsyncRegistrations {
      * @return {@code CompletableFuture<DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse>} - The async response
      */
     public CompletableFuture<DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse> deregister(String registrationId) {
+        return deregister(registrationId, Optional.empty(), JsonNullable.undefined());
+    }
+
+    /**
+     * Deregister registration
+     * 
+     * <p>Deregister an existing registration.
+     * 
+     * @param registrationId The unique identifier of the registration to deregister.
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param deregisterRegistrationRequest Optional body for POST /registrations/{id}/deregister (CP-4742).
+     * @return {@code CompletableFuture<DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse>} - The async response
+     */
+    public CompletableFuture<DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse> deregister(
+            String registrationId, Optional<String> xOrganizationId,
+            JsonNullable<? extends DeregisterRegistrationRequest> deregisterRegistrationRequest) {
         DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest request =
             DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest
                 .builder()
                 .registrationId(registrationId)
+                .xOrganizationId(xOrganizationId)
+                .deregisterRegistrationRequest(deregisterRegistrationRequest)
                 .build();
         AsyncRequestOperation<DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest, DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse> operation
               = new DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPost.Async(sdkConfiguration, _headers);
+        return operation.doRequest(request)
+            .thenCompose(operation::handleResponse);
+    }
+
+
+    /**
+     * Get oss countries for registration
+     * 
+     * <p>Get all OSS countries for a specific registration. This endpoint returns
+     * a list of EU countries that are covered by the OSS registration.
+     * 
+     * @return The async call builder
+     */
+    public GetOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGetRequestBuilder getOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGet() {
+        return new GetOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGetRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Get oss countries for registration
+     * 
+     * <p>Get all OSS countries for a specific registration. This endpoint returns
+     * a list of EU countries that are covered by the OSS registration.
+     * 
+     * @param registrationId The unique identifier of the registration.
+     * @return {@code CompletableFuture<GetOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGetResponse>} - The async response
+     */
+    public CompletableFuture<GetOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGetResponse> getOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGet(String registrationId) {
+        return getOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGet(registrationId, Optional.empty());
+    }
+
+    /**
+     * Get oss countries for registration
+     * 
+     * <p>Get all OSS countries for a specific registration. This endpoint returns
+     * a list of EU countries that are covered by the OSS registration.
+     * 
+     * @param registrationId The unique identifier of the registration.
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @return {@code CompletableFuture<GetOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGetResponse>} - The async response
+     */
+    public CompletableFuture<GetOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGetResponse> getOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGet(String registrationId, Optional<String> xOrganizationId) {
+        GetOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGetRequest request =
+            GetOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGetRequest
+                .builder()
+                .registrationId(registrationId)
+                .xOrganizationId(xOrganizationId)
+                .build();
+        AsyncRequestOperation<GetOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGetRequest, GetOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGetResponse> operation
+              = new GetOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGet.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }

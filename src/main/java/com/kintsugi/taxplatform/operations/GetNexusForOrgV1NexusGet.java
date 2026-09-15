@@ -10,11 +10,11 @@ import static com.kintsugi.taxplatform.operations.Operations.AsyncRequestOperati
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.SecuritySource;
-import com.kintsugi.taxplatform.models.components.PageNexusResponse;
 import com.kintsugi.taxplatform.models.errors.APIException;
 import com.kintsugi.taxplatform.models.errors.HTTPValidationError;
 import com.kintsugi.taxplatform.models.operations.GetNexusForOrgV1NexusGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetNexusForOrgV1NexusGetResponse;
+import com.kintsugi.taxplatform.models.operations.ResponseGetNexusForOrgV1NexusGet;
 import com.kintsugi.taxplatform.utils.Blob;
 import com.kintsugi.taxplatform.utils.HTTPClient;
 import com.kintsugi.taxplatform.utils.HTTPRequest;
@@ -94,6 +94,7 @@ public class GetNexusForOrgV1NexusGet {
                     klass,
                     request,
                     null));
+            req.addHeaders(Utils.getHeadersFromMetadata(request, null));
             Utils.configureSecurity(req, this.sdkConfiguration.securitySource().getSecurity());
 
             return req.build();
@@ -158,7 +159,7 @@ public class GetNexusForOrgV1NexusGet {
             
             if (Utils.statusCodeMatches(response.statusCode(), "200")) {
                 if (Utils.contentTypeMatches(contentType, "application/json")) {
-                    return res.withPageNexusResponse(Utils.unmarshal(response, new TypeReference<PageNexusResponse>() {}));
+                    return res.withResponseGetNexusForOrgV1NexusGet(Utils.unmarshal(response, new TypeReference<ResponseGetNexusForOrgV1NexusGet>() {}));
                 } else {
                     throw APIException.from("Unexpected content-type received: " + contentType, response);
                 }
@@ -235,8 +236,8 @@ public class GetNexusForOrgV1NexusGet {
             
             if (Utils.statusCodeMatches(response.statusCode(), "200")) {
                 if (Utils.contentTypeMatches(contentType, "application/json")) {
-                    return Utils.unmarshalAsync(response, new TypeReference<PageNexusResponse>() {})
-                            .thenApply(res::withPageNexusResponse);
+                    return Utils.unmarshalAsync(response, new TypeReference<ResponseGetNexusForOrgV1NexusGet>() {})
+                            .thenApply(res::withResponseGetNexusForOrgV1NexusGet);
                 } else {
                     return Utils.createAsyncApiError(response, "Unexpected content-type received: " + contentType);
                 }

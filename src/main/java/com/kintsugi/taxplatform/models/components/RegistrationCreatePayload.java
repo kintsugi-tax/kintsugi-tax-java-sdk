@@ -12,14 +12,19 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.kintsugi.taxplatform.utils.LazySingletonValue;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Boolean;
-import java.lang.Double;
+import java.lang.Long;
+import java.lang.Object;
 import java.lang.Override;
 import java.lang.String;
 import java.lang.SuppressWarnings;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.util.Map;
 import java.util.Optional;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
-public class RegistrationCreatePayload implements com.kintsugi.taxplatform.models.operations.CreateRegistration {
+public class RegistrationCreatePayload {
     /**
      * Specifies this is a regular jurisdiction registration import.
      */
@@ -32,63 +37,49 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("registration_date")
-    private Optional<String> registrationDate;
+    private JsonNullable<LocalDate> registrationDate;
 
     /**
      * Email address associated with the registration.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("registration_email")
-    private Optional<String> registrationEmail;
-
-    /**
-     * A unique key assigned to the registration.
-     */
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("registration_key")
-    private Optional<String> registrationKey;
-
-    /**
-     * A unique key assigned for deregistration.
-     */
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("deregistration_key")
-    private Optional<String> deregistrationKey;
+    private JsonNullable<String> registrationEmail;
 
     /**
      * Timestamp when the registration was requested.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("registration_requested")
-    private Optional<String> registrationRequested;
+    private JsonNullable<OffsetDateTime> registrationRequested;
 
     /**
      * Timestamp when the registration was completed.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("registration_completed")
-    private Optional<String> registrationCompleted;
+    private JsonNullable<OffsetDateTime> registrationCompleted;
 
     /**
      * Timestamp when deregistration was requested.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("deregistration_requested")
-    private Optional<String> deregistrationRequested;
+    private JsonNullable<OffsetDateTime> deregistrationRequested;
 
     /**
      * Timestamp when the deregistration was completed.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("deregistration_completed")
-    private Optional<String> deregistrationCompleted;
+    private JsonNullable<OffsetDateTime> deregistrationCompleted;
 
     /**
      * Indicates whether the registration was completed automatically.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("auto_registered")
-    private Optional<Boolean> autoRegistered;
+    private JsonNullable<Boolean> autoRegistered;
 
     /**
      * If true, do not file for this registration (treated as False by default).
@@ -97,15 +88,17 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
     @JsonProperty("do_not_file")
     private Optional<Boolean> doNotFile;
 
-
+    /**
+     * The tax registration regime (e.g., STANDARD, SIMPLIFIED).
+     */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("registrations_regime")
-    private Optional<? extends RegistrationsRegimeEnum> registrationsRegime;
+    private JsonNullable<? extends RegistrationsRegimeEnum> registrationsRegime;
 
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("change_regime_status")
-    private Optional<? extends ChangeRegimeStatusEnum> changeRegimeStatus;
+    private JsonNullable<? extends ChangeRegimeStatusEnum> changeRegimeStatus;
 
 
     @JsonProperty("country_code")
@@ -128,125 +121,153 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
     private FilingFrequencyEnum filingFrequency;
 
     /**
+     * Fiscal-year anchor month (1-12) on which each quarterly/semiannual
+     * period ends, for Hawaii (US-HI) filers whose periods are offset from the calendar.
+     * Null (default) keeps the standard calendar grid.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("period_end_month")
+    private JsonNullable<Long> periodEndMonth;
+
+    /**
      * Username for accessing tax registration details.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("username")
-    private Optional<String> username;
+    private JsonNullable<String> username;
 
     /**
      * Additional comments related to the registration.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("comment")
-    private Optional<String> comment;
+    private JsonNullable<String> comment;
 
     /**
      * The date from which filings should be created. should start (YYYY-MM-DD).
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("create_filings_from")
-    private Optional<String> createFilingsFrom;
+    private JsonNullable<LocalDate> createFilingsFrom;
 
     /**
      * Indicates whether an initial synchronization should be performed.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("initial_sync")
-    private Optional<Boolean> initialSync;
+    private JsonNullable<Boolean> initialSync;
 
     /**
      * The amount of fees associated with the registration.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("amount_fees")
-    private Optional<Double> amountFees;
+    private Optional<? extends RegistrationCreatePayloadAmountFees> amountFees;
 
     /**
      * Indicates whether a Voluntary Disclosure Agreement (VDA) applies.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("vda")
-    private Optional<Boolean> vda;
+    private JsonNullable<Boolean> vda;
 
     /**
      * Whether the registration was imported from another system.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("imported")
-    private Optional<Boolean> imported;
+    private JsonNullable<Boolean> imported;
 
     /**
      * The sales tax ID associated with the registration.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("sales_tax_id")
-    private Optional<String> salesTaxId;
+    private JsonNullable<String> salesTaxId;
+
+    /**
+     * The Importer of Record (IOR) number associated with the registration.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("ior_number")
+    private JsonNullable<String> iorNumber;
 
     /**
      * Indicates whether the registration is an SST Import.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("sst_import")
-    private Optional<Boolean> sstImport;
+    private JsonNullable<Boolean> sstImport;
 
     /**
      * Organization-level tax ID (e.g., VAT number, Canada Business Number).
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("tax_id")
-    private Optional<String> taxId;
+    private JsonNullable<String> taxId;
 
     /**
      * The plaintext password for accessing the tax registration account.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("password_plain_text")
-    private Optional<String> passwordPlainText;
+    private JsonNullable<String> passwordPlainText;
 
     /**
      * Metadata related to the password.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("password_metadata_plain_text")
-    private Optional<String> passwordMetadataPlainText;
+    private JsonNullable<String> passwordMetadataPlainText;
+
+    /**
+     * State-specific registration fields (e.g. Alabama Sign On ID, Access Code).
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("jurisdiction_specific_fields")
+    private JsonNullable<? extends Map<String, Object>> jurisdictionSpecificFields;
+
+    /**
+     * Optional client-minted id for this confirm attempt.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("request_id")
+    private JsonNullable<String> requestId;
 
     @JsonCreator
     public RegistrationCreatePayload(
-            @JsonProperty("registration_import_type") Optional<String> registrationImportType,
-            @JsonProperty("registration_date") Optional<String> registrationDate,
-            @JsonProperty("registration_email") Optional<String> registrationEmail,
-            @JsonProperty("registration_key") Optional<String> registrationKey,
-            @JsonProperty("deregistration_key") Optional<String> deregistrationKey,
-            @JsonProperty("registration_requested") Optional<String> registrationRequested,
-            @JsonProperty("registration_completed") Optional<String> registrationCompleted,
-            @JsonProperty("deregistration_requested") Optional<String> deregistrationRequested,
-            @JsonProperty("deregistration_completed") Optional<String> deregistrationCompleted,
-            @JsonProperty("auto_registered") Optional<Boolean> autoRegistered,
+            @JsonProperty("registration_date") JsonNullable<LocalDate> registrationDate,
+            @JsonProperty("registration_email") JsonNullable<String> registrationEmail,
+            @JsonProperty("registration_requested") JsonNullable<OffsetDateTime> registrationRequested,
+            @JsonProperty("registration_completed") JsonNullable<OffsetDateTime> registrationCompleted,
+            @JsonProperty("deregistration_requested") JsonNullable<OffsetDateTime> deregistrationRequested,
+            @JsonProperty("deregistration_completed") JsonNullable<OffsetDateTime> deregistrationCompleted,
+            @JsonProperty("auto_registered") JsonNullable<Boolean> autoRegistered,
             @JsonProperty("do_not_file") Optional<Boolean> doNotFile,
-            @JsonProperty("registrations_regime") Optional<? extends RegistrationsRegimeEnum> registrationsRegime,
-            @JsonProperty("change_regime_status") Optional<? extends ChangeRegimeStatusEnum> changeRegimeStatus,
+            @JsonProperty("registrations_regime") JsonNullable<? extends RegistrationsRegimeEnum> registrationsRegime,
+            @JsonProperty("change_regime_status") JsonNullable<? extends ChangeRegimeStatusEnum> changeRegimeStatus,
             @JsonProperty("country_code") CountryCodeEnum countryCode,
             @JsonProperty("state_code") String stateCode,
             @JsonProperty("state_name") String stateName,
             @JsonProperty("filing_frequency") FilingFrequencyEnum filingFrequency,
-            @JsonProperty("username") Optional<String> username,
-            @JsonProperty("comment") Optional<String> comment,
-            @JsonProperty("create_filings_from") Optional<String> createFilingsFrom,
-            @JsonProperty("initial_sync") Optional<Boolean> initialSync,
-            @JsonProperty("amount_fees") Optional<Double> amountFees,
-            @JsonProperty("vda") Optional<Boolean> vda,
-            @JsonProperty("imported") Optional<Boolean> imported,
-            @JsonProperty("sales_tax_id") Optional<String> salesTaxId,
-            @JsonProperty("sst_import") Optional<Boolean> sstImport,
-            @JsonProperty("tax_id") Optional<String> taxId,
-            @JsonProperty("password_plain_text") Optional<String> passwordPlainText,
-            @JsonProperty("password_metadata_plain_text") Optional<String> passwordMetadataPlainText) {
-        Utils.checkNotNull(registrationImportType, "registrationImportType");
+            @JsonProperty("period_end_month") JsonNullable<Long> periodEndMonth,
+            @JsonProperty("username") JsonNullable<String> username,
+            @JsonProperty("comment") JsonNullable<String> comment,
+            @JsonProperty("create_filings_from") JsonNullable<LocalDate> createFilingsFrom,
+            @JsonProperty("initial_sync") JsonNullable<Boolean> initialSync,
+            @JsonProperty("amount_fees") Optional<? extends RegistrationCreatePayloadAmountFees> amountFees,
+            @JsonProperty("vda") JsonNullable<Boolean> vda,
+            @JsonProperty("imported") JsonNullable<Boolean> imported,
+            @JsonProperty("sales_tax_id") JsonNullable<String> salesTaxId,
+            @JsonProperty("ior_number") JsonNullable<String> iorNumber,
+            @JsonProperty("sst_import") JsonNullable<Boolean> sstImport,
+            @JsonProperty("tax_id") JsonNullable<String> taxId,
+            @JsonProperty("password_plain_text") JsonNullable<String> passwordPlainText,
+            @JsonProperty("password_metadata_plain_text") JsonNullable<String> passwordMetadataPlainText,
+            @JsonProperty("jurisdiction_specific_fields") JsonNullable<? extends Map<String, Object>> jurisdictionSpecificFields,
+            @JsonProperty("request_id") JsonNullable<String> requestId) {
         Utils.checkNotNull(registrationDate, "registrationDate");
         Utils.checkNotNull(registrationEmail, "registrationEmail");
-        Utils.checkNotNull(registrationKey, "registrationKey");
-        Utils.checkNotNull(deregistrationKey, "deregistrationKey");
         Utils.checkNotNull(registrationRequested, "registrationRequested");
         Utils.checkNotNull(registrationCompleted, "registrationCompleted");
         Utils.checkNotNull(deregistrationRequested, "deregistrationRequested");
@@ -259,6 +280,7 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
         Utils.checkNotNull(stateCode, "stateCode");
         Utils.checkNotNull(stateName, "stateName");
         Utils.checkNotNull(filingFrequency, "filingFrequency");
+        Utils.checkNotNull(periodEndMonth, "periodEndMonth");
         Utils.checkNotNull(username, "username");
         Utils.checkNotNull(comment, "comment");
         Utils.checkNotNull(createFilingsFrom, "createFilingsFrom");
@@ -267,15 +289,16 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
         Utils.checkNotNull(vda, "vda");
         Utils.checkNotNull(imported, "imported");
         Utils.checkNotNull(salesTaxId, "salesTaxId");
+        Utils.checkNotNull(iorNumber, "iorNumber");
         Utils.checkNotNull(sstImport, "sstImport");
         Utils.checkNotNull(taxId, "taxId");
         Utils.checkNotNull(passwordPlainText, "passwordPlainText");
         Utils.checkNotNull(passwordMetadataPlainText, "passwordMetadataPlainText");
-        this.registrationImportType = registrationImportType;
+        Utils.checkNotNull(jurisdictionSpecificFields, "jurisdictionSpecificFields");
+        Utils.checkNotNull(requestId, "requestId");
+        this.registrationImportType = Builder._SINGLETON_VALUE_RegistrationImportType.value();
         this.registrationDate = registrationDate;
         this.registrationEmail = registrationEmail;
-        this.registrationKey = registrationKey;
-        this.deregistrationKey = deregistrationKey;
         this.registrationRequested = registrationRequested;
         this.registrationCompleted = registrationCompleted;
         this.deregistrationRequested = deregistrationRequested;
@@ -288,6 +311,7 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
         this.stateCode = stateCode;
         this.stateName = stateName;
         this.filingFrequency = filingFrequency;
+        this.periodEndMonth = periodEndMonth;
         this.username = username;
         this.comment = comment;
         this.createFilingsFrom = createFilingsFrom;
@@ -296,10 +320,13 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
         this.vda = vda;
         this.imported = imported;
         this.salesTaxId = salesTaxId;
+        this.iorNumber = iorNumber;
         this.sstImport = sstImport;
         this.taxId = taxId;
         this.passwordPlainText = passwordPlainText;
         this.passwordMetadataPlainText = passwordMetadataPlainText;
+        this.jurisdictionSpecificFields = jurisdictionSpecificFields;
+        this.requestId = requestId;
     }
     
     public RegistrationCreatePayload(
@@ -307,32 +334,31 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
             String stateCode,
             String stateName,
             FilingFrequencyEnum filingFrequency) {
-        this(Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), countryCode, stateCode,
-            stateName, filingFrequency, Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty());
+        this(JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), Optional.empty(), JsonNullable.undefined(),
+            JsonNullable.undefined(), countryCode, stateCode,
+            stateName, filingFrequency, JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), Optional.empty(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined());
     }
 
     /**
      * Specifies this is a regular jurisdiction registration import.
      */
     @JsonIgnore
-    @Override
-    public String registrationImportType() {
-        return Utils.discriminatorToString(registrationImportType);
+    public Optional<String> registrationImportType() {
+        return registrationImportType;
     }
 
     /**
      * The date when the registration was created. Format: YYYY-MM-DD.
      */
     @JsonIgnore
-    public Optional<String> registrationDate() {
+    public JsonNullable<LocalDate> registrationDate() {
         return registrationDate;
     }
 
@@ -340,31 +366,15 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
      * Email address associated with the registration.
      */
     @JsonIgnore
-    public Optional<String> registrationEmail() {
+    public JsonNullable<String> registrationEmail() {
         return registrationEmail;
-    }
-
-    /**
-     * A unique key assigned to the registration.
-     */
-    @JsonIgnore
-    public Optional<String> registrationKey() {
-        return registrationKey;
-    }
-
-    /**
-     * A unique key assigned for deregistration.
-     */
-    @JsonIgnore
-    public Optional<String> deregistrationKey() {
-        return deregistrationKey;
     }
 
     /**
      * Timestamp when the registration was requested.
      */
     @JsonIgnore
-    public Optional<String> registrationRequested() {
+    public JsonNullable<OffsetDateTime> registrationRequested() {
         return registrationRequested;
     }
 
@@ -372,7 +382,7 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
      * Timestamp when the registration was completed.
      */
     @JsonIgnore
-    public Optional<String> registrationCompleted() {
+    public JsonNullable<OffsetDateTime> registrationCompleted() {
         return registrationCompleted;
     }
 
@@ -380,7 +390,7 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
      * Timestamp when deregistration was requested.
      */
     @JsonIgnore
-    public Optional<String> deregistrationRequested() {
+    public JsonNullable<OffsetDateTime> deregistrationRequested() {
         return deregistrationRequested;
     }
 
@@ -388,7 +398,7 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
      * Timestamp when the deregistration was completed.
      */
     @JsonIgnore
-    public Optional<String> deregistrationCompleted() {
+    public JsonNullable<OffsetDateTime> deregistrationCompleted() {
         return deregistrationCompleted;
     }
 
@@ -396,7 +406,7 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
      * Indicates whether the registration was completed automatically.
      */
     @JsonIgnore
-    public Optional<Boolean> autoRegistered() {
+    public JsonNullable<Boolean> autoRegistered() {
         return autoRegistered;
     }
 
@@ -408,16 +418,19 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
         return doNotFile;
     }
 
+    /**
+     * The tax registration regime (e.g., STANDARD, SIMPLIFIED).
+     */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<RegistrationsRegimeEnum> registrationsRegime() {
-        return (Optional<RegistrationsRegimeEnum>) registrationsRegime;
+    public JsonNullable<RegistrationsRegimeEnum> registrationsRegime() {
+        return (JsonNullable<RegistrationsRegimeEnum>) registrationsRegime;
     }
 
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<ChangeRegimeStatusEnum> changeRegimeStatus() {
-        return (Optional<ChangeRegimeStatusEnum>) changeRegimeStatus;
+    public JsonNullable<ChangeRegimeStatusEnum> changeRegimeStatus() {
+        return (JsonNullable<ChangeRegimeStatusEnum>) changeRegimeStatus;
     }
 
     @JsonIgnore
@@ -447,10 +460,20 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
     }
 
     /**
+     * Fiscal-year anchor month (1-12) on which each quarterly/semiannual
+     * period ends, for Hawaii (US-HI) filers whose periods are offset from the calendar.
+     * Null (default) keeps the standard calendar grid.
+     */
+    @JsonIgnore
+    public JsonNullable<Long> periodEndMonth() {
+        return periodEndMonth;
+    }
+
+    /**
      * Username for accessing tax registration details.
      */
     @JsonIgnore
-    public Optional<String> username() {
+    public JsonNullable<String> username() {
         return username;
     }
 
@@ -458,7 +481,7 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
      * Additional comments related to the registration.
      */
     @JsonIgnore
-    public Optional<String> comment() {
+    public JsonNullable<String> comment() {
         return comment;
     }
 
@@ -466,7 +489,7 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
      * The date from which filings should be created. should start (YYYY-MM-DD).
      */
     @JsonIgnore
-    public Optional<String> createFilingsFrom() {
+    public JsonNullable<LocalDate> createFilingsFrom() {
         return createFilingsFrom;
     }
 
@@ -474,23 +497,24 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
      * Indicates whether an initial synchronization should be performed.
      */
     @JsonIgnore
-    public Optional<Boolean> initialSync() {
+    public JsonNullable<Boolean> initialSync() {
         return initialSync;
     }
 
     /**
      * The amount of fees associated with the registration.
      */
+    @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<Double> amountFees() {
-        return amountFees;
+    public Optional<RegistrationCreatePayloadAmountFees> amountFees() {
+        return (Optional<RegistrationCreatePayloadAmountFees>) amountFees;
     }
 
     /**
      * Indicates whether a Voluntary Disclosure Agreement (VDA) applies.
      */
     @JsonIgnore
-    public Optional<Boolean> vda() {
+    public JsonNullable<Boolean> vda() {
         return vda;
     }
 
@@ -498,7 +522,7 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
      * Whether the registration was imported from another system.
      */
     @JsonIgnore
-    public Optional<Boolean> imported() {
+    public JsonNullable<Boolean> imported() {
         return imported;
     }
 
@@ -506,15 +530,23 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
      * The sales tax ID associated with the registration.
      */
     @JsonIgnore
-    public Optional<String> salesTaxId() {
+    public JsonNullable<String> salesTaxId() {
         return salesTaxId;
+    }
+
+    /**
+     * The Importer of Record (IOR) number associated with the registration.
+     */
+    @JsonIgnore
+    public JsonNullable<String> iorNumber() {
+        return iorNumber;
     }
 
     /**
      * Indicates whether the registration is an SST Import.
      */
     @JsonIgnore
-    public Optional<Boolean> sstImport() {
+    public JsonNullable<Boolean> sstImport() {
         return sstImport;
     }
 
@@ -522,7 +554,7 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
      * Organization-level tax ID (e.g., VAT number, Canada Business Number).
      */
     @JsonIgnore
-    public Optional<String> taxId() {
+    public JsonNullable<String> taxId() {
         return taxId;
     }
 
@@ -530,7 +562,7 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
      * The plaintext password for accessing the tax registration account.
      */
     @JsonIgnore
-    public Optional<String> passwordPlainText() {
+    public JsonNullable<String> passwordPlainText() {
         return passwordPlainText;
     }
 
@@ -538,8 +570,25 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
      * Metadata related to the password.
      */
     @JsonIgnore
-    public Optional<String> passwordMetadataPlainText() {
+    public JsonNullable<String> passwordMetadataPlainText() {
         return passwordMetadataPlainText;
+    }
+
+    /**
+     * State-specific registration fields (e.g. Alabama Sign On ID, Access Code).
+     */
+    @SuppressWarnings("unchecked")
+    @JsonIgnore
+    public JsonNullable<Map<String, Object>> jurisdictionSpecificFields() {
+        return (JsonNullable<Map<String, Object>>) jurisdictionSpecificFields;
+    }
+
+    /**
+     * Optional client-minted id for this confirm attempt.
+     */
+    @JsonIgnore
+    public JsonNullable<String> requestId() {
+        return requestId;
     }
 
     public static Builder builder() {
@@ -548,38 +597,18 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
 
 
     /**
-     * Specifies this is a regular jurisdiction registration import.
-     */
-    public RegistrationCreatePayload withRegistrationImportType(String registrationImportType) {
-        Utils.checkNotNull(registrationImportType, "registrationImportType");
-        this.registrationImportType = Optional.ofNullable(registrationImportType);
-        return this;
-    }
-
-
-    /**
-     * Specifies this is a regular jurisdiction registration import.
-     */
-    public RegistrationCreatePayload withRegistrationImportType(Optional<String> registrationImportType) {
-        Utils.checkNotNull(registrationImportType, "registrationImportType");
-        this.registrationImportType = registrationImportType;
-        return this;
-    }
-
-    /**
      * The date when the registration was created. Format: YYYY-MM-DD.
      */
-    public RegistrationCreatePayload withRegistrationDate(String registrationDate) {
+    public RegistrationCreatePayload withRegistrationDate(LocalDate registrationDate) {
         Utils.checkNotNull(registrationDate, "registrationDate");
-        this.registrationDate = Optional.ofNullable(registrationDate);
+        this.registrationDate = JsonNullable.of(registrationDate);
         return this;
     }
-
 
     /**
      * The date when the registration was created. Format: YYYY-MM-DD.
      */
-    public RegistrationCreatePayload withRegistrationDate(Optional<String> registrationDate) {
+    public RegistrationCreatePayload withRegistrationDate(JsonNullable<LocalDate> registrationDate) {
         Utils.checkNotNull(registrationDate, "registrationDate");
         this.registrationDate = registrationDate;
         return this;
@@ -590,72 +619,32 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
      */
     public RegistrationCreatePayload withRegistrationEmail(String registrationEmail) {
         Utils.checkNotNull(registrationEmail, "registrationEmail");
-        this.registrationEmail = Optional.ofNullable(registrationEmail);
+        this.registrationEmail = JsonNullable.of(registrationEmail);
         return this;
     }
-
 
     /**
      * Email address associated with the registration.
      */
-    public RegistrationCreatePayload withRegistrationEmail(Optional<String> registrationEmail) {
+    public RegistrationCreatePayload withRegistrationEmail(JsonNullable<String> registrationEmail) {
         Utils.checkNotNull(registrationEmail, "registrationEmail");
         this.registrationEmail = registrationEmail;
         return this;
     }
 
     /**
-     * A unique key assigned to the registration.
-     */
-    public RegistrationCreatePayload withRegistrationKey(String registrationKey) {
-        Utils.checkNotNull(registrationKey, "registrationKey");
-        this.registrationKey = Optional.ofNullable(registrationKey);
-        return this;
-    }
-
-
-    /**
-     * A unique key assigned to the registration.
-     */
-    public RegistrationCreatePayload withRegistrationKey(Optional<String> registrationKey) {
-        Utils.checkNotNull(registrationKey, "registrationKey");
-        this.registrationKey = registrationKey;
-        return this;
-    }
-
-    /**
-     * A unique key assigned for deregistration.
-     */
-    public RegistrationCreatePayload withDeregistrationKey(String deregistrationKey) {
-        Utils.checkNotNull(deregistrationKey, "deregistrationKey");
-        this.deregistrationKey = Optional.ofNullable(deregistrationKey);
-        return this;
-    }
-
-
-    /**
-     * A unique key assigned for deregistration.
-     */
-    public RegistrationCreatePayload withDeregistrationKey(Optional<String> deregistrationKey) {
-        Utils.checkNotNull(deregistrationKey, "deregistrationKey");
-        this.deregistrationKey = deregistrationKey;
-        return this;
-    }
-
-    /**
      * Timestamp when the registration was requested.
      */
-    public RegistrationCreatePayload withRegistrationRequested(String registrationRequested) {
+    public RegistrationCreatePayload withRegistrationRequested(OffsetDateTime registrationRequested) {
         Utils.checkNotNull(registrationRequested, "registrationRequested");
-        this.registrationRequested = Optional.ofNullable(registrationRequested);
+        this.registrationRequested = JsonNullable.of(registrationRequested);
         return this;
     }
-
 
     /**
      * Timestamp when the registration was requested.
      */
-    public RegistrationCreatePayload withRegistrationRequested(Optional<String> registrationRequested) {
+    public RegistrationCreatePayload withRegistrationRequested(JsonNullable<OffsetDateTime> registrationRequested) {
         Utils.checkNotNull(registrationRequested, "registrationRequested");
         this.registrationRequested = registrationRequested;
         return this;
@@ -664,17 +653,16 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
     /**
      * Timestamp when the registration was completed.
      */
-    public RegistrationCreatePayload withRegistrationCompleted(String registrationCompleted) {
+    public RegistrationCreatePayload withRegistrationCompleted(OffsetDateTime registrationCompleted) {
         Utils.checkNotNull(registrationCompleted, "registrationCompleted");
-        this.registrationCompleted = Optional.ofNullable(registrationCompleted);
+        this.registrationCompleted = JsonNullable.of(registrationCompleted);
         return this;
     }
-
 
     /**
      * Timestamp when the registration was completed.
      */
-    public RegistrationCreatePayload withRegistrationCompleted(Optional<String> registrationCompleted) {
+    public RegistrationCreatePayload withRegistrationCompleted(JsonNullable<OffsetDateTime> registrationCompleted) {
         Utils.checkNotNull(registrationCompleted, "registrationCompleted");
         this.registrationCompleted = registrationCompleted;
         return this;
@@ -683,17 +671,16 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
     /**
      * Timestamp when deregistration was requested.
      */
-    public RegistrationCreatePayload withDeregistrationRequested(String deregistrationRequested) {
+    public RegistrationCreatePayload withDeregistrationRequested(OffsetDateTime deregistrationRequested) {
         Utils.checkNotNull(deregistrationRequested, "deregistrationRequested");
-        this.deregistrationRequested = Optional.ofNullable(deregistrationRequested);
+        this.deregistrationRequested = JsonNullable.of(deregistrationRequested);
         return this;
     }
-
 
     /**
      * Timestamp when deregistration was requested.
      */
-    public RegistrationCreatePayload withDeregistrationRequested(Optional<String> deregistrationRequested) {
+    public RegistrationCreatePayload withDeregistrationRequested(JsonNullable<OffsetDateTime> deregistrationRequested) {
         Utils.checkNotNull(deregistrationRequested, "deregistrationRequested");
         this.deregistrationRequested = deregistrationRequested;
         return this;
@@ -702,17 +689,16 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
     /**
      * Timestamp when the deregistration was completed.
      */
-    public RegistrationCreatePayload withDeregistrationCompleted(String deregistrationCompleted) {
+    public RegistrationCreatePayload withDeregistrationCompleted(OffsetDateTime deregistrationCompleted) {
         Utils.checkNotNull(deregistrationCompleted, "deregistrationCompleted");
-        this.deregistrationCompleted = Optional.ofNullable(deregistrationCompleted);
+        this.deregistrationCompleted = JsonNullable.of(deregistrationCompleted);
         return this;
     }
-
 
     /**
      * Timestamp when the deregistration was completed.
      */
-    public RegistrationCreatePayload withDeregistrationCompleted(Optional<String> deregistrationCompleted) {
+    public RegistrationCreatePayload withDeregistrationCompleted(JsonNullable<OffsetDateTime> deregistrationCompleted) {
         Utils.checkNotNull(deregistrationCompleted, "deregistrationCompleted");
         this.deregistrationCompleted = deregistrationCompleted;
         return this;
@@ -723,15 +709,14 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
      */
     public RegistrationCreatePayload withAutoRegistered(boolean autoRegistered) {
         Utils.checkNotNull(autoRegistered, "autoRegistered");
-        this.autoRegistered = Optional.ofNullable(autoRegistered);
+        this.autoRegistered = JsonNullable.of(autoRegistered);
         return this;
     }
-
 
     /**
      * Indicates whether the registration was completed automatically.
      */
-    public RegistrationCreatePayload withAutoRegistered(Optional<Boolean> autoRegistered) {
+    public RegistrationCreatePayload withAutoRegistered(JsonNullable<Boolean> autoRegistered) {
         Utils.checkNotNull(autoRegistered, "autoRegistered");
         this.autoRegistered = autoRegistered;
         return this;
@@ -756,14 +741,19 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
         return this;
     }
 
+    /**
+     * The tax registration regime (e.g., STANDARD, SIMPLIFIED).
+     */
     public RegistrationCreatePayload withRegistrationsRegime(RegistrationsRegimeEnum registrationsRegime) {
         Utils.checkNotNull(registrationsRegime, "registrationsRegime");
-        this.registrationsRegime = Optional.ofNullable(registrationsRegime);
+        this.registrationsRegime = JsonNullable.of(registrationsRegime);
         return this;
     }
 
-
-    public RegistrationCreatePayload withRegistrationsRegime(Optional<? extends RegistrationsRegimeEnum> registrationsRegime) {
+    /**
+     * The tax registration regime (e.g., STANDARD, SIMPLIFIED).
+     */
+    public RegistrationCreatePayload withRegistrationsRegime(JsonNullable<? extends RegistrationsRegimeEnum> registrationsRegime) {
         Utils.checkNotNull(registrationsRegime, "registrationsRegime");
         this.registrationsRegime = registrationsRegime;
         return this;
@@ -771,12 +761,11 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
 
     public RegistrationCreatePayload withChangeRegimeStatus(ChangeRegimeStatusEnum changeRegimeStatus) {
         Utils.checkNotNull(changeRegimeStatus, "changeRegimeStatus");
-        this.changeRegimeStatus = Optional.ofNullable(changeRegimeStatus);
+        this.changeRegimeStatus = JsonNullable.of(changeRegimeStatus);
         return this;
     }
 
-
-    public RegistrationCreatePayload withChangeRegimeStatus(Optional<? extends ChangeRegimeStatusEnum> changeRegimeStatus) {
+    public RegistrationCreatePayload withChangeRegimeStatus(JsonNullable<? extends ChangeRegimeStatusEnum> changeRegimeStatus) {
         Utils.checkNotNull(changeRegimeStatus, "changeRegimeStatus");
         this.changeRegimeStatus = changeRegimeStatus;
         return this;
@@ -813,19 +802,40 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
     }
 
     /**
-     * Username for accessing tax registration details.
+     * Fiscal-year anchor month (1-12) on which each quarterly/semiannual
+     * period ends, for Hawaii (US-HI) filers whose periods are offset from the calendar.
+     * Null (default) keeps the standard calendar grid.
      */
-    public RegistrationCreatePayload withUsername(String username) {
-        Utils.checkNotNull(username, "username");
-        this.username = Optional.ofNullable(username);
+    public RegistrationCreatePayload withPeriodEndMonth(long periodEndMonth) {
+        Utils.checkNotNull(periodEndMonth, "periodEndMonth");
+        this.periodEndMonth = JsonNullable.of(periodEndMonth);
         return this;
     }
 
+    /**
+     * Fiscal-year anchor month (1-12) on which each quarterly/semiannual
+     * period ends, for Hawaii (US-HI) filers whose periods are offset from the calendar.
+     * Null (default) keeps the standard calendar grid.
+     */
+    public RegistrationCreatePayload withPeriodEndMonth(JsonNullable<Long> periodEndMonth) {
+        Utils.checkNotNull(periodEndMonth, "periodEndMonth");
+        this.periodEndMonth = periodEndMonth;
+        return this;
+    }
 
     /**
      * Username for accessing tax registration details.
      */
-    public RegistrationCreatePayload withUsername(Optional<String> username) {
+    public RegistrationCreatePayload withUsername(String username) {
+        Utils.checkNotNull(username, "username");
+        this.username = JsonNullable.of(username);
+        return this;
+    }
+
+    /**
+     * Username for accessing tax registration details.
+     */
+    public RegistrationCreatePayload withUsername(JsonNullable<String> username) {
         Utils.checkNotNull(username, "username");
         this.username = username;
         return this;
@@ -836,15 +846,14 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
      */
     public RegistrationCreatePayload withComment(String comment) {
         Utils.checkNotNull(comment, "comment");
-        this.comment = Optional.ofNullable(comment);
+        this.comment = JsonNullable.of(comment);
         return this;
     }
-
 
     /**
      * Additional comments related to the registration.
      */
-    public RegistrationCreatePayload withComment(Optional<String> comment) {
+    public RegistrationCreatePayload withComment(JsonNullable<String> comment) {
         Utils.checkNotNull(comment, "comment");
         this.comment = comment;
         return this;
@@ -853,17 +862,16 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
     /**
      * The date from which filings should be created. should start (YYYY-MM-DD).
      */
-    public RegistrationCreatePayload withCreateFilingsFrom(String createFilingsFrom) {
+    public RegistrationCreatePayload withCreateFilingsFrom(LocalDate createFilingsFrom) {
         Utils.checkNotNull(createFilingsFrom, "createFilingsFrom");
-        this.createFilingsFrom = Optional.ofNullable(createFilingsFrom);
+        this.createFilingsFrom = JsonNullable.of(createFilingsFrom);
         return this;
     }
-
 
     /**
      * The date from which filings should be created. should start (YYYY-MM-DD).
      */
-    public RegistrationCreatePayload withCreateFilingsFrom(Optional<String> createFilingsFrom) {
+    public RegistrationCreatePayload withCreateFilingsFrom(JsonNullable<LocalDate> createFilingsFrom) {
         Utils.checkNotNull(createFilingsFrom, "createFilingsFrom");
         this.createFilingsFrom = createFilingsFrom;
         return this;
@@ -874,15 +882,14 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
      */
     public RegistrationCreatePayload withInitialSync(boolean initialSync) {
         Utils.checkNotNull(initialSync, "initialSync");
-        this.initialSync = Optional.ofNullable(initialSync);
+        this.initialSync = JsonNullable.of(initialSync);
         return this;
     }
-
 
     /**
      * Indicates whether an initial synchronization should be performed.
      */
-    public RegistrationCreatePayload withInitialSync(Optional<Boolean> initialSync) {
+    public RegistrationCreatePayload withInitialSync(JsonNullable<Boolean> initialSync) {
         Utils.checkNotNull(initialSync, "initialSync");
         this.initialSync = initialSync;
         return this;
@@ -891,7 +898,7 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
     /**
      * The amount of fees associated with the registration.
      */
-    public RegistrationCreatePayload withAmountFees(double amountFees) {
+    public RegistrationCreatePayload withAmountFees(RegistrationCreatePayloadAmountFees amountFees) {
         Utils.checkNotNull(amountFees, "amountFees");
         this.amountFees = Optional.ofNullable(amountFees);
         return this;
@@ -901,7 +908,7 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
     /**
      * The amount of fees associated with the registration.
      */
-    public RegistrationCreatePayload withAmountFees(Optional<Double> amountFees) {
+    public RegistrationCreatePayload withAmountFees(Optional<? extends RegistrationCreatePayloadAmountFees> amountFees) {
         Utils.checkNotNull(amountFees, "amountFees");
         this.amountFees = amountFees;
         return this;
@@ -912,15 +919,14 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
      */
     public RegistrationCreatePayload withVda(boolean vda) {
         Utils.checkNotNull(vda, "vda");
-        this.vda = Optional.ofNullable(vda);
+        this.vda = JsonNullable.of(vda);
         return this;
     }
-
 
     /**
      * Indicates whether a Voluntary Disclosure Agreement (VDA) applies.
      */
-    public RegistrationCreatePayload withVda(Optional<Boolean> vda) {
+    public RegistrationCreatePayload withVda(JsonNullable<Boolean> vda) {
         Utils.checkNotNull(vda, "vda");
         this.vda = vda;
         return this;
@@ -931,15 +937,14 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
      */
     public RegistrationCreatePayload withImported(boolean imported) {
         Utils.checkNotNull(imported, "imported");
-        this.imported = Optional.ofNullable(imported);
+        this.imported = JsonNullable.of(imported);
         return this;
     }
-
 
     /**
      * Whether the registration was imported from another system.
      */
-    public RegistrationCreatePayload withImported(Optional<Boolean> imported) {
+    public RegistrationCreatePayload withImported(JsonNullable<Boolean> imported) {
         Utils.checkNotNull(imported, "imported");
         this.imported = imported;
         return this;
@@ -950,17 +955,34 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
      */
     public RegistrationCreatePayload withSalesTaxId(String salesTaxId) {
         Utils.checkNotNull(salesTaxId, "salesTaxId");
-        this.salesTaxId = Optional.ofNullable(salesTaxId);
+        this.salesTaxId = JsonNullable.of(salesTaxId);
         return this;
     }
-
 
     /**
      * The sales tax ID associated with the registration.
      */
-    public RegistrationCreatePayload withSalesTaxId(Optional<String> salesTaxId) {
+    public RegistrationCreatePayload withSalesTaxId(JsonNullable<String> salesTaxId) {
         Utils.checkNotNull(salesTaxId, "salesTaxId");
         this.salesTaxId = salesTaxId;
+        return this;
+    }
+
+    /**
+     * The Importer of Record (IOR) number associated with the registration.
+     */
+    public RegistrationCreatePayload withIorNumber(String iorNumber) {
+        Utils.checkNotNull(iorNumber, "iorNumber");
+        this.iorNumber = JsonNullable.of(iorNumber);
+        return this;
+    }
+
+    /**
+     * The Importer of Record (IOR) number associated with the registration.
+     */
+    public RegistrationCreatePayload withIorNumber(JsonNullable<String> iorNumber) {
+        Utils.checkNotNull(iorNumber, "iorNumber");
+        this.iorNumber = iorNumber;
         return this;
     }
 
@@ -969,15 +991,14 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
      */
     public RegistrationCreatePayload withSstImport(boolean sstImport) {
         Utils.checkNotNull(sstImport, "sstImport");
-        this.sstImport = Optional.ofNullable(sstImport);
+        this.sstImport = JsonNullable.of(sstImport);
         return this;
     }
-
 
     /**
      * Indicates whether the registration is an SST Import.
      */
-    public RegistrationCreatePayload withSstImport(Optional<Boolean> sstImport) {
+    public RegistrationCreatePayload withSstImport(JsonNullable<Boolean> sstImport) {
         Utils.checkNotNull(sstImport, "sstImport");
         this.sstImport = sstImport;
         return this;
@@ -988,15 +1009,14 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
      */
     public RegistrationCreatePayload withTaxId(String taxId) {
         Utils.checkNotNull(taxId, "taxId");
-        this.taxId = Optional.ofNullable(taxId);
+        this.taxId = JsonNullable.of(taxId);
         return this;
     }
-
 
     /**
      * Organization-level tax ID (e.g., VAT number, Canada Business Number).
      */
-    public RegistrationCreatePayload withTaxId(Optional<String> taxId) {
+    public RegistrationCreatePayload withTaxId(JsonNullable<String> taxId) {
         Utils.checkNotNull(taxId, "taxId");
         this.taxId = taxId;
         return this;
@@ -1007,15 +1027,14 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
      */
     public RegistrationCreatePayload withPasswordPlainText(String passwordPlainText) {
         Utils.checkNotNull(passwordPlainText, "passwordPlainText");
-        this.passwordPlainText = Optional.ofNullable(passwordPlainText);
+        this.passwordPlainText = JsonNullable.of(passwordPlainText);
         return this;
     }
-
 
     /**
      * The plaintext password for accessing the tax registration account.
      */
-    public RegistrationCreatePayload withPasswordPlainText(Optional<String> passwordPlainText) {
+    public RegistrationCreatePayload withPasswordPlainText(JsonNullable<String> passwordPlainText) {
         Utils.checkNotNull(passwordPlainText, "passwordPlainText");
         this.passwordPlainText = passwordPlainText;
         return this;
@@ -1026,17 +1045,52 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
      */
     public RegistrationCreatePayload withPasswordMetadataPlainText(String passwordMetadataPlainText) {
         Utils.checkNotNull(passwordMetadataPlainText, "passwordMetadataPlainText");
-        this.passwordMetadataPlainText = Optional.ofNullable(passwordMetadataPlainText);
+        this.passwordMetadataPlainText = JsonNullable.of(passwordMetadataPlainText);
         return this;
     }
-
 
     /**
      * Metadata related to the password.
      */
-    public RegistrationCreatePayload withPasswordMetadataPlainText(Optional<String> passwordMetadataPlainText) {
+    public RegistrationCreatePayload withPasswordMetadataPlainText(JsonNullable<String> passwordMetadataPlainText) {
         Utils.checkNotNull(passwordMetadataPlainText, "passwordMetadataPlainText");
         this.passwordMetadataPlainText = passwordMetadataPlainText;
+        return this;
+    }
+
+    /**
+     * State-specific registration fields (e.g. Alabama Sign On ID, Access Code).
+     */
+    public RegistrationCreatePayload withJurisdictionSpecificFields(Map<String, Object> jurisdictionSpecificFields) {
+        Utils.checkNotNull(jurisdictionSpecificFields, "jurisdictionSpecificFields");
+        this.jurisdictionSpecificFields = JsonNullable.of(jurisdictionSpecificFields);
+        return this;
+    }
+
+    /**
+     * State-specific registration fields (e.g. Alabama Sign On ID, Access Code).
+     */
+    public RegistrationCreatePayload withJurisdictionSpecificFields(JsonNullable<? extends Map<String, Object>> jurisdictionSpecificFields) {
+        Utils.checkNotNull(jurisdictionSpecificFields, "jurisdictionSpecificFields");
+        this.jurisdictionSpecificFields = jurisdictionSpecificFields;
+        return this;
+    }
+
+    /**
+     * Optional client-minted id for this confirm attempt.
+     */
+    public RegistrationCreatePayload withRequestId(String requestId) {
+        Utils.checkNotNull(requestId, "requestId");
+        this.requestId = JsonNullable.of(requestId);
+        return this;
+    }
+
+    /**
+     * Optional client-minted id for this confirm attempt.
+     */
+    public RegistrationCreatePayload withRequestId(JsonNullable<String> requestId) {
+        Utils.checkNotNull(requestId, "requestId");
+        this.requestId = requestId;
         return this;
     }
 
@@ -1053,8 +1107,6 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
             Utils.enhancedDeepEquals(this.registrationImportType, other.registrationImportType) &&
             Utils.enhancedDeepEquals(this.registrationDate, other.registrationDate) &&
             Utils.enhancedDeepEquals(this.registrationEmail, other.registrationEmail) &&
-            Utils.enhancedDeepEquals(this.registrationKey, other.registrationKey) &&
-            Utils.enhancedDeepEquals(this.deregistrationKey, other.deregistrationKey) &&
             Utils.enhancedDeepEquals(this.registrationRequested, other.registrationRequested) &&
             Utils.enhancedDeepEquals(this.registrationCompleted, other.registrationCompleted) &&
             Utils.enhancedDeepEquals(this.deregistrationRequested, other.deregistrationRequested) &&
@@ -1067,6 +1119,7 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
             Utils.enhancedDeepEquals(this.stateCode, other.stateCode) &&
             Utils.enhancedDeepEquals(this.stateName, other.stateName) &&
             Utils.enhancedDeepEquals(this.filingFrequency, other.filingFrequency) &&
+            Utils.enhancedDeepEquals(this.periodEndMonth, other.periodEndMonth) &&
             Utils.enhancedDeepEquals(this.username, other.username) &&
             Utils.enhancedDeepEquals(this.comment, other.comment) &&
             Utils.enhancedDeepEquals(this.createFilingsFrom, other.createFilingsFrom) &&
@@ -1075,25 +1128,29 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
             Utils.enhancedDeepEquals(this.vda, other.vda) &&
             Utils.enhancedDeepEquals(this.imported, other.imported) &&
             Utils.enhancedDeepEquals(this.salesTaxId, other.salesTaxId) &&
+            Utils.enhancedDeepEquals(this.iorNumber, other.iorNumber) &&
             Utils.enhancedDeepEquals(this.sstImport, other.sstImport) &&
             Utils.enhancedDeepEquals(this.taxId, other.taxId) &&
             Utils.enhancedDeepEquals(this.passwordPlainText, other.passwordPlainText) &&
-            Utils.enhancedDeepEquals(this.passwordMetadataPlainText, other.passwordMetadataPlainText);
+            Utils.enhancedDeepEquals(this.passwordMetadataPlainText, other.passwordMetadataPlainText) &&
+            Utils.enhancedDeepEquals(this.jurisdictionSpecificFields, other.jurisdictionSpecificFields) &&
+            Utils.enhancedDeepEquals(this.requestId, other.requestId);
     }
     
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
             registrationImportType, registrationDate, registrationEmail,
-            registrationKey, deregistrationKey, registrationRequested,
-            registrationCompleted, deregistrationRequested, deregistrationCompleted,
-            autoRegistered, doNotFile, registrationsRegime,
-            changeRegimeStatus, countryCode, stateCode,
-            stateName, filingFrequency, username,
-            comment, createFilingsFrom, initialSync,
-            amountFees, vda, imported,
-            salesTaxId, sstImport, taxId,
-            passwordPlainText, passwordMetadataPlainText);
+            registrationRequested, registrationCompleted, deregistrationRequested,
+            deregistrationCompleted, autoRegistered, doNotFile,
+            registrationsRegime, changeRegimeStatus, countryCode,
+            stateCode, stateName, filingFrequency,
+            periodEndMonth, username, comment,
+            createFilingsFrom, initialSync, amountFees,
+            vda, imported, salesTaxId,
+            iorNumber, sstImport, taxId,
+            passwordPlainText, passwordMetadataPlainText, jurisdictionSpecificFields,
+            requestId);
     }
     
     @Override
@@ -1102,8 +1159,6 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
                 "registrationImportType", registrationImportType,
                 "registrationDate", registrationDate,
                 "registrationEmail", registrationEmail,
-                "registrationKey", registrationKey,
-                "deregistrationKey", deregistrationKey,
                 "registrationRequested", registrationRequested,
                 "registrationCompleted", registrationCompleted,
                 "deregistrationRequested", deregistrationRequested,
@@ -1116,6 +1171,7 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
                 "stateCode", stateCode,
                 "stateName", stateName,
                 "filingFrequency", filingFrequency,
+                "periodEndMonth", periodEndMonth,
                 "username", username,
                 "comment", comment,
                 "createFilingsFrom", createFilingsFrom,
@@ -1124,40 +1180,37 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
                 "vda", vda,
                 "imported", imported,
                 "salesTaxId", salesTaxId,
+                "iorNumber", iorNumber,
                 "sstImport", sstImport,
                 "taxId", taxId,
                 "passwordPlainText", passwordPlainText,
-                "passwordMetadataPlainText", passwordMetadataPlainText);
+                "passwordMetadataPlainText", passwordMetadataPlainText,
+                "jurisdictionSpecificFields", jurisdictionSpecificFields,
+                "requestId", requestId);
     }
 
     @SuppressWarnings("UnusedReturnValue")
     public final static class Builder {
 
-        private Optional<String> registrationImportType;
+        private JsonNullable<LocalDate> registrationDate = JsonNullable.undefined();
 
-        private Optional<String> registrationDate = Optional.empty();
+        private JsonNullable<String> registrationEmail = JsonNullable.undefined();
 
-        private Optional<String> registrationEmail = Optional.empty();
+        private JsonNullable<OffsetDateTime> registrationRequested = JsonNullable.undefined();
 
-        private Optional<String> registrationKey = Optional.empty();
+        private JsonNullable<OffsetDateTime> registrationCompleted = JsonNullable.undefined();
 
-        private Optional<String> deregistrationKey = Optional.empty();
+        private JsonNullable<OffsetDateTime> deregistrationRequested = JsonNullable.undefined();
 
-        private Optional<String> registrationRequested = Optional.empty();
+        private JsonNullable<OffsetDateTime> deregistrationCompleted = JsonNullable.undefined();
 
-        private Optional<String> registrationCompleted = Optional.empty();
-
-        private Optional<String> deregistrationRequested = Optional.empty();
-
-        private Optional<String> deregistrationCompleted = Optional.empty();
-
-        private Optional<Boolean> autoRegistered;
+        private JsonNullable<Boolean> autoRegistered = JsonNullable.undefined();
 
         private Optional<Boolean> doNotFile;
 
-        private Optional<? extends RegistrationsRegimeEnum> registrationsRegime = Optional.empty();
+        private JsonNullable<? extends RegistrationsRegimeEnum> registrationsRegime = JsonNullable.undefined();
 
-        private Optional<? extends ChangeRegimeStatusEnum> changeRegimeStatus = Optional.empty();
+        private JsonNullable<? extends ChangeRegimeStatusEnum> changeRegimeStatus = JsonNullable.undefined();
 
         private CountryCodeEnum countryCode;
 
@@ -1167,29 +1220,37 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
 
         private FilingFrequencyEnum filingFrequency;
 
-        private Optional<String> username = Optional.empty();
+        private JsonNullable<Long> periodEndMonth = JsonNullable.undefined();
 
-        private Optional<String> comment = Optional.empty();
+        private JsonNullable<String> username = JsonNullable.undefined();
 
-        private Optional<String> createFilingsFrom = Optional.empty();
+        private JsonNullable<String> comment = JsonNullable.undefined();
 
-        private Optional<Boolean> initialSync;
+        private JsonNullable<LocalDate> createFilingsFrom = JsonNullable.undefined();
 
-        private Optional<Double> amountFees;
+        private JsonNullable<Boolean> initialSync = JsonNullable.undefined();
 
-        private Optional<Boolean> vda;
+        private Optional<? extends RegistrationCreatePayloadAmountFees> amountFees = Optional.empty();
 
-        private Optional<Boolean> imported = Optional.empty();
+        private JsonNullable<Boolean> vda = JsonNullable.undefined();
 
-        private Optional<String> salesTaxId = Optional.empty();
+        private JsonNullable<Boolean> imported = JsonNullable.undefined();
 
-        private Optional<Boolean> sstImport;
+        private JsonNullable<String> salesTaxId = JsonNullable.undefined();
 
-        private Optional<String> taxId = Optional.empty();
+        private JsonNullable<String> iorNumber = JsonNullable.undefined();
 
-        private Optional<String> passwordPlainText = Optional.empty();
+        private JsonNullable<Boolean> sstImport = JsonNullable.undefined();
 
-        private Optional<String> passwordMetadataPlainText = Optional.empty();
+        private JsonNullable<String> taxId = JsonNullable.undefined();
+
+        private JsonNullable<String> passwordPlainText = JsonNullable.undefined();
+
+        private JsonNullable<String> passwordMetadataPlainText = JsonNullable.undefined();
+
+        private JsonNullable<? extends Map<String, Object>> jurisdictionSpecificFields = JsonNullable.undefined();
+
+        private JsonNullable<String> requestId = JsonNullable.undefined();
 
         private Builder() {
           // force use of static builder() method
@@ -1197,37 +1258,18 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
 
 
         /**
-         * Specifies this is a regular jurisdiction registration import.
-         */
-        public Builder registrationImportType(String registrationImportType) {
-            Utils.checkNotNull(registrationImportType, "registrationImportType");
-            this.registrationImportType = Optional.ofNullable(registrationImportType);
-            return this;
-        }
-
-        /**
-         * Specifies this is a regular jurisdiction registration import.
-         */
-        public Builder registrationImportType(Optional<String> registrationImportType) {
-            Utils.checkNotNull(registrationImportType, "registrationImportType");
-            this.registrationImportType = registrationImportType;
-            return this;
-        }
-
-
-        /**
          * The date when the registration was created. Format: YYYY-MM-DD.
          */
-        public Builder registrationDate(String registrationDate) {
+        public Builder registrationDate(LocalDate registrationDate) {
             Utils.checkNotNull(registrationDate, "registrationDate");
-            this.registrationDate = Optional.ofNullable(registrationDate);
+            this.registrationDate = JsonNullable.of(registrationDate);
             return this;
         }
 
         /**
          * The date when the registration was created. Format: YYYY-MM-DD.
          */
-        public Builder registrationDate(Optional<String> registrationDate) {
+        public Builder registrationDate(JsonNullable<LocalDate> registrationDate) {
             Utils.checkNotNull(registrationDate, "registrationDate");
             this.registrationDate = registrationDate;
             return this;
@@ -1239,14 +1281,14 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
          */
         public Builder registrationEmail(String registrationEmail) {
             Utils.checkNotNull(registrationEmail, "registrationEmail");
-            this.registrationEmail = Optional.ofNullable(registrationEmail);
+            this.registrationEmail = JsonNullable.of(registrationEmail);
             return this;
         }
 
         /**
          * Email address associated with the registration.
          */
-        public Builder registrationEmail(Optional<String> registrationEmail) {
+        public Builder registrationEmail(JsonNullable<String> registrationEmail) {
             Utils.checkNotNull(registrationEmail, "registrationEmail");
             this.registrationEmail = registrationEmail;
             return this;
@@ -1254,56 +1296,18 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
 
 
         /**
-         * A unique key assigned to the registration.
-         */
-        public Builder registrationKey(String registrationKey) {
-            Utils.checkNotNull(registrationKey, "registrationKey");
-            this.registrationKey = Optional.ofNullable(registrationKey);
-            return this;
-        }
-
-        /**
-         * A unique key assigned to the registration.
-         */
-        public Builder registrationKey(Optional<String> registrationKey) {
-            Utils.checkNotNull(registrationKey, "registrationKey");
-            this.registrationKey = registrationKey;
-            return this;
-        }
-
-
-        /**
-         * A unique key assigned for deregistration.
-         */
-        public Builder deregistrationKey(String deregistrationKey) {
-            Utils.checkNotNull(deregistrationKey, "deregistrationKey");
-            this.deregistrationKey = Optional.ofNullable(deregistrationKey);
-            return this;
-        }
-
-        /**
-         * A unique key assigned for deregistration.
-         */
-        public Builder deregistrationKey(Optional<String> deregistrationKey) {
-            Utils.checkNotNull(deregistrationKey, "deregistrationKey");
-            this.deregistrationKey = deregistrationKey;
-            return this;
-        }
-
-
-        /**
          * Timestamp when the registration was requested.
          */
-        public Builder registrationRequested(String registrationRequested) {
+        public Builder registrationRequested(OffsetDateTime registrationRequested) {
             Utils.checkNotNull(registrationRequested, "registrationRequested");
-            this.registrationRequested = Optional.ofNullable(registrationRequested);
+            this.registrationRequested = JsonNullable.of(registrationRequested);
             return this;
         }
 
         /**
          * Timestamp when the registration was requested.
          */
-        public Builder registrationRequested(Optional<String> registrationRequested) {
+        public Builder registrationRequested(JsonNullable<OffsetDateTime> registrationRequested) {
             Utils.checkNotNull(registrationRequested, "registrationRequested");
             this.registrationRequested = registrationRequested;
             return this;
@@ -1313,16 +1317,16 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
         /**
          * Timestamp when the registration was completed.
          */
-        public Builder registrationCompleted(String registrationCompleted) {
+        public Builder registrationCompleted(OffsetDateTime registrationCompleted) {
             Utils.checkNotNull(registrationCompleted, "registrationCompleted");
-            this.registrationCompleted = Optional.ofNullable(registrationCompleted);
+            this.registrationCompleted = JsonNullable.of(registrationCompleted);
             return this;
         }
 
         /**
          * Timestamp when the registration was completed.
          */
-        public Builder registrationCompleted(Optional<String> registrationCompleted) {
+        public Builder registrationCompleted(JsonNullable<OffsetDateTime> registrationCompleted) {
             Utils.checkNotNull(registrationCompleted, "registrationCompleted");
             this.registrationCompleted = registrationCompleted;
             return this;
@@ -1332,16 +1336,16 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
         /**
          * Timestamp when deregistration was requested.
          */
-        public Builder deregistrationRequested(String deregistrationRequested) {
+        public Builder deregistrationRequested(OffsetDateTime deregistrationRequested) {
             Utils.checkNotNull(deregistrationRequested, "deregistrationRequested");
-            this.deregistrationRequested = Optional.ofNullable(deregistrationRequested);
+            this.deregistrationRequested = JsonNullable.of(deregistrationRequested);
             return this;
         }
 
         /**
          * Timestamp when deregistration was requested.
          */
-        public Builder deregistrationRequested(Optional<String> deregistrationRequested) {
+        public Builder deregistrationRequested(JsonNullable<OffsetDateTime> deregistrationRequested) {
             Utils.checkNotNull(deregistrationRequested, "deregistrationRequested");
             this.deregistrationRequested = deregistrationRequested;
             return this;
@@ -1351,16 +1355,16 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
         /**
          * Timestamp when the deregistration was completed.
          */
-        public Builder deregistrationCompleted(String deregistrationCompleted) {
+        public Builder deregistrationCompleted(OffsetDateTime deregistrationCompleted) {
             Utils.checkNotNull(deregistrationCompleted, "deregistrationCompleted");
-            this.deregistrationCompleted = Optional.ofNullable(deregistrationCompleted);
+            this.deregistrationCompleted = JsonNullable.of(deregistrationCompleted);
             return this;
         }
 
         /**
          * Timestamp when the deregistration was completed.
          */
-        public Builder deregistrationCompleted(Optional<String> deregistrationCompleted) {
+        public Builder deregistrationCompleted(JsonNullable<OffsetDateTime> deregistrationCompleted) {
             Utils.checkNotNull(deregistrationCompleted, "deregistrationCompleted");
             this.deregistrationCompleted = deregistrationCompleted;
             return this;
@@ -1372,14 +1376,14 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
          */
         public Builder autoRegistered(boolean autoRegistered) {
             Utils.checkNotNull(autoRegistered, "autoRegistered");
-            this.autoRegistered = Optional.ofNullable(autoRegistered);
+            this.autoRegistered = JsonNullable.of(autoRegistered);
             return this;
         }
 
         /**
          * Indicates whether the registration was completed automatically.
          */
-        public Builder autoRegistered(Optional<Boolean> autoRegistered) {
+        public Builder autoRegistered(JsonNullable<Boolean> autoRegistered) {
             Utils.checkNotNull(autoRegistered, "autoRegistered");
             this.autoRegistered = autoRegistered;
             return this;
@@ -1405,13 +1409,19 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
         }
 
 
+        /**
+         * The tax registration regime (e.g., STANDARD, SIMPLIFIED).
+         */
         public Builder registrationsRegime(RegistrationsRegimeEnum registrationsRegime) {
             Utils.checkNotNull(registrationsRegime, "registrationsRegime");
-            this.registrationsRegime = Optional.ofNullable(registrationsRegime);
+            this.registrationsRegime = JsonNullable.of(registrationsRegime);
             return this;
         }
 
-        public Builder registrationsRegime(Optional<? extends RegistrationsRegimeEnum> registrationsRegime) {
+        /**
+         * The tax registration regime (e.g., STANDARD, SIMPLIFIED).
+         */
+        public Builder registrationsRegime(JsonNullable<? extends RegistrationsRegimeEnum> registrationsRegime) {
             Utils.checkNotNull(registrationsRegime, "registrationsRegime");
             this.registrationsRegime = registrationsRegime;
             return this;
@@ -1420,11 +1430,11 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
 
         public Builder changeRegimeStatus(ChangeRegimeStatusEnum changeRegimeStatus) {
             Utils.checkNotNull(changeRegimeStatus, "changeRegimeStatus");
-            this.changeRegimeStatus = Optional.ofNullable(changeRegimeStatus);
+            this.changeRegimeStatus = JsonNullable.of(changeRegimeStatus);
             return this;
         }
 
-        public Builder changeRegimeStatus(Optional<? extends ChangeRegimeStatusEnum> changeRegimeStatus) {
+        public Builder changeRegimeStatus(JsonNullable<? extends ChangeRegimeStatusEnum> changeRegimeStatus) {
             Utils.checkNotNull(changeRegimeStatus, "changeRegimeStatus");
             this.changeRegimeStatus = changeRegimeStatus;
             return this;
@@ -1466,18 +1476,41 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
 
 
         /**
+         * Fiscal-year anchor month (1-12) on which each quarterly/semiannual
+         * period ends, for Hawaii (US-HI) filers whose periods are offset from the calendar.
+         * Null (default) keeps the standard calendar grid.
+         */
+        public Builder periodEndMonth(long periodEndMonth) {
+            Utils.checkNotNull(periodEndMonth, "periodEndMonth");
+            this.periodEndMonth = JsonNullable.of(periodEndMonth);
+            return this;
+        }
+
+        /**
+         * Fiscal-year anchor month (1-12) on which each quarterly/semiannual
+         * period ends, for Hawaii (US-HI) filers whose periods are offset from the calendar.
+         * Null (default) keeps the standard calendar grid.
+         */
+        public Builder periodEndMonth(JsonNullable<Long> periodEndMonth) {
+            Utils.checkNotNull(periodEndMonth, "periodEndMonth");
+            this.periodEndMonth = periodEndMonth;
+            return this;
+        }
+
+
+        /**
          * Username for accessing tax registration details.
          */
         public Builder username(String username) {
             Utils.checkNotNull(username, "username");
-            this.username = Optional.ofNullable(username);
+            this.username = JsonNullable.of(username);
             return this;
         }
 
         /**
          * Username for accessing tax registration details.
          */
-        public Builder username(Optional<String> username) {
+        public Builder username(JsonNullable<String> username) {
             Utils.checkNotNull(username, "username");
             this.username = username;
             return this;
@@ -1489,14 +1522,14 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
          */
         public Builder comment(String comment) {
             Utils.checkNotNull(comment, "comment");
-            this.comment = Optional.ofNullable(comment);
+            this.comment = JsonNullable.of(comment);
             return this;
         }
 
         /**
          * Additional comments related to the registration.
          */
-        public Builder comment(Optional<String> comment) {
+        public Builder comment(JsonNullable<String> comment) {
             Utils.checkNotNull(comment, "comment");
             this.comment = comment;
             return this;
@@ -1506,16 +1539,16 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
         /**
          * The date from which filings should be created. should start (YYYY-MM-DD).
          */
-        public Builder createFilingsFrom(String createFilingsFrom) {
+        public Builder createFilingsFrom(LocalDate createFilingsFrom) {
             Utils.checkNotNull(createFilingsFrom, "createFilingsFrom");
-            this.createFilingsFrom = Optional.ofNullable(createFilingsFrom);
+            this.createFilingsFrom = JsonNullable.of(createFilingsFrom);
             return this;
         }
 
         /**
          * The date from which filings should be created. should start (YYYY-MM-DD).
          */
-        public Builder createFilingsFrom(Optional<String> createFilingsFrom) {
+        public Builder createFilingsFrom(JsonNullable<LocalDate> createFilingsFrom) {
             Utils.checkNotNull(createFilingsFrom, "createFilingsFrom");
             this.createFilingsFrom = createFilingsFrom;
             return this;
@@ -1527,14 +1560,14 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
          */
         public Builder initialSync(boolean initialSync) {
             Utils.checkNotNull(initialSync, "initialSync");
-            this.initialSync = Optional.ofNullable(initialSync);
+            this.initialSync = JsonNullable.of(initialSync);
             return this;
         }
 
         /**
          * Indicates whether an initial synchronization should be performed.
          */
-        public Builder initialSync(Optional<Boolean> initialSync) {
+        public Builder initialSync(JsonNullable<Boolean> initialSync) {
             Utils.checkNotNull(initialSync, "initialSync");
             this.initialSync = initialSync;
             return this;
@@ -1544,7 +1577,7 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
         /**
          * The amount of fees associated with the registration.
          */
-        public Builder amountFees(double amountFees) {
+        public Builder amountFees(RegistrationCreatePayloadAmountFees amountFees) {
             Utils.checkNotNull(amountFees, "amountFees");
             this.amountFees = Optional.ofNullable(amountFees);
             return this;
@@ -1553,7 +1586,7 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
         /**
          * The amount of fees associated with the registration.
          */
-        public Builder amountFees(Optional<Double> amountFees) {
+        public Builder amountFees(Optional<? extends RegistrationCreatePayloadAmountFees> amountFees) {
             Utils.checkNotNull(amountFees, "amountFees");
             this.amountFees = amountFees;
             return this;
@@ -1565,14 +1598,14 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
          */
         public Builder vda(boolean vda) {
             Utils.checkNotNull(vda, "vda");
-            this.vda = Optional.ofNullable(vda);
+            this.vda = JsonNullable.of(vda);
             return this;
         }
 
         /**
          * Indicates whether a Voluntary Disclosure Agreement (VDA) applies.
          */
-        public Builder vda(Optional<Boolean> vda) {
+        public Builder vda(JsonNullable<Boolean> vda) {
             Utils.checkNotNull(vda, "vda");
             this.vda = vda;
             return this;
@@ -1584,14 +1617,14 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
          */
         public Builder imported(boolean imported) {
             Utils.checkNotNull(imported, "imported");
-            this.imported = Optional.ofNullable(imported);
+            this.imported = JsonNullable.of(imported);
             return this;
         }
 
         /**
          * Whether the registration was imported from another system.
          */
-        public Builder imported(Optional<Boolean> imported) {
+        public Builder imported(JsonNullable<Boolean> imported) {
             Utils.checkNotNull(imported, "imported");
             this.imported = imported;
             return this;
@@ -1603,16 +1636,35 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
          */
         public Builder salesTaxId(String salesTaxId) {
             Utils.checkNotNull(salesTaxId, "salesTaxId");
-            this.salesTaxId = Optional.ofNullable(salesTaxId);
+            this.salesTaxId = JsonNullable.of(salesTaxId);
             return this;
         }
 
         /**
          * The sales tax ID associated with the registration.
          */
-        public Builder salesTaxId(Optional<String> salesTaxId) {
+        public Builder salesTaxId(JsonNullable<String> salesTaxId) {
             Utils.checkNotNull(salesTaxId, "salesTaxId");
             this.salesTaxId = salesTaxId;
+            return this;
+        }
+
+
+        /**
+         * The Importer of Record (IOR) number associated with the registration.
+         */
+        public Builder iorNumber(String iorNumber) {
+            Utils.checkNotNull(iorNumber, "iorNumber");
+            this.iorNumber = JsonNullable.of(iorNumber);
+            return this;
+        }
+
+        /**
+         * The Importer of Record (IOR) number associated with the registration.
+         */
+        public Builder iorNumber(JsonNullable<String> iorNumber) {
+            Utils.checkNotNull(iorNumber, "iorNumber");
+            this.iorNumber = iorNumber;
             return this;
         }
 
@@ -1622,14 +1674,14 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
          */
         public Builder sstImport(boolean sstImport) {
             Utils.checkNotNull(sstImport, "sstImport");
-            this.sstImport = Optional.ofNullable(sstImport);
+            this.sstImport = JsonNullable.of(sstImport);
             return this;
         }
 
         /**
          * Indicates whether the registration is an SST Import.
          */
-        public Builder sstImport(Optional<Boolean> sstImport) {
+        public Builder sstImport(JsonNullable<Boolean> sstImport) {
             Utils.checkNotNull(sstImport, "sstImport");
             this.sstImport = sstImport;
             return this;
@@ -1641,14 +1693,14 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
          */
         public Builder taxId(String taxId) {
             Utils.checkNotNull(taxId, "taxId");
-            this.taxId = Optional.ofNullable(taxId);
+            this.taxId = JsonNullable.of(taxId);
             return this;
         }
 
         /**
          * Organization-level tax ID (e.g., VAT number, Canada Business Number).
          */
-        public Builder taxId(Optional<String> taxId) {
+        public Builder taxId(JsonNullable<String> taxId) {
             Utils.checkNotNull(taxId, "taxId");
             this.taxId = taxId;
             return this;
@@ -1660,14 +1712,14 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
          */
         public Builder passwordPlainText(String passwordPlainText) {
             Utils.checkNotNull(passwordPlainText, "passwordPlainText");
-            this.passwordPlainText = Optional.ofNullable(passwordPlainText);
+            this.passwordPlainText = JsonNullable.of(passwordPlainText);
             return this;
         }
 
         /**
          * The plaintext password for accessing the tax registration account.
          */
-        public Builder passwordPlainText(Optional<String> passwordPlainText) {
+        public Builder passwordPlainText(JsonNullable<String> passwordPlainText) {
             Utils.checkNotNull(passwordPlainText, "passwordPlainText");
             this.passwordPlainText = passwordPlainText;
             return this;
@@ -1679,53 +1731,73 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
          */
         public Builder passwordMetadataPlainText(String passwordMetadataPlainText) {
             Utils.checkNotNull(passwordMetadataPlainText, "passwordMetadataPlainText");
-            this.passwordMetadataPlainText = Optional.ofNullable(passwordMetadataPlainText);
+            this.passwordMetadataPlainText = JsonNullable.of(passwordMetadataPlainText);
             return this;
         }
 
         /**
          * Metadata related to the password.
          */
-        public Builder passwordMetadataPlainText(Optional<String> passwordMetadataPlainText) {
+        public Builder passwordMetadataPlainText(JsonNullable<String> passwordMetadataPlainText) {
             Utils.checkNotNull(passwordMetadataPlainText, "passwordMetadataPlainText");
             this.passwordMetadataPlainText = passwordMetadataPlainText;
             return this;
         }
 
+
+        /**
+         * State-specific registration fields (e.g. Alabama Sign On ID, Access Code).
+         */
+        public Builder jurisdictionSpecificFields(Map<String, Object> jurisdictionSpecificFields) {
+            Utils.checkNotNull(jurisdictionSpecificFields, "jurisdictionSpecificFields");
+            this.jurisdictionSpecificFields = JsonNullable.of(jurisdictionSpecificFields);
+            return this;
+        }
+
+        /**
+         * State-specific registration fields (e.g. Alabama Sign On ID, Access Code).
+         */
+        public Builder jurisdictionSpecificFields(JsonNullable<? extends Map<String, Object>> jurisdictionSpecificFields) {
+            Utils.checkNotNull(jurisdictionSpecificFields, "jurisdictionSpecificFields");
+            this.jurisdictionSpecificFields = jurisdictionSpecificFields;
+            return this;
+        }
+
+
+        /**
+         * Optional client-minted id for this confirm attempt.
+         */
+        public Builder requestId(String requestId) {
+            Utils.checkNotNull(requestId, "requestId");
+            this.requestId = JsonNullable.of(requestId);
+            return this;
+        }
+
+        /**
+         * Optional client-minted id for this confirm attempt.
+         */
+        public Builder requestId(JsonNullable<String> requestId) {
+            Utils.checkNotNull(requestId, "requestId");
+            this.requestId = requestId;
+            return this;
+        }
+
         public RegistrationCreatePayload build() {
-            if (registrationImportType == null) {
-                registrationImportType = _SINGLETON_VALUE_RegistrationImportType.value();
-            }
-            if (autoRegistered == null) {
-                autoRegistered = _SINGLETON_VALUE_AutoRegistered.value();
-            }
             if (doNotFile == null) {
                 doNotFile = _SINGLETON_VALUE_DoNotFile.value();
             }
-            if (initialSync == null) {
-                initialSync = _SINGLETON_VALUE_InitialSync.value();
-            }
-            if (amountFees == null) {
-                amountFees = _SINGLETON_VALUE_AmountFees.value();
-            }
-            if (vda == null) {
-                vda = _SINGLETON_VALUE_Vda.value();
-            }
-            if (sstImport == null) {
-                sstImport = _SINGLETON_VALUE_SstImport.value();
-            }
 
             return new RegistrationCreatePayload(
-                registrationImportType, registrationDate, registrationEmail,
-                registrationKey, deregistrationKey, registrationRequested,
+                registrationDate, registrationEmail, registrationRequested,
                 registrationCompleted, deregistrationRequested, deregistrationCompleted,
                 autoRegistered, doNotFile, registrationsRegime,
                 changeRegimeStatus, countryCode, stateCode,
-                stateName, filingFrequency, username,
-                comment, createFilingsFrom, initialSync,
-                amountFees, vda, imported,
-                salesTaxId, sstImport, taxId,
-                passwordPlainText, passwordMetadataPlainText);
+                stateName, filingFrequency, periodEndMonth,
+                username, comment, createFilingsFrom,
+                initialSync, amountFees, vda,
+                imported, salesTaxId, iorNumber,
+                sstImport, taxId, passwordPlainText,
+                passwordMetadataPlainText, jurisdictionSpecificFields, requestId);
         }
 
 
@@ -1735,39 +1807,9 @@ public class RegistrationCreatePayload implements com.kintsugi.taxplatform.model
                         "\"REGULAR\"",
                         new TypeReference<Optional<String>>() {});
 
-        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_AutoRegistered =
-                new LazySingletonValue<>(
-                        "auto_registered",
-                        "false",
-                        new TypeReference<Optional<Boolean>>() {});
-
         private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_DoNotFile =
                 new LazySingletonValue<>(
                         "do_not_file",
-                        "false",
-                        new TypeReference<Optional<Boolean>>() {});
-
-        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_InitialSync =
-                new LazySingletonValue<>(
-                        "initial_sync",
-                        "false",
-                        new TypeReference<Optional<Boolean>>() {});
-
-        private static final LazySingletonValue<Optional<Double>> _SINGLETON_VALUE_AmountFees =
-                new LazySingletonValue<>(
-                        "amount_fees",
-                        "0",
-                        new TypeReference<Optional<Double>>() {});
-
-        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_Vda =
-                new LazySingletonValue<>(
-                        "vda",
-                        "false",
-                        new TypeReference<Optional<Boolean>>() {});
-
-        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_SstImport =
-                new LazySingletonValue<>(
-                        "sst_import",
                         "false",
                         new TypeReference<Optional<Boolean>>() {});
     }

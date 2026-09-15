@@ -13,21 +13,10 @@ import java.lang.Long;
 import java.lang.Override;
 import java.lang.String;
 import java.util.Optional;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 public class GetPhysicalNexusV1NexusPhysicalNexusGetRequest {
-
-    @SpeakeasyMetadata("queryParam:style=form,explode=true,name=country_code")
-    private Optional<String> countryCode;
-
-
-    @SpeakeasyMetadata("queryParam:style=form,explode=true,name=state_code")
-    private Optional<String> stateCode;
-
-
-    @SpeakeasyMetadata("queryParam:style=form,explode=true,name=order_by")
-    private Optional<String> orderBy;
-
     /**
      * Page number
      */
@@ -40,43 +29,49 @@ public class GetPhysicalNexusV1NexusPhysicalNexusGetRequest {
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=size")
     private Optional<Long> size;
 
+
+    @SpeakeasyMetadata("queryParam:style=form,explode=true,name=country_code")
+    private JsonNullable<String> countryCode;
+
+
+    @SpeakeasyMetadata("queryParam:style=form,explode=true,name=state_code")
+    private JsonNullable<String> stateCode;
+
+
+    @SpeakeasyMetadata("queryParam:style=form,explode=true,name=order_by")
+    private JsonNullable<String> orderBy;
+
+    /**
+     * The unique identifier for the organization making the request
+     */
+    @SpeakeasyMetadata("header:style=simple,explode=false,name=x-organization-id")
+    private Optional<String> xOrganizationId;
+
     @JsonCreator
     public GetPhysicalNexusV1NexusPhysicalNexusGetRequest(
-            Optional<String> countryCode,
-            Optional<String> stateCode,
-            Optional<String> orderBy,
             Optional<Long> page,
-            Optional<Long> size) {
+            Optional<Long> size,
+            JsonNullable<String> countryCode,
+            JsonNullable<String> stateCode,
+            JsonNullable<String> orderBy,
+            Optional<String> xOrganizationId) {
+        Utils.checkNotNull(page, "page");
+        Utils.checkNotNull(size, "size");
         Utils.checkNotNull(countryCode, "countryCode");
         Utils.checkNotNull(stateCode, "stateCode");
         Utils.checkNotNull(orderBy, "orderBy");
-        Utils.checkNotNull(page, "page");
-        Utils.checkNotNull(size, "size");
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.page = page;
+        this.size = size;
         this.countryCode = countryCode;
         this.stateCode = stateCode;
         this.orderBy = orderBy;
-        this.page = page;
-        this.size = size;
+        this.xOrganizationId = xOrganizationId;
     }
     
     public GetPhysicalNexusV1NexusPhysicalNexusGetRequest() {
-        this(Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty());
-    }
-
-    @JsonIgnore
-    public Optional<String> countryCode() {
-        return countryCode;
-    }
-
-    @JsonIgnore
-    public Optional<String> stateCode() {
-        return stateCode;
-    }
-
-    @JsonIgnore
-    public Optional<String> orderBy() {
-        return orderBy;
+        this(Optional.empty(), Optional.empty(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty());
     }
 
     /**
@@ -95,49 +90,33 @@ public class GetPhysicalNexusV1NexusPhysicalNexusGetRequest {
         return size;
     }
 
+    @JsonIgnore
+    public JsonNullable<String> countryCode() {
+        return countryCode;
+    }
+
+    @JsonIgnore
+    public JsonNullable<String> stateCode() {
+        return stateCode;
+    }
+
+    @JsonIgnore
+    public JsonNullable<String> orderBy() {
+        return orderBy;
+    }
+
+    /**
+     * The unique identifier for the organization making the request
+     */
+    @JsonIgnore
+    public Optional<String> xOrganizationId() {
+        return xOrganizationId;
+    }
+
     public static Builder builder() {
         return new Builder();
     }
 
-
-    public GetPhysicalNexusV1NexusPhysicalNexusGetRequest withCountryCode(String countryCode) {
-        Utils.checkNotNull(countryCode, "countryCode");
-        this.countryCode = Optional.ofNullable(countryCode);
-        return this;
-    }
-
-
-    public GetPhysicalNexusV1NexusPhysicalNexusGetRequest withCountryCode(Optional<String> countryCode) {
-        Utils.checkNotNull(countryCode, "countryCode");
-        this.countryCode = countryCode;
-        return this;
-    }
-
-    public GetPhysicalNexusV1NexusPhysicalNexusGetRequest withStateCode(String stateCode) {
-        Utils.checkNotNull(stateCode, "stateCode");
-        this.stateCode = Optional.ofNullable(stateCode);
-        return this;
-    }
-
-
-    public GetPhysicalNexusV1NexusPhysicalNexusGetRequest withStateCode(Optional<String> stateCode) {
-        Utils.checkNotNull(stateCode, "stateCode");
-        this.stateCode = stateCode;
-        return this;
-    }
-
-    public GetPhysicalNexusV1NexusPhysicalNexusGetRequest withOrderBy(String orderBy) {
-        Utils.checkNotNull(orderBy, "orderBy");
-        this.orderBy = Optional.ofNullable(orderBy);
-        return this;
-    }
-
-
-    public GetPhysicalNexusV1NexusPhysicalNexusGetRequest withOrderBy(Optional<String> orderBy) {
-        Utils.checkNotNull(orderBy, "orderBy");
-        this.orderBy = orderBy;
-        return this;
-    }
 
     /**
      * Page number
@@ -177,6 +156,61 @@ public class GetPhysicalNexusV1NexusPhysicalNexusGetRequest {
         return this;
     }
 
+    public GetPhysicalNexusV1NexusPhysicalNexusGetRequest withCountryCode(String countryCode) {
+        Utils.checkNotNull(countryCode, "countryCode");
+        this.countryCode = JsonNullable.of(countryCode);
+        return this;
+    }
+
+    public GetPhysicalNexusV1NexusPhysicalNexusGetRequest withCountryCode(JsonNullable<String> countryCode) {
+        Utils.checkNotNull(countryCode, "countryCode");
+        this.countryCode = countryCode;
+        return this;
+    }
+
+    public GetPhysicalNexusV1NexusPhysicalNexusGetRequest withStateCode(String stateCode) {
+        Utils.checkNotNull(stateCode, "stateCode");
+        this.stateCode = JsonNullable.of(stateCode);
+        return this;
+    }
+
+    public GetPhysicalNexusV1NexusPhysicalNexusGetRequest withStateCode(JsonNullable<String> stateCode) {
+        Utils.checkNotNull(stateCode, "stateCode");
+        this.stateCode = stateCode;
+        return this;
+    }
+
+    public GetPhysicalNexusV1NexusPhysicalNexusGetRequest withOrderBy(String orderBy) {
+        Utils.checkNotNull(orderBy, "orderBy");
+        this.orderBy = JsonNullable.of(orderBy);
+        return this;
+    }
+
+    public GetPhysicalNexusV1NexusPhysicalNexusGetRequest withOrderBy(JsonNullable<String> orderBy) {
+        Utils.checkNotNull(orderBy, "orderBy");
+        this.orderBy = orderBy;
+        return this;
+    }
+
+    /**
+     * The unique identifier for the organization making the request
+     */
+    public GetPhysicalNexusV1NexusPhysicalNexusGetRequest withXOrganizationId(String xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = Optional.ofNullable(xOrganizationId);
+        return this;
+    }
+
+
+    /**
+     * The unique identifier for the organization making the request
+     */
+    public GetPhysicalNexusV1NexusPhysicalNexusGetRequest withXOrganizationId(Optional<String> xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = xOrganizationId;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -187,84 +221,49 @@ public class GetPhysicalNexusV1NexusPhysicalNexusGetRequest {
         }
         GetPhysicalNexusV1NexusPhysicalNexusGetRequest other = (GetPhysicalNexusV1NexusPhysicalNexusGetRequest) o;
         return 
+            Utils.enhancedDeepEquals(this.page, other.page) &&
+            Utils.enhancedDeepEquals(this.size, other.size) &&
             Utils.enhancedDeepEquals(this.countryCode, other.countryCode) &&
             Utils.enhancedDeepEquals(this.stateCode, other.stateCode) &&
             Utils.enhancedDeepEquals(this.orderBy, other.orderBy) &&
-            Utils.enhancedDeepEquals(this.page, other.page) &&
-            Utils.enhancedDeepEquals(this.size, other.size);
+            Utils.enhancedDeepEquals(this.xOrganizationId, other.xOrganizationId);
     }
     
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-            countryCode, stateCode, orderBy,
-            page, size);
+            page, size, countryCode,
+            stateCode, orderBy, xOrganizationId);
     }
     
     @Override
     public String toString() {
         return Utils.toString(GetPhysicalNexusV1NexusPhysicalNexusGetRequest.class,
+                "page", page,
+                "size", size,
                 "countryCode", countryCode,
                 "stateCode", stateCode,
                 "orderBy", orderBy,
-                "page", page,
-                "size", size);
+                "xOrganizationId", xOrganizationId);
     }
 
     @SuppressWarnings("UnusedReturnValue")
     public final static class Builder {
 
-        private Optional<String> countryCode = Optional.empty();
-
-        private Optional<String> stateCode = Optional.empty();
-
-        private Optional<String> orderBy;
-
         private Optional<Long> page;
 
         private Optional<Long> size;
 
+        private JsonNullable<String> countryCode = JsonNullable.undefined();
+
+        private JsonNullable<String> stateCode = JsonNullable.undefined();
+
+        private JsonNullable<String> orderBy = JsonNullable.undefined();
+
+        private Optional<String> xOrganizationId = Optional.empty();
+
         private Builder() {
           // force use of static builder() method
-        }
-
-
-        public Builder countryCode(String countryCode) {
-            Utils.checkNotNull(countryCode, "countryCode");
-            this.countryCode = Optional.ofNullable(countryCode);
-            return this;
-        }
-
-        public Builder countryCode(Optional<String> countryCode) {
-            Utils.checkNotNull(countryCode, "countryCode");
-            this.countryCode = countryCode;
-            return this;
-        }
-
-
-        public Builder stateCode(String stateCode) {
-            Utils.checkNotNull(stateCode, "stateCode");
-            this.stateCode = Optional.ofNullable(stateCode);
-            return this;
-        }
-
-        public Builder stateCode(Optional<String> stateCode) {
-            Utils.checkNotNull(stateCode, "stateCode");
-            this.stateCode = stateCode;
-            return this;
-        }
-
-
-        public Builder orderBy(String orderBy) {
-            Utils.checkNotNull(orderBy, "orderBy");
-            this.orderBy = Optional.ofNullable(orderBy);
-            return this;
-        }
-
-        public Builder orderBy(Optional<String> orderBy) {
-            Utils.checkNotNull(orderBy, "orderBy");
-            this.orderBy = orderBy;
-            return this;
         }
 
 
@@ -305,10 +304,65 @@ public class GetPhysicalNexusV1NexusPhysicalNexusGetRequest {
             return this;
         }
 
+
+        public Builder countryCode(String countryCode) {
+            Utils.checkNotNull(countryCode, "countryCode");
+            this.countryCode = JsonNullable.of(countryCode);
+            return this;
+        }
+
+        public Builder countryCode(JsonNullable<String> countryCode) {
+            Utils.checkNotNull(countryCode, "countryCode");
+            this.countryCode = countryCode;
+            return this;
+        }
+
+
+        public Builder stateCode(String stateCode) {
+            Utils.checkNotNull(stateCode, "stateCode");
+            this.stateCode = JsonNullable.of(stateCode);
+            return this;
+        }
+
+        public Builder stateCode(JsonNullable<String> stateCode) {
+            Utils.checkNotNull(stateCode, "stateCode");
+            this.stateCode = stateCode;
+            return this;
+        }
+
+
+        public Builder orderBy(String orderBy) {
+            Utils.checkNotNull(orderBy, "orderBy");
+            this.orderBy = JsonNullable.of(orderBy);
+            return this;
+        }
+
+        public Builder orderBy(JsonNullable<String> orderBy) {
+            Utils.checkNotNull(orderBy, "orderBy");
+            this.orderBy = orderBy;
+            return this;
+        }
+
+
+        /**
+         * The unique identifier for the organization making the request
+         */
+        public Builder xOrganizationId(String xOrganizationId) {
+            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+            this.xOrganizationId = Optional.ofNullable(xOrganizationId);
+            return this;
+        }
+
+        /**
+         * The unique identifier for the organization making the request
+         */
+        public Builder xOrganizationId(Optional<String> xOrganizationId) {
+            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+            this.xOrganizationId = xOrganizationId;
+            return this;
+        }
+
         public GetPhysicalNexusV1NexusPhysicalNexusGetRequest build() {
-            if (orderBy == null) {
-                orderBy = _SINGLETON_VALUE_OrderBy.value();
-            }
             if (page == null) {
                 page = _SINGLETON_VALUE_Page.value();
             }
@@ -317,16 +371,10 @@ public class GetPhysicalNexusV1NexusPhysicalNexusGetRequest {
             }
 
             return new GetPhysicalNexusV1NexusPhysicalNexusGetRequest(
-                countryCode, stateCode, orderBy,
-                page, size);
+                page, size, countryCode,
+                stateCode, orderBy, xOrganizationId);
         }
 
-
-        private static final LazySingletonValue<Optional<String>> _SINGLETON_VALUE_OrderBy =
-                new LazySingletonValue<>(
-                        "order_by",
-                        "\"country_code,state_code,start_date,end_date\"",
-                        new TypeReference<Optional<String>>() {});
 
         private static final LazySingletonValue<Optional<Long>> _SINGLETON_VALUE_Page =
                 new LazySingletonValue<>(

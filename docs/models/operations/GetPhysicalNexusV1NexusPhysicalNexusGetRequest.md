@@ -3,10 +3,11 @@
 
 ## Fields
 
-| Field               | Type                | Required            | Description         |
-| ------------------- | ------------------- | ------------------- | ------------------- |
-| `countryCode`       | *Optional\<String>* | :heavy_minus_sign:  | N/A                 |
-| `stateCode`         | *Optional\<String>* | :heavy_minus_sign:  | N/A                 |
-| `orderBy`           | *Optional\<String>* | :heavy_minus_sign:  | N/A                 |
-| `page`              | *Optional\<Long>*   | :heavy_minus_sign:  | Page number         |
-| `size`              | *Optional\<Long>*   | :heavy_minus_sign:  | Page size           |
+| Field                                                         | Type                                                          | Required                                                      | Description                                                   | Example                                                       |
+| ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- |
+| `page`                                                        | *Optional\<Long>*                                             | :heavy_minus_sign:                                            | Page number                                                   |                                                               |
+| `size`                                                        | *Optional\<Long>*                                             | :heavy_minus_sign:                                            | Page size                                                     |                                                               |
+| `countryCode`                                                 | *JsonNullable\<String>*                                       | :heavy_minus_sign:                                            | N/A                                                           |                                                               |
+| `stateCode`                                                   | *JsonNullable\<String>*                                       | :heavy_minus_sign:                                            | N/A                                                           |                                                               |
+| `orderBy`                                                     | *JsonNullable\<String>*                                       | :heavy_minus_sign:                                            | N/A                                                           |                                                               |
+| `xOrganizationId`                                             | *Optional\<String>*                                           | :heavy_check_mark:                                            | The unique identifier for the organization making the request | org_12345                                                     |

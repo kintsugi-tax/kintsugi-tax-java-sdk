@@ -5,7 +5,7 @@ package com.kintsugi.taxplatform.models.operations;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.kintsugi.taxplatform.models.components.BackendSrcExemptionsModelsExemptionRead;
+import com.kintsugi.taxplatform.models.components.BackendSrcExemptionsSchemasExemptionExemptionRead;
 import com.kintsugi.taxplatform.utils.Response;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.io.InputStream;
@@ -36,22 +36,22 @@ public class GetExemptionByIdV1ExemptionsExemptionIdGetResponse implements Respo
     /**
      * Successfully retrieved exemption by id
      */
-    private Optional<? extends BackendSrcExemptionsModelsExemptionRead> backendSrcExemptionsModelsExemptionRead;
+    private Optional<? extends BackendSrcExemptionsSchemasExemptionExemptionRead> backendSrcExemptionsSchemasExemptionExemptionRead;
 
     @JsonCreator
     public GetExemptionByIdV1ExemptionsExemptionIdGetResponse(
             String contentType,
             int statusCode,
             HttpResponse<InputStream> rawResponse,
-            Optional<? extends BackendSrcExemptionsModelsExemptionRead> backendSrcExemptionsModelsExemptionRead) {
+            Optional<? extends BackendSrcExemptionsSchemasExemptionExemptionRead> backendSrcExemptionsSchemasExemptionExemptionRead) {
         Utils.checkNotNull(contentType, "contentType");
         Utils.checkNotNull(statusCode, "statusCode");
         Utils.checkNotNull(rawResponse, "rawResponse");
-        Utils.checkNotNull(backendSrcExemptionsModelsExemptionRead, "backendSrcExemptionsModelsExemptionRead");
+        Utils.checkNotNull(backendSrcExemptionsSchemasExemptionExemptionRead, "backendSrcExemptionsSchemasExemptionExemptionRead");
         this.contentType = contentType;
         this.statusCode = statusCode;
         this.rawResponse = rawResponse;
-        this.backendSrcExemptionsModelsExemptionRead = backendSrcExemptionsModelsExemptionRead;
+        this.backendSrcExemptionsSchemasExemptionExemptionRead = backendSrcExemptionsSchemasExemptionExemptionRead;
     }
     
     public GetExemptionByIdV1ExemptionsExemptionIdGetResponse(
@@ -91,8 +91,8 @@ public class GetExemptionByIdV1ExemptionsExemptionIdGetResponse implements Respo
      */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<BackendSrcExemptionsModelsExemptionRead> backendSrcExemptionsModelsExemptionRead() {
-        return (Optional<BackendSrcExemptionsModelsExemptionRead>) backendSrcExemptionsModelsExemptionRead;
+    public Optional<BackendSrcExemptionsSchemasExemptionExemptionRead> backendSrcExemptionsSchemasExemptionExemptionRead() {
+        return (Optional<BackendSrcExemptionsSchemasExemptionExemptionRead>) backendSrcExemptionsSchemasExemptionExemptionRead;
     }
 
     public static Builder builder() {
@@ -130,9 +130,9 @@ public class GetExemptionByIdV1ExemptionsExemptionIdGetResponse implements Respo
     /**
      * Successfully retrieved exemption by id
      */
-    public GetExemptionByIdV1ExemptionsExemptionIdGetResponse withBackendSrcExemptionsModelsExemptionRead(BackendSrcExemptionsModelsExemptionRead backendSrcExemptionsModelsExemptionRead) {
-        Utils.checkNotNull(backendSrcExemptionsModelsExemptionRead, "backendSrcExemptionsModelsExemptionRead");
-        this.backendSrcExemptionsModelsExemptionRead = Optional.ofNullable(backendSrcExemptionsModelsExemptionRead);
+    public GetExemptionByIdV1ExemptionsExemptionIdGetResponse withBackendSrcExemptionsSchemasExemptionExemptionRead(BackendSrcExemptionsSchemasExemptionExemptionRead backendSrcExemptionsSchemasExemptionExemptionRead) {
+        Utils.checkNotNull(backendSrcExemptionsSchemasExemptionExemptionRead, "backendSrcExemptionsSchemasExemptionExemptionRead");
+        this.backendSrcExemptionsSchemasExemptionExemptionRead = Optional.ofNullable(backendSrcExemptionsSchemasExemptionExemptionRead);
         return this;
     }
 
@@ -140,9 +140,9 @@ public class GetExemptionByIdV1ExemptionsExemptionIdGetResponse implements Respo
     /**
      * Successfully retrieved exemption by id
      */
-    public GetExemptionByIdV1ExemptionsExemptionIdGetResponse withBackendSrcExemptionsModelsExemptionRead(Optional<? extends BackendSrcExemptionsModelsExemptionRead> backendSrcExemptionsModelsExemptionRead) {
-        Utils.checkNotNull(backendSrcExemptionsModelsExemptionRead, "backendSrcExemptionsModelsExemptionRead");
-        this.backendSrcExemptionsModelsExemptionRead = backendSrcExemptionsModelsExemptionRead;
+    public GetExemptionByIdV1ExemptionsExemptionIdGetResponse withBackendSrcExemptionsSchemasExemptionExemptionRead(Optional<? extends BackendSrcExemptionsSchemasExemptionExemptionRead> backendSrcExemptionsSchemasExemptionExemptionRead) {
+        Utils.checkNotNull(backendSrcExemptionsSchemasExemptionExemptionRead, "backendSrcExemptionsSchemasExemptionExemptionRead");
+        this.backendSrcExemptionsSchemasExemptionExemptionRead = backendSrcExemptionsSchemasExemptionExemptionRead;
         return this;
     }
 
@@ -159,14 +159,14 @@ public class GetExemptionByIdV1ExemptionsExemptionIdGetResponse implements Respo
             Utils.enhancedDeepEquals(this.contentType, other.contentType) &&
             Utils.enhancedDeepEquals(this.statusCode, other.statusCode) &&
             Utils.enhancedDeepEquals(this.rawResponse, other.rawResponse) &&
-            Utils.enhancedDeepEquals(this.backendSrcExemptionsModelsExemptionRead, other.backendSrcExemptionsModelsExemptionRead);
+            Utils.enhancedDeepEquals(this.backendSrcExemptionsSchemasExemptionExemptionRead, other.backendSrcExemptionsSchemasExemptionExemptionRead);
     }
     
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
             contentType, statusCode, rawResponse,
-            backendSrcExemptionsModelsExemptionRead);
+            backendSrcExemptionsSchemasExemptionExemptionRead);
     }
     
     @Override
@@ -175,7 +175,7 @@ public class GetExemptionByIdV1ExemptionsExemptionIdGetResponse implements Respo
                 "contentType", contentType,
                 "statusCode", statusCode,
                 "rawResponse", rawResponse,
-                "backendSrcExemptionsModelsExemptionRead", backendSrcExemptionsModelsExemptionRead);
+                "backendSrcExemptionsSchemasExemptionExemptionRead", backendSrcExemptionsSchemasExemptionExemptionRead);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -187,7 +187,7 @@ public class GetExemptionByIdV1ExemptionsExemptionIdGetResponse implements Respo
 
         private HttpResponse<InputStream> rawResponse;
 
-        private Optional<? extends BackendSrcExemptionsModelsExemptionRead> backendSrcExemptionsModelsExemptionRead = Optional.empty();
+        private Optional<? extends BackendSrcExemptionsSchemasExemptionExemptionRead> backendSrcExemptionsSchemasExemptionExemptionRead = Optional.empty();
 
         private Builder() {
           // force use of static builder() method
@@ -227,18 +227,18 @@ public class GetExemptionByIdV1ExemptionsExemptionIdGetResponse implements Respo
         /**
          * Successfully retrieved exemption by id
          */
-        public Builder backendSrcExemptionsModelsExemptionRead(BackendSrcExemptionsModelsExemptionRead backendSrcExemptionsModelsExemptionRead) {
-            Utils.checkNotNull(backendSrcExemptionsModelsExemptionRead, "backendSrcExemptionsModelsExemptionRead");
-            this.backendSrcExemptionsModelsExemptionRead = Optional.ofNullable(backendSrcExemptionsModelsExemptionRead);
+        public Builder backendSrcExemptionsSchemasExemptionExemptionRead(BackendSrcExemptionsSchemasExemptionExemptionRead backendSrcExemptionsSchemasExemptionExemptionRead) {
+            Utils.checkNotNull(backendSrcExemptionsSchemasExemptionExemptionRead, "backendSrcExemptionsSchemasExemptionExemptionRead");
+            this.backendSrcExemptionsSchemasExemptionExemptionRead = Optional.ofNullable(backendSrcExemptionsSchemasExemptionExemptionRead);
             return this;
         }
 
         /**
          * Successfully retrieved exemption by id
          */
-        public Builder backendSrcExemptionsModelsExemptionRead(Optional<? extends BackendSrcExemptionsModelsExemptionRead> backendSrcExemptionsModelsExemptionRead) {
-            Utils.checkNotNull(backendSrcExemptionsModelsExemptionRead, "backendSrcExemptionsModelsExemptionRead");
-            this.backendSrcExemptionsModelsExemptionRead = backendSrcExemptionsModelsExemptionRead;
+        public Builder backendSrcExemptionsSchemasExemptionExemptionRead(Optional<? extends BackendSrcExemptionsSchemasExemptionExemptionRead> backendSrcExemptionsSchemasExemptionExemptionRead) {
+            Utils.checkNotNull(backendSrcExemptionsSchemasExemptionExemptionRead, "backendSrcExemptionsSchemasExemptionExemptionRead");
+            this.backendSrcExemptionsSchemasExemptionExemptionRead = backendSrcExemptionsSchemasExemptionExemptionRead;
             return this;
         }
 
@@ -246,7 +246,7 @@ public class GetExemptionByIdV1ExemptionsExemptionIdGetResponse implements Respo
 
             return new GetExemptionByIdV1ExemptionsExemptionIdGetResponse(
                 contentType, statusCode, rawResponse,
-                backendSrcExemptionsModelsExemptionRead);
+                backendSrcExemptionsSchemasExemptionExemptionRead);
         }
 
     }

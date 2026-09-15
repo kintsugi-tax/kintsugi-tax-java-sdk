@@ -13,92 +13,93 @@ import com.kintsugi.taxplatform.utils.LazySingletonValue;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Boolean;
 import java.lang.Long;
+import java.lang.Object;
 import java.lang.Override;
 import java.lang.String;
 import java.lang.SuppressWarnings;
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
+import java.util.Map;
 import java.util.Optional;
+import org.openapitools.jackson.nullable.JsonNullable;
 
-
+/**
+ * RegistrationReadWithPassword
+ * 
+ * <p>Partner-facing read model.
+ * 
+ * <p>``_reveal_cdtfa_jsf`` is set only for US-California when the service applies
+ * ``?reveal=cdtfa_third_party_access_security_code``, so JSON serialization keeps plaintext
+ * for that jurisdiction only. ``_reveal_idaho_tap_jsf`` is the US-Idaho equivalent for the
+ */
 public class RegistrationReadWithPassword {
     /**
      * The date when the registration was created. Format: YYYY-MM-DD.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("registration_date")
-    private Optional<String> registrationDate;
+    private JsonNullable<LocalDate> registrationDate;
 
     /**
      * Email address associated with the registration.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("registration_email")
-    private Optional<String> registrationEmail;
-
-    /**
-     * A unique key assigned to the registration.
-     */
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("registration_key")
-    private Optional<String> registrationKey;
-
-    /**
-     * A unique key assigned for deregistration.
-     */
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("deregistration_key")
-    private Optional<String> deregistrationKey;
+    private JsonNullable<String> registrationEmail;
 
     /**
      * Timestamp when the registration was requested.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("registration_requested")
-    private Optional<String> registrationRequested;
+    private JsonNullable<OffsetDateTime> registrationRequested;
 
     /**
      * Timestamp when the registration was completed.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("registration_completed")
-    private Optional<String> registrationCompleted;
+    private JsonNullable<OffsetDateTime> registrationCompleted;
 
     /**
      * Timestamp when deregistration was requested.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("deregistration_requested")
-    private Optional<String> deregistrationRequested;
+    private JsonNullable<OffsetDateTime> deregistrationRequested;
 
     /**
      * Timestamp when the deregistration was completed.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("deregistration_completed")
-    private Optional<String> deregistrationCompleted;
+    private JsonNullable<OffsetDateTime> deregistrationCompleted;
 
     /**
      * Indicates whether the registration was completed automatically.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("auto_registered")
-    private Optional<Boolean> autoRegistered;
+    private JsonNullable<Boolean> autoRegistered;
 
-
+    /**
+     * The tax registration regime (e.g., STANDARD, SIMPLIFIED).
+     */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("registrations_regime")
-    private Optional<? extends RegistrationsRegimeEnum> registrationsRegime;
+    private JsonNullable<? extends RegistrationsRegimeEnum> registrationsRegime;
 
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("change_regime_status")
-    private Optional<? extends ChangeRegimeStatusEnum> changeRegimeStatus;
+    private JsonNullable<? extends ChangeRegimeStatusEnum> changeRegimeStatus;
 
     /**
      * Indicates whether third-party access is enabled for this registration.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("third_party_enabled")
-    private Optional<Boolean> thirdPartyEnabled;
+    private JsonNullable<Boolean> thirdPartyEnabled;
 
     /**
      * If true, do not file for this registration (treated as False by default).
@@ -112,14 +113,14 @@ public class RegistrationReadWithPassword {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("two_factor_enabled")
-    private Optional<Boolean> twoFactorEnabled;
+    private JsonNullable<Boolean> twoFactorEnabled;
 
     /**
      * Indicates whether the  registration is marked as collecting in shopify
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("marked_collecting")
-    private Optional<Boolean> markedCollecting;
+    private JsonNullable<Boolean> markedCollecting;
 
 
     @JsonProperty("status")
@@ -146,18 +147,53 @@ public class RegistrationReadWithPassword {
     private FilingFrequencyEnum filingFrequency;
 
     /**
+     * The first non-UNKNOWN filing frequency this registration
+     * was ever assigned.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("initial_filing_frequency")
+    private JsonNullable<? extends FilingFrequencyEnum> initialFilingFrequency;
+
+    /**
+     * The filing frequency that will automatically replace
+     * `filing_frequency` on `filing_frequency_effective_date`. Null when no
+     * frequency change is pending.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("scheduled_filing_frequency")
+    private JsonNullable<? extends FilingFrequencyEnum> scheduledFilingFrequency;
+
+    /**
+     * The date on which `scheduled_filing_frequency` should
+     * automatically become the registration's `filing_frequency`. Null when
+     * no frequency change is pending.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("filing_frequency_effective_date")
+    private JsonNullable<LocalDate> filingFrequencyEffectiveDate;
+
+    /**
+     * Month (1-12) on which this registration's filing period ends,
+     * for fiscal-year filers whose quarterly/semiannual periods are offset from the
+     * calendar. Null means calendar-aligned periods.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("period_end_month")
+    private JsonNullable<Long> periodEndMonth;
+
+    /**
      * Username for accessing tax registration details.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("username")
-    private Optional<String> username;
+    private JsonNullable<String> username;
 
     /**
      * Additional comments related to the registration.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("comment")
-    private Optional<String> comment;
+    private JsonNullable<String> comment;
 
     /**
      * The date from which filings should be created.
@@ -165,14 +201,37 @@ public class RegistrationReadWithPassword {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("create_filings_from")
-    private Optional<String> createFilingsFrom;
+    private JsonNullable<LocalDate> createFilingsFrom;
+
+    /**
+     * Whether to also file the single period preceding the first filing period.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("create_back_filing")
+    private Optional<Boolean> createBackFiling;
+
+    /**
+     * Whether this registration is declared obligated to file a Retail Delivery Fee return (e.g. Colorado
+     * DR 1786).
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("retail_delivery_fee_obligated")
+    private Optional<Boolean> retailDeliveryFeeObligated;
+
+    /**
+     * First date from which retail delivery fee filings may be generated. Periods that closed before this
+     * date must not get those filings.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("retail_delivery_fee_effective_from")
+    private JsonNullable<LocalDate> retailDeliveryFeeEffectiveFrom;
 
     /**
      * Indicates whether an initial synchronization should be performed.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("initial_sync")
-    private Optional<Boolean> initialSync;
+    private JsonNullable<Boolean> initialSync;
 
     /**
      * The amount of fees associated with the registration.
@@ -186,60 +245,99 @@ public class RegistrationReadWithPassword {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("vda")
-    private Optional<Boolean> vda;
+    private JsonNullable<Boolean> vda;
 
     /**
      * Whether the registration was imported from another system.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("imported")
-    private Optional<Boolean> imported;
+    private JsonNullable<Boolean> imported;
 
     /**
-     * The sales tax ID associated with the registration.
+     * Account number for this registration. Holds the sales tax ID on a sales or combined permit, and the
+     * consumer use tax account number on a use tax registration.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("sales_tax_id")
-    private Optional<String> salesTaxId;
+    private JsonNullable<String> salesTaxId;
+
+    /**
+     * The Importer of Record (IOR) number associated with the registration.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("ior_number")
+    private JsonNullable<String> iorNumber;
+
+    /**
+     * The date the Importer of Record (IOR) became effective (YYYY-MM-DD).
+     * For jurisdictions where tax collection starts after the IOR date rather than the
+     * registration date, this is the date on/after which tax is collected.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("ior_date")
+    private JsonNullable<LocalDate> iorDate;
 
     /**
      * Indicates whether the registration is an SST Import.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("sst_import")
-    private Optional<Boolean> sstImport;
+    private JsonNullable<Boolean> sstImport;
 
     /**
-     * Type of OSS registration.
+     * The type of OSS registration. Should be filled for ZZ_EU OSS registrations.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("oss_type")
-    private Optional<? extends OssTypeEnum> ossType;
+    private JsonNullable<? extends OssTypeEnum> ossType;
 
-
+    /**
+     * The Member State of Identification code for OSS registrations.
+     */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("oss_member_state_of_identification_code")
-    private Optional<? extends CountryCodeEnum> ossMemberStateOfIdentificationCode;
+    private JsonNullable<? extends CountryCodeEnum> ossMemberStateOfIdentificationCode;
+
+    /**
+     * Tax obligation on a nexus, registration, or filing row.
+     * 
+     * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
+     * one return can cover both taxes, and each is stored as a single row.
+     * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
+     * separate obligations with their own met dates, period models, and liability
+     * accrual.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("tax_type")
+    private Optional<? extends TaxTypeEnum> taxType;
 
     /**
      * The date when the registration was marked as collecting.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("marked_collecting_date")
-    private Optional<String> markedCollectingDate;
+    private JsonNullable<OffsetDateTime> markedCollectingDate;
 
     /**
      * Indicates whether the registration needs to be marked as collecting.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("needs_mark_as_collecting")
-    private Optional<Boolean> needsMarkAsCollecting;
+    private JsonNullable<Boolean> needsMarkAsCollecting;
 
     /**
      * The unique identifier for the registration.
      */
     @JsonProperty("id")
     private String id;
+
+    /**
+     * Timestamp when this registration was created in Kintsugi.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("created_at")
+    private JsonNullable<OffsetDateTime> createdAt;
 
 
     @JsonInclude(Include.NON_ABSENT)
@@ -252,12 +350,28 @@ public class RegistrationReadWithPassword {
     private Optional<? extends RegistrationCategoryEnum> registrationCategory;
 
     /**
+     * Jurisdiction-specific registration fields.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("jurisdiction_specific_fields")
+    private JsonNullable<? extends Map<String, Object>> jurisdictionSpecificFields;
+
+    /**
      * Encrypted password for accessing the registration,
      * if applicable.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("password_encrypted")
-    private Optional<String> passwordEncrypted;
+    private JsonNullable<String> passwordEncrypted;
+
+    /**
+     * Encrypted PIN for the registration (e.g. Arizona/Wyoming
+     * e-file PIN). Masked by default; decrypted only when explicitly revealed
+     * via the GET registration endpoint's reveal query.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("pin_encrypted")
+    private JsonNullable<String> pinEncrypted;
 
     /**
      * Indicates if all required credentials are present.
@@ -274,52 +388,69 @@ public class RegistrationReadWithPassword {
     @JsonProperty("registration_type")
     private RegistrationTypeEnum registrationType;
 
+    /**
+     * State tax portal URL for this registration's jurisdiction.
+     */
+    @JsonInclude(Include.ALWAYS)
+    @JsonProperty("filing_website_url")
+    private Optional<String> filingWebsiteUrl;
+
     @JsonCreator
     public RegistrationReadWithPassword(
-            @JsonProperty("registration_date") Optional<String> registrationDate,
-            @JsonProperty("registration_email") Optional<String> registrationEmail,
-            @JsonProperty("registration_key") Optional<String> registrationKey,
-            @JsonProperty("deregistration_key") Optional<String> deregistrationKey,
-            @JsonProperty("registration_requested") Optional<String> registrationRequested,
-            @JsonProperty("registration_completed") Optional<String> registrationCompleted,
-            @JsonProperty("deregistration_requested") Optional<String> deregistrationRequested,
-            @JsonProperty("deregistration_completed") Optional<String> deregistrationCompleted,
-            @JsonProperty("auto_registered") Optional<Boolean> autoRegistered,
-            @JsonProperty("registrations_regime") Optional<? extends RegistrationsRegimeEnum> registrationsRegime,
-            @JsonProperty("change_regime_status") Optional<? extends ChangeRegimeStatusEnum> changeRegimeStatus,
-            @JsonProperty("third_party_enabled") Optional<Boolean> thirdPartyEnabled,
+            @JsonProperty("registration_date") JsonNullable<LocalDate> registrationDate,
+            @JsonProperty("registration_email") JsonNullable<String> registrationEmail,
+            @JsonProperty("registration_requested") JsonNullable<OffsetDateTime> registrationRequested,
+            @JsonProperty("registration_completed") JsonNullable<OffsetDateTime> registrationCompleted,
+            @JsonProperty("deregistration_requested") JsonNullable<OffsetDateTime> deregistrationRequested,
+            @JsonProperty("deregistration_completed") JsonNullable<OffsetDateTime> deregistrationCompleted,
+            @JsonProperty("auto_registered") JsonNullable<Boolean> autoRegistered,
+            @JsonProperty("registrations_regime") JsonNullable<? extends RegistrationsRegimeEnum> registrationsRegime,
+            @JsonProperty("change_regime_status") JsonNullable<? extends ChangeRegimeStatusEnum> changeRegimeStatus,
+            @JsonProperty("third_party_enabled") JsonNullable<Boolean> thirdPartyEnabled,
             @JsonProperty("do_not_file") Optional<Boolean> doNotFile,
-            @JsonProperty("two_factor_enabled") Optional<Boolean> twoFactorEnabled,
-            @JsonProperty("marked_collecting") Optional<Boolean> markedCollecting,
+            @JsonProperty("two_factor_enabled") JsonNullable<Boolean> twoFactorEnabled,
+            @JsonProperty("marked_collecting") JsonNullable<Boolean> markedCollecting,
             @JsonProperty("status") RegistrationStatusEnum status,
             @JsonProperty("country_code") CountryCodeEnum countryCode,
             @JsonProperty("state_code") String stateCode,
             @JsonProperty("state_name") String stateName,
             @JsonProperty("filing_frequency") FilingFrequencyEnum filingFrequency,
-            @JsonProperty("username") Optional<String> username,
-            @JsonProperty("comment") Optional<String> comment,
-            @JsonProperty("create_filings_from") Optional<String> createFilingsFrom,
-            @JsonProperty("initial_sync") Optional<Boolean> initialSync,
+            @JsonProperty("initial_filing_frequency") JsonNullable<? extends FilingFrequencyEnum> initialFilingFrequency,
+            @JsonProperty("scheduled_filing_frequency") JsonNullable<? extends FilingFrequencyEnum> scheduledFilingFrequency,
+            @JsonProperty("filing_frequency_effective_date") JsonNullable<LocalDate> filingFrequencyEffectiveDate,
+            @JsonProperty("period_end_month") JsonNullable<Long> periodEndMonth,
+            @JsonProperty("username") JsonNullable<String> username,
+            @JsonProperty("comment") JsonNullable<String> comment,
+            @JsonProperty("create_filings_from") JsonNullable<LocalDate> createFilingsFrom,
+            @JsonProperty("create_back_filing") Optional<Boolean> createBackFiling,
+            @JsonProperty("retail_delivery_fee_obligated") Optional<Boolean> retailDeliveryFeeObligated,
+            @JsonProperty("retail_delivery_fee_effective_from") JsonNullable<LocalDate> retailDeliveryFeeEffectiveFrom,
+            @JsonProperty("initial_sync") JsonNullable<Boolean> initialSync,
             @JsonProperty("amount_fees") Optional<String> amountFees,
-            @JsonProperty("vda") Optional<Boolean> vda,
-            @JsonProperty("imported") Optional<Boolean> imported,
-            @JsonProperty("sales_tax_id") Optional<String> salesTaxId,
-            @JsonProperty("sst_import") Optional<Boolean> sstImport,
-            @JsonProperty("oss_type") Optional<? extends OssTypeEnum> ossType,
-            @JsonProperty("oss_member_state_of_identification_code") Optional<? extends CountryCodeEnum> ossMemberStateOfIdentificationCode,
-            @JsonProperty("marked_collecting_date") Optional<String> markedCollectingDate,
-            @JsonProperty("needs_mark_as_collecting") Optional<Boolean> needsMarkAsCollecting,
+            @JsonProperty("vda") JsonNullable<Boolean> vda,
+            @JsonProperty("imported") JsonNullable<Boolean> imported,
+            @JsonProperty("sales_tax_id") JsonNullable<String> salesTaxId,
+            @JsonProperty("ior_number") JsonNullable<String> iorNumber,
+            @JsonProperty("ior_date") JsonNullable<LocalDate> iorDate,
+            @JsonProperty("sst_import") JsonNullable<Boolean> sstImport,
+            @JsonProperty("oss_type") JsonNullable<? extends OssTypeEnum> ossType,
+            @JsonProperty("oss_member_state_of_identification_code") JsonNullable<? extends CountryCodeEnum> ossMemberStateOfIdentificationCode,
+            @JsonProperty("tax_type") Optional<? extends TaxTypeEnum> taxType,
+            @JsonProperty("marked_collecting_date") JsonNullable<OffsetDateTime> markedCollectingDate,
+            @JsonProperty("needs_mark_as_collecting") JsonNullable<Boolean> needsMarkAsCollecting,
             @JsonProperty("id") String id,
+            @JsonProperty("created_at") JsonNullable<OffsetDateTime> createdAt,
             @JsonProperty("credits_total_available") Optional<String> creditsTotalAvailable,
             @JsonProperty("registration_category") Optional<? extends RegistrationCategoryEnum> registrationCategory,
-            @JsonProperty("password_encrypted") Optional<String> passwordEncrypted,
+            @JsonProperty("jurisdiction_specific_fields") JsonNullable<? extends Map<String, Object>> jurisdictionSpecificFields,
+            @JsonProperty("password_encrypted") JsonNullable<String> passwordEncrypted,
+            @JsonProperty("pin_encrypted") JsonNullable<String> pinEncrypted,
             @JsonProperty("has_all_credentials") Optional<Boolean> hasAllCredentials,
             @JsonProperty("filing_days") long filingDays,
-            @JsonProperty("registration_type") RegistrationTypeEnum registrationType) {
+            @JsonProperty("registration_type") RegistrationTypeEnum registrationType,
+            @JsonProperty("filing_website_url") Optional<String> filingWebsiteUrl) {
         Utils.checkNotNull(registrationDate, "registrationDate");
         Utils.checkNotNull(registrationEmail, "registrationEmail");
-        Utils.checkNotNull(registrationKey, "registrationKey");
-        Utils.checkNotNull(deregistrationKey, "deregistrationKey");
         Utils.checkNotNull(registrationRequested, "registrationRequested");
         Utils.checkNotNull(registrationCompleted, "registrationCompleted");
         Utils.checkNotNull(deregistrationRequested, "deregistrationRequested");
@@ -336,30 +467,42 @@ public class RegistrationReadWithPassword {
         Utils.checkNotNull(stateCode, "stateCode");
         Utils.checkNotNull(stateName, "stateName");
         Utils.checkNotNull(filingFrequency, "filingFrequency");
+        Utils.checkNotNull(initialFilingFrequency, "initialFilingFrequency");
+        Utils.checkNotNull(scheduledFilingFrequency, "scheduledFilingFrequency");
+        Utils.checkNotNull(filingFrequencyEffectiveDate, "filingFrequencyEffectiveDate");
+        Utils.checkNotNull(periodEndMonth, "periodEndMonth");
         Utils.checkNotNull(username, "username");
         Utils.checkNotNull(comment, "comment");
         Utils.checkNotNull(createFilingsFrom, "createFilingsFrom");
+        Utils.checkNotNull(createBackFiling, "createBackFiling");
+        Utils.checkNotNull(retailDeliveryFeeObligated, "retailDeliveryFeeObligated");
+        Utils.checkNotNull(retailDeliveryFeeEffectiveFrom, "retailDeliveryFeeEffectiveFrom");
         Utils.checkNotNull(initialSync, "initialSync");
         Utils.checkNotNull(amountFees, "amountFees");
         Utils.checkNotNull(vda, "vda");
         Utils.checkNotNull(imported, "imported");
         Utils.checkNotNull(salesTaxId, "salesTaxId");
+        Utils.checkNotNull(iorNumber, "iorNumber");
+        Utils.checkNotNull(iorDate, "iorDate");
         Utils.checkNotNull(sstImport, "sstImport");
         Utils.checkNotNull(ossType, "ossType");
         Utils.checkNotNull(ossMemberStateOfIdentificationCode, "ossMemberStateOfIdentificationCode");
+        Utils.checkNotNull(taxType, "taxType");
         Utils.checkNotNull(markedCollectingDate, "markedCollectingDate");
         Utils.checkNotNull(needsMarkAsCollecting, "needsMarkAsCollecting");
         Utils.checkNotNull(id, "id");
+        Utils.checkNotNull(createdAt, "createdAt");
         Utils.checkNotNull(creditsTotalAvailable, "creditsTotalAvailable");
         Utils.checkNotNull(registrationCategory, "registrationCategory");
+        Utils.checkNotNull(jurisdictionSpecificFields, "jurisdictionSpecificFields");
         Utils.checkNotNull(passwordEncrypted, "passwordEncrypted");
+        Utils.checkNotNull(pinEncrypted, "pinEncrypted");
         Utils.checkNotNull(hasAllCredentials, "hasAllCredentials");
         Utils.checkNotNull(filingDays, "filingDays");
         Utils.checkNotNull(registrationType, "registrationType");
+        Utils.checkNotNull(filingWebsiteUrl, "filingWebsiteUrl");
         this.registrationDate = registrationDate;
         this.registrationEmail = registrationEmail;
-        this.registrationKey = registrationKey;
-        this.deregistrationKey = deregistrationKey;
         this.registrationRequested = registrationRequested;
         this.registrationCompleted = registrationCompleted;
         this.deregistrationRequested = deregistrationRequested;
@@ -376,26 +519,40 @@ public class RegistrationReadWithPassword {
         this.stateCode = stateCode;
         this.stateName = stateName;
         this.filingFrequency = filingFrequency;
+        this.initialFilingFrequency = initialFilingFrequency;
+        this.scheduledFilingFrequency = scheduledFilingFrequency;
+        this.filingFrequencyEffectiveDate = filingFrequencyEffectiveDate;
+        this.periodEndMonth = periodEndMonth;
         this.username = username;
         this.comment = comment;
         this.createFilingsFrom = createFilingsFrom;
+        this.createBackFiling = createBackFiling;
+        this.retailDeliveryFeeObligated = retailDeliveryFeeObligated;
+        this.retailDeliveryFeeEffectiveFrom = retailDeliveryFeeEffectiveFrom;
         this.initialSync = initialSync;
         this.amountFees = amountFees;
         this.vda = vda;
         this.imported = imported;
         this.salesTaxId = salesTaxId;
+        this.iorNumber = iorNumber;
+        this.iorDate = iorDate;
         this.sstImport = sstImport;
         this.ossType = ossType;
         this.ossMemberStateOfIdentificationCode = ossMemberStateOfIdentificationCode;
+        this.taxType = taxType;
         this.markedCollectingDate = markedCollectingDate;
         this.needsMarkAsCollecting = needsMarkAsCollecting;
         this.id = id;
+        this.createdAt = createdAt;
         this.creditsTotalAvailable = creditsTotalAvailable;
         this.registrationCategory = registrationCategory;
+        this.jurisdictionSpecificFields = jurisdictionSpecificFields;
         this.passwordEncrypted = passwordEncrypted;
+        this.pinEncrypted = pinEncrypted;
         this.hasAllCredentials = hasAllCredentials;
         this.filingDays = filingDays;
         this.registrationType = registrationType;
+        this.filingWebsiteUrl = filingWebsiteUrl;
     }
     
     public RegistrationReadWithPassword(
@@ -407,27 +564,31 @@ public class RegistrationReadWithPassword {
             String id,
             long filingDays,
             RegistrationTypeEnum registrationType) {
-        this(Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            status, countryCode, stateCode,
-            stateName, filingFrequency, Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            id, Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), filingDays,
-            registrationType);
+        this(JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), Optional.empty(), JsonNullable.undefined(),
+            JsonNullable.undefined(), status, countryCode,
+            stateCode, stateName, filingFrequency,
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), Optional.empty(), Optional.empty(),
+            JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty(),
+            JsonNullable.undefined(), JsonNullable.undefined(), id,
+            JsonNullable.undefined(), Optional.empty(), Optional.empty(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            Optional.empty(), filingDays, registrationType,
+            Optional.empty());
     }
 
     /**
      * The date when the registration was created. Format: YYYY-MM-DD.
      */
     @JsonIgnore
-    public Optional<String> registrationDate() {
+    public JsonNullable<LocalDate> registrationDate() {
         return registrationDate;
     }
 
@@ -435,31 +596,15 @@ public class RegistrationReadWithPassword {
      * Email address associated with the registration.
      */
     @JsonIgnore
-    public Optional<String> registrationEmail() {
+    public JsonNullable<String> registrationEmail() {
         return registrationEmail;
-    }
-
-    /**
-     * A unique key assigned to the registration.
-     */
-    @JsonIgnore
-    public Optional<String> registrationKey() {
-        return registrationKey;
-    }
-
-    /**
-     * A unique key assigned for deregistration.
-     */
-    @JsonIgnore
-    public Optional<String> deregistrationKey() {
-        return deregistrationKey;
     }
 
     /**
      * Timestamp when the registration was requested.
      */
     @JsonIgnore
-    public Optional<String> registrationRequested() {
+    public JsonNullable<OffsetDateTime> registrationRequested() {
         return registrationRequested;
     }
 
@@ -467,7 +612,7 @@ public class RegistrationReadWithPassword {
      * Timestamp when the registration was completed.
      */
     @JsonIgnore
-    public Optional<String> registrationCompleted() {
+    public JsonNullable<OffsetDateTime> registrationCompleted() {
         return registrationCompleted;
     }
 
@@ -475,7 +620,7 @@ public class RegistrationReadWithPassword {
      * Timestamp when deregistration was requested.
      */
     @JsonIgnore
-    public Optional<String> deregistrationRequested() {
+    public JsonNullable<OffsetDateTime> deregistrationRequested() {
         return deregistrationRequested;
     }
 
@@ -483,7 +628,7 @@ public class RegistrationReadWithPassword {
      * Timestamp when the deregistration was completed.
      */
     @JsonIgnore
-    public Optional<String> deregistrationCompleted() {
+    public JsonNullable<OffsetDateTime> deregistrationCompleted() {
         return deregistrationCompleted;
     }
 
@@ -491,27 +636,30 @@ public class RegistrationReadWithPassword {
      * Indicates whether the registration was completed automatically.
      */
     @JsonIgnore
-    public Optional<Boolean> autoRegistered() {
+    public JsonNullable<Boolean> autoRegistered() {
         return autoRegistered;
     }
 
+    /**
+     * The tax registration regime (e.g., STANDARD, SIMPLIFIED).
+     */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<RegistrationsRegimeEnum> registrationsRegime() {
-        return (Optional<RegistrationsRegimeEnum>) registrationsRegime;
+    public JsonNullable<RegistrationsRegimeEnum> registrationsRegime() {
+        return (JsonNullable<RegistrationsRegimeEnum>) registrationsRegime;
     }
 
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<ChangeRegimeStatusEnum> changeRegimeStatus() {
-        return (Optional<ChangeRegimeStatusEnum>) changeRegimeStatus;
+    public JsonNullable<ChangeRegimeStatusEnum> changeRegimeStatus() {
+        return (JsonNullable<ChangeRegimeStatusEnum>) changeRegimeStatus;
     }
 
     /**
      * Indicates whether third-party access is enabled for this registration.
      */
     @JsonIgnore
-    public Optional<Boolean> thirdPartyEnabled() {
+    public JsonNullable<Boolean> thirdPartyEnabled() {
         return thirdPartyEnabled;
     }
 
@@ -527,7 +675,7 @@ public class RegistrationReadWithPassword {
      * Indicates whether two-factor authentication (2FA) is enabled for this registration.
      */
     @JsonIgnore
-    public Optional<Boolean> twoFactorEnabled() {
+    public JsonNullable<Boolean> twoFactorEnabled() {
         return twoFactorEnabled;
     }
 
@@ -535,7 +683,7 @@ public class RegistrationReadWithPassword {
      * Indicates whether the  registration is marked as collecting in shopify
      */
     @JsonIgnore
-    public Optional<Boolean> markedCollecting() {
+    public JsonNullable<Boolean> markedCollecting() {
         return markedCollecting;
     }
 
@@ -571,10 +719,51 @@ public class RegistrationReadWithPassword {
     }
 
     /**
+     * The first non-UNKNOWN filing frequency this registration
+     * was ever assigned.
+     */
+    @SuppressWarnings("unchecked")
+    @JsonIgnore
+    public JsonNullable<FilingFrequencyEnum> initialFilingFrequency() {
+        return (JsonNullable<FilingFrequencyEnum>) initialFilingFrequency;
+    }
+
+    /**
+     * The filing frequency that will automatically replace
+     * `filing_frequency` on `filing_frequency_effective_date`. Null when no
+     * frequency change is pending.
+     */
+    @SuppressWarnings("unchecked")
+    @JsonIgnore
+    public JsonNullable<FilingFrequencyEnum> scheduledFilingFrequency() {
+        return (JsonNullable<FilingFrequencyEnum>) scheduledFilingFrequency;
+    }
+
+    /**
+     * The date on which `scheduled_filing_frequency` should
+     * automatically become the registration's `filing_frequency`. Null when
+     * no frequency change is pending.
+     */
+    @JsonIgnore
+    public JsonNullable<LocalDate> filingFrequencyEffectiveDate() {
+        return filingFrequencyEffectiveDate;
+    }
+
+    /**
+     * Month (1-12) on which this registration's filing period ends,
+     * for fiscal-year filers whose quarterly/semiannual periods are offset from the
+     * calendar. Null means calendar-aligned periods.
+     */
+    @JsonIgnore
+    public JsonNullable<Long> periodEndMonth() {
+        return periodEndMonth;
+    }
+
+    /**
      * Username for accessing tax registration details.
      */
     @JsonIgnore
-    public Optional<String> username() {
+    public JsonNullable<String> username() {
         return username;
     }
 
@@ -582,7 +771,7 @@ public class RegistrationReadWithPassword {
      * Additional comments related to the registration.
      */
     @JsonIgnore
-    public Optional<String> comment() {
+    public JsonNullable<String> comment() {
         return comment;
     }
 
@@ -591,15 +780,41 @@ public class RegistrationReadWithPassword {
      * should start (YYYY-MM-DD).
      */
     @JsonIgnore
-    public Optional<String> createFilingsFrom() {
+    public JsonNullable<LocalDate> createFilingsFrom() {
         return createFilingsFrom;
+    }
+
+    /**
+     * Whether to also file the single period preceding the first filing period.
+     */
+    @JsonIgnore
+    public Optional<Boolean> createBackFiling() {
+        return createBackFiling;
+    }
+
+    /**
+     * Whether this registration is declared obligated to file a Retail Delivery Fee return (e.g. Colorado
+     * DR 1786).
+     */
+    @JsonIgnore
+    public Optional<Boolean> retailDeliveryFeeObligated() {
+        return retailDeliveryFeeObligated;
+    }
+
+    /**
+     * First date from which retail delivery fee filings may be generated. Periods that closed before this
+     * date must not get those filings.
+     */
+    @JsonIgnore
+    public JsonNullable<LocalDate> retailDeliveryFeeEffectiveFrom() {
+        return retailDeliveryFeeEffectiveFrom;
     }
 
     /**
      * Indicates whether an initial synchronization should be performed.
      */
     @JsonIgnore
-    public Optional<Boolean> initialSync() {
+    public JsonNullable<Boolean> initialSync() {
         return initialSync;
     }
 
@@ -615,7 +830,7 @@ public class RegistrationReadWithPassword {
      * Indicates whether a Voluntary Disclosure Agreement (VDA) applies.
      */
     @JsonIgnore
-    public Optional<Boolean> vda() {
+    public JsonNullable<Boolean> vda() {
         return vda;
     }
 
@@ -623,46 +838,83 @@ public class RegistrationReadWithPassword {
      * Whether the registration was imported from another system.
      */
     @JsonIgnore
-    public Optional<Boolean> imported() {
+    public JsonNullable<Boolean> imported() {
         return imported;
     }
 
     /**
-     * The sales tax ID associated with the registration.
+     * Account number for this registration. Holds the sales tax ID on a sales or combined permit, and the
+     * consumer use tax account number on a use tax registration.
      */
     @JsonIgnore
-    public Optional<String> salesTaxId() {
+    public JsonNullable<String> salesTaxId() {
         return salesTaxId;
+    }
+
+    /**
+     * The Importer of Record (IOR) number associated with the registration.
+     */
+    @JsonIgnore
+    public JsonNullable<String> iorNumber() {
+        return iorNumber;
+    }
+
+    /**
+     * The date the Importer of Record (IOR) became effective (YYYY-MM-DD).
+     * For jurisdictions where tax collection starts after the IOR date rather than the
+     * registration date, this is the date on/after which tax is collected.
+     */
+    @JsonIgnore
+    public JsonNullable<LocalDate> iorDate() {
+        return iorDate;
     }
 
     /**
      * Indicates whether the registration is an SST Import.
      */
     @JsonIgnore
-    public Optional<Boolean> sstImport() {
+    public JsonNullable<Boolean> sstImport() {
         return sstImport;
     }
 
     /**
-     * Type of OSS registration.
+     * The type of OSS registration. Should be filled for ZZ_EU OSS registrations.
      */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<OssTypeEnum> ossType() {
-        return (Optional<OssTypeEnum>) ossType;
+    public JsonNullable<OssTypeEnum> ossType() {
+        return (JsonNullable<OssTypeEnum>) ossType;
     }
 
+    /**
+     * The Member State of Identification code for OSS registrations.
+     */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<CountryCodeEnum> ossMemberStateOfIdentificationCode() {
-        return (Optional<CountryCodeEnum>) ossMemberStateOfIdentificationCode;
+    public JsonNullable<CountryCodeEnum> ossMemberStateOfIdentificationCode() {
+        return (JsonNullable<CountryCodeEnum>) ossMemberStateOfIdentificationCode;
+    }
+
+    /**
+     * Tax obligation on a nexus, registration, or filing row.
+     * 
+     * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
+     * one return can cover both taxes, and each is stored as a single row.
+     * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
+     * separate obligations with their own met dates, period models, and liability
+     * accrual.
+     */
+    @SuppressWarnings("unchecked")
+    @JsonIgnore
+    public Optional<TaxTypeEnum> taxType() {
+        return (Optional<TaxTypeEnum>) taxType;
     }
 
     /**
      * The date when the registration was marked as collecting.
      */
     @JsonIgnore
-    public Optional<String> markedCollectingDate() {
+    public JsonNullable<OffsetDateTime> markedCollectingDate() {
         return markedCollectingDate;
     }
 
@@ -670,7 +922,7 @@ public class RegistrationReadWithPassword {
      * Indicates whether the registration needs to be marked as collecting.
      */
     @JsonIgnore
-    public Optional<Boolean> needsMarkAsCollecting() {
+    public JsonNullable<Boolean> needsMarkAsCollecting() {
         return needsMarkAsCollecting;
     }
 
@@ -680,6 +932,14 @@ public class RegistrationReadWithPassword {
     @JsonIgnore
     public String id() {
         return id;
+    }
+
+    /**
+     * Timestamp when this registration was created in Kintsugi.
+     */
+    @JsonIgnore
+    public JsonNullable<OffsetDateTime> createdAt() {
+        return createdAt;
     }
 
     @JsonIgnore
@@ -694,12 +954,31 @@ public class RegistrationReadWithPassword {
     }
 
     /**
+     * Jurisdiction-specific registration fields.
+     */
+    @SuppressWarnings("unchecked")
+    @JsonIgnore
+    public JsonNullable<Map<String, Object>> jurisdictionSpecificFields() {
+        return (JsonNullable<Map<String, Object>>) jurisdictionSpecificFields;
+    }
+
+    /**
      * Encrypted password for accessing the registration,
      * if applicable.
      */
     @JsonIgnore
-    public Optional<String> passwordEncrypted() {
+    public JsonNullable<String> passwordEncrypted() {
         return passwordEncrypted;
+    }
+
+    /**
+     * Encrypted PIN for the registration (e.g. Arizona/Wyoming
+     * e-file PIN). Masked by default; decrypted only when explicitly revealed
+     * via the GET registration endpoint's reveal query.
+     */
+    @JsonIgnore
+    public JsonNullable<String> pinEncrypted() {
+        return pinEncrypted;
     }
 
     /**
@@ -720,6 +999,14 @@ public class RegistrationReadWithPassword {
         return registrationType;
     }
 
+    /**
+     * State tax portal URL for this registration's jurisdiction.
+     */
+    @JsonIgnore
+    public Optional<String> filingWebsiteUrl() {
+        return filingWebsiteUrl;
+    }
+
     public static Builder builder() {
         return new Builder();
     }
@@ -728,17 +1015,16 @@ public class RegistrationReadWithPassword {
     /**
      * The date when the registration was created. Format: YYYY-MM-DD.
      */
-    public RegistrationReadWithPassword withRegistrationDate(String registrationDate) {
+    public RegistrationReadWithPassword withRegistrationDate(LocalDate registrationDate) {
         Utils.checkNotNull(registrationDate, "registrationDate");
-        this.registrationDate = Optional.ofNullable(registrationDate);
+        this.registrationDate = JsonNullable.of(registrationDate);
         return this;
     }
-
 
     /**
      * The date when the registration was created. Format: YYYY-MM-DD.
      */
-    public RegistrationReadWithPassword withRegistrationDate(Optional<String> registrationDate) {
+    public RegistrationReadWithPassword withRegistrationDate(JsonNullable<LocalDate> registrationDate) {
         Utils.checkNotNull(registrationDate, "registrationDate");
         this.registrationDate = registrationDate;
         return this;
@@ -749,72 +1035,32 @@ public class RegistrationReadWithPassword {
      */
     public RegistrationReadWithPassword withRegistrationEmail(String registrationEmail) {
         Utils.checkNotNull(registrationEmail, "registrationEmail");
-        this.registrationEmail = Optional.ofNullable(registrationEmail);
+        this.registrationEmail = JsonNullable.of(registrationEmail);
         return this;
     }
-
 
     /**
      * Email address associated with the registration.
      */
-    public RegistrationReadWithPassword withRegistrationEmail(Optional<String> registrationEmail) {
+    public RegistrationReadWithPassword withRegistrationEmail(JsonNullable<String> registrationEmail) {
         Utils.checkNotNull(registrationEmail, "registrationEmail");
         this.registrationEmail = registrationEmail;
         return this;
     }
 
     /**
-     * A unique key assigned to the registration.
-     */
-    public RegistrationReadWithPassword withRegistrationKey(String registrationKey) {
-        Utils.checkNotNull(registrationKey, "registrationKey");
-        this.registrationKey = Optional.ofNullable(registrationKey);
-        return this;
-    }
-
-
-    /**
-     * A unique key assigned to the registration.
-     */
-    public RegistrationReadWithPassword withRegistrationKey(Optional<String> registrationKey) {
-        Utils.checkNotNull(registrationKey, "registrationKey");
-        this.registrationKey = registrationKey;
-        return this;
-    }
-
-    /**
-     * A unique key assigned for deregistration.
-     */
-    public RegistrationReadWithPassword withDeregistrationKey(String deregistrationKey) {
-        Utils.checkNotNull(deregistrationKey, "deregistrationKey");
-        this.deregistrationKey = Optional.ofNullable(deregistrationKey);
-        return this;
-    }
-
-
-    /**
-     * A unique key assigned for deregistration.
-     */
-    public RegistrationReadWithPassword withDeregistrationKey(Optional<String> deregistrationKey) {
-        Utils.checkNotNull(deregistrationKey, "deregistrationKey");
-        this.deregistrationKey = deregistrationKey;
-        return this;
-    }
-
-    /**
      * Timestamp when the registration was requested.
      */
-    public RegistrationReadWithPassword withRegistrationRequested(String registrationRequested) {
+    public RegistrationReadWithPassword withRegistrationRequested(OffsetDateTime registrationRequested) {
         Utils.checkNotNull(registrationRequested, "registrationRequested");
-        this.registrationRequested = Optional.ofNullable(registrationRequested);
+        this.registrationRequested = JsonNullable.of(registrationRequested);
         return this;
     }
-
 
     /**
      * Timestamp when the registration was requested.
      */
-    public RegistrationReadWithPassword withRegistrationRequested(Optional<String> registrationRequested) {
+    public RegistrationReadWithPassword withRegistrationRequested(JsonNullable<OffsetDateTime> registrationRequested) {
         Utils.checkNotNull(registrationRequested, "registrationRequested");
         this.registrationRequested = registrationRequested;
         return this;
@@ -823,17 +1069,16 @@ public class RegistrationReadWithPassword {
     /**
      * Timestamp when the registration was completed.
      */
-    public RegistrationReadWithPassword withRegistrationCompleted(String registrationCompleted) {
+    public RegistrationReadWithPassword withRegistrationCompleted(OffsetDateTime registrationCompleted) {
         Utils.checkNotNull(registrationCompleted, "registrationCompleted");
-        this.registrationCompleted = Optional.ofNullable(registrationCompleted);
+        this.registrationCompleted = JsonNullable.of(registrationCompleted);
         return this;
     }
-
 
     /**
      * Timestamp when the registration was completed.
      */
-    public RegistrationReadWithPassword withRegistrationCompleted(Optional<String> registrationCompleted) {
+    public RegistrationReadWithPassword withRegistrationCompleted(JsonNullable<OffsetDateTime> registrationCompleted) {
         Utils.checkNotNull(registrationCompleted, "registrationCompleted");
         this.registrationCompleted = registrationCompleted;
         return this;
@@ -842,17 +1087,16 @@ public class RegistrationReadWithPassword {
     /**
      * Timestamp when deregistration was requested.
      */
-    public RegistrationReadWithPassword withDeregistrationRequested(String deregistrationRequested) {
+    public RegistrationReadWithPassword withDeregistrationRequested(OffsetDateTime deregistrationRequested) {
         Utils.checkNotNull(deregistrationRequested, "deregistrationRequested");
-        this.deregistrationRequested = Optional.ofNullable(deregistrationRequested);
+        this.deregistrationRequested = JsonNullable.of(deregistrationRequested);
         return this;
     }
-
 
     /**
      * Timestamp when deregistration was requested.
      */
-    public RegistrationReadWithPassword withDeregistrationRequested(Optional<String> deregistrationRequested) {
+    public RegistrationReadWithPassword withDeregistrationRequested(JsonNullable<OffsetDateTime> deregistrationRequested) {
         Utils.checkNotNull(deregistrationRequested, "deregistrationRequested");
         this.deregistrationRequested = deregistrationRequested;
         return this;
@@ -861,17 +1105,16 @@ public class RegistrationReadWithPassword {
     /**
      * Timestamp when the deregistration was completed.
      */
-    public RegistrationReadWithPassword withDeregistrationCompleted(String deregistrationCompleted) {
+    public RegistrationReadWithPassword withDeregistrationCompleted(OffsetDateTime deregistrationCompleted) {
         Utils.checkNotNull(deregistrationCompleted, "deregistrationCompleted");
-        this.deregistrationCompleted = Optional.ofNullable(deregistrationCompleted);
+        this.deregistrationCompleted = JsonNullable.of(deregistrationCompleted);
         return this;
     }
-
 
     /**
      * Timestamp when the deregistration was completed.
      */
-    public RegistrationReadWithPassword withDeregistrationCompleted(Optional<String> deregistrationCompleted) {
+    public RegistrationReadWithPassword withDeregistrationCompleted(JsonNullable<OffsetDateTime> deregistrationCompleted) {
         Utils.checkNotNull(deregistrationCompleted, "deregistrationCompleted");
         this.deregistrationCompleted = deregistrationCompleted;
         return this;
@@ -882,28 +1125,32 @@ public class RegistrationReadWithPassword {
      */
     public RegistrationReadWithPassword withAutoRegistered(boolean autoRegistered) {
         Utils.checkNotNull(autoRegistered, "autoRegistered");
-        this.autoRegistered = Optional.ofNullable(autoRegistered);
+        this.autoRegistered = JsonNullable.of(autoRegistered);
         return this;
     }
-
 
     /**
      * Indicates whether the registration was completed automatically.
      */
-    public RegistrationReadWithPassword withAutoRegistered(Optional<Boolean> autoRegistered) {
+    public RegistrationReadWithPassword withAutoRegistered(JsonNullable<Boolean> autoRegistered) {
         Utils.checkNotNull(autoRegistered, "autoRegistered");
         this.autoRegistered = autoRegistered;
         return this;
     }
 
+    /**
+     * The tax registration regime (e.g., STANDARD, SIMPLIFIED).
+     */
     public RegistrationReadWithPassword withRegistrationsRegime(RegistrationsRegimeEnum registrationsRegime) {
         Utils.checkNotNull(registrationsRegime, "registrationsRegime");
-        this.registrationsRegime = Optional.ofNullable(registrationsRegime);
+        this.registrationsRegime = JsonNullable.of(registrationsRegime);
         return this;
     }
 
-
-    public RegistrationReadWithPassword withRegistrationsRegime(Optional<? extends RegistrationsRegimeEnum> registrationsRegime) {
+    /**
+     * The tax registration regime (e.g., STANDARD, SIMPLIFIED).
+     */
+    public RegistrationReadWithPassword withRegistrationsRegime(JsonNullable<? extends RegistrationsRegimeEnum> registrationsRegime) {
         Utils.checkNotNull(registrationsRegime, "registrationsRegime");
         this.registrationsRegime = registrationsRegime;
         return this;
@@ -911,12 +1158,11 @@ public class RegistrationReadWithPassword {
 
     public RegistrationReadWithPassword withChangeRegimeStatus(ChangeRegimeStatusEnum changeRegimeStatus) {
         Utils.checkNotNull(changeRegimeStatus, "changeRegimeStatus");
-        this.changeRegimeStatus = Optional.ofNullable(changeRegimeStatus);
+        this.changeRegimeStatus = JsonNullable.of(changeRegimeStatus);
         return this;
     }
 
-
-    public RegistrationReadWithPassword withChangeRegimeStatus(Optional<? extends ChangeRegimeStatusEnum> changeRegimeStatus) {
+    public RegistrationReadWithPassword withChangeRegimeStatus(JsonNullable<? extends ChangeRegimeStatusEnum> changeRegimeStatus) {
         Utils.checkNotNull(changeRegimeStatus, "changeRegimeStatus");
         this.changeRegimeStatus = changeRegimeStatus;
         return this;
@@ -927,15 +1173,14 @@ public class RegistrationReadWithPassword {
      */
     public RegistrationReadWithPassword withThirdPartyEnabled(boolean thirdPartyEnabled) {
         Utils.checkNotNull(thirdPartyEnabled, "thirdPartyEnabled");
-        this.thirdPartyEnabled = Optional.ofNullable(thirdPartyEnabled);
+        this.thirdPartyEnabled = JsonNullable.of(thirdPartyEnabled);
         return this;
     }
-
 
     /**
      * Indicates whether third-party access is enabled for this registration.
      */
-    public RegistrationReadWithPassword withThirdPartyEnabled(Optional<Boolean> thirdPartyEnabled) {
+    public RegistrationReadWithPassword withThirdPartyEnabled(JsonNullable<Boolean> thirdPartyEnabled) {
         Utils.checkNotNull(thirdPartyEnabled, "thirdPartyEnabled");
         this.thirdPartyEnabled = thirdPartyEnabled;
         return this;
@@ -965,15 +1210,14 @@ public class RegistrationReadWithPassword {
      */
     public RegistrationReadWithPassword withTwoFactorEnabled(boolean twoFactorEnabled) {
         Utils.checkNotNull(twoFactorEnabled, "twoFactorEnabled");
-        this.twoFactorEnabled = Optional.ofNullable(twoFactorEnabled);
+        this.twoFactorEnabled = JsonNullable.of(twoFactorEnabled);
         return this;
     }
-
 
     /**
      * Indicates whether two-factor authentication (2FA) is enabled for this registration.
      */
-    public RegistrationReadWithPassword withTwoFactorEnabled(Optional<Boolean> twoFactorEnabled) {
+    public RegistrationReadWithPassword withTwoFactorEnabled(JsonNullable<Boolean> twoFactorEnabled) {
         Utils.checkNotNull(twoFactorEnabled, "twoFactorEnabled");
         this.twoFactorEnabled = twoFactorEnabled;
         return this;
@@ -984,15 +1228,14 @@ public class RegistrationReadWithPassword {
      */
     public RegistrationReadWithPassword withMarkedCollecting(boolean markedCollecting) {
         Utils.checkNotNull(markedCollecting, "markedCollecting");
-        this.markedCollecting = Optional.ofNullable(markedCollecting);
+        this.markedCollecting = JsonNullable.of(markedCollecting);
         return this;
     }
-
 
     /**
      * Indicates whether the  registration is marked as collecting in shopify
      */
-    public RegistrationReadWithPassword withMarkedCollecting(Optional<Boolean> markedCollecting) {
+    public RegistrationReadWithPassword withMarkedCollecting(JsonNullable<Boolean> markedCollecting) {
         Utils.checkNotNull(markedCollecting, "markedCollecting");
         this.markedCollecting = markedCollecting;
         return this;
@@ -1035,19 +1278,104 @@ public class RegistrationReadWithPassword {
     }
 
     /**
-     * Username for accessing tax registration details.
+     * The first non-UNKNOWN filing frequency this registration
+     * was ever assigned.
      */
-    public RegistrationReadWithPassword withUsername(String username) {
-        Utils.checkNotNull(username, "username");
-        this.username = Optional.ofNullable(username);
+    public RegistrationReadWithPassword withInitialFilingFrequency(FilingFrequencyEnum initialFilingFrequency) {
+        Utils.checkNotNull(initialFilingFrequency, "initialFilingFrequency");
+        this.initialFilingFrequency = JsonNullable.of(initialFilingFrequency);
         return this;
     }
 
+    /**
+     * The first non-UNKNOWN filing frequency this registration
+     * was ever assigned.
+     */
+    public RegistrationReadWithPassword withInitialFilingFrequency(JsonNullable<? extends FilingFrequencyEnum> initialFilingFrequency) {
+        Utils.checkNotNull(initialFilingFrequency, "initialFilingFrequency");
+        this.initialFilingFrequency = initialFilingFrequency;
+        return this;
+    }
+
+    /**
+     * The filing frequency that will automatically replace
+     * `filing_frequency` on `filing_frequency_effective_date`. Null when no
+     * frequency change is pending.
+     */
+    public RegistrationReadWithPassword withScheduledFilingFrequency(FilingFrequencyEnum scheduledFilingFrequency) {
+        Utils.checkNotNull(scheduledFilingFrequency, "scheduledFilingFrequency");
+        this.scheduledFilingFrequency = JsonNullable.of(scheduledFilingFrequency);
+        return this;
+    }
+
+    /**
+     * The filing frequency that will automatically replace
+     * `filing_frequency` on `filing_frequency_effective_date`. Null when no
+     * frequency change is pending.
+     */
+    public RegistrationReadWithPassword withScheduledFilingFrequency(JsonNullable<? extends FilingFrequencyEnum> scheduledFilingFrequency) {
+        Utils.checkNotNull(scheduledFilingFrequency, "scheduledFilingFrequency");
+        this.scheduledFilingFrequency = scheduledFilingFrequency;
+        return this;
+    }
+
+    /**
+     * The date on which `scheduled_filing_frequency` should
+     * automatically become the registration's `filing_frequency`. Null when
+     * no frequency change is pending.
+     */
+    public RegistrationReadWithPassword withFilingFrequencyEffectiveDate(LocalDate filingFrequencyEffectiveDate) {
+        Utils.checkNotNull(filingFrequencyEffectiveDate, "filingFrequencyEffectiveDate");
+        this.filingFrequencyEffectiveDate = JsonNullable.of(filingFrequencyEffectiveDate);
+        return this;
+    }
+
+    /**
+     * The date on which `scheduled_filing_frequency` should
+     * automatically become the registration's `filing_frequency`. Null when
+     * no frequency change is pending.
+     */
+    public RegistrationReadWithPassword withFilingFrequencyEffectiveDate(JsonNullable<LocalDate> filingFrequencyEffectiveDate) {
+        Utils.checkNotNull(filingFrequencyEffectiveDate, "filingFrequencyEffectiveDate");
+        this.filingFrequencyEffectiveDate = filingFrequencyEffectiveDate;
+        return this;
+    }
+
+    /**
+     * Month (1-12) on which this registration's filing period ends,
+     * for fiscal-year filers whose quarterly/semiannual periods are offset from the
+     * calendar. Null means calendar-aligned periods.
+     */
+    public RegistrationReadWithPassword withPeriodEndMonth(long periodEndMonth) {
+        Utils.checkNotNull(periodEndMonth, "periodEndMonth");
+        this.periodEndMonth = JsonNullable.of(periodEndMonth);
+        return this;
+    }
+
+    /**
+     * Month (1-12) on which this registration's filing period ends,
+     * for fiscal-year filers whose quarterly/semiannual periods are offset from the
+     * calendar. Null means calendar-aligned periods.
+     */
+    public RegistrationReadWithPassword withPeriodEndMonth(JsonNullable<Long> periodEndMonth) {
+        Utils.checkNotNull(periodEndMonth, "periodEndMonth");
+        this.periodEndMonth = periodEndMonth;
+        return this;
+    }
 
     /**
      * Username for accessing tax registration details.
      */
-    public RegistrationReadWithPassword withUsername(Optional<String> username) {
+    public RegistrationReadWithPassword withUsername(String username) {
+        Utils.checkNotNull(username, "username");
+        this.username = JsonNullable.of(username);
+        return this;
+    }
+
+    /**
+     * Username for accessing tax registration details.
+     */
+    public RegistrationReadWithPassword withUsername(JsonNullable<String> username) {
         Utils.checkNotNull(username, "username");
         this.username = username;
         return this;
@@ -1058,15 +1386,14 @@ public class RegistrationReadWithPassword {
      */
     public RegistrationReadWithPassword withComment(String comment) {
         Utils.checkNotNull(comment, "comment");
-        this.comment = Optional.ofNullable(comment);
+        this.comment = JsonNullable.of(comment);
         return this;
     }
-
 
     /**
      * Additional comments related to the registration.
      */
-    public RegistrationReadWithPassword withComment(Optional<String> comment) {
+    public RegistrationReadWithPassword withComment(JsonNullable<String> comment) {
         Utils.checkNotNull(comment, "comment");
         this.comment = comment;
         return this;
@@ -1076,20 +1403,79 @@ public class RegistrationReadWithPassword {
      * The date from which filings should be created.
      * should start (YYYY-MM-DD).
      */
-    public RegistrationReadWithPassword withCreateFilingsFrom(String createFilingsFrom) {
+    public RegistrationReadWithPassword withCreateFilingsFrom(LocalDate createFilingsFrom) {
         Utils.checkNotNull(createFilingsFrom, "createFilingsFrom");
-        this.createFilingsFrom = Optional.ofNullable(createFilingsFrom);
+        this.createFilingsFrom = JsonNullable.of(createFilingsFrom);
         return this;
     }
-
 
     /**
      * The date from which filings should be created.
      * should start (YYYY-MM-DD).
      */
-    public RegistrationReadWithPassword withCreateFilingsFrom(Optional<String> createFilingsFrom) {
+    public RegistrationReadWithPassword withCreateFilingsFrom(JsonNullable<LocalDate> createFilingsFrom) {
         Utils.checkNotNull(createFilingsFrom, "createFilingsFrom");
         this.createFilingsFrom = createFilingsFrom;
+        return this;
+    }
+
+    /**
+     * Whether to also file the single period preceding the first filing period.
+     */
+    public RegistrationReadWithPassword withCreateBackFiling(boolean createBackFiling) {
+        Utils.checkNotNull(createBackFiling, "createBackFiling");
+        this.createBackFiling = Optional.ofNullable(createBackFiling);
+        return this;
+    }
+
+
+    /**
+     * Whether to also file the single period preceding the first filing period.
+     */
+    public RegistrationReadWithPassword withCreateBackFiling(Optional<Boolean> createBackFiling) {
+        Utils.checkNotNull(createBackFiling, "createBackFiling");
+        this.createBackFiling = createBackFiling;
+        return this;
+    }
+
+    /**
+     * Whether this registration is declared obligated to file a Retail Delivery Fee return (e.g. Colorado
+     * DR 1786).
+     */
+    public RegistrationReadWithPassword withRetailDeliveryFeeObligated(boolean retailDeliveryFeeObligated) {
+        Utils.checkNotNull(retailDeliveryFeeObligated, "retailDeliveryFeeObligated");
+        this.retailDeliveryFeeObligated = Optional.ofNullable(retailDeliveryFeeObligated);
+        return this;
+    }
+
+
+    /**
+     * Whether this registration is declared obligated to file a Retail Delivery Fee return (e.g. Colorado
+     * DR 1786).
+     */
+    public RegistrationReadWithPassword withRetailDeliveryFeeObligated(Optional<Boolean> retailDeliveryFeeObligated) {
+        Utils.checkNotNull(retailDeliveryFeeObligated, "retailDeliveryFeeObligated");
+        this.retailDeliveryFeeObligated = retailDeliveryFeeObligated;
+        return this;
+    }
+
+    /**
+     * First date from which retail delivery fee filings may be generated. Periods that closed before this
+     * date must not get those filings.
+     */
+    public RegistrationReadWithPassword withRetailDeliveryFeeEffectiveFrom(LocalDate retailDeliveryFeeEffectiveFrom) {
+        Utils.checkNotNull(retailDeliveryFeeEffectiveFrom, "retailDeliveryFeeEffectiveFrom");
+        this.retailDeliveryFeeEffectiveFrom = JsonNullable.of(retailDeliveryFeeEffectiveFrom);
+        return this;
+    }
+
+    /**
+     * First date from which retail delivery fee filings may be generated. Periods that closed before this
+     * date must not get those filings.
+     */
+    public RegistrationReadWithPassword withRetailDeliveryFeeEffectiveFrom(JsonNullable<LocalDate> retailDeliveryFeeEffectiveFrom) {
+        Utils.checkNotNull(retailDeliveryFeeEffectiveFrom, "retailDeliveryFeeEffectiveFrom");
+        this.retailDeliveryFeeEffectiveFrom = retailDeliveryFeeEffectiveFrom;
         return this;
     }
 
@@ -1098,15 +1484,14 @@ public class RegistrationReadWithPassword {
      */
     public RegistrationReadWithPassword withInitialSync(boolean initialSync) {
         Utils.checkNotNull(initialSync, "initialSync");
-        this.initialSync = Optional.ofNullable(initialSync);
+        this.initialSync = JsonNullable.of(initialSync);
         return this;
     }
-
 
     /**
      * Indicates whether an initial synchronization should be performed.
      */
-    public RegistrationReadWithPassword withInitialSync(Optional<Boolean> initialSync) {
+    public RegistrationReadWithPassword withInitialSync(JsonNullable<Boolean> initialSync) {
         Utils.checkNotNull(initialSync, "initialSync");
         this.initialSync = initialSync;
         return this;
@@ -1136,15 +1521,14 @@ public class RegistrationReadWithPassword {
      */
     public RegistrationReadWithPassword withVda(boolean vda) {
         Utils.checkNotNull(vda, "vda");
-        this.vda = Optional.ofNullable(vda);
+        this.vda = JsonNullable.of(vda);
         return this;
     }
-
 
     /**
      * Indicates whether a Voluntary Disclosure Agreement (VDA) applies.
      */
-    public RegistrationReadWithPassword withVda(Optional<Boolean> vda) {
+    public RegistrationReadWithPassword withVda(JsonNullable<Boolean> vda) {
         Utils.checkNotNull(vda, "vda");
         this.vda = vda;
         return this;
@@ -1155,36 +1539,76 @@ public class RegistrationReadWithPassword {
      */
     public RegistrationReadWithPassword withImported(boolean imported) {
         Utils.checkNotNull(imported, "imported");
-        this.imported = Optional.ofNullable(imported);
+        this.imported = JsonNullable.of(imported);
         return this;
     }
-
 
     /**
      * Whether the registration was imported from another system.
      */
-    public RegistrationReadWithPassword withImported(Optional<Boolean> imported) {
+    public RegistrationReadWithPassword withImported(JsonNullable<Boolean> imported) {
         Utils.checkNotNull(imported, "imported");
         this.imported = imported;
         return this;
     }
 
     /**
-     * The sales tax ID associated with the registration.
+     * Account number for this registration. Holds the sales tax ID on a sales or combined permit, and the
+     * consumer use tax account number on a use tax registration.
      */
     public RegistrationReadWithPassword withSalesTaxId(String salesTaxId) {
         Utils.checkNotNull(salesTaxId, "salesTaxId");
-        this.salesTaxId = Optional.ofNullable(salesTaxId);
+        this.salesTaxId = JsonNullable.of(salesTaxId);
         return this;
     }
 
-
     /**
-     * The sales tax ID associated with the registration.
+     * Account number for this registration. Holds the sales tax ID on a sales or combined permit, and the
+     * consumer use tax account number on a use tax registration.
      */
-    public RegistrationReadWithPassword withSalesTaxId(Optional<String> salesTaxId) {
+    public RegistrationReadWithPassword withSalesTaxId(JsonNullable<String> salesTaxId) {
         Utils.checkNotNull(salesTaxId, "salesTaxId");
         this.salesTaxId = salesTaxId;
+        return this;
+    }
+
+    /**
+     * The Importer of Record (IOR) number associated with the registration.
+     */
+    public RegistrationReadWithPassword withIorNumber(String iorNumber) {
+        Utils.checkNotNull(iorNumber, "iorNumber");
+        this.iorNumber = JsonNullable.of(iorNumber);
+        return this;
+    }
+
+    /**
+     * The Importer of Record (IOR) number associated with the registration.
+     */
+    public RegistrationReadWithPassword withIorNumber(JsonNullable<String> iorNumber) {
+        Utils.checkNotNull(iorNumber, "iorNumber");
+        this.iorNumber = iorNumber;
+        return this;
+    }
+
+    /**
+     * The date the Importer of Record (IOR) became effective (YYYY-MM-DD).
+     * For jurisdictions where tax collection starts after the IOR date rather than the
+     * registration date, this is the date on/after which tax is collected.
+     */
+    public RegistrationReadWithPassword withIorDate(LocalDate iorDate) {
+        Utils.checkNotNull(iorDate, "iorDate");
+        this.iorDate = JsonNullable.of(iorDate);
+        return this;
+    }
+
+    /**
+     * The date the Importer of Record (IOR) became effective (YYYY-MM-DD).
+     * For jurisdictions where tax collection starts after the IOR date rather than the
+     * registration date, this is the date on/after which tax is collected.
+     */
+    public RegistrationReadWithPassword withIorDate(JsonNullable<LocalDate> iorDate) {
+        Utils.checkNotNull(iorDate, "iorDate");
+        this.iorDate = iorDate;
         return this;
     }
 
@@ -1193,66 +1617,99 @@ public class RegistrationReadWithPassword {
      */
     public RegistrationReadWithPassword withSstImport(boolean sstImport) {
         Utils.checkNotNull(sstImport, "sstImport");
-        this.sstImport = Optional.ofNullable(sstImport);
+        this.sstImport = JsonNullable.of(sstImport);
         return this;
     }
-
 
     /**
      * Indicates whether the registration is an SST Import.
      */
-    public RegistrationReadWithPassword withSstImport(Optional<Boolean> sstImport) {
+    public RegistrationReadWithPassword withSstImport(JsonNullable<Boolean> sstImport) {
         Utils.checkNotNull(sstImport, "sstImport");
         this.sstImport = sstImport;
         return this;
     }
 
     /**
-     * Type of OSS registration.
+     * The type of OSS registration. Should be filled for ZZ_EU OSS registrations.
      */
     public RegistrationReadWithPassword withOssType(OssTypeEnum ossType) {
         Utils.checkNotNull(ossType, "ossType");
-        this.ossType = Optional.ofNullable(ossType);
+        this.ossType = JsonNullable.of(ossType);
         return this;
     }
 
-
     /**
-     * Type of OSS registration.
+     * The type of OSS registration. Should be filled for ZZ_EU OSS registrations.
      */
-    public RegistrationReadWithPassword withOssType(Optional<? extends OssTypeEnum> ossType) {
+    public RegistrationReadWithPassword withOssType(JsonNullable<? extends OssTypeEnum> ossType) {
         Utils.checkNotNull(ossType, "ossType");
         this.ossType = ossType;
         return this;
     }
 
+    /**
+     * The Member State of Identification code for OSS registrations.
+     */
     public RegistrationReadWithPassword withOssMemberStateOfIdentificationCode(CountryCodeEnum ossMemberStateOfIdentificationCode) {
         Utils.checkNotNull(ossMemberStateOfIdentificationCode, "ossMemberStateOfIdentificationCode");
-        this.ossMemberStateOfIdentificationCode = Optional.ofNullable(ossMemberStateOfIdentificationCode);
+        this.ossMemberStateOfIdentificationCode = JsonNullable.of(ossMemberStateOfIdentificationCode);
         return this;
     }
 
-
-    public RegistrationReadWithPassword withOssMemberStateOfIdentificationCode(Optional<? extends CountryCodeEnum> ossMemberStateOfIdentificationCode) {
+    /**
+     * The Member State of Identification code for OSS registrations.
+     */
+    public RegistrationReadWithPassword withOssMemberStateOfIdentificationCode(JsonNullable<? extends CountryCodeEnum> ossMemberStateOfIdentificationCode) {
         Utils.checkNotNull(ossMemberStateOfIdentificationCode, "ossMemberStateOfIdentificationCode");
         this.ossMemberStateOfIdentificationCode = ossMemberStateOfIdentificationCode;
         return this;
     }
 
     /**
-     * The date when the registration was marked as collecting.
+     * Tax obligation on a nexus, registration, or filing row.
+     * 
+     * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
+     * one return can cover both taxes, and each is stored as a single row.
+     * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
+     * separate obligations with their own met dates, period models, and liability
+     * accrual.
      */
-    public RegistrationReadWithPassword withMarkedCollectingDate(String markedCollectingDate) {
-        Utils.checkNotNull(markedCollectingDate, "markedCollectingDate");
-        this.markedCollectingDate = Optional.ofNullable(markedCollectingDate);
+    public RegistrationReadWithPassword withTaxType(TaxTypeEnum taxType) {
+        Utils.checkNotNull(taxType, "taxType");
+        this.taxType = Optional.ofNullable(taxType);
         return this;
     }
 
 
     /**
+     * Tax obligation on a nexus, registration, or filing row.
+     * 
+     * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
+     * one return can cover both taxes, and each is stored as a single row.
+     * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
+     * separate obligations with their own met dates, period models, and liability
+     * accrual.
+     */
+    public RegistrationReadWithPassword withTaxType(Optional<? extends TaxTypeEnum> taxType) {
+        Utils.checkNotNull(taxType, "taxType");
+        this.taxType = taxType;
+        return this;
+    }
+
+    /**
      * The date when the registration was marked as collecting.
      */
-    public RegistrationReadWithPassword withMarkedCollectingDate(Optional<String> markedCollectingDate) {
+    public RegistrationReadWithPassword withMarkedCollectingDate(OffsetDateTime markedCollectingDate) {
+        Utils.checkNotNull(markedCollectingDate, "markedCollectingDate");
+        this.markedCollectingDate = JsonNullable.of(markedCollectingDate);
+        return this;
+    }
+
+    /**
+     * The date when the registration was marked as collecting.
+     */
+    public RegistrationReadWithPassword withMarkedCollectingDate(JsonNullable<OffsetDateTime> markedCollectingDate) {
         Utils.checkNotNull(markedCollectingDate, "markedCollectingDate");
         this.markedCollectingDate = markedCollectingDate;
         return this;
@@ -1263,15 +1720,14 @@ public class RegistrationReadWithPassword {
      */
     public RegistrationReadWithPassword withNeedsMarkAsCollecting(boolean needsMarkAsCollecting) {
         Utils.checkNotNull(needsMarkAsCollecting, "needsMarkAsCollecting");
-        this.needsMarkAsCollecting = Optional.ofNullable(needsMarkAsCollecting);
+        this.needsMarkAsCollecting = JsonNullable.of(needsMarkAsCollecting);
         return this;
     }
-
 
     /**
      * Indicates whether the registration needs to be marked as collecting.
      */
-    public RegistrationReadWithPassword withNeedsMarkAsCollecting(Optional<Boolean> needsMarkAsCollecting) {
+    public RegistrationReadWithPassword withNeedsMarkAsCollecting(JsonNullable<Boolean> needsMarkAsCollecting) {
         Utils.checkNotNull(needsMarkAsCollecting, "needsMarkAsCollecting");
         this.needsMarkAsCollecting = needsMarkAsCollecting;
         return this;
@@ -1283,6 +1739,24 @@ public class RegistrationReadWithPassword {
     public RegistrationReadWithPassword withId(String id) {
         Utils.checkNotNull(id, "id");
         this.id = id;
+        return this;
+    }
+
+    /**
+     * Timestamp when this registration was created in Kintsugi.
+     */
+    public RegistrationReadWithPassword withCreatedAt(OffsetDateTime createdAt) {
+        Utils.checkNotNull(createdAt, "createdAt");
+        this.createdAt = JsonNullable.of(createdAt);
+        return this;
+    }
+
+    /**
+     * Timestamp when this registration was created in Kintsugi.
+     */
+    public RegistrationReadWithPassword withCreatedAt(JsonNullable<OffsetDateTime> createdAt) {
+        Utils.checkNotNull(createdAt, "createdAt");
+        this.createdAt = createdAt;
         return this;
     }
 
@@ -1313,23 +1787,62 @@ public class RegistrationReadWithPassword {
     }
 
     /**
-     * Encrypted password for accessing the registration,
-     * if applicable.
+     * Jurisdiction-specific registration fields.
      */
-    public RegistrationReadWithPassword withPasswordEncrypted(String passwordEncrypted) {
-        Utils.checkNotNull(passwordEncrypted, "passwordEncrypted");
-        this.passwordEncrypted = Optional.ofNullable(passwordEncrypted);
+    public RegistrationReadWithPassword withJurisdictionSpecificFields(Map<String, Object> jurisdictionSpecificFields) {
+        Utils.checkNotNull(jurisdictionSpecificFields, "jurisdictionSpecificFields");
+        this.jurisdictionSpecificFields = JsonNullable.of(jurisdictionSpecificFields);
         return this;
     }
 
+    /**
+     * Jurisdiction-specific registration fields.
+     */
+    public RegistrationReadWithPassword withJurisdictionSpecificFields(JsonNullable<? extends Map<String, Object>> jurisdictionSpecificFields) {
+        Utils.checkNotNull(jurisdictionSpecificFields, "jurisdictionSpecificFields");
+        this.jurisdictionSpecificFields = jurisdictionSpecificFields;
+        return this;
+    }
 
     /**
      * Encrypted password for accessing the registration,
      * if applicable.
      */
-    public RegistrationReadWithPassword withPasswordEncrypted(Optional<String> passwordEncrypted) {
+    public RegistrationReadWithPassword withPasswordEncrypted(String passwordEncrypted) {
+        Utils.checkNotNull(passwordEncrypted, "passwordEncrypted");
+        this.passwordEncrypted = JsonNullable.of(passwordEncrypted);
+        return this;
+    }
+
+    /**
+     * Encrypted password for accessing the registration,
+     * if applicable.
+     */
+    public RegistrationReadWithPassword withPasswordEncrypted(JsonNullable<String> passwordEncrypted) {
         Utils.checkNotNull(passwordEncrypted, "passwordEncrypted");
         this.passwordEncrypted = passwordEncrypted;
+        return this;
+    }
+
+    /**
+     * Encrypted PIN for the registration (e.g. Arizona/Wyoming
+     * e-file PIN). Masked by default; decrypted only when explicitly revealed
+     * via the GET registration endpoint's reveal query.
+     */
+    public RegistrationReadWithPassword withPinEncrypted(String pinEncrypted) {
+        Utils.checkNotNull(pinEncrypted, "pinEncrypted");
+        this.pinEncrypted = JsonNullable.of(pinEncrypted);
+        return this;
+    }
+
+    /**
+     * Encrypted PIN for the registration (e.g. Arizona/Wyoming
+     * e-file PIN). Masked by default; decrypted only when explicitly revealed
+     * via the GET registration endpoint's reveal query.
+     */
+    public RegistrationReadWithPassword withPinEncrypted(JsonNullable<String> pinEncrypted) {
+        Utils.checkNotNull(pinEncrypted, "pinEncrypted");
+        this.pinEncrypted = pinEncrypted;
         return this;
     }
 
@@ -1364,6 +1877,25 @@ public class RegistrationReadWithPassword {
         return this;
     }
 
+    /**
+     * State tax portal URL for this registration's jurisdiction.
+     */
+    public RegistrationReadWithPassword withFilingWebsiteUrl(String filingWebsiteUrl) {
+        Utils.checkNotNull(filingWebsiteUrl, "filingWebsiteUrl");
+        this.filingWebsiteUrl = Optional.ofNullable(filingWebsiteUrl);
+        return this;
+    }
+
+
+    /**
+     * State tax portal URL for this registration's jurisdiction.
+     */
+    public RegistrationReadWithPassword withFilingWebsiteUrl(Optional<String> filingWebsiteUrl) {
+        Utils.checkNotNull(filingWebsiteUrl, "filingWebsiteUrl");
+        this.filingWebsiteUrl = filingWebsiteUrl;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -1376,8 +1908,6 @@ public class RegistrationReadWithPassword {
         return 
             Utils.enhancedDeepEquals(this.registrationDate, other.registrationDate) &&
             Utils.enhancedDeepEquals(this.registrationEmail, other.registrationEmail) &&
-            Utils.enhancedDeepEquals(this.registrationKey, other.registrationKey) &&
-            Utils.enhancedDeepEquals(this.deregistrationKey, other.deregistrationKey) &&
             Utils.enhancedDeepEquals(this.registrationRequested, other.registrationRequested) &&
             Utils.enhancedDeepEquals(this.registrationCompleted, other.registrationCompleted) &&
             Utils.enhancedDeepEquals(this.deregistrationRequested, other.deregistrationRequested) &&
@@ -1394,45 +1924,63 @@ public class RegistrationReadWithPassword {
             Utils.enhancedDeepEquals(this.stateCode, other.stateCode) &&
             Utils.enhancedDeepEquals(this.stateName, other.stateName) &&
             Utils.enhancedDeepEquals(this.filingFrequency, other.filingFrequency) &&
+            Utils.enhancedDeepEquals(this.initialFilingFrequency, other.initialFilingFrequency) &&
+            Utils.enhancedDeepEquals(this.scheduledFilingFrequency, other.scheduledFilingFrequency) &&
+            Utils.enhancedDeepEquals(this.filingFrequencyEffectiveDate, other.filingFrequencyEffectiveDate) &&
+            Utils.enhancedDeepEquals(this.periodEndMonth, other.periodEndMonth) &&
             Utils.enhancedDeepEquals(this.username, other.username) &&
             Utils.enhancedDeepEquals(this.comment, other.comment) &&
             Utils.enhancedDeepEquals(this.createFilingsFrom, other.createFilingsFrom) &&
+            Utils.enhancedDeepEquals(this.createBackFiling, other.createBackFiling) &&
+            Utils.enhancedDeepEquals(this.retailDeliveryFeeObligated, other.retailDeliveryFeeObligated) &&
+            Utils.enhancedDeepEquals(this.retailDeliveryFeeEffectiveFrom, other.retailDeliveryFeeEffectiveFrom) &&
             Utils.enhancedDeepEquals(this.initialSync, other.initialSync) &&
             Utils.enhancedDeepEquals(this.amountFees, other.amountFees) &&
             Utils.enhancedDeepEquals(this.vda, other.vda) &&
             Utils.enhancedDeepEquals(this.imported, other.imported) &&
             Utils.enhancedDeepEquals(this.salesTaxId, other.salesTaxId) &&
+            Utils.enhancedDeepEquals(this.iorNumber, other.iorNumber) &&
+            Utils.enhancedDeepEquals(this.iorDate, other.iorDate) &&
             Utils.enhancedDeepEquals(this.sstImport, other.sstImport) &&
             Utils.enhancedDeepEquals(this.ossType, other.ossType) &&
             Utils.enhancedDeepEquals(this.ossMemberStateOfIdentificationCode, other.ossMemberStateOfIdentificationCode) &&
+            Utils.enhancedDeepEquals(this.taxType, other.taxType) &&
             Utils.enhancedDeepEquals(this.markedCollectingDate, other.markedCollectingDate) &&
             Utils.enhancedDeepEquals(this.needsMarkAsCollecting, other.needsMarkAsCollecting) &&
             Utils.enhancedDeepEquals(this.id, other.id) &&
+            Utils.enhancedDeepEquals(this.createdAt, other.createdAt) &&
             Utils.enhancedDeepEquals(this.creditsTotalAvailable, other.creditsTotalAvailable) &&
             Utils.enhancedDeepEquals(this.registrationCategory, other.registrationCategory) &&
+            Utils.enhancedDeepEquals(this.jurisdictionSpecificFields, other.jurisdictionSpecificFields) &&
             Utils.enhancedDeepEquals(this.passwordEncrypted, other.passwordEncrypted) &&
+            Utils.enhancedDeepEquals(this.pinEncrypted, other.pinEncrypted) &&
             Utils.enhancedDeepEquals(this.hasAllCredentials, other.hasAllCredentials) &&
             Utils.enhancedDeepEquals(this.filingDays, other.filingDays) &&
-            Utils.enhancedDeepEquals(this.registrationType, other.registrationType);
+            Utils.enhancedDeepEquals(this.registrationType, other.registrationType) &&
+            Utils.enhancedDeepEquals(this.filingWebsiteUrl, other.filingWebsiteUrl);
     }
     
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-            registrationDate, registrationEmail, registrationKey,
-            deregistrationKey, registrationRequested, registrationCompleted,
-            deregistrationRequested, deregistrationCompleted, autoRegistered,
-            registrationsRegime, changeRegimeStatus, thirdPartyEnabled,
-            doNotFile, twoFactorEnabled, markedCollecting,
-            status, countryCode, stateCode,
-            stateName, filingFrequency, username,
-            comment, createFilingsFrom, initialSync,
-            amountFees, vda, imported,
-            salesTaxId, sstImport, ossType,
-            ossMemberStateOfIdentificationCode, markedCollectingDate, needsMarkAsCollecting,
-            id, creditsTotalAvailable, registrationCategory,
-            passwordEncrypted, hasAllCredentials, filingDays,
-            registrationType);
+            registrationDate, registrationEmail, registrationRequested,
+            registrationCompleted, deregistrationRequested, deregistrationCompleted,
+            autoRegistered, registrationsRegime, changeRegimeStatus,
+            thirdPartyEnabled, doNotFile, twoFactorEnabled,
+            markedCollecting, status, countryCode,
+            stateCode, stateName, filingFrequency,
+            initialFilingFrequency, scheduledFilingFrequency, filingFrequencyEffectiveDate,
+            periodEndMonth, username, comment,
+            createFilingsFrom, createBackFiling, retailDeliveryFeeObligated,
+            retailDeliveryFeeEffectiveFrom, initialSync, amountFees,
+            vda, imported, salesTaxId,
+            iorNumber, iorDate, sstImport,
+            ossType, ossMemberStateOfIdentificationCode, taxType,
+            markedCollectingDate, needsMarkAsCollecting, id,
+            createdAt, creditsTotalAvailable, registrationCategory,
+            jurisdictionSpecificFields, passwordEncrypted, pinEncrypted,
+            hasAllCredentials, filingDays, registrationType,
+            filingWebsiteUrl);
     }
     
     @Override
@@ -1440,8 +1988,6 @@ public class RegistrationReadWithPassword {
         return Utils.toString(RegistrationReadWithPassword.class,
                 "registrationDate", registrationDate,
                 "registrationEmail", registrationEmail,
-                "registrationKey", registrationKey,
-                "deregistrationKey", deregistrationKey,
                 "registrationRequested", registrationRequested,
                 "registrationCompleted", registrationCompleted,
                 "deregistrationRequested", deregistrationRequested,
@@ -1458,60 +2004,70 @@ public class RegistrationReadWithPassword {
                 "stateCode", stateCode,
                 "stateName", stateName,
                 "filingFrequency", filingFrequency,
+                "initialFilingFrequency", initialFilingFrequency,
+                "scheduledFilingFrequency", scheduledFilingFrequency,
+                "filingFrequencyEffectiveDate", filingFrequencyEffectiveDate,
+                "periodEndMonth", periodEndMonth,
                 "username", username,
                 "comment", comment,
                 "createFilingsFrom", createFilingsFrom,
+                "createBackFiling", createBackFiling,
+                "retailDeliveryFeeObligated", retailDeliveryFeeObligated,
+                "retailDeliveryFeeEffectiveFrom", retailDeliveryFeeEffectiveFrom,
                 "initialSync", initialSync,
                 "amountFees", amountFees,
                 "vda", vda,
                 "imported", imported,
                 "salesTaxId", salesTaxId,
+                "iorNumber", iorNumber,
+                "iorDate", iorDate,
                 "sstImport", sstImport,
                 "ossType", ossType,
                 "ossMemberStateOfIdentificationCode", ossMemberStateOfIdentificationCode,
+                "taxType", taxType,
                 "markedCollectingDate", markedCollectingDate,
                 "needsMarkAsCollecting", needsMarkAsCollecting,
                 "id", id,
+                "createdAt", createdAt,
                 "creditsTotalAvailable", creditsTotalAvailable,
                 "registrationCategory", registrationCategory,
+                "jurisdictionSpecificFields", jurisdictionSpecificFields,
                 "passwordEncrypted", passwordEncrypted,
+                "pinEncrypted", pinEncrypted,
                 "hasAllCredentials", hasAllCredentials,
                 "filingDays", filingDays,
-                "registrationType", registrationType);
+                "registrationType", registrationType,
+                "filingWebsiteUrl", filingWebsiteUrl);
     }
 
     @SuppressWarnings("UnusedReturnValue")
     public final static class Builder {
 
-        private Optional<String> registrationDate = Optional.empty();
+        private JsonNullable<LocalDate> registrationDate = JsonNullable.undefined();
 
-        private Optional<String> registrationEmail = Optional.empty();
+        private JsonNullable<String> registrationEmail = JsonNullable.undefined();
 
-        private Optional<String> registrationKey = Optional.empty();
+        private JsonNullable<OffsetDateTime> registrationRequested = JsonNullable.undefined();
 
-        private Optional<String> deregistrationKey = Optional.empty();
+        private JsonNullable<OffsetDateTime> registrationCompleted = JsonNullable.undefined();
 
-        private Optional<String> registrationRequested = Optional.empty();
+        private JsonNullable<OffsetDateTime> deregistrationRequested = JsonNullable.undefined();
 
-        private Optional<String> registrationCompleted = Optional.empty();
+        private JsonNullable<OffsetDateTime> deregistrationCompleted = JsonNullable.undefined();
 
-        private Optional<String> deregistrationRequested = Optional.empty();
+        private JsonNullable<Boolean> autoRegistered = JsonNullable.undefined();
 
-        private Optional<String> deregistrationCompleted = Optional.empty();
+        private JsonNullable<? extends RegistrationsRegimeEnum> registrationsRegime = JsonNullable.undefined();
 
-        private Optional<Boolean> autoRegistered;
+        private JsonNullable<? extends ChangeRegimeStatusEnum> changeRegimeStatus = JsonNullable.undefined();
 
-        private Optional<? extends RegistrationsRegimeEnum> registrationsRegime = Optional.empty();
-
-        private Optional<? extends ChangeRegimeStatusEnum> changeRegimeStatus = Optional.empty();
-
-        private Optional<Boolean> thirdPartyEnabled;
+        private JsonNullable<Boolean> thirdPartyEnabled = JsonNullable.undefined();
 
         private Optional<Boolean> doNotFile;
 
-        private Optional<Boolean> twoFactorEnabled = Optional.empty();
+        private JsonNullable<Boolean> twoFactorEnabled = JsonNullable.undefined();
 
-        private Optional<Boolean> markedCollecting = Optional.empty();
+        private JsonNullable<Boolean> markedCollecting = JsonNullable.undefined();
 
         private RegistrationStatusEnum status;
 
@@ -1523,45 +2079,73 @@ public class RegistrationReadWithPassword {
 
         private FilingFrequencyEnum filingFrequency;
 
-        private Optional<String> username = Optional.empty();
+        private JsonNullable<? extends FilingFrequencyEnum> initialFilingFrequency = JsonNullable.undefined();
 
-        private Optional<String> comment = Optional.empty();
+        private JsonNullable<? extends FilingFrequencyEnum> scheduledFilingFrequency = JsonNullable.undefined();
 
-        private Optional<String> createFilingsFrom = Optional.empty();
+        private JsonNullable<LocalDate> filingFrequencyEffectiveDate = JsonNullable.undefined();
 
-        private Optional<Boolean> initialSync;
+        private JsonNullable<Long> periodEndMonth = JsonNullable.undefined();
+
+        private JsonNullable<String> username = JsonNullable.undefined();
+
+        private JsonNullable<String> comment = JsonNullable.undefined();
+
+        private JsonNullable<LocalDate> createFilingsFrom = JsonNullable.undefined();
+
+        private Optional<Boolean> createBackFiling;
+
+        private Optional<Boolean> retailDeliveryFeeObligated;
+
+        private JsonNullable<LocalDate> retailDeliveryFeeEffectiveFrom = JsonNullable.undefined();
+
+        private JsonNullable<Boolean> initialSync = JsonNullable.undefined();
 
         private Optional<String> amountFees;
 
-        private Optional<Boolean> vda;
+        private JsonNullable<Boolean> vda = JsonNullable.undefined();
 
-        private Optional<Boolean> imported = Optional.empty();
+        private JsonNullable<Boolean> imported = JsonNullable.undefined();
 
-        private Optional<String> salesTaxId = Optional.empty();
+        private JsonNullable<String> salesTaxId = JsonNullable.undefined();
 
-        private Optional<Boolean> sstImport;
+        private JsonNullable<String> iorNumber = JsonNullable.undefined();
 
-        private Optional<? extends OssTypeEnum> ossType = Optional.empty();
+        private JsonNullable<LocalDate> iorDate = JsonNullable.undefined();
 
-        private Optional<? extends CountryCodeEnum> ossMemberStateOfIdentificationCode = Optional.empty();
+        private JsonNullable<Boolean> sstImport = JsonNullable.undefined();
 
-        private Optional<String> markedCollectingDate = Optional.empty();
+        private JsonNullable<? extends OssTypeEnum> ossType = JsonNullable.undefined();
 
-        private Optional<Boolean> needsMarkAsCollecting;
+        private JsonNullable<? extends CountryCodeEnum> ossMemberStateOfIdentificationCode = JsonNullable.undefined();
+
+        private Optional<? extends TaxTypeEnum> taxType = Optional.empty();
+
+        private JsonNullable<OffsetDateTime> markedCollectingDate = JsonNullable.undefined();
+
+        private JsonNullable<Boolean> needsMarkAsCollecting = JsonNullable.undefined();
 
         private String id;
+
+        private JsonNullable<OffsetDateTime> createdAt = JsonNullable.undefined();
 
         private Optional<String> creditsTotalAvailable;
 
         private Optional<? extends RegistrationCategoryEnum> registrationCategory = Optional.empty();
 
-        private Optional<String> passwordEncrypted = Optional.empty();
+        private JsonNullable<? extends Map<String, Object>> jurisdictionSpecificFields = JsonNullable.undefined();
+
+        private JsonNullable<String> passwordEncrypted = JsonNullable.undefined();
+
+        private JsonNullable<String> pinEncrypted = JsonNullable.undefined();
 
         private Optional<Boolean> hasAllCredentials;
 
         private Long filingDays;
 
         private RegistrationTypeEnum registrationType;
+
+        private Optional<String> filingWebsiteUrl = Optional.empty();
 
         private Builder() {
           // force use of static builder() method
@@ -1571,16 +2155,16 @@ public class RegistrationReadWithPassword {
         /**
          * The date when the registration was created. Format: YYYY-MM-DD.
          */
-        public Builder registrationDate(String registrationDate) {
+        public Builder registrationDate(LocalDate registrationDate) {
             Utils.checkNotNull(registrationDate, "registrationDate");
-            this.registrationDate = Optional.ofNullable(registrationDate);
+            this.registrationDate = JsonNullable.of(registrationDate);
             return this;
         }
 
         /**
          * The date when the registration was created. Format: YYYY-MM-DD.
          */
-        public Builder registrationDate(Optional<String> registrationDate) {
+        public Builder registrationDate(JsonNullable<LocalDate> registrationDate) {
             Utils.checkNotNull(registrationDate, "registrationDate");
             this.registrationDate = registrationDate;
             return this;
@@ -1592,14 +2176,14 @@ public class RegistrationReadWithPassword {
          */
         public Builder registrationEmail(String registrationEmail) {
             Utils.checkNotNull(registrationEmail, "registrationEmail");
-            this.registrationEmail = Optional.ofNullable(registrationEmail);
+            this.registrationEmail = JsonNullable.of(registrationEmail);
             return this;
         }
 
         /**
          * Email address associated with the registration.
          */
-        public Builder registrationEmail(Optional<String> registrationEmail) {
+        public Builder registrationEmail(JsonNullable<String> registrationEmail) {
             Utils.checkNotNull(registrationEmail, "registrationEmail");
             this.registrationEmail = registrationEmail;
             return this;
@@ -1607,56 +2191,18 @@ public class RegistrationReadWithPassword {
 
 
         /**
-         * A unique key assigned to the registration.
-         */
-        public Builder registrationKey(String registrationKey) {
-            Utils.checkNotNull(registrationKey, "registrationKey");
-            this.registrationKey = Optional.ofNullable(registrationKey);
-            return this;
-        }
-
-        /**
-         * A unique key assigned to the registration.
-         */
-        public Builder registrationKey(Optional<String> registrationKey) {
-            Utils.checkNotNull(registrationKey, "registrationKey");
-            this.registrationKey = registrationKey;
-            return this;
-        }
-
-
-        /**
-         * A unique key assigned for deregistration.
-         */
-        public Builder deregistrationKey(String deregistrationKey) {
-            Utils.checkNotNull(deregistrationKey, "deregistrationKey");
-            this.deregistrationKey = Optional.ofNullable(deregistrationKey);
-            return this;
-        }
-
-        /**
-         * A unique key assigned for deregistration.
-         */
-        public Builder deregistrationKey(Optional<String> deregistrationKey) {
-            Utils.checkNotNull(deregistrationKey, "deregistrationKey");
-            this.deregistrationKey = deregistrationKey;
-            return this;
-        }
-
-
-        /**
          * Timestamp when the registration was requested.
          */
-        public Builder registrationRequested(String registrationRequested) {
+        public Builder registrationRequested(OffsetDateTime registrationRequested) {
             Utils.checkNotNull(registrationRequested, "registrationRequested");
-            this.registrationRequested = Optional.ofNullable(registrationRequested);
+            this.registrationRequested = JsonNullable.of(registrationRequested);
             return this;
         }
 
         /**
          * Timestamp when the registration was requested.
          */
-        public Builder registrationRequested(Optional<String> registrationRequested) {
+        public Builder registrationRequested(JsonNullable<OffsetDateTime> registrationRequested) {
             Utils.checkNotNull(registrationRequested, "registrationRequested");
             this.registrationRequested = registrationRequested;
             return this;
@@ -1666,16 +2212,16 @@ public class RegistrationReadWithPassword {
         /**
          * Timestamp when the registration was completed.
          */
-        public Builder registrationCompleted(String registrationCompleted) {
+        public Builder registrationCompleted(OffsetDateTime registrationCompleted) {
             Utils.checkNotNull(registrationCompleted, "registrationCompleted");
-            this.registrationCompleted = Optional.ofNullable(registrationCompleted);
+            this.registrationCompleted = JsonNullable.of(registrationCompleted);
             return this;
         }
 
         /**
          * Timestamp when the registration was completed.
          */
-        public Builder registrationCompleted(Optional<String> registrationCompleted) {
+        public Builder registrationCompleted(JsonNullable<OffsetDateTime> registrationCompleted) {
             Utils.checkNotNull(registrationCompleted, "registrationCompleted");
             this.registrationCompleted = registrationCompleted;
             return this;
@@ -1685,16 +2231,16 @@ public class RegistrationReadWithPassword {
         /**
          * Timestamp when deregistration was requested.
          */
-        public Builder deregistrationRequested(String deregistrationRequested) {
+        public Builder deregistrationRequested(OffsetDateTime deregistrationRequested) {
             Utils.checkNotNull(deregistrationRequested, "deregistrationRequested");
-            this.deregistrationRequested = Optional.ofNullable(deregistrationRequested);
+            this.deregistrationRequested = JsonNullable.of(deregistrationRequested);
             return this;
         }
 
         /**
          * Timestamp when deregistration was requested.
          */
-        public Builder deregistrationRequested(Optional<String> deregistrationRequested) {
+        public Builder deregistrationRequested(JsonNullable<OffsetDateTime> deregistrationRequested) {
             Utils.checkNotNull(deregistrationRequested, "deregistrationRequested");
             this.deregistrationRequested = deregistrationRequested;
             return this;
@@ -1704,16 +2250,16 @@ public class RegistrationReadWithPassword {
         /**
          * Timestamp when the deregistration was completed.
          */
-        public Builder deregistrationCompleted(String deregistrationCompleted) {
+        public Builder deregistrationCompleted(OffsetDateTime deregistrationCompleted) {
             Utils.checkNotNull(deregistrationCompleted, "deregistrationCompleted");
-            this.deregistrationCompleted = Optional.ofNullable(deregistrationCompleted);
+            this.deregistrationCompleted = JsonNullable.of(deregistrationCompleted);
             return this;
         }
 
         /**
          * Timestamp when the deregistration was completed.
          */
-        public Builder deregistrationCompleted(Optional<String> deregistrationCompleted) {
+        public Builder deregistrationCompleted(JsonNullable<OffsetDateTime> deregistrationCompleted) {
             Utils.checkNotNull(deregistrationCompleted, "deregistrationCompleted");
             this.deregistrationCompleted = deregistrationCompleted;
             return this;
@@ -1725,27 +2271,33 @@ public class RegistrationReadWithPassword {
          */
         public Builder autoRegistered(boolean autoRegistered) {
             Utils.checkNotNull(autoRegistered, "autoRegistered");
-            this.autoRegistered = Optional.ofNullable(autoRegistered);
+            this.autoRegistered = JsonNullable.of(autoRegistered);
             return this;
         }
 
         /**
          * Indicates whether the registration was completed automatically.
          */
-        public Builder autoRegistered(Optional<Boolean> autoRegistered) {
+        public Builder autoRegistered(JsonNullable<Boolean> autoRegistered) {
             Utils.checkNotNull(autoRegistered, "autoRegistered");
             this.autoRegistered = autoRegistered;
             return this;
         }
 
 
+        /**
+         * The tax registration regime (e.g., STANDARD, SIMPLIFIED).
+         */
         public Builder registrationsRegime(RegistrationsRegimeEnum registrationsRegime) {
             Utils.checkNotNull(registrationsRegime, "registrationsRegime");
-            this.registrationsRegime = Optional.ofNullable(registrationsRegime);
+            this.registrationsRegime = JsonNullable.of(registrationsRegime);
             return this;
         }
 
-        public Builder registrationsRegime(Optional<? extends RegistrationsRegimeEnum> registrationsRegime) {
+        /**
+         * The tax registration regime (e.g., STANDARD, SIMPLIFIED).
+         */
+        public Builder registrationsRegime(JsonNullable<? extends RegistrationsRegimeEnum> registrationsRegime) {
             Utils.checkNotNull(registrationsRegime, "registrationsRegime");
             this.registrationsRegime = registrationsRegime;
             return this;
@@ -1754,11 +2306,11 @@ public class RegistrationReadWithPassword {
 
         public Builder changeRegimeStatus(ChangeRegimeStatusEnum changeRegimeStatus) {
             Utils.checkNotNull(changeRegimeStatus, "changeRegimeStatus");
-            this.changeRegimeStatus = Optional.ofNullable(changeRegimeStatus);
+            this.changeRegimeStatus = JsonNullable.of(changeRegimeStatus);
             return this;
         }
 
-        public Builder changeRegimeStatus(Optional<? extends ChangeRegimeStatusEnum> changeRegimeStatus) {
+        public Builder changeRegimeStatus(JsonNullable<? extends ChangeRegimeStatusEnum> changeRegimeStatus) {
             Utils.checkNotNull(changeRegimeStatus, "changeRegimeStatus");
             this.changeRegimeStatus = changeRegimeStatus;
             return this;
@@ -1770,14 +2322,14 @@ public class RegistrationReadWithPassword {
          */
         public Builder thirdPartyEnabled(boolean thirdPartyEnabled) {
             Utils.checkNotNull(thirdPartyEnabled, "thirdPartyEnabled");
-            this.thirdPartyEnabled = Optional.ofNullable(thirdPartyEnabled);
+            this.thirdPartyEnabled = JsonNullable.of(thirdPartyEnabled);
             return this;
         }
 
         /**
          * Indicates whether third-party access is enabled for this registration.
          */
-        public Builder thirdPartyEnabled(Optional<Boolean> thirdPartyEnabled) {
+        public Builder thirdPartyEnabled(JsonNullable<Boolean> thirdPartyEnabled) {
             Utils.checkNotNull(thirdPartyEnabled, "thirdPartyEnabled");
             this.thirdPartyEnabled = thirdPartyEnabled;
             return this;
@@ -1808,14 +2360,14 @@ public class RegistrationReadWithPassword {
          */
         public Builder twoFactorEnabled(boolean twoFactorEnabled) {
             Utils.checkNotNull(twoFactorEnabled, "twoFactorEnabled");
-            this.twoFactorEnabled = Optional.ofNullable(twoFactorEnabled);
+            this.twoFactorEnabled = JsonNullable.of(twoFactorEnabled);
             return this;
         }
 
         /**
          * Indicates whether two-factor authentication (2FA) is enabled for this registration.
          */
-        public Builder twoFactorEnabled(Optional<Boolean> twoFactorEnabled) {
+        public Builder twoFactorEnabled(JsonNullable<Boolean> twoFactorEnabled) {
             Utils.checkNotNull(twoFactorEnabled, "twoFactorEnabled");
             this.twoFactorEnabled = twoFactorEnabled;
             return this;
@@ -1827,14 +2379,14 @@ public class RegistrationReadWithPassword {
          */
         public Builder markedCollecting(boolean markedCollecting) {
             Utils.checkNotNull(markedCollecting, "markedCollecting");
-            this.markedCollecting = Optional.ofNullable(markedCollecting);
+            this.markedCollecting = JsonNullable.of(markedCollecting);
             return this;
         }
 
         /**
          * Indicates whether the  registration is marked as collecting in shopify
          */
-        public Builder markedCollecting(Optional<Boolean> markedCollecting) {
+        public Builder markedCollecting(JsonNullable<Boolean> markedCollecting) {
             Utils.checkNotNull(markedCollecting, "markedCollecting");
             this.markedCollecting = markedCollecting;
             return this;
@@ -1883,18 +2435,108 @@ public class RegistrationReadWithPassword {
 
 
         /**
+         * The first non-UNKNOWN filing frequency this registration
+         * was ever assigned.
+         */
+        public Builder initialFilingFrequency(FilingFrequencyEnum initialFilingFrequency) {
+            Utils.checkNotNull(initialFilingFrequency, "initialFilingFrequency");
+            this.initialFilingFrequency = JsonNullable.of(initialFilingFrequency);
+            return this;
+        }
+
+        /**
+         * The first non-UNKNOWN filing frequency this registration
+         * was ever assigned.
+         */
+        public Builder initialFilingFrequency(JsonNullable<? extends FilingFrequencyEnum> initialFilingFrequency) {
+            Utils.checkNotNull(initialFilingFrequency, "initialFilingFrequency");
+            this.initialFilingFrequency = initialFilingFrequency;
+            return this;
+        }
+
+
+        /**
+         * The filing frequency that will automatically replace
+         * `filing_frequency` on `filing_frequency_effective_date`. Null when no
+         * frequency change is pending.
+         */
+        public Builder scheduledFilingFrequency(FilingFrequencyEnum scheduledFilingFrequency) {
+            Utils.checkNotNull(scheduledFilingFrequency, "scheduledFilingFrequency");
+            this.scheduledFilingFrequency = JsonNullable.of(scheduledFilingFrequency);
+            return this;
+        }
+
+        /**
+         * The filing frequency that will automatically replace
+         * `filing_frequency` on `filing_frequency_effective_date`. Null when no
+         * frequency change is pending.
+         */
+        public Builder scheduledFilingFrequency(JsonNullable<? extends FilingFrequencyEnum> scheduledFilingFrequency) {
+            Utils.checkNotNull(scheduledFilingFrequency, "scheduledFilingFrequency");
+            this.scheduledFilingFrequency = scheduledFilingFrequency;
+            return this;
+        }
+
+
+        /**
+         * The date on which `scheduled_filing_frequency` should
+         * automatically become the registration's `filing_frequency`. Null when
+         * no frequency change is pending.
+         */
+        public Builder filingFrequencyEffectiveDate(LocalDate filingFrequencyEffectiveDate) {
+            Utils.checkNotNull(filingFrequencyEffectiveDate, "filingFrequencyEffectiveDate");
+            this.filingFrequencyEffectiveDate = JsonNullable.of(filingFrequencyEffectiveDate);
+            return this;
+        }
+
+        /**
+         * The date on which `scheduled_filing_frequency` should
+         * automatically become the registration's `filing_frequency`. Null when
+         * no frequency change is pending.
+         */
+        public Builder filingFrequencyEffectiveDate(JsonNullable<LocalDate> filingFrequencyEffectiveDate) {
+            Utils.checkNotNull(filingFrequencyEffectiveDate, "filingFrequencyEffectiveDate");
+            this.filingFrequencyEffectiveDate = filingFrequencyEffectiveDate;
+            return this;
+        }
+
+
+        /**
+         * Month (1-12) on which this registration's filing period ends,
+         * for fiscal-year filers whose quarterly/semiannual periods are offset from the
+         * calendar. Null means calendar-aligned periods.
+         */
+        public Builder periodEndMonth(long periodEndMonth) {
+            Utils.checkNotNull(periodEndMonth, "periodEndMonth");
+            this.periodEndMonth = JsonNullable.of(periodEndMonth);
+            return this;
+        }
+
+        /**
+         * Month (1-12) on which this registration's filing period ends,
+         * for fiscal-year filers whose quarterly/semiannual periods are offset from the
+         * calendar. Null means calendar-aligned periods.
+         */
+        public Builder periodEndMonth(JsonNullable<Long> periodEndMonth) {
+            Utils.checkNotNull(periodEndMonth, "periodEndMonth");
+            this.periodEndMonth = periodEndMonth;
+            return this;
+        }
+
+
+        /**
          * Username for accessing tax registration details.
          */
         public Builder username(String username) {
             Utils.checkNotNull(username, "username");
-            this.username = Optional.ofNullable(username);
+            this.username = JsonNullable.of(username);
             return this;
         }
 
         /**
          * Username for accessing tax registration details.
          */
-        public Builder username(Optional<String> username) {
+        public Builder username(JsonNullable<String> username) {
             Utils.checkNotNull(username, "username");
             this.username = username;
             return this;
@@ -1906,14 +2548,14 @@ public class RegistrationReadWithPassword {
          */
         public Builder comment(String comment) {
             Utils.checkNotNull(comment, "comment");
-            this.comment = Optional.ofNullable(comment);
+            this.comment = JsonNullable.of(comment);
             return this;
         }
 
         /**
          * Additional comments related to the registration.
          */
-        public Builder comment(Optional<String> comment) {
+        public Builder comment(JsonNullable<String> comment) {
             Utils.checkNotNull(comment, "comment");
             this.comment = comment;
             return this;
@@ -1924,9 +2566,9 @@ public class RegistrationReadWithPassword {
          * The date from which filings should be created.
          * should start (YYYY-MM-DD).
          */
-        public Builder createFilingsFrom(String createFilingsFrom) {
+        public Builder createFilingsFrom(LocalDate createFilingsFrom) {
             Utils.checkNotNull(createFilingsFrom, "createFilingsFrom");
-            this.createFilingsFrom = Optional.ofNullable(createFilingsFrom);
+            this.createFilingsFrom = JsonNullable.of(createFilingsFrom);
             return this;
         }
 
@@ -1934,9 +2576,70 @@ public class RegistrationReadWithPassword {
          * The date from which filings should be created.
          * should start (YYYY-MM-DD).
          */
-        public Builder createFilingsFrom(Optional<String> createFilingsFrom) {
+        public Builder createFilingsFrom(JsonNullable<LocalDate> createFilingsFrom) {
             Utils.checkNotNull(createFilingsFrom, "createFilingsFrom");
             this.createFilingsFrom = createFilingsFrom;
+            return this;
+        }
+
+
+        /**
+         * Whether to also file the single period preceding the first filing period.
+         */
+        public Builder createBackFiling(boolean createBackFiling) {
+            Utils.checkNotNull(createBackFiling, "createBackFiling");
+            this.createBackFiling = Optional.ofNullable(createBackFiling);
+            return this;
+        }
+
+        /**
+         * Whether to also file the single period preceding the first filing period.
+         */
+        public Builder createBackFiling(Optional<Boolean> createBackFiling) {
+            Utils.checkNotNull(createBackFiling, "createBackFiling");
+            this.createBackFiling = createBackFiling;
+            return this;
+        }
+
+
+        /**
+         * Whether this registration is declared obligated to file a Retail Delivery Fee return (e.g. Colorado
+         * DR 1786).
+         */
+        public Builder retailDeliveryFeeObligated(boolean retailDeliveryFeeObligated) {
+            Utils.checkNotNull(retailDeliveryFeeObligated, "retailDeliveryFeeObligated");
+            this.retailDeliveryFeeObligated = Optional.ofNullable(retailDeliveryFeeObligated);
+            return this;
+        }
+
+        /**
+         * Whether this registration is declared obligated to file a Retail Delivery Fee return (e.g. Colorado
+         * DR 1786).
+         */
+        public Builder retailDeliveryFeeObligated(Optional<Boolean> retailDeliveryFeeObligated) {
+            Utils.checkNotNull(retailDeliveryFeeObligated, "retailDeliveryFeeObligated");
+            this.retailDeliveryFeeObligated = retailDeliveryFeeObligated;
+            return this;
+        }
+
+
+        /**
+         * First date from which retail delivery fee filings may be generated. Periods that closed before this
+         * date must not get those filings.
+         */
+        public Builder retailDeliveryFeeEffectiveFrom(LocalDate retailDeliveryFeeEffectiveFrom) {
+            Utils.checkNotNull(retailDeliveryFeeEffectiveFrom, "retailDeliveryFeeEffectiveFrom");
+            this.retailDeliveryFeeEffectiveFrom = JsonNullable.of(retailDeliveryFeeEffectiveFrom);
+            return this;
+        }
+
+        /**
+         * First date from which retail delivery fee filings may be generated. Periods that closed before this
+         * date must not get those filings.
+         */
+        public Builder retailDeliveryFeeEffectiveFrom(JsonNullable<LocalDate> retailDeliveryFeeEffectiveFrom) {
+            Utils.checkNotNull(retailDeliveryFeeEffectiveFrom, "retailDeliveryFeeEffectiveFrom");
+            this.retailDeliveryFeeEffectiveFrom = retailDeliveryFeeEffectiveFrom;
             return this;
         }
 
@@ -1946,14 +2649,14 @@ public class RegistrationReadWithPassword {
          */
         public Builder initialSync(boolean initialSync) {
             Utils.checkNotNull(initialSync, "initialSync");
-            this.initialSync = Optional.ofNullable(initialSync);
+            this.initialSync = JsonNullable.of(initialSync);
             return this;
         }
 
         /**
          * Indicates whether an initial synchronization should be performed.
          */
-        public Builder initialSync(Optional<Boolean> initialSync) {
+        public Builder initialSync(JsonNullable<Boolean> initialSync) {
             Utils.checkNotNull(initialSync, "initialSync");
             this.initialSync = initialSync;
             return this;
@@ -1984,14 +2687,14 @@ public class RegistrationReadWithPassword {
          */
         public Builder vda(boolean vda) {
             Utils.checkNotNull(vda, "vda");
-            this.vda = Optional.ofNullable(vda);
+            this.vda = JsonNullable.of(vda);
             return this;
         }
 
         /**
          * Indicates whether a Voluntary Disclosure Agreement (VDA) applies.
          */
-        public Builder vda(Optional<Boolean> vda) {
+        public Builder vda(JsonNullable<Boolean> vda) {
             Utils.checkNotNull(vda, "vda");
             this.vda = vda;
             return this;
@@ -2003,14 +2706,14 @@ public class RegistrationReadWithPassword {
          */
         public Builder imported(boolean imported) {
             Utils.checkNotNull(imported, "imported");
-            this.imported = Optional.ofNullable(imported);
+            this.imported = JsonNullable.of(imported);
             return this;
         }
 
         /**
          * Whether the registration was imported from another system.
          */
-        public Builder imported(Optional<Boolean> imported) {
+        public Builder imported(JsonNullable<Boolean> imported) {
             Utils.checkNotNull(imported, "imported");
             this.imported = imported;
             return this;
@@ -2018,20 +2721,64 @@ public class RegistrationReadWithPassword {
 
 
         /**
-         * The sales tax ID associated with the registration.
+         * Account number for this registration. Holds the sales tax ID on a sales or combined permit, and the
+         * consumer use tax account number on a use tax registration.
          */
         public Builder salesTaxId(String salesTaxId) {
             Utils.checkNotNull(salesTaxId, "salesTaxId");
-            this.salesTaxId = Optional.ofNullable(salesTaxId);
+            this.salesTaxId = JsonNullable.of(salesTaxId);
             return this;
         }
 
         /**
-         * The sales tax ID associated with the registration.
+         * Account number for this registration. Holds the sales tax ID on a sales or combined permit, and the
+         * consumer use tax account number on a use tax registration.
          */
-        public Builder salesTaxId(Optional<String> salesTaxId) {
+        public Builder salesTaxId(JsonNullable<String> salesTaxId) {
             Utils.checkNotNull(salesTaxId, "salesTaxId");
             this.salesTaxId = salesTaxId;
+            return this;
+        }
+
+
+        /**
+         * The Importer of Record (IOR) number associated with the registration.
+         */
+        public Builder iorNumber(String iorNumber) {
+            Utils.checkNotNull(iorNumber, "iorNumber");
+            this.iorNumber = JsonNullable.of(iorNumber);
+            return this;
+        }
+
+        /**
+         * The Importer of Record (IOR) number associated with the registration.
+         */
+        public Builder iorNumber(JsonNullable<String> iorNumber) {
+            Utils.checkNotNull(iorNumber, "iorNumber");
+            this.iorNumber = iorNumber;
+            return this;
+        }
+
+
+        /**
+         * The date the Importer of Record (IOR) became effective (YYYY-MM-DD).
+         * For jurisdictions where tax collection starts after the IOR date rather than the
+         * registration date, this is the date on/after which tax is collected.
+         */
+        public Builder iorDate(LocalDate iorDate) {
+            Utils.checkNotNull(iorDate, "iorDate");
+            this.iorDate = JsonNullable.of(iorDate);
+            return this;
+        }
+
+        /**
+         * The date the Importer of Record (IOR) became effective (YYYY-MM-DD).
+         * For jurisdictions where tax collection starts after the IOR date rather than the
+         * registration date, this is the date on/after which tax is collected.
+         */
+        public Builder iorDate(JsonNullable<LocalDate> iorDate) {
+            Utils.checkNotNull(iorDate, "iorDate");
+            this.iorDate = iorDate;
             return this;
         }
 
@@ -2041,14 +2788,14 @@ public class RegistrationReadWithPassword {
          */
         public Builder sstImport(boolean sstImport) {
             Utils.checkNotNull(sstImport, "sstImport");
-            this.sstImport = Optional.ofNullable(sstImport);
+            this.sstImport = JsonNullable.of(sstImport);
             return this;
         }
 
         /**
          * Indicates whether the registration is an SST Import.
          */
-        public Builder sstImport(Optional<Boolean> sstImport) {
+        public Builder sstImport(JsonNullable<Boolean> sstImport) {
             Utils.checkNotNull(sstImport, "sstImport");
             this.sstImport = sstImport;
             return this;
@@ -2056,31 +2803,37 @@ public class RegistrationReadWithPassword {
 
 
         /**
-         * Type of OSS registration.
+         * The type of OSS registration. Should be filled for ZZ_EU OSS registrations.
          */
         public Builder ossType(OssTypeEnum ossType) {
             Utils.checkNotNull(ossType, "ossType");
-            this.ossType = Optional.ofNullable(ossType);
+            this.ossType = JsonNullable.of(ossType);
             return this;
         }
 
         /**
-         * Type of OSS registration.
+         * The type of OSS registration. Should be filled for ZZ_EU OSS registrations.
          */
-        public Builder ossType(Optional<? extends OssTypeEnum> ossType) {
+        public Builder ossType(JsonNullable<? extends OssTypeEnum> ossType) {
             Utils.checkNotNull(ossType, "ossType");
             this.ossType = ossType;
             return this;
         }
 
 
+        /**
+         * The Member State of Identification code for OSS registrations.
+         */
         public Builder ossMemberStateOfIdentificationCode(CountryCodeEnum ossMemberStateOfIdentificationCode) {
             Utils.checkNotNull(ossMemberStateOfIdentificationCode, "ossMemberStateOfIdentificationCode");
-            this.ossMemberStateOfIdentificationCode = Optional.ofNullable(ossMemberStateOfIdentificationCode);
+            this.ossMemberStateOfIdentificationCode = JsonNullable.of(ossMemberStateOfIdentificationCode);
             return this;
         }
 
-        public Builder ossMemberStateOfIdentificationCode(Optional<? extends CountryCodeEnum> ossMemberStateOfIdentificationCode) {
+        /**
+         * The Member State of Identification code for OSS registrations.
+         */
+        public Builder ossMemberStateOfIdentificationCode(JsonNullable<? extends CountryCodeEnum> ossMemberStateOfIdentificationCode) {
             Utils.checkNotNull(ossMemberStateOfIdentificationCode, "ossMemberStateOfIdentificationCode");
             this.ossMemberStateOfIdentificationCode = ossMemberStateOfIdentificationCode;
             return this;
@@ -2088,18 +2841,49 @@ public class RegistrationReadWithPassword {
 
 
         /**
+         * Tax obligation on a nexus, registration, or filing row.
+         * 
+         * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
+         * one return can cover both taxes, and each is stored as a single row.
+         * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
+         * separate obligations with their own met dates, period models, and liability
+         * accrual.
+         */
+        public Builder taxType(TaxTypeEnum taxType) {
+            Utils.checkNotNull(taxType, "taxType");
+            this.taxType = Optional.ofNullable(taxType);
+            return this;
+        }
+
+        /**
+         * Tax obligation on a nexus, registration, or filing row.
+         * 
+         * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
+         * one return can cover both taxes, and each is stored as a single row.
+         * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
+         * separate obligations with their own met dates, period models, and liability
+         * accrual.
+         */
+        public Builder taxType(Optional<? extends TaxTypeEnum> taxType) {
+            Utils.checkNotNull(taxType, "taxType");
+            this.taxType = taxType;
+            return this;
+        }
+
+
+        /**
          * The date when the registration was marked as collecting.
          */
-        public Builder markedCollectingDate(String markedCollectingDate) {
+        public Builder markedCollectingDate(OffsetDateTime markedCollectingDate) {
             Utils.checkNotNull(markedCollectingDate, "markedCollectingDate");
-            this.markedCollectingDate = Optional.ofNullable(markedCollectingDate);
+            this.markedCollectingDate = JsonNullable.of(markedCollectingDate);
             return this;
         }
 
         /**
          * The date when the registration was marked as collecting.
          */
-        public Builder markedCollectingDate(Optional<String> markedCollectingDate) {
+        public Builder markedCollectingDate(JsonNullable<OffsetDateTime> markedCollectingDate) {
             Utils.checkNotNull(markedCollectingDate, "markedCollectingDate");
             this.markedCollectingDate = markedCollectingDate;
             return this;
@@ -2111,14 +2895,14 @@ public class RegistrationReadWithPassword {
          */
         public Builder needsMarkAsCollecting(boolean needsMarkAsCollecting) {
             Utils.checkNotNull(needsMarkAsCollecting, "needsMarkAsCollecting");
-            this.needsMarkAsCollecting = Optional.ofNullable(needsMarkAsCollecting);
+            this.needsMarkAsCollecting = JsonNullable.of(needsMarkAsCollecting);
             return this;
         }
 
         /**
          * Indicates whether the registration needs to be marked as collecting.
          */
-        public Builder needsMarkAsCollecting(Optional<Boolean> needsMarkAsCollecting) {
+        public Builder needsMarkAsCollecting(JsonNullable<Boolean> needsMarkAsCollecting) {
             Utils.checkNotNull(needsMarkAsCollecting, "needsMarkAsCollecting");
             this.needsMarkAsCollecting = needsMarkAsCollecting;
             return this;
@@ -2131,6 +2915,25 @@ public class RegistrationReadWithPassword {
         public Builder id(String id) {
             Utils.checkNotNull(id, "id");
             this.id = id;
+            return this;
+        }
+
+
+        /**
+         * Timestamp when this registration was created in Kintsugi.
+         */
+        public Builder createdAt(OffsetDateTime createdAt) {
+            Utils.checkNotNull(createdAt, "createdAt");
+            this.createdAt = JsonNullable.of(createdAt);
+            return this;
+        }
+
+        /**
+         * Timestamp when this registration was created in Kintsugi.
+         */
+        public Builder createdAt(JsonNullable<OffsetDateTime> createdAt) {
+            Utils.checkNotNull(createdAt, "createdAt");
+            this.createdAt = createdAt;
             return this;
         }
 
@@ -2162,12 +2965,31 @@ public class RegistrationReadWithPassword {
 
 
         /**
+         * Jurisdiction-specific registration fields.
+         */
+        public Builder jurisdictionSpecificFields(Map<String, Object> jurisdictionSpecificFields) {
+            Utils.checkNotNull(jurisdictionSpecificFields, "jurisdictionSpecificFields");
+            this.jurisdictionSpecificFields = JsonNullable.of(jurisdictionSpecificFields);
+            return this;
+        }
+
+        /**
+         * Jurisdiction-specific registration fields.
+         */
+        public Builder jurisdictionSpecificFields(JsonNullable<? extends Map<String, Object>> jurisdictionSpecificFields) {
+            Utils.checkNotNull(jurisdictionSpecificFields, "jurisdictionSpecificFields");
+            this.jurisdictionSpecificFields = jurisdictionSpecificFields;
+            return this;
+        }
+
+
+        /**
          * Encrypted password for accessing the registration,
          * if applicable.
          */
         public Builder passwordEncrypted(String passwordEncrypted) {
             Utils.checkNotNull(passwordEncrypted, "passwordEncrypted");
-            this.passwordEncrypted = Optional.ofNullable(passwordEncrypted);
+            this.passwordEncrypted = JsonNullable.of(passwordEncrypted);
             return this;
         }
 
@@ -2175,9 +2997,32 @@ public class RegistrationReadWithPassword {
          * Encrypted password for accessing the registration,
          * if applicable.
          */
-        public Builder passwordEncrypted(Optional<String> passwordEncrypted) {
+        public Builder passwordEncrypted(JsonNullable<String> passwordEncrypted) {
             Utils.checkNotNull(passwordEncrypted, "passwordEncrypted");
             this.passwordEncrypted = passwordEncrypted;
+            return this;
+        }
+
+
+        /**
+         * Encrypted PIN for the registration (e.g. Arizona/Wyoming
+         * e-file PIN). Masked by default; decrypted only when explicitly revealed
+         * via the GET registration endpoint's reveal query.
+         */
+        public Builder pinEncrypted(String pinEncrypted) {
+            Utils.checkNotNull(pinEncrypted, "pinEncrypted");
+            this.pinEncrypted = JsonNullable.of(pinEncrypted);
+            return this;
+        }
+
+        /**
+         * Encrypted PIN for the registration (e.g. Arizona/Wyoming
+         * e-file PIN). Masked by default; decrypted only when explicitly revealed
+         * via the GET registration endpoint's reveal query.
+         */
+        public Builder pinEncrypted(JsonNullable<String> pinEncrypted) {
+            Utils.checkNotNull(pinEncrypted, "pinEncrypted");
+            this.pinEncrypted = pinEncrypted;
             return this;
         }
 
@@ -2214,30 +3059,37 @@ public class RegistrationReadWithPassword {
             return this;
         }
 
+
+        /**
+         * State tax portal URL for this registration's jurisdiction.
+         */
+        public Builder filingWebsiteUrl(String filingWebsiteUrl) {
+            Utils.checkNotNull(filingWebsiteUrl, "filingWebsiteUrl");
+            this.filingWebsiteUrl = Optional.ofNullable(filingWebsiteUrl);
+            return this;
+        }
+
+        /**
+         * State tax portal URL for this registration's jurisdiction.
+         */
+        public Builder filingWebsiteUrl(Optional<String> filingWebsiteUrl) {
+            Utils.checkNotNull(filingWebsiteUrl, "filingWebsiteUrl");
+            this.filingWebsiteUrl = filingWebsiteUrl;
+            return this;
+        }
+
         public RegistrationReadWithPassword build() {
-            if (autoRegistered == null) {
-                autoRegistered = _SINGLETON_VALUE_AutoRegistered.value();
-            }
-            if (thirdPartyEnabled == null) {
-                thirdPartyEnabled = _SINGLETON_VALUE_ThirdPartyEnabled.value();
-            }
             if (doNotFile == null) {
                 doNotFile = _SINGLETON_VALUE_DoNotFile.value();
             }
-            if (initialSync == null) {
-                initialSync = _SINGLETON_VALUE_InitialSync.value();
+            if (createBackFiling == null) {
+                createBackFiling = _SINGLETON_VALUE_CreateBackFiling.value();
+            }
+            if (retailDeliveryFeeObligated == null) {
+                retailDeliveryFeeObligated = _SINGLETON_VALUE_RetailDeliveryFeeObligated.value();
             }
             if (amountFees == null) {
                 amountFees = _SINGLETON_VALUE_AmountFees.value();
-            }
-            if (vda == null) {
-                vda = _SINGLETON_VALUE_Vda.value();
-            }
-            if (sstImport == null) {
-                sstImport = _SINGLETON_VALUE_SstImport.value();
-            }
-            if (needsMarkAsCollecting == null) {
-                needsMarkAsCollecting = _SINGLETON_VALUE_NeedsMarkAsCollecting.value();
             }
             if (creditsTotalAvailable == null) {
                 creditsTotalAvailable = _SINGLETON_VALUE_CreditsTotalAvailable.value();
@@ -2247,34 +3099,26 @@ public class RegistrationReadWithPassword {
             }
 
             return new RegistrationReadWithPassword(
-                registrationDate, registrationEmail, registrationKey,
-                deregistrationKey, registrationRequested, registrationCompleted,
-                deregistrationRequested, deregistrationCompleted, autoRegistered,
-                registrationsRegime, changeRegimeStatus, thirdPartyEnabled,
-                doNotFile, twoFactorEnabled, markedCollecting,
-                status, countryCode, stateCode,
-                stateName, filingFrequency, username,
-                comment, createFilingsFrom, initialSync,
-                amountFees, vda, imported,
-                salesTaxId, sstImport, ossType,
-                ossMemberStateOfIdentificationCode, markedCollectingDate, needsMarkAsCollecting,
-                id, creditsTotalAvailable, registrationCategory,
-                passwordEncrypted, hasAllCredentials, filingDays,
-                registrationType);
+                registrationDate, registrationEmail, registrationRequested,
+                registrationCompleted, deregistrationRequested, deregistrationCompleted,
+                autoRegistered, registrationsRegime, changeRegimeStatus,
+                thirdPartyEnabled, doNotFile, twoFactorEnabled,
+                markedCollecting, status, countryCode,
+                stateCode, stateName, filingFrequency,
+                initialFilingFrequency, scheduledFilingFrequency, filingFrequencyEffectiveDate,
+                periodEndMonth, username, comment,
+                createFilingsFrom, createBackFiling, retailDeliveryFeeObligated,
+                retailDeliveryFeeEffectiveFrom, initialSync, amountFees,
+                vda, imported, salesTaxId,
+                iorNumber, iorDate, sstImport,
+                ossType, ossMemberStateOfIdentificationCode, taxType,
+                markedCollectingDate, needsMarkAsCollecting, id,
+                createdAt, creditsTotalAvailable, registrationCategory,
+                jurisdictionSpecificFields, passwordEncrypted, pinEncrypted,
+                hasAllCredentials, filingDays, registrationType,
+                filingWebsiteUrl);
         }
 
-
-        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_AutoRegistered =
-                new LazySingletonValue<>(
-                        "auto_registered",
-                        "false",
-                        new TypeReference<Optional<Boolean>>() {});
-
-        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_ThirdPartyEnabled =
-                new LazySingletonValue<>(
-                        "third_party_enabled",
-                        "false",
-                        new TypeReference<Optional<Boolean>>() {});
 
         private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_DoNotFile =
                 new LazySingletonValue<>(
@@ -2282,9 +3126,15 @@ public class RegistrationReadWithPassword {
                         "false",
                         new TypeReference<Optional<Boolean>>() {});
 
-        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_InitialSync =
+        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_CreateBackFiling =
                 new LazySingletonValue<>(
-                        "initial_sync",
+                        "create_back_filing",
+                        "false",
+                        new TypeReference<Optional<Boolean>>() {});
+
+        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_RetailDeliveryFeeObligated =
+                new LazySingletonValue<>(
+                        "retail_delivery_fee_obligated",
                         "false",
                         new TypeReference<Optional<Boolean>>() {});
 
@@ -2293,24 +3143,6 @@ public class RegistrationReadWithPassword {
                         "amount_fees",
                         "\"0.00\"",
                         new TypeReference<Optional<String>>() {});
-
-        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_Vda =
-                new LazySingletonValue<>(
-                        "vda",
-                        "false",
-                        new TypeReference<Optional<Boolean>>() {});
-
-        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_SstImport =
-                new LazySingletonValue<>(
-                        "sst_import",
-                        "false",
-                        new TypeReference<Optional<Boolean>>() {});
-
-        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_NeedsMarkAsCollecting =
-                new LazySingletonValue<>(
-                        "needs_mark_as_collecting",
-                        "false",
-                        new TypeReference<Optional<Boolean>>() {});
 
         private static final LazySingletonValue<Optional<String>> _SINGLETON_VALUE_CreditsTotalAvailable =
                 new LazySingletonValue<>(

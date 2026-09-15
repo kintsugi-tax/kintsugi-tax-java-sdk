@@ -48,12 +48,17 @@ public class BackendSrcFilingsResponsesValidationErrorResponse extends SDKError 
     * the resulting BackendSrcFilingsResponsesValidationErrorResponse instance will have a null data() value and a non-null deserializationException().
     */
     public static BackendSrcFilingsResponsesValidationErrorResponse from(HttpResponse<InputStream> response) {
+        byte[] bytes;
         try {
-            byte[] bytes = Utils.extractByteArrayFromBody(response);
+            bytes = Utils.extractByteArrayFromBody(response);
+        } catch (Exception e) {
+            return new BackendSrcFilingsResponsesValidationErrorResponse(response.statusCode(), null, response, null, e);
+        }
+        try {
             Data data = Utils.mapper().readValue(bytes, Data.class);
             return new BackendSrcFilingsResponsesValidationErrorResponse(response.statusCode(), bytes, response, data, null);
         } catch (Exception e) {
-            return new BackendSrcFilingsResponsesValidationErrorResponse(response.statusCode(), null, response, null, e);
+            return new BackendSrcFilingsResponsesValidationErrorResponse(response.statusCode(), bytes, response, null, e);
         }
     }
 

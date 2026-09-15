@@ -6,7 +6,6 @@ package com.kintsugi.taxplatform.models.operations;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.kintsugi.taxplatform.models.components.CountryCodeEnum;
 import com.kintsugi.taxplatform.utils.LazySingletonValue;
 import com.kintsugi.taxplatform.utils.SpeakeasyMetadata;
 import com.kintsugi.taxplatform.utils.Utils;
@@ -16,6 +15,7 @@ import java.lang.String;
 import java.lang.SuppressWarnings;
 import java.util.List;
 import java.util.Optional;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 public class GetCustomersV1Request {
@@ -23,80 +23,94 @@ public class GetCustomersV1Request {
      * Search term to filter customers by name or other details
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=search_query")
-    private Optional<String> searchQuery;
+    private JsonNullable<String> searchQuery;
 
     /**
      * Country code in ISO 3166-1 alpha-2 format (e.g., 'US')
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=country")
-    private Optional<? extends List<CountryCodeEnum>> country;
+    private JsonNullable<? extends List<GetCustomersV1Country>> country;
 
     /**
      * State or province code to filter customers
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=state")
-    private Optional<String> state;
+    private JsonNullable<String> state;
 
     /**
      * Filter customers by source (comma-separated)
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=source__in")
-    private Optional<String> sourceIn;
+    private JsonNullable<String> sourceIn;
+
+    /**
+     * Filter customers by connection ID (comma-separated)
+     */
+    @SpeakeasyMetadata("queryParam:style=form,explode=true,name=connection_id__in")
+    private JsonNullable<String> connectionIdIn;
 
     /**
      * Comma-separated list of fields to sort results by.
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=order_by")
-    private Optional<String> orderBy;
+    private JsonNullable<String> orderBy;
 
-    /**
-     * Page number
-     */
+
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=page")
     private Optional<Long> page;
 
-    /**
-     * Page size
-     */
+
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=size")
     private Optional<Long> size;
 
+    /**
+     * The unique identifier for the organization making the request
+     */
+    @SpeakeasyMetadata("header:style=simple,explode=false,name=x-organization-id")
+    private Optional<String> xOrganizationId;
+
     @JsonCreator
     public GetCustomersV1Request(
-            Optional<String> searchQuery,
-            Optional<? extends List<CountryCodeEnum>> country,
-            Optional<String> state,
-            Optional<String> sourceIn,
-            Optional<String> orderBy,
+            JsonNullable<String> searchQuery,
+            JsonNullable<? extends List<GetCustomersV1Country>> country,
+            JsonNullable<String> state,
+            JsonNullable<String> sourceIn,
+            JsonNullable<String> connectionIdIn,
+            JsonNullable<String> orderBy,
             Optional<Long> page,
-            Optional<Long> size) {
+            Optional<Long> size,
+            Optional<String> xOrganizationId) {
         Utils.checkNotNull(searchQuery, "searchQuery");
         Utils.checkNotNull(country, "country");
         Utils.checkNotNull(state, "state");
         Utils.checkNotNull(sourceIn, "sourceIn");
+        Utils.checkNotNull(connectionIdIn, "connectionIdIn");
         Utils.checkNotNull(orderBy, "orderBy");
         Utils.checkNotNull(page, "page");
         Utils.checkNotNull(size, "size");
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
         this.searchQuery = searchQuery;
         this.country = country;
         this.state = state;
         this.sourceIn = sourceIn;
+        this.connectionIdIn = connectionIdIn;
         this.orderBy = orderBy;
         this.page = page;
         this.size = size;
+        this.xOrganizationId = xOrganizationId;
     }
     
     public GetCustomersV1Request() {
-        this(Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty());
+        this(JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            Optional.empty(), Optional.empty(), Optional.empty());
     }
 
     /**
      * Search term to filter customers by name or other details
      */
     @JsonIgnore
-    public Optional<String> searchQuery() {
+    public JsonNullable<String> searchQuery() {
         return searchQuery;
     }
 
@@ -105,15 +119,15 @@ public class GetCustomersV1Request {
      */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<List<CountryCodeEnum>> country() {
-        return (Optional<List<CountryCodeEnum>>) country;
+    public JsonNullable<List<GetCustomersV1Country>> country() {
+        return (JsonNullable<List<GetCustomersV1Country>>) country;
     }
 
     /**
      * State or province code to filter customers
      */
     @JsonIgnore
-    public Optional<String> state() {
+    public JsonNullable<String> state() {
         return state;
     }
 
@@ -121,32 +135,42 @@ public class GetCustomersV1Request {
      * Filter customers by source (comma-separated)
      */
     @JsonIgnore
-    public Optional<String> sourceIn() {
+    public JsonNullable<String> sourceIn() {
         return sourceIn;
+    }
+
+    /**
+     * Filter customers by connection ID (comma-separated)
+     */
+    @JsonIgnore
+    public JsonNullable<String> connectionIdIn() {
+        return connectionIdIn;
     }
 
     /**
      * Comma-separated list of fields to sort results by.
      */
     @JsonIgnore
-    public Optional<String> orderBy() {
+    public JsonNullable<String> orderBy() {
         return orderBy;
     }
 
-    /**
-     * Page number
-     */
     @JsonIgnore
     public Optional<Long> page() {
         return page;
     }
 
-    /**
-     * Page size
-     */
     @JsonIgnore
     public Optional<Long> size() {
         return size;
+    }
+
+    /**
+     * The unique identifier for the organization making the request
+     */
+    @JsonIgnore
+    public Optional<String> xOrganizationId() {
+        return xOrganizationId;
     }
 
     public static Builder builder() {
@@ -159,15 +183,14 @@ public class GetCustomersV1Request {
      */
     public GetCustomersV1Request withSearchQuery(String searchQuery) {
         Utils.checkNotNull(searchQuery, "searchQuery");
-        this.searchQuery = Optional.ofNullable(searchQuery);
+        this.searchQuery = JsonNullable.of(searchQuery);
         return this;
     }
-
 
     /**
      * Search term to filter customers by name or other details
      */
-    public GetCustomersV1Request withSearchQuery(Optional<String> searchQuery) {
+    public GetCustomersV1Request withSearchQuery(JsonNullable<String> searchQuery) {
         Utils.checkNotNull(searchQuery, "searchQuery");
         this.searchQuery = searchQuery;
         return this;
@@ -176,17 +199,16 @@ public class GetCustomersV1Request {
     /**
      * Country code in ISO 3166-1 alpha-2 format (e.g., 'US')
      */
-    public GetCustomersV1Request withCountry(List<CountryCodeEnum> country) {
+    public GetCustomersV1Request withCountry(List<GetCustomersV1Country> country) {
         Utils.checkNotNull(country, "country");
-        this.country = Optional.ofNullable(country);
+        this.country = JsonNullable.of(country);
         return this;
     }
-
 
     /**
      * Country code in ISO 3166-1 alpha-2 format (e.g., 'US')
      */
-    public GetCustomersV1Request withCountry(Optional<? extends List<CountryCodeEnum>> country) {
+    public GetCustomersV1Request withCountry(JsonNullable<? extends List<GetCustomersV1Country>> country) {
         Utils.checkNotNull(country, "country");
         this.country = country;
         return this;
@@ -197,15 +219,14 @@ public class GetCustomersV1Request {
      */
     public GetCustomersV1Request withState(String state) {
         Utils.checkNotNull(state, "state");
-        this.state = Optional.ofNullable(state);
+        this.state = JsonNullable.of(state);
         return this;
     }
-
 
     /**
      * State or province code to filter customers
      */
-    public GetCustomersV1Request withState(Optional<String> state) {
+    public GetCustomersV1Request withState(JsonNullable<String> state) {
         Utils.checkNotNull(state, "state");
         this.state = state;
         return this;
@@ -216,17 +237,34 @@ public class GetCustomersV1Request {
      */
     public GetCustomersV1Request withSourceIn(String sourceIn) {
         Utils.checkNotNull(sourceIn, "sourceIn");
-        this.sourceIn = Optional.ofNullable(sourceIn);
+        this.sourceIn = JsonNullable.of(sourceIn);
         return this;
     }
-
 
     /**
      * Filter customers by source (comma-separated)
      */
-    public GetCustomersV1Request withSourceIn(Optional<String> sourceIn) {
+    public GetCustomersV1Request withSourceIn(JsonNullable<String> sourceIn) {
         Utils.checkNotNull(sourceIn, "sourceIn");
         this.sourceIn = sourceIn;
+        return this;
+    }
+
+    /**
+     * Filter customers by connection ID (comma-separated)
+     */
+    public GetCustomersV1Request withConnectionIdIn(String connectionIdIn) {
+        Utils.checkNotNull(connectionIdIn, "connectionIdIn");
+        this.connectionIdIn = JsonNullable.of(connectionIdIn);
+        return this;
+    }
+
+    /**
+     * Filter customers by connection ID (comma-separated)
+     */
+    public GetCustomersV1Request withConnectionIdIn(JsonNullable<String> connectionIdIn) {
+        Utils.checkNotNull(connectionIdIn, "connectionIdIn");
+        this.connectionIdIn = connectionIdIn;
         return this;
     }
 
@@ -235,23 +273,19 @@ public class GetCustomersV1Request {
      */
     public GetCustomersV1Request withOrderBy(String orderBy) {
         Utils.checkNotNull(orderBy, "orderBy");
-        this.orderBy = Optional.ofNullable(orderBy);
+        this.orderBy = JsonNullable.of(orderBy);
         return this;
     }
-
 
     /**
      * Comma-separated list of fields to sort results by.
      */
-    public GetCustomersV1Request withOrderBy(Optional<String> orderBy) {
+    public GetCustomersV1Request withOrderBy(JsonNullable<String> orderBy) {
         Utils.checkNotNull(orderBy, "orderBy");
         this.orderBy = orderBy;
         return this;
     }
 
-    /**
-     * Page number
-     */
     public GetCustomersV1Request withPage(long page) {
         Utils.checkNotNull(page, "page");
         this.page = Optional.ofNullable(page);
@@ -259,18 +293,12 @@ public class GetCustomersV1Request {
     }
 
 
-    /**
-     * Page number
-     */
     public GetCustomersV1Request withPage(Optional<Long> page) {
         Utils.checkNotNull(page, "page");
         this.page = page;
         return this;
     }
 
-    /**
-     * Page size
-     */
     public GetCustomersV1Request withSize(long size) {
         Utils.checkNotNull(size, "size");
         this.size = Optional.ofNullable(size);
@@ -278,12 +306,28 @@ public class GetCustomersV1Request {
     }
 
 
-    /**
-     * Page size
-     */
     public GetCustomersV1Request withSize(Optional<Long> size) {
         Utils.checkNotNull(size, "size");
         this.size = size;
+        return this;
+    }
+
+    /**
+     * The unique identifier for the organization making the request
+     */
+    public GetCustomersV1Request withXOrganizationId(String xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = Optional.ofNullable(xOrganizationId);
+        return this;
+    }
+
+
+    /**
+     * The unique identifier for the organization making the request
+     */
+    public GetCustomersV1Request withXOrganizationId(Optional<String> xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = xOrganizationId;
         return this;
     }
 
@@ -301,17 +345,19 @@ public class GetCustomersV1Request {
             Utils.enhancedDeepEquals(this.country, other.country) &&
             Utils.enhancedDeepEquals(this.state, other.state) &&
             Utils.enhancedDeepEquals(this.sourceIn, other.sourceIn) &&
+            Utils.enhancedDeepEquals(this.connectionIdIn, other.connectionIdIn) &&
             Utils.enhancedDeepEquals(this.orderBy, other.orderBy) &&
             Utils.enhancedDeepEquals(this.page, other.page) &&
-            Utils.enhancedDeepEquals(this.size, other.size);
+            Utils.enhancedDeepEquals(this.size, other.size) &&
+            Utils.enhancedDeepEquals(this.xOrganizationId, other.xOrganizationId);
     }
     
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
             searchQuery, country, state,
-            sourceIn, orderBy, page,
-            size);
+            sourceIn, connectionIdIn, orderBy,
+            page, size, xOrganizationId);
     }
     
     @Override
@@ -321,27 +367,33 @@ public class GetCustomersV1Request {
                 "country", country,
                 "state", state,
                 "sourceIn", sourceIn,
+                "connectionIdIn", connectionIdIn,
                 "orderBy", orderBy,
                 "page", page,
-                "size", size);
+                "size", size,
+                "xOrganizationId", xOrganizationId);
     }
 
     @SuppressWarnings("UnusedReturnValue")
     public final static class Builder {
 
-        private Optional<String> searchQuery = Optional.empty();
+        private JsonNullable<String> searchQuery = JsonNullable.undefined();
 
-        private Optional<? extends List<CountryCodeEnum>> country = Optional.empty();
+        private JsonNullable<? extends List<GetCustomersV1Country>> country = JsonNullable.undefined();
 
-        private Optional<String> state = Optional.empty();
+        private JsonNullable<String> state = JsonNullable.undefined();
 
-        private Optional<String> sourceIn = Optional.empty();
+        private JsonNullable<String> sourceIn = JsonNullable.undefined();
 
-        private Optional<String> orderBy = Optional.empty();
+        private JsonNullable<String> connectionIdIn = JsonNullable.undefined();
+
+        private JsonNullable<String> orderBy = JsonNullable.undefined();
 
         private Optional<Long> page;
 
         private Optional<Long> size;
+
+        private Optional<String> xOrganizationId = Optional.empty();
 
         private Builder() {
           // force use of static builder() method
@@ -353,14 +405,14 @@ public class GetCustomersV1Request {
          */
         public Builder searchQuery(String searchQuery) {
             Utils.checkNotNull(searchQuery, "searchQuery");
-            this.searchQuery = Optional.ofNullable(searchQuery);
+            this.searchQuery = JsonNullable.of(searchQuery);
             return this;
         }
 
         /**
          * Search term to filter customers by name or other details
          */
-        public Builder searchQuery(Optional<String> searchQuery) {
+        public Builder searchQuery(JsonNullable<String> searchQuery) {
             Utils.checkNotNull(searchQuery, "searchQuery");
             this.searchQuery = searchQuery;
             return this;
@@ -370,16 +422,16 @@ public class GetCustomersV1Request {
         /**
          * Country code in ISO 3166-1 alpha-2 format (e.g., 'US')
          */
-        public Builder country(List<CountryCodeEnum> country) {
+        public Builder country(List<GetCustomersV1Country> country) {
             Utils.checkNotNull(country, "country");
-            this.country = Optional.ofNullable(country);
+            this.country = JsonNullable.of(country);
             return this;
         }
 
         /**
          * Country code in ISO 3166-1 alpha-2 format (e.g., 'US')
          */
-        public Builder country(Optional<? extends List<CountryCodeEnum>> country) {
+        public Builder country(JsonNullable<? extends List<GetCustomersV1Country>> country) {
             Utils.checkNotNull(country, "country");
             this.country = country;
             return this;
@@ -391,14 +443,14 @@ public class GetCustomersV1Request {
          */
         public Builder state(String state) {
             Utils.checkNotNull(state, "state");
-            this.state = Optional.ofNullable(state);
+            this.state = JsonNullable.of(state);
             return this;
         }
 
         /**
          * State or province code to filter customers
          */
-        public Builder state(Optional<String> state) {
+        public Builder state(JsonNullable<String> state) {
             Utils.checkNotNull(state, "state");
             this.state = state;
             return this;
@@ -410,16 +462,35 @@ public class GetCustomersV1Request {
          */
         public Builder sourceIn(String sourceIn) {
             Utils.checkNotNull(sourceIn, "sourceIn");
-            this.sourceIn = Optional.ofNullable(sourceIn);
+            this.sourceIn = JsonNullable.of(sourceIn);
             return this;
         }
 
         /**
          * Filter customers by source (comma-separated)
          */
-        public Builder sourceIn(Optional<String> sourceIn) {
+        public Builder sourceIn(JsonNullable<String> sourceIn) {
             Utils.checkNotNull(sourceIn, "sourceIn");
             this.sourceIn = sourceIn;
+            return this;
+        }
+
+
+        /**
+         * Filter customers by connection ID (comma-separated)
+         */
+        public Builder connectionIdIn(String connectionIdIn) {
+            Utils.checkNotNull(connectionIdIn, "connectionIdIn");
+            this.connectionIdIn = JsonNullable.of(connectionIdIn);
+            return this;
+        }
+
+        /**
+         * Filter customers by connection ID (comma-separated)
+         */
+        public Builder connectionIdIn(JsonNullable<String> connectionIdIn) {
+            Utils.checkNotNull(connectionIdIn, "connectionIdIn");
+            this.connectionIdIn = connectionIdIn;
             return this;
         }
 
@@ -429,32 +500,26 @@ public class GetCustomersV1Request {
          */
         public Builder orderBy(String orderBy) {
             Utils.checkNotNull(orderBy, "orderBy");
-            this.orderBy = Optional.ofNullable(orderBy);
+            this.orderBy = JsonNullable.of(orderBy);
             return this;
         }
 
         /**
          * Comma-separated list of fields to sort results by.
          */
-        public Builder orderBy(Optional<String> orderBy) {
+        public Builder orderBy(JsonNullable<String> orderBy) {
             Utils.checkNotNull(orderBy, "orderBy");
             this.orderBy = orderBy;
             return this;
         }
 
 
-        /**
-         * Page number
-         */
         public Builder page(long page) {
             Utils.checkNotNull(page, "page");
             this.page = Optional.ofNullable(page);
             return this;
         }
 
-        /**
-         * Page number
-         */
         public Builder page(Optional<Long> page) {
             Utils.checkNotNull(page, "page");
             this.page = page;
@@ -462,21 +527,34 @@ public class GetCustomersV1Request {
         }
 
 
-        /**
-         * Page size
-         */
         public Builder size(long size) {
             Utils.checkNotNull(size, "size");
             this.size = Optional.ofNullable(size);
             return this;
         }
 
-        /**
-         * Page size
-         */
         public Builder size(Optional<Long> size) {
             Utils.checkNotNull(size, "size");
             this.size = size;
+            return this;
+        }
+
+
+        /**
+         * The unique identifier for the organization making the request
+         */
+        public Builder xOrganizationId(String xOrganizationId) {
+            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+            this.xOrganizationId = Optional.ofNullable(xOrganizationId);
+            return this;
+        }
+
+        /**
+         * The unique identifier for the organization making the request
+         */
+        public Builder xOrganizationId(Optional<String> xOrganizationId) {
+            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+            this.xOrganizationId = xOrganizationId;
             return this;
         }
 
@@ -490,8 +568,8 @@ public class GetCustomersV1Request {
 
             return new GetCustomersV1Request(
                 searchQuery, country, state,
-                sourceIn, orderBy, page,
-                size);
+                sourceIn, connectionIdIn, orderBy,
+                page, size, xOrganizationId);
         }
 
 

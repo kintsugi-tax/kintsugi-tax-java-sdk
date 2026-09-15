@@ -23,9 +23,12 @@ import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Hook.AfterErrorContextImpl;
 import com.kintsugi.taxplatform.utils.Hook.AfterSuccessContextImpl;
 import com.kintsugi.taxplatform.utils.Hook.BeforeRequestContextImpl;
+import com.kintsugi.taxplatform.utils.SerializedBody;
+import com.kintsugi.taxplatform.utils.Utils.JsonShape;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.io.InputStream;
 import java.lang.Exception;
+import java.lang.Object;
 import java.lang.String;
 import java.lang.Throwable;
 import java.net.http.HttpRequest;
@@ -82,16 +85,27 @@ public class DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPost {
                     java.util.Optional.empty(),
                     securitySource());
         }
-        <T>HttpRequest buildRequest(T request, Class<T> klass) throws Exception {
+        <T, U>HttpRequest buildRequest(T request, Class<T> klass, TypeReference<U> typeReference) throws Exception {
             String url = Utils.generateURL(
                     klass,
                     this.baseUrl,
                     "/v1/registrations/{registration_id}/deregister",
                     request, null);
             HTTPRequest req = new HTTPRequest(url, "POST");
+            Object convertedRequest = Utils.convertToShape(
+                    request,
+                    JsonShape.DEFAULT,
+                    typeReference);
+            SerializedBody serializedRequestBody = Utils.serializeRequestBody(
+                    convertedRequest,
+                    "deregisterRegistrationRequest",
+                    "json",
+                    true);
+            req.setBody(Optional.ofNullable(serializedRequestBody));
             req.addHeader("Accept", "application/json")
                     .addHeader("user-agent", SDKConfiguration.USER_AGENT);
             _headers.forEach((k, list) -> list.forEach(v -> req.addHeader(k, v)));
+            req.addHeaders(Utils.getHeadersFromMetadata(request, null));
             Utils.configureSecurity(req, this.sdkConfiguration.securitySource().getSecurity());
 
             return req.build();
@@ -105,7 +119,7 @@ public class DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPost {
         }
 
         private HttpRequest onBuildRequest(DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest request) throws Exception {
-            HttpRequest req = buildRequest(request, DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest.class);
+            HttpRequest req = buildRequest(request, DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest.class, new TypeReference<DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest>() {});
             return sdkConfiguration.hooks().beforeRequest(createBeforeRequestContext(), req);
         }
 
@@ -201,7 +215,7 @@ public class DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPost {
         }
 
         private CompletableFuture<HttpRequest> onBuildRequest(DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest request) throws Exception {
-            HttpRequest req = buildRequest(request, DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest.class);
+            HttpRequest req = buildRequest(request, DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest.class, new TypeReference<DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest>() {});
             return this.sdkConfiguration.asyncHooks().beforeRequest(createBeforeRequestContext(), req);
         }
 

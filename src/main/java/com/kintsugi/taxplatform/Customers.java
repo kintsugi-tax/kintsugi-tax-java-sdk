@@ -8,6 +8,7 @@ import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 import com.kintsugi.taxplatform.models.components.CustomerCreate;
 import com.kintsugi.taxplatform.models.components.CustomerUpdate;
 import com.kintsugi.taxplatform.models.components.TransactionCreate;
+import com.kintsugi.taxplatform.models.operations.CreateCustomerV1CustomersPostRequest;
 import com.kintsugi.taxplatform.models.operations.CreateCustomerV1CustomersPostRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.CreateCustomerV1CustomersPostResponse;
 import com.kintsugi.taxplatform.models.operations.CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest;
@@ -33,6 +34,7 @@ import com.kintsugi.taxplatform.operations.GetCustomersV1;
 import com.kintsugi.taxplatform.operations.UpdateCustomerV1CustomersCustomerIdPut;
 import com.kintsugi.taxplatform.utils.Headers;
 import java.lang.String;
+import java.util.Optional;
 
 
 public class Customers {
@@ -61,7 +63,7 @@ public class Customers {
     }
 
     /**
-     * Get Customers
+     * Get customers
      * 
      * <p>The Get Customers API retrieves
      * a paginated list of customers based on specified filters.
@@ -74,7 +76,7 @@ public class Customers {
     }
 
     /**
-     * Get Customers
+     * Get customers
      * 
      * <p>The Get Customers API retrieves
      * a paginated list of customers based on specified filters.
@@ -91,7 +93,7 @@ public class Customers {
     }
 
     /**
-     * Create Customer
+     * Create customer
      * 
      * <p>The Create Customer API enables the creation of a new customer record with essential
      * details like name, contact information, and address, along with optional metadata.
@@ -103,95 +105,44 @@ public class Customers {
     }
 
     /**
-     * Create Customer
+     * Create customer
      * 
      * <p>The Create Customer API enables the creation of a new customer record with essential
      * details like name, contact information, and address, along with optional metadata.
      * 
-     * @param request The request object containing all the parameters for the API call.
+     * @param customerCreate 
      * @return The response from the API call
      * @throws RuntimeException subclass if the API call fails
      */
-    public CreateCustomerV1CustomersPostResponse create(CustomerCreate request) {
-        RequestOperation<CustomerCreate, CreateCustomerV1CustomersPostResponse> operation
+    public CreateCustomerV1CustomersPostResponse create(CustomerCreate customerCreate) {
+        return create(Optional.empty(), customerCreate);
+    }
+
+    /**
+     * Create customer
+     * 
+     * <p>The Create Customer API enables the creation of a new customer record with essential
+     * details like name, contact information, and address, along with optional metadata.
+     * 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param customerCreate 
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public CreateCustomerV1CustomersPostResponse create(Optional<String> xOrganizationId, CustomerCreate customerCreate) {
+        CreateCustomerV1CustomersPostRequest request =
+            CreateCustomerV1CustomersPostRequest
+                .builder()
+                .xOrganizationId(xOrganizationId)
+                .customerCreate(customerCreate)
+                .build();
+        RequestOperation<CreateCustomerV1CustomersPostRequest, CreateCustomerV1CustomersPostResponse> operation
               = new CreateCustomerV1CustomersPost.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
     /**
-     * Get Customer By Id
-     * 
-     * <p>The Get Customer By ID API retrieves the details of a single customer
-     * using their unique identifier. It returns customer-specific data,
-     * including contact information, address, name and metadata, etc.
-     * 
-     * @return The call builder
-     */
-    public GetCustomerByIdV1CustomersCustomerIdGetRequestBuilder getById() {
-        return new GetCustomerByIdV1CustomersCustomerIdGetRequestBuilder(sdkConfiguration);
-    }
-
-    /**
-     * Get Customer By Id
-     * 
-     * <p>The Get Customer By ID API retrieves the details of a single customer
-     * using their unique identifier. It returns customer-specific data,
-     * including contact information, address, name and metadata, etc.
-     * 
-     * @param customerId Unique identifier of the customer
-     * @return The response from the API call
-     * @throws RuntimeException subclass if the API call fails
-     */
-    public GetCustomerByIdV1CustomersCustomerIdGetResponse getById(String customerId) {
-        GetCustomerByIdV1CustomersCustomerIdGetRequest request =
-            GetCustomerByIdV1CustomersCustomerIdGetRequest
-                .builder()
-                .customerId(customerId)
-                .build();
-        RequestOperation<GetCustomerByIdV1CustomersCustomerIdGetRequest, GetCustomerByIdV1CustomersCustomerIdGetResponse> operation
-              = new GetCustomerByIdV1CustomersCustomerIdGet.Sync(sdkConfiguration, _headers);
-        return operation.handleResponse(operation.doRequest(request));
-    }
-
-    /**
-     * Update Customer
-     * 
-     * <p>The Update Customer API allows you to modify an existing customer's
-     * information using their unique identifier,
-     * enabling updates to their details as needed.
-     * 
-     * @return The call builder
-     */
-    public UpdateCustomerV1CustomersCustomerIdPutRequestBuilder update() {
-        return new UpdateCustomerV1CustomersCustomerIdPutRequestBuilder(sdkConfiguration);
-    }
-
-    /**
-     * Update Customer
-     * 
-     * <p>The Update Customer API allows you to modify an existing customer's
-     * information using their unique identifier,
-     * enabling updates to their details as needed.
-     * 
-     * @param customerId Unique identifier of the customer to be retrieved.
-     * @param customerUpdate 
-     * @return The response from the API call
-     * @throws RuntimeException subclass if the API call fails
-     */
-    public UpdateCustomerV1CustomersCustomerIdPutResponse update(String customerId, CustomerUpdate customerUpdate) {
-        UpdateCustomerV1CustomersCustomerIdPutRequest request =
-            UpdateCustomerV1CustomersCustomerIdPutRequest
-                .builder()
-                .customerId(customerId)
-                .customerUpdate(customerUpdate)
-                .build();
-        RequestOperation<UpdateCustomerV1CustomersCustomerIdPutRequest, UpdateCustomerV1CustomersCustomerIdPutResponse> operation
-              = new UpdateCustomerV1CustomersCustomerIdPut.Sync(sdkConfiguration, _headers);
-        return operation.handleResponse(operation.doRequest(request));
-    }
-
-    /**
-     * Get Customer By External Id
+     * Get customer by external id
      * 
      * <p>The Get Customer By External ID API retrieves the details of a single customer using
      * their external identifier. This endpoint is useful for accessing customer data when only
@@ -204,7 +155,7 @@ public class Customers {
     }
 
     /**
-     * Get Customer By External Id
+     * Get customer by external id
      * 
      * <p>The Get Customer By External ID API retrieves the details of a single customer using
      * their external identifier. This endpoint is useful for accessing customer data when only
@@ -215,10 +166,27 @@ public class Customers {
      * @throws RuntimeException subclass if the API call fails
      */
     public GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse getByExternalId(String externalId) {
+        return getByExternalId(externalId, Optional.empty());
+    }
+
+    /**
+     * Get customer by external id
+     * 
+     * <p>The Get Customer By External ID API retrieves the details of a single customer using
+     * their external identifier. This endpoint is useful for accessing customer data when only
+     * an external ID is available.
+     * 
+     * @param externalId The external identifier of the customer to retrieve.
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse getByExternalId(String externalId, Optional<String> xOrganizationId) {
         GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest request =
             GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest
                 .builder()
                 .externalId(externalId)
+                .xOrganizationId(xOrganizationId)
                 .build();
         RequestOperation<GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest, GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse> operation
               = new GetCustomerByExternalIdV1CustomersExternalExternalIdGet.Sync(sdkConfiguration, _headers);
@@ -226,7 +194,116 @@ public class Customers {
     }
 
     /**
-     * Create Transaction By Customer Id
+     * Get customer by id
+     * 
+     * <p>The Get Customer By ID API retrieves the details of a single customer
+     * using their unique identifier. It returns customer-specific data,
+     * including contact information, address, name and metadata, etc.
+     * 
+     * @return The call builder
+     */
+    public GetCustomerByIdV1CustomersCustomerIdGetRequestBuilder getById() {
+        return new GetCustomerByIdV1CustomersCustomerIdGetRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Get customer by id
+     * 
+     * <p>The Get Customer By ID API retrieves the details of a single customer
+     * using their unique identifier. It returns customer-specific data,
+     * including contact information, address, name and metadata, etc.
+     * 
+     * @param customerId Unique identifier of the customer
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public GetCustomerByIdV1CustomersCustomerIdGetResponse getById(String customerId) {
+        return getById(customerId, Optional.empty());
+    }
+
+    /**
+     * Get customer by id
+     * 
+     * <p>The Get Customer By ID API retrieves the details of a single customer
+     * using their unique identifier. It returns customer-specific data,
+     * including contact information, address, name and metadata, etc.
+     * 
+     * @param customerId Unique identifier of the customer
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public GetCustomerByIdV1CustomersCustomerIdGetResponse getById(String customerId, Optional<String> xOrganizationId) {
+        GetCustomerByIdV1CustomersCustomerIdGetRequest request =
+            GetCustomerByIdV1CustomersCustomerIdGetRequest
+                .builder()
+                .customerId(customerId)
+                .xOrganizationId(xOrganizationId)
+                .build();
+        RequestOperation<GetCustomerByIdV1CustomersCustomerIdGetRequest, GetCustomerByIdV1CustomersCustomerIdGetResponse> operation
+              = new GetCustomerByIdV1CustomersCustomerIdGet.Sync(sdkConfiguration, _headers);
+        return operation.handleResponse(operation.doRequest(request));
+    }
+
+    /**
+     * Update customer
+     * 
+     * <p>The Update Customer API allows you to modify an existing customer's
+     * information using their unique identifier,
+     * enabling updates to their details as needed.
+     * 
+     * @return The call builder
+     */
+    public UpdateCustomerV1CustomersCustomerIdPutRequestBuilder update() {
+        return new UpdateCustomerV1CustomersCustomerIdPutRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Update customer
+     * 
+     * <p>The Update Customer API allows you to modify an existing customer's
+     * information using their unique identifier,
+     * enabling updates to their details as needed.
+     * 
+     * @param customerId Unique identifier of the customer to be retrieved.
+     * @param customerUpdate 
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public UpdateCustomerV1CustomersCustomerIdPutResponse update(String customerId, CustomerUpdate customerUpdate) {
+        return update(customerId, Optional.empty(), customerUpdate);
+    }
+
+    /**
+     * Update customer
+     * 
+     * <p>The Update Customer API allows you to modify an existing customer's
+     * information using their unique identifier,
+     * enabling updates to their details as needed.
+     * 
+     * @param customerId Unique identifier of the customer to be retrieved.
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param customerUpdate 
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public UpdateCustomerV1CustomersCustomerIdPutResponse update(
+            String customerId, Optional<String> xOrganizationId,
+            CustomerUpdate customerUpdate) {
+        UpdateCustomerV1CustomersCustomerIdPutRequest request =
+            UpdateCustomerV1CustomersCustomerIdPutRequest
+                .builder()
+                .customerId(customerId)
+                .xOrganizationId(xOrganizationId)
+                .customerUpdate(customerUpdate)
+                .build();
+        RequestOperation<UpdateCustomerV1CustomersCustomerIdPutRequest, UpdateCustomerV1CustomersCustomerIdPutResponse> operation
+              = new UpdateCustomerV1CustomersCustomerIdPut.Sync(sdkConfiguration, _headers);
+        return operation.handleResponse(operation.doRequest(request));
+    }
+
+    /**
+     * Create transaction by customer id
      * 
      * <p>Create a new transaction for a specific customer.
      * 
@@ -237,7 +314,7 @@ public class Customers {
     }
 
     /**
-     * Create Transaction By Customer Id
+     * Create transaction by customer id
      * 
      * <p>Create a new transaction for a specific customer.
      * 
@@ -247,10 +324,28 @@ public class Customers {
      * @throws RuntimeException subclass if the API call fails
      */
     public CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostResponse createTransaction(String customerId, TransactionCreate transactionCreate) {
+        return createTransaction(customerId, Optional.empty(), transactionCreate);
+    }
+
+    /**
+     * Create transaction by customer id
+     * 
+     * <p>Create a new transaction for a specific customer.
+     * 
+     * @param customerId 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param transactionCreate 
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostResponse createTransaction(
+            String customerId, Optional<String> xOrganizationId,
+            TransactionCreate transactionCreate) {
         CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest request =
             CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest
                 .builder()
                 .customerId(customerId)
+                .xOrganizationId(xOrganizationId)
                 .transactionCreate(transactionCreate)
                 .build();
         RequestOperation<CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest, CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostResponse> operation

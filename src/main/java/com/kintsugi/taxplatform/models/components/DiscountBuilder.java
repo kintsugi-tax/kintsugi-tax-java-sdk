@@ -8,35 +8,37 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.kintsugi.taxplatform.utils.LazySingletonValue;
 import com.kintsugi.taxplatform.utils.Utils;
-import java.lang.Double;
 import java.lang.Override;
 import java.lang.String;
+import java.lang.SuppressWarnings;
 import java.util.Optional;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 public class DiscountBuilder {
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("external_id")
-    private Optional<String> externalId;
+    private JsonNullable<String> externalId;
 
 
     @JsonProperty("applied_to")
     private AppliedTo appliedTo;
 
-
+    /**
+     * Absolute discount amount for the line or transaction. Send a positive value for sales; credit notes
+     * may use a negative value so subtotal = amount + total_discount stays coherent.
+     */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("discount_amount")
-    private Optional<Double> discountAmount;
+    private Optional<? extends DiscountAmount> discountAmount;
 
     @JsonCreator
     public DiscountBuilder(
-            @JsonProperty("external_id") Optional<String> externalId,
+            @JsonProperty("external_id") JsonNullable<String> externalId,
             @JsonProperty("applied_to") AppliedTo appliedTo,
-            @JsonProperty("discount_amount") Optional<Double> discountAmount) {
+            @JsonProperty("discount_amount") Optional<? extends DiscountAmount> discountAmount) {
         Utils.checkNotNull(externalId, "externalId");
         Utils.checkNotNull(appliedTo, "appliedTo");
         Utils.checkNotNull(discountAmount, "discountAmount");
@@ -47,11 +49,11 @@ public class DiscountBuilder {
     
     public DiscountBuilder(
             AppliedTo appliedTo) {
-        this(Optional.empty(), appliedTo, Optional.empty());
+        this(JsonNullable.undefined(), appliedTo, Optional.empty());
     }
 
     @JsonIgnore
-    public Optional<String> externalId() {
+    public JsonNullable<String> externalId() {
         return externalId;
     }
 
@@ -60,9 +62,14 @@ public class DiscountBuilder {
         return appliedTo;
     }
 
+    /**
+     * Absolute discount amount for the line or transaction. Send a positive value for sales; credit notes
+     * may use a negative value so subtotal = amount + total_discount stays coherent.
+     */
+    @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<Double> discountAmount() {
-        return discountAmount;
+    public Optional<DiscountAmount> discountAmount() {
+        return (Optional<DiscountAmount>) discountAmount;
     }
 
     public static Builder builder() {
@@ -72,12 +79,11 @@ public class DiscountBuilder {
 
     public DiscountBuilder withExternalId(String externalId) {
         Utils.checkNotNull(externalId, "externalId");
-        this.externalId = Optional.ofNullable(externalId);
+        this.externalId = JsonNullable.of(externalId);
         return this;
     }
 
-
-    public DiscountBuilder withExternalId(Optional<String> externalId) {
+    public DiscountBuilder withExternalId(JsonNullable<String> externalId) {
         Utils.checkNotNull(externalId, "externalId");
         this.externalId = externalId;
         return this;
@@ -89,14 +95,22 @@ public class DiscountBuilder {
         return this;
     }
 
-    public DiscountBuilder withDiscountAmount(double discountAmount) {
+    /**
+     * Absolute discount amount for the line or transaction. Send a positive value for sales; credit notes
+     * may use a negative value so subtotal = amount + total_discount stays coherent.
+     */
+    public DiscountBuilder withDiscountAmount(DiscountAmount discountAmount) {
         Utils.checkNotNull(discountAmount, "discountAmount");
         this.discountAmount = Optional.ofNullable(discountAmount);
         return this;
     }
 
 
-    public DiscountBuilder withDiscountAmount(Optional<Double> discountAmount) {
+    /**
+     * Absolute discount amount for the line or transaction. Send a positive value for sales; credit notes
+     * may use a negative value so subtotal = amount + total_discount stays coherent.
+     */
+    public DiscountBuilder withDiscountAmount(Optional<? extends DiscountAmount> discountAmount) {
         Utils.checkNotNull(discountAmount, "discountAmount");
         this.discountAmount = discountAmount;
         return this;
@@ -134,11 +148,11 @@ public class DiscountBuilder {
     @SuppressWarnings("UnusedReturnValue")
     public final static class Builder {
 
-        private Optional<String> externalId = Optional.empty();
+        private JsonNullable<String> externalId = JsonNullable.undefined();
 
         private AppliedTo appliedTo;
 
-        private Optional<Double> discountAmount;
+        private Optional<? extends DiscountAmount> discountAmount = Optional.empty();
 
         private Builder() {
           // force use of static builder() method
@@ -147,11 +161,11 @@ public class DiscountBuilder {
 
         public Builder externalId(String externalId) {
             Utils.checkNotNull(externalId, "externalId");
-            this.externalId = Optional.ofNullable(externalId);
+            this.externalId = JsonNullable.of(externalId);
             return this;
         }
 
-        public Builder externalId(Optional<String> externalId) {
+        public Builder externalId(JsonNullable<String> externalId) {
             Utils.checkNotNull(externalId, "externalId");
             this.externalId = externalId;
             return this;
@@ -165,32 +179,31 @@ public class DiscountBuilder {
         }
 
 
-        public Builder discountAmount(double discountAmount) {
+        /**
+         * Absolute discount amount for the line or transaction. Send a positive value for sales; credit notes
+         * may use a negative value so subtotal = amount + total_discount stays coherent.
+         */
+        public Builder discountAmount(DiscountAmount discountAmount) {
             Utils.checkNotNull(discountAmount, "discountAmount");
             this.discountAmount = Optional.ofNullable(discountAmount);
             return this;
         }
 
-        public Builder discountAmount(Optional<Double> discountAmount) {
+        /**
+         * Absolute discount amount for the line or transaction. Send a positive value for sales; credit notes
+         * may use a negative value so subtotal = amount + total_discount stays coherent.
+         */
+        public Builder discountAmount(Optional<? extends DiscountAmount> discountAmount) {
             Utils.checkNotNull(discountAmount, "discountAmount");
             this.discountAmount = discountAmount;
             return this;
         }
 
         public DiscountBuilder build() {
-            if (discountAmount == null) {
-                discountAmount = _SINGLETON_VALUE_DiscountAmount.value();
-            }
 
             return new DiscountBuilder(
                 externalId, appliedTo, discountAmount);
         }
 
-
-        private static final LazySingletonValue<Optional<Double>> _SINGLETON_VALUE_DiscountAmount =
-                new LazySingletonValue<>(
-                        "discount_amount",
-                        "0",
-                        new TypeReference<Optional<Double>>() {});
     }
 }

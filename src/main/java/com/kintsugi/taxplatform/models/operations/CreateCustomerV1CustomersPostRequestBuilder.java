@@ -10,27 +10,52 @@ import com.kintsugi.taxplatform.models.components.CustomerCreate;
 import com.kintsugi.taxplatform.operations.CreateCustomerV1CustomersPost;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
+import java.lang.String;
+import java.util.Optional;
 
 public class CreateCustomerV1CustomersPostRequestBuilder {
 
-    private CustomerCreate request;
+    private Optional<String> xOrganizationId = Optional.empty();
+    private CustomerCreate customerCreate;
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
     public CreateCustomerV1CustomersPostRequestBuilder(SDKConfiguration sdkConfiguration) {
         this.sdkConfiguration = sdkConfiguration;
     }
-
-    public CreateCustomerV1CustomersPostRequestBuilder request(CustomerCreate request) {
-        Utils.checkNotNull(request, "request");
-        this.request = request;
+                
+    public CreateCustomerV1CustomersPostRequestBuilder xOrganizationId(String xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = Optional.of(xOrganizationId);
         return this;
+    }
+
+    public CreateCustomerV1CustomersPostRequestBuilder xOrganizationId(Optional<String> xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = xOrganizationId;
+        return this;
+    }
+
+    public CreateCustomerV1CustomersPostRequestBuilder customerCreate(CustomerCreate customerCreate) {
+        Utils.checkNotNull(customerCreate, "customerCreate");
+        this.customerCreate = customerCreate;
+        return this;
+    }
+
+
+    private CreateCustomerV1CustomersPostRequest buildRequest() {
+
+        CreateCustomerV1CustomersPostRequest request = new CreateCustomerV1CustomersPostRequest(xOrganizationId,
+            customerCreate);
+
+        return request;
     }
 
     public CreateCustomerV1CustomersPostResponse call() {
         
-        RequestOperation<CustomerCreate, CreateCustomerV1CustomersPostResponse> operation
+        RequestOperation<CreateCustomerV1CustomersPostRequest, CreateCustomerV1CustomersPostResponse> operation
               = new CreateCustomerV1CustomersPost.Sync(sdkConfiguration, _headers);
+        CreateCustomerV1CustomersPostRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));
     }

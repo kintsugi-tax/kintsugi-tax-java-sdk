@@ -13,6 +13,7 @@ import java.lang.Long;
 import java.lang.Override;
 import java.lang.String;
 import java.util.Optional;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 public class GetProductsV1ProductsGetRequest {
@@ -20,89 +21,105 @@ public class GetProductsV1ProductsGetRequest {
      * Search term to filter products by name or other details.
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=query")
-    private Optional<String> query;
+    private JsonNullable<String> query;
 
     /**
      * Filter products by status (comma-separated)
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=status__in")
-    private Optional<String> statusIn;
+    private JsonNullable<String> statusIn;
 
     /**
      * Filter products by category (comma-separated)
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=product_category__in")
-    private Optional<String> productCategoryIn;
+    private JsonNullable<String> productCategoryIn;
 
     /**
      * Filter products by subcategory (comma-separated)
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=product_subcategory__in")
-    private Optional<String> productSubcategoryIn;
+    private JsonNullable<String> productSubcategoryIn;
 
     /**
      * Filter products by source (comma-separated)
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=source__in")
-    private Optional<String> sourceIn;
+    private JsonNullable<String> sourceIn;
+
+    /**
+     * Filter products by connection ID (comma-separated). Use __direct_api__ for products without a
+     * connection.
+     */
+    @SpeakeasyMetadata("queryParam:style=form,explode=true,name=connection_id__in")
+    private JsonNullable<String> connectionIdIn;
 
     /**
      * Order results by specified fields (comma-separated)
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=order_by")
-    private Optional<String> orderBy;
+    private JsonNullable<String> orderBy;
 
-    /**
-     * Page number
-     */
+
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=page")
     private Optional<Long> page;
 
-    /**
-     * Page size
-     */
+
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=size")
     private Optional<Long> size;
 
+    /**
+     * The unique identifier for the organization making the request
+     */
+    @SpeakeasyMetadata("header:style=simple,explode=false,name=x-organization-id")
+    private Optional<String> xOrganizationId;
+
     @JsonCreator
     public GetProductsV1ProductsGetRequest(
-            Optional<String> query,
-            Optional<String> statusIn,
-            Optional<String> productCategoryIn,
-            Optional<String> productSubcategoryIn,
-            Optional<String> sourceIn,
-            Optional<String> orderBy,
+            JsonNullable<String> query,
+            JsonNullable<String> statusIn,
+            JsonNullable<String> productCategoryIn,
+            JsonNullable<String> productSubcategoryIn,
+            JsonNullable<String> sourceIn,
+            JsonNullable<String> connectionIdIn,
+            JsonNullable<String> orderBy,
             Optional<Long> page,
-            Optional<Long> size) {
+            Optional<Long> size,
+            Optional<String> xOrganizationId) {
         Utils.checkNotNull(query, "query");
         Utils.checkNotNull(statusIn, "statusIn");
         Utils.checkNotNull(productCategoryIn, "productCategoryIn");
         Utils.checkNotNull(productSubcategoryIn, "productSubcategoryIn");
         Utils.checkNotNull(sourceIn, "sourceIn");
+        Utils.checkNotNull(connectionIdIn, "connectionIdIn");
         Utils.checkNotNull(orderBy, "orderBy");
         Utils.checkNotNull(page, "page");
         Utils.checkNotNull(size, "size");
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
         this.query = query;
         this.statusIn = statusIn;
         this.productCategoryIn = productCategoryIn;
         this.productSubcategoryIn = productSubcategoryIn;
         this.sourceIn = sourceIn;
+        this.connectionIdIn = connectionIdIn;
         this.orderBy = orderBy;
         this.page = page;
         this.size = size;
+        this.xOrganizationId = xOrganizationId;
     }
     
     public GetProductsV1ProductsGetRequest() {
-        this(Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty());
+        this(JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), Optional.empty(), Optional.empty(),
+            Optional.empty());
     }
 
     /**
      * Search term to filter products by name or other details.
      */
     @JsonIgnore
-    public Optional<String> query() {
+    public JsonNullable<String> query() {
         return query;
     }
 
@@ -110,7 +127,7 @@ public class GetProductsV1ProductsGetRequest {
      * Filter products by status (comma-separated)
      */
     @JsonIgnore
-    public Optional<String> statusIn() {
+    public JsonNullable<String> statusIn() {
         return statusIn;
     }
 
@@ -118,7 +135,7 @@ public class GetProductsV1ProductsGetRequest {
      * Filter products by category (comma-separated)
      */
     @JsonIgnore
-    public Optional<String> productCategoryIn() {
+    public JsonNullable<String> productCategoryIn() {
         return productCategoryIn;
     }
 
@@ -126,7 +143,7 @@ public class GetProductsV1ProductsGetRequest {
      * Filter products by subcategory (comma-separated)
      */
     @JsonIgnore
-    public Optional<String> productSubcategoryIn() {
+    public JsonNullable<String> productSubcategoryIn() {
         return productSubcategoryIn;
     }
 
@@ -134,32 +151,43 @@ public class GetProductsV1ProductsGetRequest {
      * Filter products by source (comma-separated)
      */
     @JsonIgnore
-    public Optional<String> sourceIn() {
+    public JsonNullable<String> sourceIn() {
         return sourceIn;
+    }
+
+    /**
+     * Filter products by connection ID (comma-separated). Use __direct_api__ for products without a
+     * connection.
+     */
+    @JsonIgnore
+    public JsonNullable<String> connectionIdIn() {
+        return connectionIdIn;
     }
 
     /**
      * Order results by specified fields (comma-separated)
      */
     @JsonIgnore
-    public Optional<String> orderBy() {
+    public JsonNullable<String> orderBy() {
         return orderBy;
     }
 
-    /**
-     * Page number
-     */
     @JsonIgnore
     public Optional<Long> page() {
         return page;
     }
 
-    /**
-     * Page size
-     */
     @JsonIgnore
     public Optional<Long> size() {
         return size;
+    }
+
+    /**
+     * The unique identifier for the organization making the request
+     */
+    @JsonIgnore
+    public Optional<String> xOrganizationId() {
+        return xOrganizationId;
     }
 
     public static Builder builder() {
@@ -172,15 +200,14 @@ public class GetProductsV1ProductsGetRequest {
      */
     public GetProductsV1ProductsGetRequest withQuery(String query) {
         Utils.checkNotNull(query, "query");
-        this.query = Optional.ofNullable(query);
+        this.query = JsonNullable.of(query);
         return this;
     }
-
 
     /**
      * Search term to filter products by name or other details.
      */
-    public GetProductsV1ProductsGetRequest withQuery(Optional<String> query) {
+    public GetProductsV1ProductsGetRequest withQuery(JsonNullable<String> query) {
         Utils.checkNotNull(query, "query");
         this.query = query;
         return this;
@@ -191,15 +218,14 @@ public class GetProductsV1ProductsGetRequest {
      */
     public GetProductsV1ProductsGetRequest withStatusIn(String statusIn) {
         Utils.checkNotNull(statusIn, "statusIn");
-        this.statusIn = Optional.ofNullable(statusIn);
+        this.statusIn = JsonNullable.of(statusIn);
         return this;
     }
-
 
     /**
      * Filter products by status (comma-separated)
      */
-    public GetProductsV1ProductsGetRequest withStatusIn(Optional<String> statusIn) {
+    public GetProductsV1ProductsGetRequest withStatusIn(JsonNullable<String> statusIn) {
         Utils.checkNotNull(statusIn, "statusIn");
         this.statusIn = statusIn;
         return this;
@@ -210,15 +236,14 @@ public class GetProductsV1ProductsGetRequest {
      */
     public GetProductsV1ProductsGetRequest withProductCategoryIn(String productCategoryIn) {
         Utils.checkNotNull(productCategoryIn, "productCategoryIn");
-        this.productCategoryIn = Optional.ofNullable(productCategoryIn);
+        this.productCategoryIn = JsonNullable.of(productCategoryIn);
         return this;
     }
-
 
     /**
      * Filter products by category (comma-separated)
      */
-    public GetProductsV1ProductsGetRequest withProductCategoryIn(Optional<String> productCategoryIn) {
+    public GetProductsV1ProductsGetRequest withProductCategoryIn(JsonNullable<String> productCategoryIn) {
         Utils.checkNotNull(productCategoryIn, "productCategoryIn");
         this.productCategoryIn = productCategoryIn;
         return this;
@@ -229,15 +254,14 @@ public class GetProductsV1ProductsGetRequest {
      */
     public GetProductsV1ProductsGetRequest withProductSubcategoryIn(String productSubcategoryIn) {
         Utils.checkNotNull(productSubcategoryIn, "productSubcategoryIn");
-        this.productSubcategoryIn = Optional.ofNullable(productSubcategoryIn);
+        this.productSubcategoryIn = JsonNullable.of(productSubcategoryIn);
         return this;
     }
-
 
     /**
      * Filter products by subcategory (comma-separated)
      */
-    public GetProductsV1ProductsGetRequest withProductSubcategoryIn(Optional<String> productSubcategoryIn) {
+    public GetProductsV1ProductsGetRequest withProductSubcategoryIn(JsonNullable<String> productSubcategoryIn) {
         Utils.checkNotNull(productSubcategoryIn, "productSubcategoryIn");
         this.productSubcategoryIn = productSubcategoryIn;
         return this;
@@ -248,17 +272,36 @@ public class GetProductsV1ProductsGetRequest {
      */
     public GetProductsV1ProductsGetRequest withSourceIn(String sourceIn) {
         Utils.checkNotNull(sourceIn, "sourceIn");
-        this.sourceIn = Optional.ofNullable(sourceIn);
+        this.sourceIn = JsonNullable.of(sourceIn);
         return this;
     }
-
 
     /**
      * Filter products by source (comma-separated)
      */
-    public GetProductsV1ProductsGetRequest withSourceIn(Optional<String> sourceIn) {
+    public GetProductsV1ProductsGetRequest withSourceIn(JsonNullable<String> sourceIn) {
         Utils.checkNotNull(sourceIn, "sourceIn");
         this.sourceIn = sourceIn;
+        return this;
+    }
+
+    /**
+     * Filter products by connection ID (comma-separated). Use __direct_api__ for products without a
+     * connection.
+     */
+    public GetProductsV1ProductsGetRequest withConnectionIdIn(String connectionIdIn) {
+        Utils.checkNotNull(connectionIdIn, "connectionIdIn");
+        this.connectionIdIn = JsonNullable.of(connectionIdIn);
+        return this;
+    }
+
+    /**
+     * Filter products by connection ID (comma-separated). Use __direct_api__ for products without a
+     * connection.
+     */
+    public GetProductsV1ProductsGetRequest withConnectionIdIn(JsonNullable<String> connectionIdIn) {
+        Utils.checkNotNull(connectionIdIn, "connectionIdIn");
+        this.connectionIdIn = connectionIdIn;
         return this;
     }
 
@@ -267,23 +310,19 @@ public class GetProductsV1ProductsGetRequest {
      */
     public GetProductsV1ProductsGetRequest withOrderBy(String orderBy) {
         Utils.checkNotNull(orderBy, "orderBy");
-        this.orderBy = Optional.ofNullable(orderBy);
+        this.orderBy = JsonNullable.of(orderBy);
         return this;
     }
-
 
     /**
      * Order results by specified fields (comma-separated)
      */
-    public GetProductsV1ProductsGetRequest withOrderBy(Optional<String> orderBy) {
+    public GetProductsV1ProductsGetRequest withOrderBy(JsonNullable<String> orderBy) {
         Utils.checkNotNull(orderBy, "orderBy");
         this.orderBy = orderBy;
         return this;
     }
 
-    /**
-     * Page number
-     */
     public GetProductsV1ProductsGetRequest withPage(long page) {
         Utils.checkNotNull(page, "page");
         this.page = Optional.ofNullable(page);
@@ -291,18 +330,12 @@ public class GetProductsV1ProductsGetRequest {
     }
 
 
-    /**
-     * Page number
-     */
     public GetProductsV1ProductsGetRequest withPage(Optional<Long> page) {
         Utils.checkNotNull(page, "page");
         this.page = page;
         return this;
     }
 
-    /**
-     * Page size
-     */
     public GetProductsV1ProductsGetRequest withSize(long size) {
         Utils.checkNotNull(size, "size");
         this.size = Optional.ofNullable(size);
@@ -310,12 +343,28 @@ public class GetProductsV1ProductsGetRequest {
     }
 
 
-    /**
-     * Page size
-     */
     public GetProductsV1ProductsGetRequest withSize(Optional<Long> size) {
         Utils.checkNotNull(size, "size");
         this.size = size;
+        return this;
+    }
+
+    /**
+     * The unique identifier for the organization making the request
+     */
+    public GetProductsV1ProductsGetRequest withXOrganizationId(String xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = Optional.ofNullable(xOrganizationId);
+        return this;
+    }
+
+
+    /**
+     * The unique identifier for the organization making the request
+     */
+    public GetProductsV1ProductsGetRequest withXOrganizationId(Optional<String> xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = xOrganizationId;
         return this;
     }
 
@@ -334,17 +383,20 @@ public class GetProductsV1ProductsGetRequest {
             Utils.enhancedDeepEquals(this.productCategoryIn, other.productCategoryIn) &&
             Utils.enhancedDeepEquals(this.productSubcategoryIn, other.productSubcategoryIn) &&
             Utils.enhancedDeepEquals(this.sourceIn, other.sourceIn) &&
+            Utils.enhancedDeepEquals(this.connectionIdIn, other.connectionIdIn) &&
             Utils.enhancedDeepEquals(this.orderBy, other.orderBy) &&
             Utils.enhancedDeepEquals(this.page, other.page) &&
-            Utils.enhancedDeepEquals(this.size, other.size);
+            Utils.enhancedDeepEquals(this.size, other.size) &&
+            Utils.enhancedDeepEquals(this.xOrganizationId, other.xOrganizationId);
     }
     
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
             query, statusIn, productCategoryIn,
-            productSubcategoryIn, sourceIn, orderBy,
-            page, size);
+            productSubcategoryIn, sourceIn, connectionIdIn,
+            orderBy, page, size,
+            xOrganizationId);
     }
     
     @Override
@@ -355,29 +407,35 @@ public class GetProductsV1ProductsGetRequest {
                 "productCategoryIn", productCategoryIn,
                 "productSubcategoryIn", productSubcategoryIn,
                 "sourceIn", sourceIn,
+                "connectionIdIn", connectionIdIn,
                 "orderBy", orderBy,
                 "page", page,
-                "size", size);
+                "size", size,
+                "xOrganizationId", xOrganizationId);
     }
 
     @SuppressWarnings("UnusedReturnValue")
     public final static class Builder {
 
-        private Optional<String> query = Optional.empty();
+        private JsonNullable<String> query = JsonNullable.undefined();
 
-        private Optional<String> statusIn = Optional.empty();
+        private JsonNullable<String> statusIn = JsonNullable.undefined();
 
-        private Optional<String> productCategoryIn = Optional.empty();
+        private JsonNullable<String> productCategoryIn = JsonNullable.undefined();
 
-        private Optional<String> productSubcategoryIn = Optional.empty();
+        private JsonNullable<String> productSubcategoryIn = JsonNullable.undefined();
 
-        private Optional<String> sourceIn = Optional.empty();
+        private JsonNullable<String> sourceIn = JsonNullable.undefined();
 
-        private Optional<String> orderBy = Optional.empty();
+        private JsonNullable<String> connectionIdIn = JsonNullable.undefined();
+
+        private JsonNullable<String> orderBy = JsonNullable.undefined();
 
         private Optional<Long> page;
 
         private Optional<Long> size;
+
+        private Optional<String> xOrganizationId = Optional.empty();
 
         private Builder() {
           // force use of static builder() method
@@ -389,14 +447,14 @@ public class GetProductsV1ProductsGetRequest {
          */
         public Builder query(String query) {
             Utils.checkNotNull(query, "query");
-            this.query = Optional.ofNullable(query);
+            this.query = JsonNullable.of(query);
             return this;
         }
 
         /**
          * Search term to filter products by name or other details.
          */
-        public Builder query(Optional<String> query) {
+        public Builder query(JsonNullable<String> query) {
             Utils.checkNotNull(query, "query");
             this.query = query;
             return this;
@@ -408,14 +466,14 @@ public class GetProductsV1ProductsGetRequest {
          */
         public Builder statusIn(String statusIn) {
             Utils.checkNotNull(statusIn, "statusIn");
-            this.statusIn = Optional.ofNullable(statusIn);
+            this.statusIn = JsonNullable.of(statusIn);
             return this;
         }
 
         /**
          * Filter products by status (comma-separated)
          */
-        public Builder statusIn(Optional<String> statusIn) {
+        public Builder statusIn(JsonNullable<String> statusIn) {
             Utils.checkNotNull(statusIn, "statusIn");
             this.statusIn = statusIn;
             return this;
@@ -427,14 +485,14 @@ public class GetProductsV1ProductsGetRequest {
          */
         public Builder productCategoryIn(String productCategoryIn) {
             Utils.checkNotNull(productCategoryIn, "productCategoryIn");
-            this.productCategoryIn = Optional.ofNullable(productCategoryIn);
+            this.productCategoryIn = JsonNullable.of(productCategoryIn);
             return this;
         }
 
         /**
          * Filter products by category (comma-separated)
          */
-        public Builder productCategoryIn(Optional<String> productCategoryIn) {
+        public Builder productCategoryIn(JsonNullable<String> productCategoryIn) {
             Utils.checkNotNull(productCategoryIn, "productCategoryIn");
             this.productCategoryIn = productCategoryIn;
             return this;
@@ -446,14 +504,14 @@ public class GetProductsV1ProductsGetRequest {
          */
         public Builder productSubcategoryIn(String productSubcategoryIn) {
             Utils.checkNotNull(productSubcategoryIn, "productSubcategoryIn");
-            this.productSubcategoryIn = Optional.ofNullable(productSubcategoryIn);
+            this.productSubcategoryIn = JsonNullable.of(productSubcategoryIn);
             return this;
         }
 
         /**
          * Filter products by subcategory (comma-separated)
          */
-        public Builder productSubcategoryIn(Optional<String> productSubcategoryIn) {
+        public Builder productSubcategoryIn(JsonNullable<String> productSubcategoryIn) {
             Utils.checkNotNull(productSubcategoryIn, "productSubcategoryIn");
             this.productSubcategoryIn = productSubcategoryIn;
             return this;
@@ -465,16 +523,37 @@ public class GetProductsV1ProductsGetRequest {
          */
         public Builder sourceIn(String sourceIn) {
             Utils.checkNotNull(sourceIn, "sourceIn");
-            this.sourceIn = Optional.ofNullable(sourceIn);
+            this.sourceIn = JsonNullable.of(sourceIn);
             return this;
         }
 
         /**
          * Filter products by source (comma-separated)
          */
-        public Builder sourceIn(Optional<String> sourceIn) {
+        public Builder sourceIn(JsonNullable<String> sourceIn) {
             Utils.checkNotNull(sourceIn, "sourceIn");
             this.sourceIn = sourceIn;
+            return this;
+        }
+
+
+        /**
+         * Filter products by connection ID (comma-separated). Use __direct_api__ for products without a
+         * connection.
+         */
+        public Builder connectionIdIn(String connectionIdIn) {
+            Utils.checkNotNull(connectionIdIn, "connectionIdIn");
+            this.connectionIdIn = JsonNullable.of(connectionIdIn);
+            return this;
+        }
+
+        /**
+         * Filter products by connection ID (comma-separated). Use __direct_api__ for products without a
+         * connection.
+         */
+        public Builder connectionIdIn(JsonNullable<String> connectionIdIn) {
+            Utils.checkNotNull(connectionIdIn, "connectionIdIn");
+            this.connectionIdIn = connectionIdIn;
             return this;
         }
 
@@ -484,32 +563,26 @@ public class GetProductsV1ProductsGetRequest {
          */
         public Builder orderBy(String orderBy) {
             Utils.checkNotNull(orderBy, "orderBy");
-            this.orderBy = Optional.ofNullable(orderBy);
+            this.orderBy = JsonNullable.of(orderBy);
             return this;
         }
 
         /**
          * Order results by specified fields (comma-separated)
          */
-        public Builder orderBy(Optional<String> orderBy) {
+        public Builder orderBy(JsonNullable<String> orderBy) {
             Utils.checkNotNull(orderBy, "orderBy");
             this.orderBy = orderBy;
             return this;
         }
 
 
-        /**
-         * Page number
-         */
         public Builder page(long page) {
             Utils.checkNotNull(page, "page");
             this.page = Optional.ofNullable(page);
             return this;
         }
 
-        /**
-         * Page number
-         */
         public Builder page(Optional<Long> page) {
             Utils.checkNotNull(page, "page");
             this.page = page;
@@ -517,21 +590,34 @@ public class GetProductsV1ProductsGetRequest {
         }
 
 
-        /**
-         * Page size
-         */
         public Builder size(long size) {
             Utils.checkNotNull(size, "size");
             this.size = Optional.ofNullable(size);
             return this;
         }
 
-        /**
-         * Page size
-         */
         public Builder size(Optional<Long> size) {
             Utils.checkNotNull(size, "size");
             this.size = size;
+            return this;
+        }
+
+
+        /**
+         * The unique identifier for the organization making the request
+         */
+        public Builder xOrganizationId(String xOrganizationId) {
+            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+            this.xOrganizationId = Optional.ofNullable(xOrganizationId);
+            return this;
+        }
+
+        /**
+         * The unique identifier for the organization making the request
+         */
+        public Builder xOrganizationId(Optional<String> xOrganizationId) {
+            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+            this.xOrganizationId = xOrganizationId;
             return this;
         }
 
@@ -545,8 +631,9 @@ public class GetProductsV1ProductsGetRequest {
 
             return new GetProductsV1ProductsGetRequest(
                 query, statusIn, productCategoryIn,
-                productSubcategoryIn, sourceIn, orderBy,
-                page, size);
+                productSubcategoryIn, sourceIn, connectionIdIn,
+                orderBy, page, size,
+                xOrganizationId);
         }
 
 

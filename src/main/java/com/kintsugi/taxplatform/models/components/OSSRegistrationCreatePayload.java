@@ -16,9 +16,10 @@ import java.lang.Override;
 import java.lang.String;
 import java.lang.SuppressWarnings;
 import java.util.Optional;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
-public class OSSRegistrationCreatePayload implements com.kintsugi.taxplatform.models.operations.CreateRegistration {
+public class OSSRegistrationCreatePayload {
     /**
      * Specifies this is an OSS registration import.
      */
@@ -31,19 +32,28 @@ public class OSSRegistrationCreatePayload implements com.kintsugi.taxplatform.mo
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("password_plain_text")
-    private Optional<String> passwordPlainText;
+    private JsonNullable<String> passwordPlainText;
 
     /**
      * Metadata related to the password.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("password_metadata_plain_text")
-    private Optional<String> passwordMetadataPlainText;
+    private JsonNullable<String> passwordMetadataPlainText;
 
-
+    /**
+     * If importing an OSS registration, specify the Member State of Identification.
+     */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("member_state_of_identification_code")
-    private Optional<? extends CountryCodeEnum> memberStateOfIdentificationCode;
+    private JsonNullable<? extends CountryCodeEnum> memberStateOfIdentificationCode;
+
+    /**
+     * Type of OSS registration.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("oss_type")
+    private Optional<? extends OssTypeEnum> ossType;
 
     /**
      * Whether the registration was imported from another system.
@@ -52,44 +62,54 @@ public class OSSRegistrationCreatePayload implements com.kintsugi.taxplatform.mo
     @JsonProperty("imported")
     private Optional<Boolean> imported;
 
+    /**
+     * Optional client-minted id for this confirm attempt.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("request_id")
+    private JsonNullable<String> requestId;
+
     @JsonCreator
     public OSSRegistrationCreatePayload(
-            @JsonProperty("registration_import_type") Optional<String> registrationImportType,
-            @JsonProperty("password_plain_text") Optional<String> passwordPlainText,
-            @JsonProperty("password_metadata_plain_text") Optional<String> passwordMetadataPlainText,
-            @JsonProperty("member_state_of_identification_code") Optional<? extends CountryCodeEnum> memberStateOfIdentificationCode,
-            @JsonProperty("imported") Optional<Boolean> imported) {
-        Utils.checkNotNull(registrationImportType, "registrationImportType");
+            @JsonProperty("password_plain_text") JsonNullable<String> passwordPlainText,
+            @JsonProperty("password_metadata_plain_text") JsonNullable<String> passwordMetadataPlainText,
+            @JsonProperty("member_state_of_identification_code") JsonNullable<? extends CountryCodeEnum> memberStateOfIdentificationCode,
+            @JsonProperty("oss_type") Optional<? extends OssTypeEnum> ossType,
+            @JsonProperty("imported") Optional<Boolean> imported,
+            @JsonProperty("request_id") JsonNullable<String> requestId) {
         Utils.checkNotNull(passwordPlainText, "passwordPlainText");
         Utils.checkNotNull(passwordMetadataPlainText, "passwordMetadataPlainText");
         Utils.checkNotNull(memberStateOfIdentificationCode, "memberStateOfIdentificationCode");
+        Utils.checkNotNull(ossType, "ossType");
         Utils.checkNotNull(imported, "imported");
-        this.registrationImportType = registrationImportType;
+        Utils.checkNotNull(requestId, "requestId");
+        this.registrationImportType = Builder._SINGLETON_VALUE_RegistrationImportType.value();
         this.passwordPlainText = passwordPlainText;
         this.passwordMetadataPlainText = passwordMetadataPlainText;
         this.memberStateOfIdentificationCode = memberStateOfIdentificationCode;
+        this.ossType = ossType;
         this.imported = imported;
+        this.requestId = requestId;
     }
     
     public OSSRegistrationCreatePayload() {
-        this(Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty());
+        this(JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            Optional.empty(), Optional.empty(), JsonNullable.undefined());
     }
 
     /**
      * Specifies this is an OSS registration import.
      */
     @JsonIgnore
-    @Override
-    public String registrationImportType() {
-        return Utils.discriminatorToString(registrationImportType);
+    public Optional<String> registrationImportType() {
+        return registrationImportType;
     }
 
     /**
      * The plaintext password for accessing the tax registration account.
      */
     @JsonIgnore
-    public Optional<String> passwordPlainText() {
+    public JsonNullable<String> passwordPlainText() {
         return passwordPlainText;
     }
 
@@ -97,14 +117,26 @@ public class OSSRegistrationCreatePayload implements com.kintsugi.taxplatform.mo
      * Metadata related to the password.
      */
     @JsonIgnore
-    public Optional<String> passwordMetadataPlainText() {
+    public JsonNullable<String> passwordMetadataPlainText() {
         return passwordMetadataPlainText;
     }
 
+    /**
+     * If importing an OSS registration, specify the Member State of Identification.
+     */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<CountryCodeEnum> memberStateOfIdentificationCode() {
-        return (Optional<CountryCodeEnum>) memberStateOfIdentificationCode;
+    public JsonNullable<CountryCodeEnum> memberStateOfIdentificationCode() {
+        return (JsonNullable<CountryCodeEnum>) memberStateOfIdentificationCode;
+    }
+
+    /**
+     * Type of OSS registration.
+     */
+    @SuppressWarnings("unchecked")
+    @JsonIgnore
+    public Optional<OssTypeEnum> ossType() {
+        return (Optional<OssTypeEnum>) ossType;
     }
 
     /**
@@ -115,44 +147,32 @@ public class OSSRegistrationCreatePayload implements com.kintsugi.taxplatform.mo
         return imported;
     }
 
+    /**
+     * Optional client-minted id for this confirm attempt.
+     */
+    @JsonIgnore
+    public JsonNullable<String> requestId() {
+        return requestId;
+    }
+
     public static Builder builder() {
         return new Builder();
     }
 
 
     /**
-     * Specifies this is an OSS registration import.
-     */
-    public OSSRegistrationCreatePayload withRegistrationImportType(String registrationImportType) {
-        Utils.checkNotNull(registrationImportType, "registrationImportType");
-        this.registrationImportType = Optional.ofNullable(registrationImportType);
-        return this;
-    }
-
-
-    /**
-     * Specifies this is an OSS registration import.
-     */
-    public OSSRegistrationCreatePayload withRegistrationImportType(Optional<String> registrationImportType) {
-        Utils.checkNotNull(registrationImportType, "registrationImportType");
-        this.registrationImportType = registrationImportType;
-        return this;
-    }
-
-    /**
      * The plaintext password for accessing the tax registration account.
      */
     public OSSRegistrationCreatePayload withPasswordPlainText(String passwordPlainText) {
         Utils.checkNotNull(passwordPlainText, "passwordPlainText");
-        this.passwordPlainText = Optional.ofNullable(passwordPlainText);
+        this.passwordPlainText = JsonNullable.of(passwordPlainText);
         return this;
     }
-
 
     /**
      * The plaintext password for accessing the tax registration account.
      */
-    public OSSRegistrationCreatePayload withPasswordPlainText(Optional<String> passwordPlainText) {
+    public OSSRegistrationCreatePayload withPasswordPlainText(JsonNullable<String> passwordPlainText) {
         Utils.checkNotNull(passwordPlainText, "passwordPlainText");
         this.passwordPlainText = passwordPlainText;
         return this;
@@ -163,30 +183,53 @@ public class OSSRegistrationCreatePayload implements com.kintsugi.taxplatform.mo
      */
     public OSSRegistrationCreatePayload withPasswordMetadataPlainText(String passwordMetadataPlainText) {
         Utils.checkNotNull(passwordMetadataPlainText, "passwordMetadataPlainText");
-        this.passwordMetadataPlainText = Optional.ofNullable(passwordMetadataPlainText);
+        this.passwordMetadataPlainText = JsonNullable.of(passwordMetadataPlainText);
         return this;
     }
-
 
     /**
      * Metadata related to the password.
      */
-    public OSSRegistrationCreatePayload withPasswordMetadataPlainText(Optional<String> passwordMetadataPlainText) {
+    public OSSRegistrationCreatePayload withPasswordMetadataPlainText(JsonNullable<String> passwordMetadataPlainText) {
         Utils.checkNotNull(passwordMetadataPlainText, "passwordMetadataPlainText");
         this.passwordMetadataPlainText = passwordMetadataPlainText;
         return this;
     }
 
+    /**
+     * If importing an OSS registration, specify the Member State of Identification.
+     */
     public OSSRegistrationCreatePayload withMemberStateOfIdentificationCode(CountryCodeEnum memberStateOfIdentificationCode) {
         Utils.checkNotNull(memberStateOfIdentificationCode, "memberStateOfIdentificationCode");
-        this.memberStateOfIdentificationCode = Optional.ofNullable(memberStateOfIdentificationCode);
+        this.memberStateOfIdentificationCode = JsonNullable.of(memberStateOfIdentificationCode);
+        return this;
+    }
+
+    /**
+     * If importing an OSS registration, specify the Member State of Identification.
+     */
+    public OSSRegistrationCreatePayload withMemberStateOfIdentificationCode(JsonNullable<? extends CountryCodeEnum> memberStateOfIdentificationCode) {
+        Utils.checkNotNull(memberStateOfIdentificationCode, "memberStateOfIdentificationCode");
+        this.memberStateOfIdentificationCode = memberStateOfIdentificationCode;
+        return this;
+    }
+
+    /**
+     * Type of OSS registration.
+     */
+    public OSSRegistrationCreatePayload withOssType(OssTypeEnum ossType) {
+        Utils.checkNotNull(ossType, "ossType");
+        this.ossType = Optional.ofNullable(ossType);
         return this;
     }
 
 
-    public OSSRegistrationCreatePayload withMemberStateOfIdentificationCode(Optional<? extends CountryCodeEnum> memberStateOfIdentificationCode) {
-        Utils.checkNotNull(memberStateOfIdentificationCode, "memberStateOfIdentificationCode");
-        this.memberStateOfIdentificationCode = memberStateOfIdentificationCode;
+    /**
+     * Type of OSS registration.
+     */
+    public OSSRegistrationCreatePayload withOssType(Optional<? extends OssTypeEnum> ossType) {
+        Utils.checkNotNull(ossType, "ossType");
+        this.ossType = ossType;
         return this;
     }
 
@@ -209,6 +252,24 @@ public class OSSRegistrationCreatePayload implements com.kintsugi.taxplatform.mo
         return this;
     }
 
+    /**
+     * Optional client-minted id for this confirm attempt.
+     */
+    public OSSRegistrationCreatePayload withRequestId(String requestId) {
+        Utils.checkNotNull(requestId, "requestId");
+        this.requestId = JsonNullable.of(requestId);
+        return this;
+    }
+
+    /**
+     * Optional client-minted id for this confirm attempt.
+     */
+    public OSSRegistrationCreatePayload withRequestId(JsonNullable<String> requestId) {
+        Utils.checkNotNull(requestId, "requestId");
+        this.requestId = requestId;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -223,14 +284,17 @@ public class OSSRegistrationCreatePayload implements com.kintsugi.taxplatform.mo
             Utils.enhancedDeepEquals(this.passwordPlainText, other.passwordPlainText) &&
             Utils.enhancedDeepEquals(this.passwordMetadataPlainText, other.passwordMetadataPlainText) &&
             Utils.enhancedDeepEquals(this.memberStateOfIdentificationCode, other.memberStateOfIdentificationCode) &&
-            Utils.enhancedDeepEquals(this.imported, other.imported);
+            Utils.enhancedDeepEquals(this.ossType, other.ossType) &&
+            Utils.enhancedDeepEquals(this.imported, other.imported) &&
+            Utils.enhancedDeepEquals(this.requestId, other.requestId);
     }
     
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
             registrationImportType, passwordPlainText, passwordMetadataPlainText,
-            memberStateOfIdentificationCode, imported);
+            memberStateOfIdentificationCode, ossType, imported,
+            requestId);
     }
     
     @Override
@@ -240,43 +304,28 @@ public class OSSRegistrationCreatePayload implements com.kintsugi.taxplatform.mo
                 "passwordPlainText", passwordPlainText,
                 "passwordMetadataPlainText", passwordMetadataPlainText,
                 "memberStateOfIdentificationCode", memberStateOfIdentificationCode,
-                "imported", imported);
+                "ossType", ossType,
+                "imported", imported,
+                "requestId", requestId);
     }
 
     @SuppressWarnings("UnusedReturnValue")
     public final static class Builder {
 
-        private Optional<String> registrationImportType;
+        private JsonNullable<String> passwordPlainText = JsonNullable.undefined();
 
-        private Optional<String> passwordPlainText = Optional.empty();
+        private JsonNullable<String> passwordMetadataPlainText = JsonNullable.undefined();
 
-        private Optional<String> passwordMetadataPlainText = Optional.empty();
+        private JsonNullable<? extends CountryCodeEnum> memberStateOfIdentificationCode = JsonNullable.undefined();
 
-        private Optional<? extends CountryCodeEnum> memberStateOfIdentificationCode = Optional.empty();
+        private Optional<? extends OssTypeEnum> ossType = Optional.empty();
 
         private Optional<Boolean> imported;
 
+        private JsonNullable<String> requestId = JsonNullable.undefined();
+
         private Builder() {
           // force use of static builder() method
-        }
-
-
-        /**
-         * Specifies this is an OSS registration import.
-         */
-        public Builder registrationImportType(String registrationImportType) {
-            Utils.checkNotNull(registrationImportType, "registrationImportType");
-            this.registrationImportType = Optional.ofNullable(registrationImportType);
-            return this;
-        }
-
-        /**
-         * Specifies this is an OSS registration import.
-         */
-        public Builder registrationImportType(Optional<String> registrationImportType) {
-            Utils.checkNotNull(registrationImportType, "registrationImportType");
-            this.registrationImportType = registrationImportType;
-            return this;
         }
 
 
@@ -285,14 +334,14 @@ public class OSSRegistrationCreatePayload implements com.kintsugi.taxplatform.mo
          */
         public Builder passwordPlainText(String passwordPlainText) {
             Utils.checkNotNull(passwordPlainText, "passwordPlainText");
-            this.passwordPlainText = Optional.ofNullable(passwordPlainText);
+            this.passwordPlainText = JsonNullable.of(passwordPlainText);
             return this;
         }
 
         /**
          * The plaintext password for accessing the tax registration account.
          */
-        public Builder passwordPlainText(Optional<String> passwordPlainText) {
+        public Builder passwordPlainText(JsonNullable<String> passwordPlainText) {
             Utils.checkNotNull(passwordPlainText, "passwordPlainText");
             this.passwordPlainText = passwordPlainText;
             return this;
@@ -304,29 +353,54 @@ public class OSSRegistrationCreatePayload implements com.kintsugi.taxplatform.mo
          */
         public Builder passwordMetadataPlainText(String passwordMetadataPlainText) {
             Utils.checkNotNull(passwordMetadataPlainText, "passwordMetadataPlainText");
-            this.passwordMetadataPlainText = Optional.ofNullable(passwordMetadataPlainText);
+            this.passwordMetadataPlainText = JsonNullable.of(passwordMetadataPlainText);
             return this;
         }
 
         /**
          * Metadata related to the password.
          */
-        public Builder passwordMetadataPlainText(Optional<String> passwordMetadataPlainText) {
+        public Builder passwordMetadataPlainText(JsonNullable<String> passwordMetadataPlainText) {
             Utils.checkNotNull(passwordMetadataPlainText, "passwordMetadataPlainText");
             this.passwordMetadataPlainText = passwordMetadataPlainText;
             return this;
         }
 
 
+        /**
+         * If importing an OSS registration, specify the Member State of Identification.
+         */
         public Builder memberStateOfIdentificationCode(CountryCodeEnum memberStateOfIdentificationCode) {
             Utils.checkNotNull(memberStateOfIdentificationCode, "memberStateOfIdentificationCode");
-            this.memberStateOfIdentificationCode = Optional.ofNullable(memberStateOfIdentificationCode);
+            this.memberStateOfIdentificationCode = JsonNullable.of(memberStateOfIdentificationCode);
             return this;
         }
 
-        public Builder memberStateOfIdentificationCode(Optional<? extends CountryCodeEnum> memberStateOfIdentificationCode) {
+        /**
+         * If importing an OSS registration, specify the Member State of Identification.
+         */
+        public Builder memberStateOfIdentificationCode(JsonNullable<? extends CountryCodeEnum> memberStateOfIdentificationCode) {
             Utils.checkNotNull(memberStateOfIdentificationCode, "memberStateOfIdentificationCode");
             this.memberStateOfIdentificationCode = memberStateOfIdentificationCode;
+            return this;
+        }
+
+
+        /**
+         * Type of OSS registration.
+         */
+        public Builder ossType(OssTypeEnum ossType) {
+            Utils.checkNotNull(ossType, "ossType");
+            this.ossType = Optional.ofNullable(ossType);
+            return this;
+        }
+
+        /**
+         * Type of OSS registration.
+         */
+        public Builder ossType(Optional<? extends OssTypeEnum> ossType) {
+            Utils.checkNotNull(ossType, "ossType");
+            this.ossType = ossType;
             return this;
         }
 
@@ -349,17 +423,33 @@ public class OSSRegistrationCreatePayload implements com.kintsugi.taxplatform.mo
             return this;
         }
 
+
+        /**
+         * Optional client-minted id for this confirm attempt.
+         */
+        public Builder requestId(String requestId) {
+            Utils.checkNotNull(requestId, "requestId");
+            this.requestId = JsonNullable.of(requestId);
+            return this;
+        }
+
+        /**
+         * Optional client-minted id for this confirm attempt.
+         */
+        public Builder requestId(JsonNullable<String> requestId) {
+            Utils.checkNotNull(requestId, "requestId");
+            this.requestId = requestId;
+            return this;
+        }
+
         public OSSRegistrationCreatePayload build() {
-            if (registrationImportType == null) {
-                registrationImportType = _SINGLETON_VALUE_RegistrationImportType.value();
-            }
             if (imported == null) {
                 imported = _SINGLETON_VALUE_Imported.value();
             }
 
             return new OSSRegistrationCreatePayload(
-                registrationImportType, passwordPlainText, passwordMetadataPlainText,
-                memberStateOfIdentificationCode, imported);
+                passwordPlainText, passwordMetadataPlainText, memberStateOfIdentificationCode,
+                ossType, imported, requestId);
         }
 
 

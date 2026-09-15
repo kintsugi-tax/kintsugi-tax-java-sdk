@@ -9,6 +9,7 @@ import com.kintsugi.taxplatform.utils.SpeakeasyMetadata;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Override;
 import java.lang.String;
+import java.util.Optional;
 
 
 public class DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest {
@@ -19,11 +20,25 @@ public class DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest
     @SpeakeasyMetadata("pathParam:style=simple,explode=false,name=physical_nexus_id")
     private String physicalNexusId;
 
+    /**
+     * The unique identifier for the organization making the request
+     */
+    @SpeakeasyMetadata("header:style=simple,explode=false,name=x-organization-id")
+    private Optional<String> xOrganizationId;
+
     @JsonCreator
     public DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest(
-            String physicalNexusId) {
+            String physicalNexusId,
+            Optional<String> xOrganizationId) {
         Utils.checkNotNull(physicalNexusId, "physicalNexusId");
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
         this.physicalNexusId = physicalNexusId;
+        this.xOrganizationId = xOrganizationId;
+    }
+    
+    public DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest(
+            String physicalNexusId) {
+        this(physicalNexusId, Optional.empty());
     }
 
     /**
@@ -33,6 +48,14 @@ public class DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest
     @JsonIgnore
     public String physicalNexusId() {
         return physicalNexusId;
+    }
+
+    /**
+     * The unique identifier for the organization making the request
+     */
+    @JsonIgnore
+    public Optional<String> xOrganizationId() {
+        return xOrganizationId;
     }
 
     public static Builder builder() {
@@ -50,6 +73,25 @@ public class DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest
         return this;
     }
 
+    /**
+     * The unique identifier for the organization making the request
+     */
+    public DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest withXOrganizationId(String xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = Optional.ofNullable(xOrganizationId);
+        return this;
+    }
+
+
+    /**
+     * The unique identifier for the organization making the request
+     */
+    public DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest withXOrganizationId(Optional<String> xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = xOrganizationId;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -60,25 +102,29 @@ public class DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest
         }
         DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest other = (DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest) o;
         return 
-            Utils.enhancedDeepEquals(this.physicalNexusId, other.physicalNexusId);
+            Utils.enhancedDeepEquals(this.physicalNexusId, other.physicalNexusId) &&
+            Utils.enhancedDeepEquals(this.xOrganizationId, other.xOrganizationId);
     }
     
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-            physicalNexusId);
+            physicalNexusId, xOrganizationId);
     }
     
     @Override
     public String toString() {
         return Utils.toString(DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest.class,
-                "physicalNexusId", physicalNexusId);
+                "physicalNexusId", physicalNexusId,
+                "xOrganizationId", xOrganizationId);
     }
 
     @SuppressWarnings("UnusedReturnValue")
     public final static class Builder {
 
         private String physicalNexusId;
+
+        private Optional<String> xOrganizationId = Optional.empty();
 
         private Builder() {
           // force use of static builder() method
@@ -95,10 +141,29 @@ public class DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest
             return this;
         }
 
+
+        /**
+         * The unique identifier for the organization making the request
+         */
+        public Builder xOrganizationId(String xOrganizationId) {
+            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+            this.xOrganizationId = Optional.ofNullable(xOrganizationId);
+            return this;
+        }
+
+        /**
+         * The unique identifier for the organization making the request
+         */
+        public Builder xOrganizationId(Optional<String> xOrganizationId) {
+            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+            this.xOrganizationId = xOrganizationId;
+            return this;
+        }
+
         public DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest build() {
 
             return new DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest(
-                physicalNexusId);
+                physicalNexusId, xOrganizationId);
         }
 
     }

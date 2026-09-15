@@ -16,7 +16,7 @@ import java.util.List;
 public class FastapiPaginationDefaultPageExemptionRead2 {
 
     @JsonProperty("items")
-    private List<BackendSrcExemptionsModelsExemptionRead> items;
+    private List<BackendSrcExemptionsSchemasExemptionExemptionRead> items;
 
 
     @JsonProperty("total")
@@ -36,7 +36,7 @@ public class FastapiPaginationDefaultPageExemptionRead2 {
 
     @JsonCreator
     public FastapiPaginationDefaultPageExemptionRead2(
-            @JsonProperty("items") List<BackendSrcExemptionsModelsExemptionRead> items,
+            @JsonProperty("items") List<BackendSrcExemptionsSchemasExemptionExemptionRead> items,
             @JsonProperty("total") long total,
             @JsonProperty("page") long page,
             @JsonProperty("size") long size,
@@ -54,7 +54,7 @@ public class FastapiPaginationDefaultPageExemptionRead2 {
     }
 
     @JsonIgnore
-    public List<BackendSrcExemptionsModelsExemptionRead> items() {
+    public List<BackendSrcExemptionsSchemasExemptionExemptionRead> items() {
         return items;
     }
 
@@ -83,7 +83,7 @@ public class FastapiPaginationDefaultPageExemptionRead2 {
     }
 
 
-    public FastapiPaginationDefaultPageExemptionRead2 withItems(List<BackendSrcExemptionsModelsExemptionRead> items) {
+    public FastapiPaginationDefaultPageExemptionRead2 withItems(List<BackendSrcExemptionsSchemasExemptionExemptionRead> items) {
         Utils.checkNotNull(items, "items");
         this.items = items;
         return this;
@@ -150,7 +150,7 @@ public class FastapiPaginationDefaultPageExemptionRead2 {
     @SuppressWarnings("UnusedReturnValue")
     public final static class Builder {
 
-        private List<BackendSrcExemptionsModelsExemptionRead> items;
+        private List<BackendSrcExemptionsSchemasExemptionExemptionRead> items;
 
         private Long total;
 
@@ -165,7 +165,7 @@ public class FastapiPaginationDefaultPageExemptionRead2 {
         }
 
 
-        public Builder items(List<BackendSrcExemptionsModelsExemptionRead> items) {
+        public Builder items(List<BackendSrcExemptionsSchemasExemptionExemptionRead> items) {
             Utils.checkNotNull(items, "items");
             this.items = items;
             return this;

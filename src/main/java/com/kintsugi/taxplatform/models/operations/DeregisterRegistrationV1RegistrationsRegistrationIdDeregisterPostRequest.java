@@ -5,10 +5,14 @@ package com.kintsugi.taxplatform.models.operations;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.kintsugi.taxplatform.models.components.DeregisterRegistrationRequest;
 import com.kintsugi.taxplatform.utils.SpeakeasyMetadata;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Override;
 import java.lang.String;
+import java.lang.SuppressWarnings;
+import java.util.Optional;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 public class DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest {
@@ -18,11 +22,32 @@ public class DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRe
     @SpeakeasyMetadata("pathParam:style=simple,explode=false,name=registration_id")
     private String registrationId;
 
+    /**
+     * The unique identifier for the organization making the request
+     */
+    @SpeakeasyMetadata("header:style=simple,explode=false,name=x-organization-id")
+    private Optional<String> xOrganizationId;
+
+
+    @SpeakeasyMetadata("request:mediaType=application/json")
+    private JsonNullable<? extends DeregisterRegistrationRequest> deregisterRegistrationRequest;
+
     @JsonCreator
     public DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest(
-            String registrationId) {
+            String registrationId,
+            Optional<String> xOrganizationId,
+            JsonNullable<? extends DeregisterRegistrationRequest> deregisterRegistrationRequest) {
         Utils.checkNotNull(registrationId, "registrationId");
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        Utils.checkNotNull(deregisterRegistrationRequest, "deregisterRegistrationRequest");
         this.registrationId = registrationId;
+        this.xOrganizationId = xOrganizationId;
+        this.deregisterRegistrationRequest = deregisterRegistrationRequest;
+    }
+    
+    public DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest(
+            String registrationId) {
+        this(registrationId, Optional.empty(), JsonNullable.undefined());
     }
 
     /**
@@ -31,6 +56,20 @@ public class DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRe
     @JsonIgnore
     public String registrationId() {
         return registrationId;
+    }
+
+    /**
+     * The unique identifier for the organization making the request
+     */
+    @JsonIgnore
+    public Optional<String> xOrganizationId() {
+        return xOrganizationId;
+    }
+
+    @SuppressWarnings("unchecked")
+    @JsonIgnore
+    public JsonNullable<DeregisterRegistrationRequest> deregisterRegistrationRequest() {
+        return (JsonNullable<DeregisterRegistrationRequest>) deregisterRegistrationRequest;
     }
 
     public static Builder builder() {
@@ -47,6 +86,37 @@ public class DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRe
         return this;
     }
 
+    /**
+     * The unique identifier for the organization making the request
+     */
+    public DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest withXOrganizationId(String xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = Optional.ofNullable(xOrganizationId);
+        return this;
+    }
+
+
+    /**
+     * The unique identifier for the organization making the request
+     */
+    public DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest withXOrganizationId(Optional<String> xOrganizationId) {
+        Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+        this.xOrganizationId = xOrganizationId;
+        return this;
+    }
+
+    public DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest withDeregisterRegistrationRequest(DeregisterRegistrationRequest deregisterRegistrationRequest) {
+        Utils.checkNotNull(deregisterRegistrationRequest, "deregisterRegistrationRequest");
+        this.deregisterRegistrationRequest = JsonNullable.of(deregisterRegistrationRequest);
+        return this;
+    }
+
+    public DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest withDeregisterRegistrationRequest(JsonNullable<? extends DeregisterRegistrationRequest> deregisterRegistrationRequest) {
+        Utils.checkNotNull(deregisterRegistrationRequest, "deregisterRegistrationRequest");
+        this.deregisterRegistrationRequest = deregisterRegistrationRequest;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -57,25 +127,33 @@ public class DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRe
         }
         DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest other = (DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest) o;
         return 
-            Utils.enhancedDeepEquals(this.registrationId, other.registrationId);
+            Utils.enhancedDeepEquals(this.registrationId, other.registrationId) &&
+            Utils.enhancedDeepEquals(this.xOrganizationId, other.xOrganizationId) &&
+            Utils.enhancedDeepEquals(this.deregisterRegistrationRequest, other.deregisterRegistrationRequest);
     }
     
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-            registrationId);
+            registrationId, xOrganizationId, deregisterRegistrationRequest);
     }
     
     @Override
     public String toString() {
         return Utils.toString(DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest.class,
-                "registrationId", registrationId);
+                "registrationId", registrationId,
+                "xOrganizationId", xOrganizationId,
+                "deregisterRegistrationRequest", deregisterRegistrationRequest);
     }
 
     @SuppressWarnings("UnusedReturnValue")
     public final static class Builder {
 
         private String registrationId;
+
+        private Optional<String> xOrganizationId = Optional.empty();
+
+        private JsonNullable<? extends DeregisterRegistrationRequest> deregisterRegistrationRequest = JsonNullable.undefined();
 
         private Builder() {
           // force use of static builder() method
@@ -91,10 +169,42 @@ public class DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRe
             return this;
         }
 
+
+        /**
+         * The unique identifier for the organization making the request
+         */
+        public Builder xOrganizationId(String xOrganizationId) {
+            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+            this.xOrganizationId = Optional.ofNullable(xOrganizationId);
+            return this;
+        }
+
+        /**
+         * The unique identifier for the organization making the request
+         */
+        public Builder xOrganizationId(Optional<String> xOrganizationId) {
+            Utils.checkNotNull(xOrganizationId, "xOrganizationId");
+            this.xOrganizationId = xOrganizationId;
+            return this;
+        }
+
+
+        public Builder deregisterRegistrationRequest(DeregisterRegistrationRequest deregisterRegistrationRequest) {
+            Utils.checkNotNull(deregisterRegistrationRequest, "deregisterRegistrationRequest");
+            this.deregisterRegistrationRequest = JsonNullable.of(deregisterRegistrationRequest);
+            return this;
+        }
+
+        public Builder deregisterRegistrationRequest(JsonNullable<? extends DeregisterRegistrationRequest> deregisterRegistrationRequest) {
+            Utils.checkNotNull(deregisterRegistrationRequest, "deregisterRegistrationRequest");
+            this.deregisterRegistrationRequest = deregisterRegistrationRequest;
+            return this;
+        }
+
         public DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest build() {
 
             return new DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest(
-                registrationId);
+                registrationId, xOrganizationId, deregisterRegistrationRequest);
         }
 
     }

@@ -10,7 +10,7 @@ import static com.kintsugi.taxplatform.operations.Operations.AsyncRequestOperati
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.SecuritySource;
-import com.kintsugi.taxplatform.models.components.BackendSrcExemptionsModelsExemptionRead;
+import com.kintsugi.taxplatform.models.components.BackendSrcExemptionsSchemasExemptionExemptionRead;
 import com.kintsugi.taxplatform.models.errors.APIException;
 import com.kintsugi.taxplatform.models.errors.BackendSrcExemptionsResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
@@ -92,6 +92,7 @@ public class GetExemptionByIdV1ExemptionsExemptionIdGet {
             req.addHeader("Accept", "application/json")
                     .addHeader("user-agent", SDKConfiguration.USER_AGENT);
             _headers.forEach((k, list) -> list.forEach(v -> req.addHeader(k, v)));
+            req.addHeaders(Utils.getHeadersFromMetadata(request, null));
             Utils.configureSecurity(req, this.sdkConfiguration.securitySource().getSecurity());
 
             return req.build();
@@ -156,7 +157,7 @@ public class GetExemptionByIdV1ExemptionsExemptionIdGet {
             
             if (Utils.statusCodeMatches(response.statusCode(), "200")) {
                 if (Utils.contentTypeMatches(contentType, "application/json")) {
-                    return res.withBackendSrcExemptionsModelsExemptionRead(Utils.unmarshal(response, new TypeReference<BackendSrcExemptionsModelsExemptionRead>() {}));
+                    return res.withBackendSrcExemptionsSchemasExemptionExemptionRead(Utils.unmarshal(response, new TypeReference<BackendSrcExemptionsSchemasExemptionExemptionRead>() {}));
                 } else {
                     throw APIException.from("Unexpected content-type received: " + contentType, response);
                 }
@@ -247,8 +248,8 @@ public class GetExemptionByIdV1ExemptionsExemptionIdGet {
             
             if (Utils.statusCodeMatches(response.statusCode(), "200")) {
                 if (Utils.contentTypeMatches(contentType, "application/json")) {
-                    return Utils.unmarshalAsync(response, new TypeReference<BackendSrcExemptionsModelsExemptionRead>() {})
-                            .thenApply(res::withBackendSrcExemptionsModelsExemptionRead);
+                    return Utils.unmarshalAsync(response, new TypeReference<BackendSrcExemptionsSchemasExemptionExemptionRead>() {})
+                            .thenApply(res::withBackendSrcExemptionsSchemasExemptionExemptionRead);
                 } else {
                     return Utils.createAsyncApiError(response, "Unexpected content-type received: " + contentType);
                 }

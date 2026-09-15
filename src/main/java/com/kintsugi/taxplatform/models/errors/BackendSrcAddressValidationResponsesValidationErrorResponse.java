@@ -48,12 +48,17 @@ public class BackendSrcAddressValidationResponsesValidationErrorResponse extends
     * the resulting BackendSrcAddressValidationResponsesValidationErrorResponse instance will have a null data() value and a non-null deserializationException().
     */
     public static BackendSrcAddressValidationResponsesValidationErrorResponse from(HttpResponse<InputStream> response) {
+        byte[] bytes;
         try {
-            byte[] bytes = Utils.extractByteArrayFromBody(response);
+            bytes = Utils.extractByteArrayFromBody(response);
+        } catch (Exception e) {
+            return new BackendSrcAddressValidationResponsesValidationErrorResponse(response.statusCode(), null, response, null, e);
+        }
+        try {
             Data data = Utils.mapper().readValue(bytes, Data.class);
             return new BackendSrcAddressValidationResponsesValidationErrorResponse(response.statusCode(), bytes, response, data, null);
         } catch (Exception e) {
-            return new BackendSrcAddressValidationResponsesValidationErrorResponse(response.statusCode(), null, response, null, e);
+            return new BackendSrcAddressValidationResponsesValidationErrorResponse(response.statusCode(), bytes, response, null, e);
         }
     }
 

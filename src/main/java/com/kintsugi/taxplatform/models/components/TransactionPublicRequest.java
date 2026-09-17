@@ -114,7 +114,7 @@ public class TransactionPublicRequest {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("exemptions")
-    private JsonNullable<? extends List<Exemption>> exemptions;
+    private JsonNullable<? extends List<TransactionEmbeddedExemption>> exemptions;
 
     /**
      * Related transaction identifier.
@@ -319,7 +319,7 @@ public class TransactionPublicRequest {
             @JsonProperty("customer_id") JsonNullable<String> customerId,
             @JsonProperty("marketplace") JsonNullable<Boolean> marketplace,
             @JsonProperty("exempt") JsonNullable<? extends TransactionExemptStatusEnum> exempt,
-            @JsonProperty("exemptions") JsonNullable<? extends List<Exemption>> exemptions,
+            @JsonProperty("exemptions") JsonNullable<? extends List<TransactionEmbeddedExemption>> exemptions,
             @JsonProperty("related_to") JsonNullable<String> relatedTo,
             @JsonProperty("secondary_external_id") JsonNullable<String> secondaryExternalId,
             @JsonProperty("secondary_source") JsonNullable<String> secondarySource,
@@ -568,8 +568,8 @@ public class TransactionPublicRequest {
      */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public JsonNullable<List<Exemption>> exemptions() {
-        return (JsonNullable<List<Exemption>>) exemptions;
+    public JsonNullable<List<TransactionEmbeddedExemption>> exemptions() {
+        return (JsonNullable<List<TransactionEmbeddedExemption>>) exemptions;
     }
 
     /**
@@ -1001,7 +1001,7 @@ public class TransactionPublicRequest {
     /**
      * List of exemptions applied (if any).
      */
-    public TransactionPublicRequest withExemptions(List<Exemption> exemptions) {
+    public TransactionPublicRequest withExemptions(List<TransactionEmbeddedExemption> exemptions) {
         Utils.checkNotNull(exemptions, "exemptions");
         this.exemptions = JsonNullable.of(exemptions);
         return this;
@@ -1010,7 +1010,7 @@ public class TransactionPublicRequest {
     /**
      * List of exemptions applied (if any).
      */
-    public TransactionPublicRequest withExemptions(JsonNullable<? extends List<Exemption>> exemptions) {
+    public TransactionPublicRequest withExemptions(JsonNullable<? extends List<TransactionEmbeddedExemption>> exemptions) {
         Utils.checkNotNull(exemptions, "exemptions");
         this.exemptions = exemptions;
         return this;
@@ -1638,7 +1638,7 @@ public class TransactionPublicRequest {
 
         private JsonNullable<? extends TransactionExemptStatusEnum> exempt = JsonNullable.undefined();
 
-        private JsonNullable<? extends List<Exemption>> exemptions = JsonNullable.undefined();
+        private JsonNullable<? extends List<TransactionEmbeddedExemption>> exemptions = JsonNullable.undefined();
 
         private JsonNullable<String> relatedTo = JsonNullable.undefined();
 
@@ -1912,7 +1912,7 @@ public class TransactionPublicRequest {
         /**
          * List of exemptions applied (if any).
          */
-        public Builder exemptions(List<Exemption> exemptions) {
+        public Builder exemptions(List<TransactionEmbeddedExemption> exemptions) {
             Utils.checkNotNull(exemptions, "exemptions");
             this.exemptions = JsonNullable.of(exemptions);
             return this;
@@ -1921,7 +1921,7 @@ public class TransactionPublicRequest {
         /**
          * List of exemptions applied (if any).
          */
-        public Builder exemptions(JsonNullable<? extends List<Exemption>> exemptions) {
+        public Builder exemptions(JsonNullable<? extends List<TransactionEmbeddedExemption>> exemptions) {
             Utils.checkNotNull(exemptions, "exemptions");
             this.exemptions = exemptions;
             return this;

@@ -89,7 +89,12 @@ public class AsyncProducts {
      * retrieve supported categories and subcategories from the
      * [GET /products/categories endpoint](/reference/api/products/get-product-categories),
      * or browse the full catalog with descriptions and examples in the
-     * [Product Categories guide](/docs/guides/product-categories)
+     * [Product Categories guide](/docs/guides/product-categories).
+     * 
+     * <p>Idempotent on ``(organization_id, external_id, source)`` for connectionless
+     * creates (CP-4726): a re-POST of an existing identity returns ``200``. A live
+     * match is unchanged; a previously deleted match is revived (status returns to
+     * ``PENDING``). Use PUT to update fields.
      * 
      * @return The async call builder
      */
@@ -106,7 +111,12 @@ public class AsyncProducts {
      * retrieve supported categories and subcategories from the
      * [GET /products/categories endpoint](/reference/api/products/get-product-categories),
      * or browse the full catalog with descriptions and examples in the
-     * [Product Categories guide](/docs/guides/product-categories)
+     * [Product Categories guide](/docs/guides/product-categories).
+     * 
+     * <p>Idempotent on ``(organization_id, external_id, source)`` for connectionless
+     * creates (CP-4726): a re-POST of an existing identity returns ``200``. A live
+     * match is unchanged; a previously deleted match is revived (status returns to
+     * ``PENDING``). Use PUT to update fields.
      * 
      * @param productCreateManual 
      * @return {@code CompletableFuture<CreateProductV1ProductsPostResponse>} - The async response
@@ -124,7 +134,12 @@ public class AsyncProducts {
      * retrieve supported categories and subcategories from the
      * [GET /products/categories endpoint](/reference/api/products/get-product-categories),
      * or browse the full catalog with descriptions and examples in the
-     * [Product Categories guide](/docs/guides/product-categories)
+     * [Product Categories guide](/docs/guides/product-categories).
+     * 
+     * <p>Idempotent on ``(organization_id, external_id, source)`` for connectionless
+     * creates (CP-4726): a re-POST of an existing identity returns ``200``. A live
+     * match is unchanged; a previously deleted match is revived (status returns to
+     * ``PENDING``). Use PUT to update fields.
      * 
      * @param xOrganizationId The unique identifier for the organization making the request
      * @param productCreateManual 

@@ -34,7 +34,9 @@ public class CreateProductV1ProductsPostResponse implements Response {
     private HttpResponse<InputStream> rawResponse;
 
     /**
-     * Successfully created product
+     * An existing product matched on external_id and source; no new product was created. A live match is
+     * returned unchanged. A previously deleted match is revived and re-enters classification (its status
+     * returns to PENDING), so it may differ from its pre-deletion state.
      */
     private Optional<? extends ProductRead> productRead;
 
@@ -87,7 +89,9 @@ public class CreateProductV1ProductsPostResponse implements Response {
     }
 
     /**
-     * Successfully created product
+     * An existing product matched on external_id and source; no new product was created. A live match is
+     * returned unchanged. A previously deleted match is revived and re-enters classification (its status
+     * returns to PENDING), so it may differ from its pre-deletion state.
      */
     @SuppressWarnings("unchecked")
     @JsonIgnore
@@ -128,7 +132,9 @@ public class CreateProductV1ProductsPostResponse implements Response {
     }
 
     /**
-     * Successfully created product
+     * An existing product matched on external_id and source; no new product was created. A live match is
+     * returned unchanged. A previously deleted match is revived and re-enters classification (its status
+     * returns to PENDING), so it may differ from its pre-deletion state.
      */
     public CreateProductV1ProductsPostResponse withProductRead(ProductRead productRead) {
         Utils.checkNotNull(productRead, "productRead");
@@ -138,7 +144,9 @@ public class CreateProductV1ProductsPostResponse implements Response {
 
 
     /**
-     * Successfully created product
+     * An existing product matched on external_id and source; no new product was created. A live match is
+     * returned unchanged. A previously deleted match is revived and re-enters classification (its status
+     * returns to PENDING), so it may differ from its pre-deletion state.
      */
     public CreateProductV1ProductsPostResponse withProductRead(Optional<? extends ProductRead> productRead) {
         Utils.checkNotNull(productRead, "productRead");
@@ -225,7 +233,9 @@ public class CreateProductV1ProductsPostResponse implements Response {
 
 
         /**
-         * Successfully created product
+         * An existing product matched on external_id and source; no new product was created. A live match is
+         * returned unchanged. A previously deleted match is revived and re-enters classification (its status
+         * returns to PENDING), so it may differ from its pre-deletion state.
          */
         public Builder productRead(ProductRead productRead) {
             Utils.checkNotNull(productRead, "productRead");
@@ -234,7 +244,9 @@ public class CreateProductV1ProductsPostResponse implements Response {
         }
 
         /**
-         * Successfully created product
+         * An existing product matched on external_id and source; no new product was created. A live match is
+         * returned unchanged. A previously deleted match is revived and re-enters classification (its status
+         * returns to PENDING), so it may differ from its pre-deletion state.
          */
         public Builder productRead(Optional<? extends ProductRead> productRead) {
             Utils.checkNotNull(productRead, "productRead");

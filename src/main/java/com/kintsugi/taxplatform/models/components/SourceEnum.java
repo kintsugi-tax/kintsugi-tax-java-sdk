@@ -83,7 +83,8 @@ public enum SourceEnum {
     BILL_COM("BILL_COM"),
     INTUIT_ENTERPRISE_SUITE("INTUIT_ENTERPRISE_SUITE"),
     ACUMATICA("ACUMATICA"),
-    PLENTYONE("PLENTYONE");
+    PLENTYONE("PLENTYONE"),
+    HYPERLINE("HYPERLINE");
 
     @JsonValue
     private final String value;

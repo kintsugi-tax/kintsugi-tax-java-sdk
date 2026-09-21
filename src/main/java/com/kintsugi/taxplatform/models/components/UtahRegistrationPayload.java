@@ -123,9 +123,10 @@ public class UtahRegistrationPayload {
     private FilingFrequencyEnum filingFrequency;
 
     /**
-     * Fiscal-year anchor month (1-12) on which each quarterly/semiannual
-     * period ends, for Hawaii (US-HI) filers whose periods are offset from the calendar.
-     * Null (default) keeps the standard calendar grid.
+     * Fiscal-year anchor month (1-12) on which each recurring period
+     * ends, for filers whose periods are offset from the calendar: Hawaii (US-HI)
+     * quarterly/semiannual, British Columbia (CA-BC) quarterly, and California (US-CA)
+     * annual. Null (default) keeps the standard calendar grid.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("period_end_month")
@@ -474,9 +475,10 @@ public class UtahRegistrationPayload {
     }
 
     /**
-     * Fiscal-year anchor month (1-12) on which each quarterly/semiannual
-     * period ends, for Hawaii (US-HI) filers whose periods are offset from the calendar.
-     * Null (default) keeps the standard calendar grid.
+     * Fiscal-year anchor month (1-12) on which each recurring period
+     * ends, for filers whose periods are offset from the calendar: Hawaii (US-HI)
+     * quarterly/semiannual, British Columbia (CA-BC) quarterly, and California (US-CA)
+     * annual. Null (default) keeps the standard calendar grid.
      */
     @JsonIgnore
     public JsonNullable<Long> periodEndMonth() {
@@ -824,9 +826,10 @@ public class UtahRegistrationPayload {
     }
 
     /**
-     * Fiscal-year anchor month (1-12) on which each quarterly/semiannual
-     * period ends, for Hawaii (US-HI) filers whose periods are offset from the calendar.
-     * Null (default) keeps the standard calendar grid.
+     * Fiscal-year anchor month (1-12) on which each recurring period
+     * ends, for filers whose periods are offset from the calendar: Hawaii (US-HI)
+     * quarterly/semiannual, British Columbia (CA-BC) quarterly, and California (US-CA)
+     * annual. Null (default) keeps the standard calendar grid.
      */
     public UtahRegistrationPayload withPeriodEndMonth(long periodEndMonth) {
         Utils.checkNotNull(periodEndMonth, "periodEndMonth");
@@ -835,9 +838,10 @@ public class UtahRegistrationPayload {
     }
 
     /**
-     * Fiscal-year anchor month (1-12) on which each quarterly/semiannual
-     * period ends, for Hawaii (US-HI) filers whose periods are offset from the calendar.
-     * Null (default) keeps the standard calendar grid.
+     * Fiscal-year anchor month (1-12) on which each recurring period
+     * ends, for filers whose periods are offset from the calendar: Hawaii (US-HI)
+     * quarterly/semiannual, British Columbia (CA-BC) quarterly, and California (US-CA)
+     * annual. Null (default) keeps the standard calendar grid.
      */
     public UtahRegistrationPayload withPeriodEndMonth(JsonNullable<Long> periodEndMonth) {
         Utils.checkNotNull(periodEndMonth, "periodEndMonth");
@@ -1513,9 +1517,10 @@ public class UtahRegistrationPayload {
 
 
         /**
-         * Fiscal-year anchor month (1-12) on which each quarterly/semiannual
-         * period ends, for Hawaii (US-HI) filers whose periods are offset from the calendar.
-         * Null (default) keeps the standard calendar grid.
+         * Fiscal-year anchor month (1-12) on which each recurring period
+         * ends, for filers whose periods are offset from the calendar: Hawaii (US-HI)
+         * quarterly/semiannual, British Columbia (CA-BC) quarterly, and California (US-CA)
+         * annual. Null (default) keeps the standard calendar grid.
          */
         public Builder periodEndMonth(long periodEndMonth) {
             Utils.checkNotNull(periodEndMonth, "periodEndMonth");
@@ -1524,9 +1529,10 @@ public class UtahRegistrationPayload {
         }
 
         /**
-         * Fiscal-year anchor month (1-12) on which each quarterly/semiannual
-         * period ends, for Hawaii (US-HI) filers whose periods are offset from the calendar.
-         * Null (default) keeps the standard calendar grid.
+         * Fiscal-year anchor month (1-12) on which each recurring period
+         * ends, for filers whose periods are offset from the calendar: Hawaii (US-HI)
+         * quarterly/semiannual, British Columbia (CA-BC) quarterly, and California (US-CA)
+         * annual. Null (default) keeps the standard calendar grid.
          */
         public Builder periodEndMonth(JsonNullable<Long> periodEndMonth) {
             Utils.checkNotNull(periodEndMonth, "periodEndMonth");

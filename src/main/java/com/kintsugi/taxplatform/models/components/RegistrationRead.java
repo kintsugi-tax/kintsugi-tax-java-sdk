@@ -348,6 +348,27 @@ public class RegistrationRead {
     @JsonProperty("jurisdiction_specific_fields")
     private JsonNullable<? extends Map<String, Object>> jurisdictionSpecificFields;
 
+    /**
+     * Effective date the registration closes with the jurisdiction.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("deregistration_closure_date")
+    private JsonNullable<LocalDate> deregistrationClosureDate;
+
+    /**
+     * Reason the registration is being closed.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("deregistration_reason")
+    private JsonNullable<? extends DeregistrationReasonEnum> deregistrationReason;
+
+    /**
+     * When final-return acknowledgement was recorded.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("deregistration_acknowledged_at")
+    private JsonNullable<OffsetDateTime> deregistrationAcknowledgedAt;
+
 
     @JsonProperty("filing_days")
     private long filingDays;
@@ -411,6 +432,9 @@ public class RegistrationRead {
             @JsonProperty("credits_total_available") Optional<String> creditsTotalAvailable,
             @JsonProperty("registration_category") Optional<? extends RegistrationCategoryEnum> registrationCategory,
             @JsonProperty("jurisdiction_specific_fields") JsonNullable<? extends Map<String, Object>> jurisdictionSpecificFields,
+            @JsonProperty("deregistration_closure_date") JsonNullable<LocalDate> deregistrationClosureDate,
+            @JsonProperty("deregistration_reason") JsonNullable<? extends DeregistrationReasonEnum> deregistrationReason,
+            @JsonProperty("deregistration_acknowledged_at") JsonNullable<OffsetDateTime> deregistrationAcknowledgedAt,
             @JsonProperty("filing_days") long filingDays,
             @JsonProperty("registration_type") RegistrationTypeEnum registrationType,
             @JsonProperty("filing_website_url") Optional<String> filingWebsiteUrl) {
@@ -460,6 +484,9 @@ public class RegistrationRead {
         Utils.checkNotNull(creditsTotalAvailable, "creditsTotalAvailable");
         Utils.checkNotNull(registrationCategory, "registrationCategory");
         Utils.checkNotNull(jurisdictionSpecificFields, "jurisdictionSpecificFields");
+        Utils.checkNotNull(deregistrationClosureDate, "deregistrationClosureDate");
+        Utils.checkNotNull(deregistrationReason, "deregistrationReason");
+        Utils.checkNotNull(deregistrationAcknowledgedAt, "deregistrationAcknowledgedAt");
         Utils.checkNotNull(filingDays, "filingDays");
         Utils.checkNotNull(registrationType, "registrationType");
         Utils.checkNotNull(filingWebsiteUrl, "filingWebsiteUrl");
@@ -509,6 +536,9 @@ public class RegistrationRead {
         this.creditsTotalAvailable = creditsTotalAvailable;
         this.registrationCategory = registrationCategory;
         this.jurisdictionSpecificFields = jurisdictionSpecificFields;
+        this.deregistrationClosureDate = deregistrationClosureDate;
+        this.deregistrationReason = deregistrationReason;
+        this.deregistrationAcknowledgedAt = deregistrationAcknowledgedAt;
         this.filingDays = filingDays;
         this.registrationType = registrationType;
         this.filingWebsiteUrl = filingWebsiteUrl;
@@ -538,6 +568,7 @@ public class RegistrationRead {
             JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty(),
             JsonNullable.undefined(), JsonNullable.undefined(), id,
             JsonNullable.undefined(), Optional.empty(), Optional.empty(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), filingDays, registrationType,
             Optional.empty());
     }
@@ -918,6 +949,31 @@ public class RegistrationRead {
     @JsonIgnore
     public JsonNullable<Map<String, Object>> jurisdictionSpecificFields() {
         return (JsonNullable<Map<String, Object>>) jurisdictionSpecificFields;
+    }
+
+    /**
+     * Effective date the registration closes with the jurisdiction.
+     */
+    @JsonIgnore
+    public JsonNullable<LocalDate> deregistrationClosureDate() {
+        return deregistrationClosureDate;
+    }
+
+    /**
+     * Reason the registration is being closed.
+     */
+    @SuppressWarnings("unchecked")
+    @JsonIgnore
+    public JsonNullable<DeregistrationReasonEnum> deregistrationReason() {
+        return (JsonNullable<DeregistrationReasonEnum>) deregistrationReason;
+    }
+
+    /**
+     * When final-return acknowledgement was recorded.
+     */
+    @JsonIgnore
+    public JsonNullable<OffsetDateTime> deregistrationAcknowledgedAt() {
+        return deregistrationAcknowledgedAt;
     }
 
     @JsonIgnore
@@ -1735,6 +1791,60 @@ public class RegistrationRead {
         return this;
     }
 
+    /**
+     * Effective date the registration closes with the jurisdiction.
+     */
+    public RegistrationRead withDeregistrationClosureDate(LocalDate deregistrationClosureDate) {
+        Utils.checkNotNull(deregistrationClosureDate, "deregistrationClosureDate");
+        this.deregistrationClosureDate = JsonNullable.of(deregistrationClosureDate);
+        return this;
+    }
+
+    /**
+     * Effective date the registration closes with the jurisdiction.
+     */
+    public RegistrationRead withDeregistrationClosureDate(JsonNullable<LocalDate> deregistrationClosureDate) {
+        Utils.checkNotNull(deregistrationClosureDate, "deregistrationClosureDate");
+        this.deregistrationClosureDate = deregistrationClosureDate;
+        return this;
+    }
+
+    /**
+     * Reason the registration is being closed.
+     */
+    public RegistrationRead withDeregistrationReason(DeregistrationReasonEnum deregistrationReason) {
+        Utils.checkNotNull(deregistrationReason, "deregistrationReason");
+        this.deregistrationReason = JsonNullable.of(deregistrationReason);
+        return this;
+    }
+
+    /**
+     * Reason the registration is being closed.
+     */
+    public RegistrationRead withDeregistrationReason(JsonNullable<? extends DeregistrationReasonEnum> deregistrationReason) {
+        Utils.checkNotNull(deregistrationReason, "deregistrationReason");
+        this.deregistrationReason = deregistrationReason;
+        return this;
+    }
+
+    /**
+     * When final-return acknowledgement was recorded.
+     */
+    public RegistrationRead withDeregistrationAcknowledgedAt(OffsetDateTime deregistrationAcknowledgedAt) {
+        Utils.checkNotNull(deregistrationAcknowledgedAt, "deregistrationAcknowledgedAt");
+        this.deregistrationAcknowledgedAt = JsonNullable.of(deregistrationAcknowledgedAt);
+        return this;
+    }
+
+    /**
+     * When final-return acknowledgement was recorded.
+     */
+    public RegistrationRead withDeregistrationAcknowledgedAt(JsonNullable<OffsetDateTime> deregistrationAcknowledgedAt) {
+        Utils.checkNotNull(deregistrationAcknowledgedAt, "deregistrationAcknowledgedAt");
+        this.deregistrationAcknowledgedAt = deregistrationAcknowledgedAt;
+        return this;
+    }
+
     public RegistrationRead withFilingDays(long filingDays) {
         Utils.checkNotNull(filingDays, "filingDays");
         this.filingDays = filingDays;
@@ -1822,6 +1932,9 @@ public class RegistrationRead {
             Utils.enhancedDeepEquals(this.creditsTotalAvailable, other.creditsTotalAvailable) &&
             Utils.enhancedDeepEquals(this.registrationCategory, other.registrationCategory) &&
             Utils.enhancedDeepEquals(this.jurisdictionSpecificFields, other.jurisdictionSpecificFields) &&
+            Utils.enhancedDeepEquals(this.deregistrationClosureDate, other.deregistrationClosureDate) &&
+            Utils.enhancedDeepEquals(this.deregistrationReason, other.deregistrationReason) &&
+            Utils.enhancedDeepEquals(this.deregistrationAcknowledgedAt, other.deregistrationAcknowledgedAt) &&
             Utils.enhancedDeepEquals(this.filingDays, other.filingDays) &&
             Utils.enhancedDeepEquals(this.registrationType, other.registrationType) &&
             Utils.enhancedDeepEquals(this.filingWebsiteUrl, other.filingWebsiteUrl);
@@ -1845,7 +1958,8 @@ public class RegistrationRead {
             ossType, ossMemberStateOfIdentificationCode, taxType,
             markedCollectingDate, needsMarkAsCollecting, id,
             createdAt, creditsTotalAvailable, registrationCategory,
-            jurisdictionSpecificFields, filingDays, registrationType,
+            jurisdictionSpecificFields, deregistrationClosureDate, deregistrationReason,
+            deregistrationAcknowledgedAt, filingDays, registrationType,
             filingWebsiteUrl);
     }
     
@@ -1898,6 +2012,9 @@ public class RegistrationRead {
                 "creditsTotalAvailable", creditsTotalAvailable,
                 "registrationCategory", registrationCategory,
                 "jurisdictionSpecificFields", jurisdictionSpecificFields,
+                "deregistrationClosureDate", deregistrationClosureDate,
+                "deregistrationReason", deregistrationReason,
+                "deregistrationAcknowledgedAt", deregistrationAcknowledgedAt,
                 "filingDays", filingDays,
                 "registrationType", registrationType,
                 "filingWebsiteUrl", filingWebsiteUrl);
@@ -1997,6 +2114,12 @@ public class RegistrationRead {
         private Optional<? extends RegistrationCategoryEnum> registrationCategory = Optional.empty();
 
         private JsonNullable<? extends Map<String, Object>> jurisdictionSpecificFields = JsonNullable.undefined();
+
+        private JsonNullable<LocalDate> deregistrationClosureDate = JsonNullable.undefined();
+
+        private JsonNullable<? extends DeregistrationReasonEnum> deregistrationReason = JsonNullable.undefined();
+
+        private JsonNullable<OffsetDateTime> deregistrationAcknowledgedAt = JsonNullable.undefined();
 
         private Long filingDays;
 
@@ -2840,6 +2963,63 @@ public class RegistrationRead {
         }
 
 
+        /**
+         * Effective date the registration closes with the jurisdiction.
+         */
+        public Builder deregistrationClosureDate(LocalDate deregistrationClosureDate) {
+            Utils.checkNotNull(deregistrationClosureDate, "deregistrationClosureDate");
+            this.deregistrationClosureDate = JsonNullable.of(deregistrationClosureDate);
+            return this;
+        }
+
+        /**
+         * Effective date the registration closes with the jurisdiction.
+         */
+        public Builder deregistrationClosureDate(JsonNullable<LocalDate> deregistrationClosureDate) {
+            Utils.checkNotNull(deregistrationClosureDate, "deregistrationClosureDate");
+            this.deregistrationClosureDate = deregistrationClosureDate;
+            return this;
+        }
+
+
+        /**
+         * Reason the registration is being closed.
+         */
+        public Builder deregistrationReason(DeregistrationReasonEnum deregistrationReason) {
+            Utils.checkNotNull(deregistrationReason, "deregistrationReason");
+            this.deregistrationReason = JsonNullable.of(deregistrationReason);
+            return this;
+        }
+
+        /**
+         * Reason the registration is being closed.
+         */
+        public Builder deregistrationReason(JsonNullable<? extends DeregistrationReasonEnum> deregistrationReason) {
+            Utils.checkNotNull(deregistrationReason, "deregistrationReason");
+            this.deregistrationReason = deregistrationReason;
+            return this;
+        }
+
+
+        /**
+         * When final-return acknowledgement was recorded.
+         */
+        public Builder deregistrationAcknowledgedAt(OffsetDateTime deregistrationAcknowledgedAt) {
+            Utils.checkNotNull(deregistrationAcknowledgedAt, "deregistrationAcknowledgedAt");
+            this.deregistrationAcknowledgedAt = JsonNullable.of(deregistrationAcknowledgedAt);
+            return this;
+        }
+
+        /**
+         * When final-return acknowledgement was recorded.
+         */
+        public Builder deregistrationAcknowledgedAt(JsonNullable<OffsetDateTime> deregistrationAcknowledgedAt) {
+            Utils.checkNotNull(deregistrationAcknowledgedAt, "deregistrationAcknowledgedAt");
+            this.deregistrationAcknowledgedAt = deregistrationAcknowledgedAt;
+            return this;
+        }
+
+
         public Builder filingDays(long filingDays) {
             Utils.checkNotNull(filingDays, "filingDays");
             this.filingDays = filingDays;
@@ -2905,7 +3085,8 @@ public class RegistrationRead {
                 ossType, ossMemberStateOfIdentificationCode, taxType,
                 markedCollectingDate, needsMarkAsCollecting, id,
                 createdAt, creditsTotalAvailable, registrationCategory,
-                jurisdictionSpecificFields, filingDays, registrationType,
+                jurisdictionSpecificFields, deregistrationClosureDate, deregistrationReason,
+                deregistrationAcknowledgedAt, filingDays, registrationType,
                 filingWebsiteUrl);
         }
 

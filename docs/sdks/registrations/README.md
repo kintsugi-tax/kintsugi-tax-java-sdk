@@ -2922,10 +2922,13 @@ Deregister an existing registration.
 package hello.world;
 
 import com.kintsugi.taxplatform.SDK;
+import com.kintsugi.taxplatform.models.components.DeregisterRegistrationRequest;
+import com.kintsugi.taxplatform.models.components.DeregistrationReasonEnum;
 import com.kintsugi.taxplatform.models.errors.BackendSrcRegistrationsResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
 import com.kintsugi.taxplatform.models.operations.DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse;
 import java.lang.Exception;
+import java.time.LocalDate;
 
 public class Application {
 
@@ -2938,6 +2941,10 @@ public class Application {
         DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse res = sdk.registrations().deregister()
                 .registrationId("regs_123456")
                 .xOrganizationId("org_12345")
+                .deregisterRegistrationRequest(DeregisterRegistrationRequest.builder()
+                    .closureDate(LocalDate.parse("2026-01-04"))
+                    .reason(DeregistrationReasonEnum.CLOSING_NEXUS_IN_STATE)
+                    .build())
                 .call();
 
         if (res.registrationRead().isPresent()) {
@@ -2949,11 +2956,11 @@ public class Application {
 
 ### Parameters
 
-| Parameter                                                                                                | Type                                                                                                     | Required                                                                                                 | Description                                                                                              | Example                                                                                                  |
-| -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| `registrationId`                                                                                         | *String*                                                                                                 | :heavy_check_mark:                                                                                       | The unique identifier of the registration to deregister.                                                 | regs_123456                                                                                              |
-| `xOrganizationId`                                                                                        | *Optional\<String>*                                                                                      | :heavy_check_mark:                                                                                       | The unique identifier for the organization making the request                                            | org_12345                                                                                                |
-| `deregisterRegistrationRequest`                                                                          | [JsonNullable\<DeregisterRegistrationRequest>](../../models/components/DeregisterRegistrationRequest.md) | :heavy_minus_sign:                                                                                       | N/A                                                                                                      |                                                                                                          |
+| Parameter                                                                                 | Type                                                                                      | Required                                                                                  | Description                                                                               | Example                                                                                   |
+| ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| `registrationId`                                                                          | *String*                                                                                  | :heavy_check_mark:                                                                        | The unique identifier of the registration to deregister.                                  | regs_123456                                                                               |
+| `xOrganizationId`                                                                         | *Optional\<String>*                                                                       | :heavy_check_mark:                                                                        | The unique identifier for the organization making the request                             | org_12345                                                                                 |
+| `deregisterRegistrationRequest`                                                           | [DeregisterRegistrationRequest](../../models/components/DeregisterRegistrationRequest.md) | :heavy_check_mark:                                                                        | N/A                                                                                       |                                                                                           |
 
 ### Response
 

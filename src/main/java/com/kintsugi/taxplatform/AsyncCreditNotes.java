@@ -39,7 +39,11 @@ public class AsyncCreditNotes {
     /**
      * Create credit note by transaction id
      * 
-     * <p>Create a new credit note for a specific transaction.
+     * <p>Create a new credit note for a specific transaction. Idempotent on ``(organization_id,
+     * connection_id, source, external_id)`` for the same parent: a re-POST returns ``200`` with the stored
+     * credit note unchanged. The same external id against a different parent still conflicts.
+     * 
+     * <p>Use PUT to update fields.
      * 
      * @return The async call builder
      */
@@ -50,7 +54,11 @@ public class AsyncCreditNotes {
     /**
      * Create credit note by transaction id
      * 
-     * <p>Create a new credit note for a specific transaction.
+     * <p>Create a new credit note for a specific transaction. Idempotent on ``(organization_id,
+     * connection_id, source, external_id)`` for the same parent: a re-POST returns ``200`` with the stored
+     * credit note unchanged. The same external id against a different parent still conflicts.
+     * 
+     * <p>Use PUT to update fields.
      * 
      * @param originalTransactionId 
      * @param creditNoteCreate 
@@ -63,7 +71,11 @@ public class AsyncCreditNotes {
     /**
      * Create credit note by transaction id
      * 
-     * <p>Create a new credit note for a specific transaction.
+     * <p>Create a new credit note for a specific transaction. Idempotent on ``(organization_id,
+     * connection_id, source, external_id)`` for the same parent: a re-POST returns ``200`` with the stored
+     * credit note unchanged. The same external id against a different parent still conflicts.
+     * 
+     * <p>Use PUT to update fields.
      * 
      * @param originalTransactionId 
      * @param xOrganizationId The unique identifier for the organization making the request

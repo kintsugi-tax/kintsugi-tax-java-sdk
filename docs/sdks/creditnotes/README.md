@@ -8,7 +8,7 @@
 
 ## create
 
-Create a new credit note for a specific transaction.
+Create a new credit note for a specific transaction. Idempotent on ``(organization_id, connection_id, source, external_id)`` for the same parent: a re-POST returns ``200`` with the stored credit note unchanged. The same external id against a different parent still conflicts. Use PUT to update fields.
 
 ### Example Usage
 

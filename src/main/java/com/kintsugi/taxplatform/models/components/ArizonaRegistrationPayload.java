@@ -103,6 +103,15 @@ public class ArizonaRegistrationPayload {
     @JsonProperty("change_regime_status")
     private JsonNullable<? extends ChangeRegimeStatusEnum> changeRegimeStatus;
 
+    /**
+     * Set true to mark the organization as collecting tax in this jurisdiction ahead of registration
+     * details, instead of a normal import. Opens the registration in PROCESSING; filing frequency and
+     * credentials are not required.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("is_pre_collecting")
+    private Optional<Boolean> isPreCollecting;
+
 
     @JsonProperty("country_code")
     private CountryCodeEnum countryCode;
@@ -119,14 +128,20 @@ public class ArizonaRegistrationPayload {
     @JsonProperty("state_name")
     private String stateName;
 
-
+    /**
+     * Specifies how often tax filings should be made. Possible values: MONTHLY, QUARTERLY, ANNUALLY,
+     * UNKNOWN. Required unless isPreCollecting is set.
+     */
+    @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("filing_frequency")
-    private FilingFrequencyEnum filingFrequency;
+    private JsonNullable<? extends FilingFrequencyEnum> filingFrequency;
 
     /**
-     * Fiscal-year anchor month (1-12) on which each quarterly/semiannual
-     * period ends, for Hawaii (US-HI) filers whose periods are offset from the calendar.
-     * Null (default) keeps the standard calendar grid.
+     * Fiscal-year anchor month (1-12) on which each recurring period
+     * ends, for filers whose periods are offset from the calendar: Hawaii (US-HI)
+     * quarterly/semiannual, British Columbia (CA-BC) quarterly, and California (US-CA)
+     * and District of Columbia (US-DC) annual. Null (default) keeps the standard
+     * calendar grid.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("period_end_month")
@@ -255,10 +270,11 @@ public class ArizonaRegistrationPayload {
             @JsonProperty("do_not_file") Optional<Boolean> doNotFile,
             @JsonProperty("registrations_regime") JsonNullable<? extends RegistrationsRegimeEnum> registrationsRegime,
             @JsonProperty("change_regime_status") JsonNullable<? extends ChangeRegimeStatusEnum> changeRegimeStatus,
+            @JsonProperty("is_pre_collecting") Optional<Boolean> isPreCollecting,
             @JsonProperty("country_code") CountryCodeEnum countryCode,
             @JsonProperty("state_code") String stateCode,
             @JsonProperty("state_name") String stateName,
-            @JsonProperty("filing_frequency") FilingFrequencyEnum filingFrequency,
+            @JsonProperty("filing_frequency") JsonNullable<? extends FilingFrequencyEnum> filingFrequency,
             @JsonProperty("period_end_month") JsonNullable<Long> periodEndMonth,
             @JsonProperty("username") JsonNullable<String> username,
             @JsonProperty("comment") JsonNullable<String> comment,
@@ -286,6 +302,7 @@ public class ArizonaRegistrationPayload {
         Utils.checkNotNull(doNotFile, "doNotFile");
         Utils.checkNotNull(registrationsRegime, "registrationsRegime");
         Utils.checkNotNull(changeRegimeStatus, "changeRegimeStatus");
+        Utils.checkNotNull(isPreCollecting, "isPreCollecting");
         Utils.checkNotNull(countryCode, "countryCode");
         Utils.checkNotNull(stateCode, "stateCode");
         Utils.checkNotNull(stateName, "stateName");
@@ -318,6 +335,7 @@ public class ArizonaRegistrationPayload {
         this.doNotFile = doNotFile;
         this.registrationsRegime = registrationsRegime;
         this.changeRegimeStatus = changeRegimeStatus;
+        this.isPreCollecting = isPreCollecting;
         this.countryCode = countryCode;
         this.stateCode = stateCode;
         this.stateName = stateName;
@@ -345,19 +363,18 @@ public class ArizonaRegistrationPayload {
             CountryCodeEnum countryCode,
             String stateCode,
             String stateName,
-            FilingFrequencyEnum filingFrequency,
             ArizonaFields jurisdictionSpecificFields) {
         this(JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), Optional.empty(), JsonNullable.undefined(),
-            JsonNullable.undefined(), countryCode, stateCode,
-            stateName, filingFrequency, JsonNullable.undefined(),
+            JsonNullable.undefined(), Optional.empty(), countryCode,
+            stateCode, stateName, JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
-            JsonNullable.undefined(), Optional.empty(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty(),
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
-            JsonNullable.undefined(), jurisdictionSpecificFields, JsonNullable.undefined(),
-            JsonNullable.undefined());
+            JsonNullable.undefined(), JsonNullable.undefined(), jurisdictionSpecificFields,
+            JsonNullable.undefined(), JsonNullable.undefined());
     }
 
     /**
@@ -447,6 +464,16 @@ public class ArizonaRegistrationPayload {
         return (JsonNullable<ChangeRegimeStatusEnum>) changeRegimeStatus;
     }
 
+    /**
+     * Set true to mark the organization as collecting tax in this jurisdiction ahead of registration
+     * details, instead of a normal import. Opens the registration in PROCESSING; filing frequency and
+     * credentials are not required.
+     */
+    @JsonIgnore
+    public Optional<Boolean> isPreCollecting() {
+        return isPreCollecting;
+    }
+
     @JsonIgnore
     public CountryCodeEnum countryCode() {
         return countryCode;
@@ -468,15 +495,22 @@ public class ArizonaRegistrationPayload {
         return stateName;
     }
 
+    /**
+     * Specifies how often tax filings should be made. Possible values: MONTHLY, QUARTERLY, ANNUALLY,
+     * UNKNOWN. Required unless isPreCollecting is set.
+     */
+    @SuppressWarnings("unchecked")
     @JsonIgnore
-    public FilingFrequencyEnum filingFrequency() {
-        return filingFrequency;
+    public JsonNullable<FilingFrequencyEnum> filingFrequency() {
+        return (JsonNullable<FilingFrequencyEnum>) filingFrequency;
     }
 
     /**
-     * Fiscal-year anchor month (1-12) on which each quarterly/semiannual
-     * period ends, for Hawaii (US-HI) filers whose periods are offset from the calendar.
-     * Null (default) keeps the standard calendar grid.
+     * Fiscal-year anchor month (1-12) on which each recurring period
+     * ends, for filers whose periods are offset from the calendar: Hawaii (US-HI)
+     * quarterly/semiannual, British Columbia (CA-BC) quarterly, and California (US-CA)
+     * and District of Columbia (US-DC) annual. Null (default) keeps the standard
+     * calendar grid.
      */
     @JsonIgnore
     public JsonNullable<Long> periodEndMonth() {
@@ -792,6 +826,29 @@ public class ArizonaRegistrationPayload {
         return this;
     }
 
+    /**
+     * Set true to mark the organization as collecting tax in this jurisdiction ahead of registration
+     * details, instead of a normal import. Opens the registration in PROCESSING; filing frequency and
+     * credentials are not required.
+     */
+    public ArizonaRegistrationPayload withIsPreCollecting(boolean isPreCollecting) {
+        Utils.checkNotNull(isPreCollecting, "isPreCollecting");
+        this.isPreCollecting = Optional.ofNullable(isPreCollecting);
+        return this;
+    }
+
+
+    /**
+     * Set true to mark the organization as collecting tax in this jurisdiction ahead of registration
+     * details, instead of a normal import. Opens the registration in PROCESSING; filing frequency and
+     * credentials are not required.
+     */
+    public ArizonaRegistrationPayload withIsPreCollecting(Optional<Boolean> isPreCollecting) {
+        Utils.checkNotNull(isPreCollecting, "isPreCollecting");
+        this.isPreCollecting = isPreCollecting;
+        return this;
+    }
+
     public ArizonaRegistrationPayload withCountryCode(CountryCodeEnum countryCode) {
         Utils.checkNotNull(countryCode, "countryCode");
         this.countryCode = countryCode;
@@ -816,16 +873,32 @@ public class ArizonaRegistrationPayload {
         return this;
     }
 
+    /**
+     * Specifies how often tax filings should be made. Possible values: MONTHLY, QUARTERLY, ANNUALLY,
+     * UNKNOWN. Required unless isPreCollecting is set.
+     */
     public ArizonaRegistrationPayload withFilingFrequency(FilingFrequencyEnum filingFrequency) {
+        Utils.checkNotNull(filingFrequency, "filingFrequency");
+        this.filingFrequency = JsonNullable.of(filingFrequency);
+        return this;
+    }
+
+    /**
+     * Specifies how often tax filings should be made. Possible values: MONTHLY, QUARTERLY, ANNUALLY,
+     * UNKNOWN. Required unless isPreCollecting is set.
+     */
+    public ArizonaRegistrationPayload withFilingFrequency(JsonNullable<? extends FilingFrequencyEnum> filingFrequency) {
         Utils.checkNotNull(filingFrequency, "filingFrequency");
         this.filingFrequency = filingFrequency;
         return this;
     }
 
     /**
-     * Fiscal-year anchor month (1-12) on which each quarterly/semiannual
-     * period ends, for Hawaii (US-HI) filers whose periods are offset from the calendar.
-     * Null (default) keeps the standard calendar grid.
+     * Fiscal-year anchor month (1-12) on which each recurring period
+     * ends, for filers whose periods are offset from the calendar: Hawaii (US-HI)
+     * quarterly/semiannual, British Columbia (CA-BC) quarterly, and California (US-CA)
+     * and District of Columbia (US-DC) annual. Null (default) keeps the standard
+     * calendar grid.
      */
     public ArizonaRegistrationPayload withPeriodEndMonth(long periodEndMonth) {
         Utils.checkNotNull(periodEndMonth, "periodEndMonth");
@@ -834,9 +907,11 @@ public class ArizonaRegistrationPayload {
     }
 
     /**
-     * Fiscal-year anchor month (1-12) on which each quarterly/semiannual
-     * period ends, for Hawaii (US-HI) filers whose periods are offset from the calendar.
-     * Null (default) keeps the standard calendar grid.
+     * Fiscal-year anchor month (1-12) on which each recurring period
+     * ends, for filers whose periods are offset from the calendar: Hawaii (US-HI)
+     * quarterly/semiannual, British Columbia (CA-BC) quarterly, and California (US-CA)
+     * and District of Columbia (US-DC) annual. Null (default) keeps the standard
+     * calendar grid.
      */
     public ArizonaRegistrationPayload withPeriodEndMonth(JsonNullable<Long> periodEndMonth) {
         Utils.checkNotNull(periodEndMonth, "periodEndMonth");
@@ -1145,6 +1220,7 @@ public class ArizonaRegistrationPayload {
             Utils.enhancedDeepEquals(this.doNotFile, other.doNotFile) &&
             Utils.enhancedDeepEquals(this.registrationsRegime, other.registrationsRegime) &&
             Utils.enhancedDeepEquals(this.changeRegimeStatus, other.changeRegimeStatus) &&
+            Utils.enhancedDeepEquals(this.isPreCollecting, other.isPreCollecting) &&
             Utils.enhancedDeepEquals(this.countryCode, other.countryCode) &&
             Utils.enhancedDeepEquals(this.stateCode, other.stateCode) &&
             Utils.enhancedDeepEquals(this.stateName, other.stateName) &&
@@ -1174,14 +1250,14 @@ public class ArizonaRegistrationPayload {
             registrationImportType, registrationDate, registrationEmail,
             registrationRequested, registrationCompleted, deregistrationRequested,
             deregistrationCompleted, autoRegistered, doNotFile,
-            registrationsRegime, changeRegimeStatus, countryCode,
-            stateCode, stateName, filingFrequency,
-            periodEndMonth, username, comment,
-            createFilingsFrom, initialSync, amountFees,
-            vda, imported, salesTaxId,
-            iorNumber, sstImport, taxId,
-            passwordPlainText, passwordMetadataPlainText, jurisdictionSpecificFields,
-            requestId, pinPlainText);
+            registrationsRegime, changeRegimeStatus, isPreCollecting,
+            countryCode, stateCode, stateName,
+            filingFrequency, periodEndMonth, username,
+            comment, createFilingsFrom, initialSync,
+            amountFees, vda, imported,
+            salesTaxId, iorNumber, sstImport,
+            taxId, passwordPlainText, passwordMetadataPlainText,
+            jurisdictionSpecificFields, requestId, pinPlainText);
     }
     
     @Override
@@ -1198,6 +1274,7 @@ public class ArizonaRegistrationPayload {
                 "doNotFile", doNotFile,
                 "registrationsRegime", registrationsRegime,
                 "changeRegimeStatus", changeRegimeStatus,
+                "isPreCollecting", isPreCollecting,
                 "countryCode", countryCode,
                 "stateCode", stateCode,
                 "stateName", stateName,
@@ -1244,13 +1321,15 @@ public class ArizonaRegistrationPayload {
 
         private JsonNullable<? extends ChangeRegimeStatusEnum> changeRegimeStatus = JsonNullable.undefined();
 
+        private Optional<Boolean> isPreCollecting;
+
         private CountryCodeEnum countryCode;
 
         private String stateCode;
 
         private String stateName;
 
-        private FilingFrequencyEnum filingFrequency;
+        private JsonNullable<? extends FilingFrequencyEnum> filingFrequency = JsonNullable.undefined();
 
         private JsonNullable<Long> periodEndMonth = JsonNullable.undefined();
 
@@ -1475,6 +1554,29 @@ public class ArizonaRegistrationPayload {
         }
 
 
+        /**
+         * Set true to mark the organization as collecting tax in this jurisdiction ahead of registration
+         * details, instead of a normal import. Opens the registration in PROCESSING; filing frequency and
+         * credentials are not required.
+         */
+        public Builder isPreCollecting(boolean isPreCollecting) {
+            Utils.checkNotNull(isPreCollecting, "isPreCollecting");
+            this.isPreCollecting = Optional.ofNullable(isPreCollecting);
+            return this;
+        }
+
+        /**
+         * Set true to mark the organization as collecting tax in this jurisdiction ahead of registration
+         * details, instead of a normal import. Opens the registration in PROCESSING; filing frequency and
+         * credentials are not required.
+         */
+        public Builder isPreCollecting(Optional<Boolean> isPreCollecting) {
+            Utils.checkNotNull(isPreCollecting, "isPreCollecting");
+            this.isPreCollecting = isPreCollecting;
+            return this;
+        }
+
+
         public Builder countryCode(CountryCodeEnum countryCode) {
             Utils.checkNotNull(countryCode, "countryCode");
             this.countryCode = countryCode;
@@ -1502,7 +1604,21 @@ public class ArizonaRegistrationPayload {
         }
 
 
+        /**
+         * Specifies how often tax filings should be made. Possible values: MONTHLY, QUARTERLY, ANNUALLY,
+         * UNKNOWN. Required unless isPreCollecting is set.
+         */
         public Builder filingFrequency(FilingFrequencyEnum filingFrequency) {
+            Utils.checkNotNull(filingFrequency, "filingFrequency");
+            this.filingFrequency = JsonNullable.of(filingFrequency);
+            return this;
+        }
+
+        /**
+         * Specifies how often tax filings should be made. Possible values: MONTHLY, QUARTERLY, ANNUALLY,
+         * UNKNOWN. Required unless isPreCollecting is set.
+         */
+        public Builder filingFrequency(JsonNullable<? extends FilingFrequencyEnum> filingFrequency) {
             Utils.checkNotNull(filingFrequency, "filingFrequency");
             this.filingFrequency = filingFrequency;
             return this;
@@ -1510,9 +1626,11 @@ public class ArizonaRegistrationPayload {
 
 
         /**
-         * Fiscal-year anchor month (1-12) on which each quarterly/semiannual
-         * period ends, for Hawaii (US-HI) filers whose periods are offset from the calendar.
-         * Null (default) keeps the standard calendar grid.
+         * Fiscal-year anchor month (1-12) on which each recurring period
+         * ends, for filers whose periods are offset from the calendar: Hawaii (US-HI)
+         * quarterly/semiannual, British Columbia (CA-BC) quarterly, and California (US-CA)
+         * and District of Columbia (US-DC) annual. Null (default) keeps the standard
+         * calendar grid.
          */
         public Builder periodEndMonth(long periodEndMonth) {
             Utils.checkNotNull(periodEndMonth, "periodEndMonth");
@@ -1521,9 +1639,11 @@ public class ArizonaRegistrationPayload {
         }
 
         /**
-         * Fiscal-year anchor month (1-12) on which each quarterly/semiannual
-         * period ends, for Hawaii (US-HI) filers whose periods are offset from the calendar.
-         * Null (default) keeps the standard calendar grid.
+         * Fiscal-year anchor month (1-12) on which each recurring period
+         * ends, for filers whose periods are offset from the calendar: Hawaii (US-HI)
+         * quarterly/semiannual, British Columbia (CA-BC) quarterly, and California (US-CA)
+         * and District of Columbia (US-DC) annual. Null (default) keeps the standard
+         * calendar grid.
          */
         public Builder periodEndMonth(JsonNullable<Long> periodEndMonth) {
             Utils.checkNotNull(periodEndMonth, "periodEndMonth");
@@ -1830,19 +1950,22 @@ public class ArizonaRegistrationPayload {
             if (doNotFile == null) {
                 doNotFile = _SINGLETON_VALUE_DoNotFile.value();
             }
+            if (isPreCollecting == null) {
+                isPreCollecting = _SINGLETON_VALUE_IsPreCollecting.value();
+            }
 
             return new ArizonaRegistrationPayload(
                 registrationDate, registrationEmail, registrationRequested,
                 registrationCompleted, deregistrationRequested, deregistrationCompleted,
                 autoRegistered, doNotFile, registrationsRegime,
-                changeRegimeStatus, countryCode, stateCode,
-                stateName, filingFrequency, periodEndMonth,
-                username, comment, createFilingsFrom,
-                initialSync, amountFees, vda,
-                imported, salesTaxId, iorNumber,
-                sstImport, taxId, passwordPlainText,
-                passwordMetadataPlainText, jurisdictionSpecificFields, requestId,
-                pinPlainText);
+                changeRegimeStatus, isPreCollecting, countryCode,
+                stateCode, stateName, filingFrequency,
+                periodEndMonth, username, comment,
+                createFilingsFrom, initialSync, amountFees,
+                vda, imported, salesTaxId,
+                iorNumber, sstImport, taxId,
+                passwordPlainText, passwordMetadataPlainText, jurisdictionSpecificFields,
+                requestId, pinPlainText);
         }
 
 
@@ -1855,6 +1978,12 @@ public class ArizonaRegistrationPayload {
         private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_DoNotFile =
                 new LazySingletonValue<>(
                         "do_not_file",
+                        "false",
+                        new TypeReference<Optional<Boolean>>() {});
+
+        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_IsPreCollecting =
+                new LazySingletonValue<>(
+                        "is_pre_collecting",
                         "false",
                         new TypeReference<Optional<Boolean>>() {});
     }

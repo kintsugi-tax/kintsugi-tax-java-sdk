@@ -88,6 +88,14 @@ public class ExemptionCreate {
     @JsonProperty("status")
     private ExemptionStatus status;
 
+    /**
+     * Partial-exemption certificate form code. Required when exemption_type is partial; must be absent
+     * otherwise.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("certificate_type")
+    private JsonNullable<String> certificateType;
+
     @JsonCreator
     public ExemptionCreate(
             @JsonProperty("exemption_type") ExemptionType exemptionType,
@@ -100,7 +108,8 @@ public class ExemptionCreate {
             @JsonProperty("reseller") Optional<Boolean> reseller,
             @JsonProperty("FEIN") String fein,
             @JsonProperty("sales_tax_id") String salesTaxId,
-            @JsonProperty("status") ExemptionStatus status) {
+            @JsonProperty("status") ExemptionStatus status,
+            @JsonProperty("certificate_type") JsonNullable<String> certificateType) {
         Utils.checkNotNull(exemptionType, "exemptionType");
         Utils.checkNotNull(jurisdiction, "jurisdiction");
         Utils.checkNotNull(countryCode, "countryCode");
@@ -112,6 +121,7 @@ public class ExemptionCreate {
         Utils.checkNotNull(fein, "fein");
         Utils.checkNotNull(salesTaxId, "salesTaxId");
         Utils.checkNotNull(status, "status");
+        Utils.checkNotNull(certificateType, "certificateType");
         this.exemptionType = exemptionType;
         this.jurisdiction = jurisdiction;
         this.countryCode = countryCode;
@@ -123,6 +133,7 @@ public class ExemptionCreate {
         this.fein = fein;
         this.salesTaxId = salesTaxId;
         this.status = status;
+        this.certificateType = certificateType;
     }
     
     public ExemptionCreate(
@@ -135,7 +146,7 @@ public class ExemptionCreate {
         this(exemptionType, JsonNullable.undefined(), JsonNullable.undefined(),
             startDate, JsonNullable.undefined(), customerId,
             JsonNullable.undefined(), Optional.empty(), fein,
-            salesTaxId, status);
+            salesTaxId, status, JsonNullable.undefined());
     }
 
     @JsonIgnore
@@ -219,6 +230,15 @@ public class ExemptionCreate {
     @JsonIgnore
     public ExemptionStatus status() {
         return status;
+    }
+
+    /**
+     * Partial-exemption certificate form code. Required when exemption_type is partial; must be absent
+     * otherwise.
+     */
+    @JsonIgnore
+    public JsonNullable<String> certificateType() {
+        return certificateType;
     }
 
     public static Builder builder() {
@@ -365,6 +385,26 @@ public class ExemptionCreate {
         return this;
     }
 
+    /**
+     * Partial-exemption certificate form code. Required when exemption_type is partial; must be absent
+     * otherwise.
+     */
+    public ExemptionCreate withCertificateType(String certificateType) {
+        Utils.checkNotNull(certificateType, "certificateType");
+        this.certificateType = JsonNullable.of(certificateType);
+        return this;
+    }
+
+    /**
+     * Partial-exemption certificate form code. Required when exemption_type is partial; must be absent
+     * otherwise.
+     */
+    public ExemptionCreate withCertificateType(JsonNullable<String> certificateType) {
+        Utils.checkNotNull(certificateType, "certificateType");
+        this.certificateType = certificateType;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -385,7 +425,8 @@ public class ExemptionCreate {
             Utils.enhancedDeepEquals(this.reseller, other.reseller) &&
             Utils.enhancedDeepEquals(this.fein, other.fein) &&
             Utils.enhancedDeepEquals(this.salesTaxId, other.salesTaxId) &&
-            Utils.enhancedDeepEquals(this.status, other.status);
+            Utils.enhancedDeepEquals(this.status, other.status) &&
+            Utils.enhancedDeepEquals(this.certificateType, other.certificateType);
     }
     
     @Override
@@ -394,7 +435,7 @@ public class ExemptionCreate {
             exemptionType, jurisdiction, countryCode,
             startDate, endDate, customerId,
             transactionId, reseller, fein,
-            salesTaxId, status);
+            salesTaxId, status, certificateType);
     }
     
     @Override
@@ -410,7 +451,8 @@ public class ExemptionCreate {
                 "reseller", reseller,
                 "fein", fein,
                 "salesTaxId", salesTaxId,
-                "status", status);
+                "status", status,
+                "certificateType", certificateType);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -437,6 +479,8 @@ public class ExemptionCreate {
         private String salesTaxId;
 
         private ExemptionStatus status;
+
+        private JsonNullable<String> certificateType = JsonNullable.undefined();
 
         private Builder() {
           // force use of static builder() method
@@ -591,6 +635,27 @@ public class ExemptionCreate {
             return this;
         }
 
+
+        /**
+         * Partial-exemption certificate form code. Required when exemption_type is partial; must be absent
+         * otherwise.
+         */
+        public Builder certificateType(String certificateType) {
+            Utils.checkNotNull(certificateType, "certificateType");
+            this.certificateType = JsonNullable.of(certificateType);
+            return this;
+        }
+
+        /**
+         * Partial-exemption certificate form code. Required when exemption_type is partial; must be absent
+         * otherwise.
+         */
+        public Builder certificateType(JsonNullable<String> certificateType) {
+            Utils.checkNotNull(certificateType, "certificateType");
+            this.certificateType = certificateType;
+            return this;
+        }
+
         public ExemptionCreate build() {
             if (reseller == null) {
                 reseller = _SINGLETON_VALUE_Reseller.value();
@@ -600,7 +665,7 @@ public class ExemptionCreate {
                 exemptionType, jurisdiction, countryCode,
                 startDate, endDate, customerId,
                 transactionId, reseller, fein,
-                salesTaxId, status);
+                salesTaxId, status, certificateType);
         }
 
 

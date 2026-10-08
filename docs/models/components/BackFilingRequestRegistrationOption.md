@@ -1,0 +1,11 @@
+# BackFilingRequestRegistrationOption
+
+
+## Fields
+
+| Field                                                                                | Type                                                                                 | Required                                                                             | Description                                                                          |
+| ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
+| `registrationId`                                                                     | *String*                                                                             | :heavy_check_mark:                                                                   | N/A                                                                                  |
+| `stateCode`                                                                          | *String*                                                                             | :heavy_check_mark:                                                                   | N/A                                                                                  |
+| `remittanceTag`                                                                      | *Optional\<String>*                                                                  | :heavy_check_mark:                                                                   | N/A                                                                                  |
+| `periods`                                                                            | List\<[BackFilingRequestPeriod](../../models/components/BackFilingRequestPeriod.md)> | :heavy_check_mark:                                                                   | N/A                                                                                  |

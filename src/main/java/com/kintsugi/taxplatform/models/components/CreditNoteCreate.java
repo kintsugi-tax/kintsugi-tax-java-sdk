@@ -93,7 +93,9 @@ public class CreditNoteCreate {
     @JsonProperty("taxable_amount")
     private JsonNullable<? extends CreditNoteCreateTaxableAmount> taxableAmount;
 
-
+    /**
+     * ISO-4217 currency code. Pair with a monetary amount on the same object.
+     */
     @JsonProperty("currency")
     private CurrencyEnum currency;
 
@@ -104,6 +106,14 @@ public class CreditNoteCreate {
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("addresses")
     private JsonNullable<? extends List<TransactionAddressBuilder>> addresses;
+
+    /**
+     * Whether the source amounts include tax (EI-1534). None means the source did not say. Mirrors the
+     * parent order's signal; netting stays EI-1538.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("is_tax_inclusive")
+    private JsonNullable<Boolean> isTaxInclusive;
 
     /**
      * Detailed list of individual items included in this credit note.
@@ -126,6 +136,7 @@ public class CreditNoteCreate {
             @JsonProperty("taxable_amount") JsonNullable<? extends CreditNoteCreateTaxableAmount> taxableAmount,
             @JsonProperty("currency") CurrencyEnum currency,
             @JsonProperty("addresses") JsonNullable<? extends List<TransactionAddressBuilder>> addresses,
+            @JsonProperty("is_tax_inclusive") JsonNullable<Boolean> isTaxInclusive,
             @JsonProperty("transaction_items") List<CreditNoteItemCreateUpdate> transactionItems) {
         Utils.checkNotNull(externalId, "externalId");
         Utils.checkNotNull(externalFriendlyId, "externalFriendlyId");
@@ -140,6 +151,7 @@ public class CreditNoteCreate {
         Utils.checkNotNull(taxableAmount, "taxableAmount");
         Utils.checkNotNull(currency, "currency");
         Utils.checkNotNull(addresses, "addresses");
+        Utils.checkNotNull(isTaxInclusive, "isTaxInclusive");
         Utils.checkNotNull(transactionItems, "transactionItems");
         this.externalId = externalId;
         this.externalFriendlyId = externalFriendlyId;
@@ -154,6 +166,7 @@ public class CreditNoteCreate {
         this.taxableAmount = taxableAmount;
         this.currency = currency;
         this.addresses = addresses;
+        this.isTaxInclusive = isTaxInclusive;
         this.transactionItems = transactionItems;
     }
     
@@ -168,7 +181,7 @@ public class CreditNoteCreate {
             date, status, JsonNullable.undefined(),
             totalAmount, JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), currency,
-            JsonNullable.undefined(), transactionItems);
+            JsonNullable.undefined(), JsonNullable.undefined(), transactionItems);
     }
 
     /**
@@ -263,6 +276,9 @@ public class CreditNoteCreate {
         return (JsonNullable<CreditNoteCreateTaxableAmount>) taxableAmount;
     }
 
+    /**
+     * ISO-4217 currency code. Pair with a monetary amount on the same object.
+     */
     @JsonIgnore
     public CurrencyEnum currency() {
         return currency;
@@ -276,6 +292,15 @@ public class CreditNoteCreate {
     @JsonIgnore
     public JsonNullable<List<TransactionAddressBuilder>> addresses() {
         return (JsonNullable<List<TransactionAddressBuilder>>) addresses;
+    }
+
+    /**
+     * Whether the source amounts include tax (EI-1534). None means the source did not say. Mirrors the
+     * parent order's signal; netting stays EI-1538.
+     */
+    @JsonIgnore
+    public JsonNullable<Boolean> isTaxInclusive() {
+        return isTaxInclusive;
     }
 
     /**
@@ -455,6 +480,9 @@ public class CreditNoteCreate {
         return this;
     }
 
+    /**
+     * ISO-4217 currency code. Pair with a monetary amount on the same object.
+     */
     public CreditNoteCreate withCurrency(CurrencyEnum currency) {
         Utils.checkNotNull(currency, "currency");
         this.currency = currency;
@@ -478,6 +506,26 @@ public class CreditNoteCreate {
     public CreditNoteCreate withAddresses(JsonNullable<? extends List<TransactionAddressBuilder>> addresses) {
         Utils.checkNotNull(addresses, "addresses");
         this.addresses = addresses;
+        return this;
+    }
+
+    /**
+     * Whether the source amounts include tax (EI-1534). None means the source did not say. Mirrors the
+     * parent order's signal; netting stays EI-1538.
+     */
+    public CreditNoteCreate withIsTaxInclusive(boolean isTaxInclusive) {
+        Utils.checkNotNull(isTaxInclusive, "isTaxInclusive");
+        this.isTaxInclusive = JsonNullable.of(isTaxInclusive);
+        return this;
+    }
+
+    /**
+     * Whether the source amounts include tax (EI-1534). None means the source did not say. Mirrors the
+     * parent order's signal; netting stays EI-1538.
+     */
+    public CreditNoteCreate withIsTaxInclusive(JsonNullable<Boolean> isTaxInclusive) {
+        Utils.checkNotNull(isTaxInclusive, "isTaxInclusive");
+        this.isTaxInclusive = isTaxInclusive;
         return this;
     }
 
@@ -513,6 +561,7 @@ public class CreditNoteCreate {
             Utils.enhancedDeepEquals(this.taxableAmount, other.taxableAmount) &&
             Utils.enhancedDeepEquals(this.currency, other.currency) &&
             Utils.enhancedDeepEquals(this.addresses, other.addresses) &&
+            Utils.enhancedDeepEquals(this.isTaxInclusive, other.isTaxInclusive) &&
             Utils.enhancedDeepEquals(this.transactionItems, other.transactionItems);
     }
     
@@ -523,7 +572,7 @@ public class CreditNoteCreate {
             date, status, description,
             totalAmount, marketplace, taxAmountImported,
             taxRateImported, taxableAmount, currency,
-            addresses, transactionItems);
+            addresses, isTaxInclusive, transactionItems);
     }
     
     @Override
@@ -542,6 +591,7 @@ public class CreditNoteCreate {
                 "taxableAmount", taxableAmount,
                 "currency", currency,
                 "addresses", addresses,
+                "isTaxInclusive", isTaxInclusive,
                 "transactionItems", transactionItems);
     }
 
@@ -573,6 +623,8 @@ public class CreditNoteCreate {
         private CurrencyEnum currency;
 
         private JsonNullable<? extends List<TransactionAddressBuilder>> addresses = JsonNullable.undefined();
+
+        private JsonNullable<Boolean> isTaxInclusive = JsonNullable.undefined();
 
         private List<CreditNoteItemCreateUpdate> transactionItems;
 
@@ -756,6 +808,9 @@ public class CreditNoteCreate {
         }
 
 
+        /**
+         * ISO-4217 currency code. Pair with a monetary amount on the same object.
+         */
         public Builder currency(CurrencyEnum currency) {
             Utils.checkNotNull(currency, "currency");
             this.currency = currency;
@@ -785,6 +840,27 @@ public class CreditNoteCreate {
 
 
         /**
+         * Whether the source amounts include tax (EI-1534). None means the source did not say. Mirrors the
+         * parent order's signal; netting stays EI-1538.
+         */
+        public Builder isTaxInclusive(boolean isTaxInclusive) {
+            Utils.checkNotNull(isTaxInclusive, "isTaxInclusive");
+            this.isTaxInclusive = JsonNullable.of(isTaxInclusive);
+            return this;
+        }
+
+        /**
+         * Whether the source amounts include tax (EI-1534). None means the source did not say. Mirrors the
+         * parent order's signal; netting stays EI-1538.
+         */
+        public Builder isTaxInclusive(JsonNullable<Boolean> isTaxInclusive) {
+            Utils.checkNotNull(isTaxInclusive, "isTaxInclusive");
+            this.isTaxInclusive = isTaxInclusive;
+            return this;
+        }
+
+
+        /**
          * Detailed list of individual items included in this credit note.
          */
         public Builder transactionItems(List<CreditNoteItemCreateUpdate> transactionItems) {
@@ -800,7 +876,7 @@ public class CreditNoteCreate {
                 date, status, description,
                 totalAmount, marketplace, taxAmountImported,
                 taxRateImported, taxableAmount, currency,
-                addresses, transactionItems);
+                addresses, isTaxInclusive, transactionItems);
         }
 
     }

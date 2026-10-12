@@ -1,10 +1,13 @@
 # DeregisterRegistrationRequest
 
-Optional body for POST /registrations/{id}/deregister (CP-4742).
+Body for POST /registrations/{id}/deregister.
 
 
 ## Fields
 
-| Field                   | Type                    | Required                | Description             |
-| ----------------------- | ----------------------- | ----------------------- | ----------------------- |
-| `requestId`             | *JsonNullable\<String>* | :heavy_minus_sign:      | N/A                     |
+| Field                                                                                                    | Type                                                                                                     | Required                                                                                                 | Description                                                                                              |
+| -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| `closureDate`                                                                                            | [LocalDate](https://docs.oracle.com/javase/8/docs/api/java/time/LocalDate.html)                          | :heavy_check_mark:                                                                                       | Effective date the permit closes with the jurisdiction (YYYY-MM-DD). Past and future dates are accepted. |
+| `reason`                                                                                                 | [DeregistrationReasonEnum](../../models/components/DeregistrationReasonEnum.md)                          | :heavy_check_mark:                                                                                       | Reason a registration is being closed.                                                                   |
+| `finalReturnAcknowledged`                                                                                | *boolean*                                                                                                | :heavy_check_mark:                                                                                       | Must be true: the actor confirms a final return is still owed.                                           |
+| `requestId`                                                                                              | *JsonNullable\<String>*                                                                                  | :heavy_minus_sign:                                                                                       | Optional client-minted id for this confirm attempt.                                                      |

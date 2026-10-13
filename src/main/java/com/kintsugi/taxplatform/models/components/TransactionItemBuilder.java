@@ -207,6 +207,13 @@ public class TransactionItemBuilder {
     @JsonProperty("exempt")
     private Optional<Boolean> exempt;
 
+    /**
+     * Whether this line's source amount includes tax. NULL means the source did not say.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("is_tax_inclusive")
+    private JsonNullable<Boolean> isTaxInclusive;
+
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("tax_items")
@@ -245,6 +252,7 @@ public class TransactionItemBuilder {
             @JsonProperty("taxable_amount") Optional<? extends TransactionItemBuilderTaxableAmount> taxableAmount,
             @JsonProperty("tax_exemption") JsonNullable<? extends TaxExemptionEnum> taxExemption,
             @JsonProperty("exempt") Optional<Boolean> exempt,
+            @JsonProperty("is_tax_inclusive") JsonNullable<Boolean> isTaxInclusive,
             @JsonProperty("tax_items") Optional<? extends List<TaxItemBuilder>> taxItems,
             @JsonProperty("discount_builder") JsonNullable<? extends DiscountBuilder> discountBuilder) {
         Utils.checkNotNull(externalId, "externalId");
@@ -273,6 +281,7 @@ public class TransactionItemBuilder {
         Utils.checkNotNull(taxableAmount, "taxableAmount");
         Utils.checkNotNull(taxExemption, "taxExemption");
         Utils.checkNotNull(exempt, "exempt");
+        Utils.checkNotNull(isTaxInclusive, "isTaxInclusive");
         Utils.checkNotNull(taxItems, "taxItems");
         Utils.checkNotNull(discountBuilder, "discountBuilder");
         this.externalId = externalId;
@@ -301,6 +310,7 @@ public class TransactionItemBuilder {
         this.taxableAmount = taxableAmount;
         this.taxExemption = taxExemption;
         this.exempt = exempt;
+        this.isTaxInclusive = isTaxInclusive;
         this.taxItems = taxItems;
         this.discountBuilder = discountBuilder;
     }
@@ -316,8 +326,8 @@ public class TransactionItemBuilder {
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty(),
-            JsonNullable.undefined(), Optional.empty(), Optional.empty(),
-            JsonNullable.undefined());
+            JsonNullable.undefined(), Optional.empty(), JsonNullable.undefined(),
+            Optional.empty(), JsonNullable.undefined());
     }
 
     /**
@@ -546,6 +556,14 @@ public class TransactionItemBuilder {
     @JsonIgnore
     public Optional<Boolean> exempt() {
         return exempt;
+    }
+
+    /**
+     * Whether this line's source amount includes tax. NULL means the source did not say.
+     */
+    @JsonIgnore
+    public JsonNullable<Boolean> isTaxInclusive() {
+        return isTaxInclusive;
     }
 
     @SuppressWarnings("unchecked")
@@ -1032,6 +1050,24 @@ public class TransactionItemBuilder {
         return this;
     }
 
+    /**
+     * Whether this line's source amount includes tax. NULL means the source did not say.
+     */
+    public TransactionItemBuilder withIsTaxInclusive(boolean isTaxInclusive) {
+        Utils.checkNotNull(isTaxInclusive, "isTaxInclusive");
+        this.isTaxInclusive = JsonNullable.of(isTaxInclusive);
+        return this;
+    }
+
+    /**
+     * Whether this line's source amount includes tax. NULL means the source did not say.
+     */
+    public TransactionItemBuilder withIsTaxInclusive(JsonNullable<Boolean> isTaxInclusive) {
+        Utils.checkNotNull(isTaxInclusive, "isTaxInclusive");
+        this.isTaxInclusive = isTaxInclusive;
+        return this;
+    }
+
     public TransactionItemBuilder withTaxItems(List<TaxItemBuilder> taxItems) {
         Utils.checkNotNull(taxItems, "taxItems");
         this.taxItems = Optional.ofNullable(taxItems);
@@ -1093,6 +1129,7 @@ public class TransactionItemBuilder {
             Utils.enhancedDeepEquals(this.taxableAmount, other.taxableAmount) &&
             Utils.enhancedDeepEquals(this.taxExemption, other.taxExemption) &&
             Utils.enhancedDeepEquals(this.exempt, other.exempt) &&
+            Utils.enhancedDeepEquals(this.isTaxInclusive, other.isTaxInclusive) &&
             Utils.enhancedDeepEquals(this.taxItems, other.taxItems) &&
             Utils.enhancedDeepEquals(this.discountBuilder, other.discountBuilder);
     }
@@ -1108,8 +1145,8 @@ public class TransactionItemBuilder {
             originalCurrency, destinationCurrency, convertedAmount,
             convertedTaxableAmount, convertedTaxAmountImported, convertedTaxAmountCalculated,
             convertedTotalDiscount, convertedSubtotal, taxableAmount,
-            taxExemption, exempt, taxItems,
-            discountBuilder);
+            taxExemption, exempt, isTaxInclusive,
+            taxItems, discountBuilder);
     }
     
     @Override
@@ -1141,6 +1178,7 @@ public class TransactionItemBuilder {
                 "taxableAmount", taxableAmount,
                 "taxExemption", taxExemption,
                 "exempt", exempt,
+                "isTaxInclusive", isTaxInclusive,
                 "taxItems", taxItems,
                 "discountBuilder", discountBuilder);
     }
@@ -1200,6 +1238,8 @@ public class TransactionItemBuilder {
         private JsonNullable<? extends TaxExemptionEnum> taxExemption = JsonNullable.undefined();
 
         private Optional<Boolean> exempt;
+
+        private JsonNullable<Boolean> isTaxInclusive = JsonNullable.undefined();
 
         private Optional<? extends List<TaxItemBuilder>> taxItems = Optional.empty();
 
@@ -1694,6 +1734,25 @@ public class TransactionItemBuilder {
         }
 
 
+        /**
+         * Whether this line's source amount includes tax. NULL means the source did not say.
+         */
+        public Builder isTaxInclusive(boolean isTaxInclusive) {
+            Utils.checkNotNull(isTaxInclusive, "isTaxInclusive");
+            this.isTaxInclusive = JsonNullable.of(isTaxInclusive);
+            return this;
+        }
+
+        /**
+         * Whether this line's source amount includes tax. NULL means the source did not say.
+         */
+        public Builder isTaxInclusive(JsonNullable<Boolean> isTaxInclusive) {
+            Utils.checkNotNull(isTaxInclusive, "isTaxInclusive");
+            this.isTaxInclusive = isTaxInclusive;
+            return this;
+        }
+
+
         public Builder taxItems(List<TaxItemBuilder> taxItems) {
             Utils.checkNotNull(taxItems, "taxItems");
             this.taxItems = Optional.ofNullable(taxItems);
@@ -1733,8 +1792,8 @@ public class TransactionItemBuilder {
                 originalCurrency, destinationCurrency, convertedAmount,
                 convertedTaxableAmount, convertedTaxAmountImported, convertedTaxAmountCalculated,
                 convertedTotalDiscount, convertedSubtotal, taxableAmount,
-                taxExemption, exempt, taxItems,
-                discountBuilder);
+                taxExemption, exempt, isTaxInclusive,
+                taxItems, discountBuilder);
         }
 
 

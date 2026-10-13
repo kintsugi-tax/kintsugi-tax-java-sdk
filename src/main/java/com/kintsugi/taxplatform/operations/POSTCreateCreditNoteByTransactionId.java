@@ -171,7 +171,7 @@ public class POSTCreateCreditNoteByTransactionId {
 
             POSTCreateCreditNoteByTransactionIdResponse res = resBuilder.build();
             
-            if (Utils.statusCodeMatches(response.statusCode(), "200")) {
+            if (Utils.statusCodeMatches(response.statusCode(), "201")) {
                 if (Utils.contentTypeMatches(contentType, "application/json")) {
                     return res.withTransactionRead(Utils.unmarshal(response, new TypeReference<TransactionRead>() {}));
                 } else {
@@ -248,7 +248,7 @@ public class POSTCreateCreditNoteByTransactionId {
 
             com.kintsugi.taxplatform.models.operations.async.POSTCreateCreditNoteByTransactionIdResponse res = resBuilder.build();
             
-            if (Utils.statusCodeMatches(response.statusCode(), "200")) {
+            if (Utils.statusCodeMatches(response.statusCode(), "201")) {
                 if (Utils.contentTypeMatches(contentType, "application/json")) {
                     return Utils.unmarshalAsync(response, new TypeReference<TransactionRead>() {})
                             .thenApply(res::withTransactionRead);

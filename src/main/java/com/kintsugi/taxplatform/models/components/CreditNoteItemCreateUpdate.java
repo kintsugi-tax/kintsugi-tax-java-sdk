@@ -9,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.kintsugi.taxplatform.utils.Utils;
+import java.lang.Boolean;
 import java.lang.Override;
 import java.lang.String;
 import java.lang.SuppressWarnings;
@@ -91,6 +92,21 @@ public class CreditNoteItemCreateUpdate {
     @JsonProperty("tax_items")
     private Optional<? extends List<TaxItemBuilder>> taxItems;
 
+    /**
+     * Line-level discount for this credit note item, if any.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("discount_builder")
+    private JsonNullable<? extends DiscountBuilder> discountBuilder;
+
+    /**
+     * Whether the source amount includes tax (EI-1534). None means the source did not say. Mirrors the
+     * parent order's signal; netting stays EI-1538.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("is_tax_inclusive")
+    private JsonNullable<Boolean> isTaxInclusive;
+
     @JsonCreator
     public CreditNoteItemCreateUpdate(
             @JsonProperty("external_id") String externalId,
@@ -103,7 +119,9 @@ public class CreditNoteItemCreateUpdate {
             @JsonProperty("tax_rate_imported") JsonNullable<? extends CreditNoteItemCreateUpdateTaxRateImported> taxRateImported,
             @JsonProperty("taxable_amount") JsonNullable<? extends CreditNoteItemCreateUpdateTaxableAmount> taxableAmount,
             @JsonProperty("tax_exemption") JsonNullable<? extends TaxExemptionEnum> taxExemption,
-            @JsonProperty("tax_items") Optional<? extends List<TaxItemBuilder>> taxItems) {
+            @JsonProperty("tax_items") Optional<? extends List<TaxItemBuilder>> taxItems,
+            @JsonProperty("discount_builder") JsonNullable<? extends DiscountBuilder> discountBuilder,
+            @JsonProperty("is_tax_inclusive") JsonNullable<Boolean> isTaxInclusive) {
         Utils.checkNotNull(externalId, "externalId");
         Utils.checkNotNull(date, "date");
         Utils.checkNotNull(description, "description");
@@ -115,6 +133,8 @@ public class CreditNoteItemCreateUpdate {
         Utils.checkNotNull(taxableAmount, "taxableAmount");
         Utils.checkNotNull(taxExemption, "taxExemption");
         Utils.checkNotNull(taxItems, "taxItems");
+        Utils.checkNotNull(discountBuilder, "discountBuilder");
+        Utils.checkNotNull(isTaxInclusive, "isTaxInclusive");
         this.externalId = externalId;
         this.date = date;
         this.description = description;
@@ -126,6 +146,8 @@ public class CreditNoteItemCreateUpdate {
         this.taxableAmount = taxableAmount;
         this.taxExemption = taxExemption;
         this.taxItems = taxItems;
+        this.discountBuilder = discountBuilder;
+        this.isTaxInclusive = isTaxInclusive;
     }
     
     public CreditNoteItemCreateUpdate(
@@ -137,7 +159,8 @@ public class CreditNoteItemCreateUpdate {
         this(externalId, date, JsonNullable.undefined(),
             externalProductId, quantity, amount,
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
-            JsonNullable.undefined(), Optional.empty());
+            JsonNullable.undefined(), Optional.empty(), JsonNullable.undefined(),
+            JsonNullable.undefined());
     }
 
     /**
@@ -231,6 +254,24 @@ public class CreditNoteItemCreateUpdate {
     @JsonIgnore
     public Optional<List<TaxItemBuilder>> taxItems() {
         return (Optional<List<TaxItemBuilder>>) taxItems;
+    }
+
+    /**
+     * Line-level discount for this credit note item, if any.
+     */
+    @SuppressWarnings("unchecked")
+    @JsonIgnore
+    public JsonNullable<DiscountBuilder> discountBuilder() {
+        return (JsonNullable<DiscountBuilder>) discountBuilder;
+    }
+
+    /**
+     * Whether the source amount includes tax (EI-1534). None means the source did not say. Mirrors the
+     * parent order's signal; netting stays EI-1538.
+     */
+    @JsonIgnore
+    public JsonNullable<Boolean> isTaxInclusive() {
+        return isTaxInclusive;
     }
 
     public static Builder builder() {
@@ -392,6 +433,44 @@ public class CreditNoteItemCreateUpdate {
         return this;
     }
 
+    /**
+     * Line-level discount for this credit note item, if any.
+     */
+    public CreditNoteItemCreateUpdate withDiscountBuilder(DiscountBuilder discountBuilder) {
+        Utils.checkNotNull(discountBuilder, "discountBuilder");
+        this.discountBuilder = JsonNullable.of(discountBuilder);
+        return this;
+    }
+
+    /**
+     * Line-level discount for this credit note item, if any.
+     */
+    public CreditNoteItemCreateUpdate withDiscountBuilder(JsonNullable<? extends DiscountBuilder> discountBuilder) {
+        Utils.checkNotNull(discountBuilder, "discountBuilder");
+        this.discountBuilder = discountBuilder;
+        return this;
+    }
+
+    /**
+     * Whether the source amount includes tax (EI-1534). None means the source did not say. Mirrors the
+     * parent order's signal; netting stays EI-1538.
+     */
+    public CreditNoteItemCreateUpdate withIsTaxInclusive(boolean isTaxInclusive) {
+        Utils.checkNotNull(isTaxInclusive, "isTaxInclusive");
+        this.isTaxInclusive = JsonNullable.of(isTaxInclusive);
+        return this;
+    }
+
+    /**
+     * Whether the source amount includes tax (EI-1534). None means the source did not say. Mirrors the
+     * parent order's signal; netting stays EI-1538.
+     */
+    public CreditNoteItemCreateUpdate withIsTaxInclusive(JsonNullable<Boolean> isTaxInclusive) {
+        Utils.checkNotNull(isTaxInclusive, "isTaxInclusive");
+        this.isTaxInclusive = isTaxInclusive;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -412,7 +491,9 @@ public class CreditNoteItemCreateUpdate {
             Utils.enhancedDeepEquals(this.taxRateImported, other.taxRateImported) &&
             Utils.enhancedDeepEquals(this.taxableAmount, other.taxableAmount) &&
             Utils.enhancedDeepEquals(this.taxExemption, other.taxExemption) &&
-            Utils.enhancedDeepEquals(this.taxItems, other.taxItems);
+            Utils.enhancedDeepEquals(this.taxItems, other.taxItems) &&
+            Utils.enhancedDeepEquals(this.discountBuilder, other.discountBuilder) &&
+            Utils.enhancedDeepEquals(this.isTaxInclusive, other.isTaxInclusive);
     }
     
     @Override
@@ -421,7 +502,8 @@ public class CreditNoteItemCreateUpdate {
             externalId, date, description,
             externalProductId, quantity, amount,
             taxAmountImported, taxRateImported, taxableAmount,
-            taxExemption, taxItems);
+            taxExemption, taxItems, discountBuilder,
+            isTaxInclusive);
     }
     
     @Override
@@ -437,7 +519,9 @@ public class CreditNoteItemCreateUpdate {
                 "taxRateImported", taxRateImported,
                 "taxableAmount", taxableAmount,
                 "taxExemption", taxExemption,
-                "taxItems", taxItems);
+                "taxItems", taxItems,
+                "discountBuilder", discountBuilder,
+                "isTaxInclusive", isTaxInclusive);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -464,6 +548,10 @@ public class CreditNoteItemCreateUpdate {
         private JsonNullable<? extends TaxExemptionEnum> taxExemption = JsonNullable.undefined();
 
         private Optional<? extends List<TaxItemBuilder>> taxItems = Optional.empty();
+
+        private JsonNullable<? extends DiscountBuilder> discountBuilder = JsonNullable.undefined();
+
+        private JsonNullable<Boolean> isTaxInclusive = JsonNullable.undefined();
 
         private Builder() {
           // force use of static builder() method
@@ -633,13 +721,54 @@ public class CreditNoteItemCreateUpdate {
             return this;
         }
 
+
+        /**
+         * Line-level discount for this credit note item, if any.
+         */
+        public Builder discountBuilder(DiscountBuilder discountBuilder) {
+            Utils.checkNotNull(discountBuilder, "discountBuilder");
+            this.discountBuilder = JsonNullable.of(discountBuilder);
+            return this;
+        }
+
+        /**
+         * Line-level discount for this credit note item, if any.
+         */
+        public Builder discountBuilder(JsonNullable<? extends DiscountBuilder> discountBuilder) {
+            Utils.checkNotNull(discountBuilder, "discountBuilder");
+            this.discountBuilder = discountBuilder;
+            return this;
+        }
+
+
+        /**
+         * Whether the source amount includes tax (EI-1534). None means the source did not say. Mirrors the
+         * parent order's signal; netting stays EI-1538.
+         */
+        public Builder isTaxInclusive(boolean isTaxInclusive) {
+            Utils.checkNotNull(isTaxInclusive, "isTaxInclusive");
+            this.isTaxInclusive = JsonNullable.of(isTaxInclusive);
+            return this;
+        }
+
+        /**
+         * Whether the source amount includes tax (EI-1534). None means the source did not say. Mirrors the
+         * parent order's signal; netting stays EI-1538.
+         */
+        public Builder isTaxInclusive(JsonNullable<Boolean> isTaxInclusive) {
+            Utils.checkNotNull(isTaxInclusive, "isTaxInclusive");
+            this.isTaxInclusive = isTaxInclusive;
+            return this;
+        }
+
         public CreditNoteItemCreateUpdate build() {
 
             return new CreditNoteItemCreateUpdate(
                 externalId, date, description,
                 externalProductId, quantity, amount,
                 taxAmountImported, taxRateImported, taxableAmount,
-                taxExemption, taxItems);
+                taxExemption, taxItems, discountBuilder,
+                isTaxInclusive);
         }
 
     }

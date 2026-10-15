@@ -10,7 +10,7 @@ import static com.kintsugi.taxplatform.operations.Operations.AsyncRequestOperati
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.SecuritySource;
-import com.kintsugi.taxplatform.models.components.JurisdictionSpecificFieldsResponse;
+import com.kintsugi.taxplatform.models.components.CustomerJurisdictionSpecificFieldsResponse;
 import com.kintsugi.taxplatform.models.errors.APIException;
 import com.kintsugi.taxplatform.models.errors.HTTPValidationError;
 import com.kintsugi.taxplatform.models.operations.GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGetRequest;
@@ -159,7 +159,7 @@ public class GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFie
             
             if (Utils.statusCodeMatches(response.statusCode(), "200")) {
                 if (Utils.contentTypeMatches(contentType, "application/json")) {
-                    return res.withJurisdictionSpecificFieldsResponse(Utils.unmarshal(response, new TypeReference<JurisdictionSpecificFieldsResponse>() {}));
+                    return res.withCustomerJurisdictionSpecificFieldsResponse(Utils.unmarshal(response, new TypeReference<CustomerJurisdictionSpecificFieldsResponse>() {}));
                 } else {
                     throw APIException.from("Unexpected content-type received: " + contentType, response);
                 }
@@ -236,8 +236,8 @@ public class GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFie
             
             if (Utils.statusCodeMatches(response.statusCode(), "200")) {
                 if (Utils.contentTypeMatches(contentType, "application/json")) {
-                    return Utils.unmarshalAsync(response, new TypeReference<JurisdictionSpecificFieldsResponse>() {})
-                            .thenApply(res::withJurisdictionSpecificFieldsResponse);
+                    return Utils.unmarshalAsync(response, new TypeReference<CustomerJurisdictionSpecificFieldsResponse>() {})
+                            .thenApply(res::withCustomerJurisdictionSpecificFieldsResponse);
                 } else {
                     return Utils.createAsyncApiError(response, "Unexpected content-type received: " + contentType);
                 }

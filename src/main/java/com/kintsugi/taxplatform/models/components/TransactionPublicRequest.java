@@ -114,7 +114,7 @@ public class TransactionPublicRequest {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("exemptions")
-    private JsonNullable<? extends List<Exemption>> exemptions;
+    private JsonNullable<? extends List<TransactionEmbeddedExemption>> exemptions;
 
     /**
      * Related transaction identifier.
@@ -193,7 +193,16 @@ public class TransactionPublicRequest {
     @JsonProperty("taxable_amount")
     private Optional<? extends TransactionPublicRequestTaxableAmount> taxableAmount;
 
+    /**
+     * Whether source amounts include tax. NULL means the source did not say.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("is_tax_inclusive")
+    private JsonNullable<Boolean> isTaxInclusive;
 
+    /**
+     * ISO-4217 currency code. Pair with a monetary amount on the same object.
+     */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("currency")
     private Optional<? extends CurrencyEnum> currency;
@@ -319,7 +328,7 @@ public class TransactionPublicRequest {
             @JsonProperty("customer_id") JsonNullable<String> customerId,
             @JsonProperty("marketplace") JsonNullable<Boolean> marketplace,
             @JsonProperty("exempt") JsonNullable<? extends TransactionExemptStatusEnum> exempt,
-            @JsonProperty("exemptions") JsonNullable<? extends List<Exemption>> exemptions,
+            @JsonProperty("exemptions") JsonNullable<? extends List<TransactionEmbeddedExemption>> exemptions,
             @JsonProperty("related_to") JsonNullable<String> relatedTo,
             @JsonProperty("secondary_external_id") JsonNullable<String> secondaryExternalId,
             @JsonProperty("secondary_source") JsonNullable<String> secondarySource,
@@ -331,6 +340,7 @@ public class TransactionPublicRequest {
             @JsonProperty("total_tax_liability_amount") Optional<? extends TransactionPublicRequestTotalTaxLiabilityAmount> totalTaxLiabilityAmount,
             @JsonProperty("tax_liability_source") JsonNullable<? extends TaxLiabilitySourceEnum> taxLiabilitySource,
             @JsonProperty("taxable_amount") Optional<? extends TransactionPublicRequestTaxableAmount> taxableAmount,
+            @JsonProperty("is_tax_inclusive") JsonNullable<Boolean> isTaxInclusive,
             @JsonProperty("currency") Optional<? extends CurrencyEnum> currency,
             @JsonProperty("locked") Optional<Boolean> locked,
             @JsonProperty("source") Optional<? extends SourceEnum> source,
@@ -373,6 +383,7 @@ public class TransactionPublicRequest {
         Utils.checkNotNull(totalTaxLiabilityAmount, "totalTaxLiabilityAmount");
         Utils.checkNotNull(taxLiabilitySource, "taxLiabilitySource");
         Utils.checkNotNull(taxableAmount, "taxableAmount");
+        Utils.checkNotNull(isTaxInclusive, "isTaxInclusive");
         Utils.checkNotNull(currency, "currency");
         Utils.checkNotNull(locked, "locked");
         Utils.checkNotNull(source, "source");
@@ -415,6 +426,7 @@ public class TransactionPublicRequest {
         this.totalTaxLiabilityAmount = totalTaxLiabilityAmount;
         this.taxLiabilitySource = taxLiabilitySource;
         this.taxableAmount = taxableAmount;
+        this.isTaxInclusive = isTaxInclusive;
         this.currency = currency;
         this.locked = locked;
         this.source = source;
@@ -451,12 +463,13 @@ public class TransactionPublicRequest {
             JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), JsonNullable.undefined(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
+            JsonNullable.undefined(), Optional.empty(), Optional.empty(),
+            Optional.empty(), JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
-            JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty(),
-            JsonNullable.undefined(), JsonNullable.undefined(), addresses,
-            transactionItems, customer, type);
+            Optional.empty(), JsonNullable.undefined(), JsonNullable.undefined(),
+            addresses, transactionItems, customer,
+            type);
     }
 
     /**
@@ -568,8 +581,8 @@ public class TransactionPublicRequest {
      */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public JsonNullable<List<Exemption>> exemptions() {
-        return (JsonNullable<List<Exemption>>) exemptions;
+    public JsonNullable<List<TransactionEmbeddedExemption>> exemptions() {
+        return (JsonNullable<List<TransactionEmbeddedExemption>>) exemptions;
     }
 
     /**
@@ -667,6 +680,17 @@ public class TransactionPublicRequest {
         return (Optional<TransactionPublicRequestTaxableAmount>) taxableAmount;
     }
 
+    /**
+     * Whether source amounts include tax. NULL means the source did not say.
+     */
+    @JsonIgnore
+    public JsonNullable<Boolean> isTaxInclusive() {
+        return isTaxInclusive;
+    }
+
+    /**
+     * ISO-4217 currency code. Pair with a monetary amount on the same object.
+     */
     @SuppressWarnings("unchecked")
     @JsonIgnore
     public Optional<CurrencyEnum> currency() {
@@ -1001,7 +1025,7 @@ public class TransactionPublicRequest {
     /**
      * List of exemptions applied (if any).
      */
-    public TransactionPublicRequest withExemptions(List<Exemption> exemptions) {
+    public TransactionPublicRequest withExemptions(List<TransactionEmbeddedExemption> exemptions) {
         Utils.checkNotNull(exemptions, "exemptions");
         this.exemptions = JsonNullable.of(exemptions);
         return this;
@@ -1010,7 +1034,7 @@ public class TransactionPublicRequest {
     /**
      * List of exemptions applied (if any).
      */
-    public TransactionPublicRequest withExemptions(JsonNullable<? extends List<Exemption>> exemptions) {
+    public TransactionPublicRequest withExemptions(JsonNullable<? extends List<TransactionEmbeddedExemption>> exemptions) {
         Utils.checkNotNull(exemptions, "exemptions");
         this.exemptions = exemptions;
         return this;
@@ -1220,6 +1244,27 @@ public class TransactionPublicRequest {
         return this;
     }
 
+    /**
+     * Whether source amounts include tax. NULL means the source did not say.
+     */
+    public TransactionPublicRequest withIsTaxInclusive(boolean isTaxInclusive) {
+        Utils.checkNotNull(isTaxInclusive, "isTaxInclusive");
+        this.isTaxInclusive = JsonNullable.of(isTaxInclusive);
+        return this;
+    }
+
+    /**
+     * Whether source amounts include tax. NULL means the source did not say.
+     */
+    public TransactionPublicRequest withIsTaxInclusive(JsonNullable<Boolean> isTaxInclusive) {
+        Utils.checkNotNull(isTaxInclusive, "isTaxInclusive");
+        this.isTaxInclusive = isTaxInclusive;
+        return this;
+    }
+
+    /**
+     * ISO-4217 currency code. Pair with a monetary amount on the same object.
+     */
     public TransactionPublicRequest withCurrency(CurrencyEnum currency) {
         Utils.checkNotNull(currency, "currency");
         this.currency = Optional.ofNullable(currency);
@@ -1227,6 +1272,9 @@ public class TransactionPublicRequest {
     }
 
 
+    /**
+     * ISO-4217 currency code. Pair with a monetary amount on the same object.
+     */
     public TransactionPublicRequest withCurrency(Optional<? extends CurrencyEnum> currency) {
         Utils.checkNotNull(currency, "currency");
         this.currency = currency;
@@ -1524,6 +1572,7 @@ public class TransactionPublicRequest {
             Utils.enhancedDeepEquals(this.totalTaxLiabilityAmount, other.totalTaxLiabilityAmount) &&
             Utils.enhancedDeepEquals(this.taxLiabilitySource, other.taxLiabilitySource) &&
             Utils.enhancedDeepEquals(this.taxableAmount, other.taxableAmount) &&
+            Utils.enhancedDeepEquals(this.isTaxInclusive, other.isTaxInclusive) &&
             Utils.enhancedDeepEquals(this.currency, other.currency) &&
             Utils.enhancedDeepEquals(this.locked, other.locked) &&
             Utils.enhancedDeepEquals(this.source, other.source) &&
@@ -1555,12 +1604,13 @@ public class TransactionPublicRequest {
             secondarySource, externalFriendlyId, totalTaxAmountImported,
             taxRateImported, totalTaxAmountCalculated, taxRateCalculated,
             totalTaxLiabilityAmount, taxLiabilitySource, taxableAmount,
-            currency, locked, source,
-            connectionId, filingId, city,
-            county, state, country,
-            postalCode, taxId, status,
-            documentType, createdFrom, addresses,
-            transactionItems, customer, type);
+            isTaxInclusive, currency, locked,
+            source, connectionId, filingId,
+            city, county, state,
+            country, postalCode, taxId,
+            status, documentType, createdFrom,
+            addresses, transactionItems, customer,
+            type);
     }
     
     @Override
@@ -1590,6 +1640,7 @@ public class TransactionPublicRequest {
                 "totalTaxLiabilityAmount", totalTaxLiabilityAmount,
                 "taxLiabilitySource", taxLiabilitySource,
                 "taxableAmount", taxableAmount,
+                "isTaxInclusive", isTaxInclusive,
                 "currency", currency,
                 "locked", locked,
                 "source", source,
@@ -1638,7 +1689,7 @@ public class TransactionPublicRequest {
 
         private JsonNullable<? extends TransactionExemptStatusEnum> exempt = JsonNullable.undefined();
 
-        private JsonNullable<? extends List<Exemption>> exemptions = JsonNullable.undefined();
+        private JsonNullable<? extends List<TransactionEmbeddedExemption>> exemptions = JsonNullable.undefined();
 
         private JsonNullable<String> relatedTo = JsonNullable.undefined();
 
@@ -1661,6 +1712,8 @@ public class TransactionPublicRequest {
         private JsonNullable<? extends TaxLiabilitySourceEnum> taxLiabilitySource = JsonNullable.undefined();
 
         private Optional<? extends TransactionPublicRequestTaxableAmount> taxableAmount = Optional.empty();
+
+        private JsonNullable<Boolean> isTaxInclusive = JsonNullable.undefined();
 
         private Optional<? extends CurrencyEnum> currency = Optional.empty();
 
@@ -1912,7 +1965,7 @@ public class TransactionPublicRequest {
         /**
          * List of exemptions applied (if any).
          */
-        public Builder exemptions(List<Exemption> exemptions) {
+        public Builder exemptions(List<TransactionEmbeddedExemption> exemptions) {
             Utils.checkNotNull(exemptions, "exemptions");
             this.exemptions = JsonNullable.of(exemptions);
             return this;
@@ -1921,7 +1974,7 @@ public class TransactionPublicRequest {
         /**
          * List of exemptions applied (if any).
          */
-        public Builder exemptions(JsonNullable<? extends List<Exemption>> exemptions) {
+        public Builder exemptions(JsonNullable<? extends List<TransactionEmbeddedExemption>> exemptions) {
             Utils.checkNotNull(exemptions, "exemptions");
             this.exemptions = exemptions;
             return this;
@@ -2137,12 +2190,37 @@ public class TransactionPublicRequest {
         }
 
 
+        /**
+         * Whether source amounts include tax. NULL means the source did not say.
+         */
+        public Builder isTaxInclusive(boolean isTaxInclusive) {
+            Utils.checkNotNull(isTaxInclusive, "isTaxInclusive");
+            this.isTaxInclusive = JsonNullable.of(isTaxInclusive);
+            return this;
+        }
+
+        /**
+         * Whether source amounts include tax. NULL means the source did not say.
+         */
+        public Builder isTaxInclusive(JsonNullable<Boolean> isTaxInclusive) {
+            Utils.checkNotNull(isTaxInclusive, "isTaxInclusive");
+            this.isTaxInclusive = isTaxInclusive;
+            return this;
+        }
+
+
+        /**
+         * ISO-4217 currency code. Pair with a monetary amount on the same object.
+         */
         public Builder currency(CurrencyEnum currency) {
             Utils.checkNotNull(currency, "currency");
             this.currency = Optional.ofNullable(currency);
             return this;
         }
 
+        /**
+         * ISO-4217 currency code. Pair with a monetary amount on the same object.
+         */
         public Builder currency(Optional<? extends CurrencyEnum> currency) {
             Utils.checkNotNull(currency, "currency");
             this.currency = currency;
@@ -2434,12 +2512,13 @@ public class TransactionPublicRequest {
                 secondarySource, externalFriendlyId, totalTaxAmountImported,
                 taxRateImported, totalTaxAmountCalculated, taxRateCalculated,
                 totalTaxLiabilityAmount, taxLiabilitySource, taxableAmount,
-                currency, locked, source,
-                connectionId, filingId, city,
-                county, state, country,
-                postalCode, taxId, status,
-                documentType, createdFrom, addresses,
-                transactionItems, customer, type);
+                isTaxInclusive, currency, locked,
+                source, connectionId, filingId,
+                city, county, state,
+                country, postalCode, taxId,
+                status, documentType, createdFrom,
+                addresses, transactionItems, customer,
+                type);
         }
 
 

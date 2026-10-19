@@ -157,7 +157,8 @@ public class AsyncRegistrations {
     /**
      * Get jurisdiction specific fields
      * 
-     * <p>Returns the JSON Schema and UI metadata for a state-specific registration form
+     * <p>Returns the JSON Schema and UI metadata for a state-specific registration form, and the tax types
+     * that can be imported there.
      * 
      * @return The async call builder
      */
@@ -168,7 +169,8 @@ public class AsyncRegistrations {
     /**
      * Get jurisdiction specific fields
      * 
-     * <p>Returns the JSON Schema and UI metadata for a state-specific registration form
+     * <p>Returns the JSON Schema and UI metadata for a state-specific registration form, and the tax types
+     * that can be imported there.
      * 
      * @param countryCode ISO 3166-1 alpha-2 country code (e.g., US).
      * @param stateCode State/province code (e.g., AL, LA).
@@ -181,7 +183,8 @@ public class AsyncRegistrations {
     /**
      * Get jurisdiction specific fields
      * 
-     * <p>Returns the JSON Schema and UI metadata for a state-specific registration form
+     * <p>Returns the JSON Schema and UI metadata for a state-specific registration form, and the tax types
+     * that can be imported there.
      * 
      * @param countryCode ISO 3166-1 alpha-2 country code (e.g., US).
      * @param stateCode State/province code (e.g., AL, LA).
@@ -430,10 +433,11 @@ public class AsyncRegistrations {
      * <p>Deregister an existing registration.
      * 
      * @param registrationId The unique identifier of the registration to deregister.
+     * @param deregisterRegistrationRequest Body for POST /registrations/{id}/deregister.
      * @return {@code CompletableFuture<DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse>} - The async response
      */
-    public CompletableFuture<DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse> deregister(String registrationId) {
-        return deregister(registrationId, Optional.empty(), JsonNullable.undefined());
+    public CompletableFuture<DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse> deregister(String registrationId, DeregisterRegistrationRequest deregisterRegistrationRequest) {
+        return deregister(registrationId, Optional.empty(), deregisterRegistrationRequest);
     }
 
     /**
@@ -443,12 +447,12 @@ public class AsyncRegistrations {
      * 
      * @param registrationId The unique identifier of the registration to deregister.
      * @param xOrganizationId The unique identifier for the organization making the request
-     * @param deregisterRegistrationRequest Optional body for POST /registrations/{id}/deregister (CP-4742).
+     * @param deregisterRegistrationRequest Body for POST /registrations/{id}/deregister.
      * @return {@code CompletableFuture<DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse>} - The async response
      */
     public CompletableFuture<DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse> deregister(
             String registrationId, Optional<String> xOrganizationId,
-            JsonNullable<? extends DeregisterRegistrationRequest> deregisterRegistrationRequest) {
+            DeregisterRegistrationRequest deregisterRegistrationRequest) {
         DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest request =
             DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest
                 .builder()

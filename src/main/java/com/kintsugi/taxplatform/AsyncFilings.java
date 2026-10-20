@@ -5,13 +5,23 @@ package com.kintsugi.taxplatform;
 
 import static com.kintsugi.taxplatform.operations.Operations.AsyncRequestOperation;
 
+import com.kintsugi.taxplatform.models.components.BackFilingRequestCreate;
 import com.kintsugi.taxplatform.models.components.FilingApproveRequest;
 import com.kintsugi.taxplatform.models.operations.ApproveFilingV1FilingsFilingIdApprovePutRequest;
+import com.kintsugi.taxplatform.models.operations.CreateBackFilingRequestV1FilingsBackFilingRequestPostRequest;
+import com.kintsugi.taxplatform.models.operations.GetBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGetRequest;
+import com.kintsugi.taxplatform.models.operations.GetCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetFilingByIdV1FilingsFilingIdGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetFilingsV1FilingsGetRequest;
 import com.kintsugi.taxplatform.models.operations.async.ApproveFilingV1FilingsFilingIdApprovePutRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.async.ApproveFilingV1FilingsFilingIdApprovePutResponse;
+import com.kintsugi.taxplatform.models.operations.async.CreateBackFilingRequestV1FilingsBackFilingRequestPostRequestBuilder;
+import com.kintsugi.taxplatform.models.operations.async.CreateBackFilingRequestV1FilingsBackFilingRequestPostResponse;
+import com.kintsugi.taxplatform.models.operations.async.GetBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGetRequestBuilder;
+import com.kintsugi.taxplatform.models.operations.async.GetBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGetResponse;
+import com.kintsugi.taxplatform.models.operations.async.GetCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGetRequestBuilder;
+import com.kintsugi.taxplatform.models.operations.async.GetCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGetResponse;
 import com.kintsugi.taxplatform.models.operations.async.GetFilingByIdV1FilingsFilingIdGetRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.async.GetFilingByIdV1FilingsFilingIdGetResponse;
 import com.kintsugi.taxplatform.models.operations.async.GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequestBuilder;
@@ -19,6 +29,9 @@ import com.kintsugi.taxplatform.models.operations.async.GetFilingsByRegistration
 import com.kintsugi.taxplatform.models.operations.async.GetFilingsV1FilingsGetRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.async.GetFilingsV1FilingsGetResponse;
 import com.kintsugi.taxplatform.operations.ApproveFilingV1FilingsFilingIdApprovePut;
+import com.kintsugi.taxplatform.operations.CreateBackFilingRequestV1FilingsBackFilingRequestPost;
+import com.kintsugi.taxplatform.operations.GetBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGet;
+import com.kintsugi.taxplatform.operations.GetCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGet;
 import com.kintsugi.taxplatform.operations.GetFilingByIdV1FilingsFilingIdGet;
 import com.kintsugi.taxplatform.operations.GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGet;
 import com.kintsugi.taxplatform.operations.GetFilingsV1FilingsGet;
@@ -76,6 +89,138 @@ public class AsyncFilings {
     public CompletableFuture<GetFilingsV1FilingsGetResponse> get(GetFilingsV1FilingsGetRequest request) {
         AsyncRequestOperation<GetFilingsV1FilingsGetRequest, GetFilingsV1FilingsGetResponse> operation
               = new GetFilingsV1FilingsGet.Async(sdkConfiguration, _headers);
+        return operation.doRequest(request)
+            .thenCompose(operation::handleResponse);
+    }
+
+
+    /**
+     * Create back filing request
+     * 
+     * <p>Create unapproved BACK_FILING rows for requested in-bounds periods.
+     * 
+     * @return The async call builder
+     */
+    public CreateBackFilingRequestV1FilingsBackFilingRequestPostRequestBuilder createBackFilingRequestV1FilingsBackFilingRequestPost() {
+        return new CreateBackFilingRequestV1FilingsBackFilingRequestPostRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Create back filing request
+     * 
+     * <p>Create unapproved BACK_FILING rows for requested in-bounds periods.
+     * 
+     * @param backFilingRequestCreate 
+     * @return {@code CompletableFuture<CreateBackFilingRequestV1FilingsBackFilingRequestPostResponse>} - The async response
+     */
+    public CompletableFuture<CreateBackFilingRequestV1FilingsBackFilingRequestPostResponse> createBackFilingRequestV1FilingsBackFilingRequestPost(BackFilingRequestCreate backFilingRequestCreate) {
+        return createBackFilingRequestV1FilingsBackFilingRequestPost(Optional.empty(), backFilingRequestCreate);
+    }
+
+    /**
+     * Create back filing request
+     * 
+     * <p>Create unapproved BACK_FILING rows for requested in-bounds periods.
+     * 
+     * @param xOrganizationId 
+     * @param backFilingRequestCreate 
+     * @return {@code CompletableFuture<CreateBackFilingRequestV1FilingsBackFilingRequestPostResponse>} - The async response
+     */
+    public CompletableFuture<CreateBackFilingRequestV1FilingsBackFilingRequestPostResponse> createBackFilingRequestV1FilingsBackFilingRequestPost(Optional<String> xOrganizationId, BackFilingRequestCreate backFilingRequestCreate) {
+        CreateBackFilingRequestV1FilingsBackFilingRequestPostRequest request =
+            CreateBackFilingRequestV1FilingsBackFilingRequestPostRequest
+                .builder()
+                .xOrganizationId(xOrganizationId)
+                .backFilingRequestCreate(backFilingRequestCreate)
+                .build();
+        AsyncRequestOperation<CreateBackFilingRequestV1FilingsBackFilingRequestPostRequest, CreateBackFilingRequestV1FilingsBackFilingRequestPostResponse> operation
+              = new CreateBackFilingRequestV1FilingsBackFilingRequestPost.Async(sdkConfiguration, _headers);
+        return operation.doRequest(request)
+            .thenCompose(operation::handleResponse);
+    }
+
+
+    /**
+     * Get back filing request options
+     * 
+     * <p>Eligible US registrations and periods for a customer back-filing request.
+     * 
+     * @return The async call builder
+     */
+    public GetBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGetRequestBuilder getBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGet() {
+        return new GetBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGetRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Get back filing request options
+     * 
+     * <p>Eligible US registrations and periods for a customer back-filing request.
+     * 
+     * @return {@code CompletableFuture<GetBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGetResponse>} - The async response
+     */
+    public CompletableFuture<GetBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGetResponse> getBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGetDirect() {
+        return getBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGet(Optional.empty());
+    }
+
+    /**
+     * Get back filing request options
+     * 
+     * <p>Eligible US registrations and periods for a customer back-filing request.
+     * 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @return {@code CompletableFuture<GetBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGetResponse>} - The async response
+     */
+    public CompletableFuture<GetBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGetResponse> getBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGet(Optional<String> xOrganizationId) {
+        GetBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGetRequest request =
+            GetBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGetRequest
+                .builder()
+                .xOrganizationId(xOrganizationId)
+                .build();
+        AsyncRequestOperation<GetBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGetRequest, GetBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGetResponse> operation
+              = new GetBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGet.Async(sdkConfiguration, _headers);
+        return operation.doRequest(request)
+            .thenCompose(operation::handleResponse);
+    }
+
+
+    /**
+     * Get current back filing terms
+     * 
+     * <p>Current back filing terms shown before BACK_FILING approval.
+     * 
+     * @return The async call builder
+     */
+    public GetCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGetRequestBuilder getCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGet() {
+        return new GetCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGetRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Get current back filing terms
+     * 
+     * <p>Current back filing terms shown before BACK_FILING approval.
+     * 
+     * @return {@code CompletableFuture<GetCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGetResponse>} - The async response
+     */
+    public CompletableFuture<GetCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGetResponse> getCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGetDirect() {
+        return getCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGet(Optional.empty());
+    }
+
+    /**
+     * Get current back filing terms
+     * 
+     * <p>Current back filing terms shown before BACK_FILING approval.
+     * 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @return {@code CompletableFuture<GetCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGetResponse>} - The async response
+     */
+    public CompletableFuture<GetCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGetResponse> getCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGet(Optional<String> xOrganizationId) {
+        GetCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGetRequest request =
+            GetCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGetRequest
+                .builder()
+                .xOrganizationId(xOrganizationId)
+                .build();
+        AsyncRequestOperation<GetCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGetRequest, GetCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGetResponse> operation
+              = new GetCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGet.Async(sdkConfiguration, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }

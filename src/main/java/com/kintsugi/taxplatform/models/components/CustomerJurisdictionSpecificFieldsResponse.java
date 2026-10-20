@@ -11,10 +11,18 @@ import java.lang.Boolean;
 import java.lang.Object;
 import java.lang.Override;
 import java.lang.String;
+import java.util.List;
 import java.util.Map;
 
-
-public class JurisdictionSpecificFieldsResponse {
+/**
+ * CustomerJurisdictionSpecificFieldsResponse
+ * 
+ * <p>Customer import fields, including the tax types that jurisdiction allows.
+ * 
+ * <p>The partner and public jurisdiction-fields routes stay on the base response.
+ * Allowed tax types depend on the organization, and those contracts do not.
+ */
+public class CustomerJurisdictionSpecificFieldsResponse {
 
     @JsonProperty("country_code")
     private String countryCode;
@@ -41,13 +49,20 @@ public class JurisdictionSpecificFieldsResponse {
     @JsonProperty("metadata")
     private Map<String, Object> metadata;
 
+    /**
+     * Tax types that can be imported for this jurisdiction.
+     */
+    @JsonProperty("tax_types")
+    private List<TaxTypeEnum> taxTypes;
+
     @JsonCreator
-    public JurisdictionSpecificFieldsResponse(
+    public CustomerJurisdictionSpecificFieldsResponse(
             @JsonProperty("country_code") String countryCode,
             @JsonProperty("state_code") String stateCode,
             @JsonProperty("default_form") boolean defaultForm,
             @JsonProperty("jurisdiction_fields_json_schema") Map<String, Object> jurisdictionFieldsJsonSchema,
-            @JsonProperty("metadata") Map<String, Object> metadata) {
+            @JsonProperty("metadata") Map<String, Object> metadata,
+            @JsonProperty("tax_types") List<TaxTypeEnum> taxTypes) {
         Utils.checkNotNull(countryCode, "countryCode");
         Utils.checkNotNull(stateCode, "stateCode");
         Utils.checkNotNull(defaultForm, "defaultForm");
@@ -55,11 +70,13 @@ public class JurisdictionSpecificFieldsResponse {
         Utils.checkNotNull(jurisdictionFieldsJsonSchema, "jurisdictionFieldsJsonSchema");
         metadata = Utils.emptyMapIfNull(metadata);
         Utils.checkNotNull(metadata, "metadata");
+        Utils.checkNotNull(taxTypes, "taxTypes");
         this.countryCode = countryCode;
         this.stateCode = stateCode;
         this.defaultForm = defaultForm;
         this.jurisdictionFieldsJsonSchema = jurisdictionFieldsJsonSchema;
         this.metadata = metadata;
+        this.taxTypes = taxTypes;
     }
 
     @JsonIgnore
@@ -96,18 +113,26 @@ public class JurisdictionSpecificFieldsResponse {
         return metadata;
     }
 
+    /**
+     * Tax types that can be imported for this jurisdiction.
+     */
+    @JsonIgnore
+    public List<TaxTypeEnum> taxTypes() {
+        return taxTypes;
+    }
+
     public static Builder builder() {
         return new Builder();
     }
 
 
-    public JurisdictionSpecificFieldsResponse withCountryCode(String countryCode) {
+    public CustomerJurisdictionSpecificFieldsResponse withCountryCode(String countryCode) {
         Utils.checkNotNull(countryCode, "countryCode");
         this.countryCode = countryCode;
         return this;
     }
 
-    public JurisdictionSpecificFieldsResponse withStateCode(String stateCode) {
+    public CustomerJurisdictionSpecificFieldsResponse withStateCode(String stateCode) {
         Utils.checkNotNull(stateCode, "stateCode");
         this.stateCode = stateCode;
         return this;
@@ -116,7 +141,7 @@ public class JurisdictionSpecificFieldsResponse {
     /**
      * True when no state-specific schema exists and the generic form should be used.
      */
-    public JurisdictionSpecificFieldsResponse withDefaultForm(boolean defaultForm) {
+    public CustomerJurisdictionSpecificFieldsResponse withDefaultForm(boolean defaultForm) {
         Utils.checkNotNull(defaultForm, "defaultForm");
         this.defaultForm = defaultForm;
         return this;
@@ -125,7 +150,7 @@ public class JurisdictionSpecificFieldsResponse {
     /**
      * JSON Schema for the jurisdiction-specific fields, or empty dict when default_form is True.
      */
-    public JurisdictionSpecificFieldsResponse withJurisdictionFieldsJsonSchema(Map<String, Object> jurisdictionFieldsJsonSchema) {
+    public CustomerJurisdictionSpecificFieldsResponse withJurisdictionFieldsJsonSchema(Map<String, Object> jurisdictionFieldsJsonSchema) {
         Utils.checkNotNull(jurisdictionFieldsJsonSchema, "jurisdictionFieldsJsonSchema");
         this.jurisdictionFieldsJsonSchema = jurisdictionFieldsJsonSchema;
         return this;
@@ -134,9 +159,18 @@ public class JurisdictionSpecificFieldsResponse {
     /**
      * UI metadata (help articles, portal URL, filing frequencies, etc.).
      */
-    public JurisdictionSpecificFieldsResponse withMetadata(Map<String, Object> metadata) {
+    public CustomerJurisdictionSpecificFieldsResponse withMetadata(Map<String, Object> metadata) {
         Utils.checkNotNull(metadata, "metadata");
         this.metadata = metadata;
+        return this;
+    }
+
+    /**
+     * Tax types that can be imported for this jurisdiction.
+     */
+    public CustomerJurisdictionSpecificFieldsResponse withTaxTypes(List<TaxTypeEnum> taxTypes) {
+        Utils.checkNotNull(taxTypes, "taxTypes");
+        this.taxTypes = taxTypes;
         return this;
     }
 
@@ -148,30 +182,32 @@ public class JurisdictionSpecificFieldsResponse {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        JurisdictionSpecificFieldsResponse other = (JurisdictionSpecificFieldsResponse) o;
+        CustomerJurisdictionSpecificFieldsResponse other = (CustomerJurisdictionSpecificFieldsResponse) o;
         return 
             Utils.enhancedDeepEquals(this.countryCode, other.countryCode) &&
             Utils.enhancedDeepEquals(this.stateCode, other.stateCode) &&
             Utils.enhancedDeepEquals(this.defaultForm, other.defaultForm) &&
             Utils.enhancedDeepEquals(this.jurisdictionFieldsJsonSchema, other.jurisdictionFieldsJsonSchema) &&
-            Utils.enhancedDeepEquals(this.metadata, other.metadata);
+            Utils.enhancedDeepEquals(this.metadata, other.metadata) &&
+            Utils.enhancedDeepEquals(this.taxTypes, other.taxTypes);
     }
     
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
             countryCode, stateCode, defaultForm,
-            jurisdictionFieldsJsonSchema, metadata);
+            jurisdictionFieldsJsonSchema, metadata, taxTypes);
     }
     
     @Override
     public String toString() {
-        return Utils.toString(JurisdictionSpecificFieldsResponse.class,
+        return Utils.toString(CustomerJurisdictionSpecificFieldsResponse.class,
                 "countryCode", countryCode,
                 "stateCode", stateCode,
                 "defaultForm", defaultForm,
                 "jurisdictionFieldsJsonSchema", jurisdictionFieldsJsonSchema,
-                "metadata", metadata);
+                "metadata", metadata,
+                "taxTypes", taxTypes);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -186,6 +222,8 @@ public class JurisdictionSpecificFieldsResponse {
         private Map<String, Object> jurisdictionFieldsJsonSchema;
 
         private Map<String, Object> metadata;
+
+        private List<TaxTypeEnum> taxTypes;
 
         private Builder() {
           // force use of static builder() method
@@ -235,11 +273,21 @@ public class JurisdictionSpecificFieldsResponse {
             return this;
         }
 
-        public JurisdictionSpecificFieldsResponse build() {
 
-            return new JurisdictionSpecificFieldsResponse(
+        /**
+         * Tax types that can be imported for this jurisdiction.
+         */
+        public Builder taxTypes(List<TaxTypeEnum> taxTypes) {
+            Utils.checkNotNull(taxTypes, "taxTypes");
+            this.taxTypes = taxTypes;
+            return this;
+        }
+
+        public CustomerJurisdictionSpecificFieldsResponse build() {
+
+            return new CustomerJurisdictionSpecificFieldsResponse(
                 countryCode, stateCode, defaultForm,
-                jurisdictionFieldsJsonSchema, metadata);
+                jurisdictionFieldsJsonSchema, metadata, taxTypes);
         }
 
     }

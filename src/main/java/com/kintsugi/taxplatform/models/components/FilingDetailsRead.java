@@ -240,8 +240,8 @@ public class FilingDetailsRead {
     private Optional<String> amountUseTax;
 
     /**
-     * Input VAT recovered on this filing's purchases. Subtracted from liability; always 0.00 outside EU/UK
-     * VAT AP filings.
+     * Input VAT this filing actually claimed. Subtracted from liability; always 0.00 outside EU/UK VAT
+     * filings.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("amount_input_vat_recoverable")
@@ -254,6 +254,20 @@ public class FilingDetailsRead {
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("amount_input_vat_true_up")
     private Optional<String> amountInputVatTrueUp;
+
+    /**
+     * Input VAT this filing would have claimed at a 100% rate. Always 0.00 outside EU/UK VAT filings.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("amount_input_vat_recoverable_base")
+    private Optional<String> amountInputVatRecoverableBase;
+
+    /**
+     * Rate actually used on this filing's reclaim. Null when this filing is not EU/UK VAT.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("input_vat_recovery_rate_applied")
+    private JsonNullable<String> inputVatRecoveryRateApplied;
 
     /**
      * Total sales amount during the filing period.
@@ -520,6 +534,8 @@ public class FilingDetailsRead {
             @JsonProperty("amount_use_tax") Optional<String> amountUseTax,
             @JsonProperty("amount_input_vat_recoverable") Optional<String> amountInputVatRecoverable,
             @JsonProperty("amount_input_vat_true_up") Optional<String> amountInputVatTrueUp,
+            @JsonProperty("amount_input_vat_recoverable_base") Optional<String> amountInputVatRecoverableBase,
+            @JsonProperty("input_vat_recovery_rate_applied") JsonNullable<String> inputVatRecoveryRateApplied,
             @JsonProperty("amount_sales") Optional<String> amountSales,
             @JsonProperty("total_taxable_sales") JsonNullable<String> totalTaxableSales,
             @JsonProperty("amount") Optional<String> amount,
@@ -583,6 +599,8 @@ public class FilingDetailsRead {
         Utils.checkNotNull(amountUseTax, "amountUseTax");
         Utils.checkNotNull(amountInputVatRecoverable, "amountInputVatRecoverable");
         Utils.checkNotNull(amountInputVatTrueUp, "amountInputVatTrueUp");
+        Utils.checkNotNull(amountInputVatRecoverableBase, "amountInputVatRecoverableBase");
+        Utils.checkNotNull(inputVatRecoveryRateApplied, "inputVatRecoveryRateApplied");
         Utils.checkNotNull(amountSales, "amountSales");
         Utils.checkNotNull(totalTaxableSales, "totalTaxableSales");
         Utils.checkNotNull(amount, "amount");
@@ -646,6 +664,8 @@ public class FilingDetailsRead {
         this.amountUseTax = amountUseTax;
         this.amountInputVatRecoverable = amountInputVatRecoverable;
         this.amountInputVatTrueUp = amountInputVatTrueUp;
+        this.amountInputVatRecoverableBase = amountInputVatRecoverableBase;
+        this.inputVatRecoveryRateApplied = inputVatRecoveryRateApplied;
         this.amountSales = amountSales;
         this.totalTaxableSales = totalTaxableSales;
         this.amount = amount;
@@ -698,16 +718,17 @@ public class FilingDetailsRead {
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), JsonNullable.undefined(),
+            Optional.empty(), JsonNullable.undefined(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
             Optional.empty(), JsonNullable.undefined(), JsonNullable.undefined(),
-            JsonNullable.undefined(), Optional.empty(), JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), id,
+            registrationId, JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
-            id, registrationId, JsonNullable.undefined(),
-            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
-            JsonNullable.undefined(), JsonNullable.undefined(), organizationId,
-            JsonNullable.undefined(), Optional.empty(), Optional.empty(),
-            JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty());
+            JsonNullable.undefined(), organizationId, JsonNullable.undefined(),
+            Optional.empty(), Optional.empty(), JsonNullable.undefined(),
+            JsonNullable.undefined(), Optional.empty());
     }
 
     @SuppressWarnings("unchecked")
@@ -958,8 +979,8 @@ public class FilingDetailsRead {
     }
 
     /**
-     * Input VAT recovered on this filing's purchases. Subtracted from liability; always 0.00 outside EU/UK
-     * VAT AP filings.
+     * Input VAT this filing actually claimed. Subtracted from liability; always 0.00 outside EU/UK VAT
+     * filings.
      */
     @JsonIgnore
     public Optional<String> amountInputVatRecoverable() {
@@ -973,6 +994,22 @@ public class FilingDetailsRead {
     @JsonIgnore
     public Optional<String> amountInputVatTrueUp() {
         return amountInputVatTrueUp;
+    }
+
+    /**
+     * Input VAT this filing would have claimed at a 100% rate. Always 0.00 outside EU/UK VAT filings.
+     */
+    @JsonIgnore
+    public Optional<String> amountInputVatRecoverableBase() {
+        return amountInputVatRecoverableBase;
+    }
+
+    /**
+     * Rate actually used on this filing's reclaim. Null when this filing is not EU/UK VAT.
+     */
+    @JsonIgnore
+    public JsonNullable<String> inputVatRecoveryRateApplied() {
+        return inputVatRecoveryRateApplied;
     }
 
     /**
@@ -1788,8 +1825,8 @@ public class FilingDetailsRead {
     }
 
     /**
-     * Input VAT recovered on this filing's purchases. Subtracted from liability; always 0.00 outside EU/UK
-     * VAT AP filings.
+     * Input VAT this filing actually claimed. Subtracted from liability; always 0.00 outside EU/UK VAT
+     * filings.
      */
     public FilingDetailsRead withAmountInputVatRecoverable(String amountInputVatRecoverable) {
         Utils.checkNotNull(amountInputVatRecoverable, "amountInputVatRecoverable");
@@ -1799,8 +1836,8 @@ public class FilingDetailsRead {
 
 
     /**
-     * Input VAT recovered on this filing's purchases. Subtracted from liability; always 0.00 outside EU/UK
-     * VAT AP filings.
+     * Input VAT this filing actually claimed. Subtracted from liability; always 0.00 outside EU/UK VAT
+     * filings.
      */
     public FilingDetailsRead withAmountInputVatRecoverable(Optional<String> amountInputVatRecoverable) {
         Utils.checkNotNull(amountInputVatRecoverable, "amountInputVatRecoverable");
@@ -1826,6 +1863,43 @@ public class FilingDetailsRead {
     public FilingDetailsRead withAmountInputVatTrueUp(Optional<String> amountInputVatTrueUp) {
         Utils.checkNotNull(amountInputVatTrueUp, "amountInputVatTrueUp");
         this.amountInputVatTrueUp = amountInputVatTrueUp;
+        return this;
+    }
+
+    /**
+     * Input VAT this filing would have claimed at a 100% rate. Always 0.00 outside EU/UK VAT filings.
+     */
+    public FilingDetailsRead withAmountInputVatRecoverableBase(String amountInputVatRecoverableBase) {
+        Utils.checkNotNull(amountInputVatRecoverableBase, "amountInputVatRecoverableBase");
+        this.amountInputVatRecoverableBase = Optional.ofNullable(amountInputVatRecoverableBase);
+        return this;
+    }
+
+
+    /**
+     * Input VAT this filing would have claimed at a 100% rate. Always 0.00 outside EU/UK VAT filings.
+     */
+    public FilingDetailsRead withAmountInputVatRecoverableBase(Optional<String> amountInputVatRecoverableBase) {
+        Utils.checkNotNull(amountInputVatRecoverableBase, "amountInputVatRecoverableBase");
+        this.amountInputVatRecoverableBase = amountInputVatRecoverableBase;
+        return this;
+    }
+
+    /**
+     * Rate actually used on this filing's reclaim. Null when this filing is not EU/UK VAT.
+     */
+    public FilingDetailsRead withInputVatRecoveryRateApplied(String inputVatRecoveryRateApplied) {
+        Utils.checkNotNull(inputVatRecoveryRateApplied, "inputVatRecoveryRateApplied");
+        this.inputVatRecoveryRateApplied = JsonNullable.of(inputVatRecoveryRateApplied);
+        return this;
+    }
+
+    /**
+     * Rate actually used on this filing's reclaim. Null when this filing is not EU/UK VAT.
+     */
+    public FilingDetailsRead withInputVatRecoveryRateApplied(JsonNullable<String> inputVatRecoveryRateApplied) {
+        Utils.checkNotNull(inputVatRecoveryRateApplied, "inputVatRecoveryRateApplied");
+        this.inputVatRecoveryRateApplied = inputVatRecoveryRateApplied;
         return this;
     }
 
@@ -2448,6 +2522,8 @@ public class FilingDetailsRead {
             Utils.enhancedDeepEquals(this.amountUseTax, other.amountUseTax) &&
             Utils.enhancedDeepEquals(this.amountInputVatRecoverable, other.amountInputVatRecoverable) &&
             Utils.enhancedDeepEquals(this.amountInputVatTrueUp, other.amountInputVatTrueUp) &&
+            Utils.enhancedDeepEquals(this.amountInputVatRecoverableBase, other.amountInputVatRecoverableBase) &&
+            Utils.enhancedDeepEquals(this.inputVatRecoveryRateApplied, other.inputVatRecoveryRateApplied) &&
             Utils.enhancedDeepEquals(this.amountSales, other.amountSales) &&
             Utils.enhancedDeepEquals(this.totalTaxableSales, other.totalTaxableSales) &&
             Utils.enhancedDeepEquals(this.amount, other.amount) &&
@@ -2495,17 +2571,18 @@ public class FilingDetailsRead {
             isRdf, amountCalculated, amountAdjusted,
             amountDiscounts, amountFees, amountPenalties,
             amountTaxCollected, amountUseTax, amountInputVatRecoverable,
-            amountInputVatTrueUp, amountSales, totalTaxableSales,
-            amount, totalTaxLiability, transactionCount,
-            marketplaceTransactionCount, estimatedLineCount, internalNotes,
-            recentDetailsReportLink, taxRemitted, originalTaxRemitted,
-            returnConfirmationId, paymentConfirmationId, submittedReturnConfirmationId,
-            submittedPaymentConfirmationId, blockApproval, currency,
-            id, registrationId, filingFrequency,
-            ossType, quarterlyPrepayBalance, caMayPrepayment,
-            estimatedPenaltyInterest, penaltyInterestRemittanceTag, organizationId,
-            attachments, creditsUtilized, deferredTransactionCount,
-            inputVatRecoveryRate, inputVatRecoveryRateIsDefinitive, filingWebsiteUrl);
+            amountInputVatTrueUp, amountInputVatRecoverableBase, inputVatRecoveryRateApplied,
+            amountSales, totalTaxableSales, amount,
+            totalTaxLiability, transactionCount, marketplaceTransactionCount,
+            estimatedLineCount, internalNotes, recentDetailsReportLink,
+            taxRemitted, originalTaxRemitted, returnConfirmationId,
+            paymentConfirmationId, submittedReturnConfirmationId, submittedPaymentConfirmationId,
+            blockApproval, currency, id,
+            registrationId, filingFrequency, ossType,
+            quarterlyPrepayBalance, caMayPrepayment, estimatedPenaltyInterest,
+            penaltyInterestRemittanceTag, organizationId, attachments,
+            creditsUtilized, deferredTransactionCount, inputVatRecoveryRate,
+            inputVatRecoveryRateIsDefinitive, filingWebsiteUrl);
     }
     
     @Override
@@ -2542,6 +2619,8 @@ public class FilingDetailsRead {
                 "amountUseTax", amountUseTax,
                 "amountInputVatRecoverable", amountInputVatRecoverable,
                 "amountInputVatTrueUp", amountInputVatTrueUp,
+                "amountInputVatRecoverableBase", amountInputVatRecoverableBase,
+                "inputVatRecoveryRateApplied", inputVatRecoveryRateApplied,
                 "amountSales", amountSales,
                 "totalTaxableSales", totalTaxableSales,
                 "amount", amount,
@@ -2640,6 +2719,10 @@ public class FilingDetailsRead {
         private Optional<String> amountInputVatRecoverable;
 
         private Optional<String> amountInputVatTrueUp;
+
+        private Optional<String> amountInputVatRecoverableBase;
+
+        private JsonNullable<String> inputVatRecoveryRateApplied = JsonNullable.undefined();
 
         private Optional<String> amountSales;
 
@@ -3264,8 +3347,8 @@ public class FilingDetailsRead {
 
 
         /**
-         * Input VAT recovered on this filing's purchases. Subtracted from liability; always 0.00 outside EU/UK
-         * VAT AP filings.
+         * Input VAT this filing actually claimed. Subtracted from liability; always 0.00 outside EU/UK VAT
+         * filings.
          */
         public Builder amountInputVatRecoverable(String amountInputVatRecoverable) {
             Utils.checkNotNull(amountInputVatRecoverable, "amountInputVatRecoverable");
@@ -3274,8 +3357,8 @@ public class FilingDetailsRead {
         }
 
         /**
-         * Input VAT recovered on this filing's purchases. Subtracted from liability; always 0.00 outside EU/UK
-         * VAT AP filings.
+         * Input VAT this filing actually claimed. Subtracted from liability; always 0.00 outside EU/UK VAT
+         * filings.
          */
         public Builder amountInputVatRecoverable(Optional<String> amountInputVatRecoverable) {
             Utils.checkNotNull(amountInputVatRecoverable, "amountInputVatRecoverable");
@@ -3301,6 +3384,44 @@ public class FilingDetailsRead {
         public Builder amountInputVatTrueUp(Optional<String> amountInputVatTrueUp) {
             Utils.checkNotNull(amountInputVatTrueUp, "amountInputVatTrueUp");
             this.amountInputVatTrueUp = amountInputVatTrueUp;
+            return this;
+        }
+
+
+        /**
+         * Input VAT this filing would have claimed at a 100% rate. Always 0.00 outside EU/UK VAT filings.
+         */
+        public Builder amountInputVatRecoverableBase(String amountInputVatRecoverableBase) {
+            Utils.checkNotNull(amountInputVatRecoverableBase, "amountInputVatRecoverableBase");
+            this.amountInputVatRecoverableBase = Optional.ofNullable(amountInputVatRecoverableBase);
+            return this;
+        }
+
+        /**
+         * Input VAT this filing would have claimed at a 100% rate. Always 0.00 outside EU/UK VAT filings.
+         */
+        public Builder amountInputVatRecoverableBase(Optional<String> amountInputVatRecoverableBase) {
+            Utils.checkNotNull(amountInputVatRecoverableBase, "amountInputVatRecoverableBase");
+            this.amountInputVatRecoverableBase = amountInputVatRecoverableBase;
+            return this;
+        }
+
+
+        /**
+         * Rate actually used on this filing's reclaim. Null when this filing is not EU/UK VAT.
+         */
+        public Builder inputVatRecoveryRateApplied(String inputVatRecoveryRateApplied) {
+            Utils.checkNotNull(inputVatRecoveryRateApplied, "inputVatRecoveryRateApplied");
+            this.inputVatRecoveryRateApplied = JsonNullable.of(inputVatRecoveryRateApplied);
+            return this;
+        }
+
+        /**
+         * Rate actually used on this filing's reclaim. Null when this filing is not EU/UK VAT.
+         */
+        public Builder inputVatRecoveryRateApplied(JsonNullable<String> inputVatRecoveryRateApplied) {
+            Utils.checkNotNull(inputVatRecoveryRateApplied, "inputVatRecoveryRateApplied");
+            this.inputVatRecoveryRateApplied = inputVatRecoveryRateApplied;
             return this;
         }
 
@@ -3945,6 +4066,9 @@ public class FilingDetailsRead {
             if (amountInputVatTrueUp == null) {
                 amountInputVatTrueUp = _SINGLETON_VALUE_AmountInputVatTrueUp.value();
             }
+            if (amountInputVatRecoverableBase == null) {
+                amountInputVatRecoverableBase = _SINGLETON_VALUE_AmountInputVatRecoverableBase.value();
+            }
             if (amountSales == null) {
                 amountSales = _SINGLETON_VALUE_AmountSales.value();
             }
@@ -3981,17 +4105,18 @@ public class FilingDetailsRead {
                 isRdf, amountCalculated, amountAdjusted,
                 amountDiscounts, amountFees, amountPenalties,
                 amountTaxCollected, amountUseTax, amountInputVatRecoverable,
-                amountInputVatTrueUp, amountSales, totalTaxableSales,
-                amount, totalTaxLiability, transactionCount,
-                marketplaceTransactionCount, estimatedLineCount, internalNotes,
-                recentDetailsReportLink, taxRemitted, originalTaxRemitted,
-                returnConfirmationId, paymentConfirmationId, submittedReturnConfirmationId,
-                submittedPaymentConfirmationId, blockApproval, currency,
-                id, registrationId, filingFrequency,
-                ossType, quarterlyPrepayBalance, caMayPrepayment,
-                estimatedPenaltyInterest, penaltyInterestRemittanceTag, organizationId,
-                attachments, creditsUtilized, deferredTransactionCount,
-                inputVatRecoveryRate, inputVatRecoveryRateIsDefinitive, filingWebsiteUrl);
+                amountInputVatTrueUp, amountInputVatRecoverableBase, inputVatRecoveryRateApplied,
+                amountSales, totalTaxableSales, amount,
+                totalTaxLiability, transactionCount, marketplaceTransactionCount,
+                estimatedLineCount, internalNotes, recentDetailsReportLink,
+                taxRemitted, originalTaxRemitted, returnConfirmationId,
+                paymentConfirmationId, submittedReturnConfirmationId, submittedPaymentConfirmationId,
+                blockApproval, currency, id,
+                registrationId, filingFrequency, ossType,
+                quarterlyPrepayBalance, caMayPrepayment, estimatedPenaltyInterest,
+                penaltyInterestRemittanceTag, organizationId, attachments,
+                creditsUtilized, deferredTransactionCount, inputVatRecoveryRate,
+                inputVatRecoveryRateIsDefinitive, filingWebsiteUrl);
         }
 
 
@@ -4070,6 +4195,12 @@ public class FilingDetailsRead {
         private static final LazySingletonValue<Optional<String>> _SINGLETON_VALUE_AmountInputVatTrueUp =
                 new LazySingletonValue<>(
                         "amount_input_vat_true_up",
+                        "\"0.00\"",
+                        new TypeReference<Optional<String>>() {});
+
+        private static final LazySingletonValue<Optional<String>> _SINGLETON_VALUE_AmountInputVatRecoverableBase =
+                new LazySingletonValue<>(
+                        "amount_input_vat_recoverable_base",
                         "\"0.00\"",
                         new TypeReference<Optional<String>>() {});
 

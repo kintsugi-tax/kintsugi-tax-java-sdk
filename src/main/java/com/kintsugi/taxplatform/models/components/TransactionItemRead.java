@@ -16,7 +16,6 @@ import java.lang.Deprecated;
 import java.lang.Override;
 import java.lang.String;
 import java.lang.SuppressWarnings;
-import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -45,7 +44,7 @@ public class TransactionItemRead {
      * Date/time of item.
      */
     @JsonProperty("date")
-    private OffsetDateTime date;
+    private String date;
 
     /**
      * Item description
@@ -208,6 +207,13 @@ public class TransactionItemRead {
     private Optional<Boolean> exempt;
 
     /**
+     * Whether this line's source amount includes tax. NULL means the source did not say.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("is_tax_inclusive")
+    private JsonNullable<Boolean> isTaxInclusive;
+
+    /**
      * The unique transaction item identifier.
      */
     @JsonProperty("id")
@@ -247,11 +253,27 @@ public class TransactionItemRead {
     @JsonProperty("recoverability_percent")
     private JsonNullable<String> recoverabilityPercent;
 
+    /**
+     * VAT recoverable on this line in the transaction's currency, after the line's recoverability
+     * percentage and the organization's pro-rata recovery rate. 0.00 for sales and outside the EU and UK.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("recoverable_input_vat")
+    private Optional<String> recoverableInputVat;
+
+    /**
+     * Recoverable VAT on this line in the destination currency. Null when the line has no converted
+     * amount.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("converted_recoverable_input_vat")
+    private JsonNullable<String> convertedRecoverableInputVat;
+
     @JsonCreator
     public TransactionItemRead(
             @JsonProperty("external_id") JsonNullable<String> externalId,
             @JsonProperty("organization_id") Optional<String> organizationId,
-            @JsonProperty("date") OffsetDateTime date,
+            @JsonProperty("date") String date,
             @JsonProperty("description") JsonNullable<String> description,
             @JsonProperty("external_product_id") String externalProductId,
             @JsonProperty("product") JsonNullable<String> product,
@@ -275,12 +297,15 @@ public class TransactionItemRead {
             @JsonProperty("taxable_amount") Optional<String> taxableAmount,
             @JsonProperty("tax_exemption") JsonNullable<? extends TaxExemptionEnum> taxExemption,
             @JsonProperty("exempt") Optional<Boolean> exempt,
+            @JsonProperty("is_tax_inclusive") JsonNullable<Boolean> isTaxInclusive,
             @JsonProperty("id") String id,
             @JsonProperty("tax_items") List<TaxItemRead> taxItems,
             @JsonProperty("total_discount") JsonNullable<String> totalDiscount,
             @JsonProperty("subtotal") JsonNullable<String> subtotal,
             @JsonProperty("is_reverse_charge_self_accounted") Optional<Boolean> isReverseChargeSelfAccounted,
-            @JsonProperty("recoverability_percent") JsonNullable<String> recoverabilityPercent) {
+            @JsonProperty("recoverability_percent") JsonNullable<String> recoverabilityPercent,
+            @JsonProperty("recoverable_input_vat") Optional<String> recoverableInputVat,
+            @JsonProperty("converted_recoverable_input_vat") JsonNullable<String> convertedRecoverableInputVat) {
         Utils.checkNotNull(externalId, "externalId");
         Utils.checkNotNull(organizationId, "organizationId");
         Utils.checkNotNull(date, "date");
@@ -307,12 +332,15 @@ public class TransactionItemRead {
         Utils.checkNotNull(taxableAmount, "taxableAmount");
         Utils.checkNotNull(taxExemption, "taxExemption");
         Utils.checkNotNull(exempt, "exempt");
+        Utils.checkNotNull(isTaxInclusive, "isTaxInclusive");
         Utils.checkNotNull(id, "id");
         Utils.checkNotNull(taxItems, "taxItems");
         Utils.checkNotNull(totalDiscount, "totalDiscount");
         Utils.checkNotNull(subtotal, "subtotal");
         Utils.checkNotNull(isReverseChargeSelfAccounted, "isReverseChargeSelfAccounted");
         Utils.checkNotNull(recoverabilityPercent, "recoverabilityPercent");
+        Utils.checkNotNull(recoverableInputVat, "recoverableInputVat");
+        Utils.checkNotNull(convertedRecoverableInputVat, "convertedRecoverableInputVat");
         this.externalId = externalId;
         this.organizationId = organizationId;
         this.date = date;
@@ -339,16 +367,19 @@ public class TransactionItemRead {
         this.taxableAmount = taxableAmount;
         this.taxExemption = taxExemption;
         this.exempt = exempt;
+        this.isTaxInclusive = isTaxInclusive;
         this.id = id;
         this.taxItems = taxItems;
         this.totalDiscount = totalDiscount;
         this.subtotal = subtotal;
         this.isReverseChargeSelfAccounted = isReverseChargeSelfAccounted;
         this.recoverabilityPercent = recoverabilityPercent;
+        this.recoverableInputVat = recoverableInputVat;
+        this.convertedRecoverableInputVat = convertedRecoverableInputVat;
     }
     
     public TransactionItemRead(
-            OffsetDateTime date,
+            String date,
             String externalProductId,
             String id,
             List<TaxItemRead> taxItems) {
@@ -360,8 +391,9 @@ public class TransactionItemRead {
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty(),
-            JsonNullable.undefined(), Optional.empty(), id,
-            taxItems, JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), Optional.empty(), JsonNullable.undefined(),
+            id, taxItems, JsonNullable.undefined(),
+            JsonNullable.undefined(), Optional.empty(), JsonNullable.undefined(),
             Optional.empty(), JsonNullable.undefined());
     }
 
@@ -389,7 +421,7 @@ public class TransactionItemRead {
      * Date/time of item.
      */
     @JsonIgnore
-    public OffsetDateTime date() {
+    public String date() {
         return date;
     }
 
@@ -581,6 +613,14 @@ public class TransactionItemRead {
     }
 
     /**
+     * Whether this line's source amount includes tax. NULL means the source did not say.
+     */
+    @JsonIgnore
+    public JsonNullable<Boolean> isTaxInclusive() {
+        return isTaxInclusive;
+    }
+
+    /**
      * The unique transaction item identifier.
      */
     @JsonIgnore
@@ -626,6 +666,24 @@ public class TransactionItemRead {
     @JsonIgnore
     public JsonNullable<String> recoverabilityPercent() {
         return recoverabilityPercent;
+    }
+
+    /**
+     * VAT recoverable on this line in the transaction's currency, after the line's recoverability
+     * percentage and the organization's pro-rata recovery rate. 0.00 for sales and outside the EU and UK.
+     */
+    @JsonIgnore
+    public Optional<String> recoverableInputVat() {
+        return recoverableInputVat;
+    }
+
+    /**
+     * Recoverable VAT on this line in the destination currency. Null when the line has no converted
+     * amount.
+     */
+    @JsonIgnore
+    public JsonNullable<String> convertedRecoverableInputVat() {
+        return convertedRecoverableInputVat;
     }
 
     public static Builder builder() {
@@ -681,7 +739,7 @@ public class TransactionItemRead {
     /**
      * Date/time of item.
      */
-    public TransactionItemRead withDate(OffsetDateTime date) {
+    public TransactionItemRead withDate(String date) {
         Utils.checkNotNull(date, "date");
         this.date = date;
         return this;
@@ -1101,6 +1159,24 @@ public class TransactionItemRead {
     }
 
     /**
+     * Whether this line's source amount includes tax. NULL means the source did not say.
+     */
+    public TransactionItemRead withIsTaxInclusive(boolean isTaxInclusive) {
+        Utils.checkNotNull(isTaxInclusive, "isTaxInclusive");
+        this.isTaxInclusive = JsonNullable.of(isTaxInclusive);
+        return this;
+    }
+
+    /**
+     * Whether this line's source amount includes tax. NULL means the source did not say.
+     */
+    public TransactionItemRead withIsTaxInclusive(JsonNullable<Boolean> isTaxInclusive) {
+        Utils.checkNotNull(isTaxInclusive, "isTaxInclusive");
+        this.isTaxInclusive = isTaxInclusive;
+        return this;
+    }
+
+    /**
      * The unique transaction item identifier.
      */
     public TransactionItemRead withId(String id) {
@@ -1191,6 +1267,47 @@ public class TransactionItemRead {
         return this;
     }
 
+    /**
+     * VAT recoverable on this line in the transaction's currency, after the line's recoverability
+     * percentage and the organization's pro-rata recovery rate. 0.00 for sales and outside the EU and UK.
+     */
+    public TransactionItemRead withRecoverableInputVat(String recoverableInputVat) {
+        Utils.checkNotNull(recoverableInputVat, "recoverableInputVat");
+        this.recoverableInputVat = Optional.ofNullable(recoverableInputVat);
+        return this;
+    }
+
+
+    /**
+     * VAT recoverable on this line in the transaction's currency, after the line's recoverability
+     * percentage and the organization's pro-rata recovery rate. 0.00 for sales and outside the EU and UK.
+     */
+    public TransactionItemRead withRecoverableInputVat(Optional<String> recoverableInputVat) {
+        Utils.checkNotNull(recoverableInputVat, "recoverableInputVat");
+        this.recoverableInputVat = recoverableInputVat;
+        return this;
+    }
+
+    /**
+     * Recoverable VAT on this line in the destination currency. Null when the line has no converted
+     * amount.
+     */
+    public TransactionItemRead withConvertedRecoverableInputVat(String convertedRecoverableInputVat) {
+        Utils.checkNotNull(convertedRecoverableInputVat, "convertedRecoverableInputVat");
+        this.convertedRecoverableInputVat = JsonNullable.of(convertedRecoverableInputVat);
+        return this;
+    }
+
+    /**
+     * Recoverable VAT on this line in the destination currency. Null when the line has no converted
+     * amount.
+     */
+    public TransactionItemRead withConvertedRecoverableInputVat(JsonNullable<String> convertedRecoverableInputVat) {
+        Utils.checkNotNull(convertedRecoverableInputVat, "convertedRecoverableInputVat");
+        this.convertedRecoverableInputVat = convertedRecoverableInputVat;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -1227,12 +1344,15 @@ public class TransactionItemRead {
             Utils.enhancedDeepEquals(this.taxableAmount, other.taxableAmount) &&
             Utils.enhancedDeepEquals(this.taxExemption, other.taxExemption) &&
             Utils.enhancedDeepEquals(this.exempt, other.exempt) &&
+            Utils.enhancedDeepEquals(this.isTaxInclusive, other.isTaxInclusive) &&
             Utils.enhancedDeepEquals(this.id, other.id) &&
             Utils.enhancedDeepEquals(this.taxItems, other.taxItems) &&
             Utils.enhancedDeepEquals(this.totalDiscount, other.totalDiscount) &&
             Utils.enhancedDeepEquals(this.subtotal, other.subtotal) &&
             Utils.enhancedDeepEquals(this.isReverseChargeSelfAccounted, other.isReverseChargeSelfAccounted) &&
-            Utils.enhancedDeepEquals(this.recoverabilityPercent, other.recoverabilityPercent);
+            Utils.enhancedDeepEquals(this.recoverabilityPercent, other.recoverabilityPercent) &&
+            Utils.enhancedDeepEquals(this.recoverableInputVat, other.recoverableInputVat) &&
+            Utils.enhancedDeepEquals(this.convertedRecoverableInputVat, other.convertedRecoverableInputVat);
     }
     
     @Override
@@ -1246,9 +1366,10 @@ public class TransactionItemRead {
             originalCurrency, destinationCurrency, convertedAmount,
             convertedTaxableAmount, convertedTaxAmountImported, convertedTaxAmountCalculated,
             convertedTotalDiscount, convertedSubtotal, taxableAmount,
-            taxExemption, exempt, id,
-            taxItems, totalDiscount, subtotal,
-            isReverseChargeSelfAccounted, recoverabilityPercent);
+            taxExemption, exempt, isTaxInclusive,
+            id, taxItems, totalDiscount,
+            subtotal, isReverseChargeSelfAccounted, recoverabilityPercent,
+            recoverableInputVat, convertedRecoverableInputVat);
     }
     
     @Override
@@ -1280,12 +1401,15 @@ public class TransactionItemRead {
                 "taxableAmount", taxableAmount,
                 "taxExemption", taxExemption,
                 "exempt", exempt,
+                "isTaxInclusive", isTaxInclusive,
                 "id", id,
                 "taxItems", taxItems,
                 "totalDiscount", totalDiscount,
                 "subtotal", subtotal,
                 "isReverseChargeSelfAccounted", isReverseChargeSelfAccounted,
-                "recoverabilityPercent", recoverabilityPercent);
+                "recoverabilityPercent", recoverabilityPercent,
+                "recoverableInputVat", recoverableInputVat,
+                "convertedRecoverableInputVat", convertedRecoverableInputVat);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -1296,7 +1420,7 @@ public class TransactionItemRead {
         @Deprecated
         private Optional<String> organizationId = Optional.empty();
 
-        private OffsetDateTime date;
+        private String date;
 
         private JsonNullable<String> description = JsonNullable.undefined();
 
@@ -1344,6 +1468,8 @@ public class TransactionItemRead {
 
         private Optional<Boolean> exempt;
 
+        private JsonNullable<Boolean> isTaxInclusive = JsonNullable.undefined();
+
         private String id;
 
         private List<TaxItemRead> taxItems;
@@ -1355,6 +1481,10 @@ public class TransactionItemRead {
         private Optional<Boolean> isReverseChargeSelfAccounted;
 
         private JsonNullable<String> recoverabilityPercent = JsonNullable.undefined();
+
+        private Optional<String> recoverableInputVat;
+
+        private JsonNullable<String> convertedRecoverableInputVat = JsonNullable.undefined();
 
         private Builder() {
           // force use of static builder() method
@@ -1410,7 +1540,7 @@ public class TransactionItemRead {
         /**
          * Date/time of item.
          */
-        public Builder date(OffsetDateTime date) {
+        public Builder date(String date) {
             Utils.checkNotNull(date, "date");
             this.date = date;
             return this;
@@ -1846,6 +1976,25 @@ public class TransactionItemRead {
 
 
         /**
+         * Whether this line's source amount includes tax. NULL means the source did not say.
+         */
+        public Builder isTaxInclusive(boolean isTaxInclusive) {
+            Utils.checkNotNull(isTaxInclusive, "isTaxInclusive");
+            this.isTaxInclusive = JsonNullable.of(isTaxInclusive);
+            return this;
+        }
+
+        /**
+         * Whether this line's source amount includes tax. NULL means the source did not say.
+         */
+        public Builder isTaxInclusive(JsonNullable<Boolean> isTaxInclusive) {
+            Utils.checkNotNull(isTaxInclusive, "isTaxInclusive");
+            this.isTaxInclusive = isTaxInclusive;
+            return this;
+        }
+
+
+        /**
          * The unique transaction item identifier.
          */
         public Builder id(String id) {
@@ -1940,6 +2089,48 @@ public class TransactionItemRead {
             return this;
         }
 
+
+        /**
+         * VAT recoverable on this line in the transaction's currency, after the line's recoverability
+         * percentage and the organization's pro-rata recovery rate. 0.00 for sales and outside the EU and UK.
+         */
+        public Builder recoverableInputVat(String recoverableInputVat) {
+            Utils.checkNotNull(recoverableInputVat, "recoverableInputVat");
+            this.recoverableInputVat = Optional.ofNullable(recoverableInputVat);
+            return this;
+        }
+
+        /**
+         * VAT recoverable on this line in the transaction's currency, after the line's recoverability
+         * percentage and the organization's pro-rata recovery rate. 0.00 for sales and outside the EU and UK.
+         */
+        public Builder recoverableInputVat(Optional<String> recoverableInputVat) {
+            Utils.checkNotNull(recoverableInputVat, "recoverableInputVat");
+            this.recoverableInputVat = recoverableInputVat;
+            return this;
+        }
+
+
+        /**
+         * Recoverable VAT on this line in the destination currency. Null when the line has no converted
+         * amount.
+         */
+        public Builder convertedRecoverableInputVat(String convertedRecoverableInputVat) {
+            Utils.checkNotNull(convertedRecoverableInputVat, "convertedRecoverableInputVat");
+            this.convertedRecoverableInputVat = JsonNullable.of(convertedRecoverableInputVat);
+            return this;
+        }
+
+        /**
+         * Recoverable VAT on this line in the destination currency. Null when the line has no converted
+         * amount.
+         */
+        public Builder convertedRecoverableInputVat(JsonNullable<String> convertedRecoverableInputVat) {
+            Utils.checkNotNull(convertedRecoverableInputVat, "convertedRecoverableInputVat");
+            this.convertedRecoverableInputVat = convertedRecoverableInputVat;
+            return this;
+        }
+
         public TransactionItemRead build() {
             if (quantity == null) {
                 quantity = _SINGLETON_VALUE_Quantity.value();
@@ -1968,6 +2159,9 @@ public class TransactionItemRead {
             if (isReverseChargeSelfAccounted == null) {
                 isReverseChargeSelfAccounted = _SINGLETON_VALUE_IsReverseChargeSelfAccounted.value();
             }
+            if (recoverableInputVat == null) {
+                recoverableInputVat = _SINGLETON_VALUE_RecoverableInputVat.value();
+            }
 
             return new TransactionItemRead(
                 externalId, organizationId, date,
@@ -1978,9 +2172,10 @@ public class TransactionItemRead {
                 originalCurrency, destinationCurrency, convertedAmount,
                 convertedTaxableAmount, convertedTaxAmountImported, convertedTaxAmountCalculated,
                 convertedTotalDiscount, convertedSubtotal, taxableAmount,
-                taxExemption, exempt, id,
-                taxItems, totalDiscount, subtotal,
-                isReverseChargeSelfAccounted, recoverabilityPercent);
+                taxExemption, exempt, isTaxInclusive,
+                id, taxItems, totalDiscount,
+                subtotal, isReverseChargeSelfAccounted, recoverabilityPercent,
+                recoverableInputVat, convertedRecoverableInputVat);
         }
 
 
@@ -2037,5 +2232,11 @@ public class TransactionItemRead {
                         "is_reverse_charge_self_accounted",
                         "false",
                         new TypeReference<Optional<Boolean>>() {});
+
+        private static final LazySingletonValue<Optional<String>> _SINGLETON_VALUE_RecoverableInputVat =
+                new LazySingletonValue<>(
+                        "recoverable_input_vat",
+                        "\"0.00\"",
+                        new TypeReference<Optional<String>>() {});
     }
 }

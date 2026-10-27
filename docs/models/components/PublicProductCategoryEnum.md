@@ -7,7 +7,7 @@ Top-level tax category for a product.
 ```java
 import com.kintsugi.taxplatform.models.components.PublicProductCategoryEnum;
 
-PublicProductCategoryEnum value = PublicProductCategoryEnum.DIGITAL;
+PublicProductCategoryEnum value = PublicProductCategoryEnum.PHYSICAL;
 ```
 
 
@@ -15,7 +15,7 @@ PublicProductCategoryEnum value = PublicProductCategoryEnum.DIGITAL;
 
 | Name       | Value      |
 | ---------- | ---------- |
+| `PHYSICAL` | Physical   |
 | `DIGITAL`  | Digital    |
 | `MISC`     | Misc       |
-| `PHYSICAL` | Physical   |
 | `SERVICES` | Services   |

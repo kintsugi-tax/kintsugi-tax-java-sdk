@@ -101,6 +101,13 @@ public class BackendSrcExemptionsSerializersExemptionRead {
     @JsonProperty("exemption_type")
     private ExemptionType exemptionType;
 
+    /**
+     * Partial-exemption certificate form code. Null when the exemption is not a partial exemption.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("certificate_type")
+    private JsonNullable<String> certificateType;
+
 
     @JsonProperty("status")
     private ExemptionStatus status;
@@ -119,6 +126,7 @@ public class BackendSrcExemptionsSerializersExemptionRead {
             @JsonProperty("customer") JsonNullable<? extends CustomerRead> customer,
             @JsonProperty("attachment") JsonNullable<? extends List<AttachmentRead>> attachment,
             @JsonProperty("exemption_type") ExemptionType exemptionType,
+            @JsonProperty("certificate_type") JsonNullable<String> certificateType,
             @JsonProperty("status") ExemptionStatus status) {
         Utils.checkNotNull(countryCode, "countryCode");
         Utils.checkNotNull(jurisdiction, "jurisdiction");
@@ -132,6 +140,7 @@ public class BackendSrcExemptionsSerializersExemptionRead {
         Utils.checkNotNull(customer, "customer");
         Utils.checkNotNull(attachment, "attachment");
         Utils.checkNotNull(exemptionType, "exemptionType");
+        Utils.checkNotNull(certificateType, "certificateType");
         Utils.checkNotNull(status, "status");
         this.countryCode = countryCode;
         this.jurisdiction = jurisdiction;
@@ -145,6 +154,7 @@ public class BackendSrcExemptionsSerializersExemptionRead {
         this.customer = customer;
         this.attachment = attachment;
         this.exemptionType = exemptionType;
+        this.certificateType = certificateType;
         this.status = status;
     }
     
@@ -157,7 +167,7 @@ public class BackendSrcExemptionsSerializersExemptionRead {
             JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty(),
             JsonNullable.undefined(), JsonNullable.undefined(), id,
             JsonNullable.undefined(), JsonNullable.undefined(), exemptionType,
-            status);
+            JsonNullable.undefined(), status);
     }
 
     /**
@@ -254,6 +264,14 @@ public class BackendSrcExemptionsSerializersExemptionRead {
     @JsonIgnore
     public ExemptionType exemptionType() {
         return exemptionType;
+    }
+
+    /**
+     * Partial-exemption certificate form code. Null when the exemption is not a partial exemption.
+     */
+    @JsonIgnore
+    public JsonNullable<String> certificateType() {
+        return certificateType;
     }
 
     @JsonIgnore
@@ -453,6 +471,24 @@ public class BackendSrcExemptionsSerializersExemptionRead {
         return this;
     }
 
+    /**
+     * Partial-exemption certificate form code. Null when the exemption is not a partial exemption.
+     */
+    public BackendSrcExemptionsSerializersExemptionRead withCertificateType(String certificateType) {
+        Utils.checkNotNull(certificateType, "certificateType");
+        this.certificateType = JsonNullable.of(certificateType);
+        return this;
+    }
+
+    /**
+     * Partial-exemption certificate form code. Null when the exemption is not a partial exemption.
+     */
+    public BackendSrcExemptionsSerializersExemptionRead withCertificateType(JsonNullable<String> certificateType) {
+        Utils.checkNotNull(certificateType, "certificateType");
+        this.certificateType = certificateType;
+        return this;
+    }
+
     public BackendSrcExemptionsSerializersExemptionRead withStatus(ExemptionStatus status) {
         Utils.checkNotNull(status, "status");
         this.status = status;
@@ -481,6 +517,7 @@ public class BackendSrcExemptionsSerializersExemptionRead {
             Utils.enhancedDeepEquals(this.customer, other.customer) &&
             Utils.enhancedDeepEquals(this.attachment, other.attachment) &&
             Utils.enhancedDeepEquals(this.exemptionType, other.exemptionType) &&
+            Utils.enhancedDeepEquals(this.certificateType, other.certificateType) &&
             Utils.enhancedDeepEquals(this.status, other.status);
     }
     
@@ -491,7 +528,7 @@ public class BackendSrcExemptionsSerializersExemptionRead {
             endDate, transactionId, reseller,
             fein, salesTaxId, id,
             customer, attachment, exemptionType,
-            status);
+            certificateType, status);
     }
     
     @Override
@@ -509,6 +546,7 @@ public class BackendSrcExemptionsSerializersExemptionRead {
                 "customer", customer,
                 "attachment", attachment,
                 "exemptionType", exemptionType,
+                "certificateType", certificateType,
                 "status", status);
     }
 
@@ -538,6 +576,8 @@ public class BackendSrcExemptionsSerializersExemptionRead {
         private JsonNullable<? extends List<AttachmentRead>> attachment = JsonNullable.undefined();
 
         private ExemptionType exemptionType;
+
+        private JsonNullable<String> certificateType = JsonNullable.undefined();
 
         private ExemptionStatus status;
 
@@ -744,6 +784,25 @@ public class BackendSrcExemptionsSerializersExemptionRead {
         }
 
 
+        /**
+         * Partial-exemption certificate form code. Null when the exemption is not a partial exemption.
+         */
+        public Builder certificateType(String certificateType) {
+            Utils.checkNotNull(certificateType, "certificateType");
+            this.certificateType = JsonNullable.of(certificateType);
+            return this;
+        }
+
+        /**
+         * Partial-exemption certificate form code. Null when the exemption is not a partial exemption.
+         */
+        public Builder certificateType(JsonNullable<String> certificateType) {
+            Utils.checkNotNull(certificateType, "certificateType");
+            this.certificateType = certificateType;
+            return this;
+        }
+
+
         public Builder status(ExemptionStatus status) {
             Utils.checkNotNull(status, "status");
             this.status = status;
@@ -760,7 +819,7 @@ public class BackendSrcExemptionsSerializersExemptionRead {
                 endDate, transactionId, reseller,
                 fein, salesTaxId, id,
                 customer, attachment, exemptionType,
-                status);
+                certificateType, status);
         }
 
 

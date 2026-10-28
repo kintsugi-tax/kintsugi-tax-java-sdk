@@ -18,7 +18,6 @@ import java.lang.Override;
 import java.lang.String;
 import java.lang.SuppressWarnings;
 import java.time.LocalDate;
-import java.time.OffsetDateTime;
 import java.util.Map;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -44,28 +43,28 @@ public class RegistrationRead {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("registration_requested")
-    private JsonNullable<OffsetDateTime> registrationRequested;
+    private JsonNullable<String> registrationRequested;
 
     /**
      * Timestamp when the registration was completed.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("registration_completed")
-    private JsonNullable<OffsetDateTime> registrationCompleted;
+    private JsonNullable<String> registrationCompleted;
 
     /**
      * Timestamp when deregistration was requested.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("deregistration_requested")
-    private JsonNullable<OffsetDateTime> deregistrationRequested;
+    private JsonNullable<String> deregistrationRequested;
 
     /**
      * Timestamp when the deregistration was completed.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("deregistration_completed")
-    private JsonNullable<OffsetDateTime> deregistrationCompleted;
+    private JsonNullable<String> deregistrationCompleted;
 
     /**
      * Indicates whether the registration was completed automatically.
@@ -113,6 +112,14 @@ public class RegistrationRead {
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("marked_collecting")
     private JsonNullable<Boolean> markedCollecting;
+
+    /**
+     * True when this PROCESSING registration marks the organization as collecting tax in the jurisdiction
+     * ahead of registration details. It skips the Tax Ops registration task until the flag is cleared.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("is_pre_collecting")
+    private Optional<Boolean> isPreCollecting;
 
 
     @JsonProperty("status")
@@ -203,22 +210,6 @@ public class RegistrationRead {
     private Optional<Boolean> createBackFiling;
 
     /**
-     * Whether this registration is declared obligated to file a Retail Delivery Fee return (e.g. Colorado
-     * DR 1786).
-     */
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("retail_delivery_fee_obligated")
-    private Optional<Boolean> retailDeliveryFeeObligated;
-
-    /**
-     * First date from which retail delivery fee filings may be generated. Periods that closed before this
-     * date must not get those filings.
-     */
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("retail_delivery_fee_effective_from")
-    private JsonNullable<LocalDate> retailDeliveryFeeEffectiveFrom;
-
-    /**
      * Indicates whether an initial synchronization should be performed.
      */
     @JsonInclude(Include.NON_ABSENT)
@@ -296,9 +287,11 @@ public class RegistrationRead {
      * 
      * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
      * one return can cover both taxes, and each is stored as a single row.
-     * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
-     * separate obligations with their own met dates, period models, and liability
-     * accrual.
+     * Nexus rows are SALES_TAX, USE_TAX, RETAIL_DELIVERY_FEE, or
+     * SMALL_PARCEL_VAT. Sales tax, use tax, the retail delivery fee, and the
+     * Swiss small-parcel threshold are separate obligations with their own met
+     * dates and period models. SMALL_PARCEL_VAT is a threshold only. A sales
+     * tax registration covers it, and it has no account and no return of its own.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("tax_type")
@@ -309,7 +302,7 @@ public class RegistrationRead {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("marked_collecting_date")
-    private JsonNullable<OffsetDateTime> markedCollectingDate;
+    private JsonNullable<String> markedCollectingDate;
 
     /**
      * Indicates whether the registration needs to be marked as collecting.
@@ -329,7 +322,7 @@ public class RegistrationRead {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("created_at")
-    private JsonNullable<OffsetDateTime> createdAt;
+    private JsonNullable<String> createdAt;
 
 
     @JsonInclude(Include.NON_ABSENT)
@@ -347,6 +340,41 @@ public class RegistrationRead {
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("jurisdiction_specific_fields")
     private JsonNullable<? extends Map<String, Object>> jurisdictionSpecificFields;
+
+    /**
+     * Effective date the registration closes with the jurisdiction.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("deregistration_closure_date")
+    private JsonNullable<LocalDate> deregistrationClosureDate;
+
+    /**
+     * Reason the registration is being closed.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("deregistration_reason")
+    private JsonNullable<? extends DeregistrationReasonEnum> deregistrationReason;
+
+    /**
+     * When final-return acknowledgement was recorded.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("deregistration_acknowledged_at")
+    private JsonNullable<String> deregistrationAcknowledgedAt;
+
+    /**
+     * True when the Kintsugi Mail address is on file with the state for this registration.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("kintsugi_mail_on_file")
+    private Optional<Boolean> kintsugiMailOnFile;
+
+    /**
+     * Date Tax Ops marked Kintsugi Mail as on file with the state. Null when not on file.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("kintsugi_mail_confirmed_at")
+    private JsonNullable<LocalDate> kintsugiMailConfirmedAt;
 
 
     @JsonProperty("filing_days")
@@ -367,10 +395,10 @@ public class RegistrationRead {
     public RegistrationRead(
             @JsonProperty("registration_date") JsonNullable<LocalDate> registrationDate,
             @JsonProperty("registration_email") JsonNullable<String> registrationEmail,
-            @JsonProperty("registration_requested") JsonNullable<OffsetDateTime> registrationRequested,
-            @JsonProperty("registration_completed") JsonNullable<OffsetDateTime> registrationCompleted,
-            @JsonProperty("deregistration_requested") JsonNullable<OffsetDateTime> deregistrationRequested,
-            @JsonProperty("deregistration_completed") JsonNullable<OffsetDateTime> deregistrationCompleted,
+            @JsonProperty("registration_requested") JsonNullable<String> registrationRequested,
+            @JsonProperty("registration_completed") JsonNullable<String> registrationCompleted,
+            @JsonProperty("deregistration_requested") JsonNullable<String> deregistrationRequested,
+            @JsonProperty("deregistration_completed") JsonNullable<String> deregistrationCompleted,
             @JsonProperty("auto_registered") JsonNullable<Boolean> autoRegistered,
             @JsonProperty("registrations_regime") JsonNullable<? extends RegistrationsRegimeEnum> registrationsRegime,
             @JsonProperty("change_regime_status") JsonNullable<? extends ChangeRegimeStatusEnum> changeRegimeStatus,
@@ -378,6 +406,7 @@ public class RegistrationRead {
             @JsonProperty("do_not_file") Optional<Boolean> doNotFile,
             @JsonProperty("two_factor_enabled") JsonNullable<Boolean> twoFactorEnabled,
             @JsonProperty("marked_collecting") JsonNullable<Boolean> markedCollecting,
+            @JsonProperty("is_pre_collecting") Optional<Boolean> isPreCollecting,
             @JsonProperty("status") RegistrationStatusEnum status,
             @JsonProperty("country_code") CountryCodeEnum countryCode,
             @JsonProperty("state_code") String stateCode,
@@ -391,8 +420,6 @@ public class RegistrationRead {
             @JsonProperty("comment") JsonNullable<String> comment,
             @JsonProperty("create_filings_from") JsonNullable<LocalDate> createFilingsFrom,
             @JsonProperty("create_back_filing") Optional<Boolean> createBackFiling,
-            @JsonProperty("retail_delivery_fee_obligated") Optional<Boolean> retailDeliveryFeeObligated,
-            @JsonProperty("retail_delivery_fee_effective_from") JsonNullable<LocalDate> retailDeliveryFeeEffectiveFrom,
             @JsonProperty("initial_sync") JsonNullable<Boolean> initialSync,
             @JsonProperty("amount_fees") Optional<String> amountFees,
             @JsonProperty("vda") JsonNullable<Boolean> vda,
@@ -404,13 +431,18 @@ public class RegistrationRead {
             @JsonProperty("oss_type") JsonNullable<? extends OssTypeEnum> ossType,
             @JsonProperty("oss_member_state_of_identification_code") JsonNullable<? extends CountryCodeEnum> ossMemberStateOfIdentificationCode,
             @JsonProperty("tax_type") Optional<? extends TaxTypeEnum> taxType,
-            @JsonProperty("marked_collecting_date") JsonNullable<OffsetDateTime> markedCollectingDate,
+            @JsonProperty("marked_collecting_date") JsonNullable<String> markedCollectingDate,
             @JsonProperty("needs_mark_as_collecting") JsonNullable<Boolean> needsMarkAsCollecting,
             @JsonProperty("id") String id,
-            @JsonProperty("created_at") JsonNullable<OffsetDateTime> createdAt,
+            @JsonProperty("created_at") JsonNullable<String> createdAt,
             @JsonProperty("credits_total_available") Optional<String> creditsTotalAvailable,
             @JsonProperty("registration_category") Optional<? extends RegistrationCategoryEnum> registrationCategory,
             @JsonProperty("jurisdiction_specific_fields") JsonNullable<? extends Map<String, Object>> jurisdictionSpecificFields,
+            @JsonProperty("deregistration_closure_date") JsonNullable<LocalDate> deregistrationClosureDate,
+            @JsonProperty("deregistration_reason") JsonNullable<? extends DeregistrationReasonEnum> deregistrationReason,
+            @JsonProperty("deregistration_acknowledged_at") JsonNullable<String> deregistrationAcknowledgedAt,
+            @JsonProperty("kintsugi_mail_on_file") Optional<Boolean> kintsugiMailOnFile,
+            @JsonProperty("kintsugi_mail_confirmed_at") JsonNullable<LocalDate> kintsugiMailConfirmedAt,
             @JsonProperty("filing_days") long filingDays,
             @JsonProperty("registration_type") RegistrationTypeEnum registrationType,
             @JsonProperty("filing_website_url") Optional<String> filingWebsiteUrl) {
@@ -427,6 +459,7 @@ public class RegistrationRead {
         Utils.checkNotNull(doNotFile, "doNotFile");
         Utils.checkNotNull(twoFactorEnabled, "twoFactorEnabled");
         Utils.checkNotNull(markedCollecting, "markedCollecting");
+        Utils.checkNotNull(isPreCollecting, "isPreCollecting");
         Utils.checkNotNull(status, "status");
         Utils.checkNotNull(countryCode, "countryCode");
         Utils.checkNotNull(stateCode, "stateCode");
@@ -440,8 +473,6 @@ public class RegistrationRead {
         Utils.checkNotNull(comment, "comment");
         Utils.checkNotNull(createFilingsFrom, "createFilingsFrom");
         Utils.checkNotNull(createBackFiling, "createBackFiling");
-        Utils.checkNotNull(retailDeliveryFeeObligated, "retailDeliveryFeeObligated");
-        Utils.checkNotNull(retailDeliveryFeeEffectiveFrom, "retailDeliveryFeeEffectiveFrom");
         Utils.checkNotNull(initialSync, "initialSync");
         Utils.checkNotNull(amountFees, "amountFees");
         Utils.checkNotNull(vda, "vda");
@@ -460,6 +491,11 @@ public class RegistrationRead {
         Utils.checkNotNull(creditsTotalAvailable, "creditsTotalAvailable");
         Utils.checkNotNull(registrationCategory, "registrationCategory");
         Utils.checkNotNull(jurisdictionSpecificFields, "jurisdictionSpecificFields");
+        Utils.checkNotNull(deregistrationClosureDate, "deregistrationClosureDate");
+        Utils.checkNotNull(deregistrationReason, "deregistrationReason");
+        Utils.checkNotNull(deregistrationAcknowledgedAt, "deregistrationAcknowledgedAt");
+        Utils.checkNotNull(kintsugiMailOnFile, "kintsugiMailOnFile");
+        Utils.checkNotNull(kintsugiMailConfirmedAt, "kintsugiMailConfirmedAt");
         Utils.checkNotNull(filingDays, "filingDays");
         Utils.checkNotNull(registrationType, "registrationType");
         Utils.checkNotNull(filingWebsiteUrl, "filingWebsiteUrl");
@@ -476,6 +512,7 @@ public class RegistrationRead {
         this.doNotFile = doNotFile;
         this.twoFactorEnabled = twoFactorEnabled;
         this.markedCollecting = markedCollecting;
+        this.isPreCollecting = isPreCollecting;
         this.status = status;
         this.countryCode = countryCode;
         this.stateCode = stateCode;
@@ -489,8 +526,6 @@ public class RegistrationRead {
         this.comment = comment;
         this.createFilingsFrom = createFilingsFrom;
         this.createBackFiling = createBackFiling;
-        this.retailDeliveryFeeObligated = retailDeliveryFeeObligated;
-        this.retailDeliveryFeeEffectiveFrom = retailDeliveryFeeEffectiveFrom;
         this.initialSync = initialSync;
         this.amountFees = amountFees;
         this.vda = vda;
@@ -509,6 +544,11 @@ public class RegistrationRead {
         this.creditsTotalAvailable = creditsTotalAvailable;
         this.registrationCategory = registrationCategory;
         this.jurisdictionSpecificFields = jurisdictionSpecificFields;
+        this.deregistrationClosureDate = deregistrationClosureDate;
+        this.deregistrationReason = deregistrationReason;
+        this.deregistrationAcknowledgedAt = deregistrationAcknowledgedAt;
+        this.kintsugiMailOnFile = kintsugiMailOnFile;
+        this.kintsugiMailConfirmedAt = kintsugiMailConfirmedAt;
         this.filingDays = filingDays;
         this.registrationType = registrationType;
         this.filingWebsiteUrl = filingWebsiteUrl;
@@ -527,19 +567,20 @@ public class RegistrationRead {
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), Optional.empty(), JsonNullable.undefined(),
-            JsonNullable.undefined(), status, countryCode,
-            stateCode, stateName, filingFrequency,
-            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
-            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
-            JsonNullable.undefined(), Optional.empty(), Optional.empty(),
-            JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty(),
-            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), Optional.empty(), status,
+            countryCode, stateCode, stateName,
+            filingFrequency, JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty(),
-            JsonNullable.undefined(), JsonNullable.undefined(), id,
-            JsonNullable.undefined(), Optional.empty(), Optional.empty(),
-            JsonNullable.undefined(), filingDays, registrationType,
-            Optional.empty());
+            JsonNullable.undefined(), Optional.empty(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), Optional.empty(), JsonNullable.undefined(),
+            JsonNullable.undefined(), id, JsonNullable.undefined(),
+            Optional.empty(), Optional.empty(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            Optional.empty(), JsonNullable.undefined(), filingDays,
+            registrationType, Optional.empty());
     }
 
     /**
@@ -562,7 +603,7 @@ public class RegistrationRead {
      * Timestamp when the registration was requested.
      */
     @JsonIgnore
-    public JsonNullable<OffsetDateTime> registrationRequested() {
+    public JsonNullable<String> registrationRequested() {
         return registrationRequested;
     }
 
@@ -570,7 +611,7 @@ public class RegistrationRead {
      * Timestamp when the registration was completed.
      */
     @JsonIgnore
-    public JsonNullable<OffsetDateTime> registrationCompleted() {
+    public JsonNullable<String> registrationCompleted() {
         return registrationCompleted;
     }
 
@@ -578,7 +619,7 @@ public class RegistrationRead {
      * Timestamp when deregistration was requested.
      */
     @JsonIgnore
-    public JsonNullable<OffsetDateTime> deregistrationRequested() {
+    public JsonNullable<String> deregistrationRequested() {
         return deregistrationRequested;
     }
 
@@ -586,7 +627,7 @@ public class RegistrationRead {
      * Timestamp when the deregistration was completed.
      */
     @JsonIgnore
-    public JsonNullable<OffsetDateTime> deregistrationCompleted() {
+    public JsonNullable<String> deregistrationCompleted() {
         return deregistrationCompleted;
     }
 
@@ -643,6 +684,15 @@ public class RegistrationRead {
     @JsonIgnore
     public JsonNullable<Boolean> markedCollecting() {
         return markedCollecting;
+    }
+
+    /**
+     * True when this PROCESSING registration marks the organization as collecting tax in the jurisdiction
+     * ahead of registration details. It skips the Tax Ops registration task until the flag is cleared.
+     */
+    @JsonIgnore
+    public Optional<Boolean> isPreCollecting() {
+        return isPreCollecting;
     }
 
     @JsonIgnore
@@ -751,24 +801,6 @@ public class RegistrationRead {
     }
 
     /**
-     * Whether this registration is declared obligated to file a Retail Delivery Fee return (e.g. Colorado
-     * DR 1786).
-     */
-    @JsonIgnore
-    public Optional<Boolean> retailDeliveryFeeObligated() {
-        return retailDeliveryFeeObligated;
-    }
-
-    /**
-     * First date from which retail delivery fee filings may be generated. Periods that closed before this
-     * date must not get those filings.
-     */
-    @JsonIgnore
-    public JsonNullable<LocalDate> retailDeliveryFeeEffectiveFrom() {
-        return retailDeliveryFeeEffectiveFrom;
-    }
-
-    /**
      * Indicates whether an initial synchronization should be performed.
      */
     @JsonIgnore
@@ -858,9 +890,11 @@ public class RegistrationRead {
      * 
      * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
      * one return can cover both taxes, and each is stored as a single row.
-     * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
-     * separate obligations with their own met dates, period models, and liability
-     * accrual.
+     * Nexus rows are SALES_TAX, USE_TAX, RETAIL_DELIVERY_FEE, or
+     * SMALL_PARCEL_VAT. Sales tax, use tax, the retail delivery fee, and the
+     * Swiss small-parcel threshold are separate obligations with their own met
+     * dates and period models. SMALL_PARCEL_VAT is a threshold only. A sales
+     * tax registration covers it, and it has no account and no return of its own.
      */
     @SuppressWarnings("unchecked")
     @JsonIgnore
@@ -872,7 +906,7 @@ public class RegistrationRead {
      * The date when the registration was marked as collecting.
      */
     @JsonIgnore
-    public JsonNullable<OffsetDateTime> markedCollectingDate() {
+    public JsonNullable<String> markedCollectingDate() {
         return markedCollectingDate;
     }
 
@@ -896,7 +930,7 @@ public class RegistrationRead {
      * Timestamp when this registration was created in Kintsugi.
      */
     @JsonIgnore
-    public JsonNullable<OffsetDateTime> createdAt() {
+    public JsonNullable<String> createdAt() {
         return createdAt;
     }
 
@@ -918,6 +952,47 @@ public class RegistrationRead {
     @JsonIgnore
     public JsonNullable<Map<String, Object>> jurisdictionSpecificFields() {
         return (JsonNullable<Map<String, Object>>) jurisdictionSpecificFields;
+    }
+
+    /**
+     * Effective date the registration closes with the jurisdiction.
+     */
+    @JsonIgnore
+    public JsonNullable<LocalDate> deregistrationClosureDate() {
+        return deregistrationClosureDate;
+    }
+
+    /**
+     * Reason the registration is being closed.
+     */
+    @SuppressWarnings("unchecked")
+    @JsonIgnore
+    public JsonNullable<DeregistrationReasonEnum> deregistrationReason() {
+        return (JsonNullable<DeregistrationReasonEnum>) deregistrationReason;
+    }
+
+    /**
+     * When final-return acknowledgement was recorded.
+     */
+    @JsonIgnore
+    public JsonNullable<String> deregistrationAcknowledgedAt() {
+        return deregistrationAcknowledgedAt;
+    }
+
+    /**
+     * True when the Kintsugi Mail address is on file with the state for this registration.
+     */
+    @JsonIgnore
+    public Optional<Boolean> kintsugiMailOnFile() {
+        return kintsugiMailOnFile;
+    }
+
+    /**
+     * Date Tax Ops marked Kintsugi Mail as on file with the state. Null when not on file.
+     */
+    @JsonIgnore
+    public JsonNullable<LocalDate> kintsugiMailConfirmedAt() {
+        return kintsugiMailConfirmedAt;
     }
 
     @JsonIgnore
@@ -982,7 +1057,7 @@ public class RegistrationRead {
     /**
      * Timestamp when the registration was requested.
      */
-    public RegistrationRead withRegistrationRequested(OffsetDateTime registrationRequested) {
+    public RegistrationRead withRegistrationRequested(String registrationRequested) {
         Utils.checkNotNull(registrationRequested, "registrationRequested");
         this.registrationRequested = JsonNullable.of(registrationRequested);
         return this;
@@ -991,7 +1066,7 @@ public class RegistrationRead {
     /**
      * Timestamp when the registration was requested.
      */
-    public RegistrationRead withRegistrationRequested(JsonNullable<OffsetDateTime> registrationRequested) {
+    public RegistrationRead withRegistrationRequested(JsonNullable<String> registrationRequested) {
         Utils.checkNotNull(registrationRequested, "registrationRequested");
         this.registrationRequested = registrationRequested;
         return this;
@@ -1000,7 +1075,7 @@ public class RegistrationRead {
     /**
      * Timestamp when the registration was completed.
      */
-    public RegistrationRead withRegistrationCompleted(OffsetDateTime registrationCompleted) {
+    public RegistrationRead withRegistrationCompleted(String registrationCompleted) {
         Utils.checkNotNull(registrationCompleted, "registrationCompleted");
         this.registrationCompleted = JsonNullable.of(registrationCompleted);
         return this;
@@ -1009,7 +1084,7 @@ public class RegistrationRead {
     /**
      * Timestamp when the registration was completed.
      */
-    public RegistrationRead withRegistrationCompleted(JsonNullable<OffsetDateTime> registrationCompleted) {
+    public RegistrationRead withRegistrationCompleted(JsonNullable<String> registrationCompleted) {
         Utils.checkNotNull(registrationCompleted, "registrationCompleted");
         this.registrationCompleted = registrationCompleted;
         return this;
@@ -1018,7 +1093,7 @@ public class RegistrationRead {
     /**
      * Timestamp when deregistration was requested.
      */
-    public RegistrationRead withDeregistrationRequested(OffsetDateTime deregistrationRequested) {
+    public RegistrationRead withDeregistrationRequested(String deregistrationRequested) {
         Utils.checkNotNull(deregistrationRequested, "deregistrationRequested");
         this.deregistrationRequested = JsonNullable.of(deregistrationRequested);
         return this;
@@ -1027,7 +1102,7 @@ public class RegistrationRead {
     /**
      * Timestamp when deregistration was requested.
      */
-    public RegistrationRead withDeregistrationRequested(JsonNullable<OffsetDateTime> deregistrationRequested) {
+    public RegistrationRead withDeregistrationRequested(JsonNullable<String> deregistrationRequested) {
         Utils.checkNotNull(deregistrationRequested, "deregistrationRequested");
         this.deregistrationRequested = deregistrationRequested;
         return this;
@@ -1036,7 +1111,7 @@ public class RegistrationRead {
     /**
      * Timestamp when the deregistration was completed.
      */
-    public RegistrationRead withDeregistrationCompleted(OffsetDateTime deregistrationCompleted) {
+    public RegistrationRead withDeregistrationCompleted(String deregistrationCompleted) {
         Utils.checkNotNull(deregistrationCompleted, "deregistrationCompleted");
         this.deregistrationCompleted = JsonNullable.of(deregistrationCompleted);
         return this;
@@ -1045,7 +1120,7 @@ public class RegistrationRead {
     /**
      * Timestamp when the deregistration was completed.
      */
-    public RegistrationRead withDeregistrationCompleted(JsonNullable<OffsetDateTime> deregistrationCompleted) {
+    public RegistrationRead withDeregistrationCompleted(JsonNullable<String> deregistrationCompleted) {
         Utils.checkNotNull(deregistrationCompleted, "deregistrationCompleted");
         this.deregistrationCompleted = deregistrationCompleted;
         return this;
@@ -1169,6 +1244,27 @@ public class RegistrationRead {
     public RegistrationRead withMarkedCollecting(JsonNullable<Boolean> markedCollecting) {
         Utils.checkNotNull(markedCollecting, "markedCollecting");
         this.markedCollecting = markedCollecting;
+        return this;
+    }
+
+    /**
+     * True when this PROCESSING registration marks the organization as collecting tax in the jurisdiction
+     * ahead of registration details. It skips the Tax Ops registration task until the flag is cleared.
+     */
+    public RegistrationRead withIsPreCollecting(boolean isPreCollecting) {
+        Utils.checkNotNull(isPreCollecting, "isPreCollecting");
+        this.isPreCollecting = Optional.ofNullable(isPreCollecting);
+        return this;
+    }
+
+
+    /**
+     * True when this PROCESSING registration marks the organization as collecting tax in the jurisdiction
+     * ahead of registration details. It skips the Tax Ops registration task until the flag is cleared.
+     */
+    public RegistrationRead withIsPreCollecting(Optional<Boolean> isPreCollecting) {
+        Utils.checkNotNull(isPreCollecting, "isPreCollecting");
+        this.isPreCollecting = isPreCollecting;
         return this;
     }
 
@@ -1370,47 +1466,6 @@ public class RegistrationRead {
     }
 
     /**
-     * Whether this registration is declared obligated to file a Retail Delivery Fee return (e.g. Colorado
-     * DR 1786).
-     */
-    public RegistrationRead withRetailDeliveryFeeObligated(boolean retailDeliveryFeeObligated) {
-        Utils.checkNotNull(retailDeliveryFeeObligated, "retailDeliveryFeeObligated");
-        this.retailDeliveryFeeObligated = Optional.ofNullable(retailDeliveryFeeObligated);
-        return this;
-    }
-
-
-    /**
-     * Whether this registration is declared obligated to file a Retail Delivery Fee return (e.g. Colorado
-     * DR 1786).
-     */
-    public RegistrationRead withRetailDeliveryFeeObligated(Optional<Boolean> retailDeliveryFeeObligated) {
-        Utils.checkNotNull(retailDeliveryFeeObligated, "retailDeliveryFeeObligated");
-        this.retailDeliveryFeeObligated = retailDeliveryFeeObligated;
-        return this;
-    }
-
-    /**
-     * First date from which retail delivery fee filings may be generated. Periods that closed before this
-     * date must not get those filings.
-     */
-    public RegistrationRead withRetailDeliveryFeeEffectiveFrom(LocalDate retailDeliveryFeeEffectiveFrom) {
-        Utils.checkNotNull(retailDeliveryFeeEffectiveFrom, "retailDeliveryFeeEffectiveFrom");
-        this.retailDeliveryFeeEffectiveFrom = JsonNullable.of(retailDeliveryFeeEffectiveFrom);
-        return this;
-    }
-
-    /**
-     * First date from which retail delivery fee filings may be generated. Periods that closed before this
-     * date must not get those filings.
-     */
-    public RegistrationRead withRetailDeliveryFeeEffectiveFrom(JsonNullable<LocalDate> retailDeliveryFeeEffectiveFrom) {
-        Utils.checkNotNull(retailDeliveryFeeEffectiveFrom, "retailDeliveryFeeEffectiveFrom");
-        this.retailDeliveryFeeEffectiveFrom = retailDeliveryFeeEffectiveFrom;
-        return this;
-    }
-
-    /**
      * Indicates whether an initial synchronization should be performed.
      */
     public RegistrationRead withInitialSync(boolean initialSync) {
@@ -1602,9 +1657,11 @@ public class RegistrationRead {
      * 
      * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
      * one return can cover both taxes, and each is stored as a single row.
-     * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
-     * separate obligations with their own met dates, period models, and liability
-     * accrual.
+     * Nexus rows are SALES_TAX, USE_TAX, RETAIL_DELIVERY_FEE, or
+     * SMALL_PARCEL_VAT. Sales tax, use tax, the retail delivery fee, and the
+     * Swiss small-parcel threshold are separate obligations with their own met
+     * dates and period models. SMALL_PARCEL_VAT is a threshold only. A sales
+     * tax registration covers it, and it has no account and no return of its own.
      */
     public RegistrationRead withTaxType(TaxTypeEnum taxType) {
         Utils.checkNotNull(taxType, "taxType");
@@ -1618,9 +1675,11 @@ public class RegistrationRead {
      * 
      * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
      * one return can cover both taxes, and each is stored as a single row.
-     * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
-     * separate obligations with their own met dates, period models, and liability
-     * accrual.
+     * Nexus rows are SALES_TAX, USE_TAX, RETAIL_DELIVERY_FEE, or
+     * SMALL_PARCEL_VAT. Sales tax, use tax, the retail delivery fee, and the
+     * Swiss small-parcel threshold are separate obligations with their own met
+     * dates and period models. SMALL_PARCEL_VAT is a threshold only. A sales
+     * tax registration covers it, and it has no account and no return of its own.
      */
     public RegistrationRead withTaxType(Optional<? extends TaxTypeEnum> taxType) {
         Utils.checkNotNull(taxType, "taxType");
@@ -1631,7 +1690,7 @@ public class RegistrationRead {
     /**
      * The date when the registration was marked as collecting.
      */
-    public RegistrationRead withMarkedCollectingDate(OffsetDateTime markedCollectingDate) {
+    public RegistrationRead withMarkedCollectingDate(String markedCollectingDate) {
         Utils.checkNotNull(markedCollectingDate, "markedCollectingDate");
         this.markedCollectingDate = JsonNullable.of(markedCollectingDate);
         return this;
@@ -1640,7 +1699,7 @@ public class RegistrationRead {
     /**
      * The date when the registration was marked as collecting.
      */
-    public RegistrationRead withMarkedCollectingDate(JsonNullable<OffsetDateTime> markedCollectingDate) {
+    public RegistrationRead withMarkedCollectingDate(JsonNullable<String> markedCollectingDate) {
         Utils.checkNotNull(markedCollectingDate, "markedCollectingDate");
         this.markedCollectingDate = markedCollectingDate;
         return this;
@@ -1676,7 +1735,7 @@ public class RegistrationRead {
     /**
      * Timestamp when this registration was created in Kintsugi.
      */
-    public RegistrationRead withCreatedAt(OffsetDateTime createdAt) {
+    public RegistrationRead withCreatedAt(String createdAt) {
         Utils.checkNotNull(createdAt, "createdAt");
         this.createdAt = JsonNullable.of(createdAt);
         return this;
@@ -1685,7 +1744,7 @@ public class RegistrationRead {
     /**
      * Timestamp when this registration was created in Kintsugi.
      */
-    public RegistrationRead withCreatedAt(JsonNullable<OffsetDateTime> createdAt) {
+    public RegistrationRead withCreatedAt(JsonNullable<String> createdAt) {
         Utils.checkNotNull(createdAt, "createdAt");
         this.createdAt = createdAt;
         return this;
@@ -1732,6 +1791,97 @@ public class RegistrationRead {
     public RegistrationRead withJurisdictionSpecificFields(JsonNullable<? extends Map<String, Object>> jurisdictionSpecificFields) {
         Utils.checkNotNull(jurisdictionSpecificFields, "jurisdictionSpecificFields");
         this.jurisdictionSpecificFields = jurisdictionSpecificFields;
+        return this;
+    }
+
+    /**
+     * Effective date the registration closes with the jurisdiction.
+     */
+    public RegistrationRead withDeregistrationClosureDate(LocalDate deregistrationClosureDate) {
+        Utils.checkNotNull(deregistrationClosureDate, "deregistrationClosureDate");
+        this.deregistrationClosureDate = JsonNullable.of(deregistrationClosureDate);
+        return this;
+    }
+
+    /**
+     * Effective date the registration closes with the jurisdiction.
+     */
+    public RegistrationRead withDeregistrationClosureDate(JsonNullable<LocalDate> deregistrationClosureDate) {
+        Utils.checkNotNull(deregistrationClosureDate, "deregistrationClosureDate");
+        this.deregistrationClosureDate = deregistrationClosureDate;
+        return this;
+    }
+
+    /**
+     * Reason the registration is being closed.
+     */
+    public RegistrationRead withDeregistrationReason(DeregistrationReasonEnum deregistrationReason) {
+        Utils.checkNotNull(deregistrationReason, "deregistrationReason");
+        this.deregistrationReason = JsonNullable.of(deregistrationReason);
+        return this;
+    }
+
+    /**
+     * Reason the registration is being closed.
+     */
+    public RegistrationRead withDeregistrationReason(JsonNullable<? extends DeregistrationReasonEnum> deregistrationReason) {
+        Utils.checkNotNull(deregistrationReason, "deregistrationReason");
+        this.deregistrationReason = deregistrationReason;
+        return this;
+    }
+
+    /**
+     * When final-return acknowledgement was recorded.
+     */
+    public RegistrationRead withDeregistrationAcknowledgedAt(String deregistrationAcknowledgedAt) {
+        Utils.checkNotNull(deregistrationAcknowledgedAt, "deregistrationAcknowledgedAt");
+        this.deregistrationAcknowledgedAt = JsonNullable.of(deregistrationAcknowledgedAt);
+        return this;
+    }
+
+    /**
+     * When final-return acknowledgement was recorded.
+     */
+    public RegistrationRead withDeregistrationAcknowledgedAt(JsonNullable<String> deregistrationAcknowledgedAt) {
+        Utils.checkNotNull(deregistrationAcknowledgedAt, "deregistrationAcknowledgedAt");
+        this.deregistrationAcknowledgedAt = deregistrationAcknowledgedAt;
+        return this;
+    }
+
+    /**
+     * True when the Kintsugi Mail address is on file with the state for this registration.
+     */
+    public RegistrationRead withKintsugiMailOnFile(boolean kintsugiMailOnFile) {
+        Utils.checkNotNull(kintsugiMailOnFile, "kintsugiMailOnFile");
+        this.kintsugiMailOnFile = Optional.ofNullable(kintsugiMailOnFile);
+        return this;
+    }
+
+
+    /**
+     * True when the Kintsugi Mail address is on file with the state for this registration.
+     */
+    public RegistrationRead withKintsugiMailOnFile(Optional<Boolean> kintsugiMailOnFile) {
+        Utils.checkNotNull(kintsugiMailOnFile, "kintsugiMailOnFile");
+        this.kintsugiMailOnFile = kintsugiMailOnFile;
+        return this;
+    }
+
+    /**
+     * Date Tax Ops marked Kintsugi Mail as on file with the state. Null when not on file.
+     */
+    public RegistrationRead withKintsugiMailConfirmedAt(LocalDate kintsugiMailConfirmedAt) {
+        Utils.checkNotNull(kintsugiMailConfirmedAt, "kintsugiMailConfirmedAt");
+        this.kintsugiMailConfirmedAt = JsonNullable.of(kintsugiMailConfirmedAt);
+        return this;
+    }
+
+    /**
+     * Date Tax Ops marked Kintsugi Mail as on file with the state. Null when not on file.
+     */
+    public RegistrationRead withKintsugiMailConfirmedAt(JsonNullable<LocalDate> kintsugiMailConfirmedAt) {
+        Utils.checkNotNull(kintsugiMailConfirmedAt, "kintsugiMailConfirmedAt");
+        this.kintsugiMailConfirmedAt = kintsugiMailConfirmedAt;
         return this;
     }
 
@@ -1789,6 +1939,7 @@ public class RegistrationRead {
             Utils.enhancedDeepEquals(this.doNotFile, other.doNotFile) &&
             Utils.enhancedDeepEquals(this.twoFactorEnabled, other.twoFactorEnabled) &&
             Utils.enhancedDeepEquals(this.markedCollecting, other.markedCollecting) &&
+            Utils.enhancedDeepEquals(this.isPreCollecting, other.isPreCollecting) &&
             Utils.enhancedDeepEquals(this.status, other.status) &&
             Utils.enhancedDeepEquals(this.countryCode, other.countryCode) &&
             Utils.enhancedDeepEquals(this.stateCode, other.stateCode) &&
@@ -1802,8 +1953,6 @@ public class RegistrationRead {
             Utils.enhancedDeepEquals(this.comment, other.comment) &&
             Utils.enhancedDeepEquals(this.createFilingsFrom, other.createFilingsFrom) &&
             Utils.enhancedDeepEquals(this.createBackFiling, other.createBackFiling) &&
-            Utils.enhancedDeepEquals(this.retailDeliveryFeeObligated, other.retailDeliveryFeeObligated) &&
-            Utils.enhancedDeepEquals(this.retailDeliveryFeeEffectiveFrom, other.retailDeliveryFeeEffectiveFrom) &&
             Utils.enhancedDeepEquals(this.initialSync, other.initialSync) &&
             Utils.enhancedDeepEquals(this.amountFees, other.amountFees) &&
             Utils.enhancedDeepEquals(this.vda, other.vda) &&
@@ -1822,6 +1971,11 @@ public class RegistrationRead {
             Utils.enhancedDeepEquals(this.creditsTotalAvailable, other.creditsTotalAvailable) &&
             Utils.enhancedDeepEquals(this.registrationCategory, other.registrationCategory) &&
             Utils.enhancedDeepEquals(this.jurisdictionSpecificFields, other.jurisdictionSpecificFields) &&
+            Utils.enhancedDeepEquals(this.deregistrationClosureDate, other.deregistrationClosureDate) &&
+            Utils.enhancedDeepEquals(this.deregistrationReason, other.deregistrationReason) &&
+            Utils.enhancedDeepEquals(this.deregistrationAcknowledgedAt, other.deregistrationAcknowledgedAt) &&
+            Utils.enhancedDeepEquals(this.kintsugiMailOnFile, other.kintsugiMailOnFile) &&
+            Utils.enhancedDeepEquals(this.kintsugiMailConfirmedAt, other.kintsugiMailConfirmedAt) &&
             Utils.enhancedDeepEquals(this.filingDays, other.filingDays) &&
             Utils.enhancedDeepEquals(this.registrationType, other.registrationType) &&
             Utils.enhancedDeepEquals(this.filingWebsiteUrl, other.filingWebsiteUrl);
@@ -1834,19 +1988,20 @@ public class RegistrationRead {
             registrationCompleted, deregistrationRequested, deregistrationCompleted,
             autoRegistered, registrationsRegime, changeRegimeStatus,
             thirdPartyEnabled, doNotFile, twoFactorEnabled,
-            markedCollecting, status, countryCode,
-            stateCode, stateName, filingFrequency,
-            initialFilingFrequency, scheduledFilingFrequency, filingFrequencyEffectiveDate,
-            periodEndMonth, username, comment,
-            createFilingsFrom, createBackFiling, retailDeliveryFeeObligated,
-            retailDeliveryFeeEffectiveFrom, initialSync, amountFees,
-            vda, imported, salesTaxId,
-            iorNumber, iorDate, sstImport,
-            ossType, ossMemberStateOfIdentificationCode, taxType,
-            markedCollectingDate, needsMarkAsCollecting, id,
-            createdAt, creditsTotalAvailable, registrationCategory,
-            jurisdictionSpecificFields, filingDays, registrationType,
-            filingWebsiteUrl);
+            markedCollecting, isPreCollecting, status,
+            countryCode, stateCode, stateName,
+            filingFrequency, initialFilingFrequency, scheduledFilingFrequency,
+            filingFrequencyEffectiveDate, periodEndMonth, username,
+            comment, createFilingsFrom, createBackFiling,
+            initialSync, amountFees, vda,
+            imported, salesTaxId, iorNumber,
+            iorDate, sstImport, ossType,
+            ossMemberStateOfIdentificationCode, taxType, markedCollectingDate,
+            needsMarkAsCollecting, id, createdAt,
+            creditsTotalAvailable, registrationCategory, jurisdictionSpecificFields,
+            deregistrationClosureDate, deregistrationReason, deregistrationAcknowledgedAt,
+            kintsugiMailOnFile, kintsugiMailConfirmedAt, filingDays,
+            registrationType, filingWebsiteUrl);
     }
     
     @Override
@@ -1865,6 +2020,7 @@ public class RegistrationRead {
                 "doNotFile", doNotFile,
                 "twoFactorEnabled", twoFactorEnabled,
                 "markedCollecting", markedCollecting,
+                "isPreCollecting", isPreCollecting,
                 "status", status,
                 "countryCode", countryCode,
                 "stateCode", stateCode,
@@ -1878,8 +2034,6 @@ public class RegistrationRead {
                 "comment", comment,
                 "createFilingsFrom", createFilingsFrom,
                 "createBackFiling", createBackFiling,
-                "retailDeliveryFeeObligated", retailDeliveryFeeObligated,
-                "retailDeliveryFeeEffectiveFrom", retailDeliveryFeeEffectiveFrom,
                 "initialSync", initialSync,
                 "amountFees", amountFees,
                 "vda", vda,
@@ -1898,6 +2052,11 @@ public class RegistrationRead {
                 "creditsTotalAvailable", creditsTotalAvailable,
                 "registrationCategory", registrationCategory,
                 "jurisdictionSpecificFields", jurisdictionSpecificFields,
+                "deregistrationClosureDate", deregistrationClosureDate,
+                "deregistrationReason", deregistrationReason,
+                "deregistrationAcknowledgedAt", deregistrationAcknowledgedAt,
+                "kintsugiMailOnFile", kintsugiMailOnFile,
+                "kintsugiMailConfirmedAt", kintsugiMailConfirmedAt,
                 "filingDays", filingDays,
                 "registrationType", registrationType,
                 "filingWebsiteUrl", filingWebsiteUrl);
@@ -1910,13 +2069,13 @@ public class RegistrationRead {
 
         private JsonNullable<String> registrationEmail = JsonNullable.undefined();
 
-        private JsonNullable<OffsetDateTime> registrationRequested = JsonNullable.undefined();
+        private JsonNullable<String> registrationRequested = JsonNullable.undefined();
 
-        private JsonNullable<OffsetDateTime> registrationCompleted = JsonNullable.undefined();
+        private JsonNullable<String> registrationCompleted = JsonNullable.undefined();
 
-        private JsonNullable<OffsetDateTime> deregistrationRequested = JsonNullable.undefined();
+        private JsonNullable<String> deregistrationRequested = JsonNullable.undefined();
 
-        private JsonNullable<OffsetDateTime> deregistrationCompleted = JsonNullable.undefined();
+        private JsonNullable<String> deregistrationCompleted = JsonNullable.undefined();
 
         private JsonNullable<Boolean> autoRegistered = JsonNullable.undefined();
 
@@ -1931,6 +2090,8 @@ public class RegistrationRead {
         private JsonNullable<Boolean> twoFactorEnabled = JsonNullable.undefined();
 
         private JsonNullable<Boolean> markedCollecting = JsonNullable.undefined();
+
+        private Optional<Boolean> isPreCollecting;
 
         private RegistrationStatusEnum status;
 
@@ -1958,10 +2119,6 @@ public class RegistrationRead {
 
         private Optional<Boolean> createBackFiling;
 
-        private Optional<Boolean> retailDeliveryFeeObligated;
-
-        private JsonNullable<LocalDate> retailDeliveryFeeEffectiveFrom = JsonNullable.undefined();
-
         private JsonNullable<Boolean> initialSync = JsonNullable.undefined();
 
         private Optional<String> amountFees;
@@ -1984,19 +2141,29 @@ public class RegistrationRead {
 
         private Optional<? extends TaxTypeEnum> taxType = Optional.empty();
 
-        private JsonNullable<OffsetDateTime> markedCollectingDate = JsonNullable.undefined();
+        private JsonNullable<String> markedCollectingDate = JsonNullable.undefined();
 
         private JsonNullable<Boolean> needsMarkAsCollecting = JsonNullable.undefined();
 
         private String id;
 
-        private JsonNullable<OffsetDateTime> createdAt = JsonNullable.undefined();
+        private JsonNullable<String> createdAt = JsonNullable.undefined();
 
         private Optional<String> creditsTotalAvailable;
 
         private Optional<? extends RegistrationCategoryEnum> registrationCategory = Optional.empty();
 
         private JsonNullable<? extends Map<String, Object>> jurisdictionSpecificFields = JsonNullable.undefined();
+
+        private JsonNullable<LocalDate> deregistrationClosureDate = JsonNullable.undefined();
+
+        private JsonNullable<? extends DeregistrationReasonEnum> deregistrationReason = JsonNullable.undefined();
+
+        private JsonNullable<String> deregistrationAcknowledgedAt = JsonNullable.undefined();
+
+        private Optional<Boolean> kintsugiMailOnFile;
+
+        private JsonNullable<LocalDate> kintsugiMailConfirmedAt = JsonNullable.undefined();
 
         private Long filingDays;
 
@@ -2050,7 +2217,7 @@ public class RegistrationRead {
         /**
          * Timestamp when the registration was requested.
          */
-        public Builder registrationRequested(OffsetDateTime registrationRequested) {
+        public Builder registrationRequested(String registrationRequested) {
             Utils.checkNotNull(registrationRequested, "registrationRequested");
             this.registrationRequested = JsonNullable.of(registrationRequested);
             return this;
@@ -2059,7 +2226,7 @@ public class RegistrationRead {
         /**
          * Timestamp when the registration was requested.
          */
-        public Builder registrationRequested(JsonNullable<OffsetDateTime> registrationRequested) {
+        public Builder registrationRequested(JsonNullable<String> registrationRequested) {
             Utils.checkNotNull(registrationRequested, "registrationRequested");
             this.registrationRequested = registrationRequested;
             return this;
@@ -2069,7 +2236,7 @@ public class RegistrationRead {
         /**
          * Timestamp when the registration was completed.
          */
-        public Builder registrationCompleted(OffsetDateTime registrationCompleted) {
+        public Builder registrationCompleted(String registrationCompleted) {
             Utils.checkNotNull(registrationCompleted, "registrationCompleted");
             this.registrationCompleted = JsonNullable.of(registrationCompleted);
             return this;
@@ -2078,7 +2245,7 @@ public class RegistrationRead {
         /**
          * Timestamp when the registration was completed.
          */
-        public Builder registrationCompleted(JsonNullable<OffsetDateTime> registrationCompleted) {
+        public Builder registrationCompleted(JsonNullable<String> registrationCompleted) {
             Utils.checkNotNull(registrationCompleted, "registrationCompleted");
             this.registrationCompleted = registrationCompleted;
             return this;
@@ -2088,7 +2255,7 @@ public class RegistrationRead {
         /**
          * Timestamp when deregistration was requested.
          */
-        public Builder deregistrationRequested(OffsetDateTime deregistrationRequested) {
+        public Builder deregistrationRequested(String deregistrationRequested) {
             Utils.checkNotNull(deregistrationRequested, "deregistrationRequested");
             this.deregistrationRequested = JsonNullable.of(deregistrationRequested);
             return this;
@@ -2097,7 +2264,7 @@ public class RegistrationRead {
         /**
          * Timestamp when deregistration was requested.
          */
-        public Builder deregistrationRequested(JsonNullable<OffsetDateTime> deregistrationRequested) {
+        public Builder deregistrationRequested(JsonNullable<String> deregistrationRequested) {
             Utils.checkNotNull(deregistrationRequested, "deregistrationRequested");
             this.deregistrationRequested = deregistrationRequested;
             return this;
@@ -2107,7 +2274,7 @@ public class RegistrationRead {
         /**
          * Timestamp when the deregistration was completed.
          */
-        public Builder deregistrationCompleted(OffsetDateTime deregistrationCompleted) {
+        public Builder deregistrationCompleted(String deregistrationCompleted) {
             Utils.checkNotNull(deregistrationCompleted, "deregistrationCompleted");
             this.deregistrationCompleted = JsonNullable.of(deregistrationCompleted);
             return this;
@@ -2116,7 +2283,7 @@ public class RegistrationRead {
         /**
          * Timestamp when the deregistration was completed.
          */
-        public Builder deregistrationCompleted(JsonNullable<OffsetDateTime> deregistrationCompleted) {
+        public Builder deregistrationCompleted(JsonNullable<String> deregistrationCompleted) {
             Utils.checkNotNull(deregistrationCompleted, "deregistrationCompleted");
             this.deregistrationCompleted = deregistrationCompleted;
             return this;
@@ -2246,6 +2413,27 @@ public class RegistrationRead {
         public Builder markedCollecting(JsonNullable<Boolean> markedCollecting) {
             Utils.checkNotNull(markedCollecting, "markedCollecting");
             this.markedCollecting = markedCollecting;
+            return this;
+        }
+
+
+        /**
+         * True when this PROCESSING registration marks the organization as collecting tax in the jurisdiction
+         * ahead of registration details. It skips the Tax Ops registration task until the flag is cleared.
+         */
+        public Builder isPreCollecting(boolean isPreCollecting) {
+            Utils.checkNotNull(isPreCollecting, "isPreCollecting");
+            this.isPreCollecting = Optional.ofNullable(isPreCollecting);
+            return this;
+        }
+
+        /**
+         * True when this PROCESSING registration marks the organization as collecting tax in the jurisdiction
+         * ahead of registration details. It skips the Tax Ops registration task until the flag is cleared.
+         */
+        public Builder isPreCollecting(Optional<Boolean> isPreCollecting) {
+            Utils.checkNotNull(isPreCollecting, "isPreCollecting");
+            this.isPreCollecting = isPreCollecting;
             return this;
         }
 
@@ -2460,48 +2648,6 @@ public class RegistrationRead {
 
 
         /**
-         * Whether this registration is declared obligated to file a Retail Delivery Fee return (e.g. Colorado
-         * DR 1786).
-         */
-        public Builder retailDeliveryFeeObligated(boolean retailDeliveryFeeObligated) {
-            Utils.checkNotNull(retailDeliveryFeeObligated, "retailDeliveryFeeObligated");
-            this.retailDeliveryFeeObligated = Optional.ofNullable(retailDeliveryFeeObligated);
-            return this;
-        }
-
-        /**
-         * Whether this registration is declared obligated to file a Retail Delivery Fee return (e.g. Colorado
-         * DR 1786).
-         */
-        public Builder retailDeliveryFeeObligated(Optional<Boolean> retailDeliveryFeeObligated) {
-            Utils.checkNotNull(retailDeliveryFeeObligated, "retailDeliveryFeeObligated");
-            this.retailDeliveryFeeObligated = retailDeliveryFeeObligated;
-            return this;
-        }
-
-
-        /**
-         * First date from which retail delivery fee filings may be generated. Periods that closed before this
-         * date must not get those filings.
-         */
-        public Builder retailDeliveryFeeEffectiveFrom(LocalDate retailDeliveryFeeEffectiveFrom) {
-            Utils.checkNotNull(retailDeliveryFeeEffectiveFrom, "retailDeliveryFeeEffectiveFrom");
-            this.retailDeliveryFeeEffectiveFrom = JsonNullable.of(retailDeliveryFeeEffectiveFrom);
-            return this;
-        }
-
-        /**
-         * First date from which retail delivery fee filings may be generated. Periods that closed before this
-         * date must not get those filings.
-         */
-        public Builder retailDeliveryFeeEffectiveFrom(JsonNullable<LocalDate> retailDeliveryFeeEffectiveFrom) {
-            Utils.checkNotNull(retailDeliveryFeeEffectiveFrom, "retailDeliveryFeeEffectiveFrom");
-            this.retailDeliveryFeeEffectiveFrom = retailDeliveryFeeEffectiveFrom;
-            return this;
-        }
-
-
-        /**
          * Indicates whether an initial synchronization should be performed.
          */
         public Builder initialSync(boolean initialSync) {
@@ -2702,9 +2848,11 @@ public class RegistrationRead {
          * 
          * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
          * one return can cover both taxes, and each is stored as a single row.
-         * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
-         * separate obligations with their own met dates, period models, and liability
-         * accrual.
+         * Nexus rows are SALES_TAX, USE_TAX, RETAIL_DELIVERY_FEE, or
+         * SMALL_PARCEL_VAT. Sales tax, use tax, the retail delivery fee, and the
+         * Swiss small-parcel threshold are separate obligations with their own met
+         * dates and period models. SMALL_PARCEL_VAT is a threshold only. A sales
+         * tax registration covers it, and it has no account and no return of its own.
          */
         public Builder taxType(TaxTypeEnum taxType) {
             Utils.checkNotNull(taxType, "taxType");
@@ -2717,9 +2865,11 @@ public class RegistrationRead {
          * 
          * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
          * one return can cover both taxes, and each is stored as a single row.
-         * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
-         * separate obligations with their own met dates, period models, and liability
-         * accrual.
+         * Nexus rows are SALES_TAX, USE_TAX, RETAIL_DELIVERY_FEE, or
+         * SMALL_PARCEL_VAT. Sales tax, use tax, the retail delivery fee, and the
+         * Swiss small-parcel threshold are separate obligations with their own met
+         * dates and period models. SMALL_PARCEL_VAT is a threshold only. A sales
+         * tax registration covers it, and it has no account and no return of its own.
          */
         public Builder taxType(Optional<? extends TaxTypeEnum> taxType) {
             Utils.checkNotNull(taxType, "taxType");
@@ -2731,7 +2881,7 @@ public class RegistrationRead {
         /**
          * The date when the registration was marked as collecting.
          */
-        public Builder markedCollectingDate(OffsetDateTime markedCollectingDate) {
+        public Builder markedCollectingDate(String markedCollectingDate) {
             Utils.checkNotNull(markedCollectingDate, "markedCollectingDate");
             this.markedCollectingDate = JsonNullable.of(markedCollectingDate);
             return this;
@@ -2740,7 +2890,7 @@ public class RegistrationRead {
         /**
          * The date when the registration was marked as collecting.
          */
-        public Builder markedCollectingDate(JsonNullable<OffsetDateTime> markedCollectingDate) {
+        public Builder markedCollectingDate(JsonNullable<String> markedCollectingDate) {
             Utils.checkNotNull(markedCollectingDate, "markedCollectingDate");
             this.markedCollectingDate = markedCollectingDate;
             return this;
@@ -2779,7 +2929,7 @@ public class RegistrationRead {
         /**
          * Timestamp when this registration was created in Kintsugi.
          */
-        public Builder createdAt(OffsetDateTime createdAt) {
+        public Builder createdAt(String createdAt) {
             Utils.checkNotNull(createdAt, "createdAt");
             this.createdAt = JsonNullable.of(createdAt);
             return this;
@@ -2788,7 +2938,7 @@ public class RegistrationRead {
         /**
          * Timestamp when this registration was created in Kintsugi.
          */
-        public Builder createdAt(JsonNullable<OffsetDateTime> createdAt) {
+        public Builder createdAt(JsonNullable<String> createdAt) {
             Utils.checkNotNull(createdAt, "createdAt");
             this.createdAt = createdAt;
             return this;
@@ -2840,6 +2990,101 @@ public class RegistrationRead {
         }
 
 
+        /**
+         * Effective date the registration closes with the jurisdiction.
+         */
+        public Builder deregistrationClosureDate(LocalDate deregistrationClosureDate) {
+            Utils.checkNotNull(deregistrationClosureDate, "deregistrationClosureDate");
+            this.deregistrationClosureDate = JsonNullable.of(deregistrationClosureDate);
+            return this;
+        }
+
+        /**
+         * Effective date the registration closes with the jurisdiction.
+         */
+        public Builder deregistrationClosureDate(JsonNullable<LocalDate> deregistrationClosureDate) {
+            Utils.checkNotNull(deregistrationClosureDate, "deregistrationClosureDate");
+            this.deregistrationClosureDate = deregistrationClosureDate;
+            return this;
+        }
+
+
+        /**
+         * Reason the registration is being closed.
+         */
+        public Builder deregistrationReason(DeregistrationReasonEnum deregistrationReason) {
+            Utils.checkNotNull(deregistrationReason, "deregistrationReason");
+            this.deregistrationReason = JsonNullable.of(deregistrationReason);
+            return this;
+        }
+
+        /**
+         * Reason the registration is being closed.
+         */
+        public Builder deregistrationReason(JsonNullable<? extends DeregistrationReasonEnum> deregistrationReason) {
+            Utils.checkNotNull(deregistrationReason, "deregistrationReason");
+            this.deregistrationReason = deregistrationReason;
+            return this;
+        }
+
+
+        /**
+         * When final-return acknowledgement was recorded.
+         */
+        public Builder deregistrationAcknowledgedAt(String deregistrationAcknowledgedAt) {
+            Utils.checkNotNull(deregistrationAcknowledgedAt, "deregistrationAcknowledgedAt");
+            this.deregistrationAcknowledgedAt = JsonNullable.of(deregistrationAcknowledgedAt);
+            return this;
+        }
+
+        /**
+         * When final-return acknowledgement was recorded.
+         */
+        public Builder deregistrationAcknowledgedAt(JsonNullable<String> deregistrationAcknowledgedAt) {
+            Utils.checkNotNull(deregistrationAcknowledgedAt, "deregistrationAcknowledgedAt");
+            this.deregistrationAcknowledgedAt = deregistrationAcknowledgedAt;
+            return this;
+        }
+
+
+        /**
+         * True when the Kintsugi Mail address is on file with the state for this registration.
+         */
+        public Builder kintsugiMailOnFile(boolean kintsugiMailOnFile) {
+            Utils.checkNotNull(kintsugiMailOnFile, "kintsugiMailOnFile");
+            this.kintsugiMailOnFile = Optional.ofNullable(kintsugiMailOnFile);
+            return this;
+        }
+
+        /**
+         * True when the Kintsugi Mail address is on file with the state for this registration.
+         */
+        public Builder kintsugiMailOnFile(Optional<Boolean> kintsugiMailOnFile) {
+            Utils.checkNotNull(kintsugiMailOnFile, "kintsugiMailOnFile");
+            this.kintsugiMailOnFile = kintsugiMailOnFile;
+            return this;
+        }
+
+
+        /**
+         * Date Tax Ops marked Kintsugi Mail as on file with the state. Null when not on file.
+         */
+        public Builder kintsugiMailConfirmedAt(LocalDate kintsugiMailConfirmedAt) {
+            Utils.checkNotNull(kintsugiMailConfirmedAt, "kintsugiMailConfirmedAt");
+            this.kintsugiMailConfirmedAt = JsonNullable.of(kintsugiMailConfirmedAt);
+            return this;
+        }
+
+        /**
+         * Date Tax Ops marked Kintsugi Mail as on file with the state. Null when not on file.
+         */
+        public Builder kintsugiMailConfirmedAt(JsonNullable<LocalDate> kintsugiMailConfirmedAt) {
+            Utils.checkNotNull(kintsugiMailConfirmedAt, "kintsugiMailConfirmedAt");
+            this.kintsugiMailConfirmedAt = kintsugiMailConfirmedAt;
+            return this;
+        }
+
+
         public Builder filingDays(long filingDays) {
             Utils.checkNotNull(filingDays, "filingDays");
             this.filingDays = filingDays;
@@ -2876,11 +3121,11 @@ public class RegistrationRead {
             if (doNotFile == null) {
                 doNotFile = _SINGLETON_VALUE_DoNotFile.value();
             }
+            if (isPreCollecting == null) {
+                isPreCollecting = _SINGLETON_VALUE_IsPreCollecting.value();
+            }
             if (createBackFiling == null) {
                 createBackFiling = _SINGLETON_VALUE_CreateBackFiling.value();
-            }
-            if (retailDeliveryFeeObligated == null) {
-                retailDeliveryFeeObligated = _SINGLETON_VALUE_RetailDeliveryFeeObligated.value();
             }
             if (amountFees == null) {
                 amountFees = _SINGLETON_VALUE_AmountFees.value();
@@ -2888,25 +3133,29 @@ public class RegistrationRead {
             if (creditsTotalAvailable == null) {
                 creditsTotalAvailable = _SINGLETON_VALUE_CreditsTotalAvailable.value();
             }
+            if (kintsugiMailOnFile == null) {
+                kintsugiMailOnFile = _SINGLETON_VALUE_KintsugiMailOnFile.value();
+            }
 
             return new RegistrationRead(
                 registrationDate, registrationEmail, registrationRequested,
                 registrationCompleted, deregistrationRequested, deregistrationCompleted,
                 autoRegistered, registrationsRegime, changeRegimeStatus,
                 thirdPartyEnabled, doNotFile, twoFactorEnabled,
-                markedCollecting, status, countryCode,
-                stateCode, stateName, filingFrequency,
-                initialFilingFrequency, scheduledFilingFrequency, filingFrequencyEffectiveDate,
-                periodEndMonth, username, comment,
-                createFilingsFrom, createBackFiling, retailDeliveryFeeObligated,
-                retailDeliveryFeeEffectiveFrom, initialSync, amountFees,
-                vda, imported, salesTaxId,
-                iorNumber, iorDate, sstImport,
-                ossType, ossMemberStateOfIdentificationCode, taxType,
-                markedCollectingDate, needsMarkAsCollecting, id,
-                createdAt, creditsTotalAvailable, registrationCategory,
-                jurisdictionSpecificFields, filingDays, registrationType,
-                filingWebsiteUrl);
+                markedCollecting, isPreCollecting, status,
+                countryCode, stateCode, stateName,
+                filingFrequency, initialFilingFrequency, scheduledFilingFrequency,
+                filingFrequencyEffectiveDate, periodEndMonth, username,
+                comment, createFilingsFrom, createBackFiling,
+                initialSync, amountFees, vda,
+                imported, salesTaxId, iorNumber,
+                iorDate, sstImport, ossType,
+                ossMemberStateOfIdentificationCode, taxType, markedCollectingDate,
+                needsMarkAsCollecting, id, createdAt,
+                creditsTotalAvailable, registrationCategory, jurisdictionSpecificFields,
+                deregistrationClosureDate, deregistrationReason, deregistrationAcknowledgedAt,
+                kintsugiMailOnFile, kintsugiMailConfirmedAt, filingDays,
+                registrationType, filingWebsiteUrl);
         }
 
 
@@ -2916,15 +3165,15 @@ public class RegistrationRead {
                         "false",
                         new TypeReference<Optional<Boolean>>() {});
 
-        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_CreateBackFiling =
+        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_IsPreCollecting =
                 new LazySingletonValue<>(
-                        "create_back_filing",
+                        "is_pre_collecting",
                         "false",
                         new TypeReference<Optional<Boolean>>() {});
 
-        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_RetailDeliveryFeeObligated =
+        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_CreateBackFiling =
                 new LazySingletonValue<>(
-                        "retail_delivery_fee_obligated",
+                        "create_back_filing",
                         "false",
                         new TypeReference<Optional<Boolean>>() {});
 
@@ -2939,5 +3188,11 @@ public class RegistrationRead {
                         "credits_total_available",
                         "\"0.00\"",
                         new TypeReference<Optional<String>>() {});
+
+        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_KintsugiMailOnFile =
+                new LazySingletonValue<>(
+                        "kintsugi_mail_on_file",
+                        "false",
+                        new TypeReference<Optional<Boolean>>() {});
     }
 }

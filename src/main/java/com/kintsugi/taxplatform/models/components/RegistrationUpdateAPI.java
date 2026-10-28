@@ -112,6 +112,14 @@ public class RegistrationUpdateAPI {
     private JsonNullable<Boolean> markedCollecting;
 
     /**
+     * True when this PROCESSING registration marks the organization as collecting tax in the jurisdiction
+     * ahead of registration details. It skips the Tax Ops registration task until the flag is cleared.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("is_pre_collecting")
+    private Optional<Boolean> isPreCollecting;
+
+    /**
      * The encrypted username for the registration.
      */
     @JsonInclude(Include.NON_ABSENT)
@@ -196,6 +204,7 @@ public class RegistrationUpdateAPI {
             @JsonProperty("do_not_file") Optional<Boolean> doNotFile,
             @JsonProperty("two_factor_enabled") JsonNullable<Boolean> twoFactorEnabled,
             @JsonProperty("marked_collecting") JsonNullable<Boolean> markedCollecting,
+            @JsonProperty("is_pre_collecting") Optional<Boolean> isPreCollecting,
             @JsonProperty("encrypted_username") JsonNullable<String> encryptedUsername,
             @JsonProperty("username") JsonNullable<String> username,
             @JsonProperty("filing_frequency") JsonNullable<? extends FilingFrequencyEnum> filingFrequency,
@@ -219,6 +228,7 @@ public class RegistrationUpdateAPI {
         Utils.checkNotNull(doNotFile, "doNotFile");
         Utils.checkNotNull(twoFactorEnabled, "twoFactorEnabled");
         Utils.checkNotNull(markedCollecting, "markedCollecting");
+        Utils.checkNotNull(isPreCollecting, "isPreCollecting");
         Utils.checkNotNull(encryptedUsername, "encryptedUsername");
         Utils.checkNotNull(username, "username");
         Utils.checkNotNull(filingFrequency, "filingFrequency");
@@ -242,6 +252,7 @@ public class RegistrationUpdateAPI {
         this.doNotFile = doNotFile;
         this.twoFactorEnabled = twoFactorEnabled;
         this.markedCollecting = markedCollecting;
+        this.isPreCollecting = isPreCollecting;
         this.encryptedUsername = encryptedUsername;
         this.username = username;
         this.filingFrequency = filingFrequency;
@@ -259,10 +270,10 @@ public class RegistrationUpdateAPI {
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), Optional.empty(), JsonNullable.undefined(),
+            JsonNullable.undefined(), Optional.empty(), JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
-            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
-            JsonNullable.undefined(), Optional.empty());
+            JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty());
     }
 
     /**
@@ -366,6 +377,15 @@ public class RegistrationUpdateAPI {
     @JsonIgnore
     public JsonNullable<Boolean> markedCollecting() {
         return markedCollecting;
+    }
+
+    /**
+     * True when this PROCESSING registration marks the organization as collecting tax in the jurisdiction
+     * ahead of registration details. It skips the Tax Ops registration task until the flag is cleared.
+     */
+    @JsonIgnore
+    public Optional<Boolean> isPreCollecting() {
+        return isPreCollecting;
     }
 
     /**
@@ -684,6 +704,27 @@ public class RegistrationUpdateAPI {
     }
 
     /**
+     * True when this PROCESSING registration marks the organization as collecting tax in the jurisdiction
+     * ahead of registration details. It skips the Tax Ops registration task until the flag is cleared.
+     */
+    public RegistrationUpdateAPI withIsPreCollecting(boolean isPreCollecting) {
+        Utils.checkNotNull(isPreCollecting, "isPreCollecting");
+        this.isPreCollecting = Optional.ofNullable(isPreCollecting);
+        return this;
+    }
+
+
+    /**
+     * True when this PROCESSING registration marks the organization as collecting tax in the jurisdiction
+     * ahead of registration details. It skips the Tax Ops registration task until the flag is cleared.
+     */
+    public RegistrationUpdateAPI withIsPreCollecting(Optional<Boolean> isPreCollecting) {
+        Utils.checkNotNull(isPreCollecting, "isPreCollecting");
+        this.isPreCollecting = isPreCollecting;
+        return this;
+    }
+
+    /**
      * The encrypted username for the registration.
      */
     public RegistrationUpdateAPI withEncryptedUsername(String encryptedUsername) {
@@ -887,6 +928,7 @@ public class RegistrationUpdateAPI {
             Utils.enhancedDeepEquals(this.doNotFile, other.doNotFile) &&
             Utils.enhancedDeepEquals(this.twoFactorEnabled, other.twoFactorEnabled) &&
             Utils.enhancedDeepEquals(this.markedCollecting, other.markedCollecting) &&
+            Utils.enhancedDeepEquals(this.isPreCollecting, other.isPreCollecting) &&
             Utils.enhancedDeepEquals(this.encryptedUsername, other.encryptedUsername) &&
             Utils.enhancedDeepEquals(this.username, other.username) &&
             Utils.enhancedDeepEquals(this.filingFrequency, other.filingFrequency) &&
@@ -906,10 +948,10 @@ public class RegistrationUpdateAPI {
             registrationCompleted, deregistrationRequested, deregistrationCompleted,
             autoRegistered, registrationsRegime, changeRegimeStatus,
             thirdPartyEnabled, doNotFile, twoFactorEnabled,
-            markedCollecting, encryptedUsername, username,
-            filingFrequency, createFilingsFrom, isApproaching,
-            comment, vda, taxId,
-            iorNumber, createBackFiling);
+            markedCollecting, isPreCollecting, encryptedUsername,
+            username, filingFrequency, createFilingsFrom,
+            isApproaching, comment, vda,
+            taxId, iorNumber, createBackFiling);
     }
     
     @Override
@@ -928,6 +970,7 @@ public class RegistrationUpdateAPI {
                 "doNotFile", doNotFile,
                 "twoFactorEnabled", twoFactorEnabled,
                 "markedCollecting", markedCollecting,
+                "isPreCollecting", isPreCollecting,
                 "encryptedUsername", encryptedUsername,
                 "username", username,
                 "filingFrequency", filingFrequency,
@@ -968,6 +1011,8 @@ public class RegistrationUpdateAPI {
         private JsonNullable<Boolean> twoFactorEnabled = JsonNullable.undefined();
 
         private JsonNullable<Boolean> markedCollecting = JsonNullable.undefined();
+
+        private Optional<Boolean> isPreCollecting;
 
         private JsonNullable<String> encryptedUsername = JsonNullable.undefined();
 
@@ -1236,6 +1281,27 @@ public class RegistrationUpdateAPI {
 
 
         /**
+         * True when this PROCESSING registration marks the organization as collecting tax in the jurisdiction
+         * ahead of registration details. It skips the Tax Ops registration task until the flag is cleared.
+         */
+        public Builder isPreCollecting(boolean isPreCollecting) {
+            Utils.checkNotNull(isPreCollecting, "isPreCollecting");
+            this.isPreCollecting = Optional.ofNullable(isPreCollecting);
+            return this;
+        }
+
+        /**
+         * True when this PROCESSING registration marks the organization as collecting tax in the jurisdiction
+         * ahead of registration details. It skips the Tax Ops registration task until the flag is cleared.
+         */
+        public Builder isPreCollecting(Optional<Boolean> isPreCollecting) {
+            Utils.checkNotNull(isPreCollecting, "isPreCollecting");
+            this.isPreCollecting = isPreCollecting;
+            return this;
+        }
+
+
+        /**
          * The encrypted username for the registration.
          */
         public Builder encryptedUsername(String encryptedUsername) {
@@ -1428,6 +1494,9 @@ public class RegistrationUpdateAPI {
             if (doNotFile == null) {
                 doNotFile = _SINGLETON_VALUE_DoNotFile.value();
             }
+            if (isPreCollecting == null) {
+                isPreCollecting = _SINGLETON_VALUE_IsPreCollecting.value();
+            }
             if (createBackFiling == null) {
                 createBackFiling = _SINGLETON_VALUE_CreateBackFiling.value();
             }
@@ -1437,16 +1506,22 @@ public class RegistrationUpdateAPI {
                 registrationCompleted, deregistrationRequested, deregistrationCompleted,
                 autoRegistered, registrationsRegime, changeRegimeStatus,
                 thirdPartyEnabled, doNotFile, twoFactorEnabled,
-                markedCollecting, encryptedUsername, username,
-                filingFrequency, createFilingsFrom, isApproaching,
-                comment, vda, taxId,
-                iorNumber, createBackFiling);
+                markedCollecting, isPreCollecting, encryptedUsername,
+                username, filingFrequency, createFilingsFrom,
+                isApproaching, comment, vda,
+                taxId, iorNumber, createBackFiling);
         }
 
 
         private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_DoNotFile =
                 new LazySingletonValue<>(
                         "do_not_file",
+                        "false",
+                        new TypeReference<Optional<Boolean>>() {});
+
+        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_IsPreCollecting =
+                new LazySingletonValue<>(
+                        "is_pre_collecting",
                         "false",
                         new TypeReference<Optional<Boolean>>() {});
 

@@ -6,6 +6,7 @@
 
 * [get](#get) - Get exemptions
 * [create](#create) - Create exemption
+* [listPartialCertificateTypesV1ExemptionsPartialCertificateTypesGet](#listpartialcertificatetypesv1exemptionspartialcertificatetypesget) - List partial certificate types
 * [getById](#getbyid) - Get exemption by id
 * [getAttachments](#getattachments) - Get attachments for exemption
 * [uploadCertificate](#uploadcertificate) - Upload exemption certificate
@@ -153,6 +154,59 @@ public class Application {
 | models/errors/BackendSrcExemptionsResponsesValidationErrorResponse | 422                                                                | application/json                                                   |
 | models/errors/ErrorResponse                                        | 500                                                                | application/json                                                   |
 | models/errors/APIException                                         | 4XX, 5XX                                                           | \*/\*                                                              |
+
+## listPartialCertificateTypesV1ExemptionsPartialCertificateTypesGet
+
+Certificate forms a partial exemption may use. Pass jurisdiction to limit the list to that state.
+
+### Example Usage
+
+<!-- UsageSnippet language="java" operationID="list_partial_certificate_types_v1_exemptions_partial_certificate_types_get" method="get" path="/v1/exemptions/partial-certificate-types" -->
+```java
+package hello.world;
+
+import com.kintsugi.taxplatform.SDK;
+import com.kintsugi.taxplatform.models.errors.HTTPValidationError;
+import com.kintsugi.taxplatform.models.operations.ListPartialCertificateTypesV1ExemptionsPartialCertificateTypesGetResponse;
+import java.lang.Exception;
+
+public class Application {
+
+    public static void main(String[] args) throws HTTPValidationError, Exception {
+
+        SDK sdk = SDK.builder()
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
+            .build();
+
+        ListPartialCertificateTypesV1ExemptionsPartialCertificateTypesGetResponse res = sdk.exemptions().listPartialCertificateTypesV1ExemptionsPartialCertificateTypesGet()
+                .jurisdiction("CA")
+                .xOrganizationId("org_12345")
+                .call();
+
+        if (res.responseListPartialCertificateTypesV1ExemptionsPartialCertificateTypesGet().isPresent()) {
+            System.out.println(res.responseListPartialCertificateTypesV1ExemptionsPartialCertificateTypesGet().get());
+        }
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                         | Type                                                              | Required                                                          | Description                                                       | Example                                                           |
+| ----------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- |
+| `jurisdiction`                                                    | *JsonNullable\<String>*                                           | :heavy_minus_sign:                                                | Jurisdiction code. Only forms for this jurisdiction are returned. | CA                                                                |
+| `xOrganizationId`                                                 | *Optional\<String>*                                               | :heavy_check_mark:                                                | The unique identifier for the organization making the request     | org_12345                                                         |
+
+### Response
+
+**[ListPartialCertificateTypesV1ExemptionsPartialCertificateTypesGetResponse](../../models/operations/ListPartialCertificateTypesV1ExemptionsPartialCertificateTypesGetResponse.md)**
+
+### Errors
+
+| Error Type                        | Status Code                       | Content Type                      |
+| --------------------------------- | --------------------------------- | --------------------------------- |
+| models/errors/HTTPValidationError | 422                               | application/json                  |
+| models/errors/APIException        | 4XX, 5XX                          | \*/\*                             |
 
 ## getById
 

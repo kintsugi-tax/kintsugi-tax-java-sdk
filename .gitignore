@@ -13,6 +13,5 @@ bin/
 **/.speakeasy/logs/
 .speakeasy/reports
 java_gen_fail.log
-
 # Local planning docs (plans, design notes); see the planning-doc-placement rule.
 docs/plans/

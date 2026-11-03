@@ -5,7 +5,7 @@ package com.kintsugi.taxplatform.models.operations;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.kintsugi.taxplatform.models.components.JurisdictionSpecificFieldsResponse;
+import com.kintsugi.taxplatform.models.components.CustomerJurisdictionSpecificFieldsResponse;
 import com.kintsugi.taxplatform.utils.Response;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.io.InputStream;
@@ -36,22 +36,22 @@ public class GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFie
     /**
      * Successful Response
      */
-    private Optional<? extends JurisdictionSpecificFieldsResponse> jurisdictionSpecificFieldsResponse;
+    private Optional<? extends CustomerJurisdictionSpecificFieldsResponse> customerJurisdictionSpecificFieldsResponse;
 
     @JsonCreator
     public GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGetResponse(
             String contentType,
             int statusCode,
             HttpResponse<InputStream> rawResponse,
-            Optional<? extends JurisdictionSpecificFieldsResponse> jurisdictionSpecificFieldsResponse) {
+            Optional<? extends CustomerJurisdictionSpecificFieldsResponse> customerJurisdictionSpecificFieldsResponse) {
         Utils.checkNotNull(contentType, "contentType");
         Utils.checkNotNull(statusCode, "statusCode");
         Utils.checkNotNull(rawResponse, "rawResponse");
-        Utils.checkNotNull(jurisdictionSpecificFieldsResponse, "jurisdictionSpecificFieldsResponse");
+        Utils.checkNotNull(customerJurisdictionSpecificFieldsResponse, "customerJurisdictionSpecificFieldsResponse");
         this.contentType = contentType;
         this.statusCode = statusCode;
         this.rawResponse = rawResponse;
-        this.jurisdictionSpecificFieldsResponse = jurisdictionSpecificFieldsResponse;
+        this.customerJurisdictionSpecificFieldsResponse = customerJurisdictionSpecificFieldsResponse;
     }
     
     public GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGetResponse(
@@ -91,8 +91,8 @@ public class GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFie
      */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public Optional<JurisdictionSpecificFieldsResponse> jurisdictionSpecificFieldsResponse() {
-        return (Optional<JurisdictionSpecificFieldsResponse>) jurisdictionSpecificFieldsResponse;
+    public Optional<CustomerJurisdictionSpecificFieldsResponse> customerJurisdictionSpecificFieldsResponse() {
+        return (Optional<CustomerJurisdictionSpecificFieldsResponse>) customerJurisdictionSpecificFieldsResponse;
     }
 
     public static Builder builder() {
@@ -130,9 +130,9 @@ public class GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFie
     /**
      * Successful Response
      */
-    public GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGetResponse withJurisdictionSpecificFieldsResponse(JurisdictionSpecificFieldsResponse jurisdictionSpecificFieldsResponse) {
-        Utils.checkNotNull(jurisdictionSpecificFieldsResponse, "jurisdictionSpecificFieldsResponse");
-        this.jurisdictionSpecificFieldsResponse = Optional.ofNullable(jurisdictionSpecificFieldsResponse);
+    public GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGetResponse withCustomerJurisdictionSpecificFieldsResponse(CustomerJurisdictionSpecificFieldsResponse customerJurisdictionSpecificFieldsResponse) {
+        Utils.checkNotNull(customerJurisdictionSpecificFieldsResponse, "customerJurisdictionSpecificFieldsResponse");
+        this.customerJurisdictionSpecificFieldsResponse = Optional.ofNullable(customerJurisdictionSpecificFieldsResponse);
         return this;
     }
 
@@ -140,9 +140,9 @@ public class GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFie
     /**
      * Successful Response
      */
-    public GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGetResponse withJurisdictionSpecificFieldsResponse(Optional<? extends JurisdictionSpecificFieldsResponse> jurisdictionSpecificFieldsResponse) {
-        Utils.checkNotNull(jurisdictionSpecificFieldsResponse, "jurisdictionSpecificFieldsResponse");
-        this.jurisdictionSpecificFieldsResponse = jurisdictionSpecificFieldsResponse;
+    public GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGetResponse withCustomerJurisdictionSpecificFieldsResponse(Optional<? extends CustomerJurisdictionSpecificFieldsResponse> customerJurisdictionSpecificFieldsResponse) {
+        Utils.checkNotNull(customerJurisdictionSpecificFieldsResponse, "customerJurisdictionSpecificFieldsResponse");
+        this.customerJurisdictionSpecificFieldsResponse = customerJurisdictionSpecificFieldsResponse;
         return this;
     }
 
@@ -159,14 +159,14 @@ public class GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFie
             Utils.enhancedDeepEquals(this.contentType, other.contentType) &&
             Utils.enhancedDeepEquals(this.statusCode, other.statusCode) &&
             Utils.enhancedDeepEquals(this.rawResponse, other.rawResponse) &&
-            Utils.enhancedDeepEquals(this.jurisdictionSpecificFieldsResponse, other.jurisdictionSpecificFieldsResponse);
+            Utils.enhancedDeepEquals(this.customerJurisdictionSpecificFieldsResponse, other.customerJurisdictionSpecificFieldsResponse);
     }
     
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
             contentType, statusCode, rawResponse,
-            jurisdictionSpecificFieldsResponse);
+            customerJurisdictionSpecificFieldsResponse);
     }
     
     @Override
@@ -175,7 +175,7 @@ public class GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFie
                 "contentType", contentType,
                 "statusCode", statusCode,
                 "rawResponse", rawResponse,
-                "jurisdictionSpecificFieldsResponse", jurisdictionSpecificFieldsResponse);
+                "customerJurisdictionSpecificFieldsResponse", customerJurisdictionSpecificFieldsResponse);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -187,7 +187,7 @@ public class GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFie
 
         private HttpResponse<InputStream> rawResponse;
 
-        private Optional<? extends JurisdictionSpecificFieldsResponse> jurisdictionSpecificFieldsResponse = Optional.empty();
+        private Optional<? extends CustomerJurisdictionSpecificFieldsResponse> customerJurisdictionSpecificFieldsResponse = Optional.empty();
 
         private Builder() {
           // force use of static builder() method
@@ -227,18 +227,18 @@ public class GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFie
         /**
          * Successful Response
          */
-        public Builder jurisdictionSpecificFieldsResponse(JurisdictionSpecificFieldsResponse jurisdictionSpecificFieldsResponse) {
-            Utils.checkNotNull(jurisdictionSpecificFieldsResponse, "jurisdictionSpecificFieldsResponse");
-            this.jurisdictionSpecificFieldsResponse = Optional.ofNullable(jurisdictionSpecificFieldsResponse);
+        public Builder customerJurisdictionSpecificFieldsResponse(CustomerJurisdictionSpecificFieldsResponse customerJurisdictionSpecificFieldsResponse) {
+            Utils.checkNotNull(customerJurisdictionSpecificFieldsResponse, "customerJurisdictionSpecificFieldsResponse");
+            this.customerJurisdictionSpecificFieldsResponse = Optional.ofNullable(customerJurisdictionSpecificFieldsResponse);
             return this;
         }
 
         /**
          * Successful Response
          */
-        public Builder jurisdictionSpecificFieldsResponse(Optional<? extends JurisdictionSpecificFieldsResponse> jurisdictionSpecificFieldsResponse) {
-            Utils.checkNotNull(jurisdictionSpecificFieldsResponse, "jurisdictionSpecificFieldsResponse");
-            this.jurisdictionSpecificFieldsResponse = jurisdictionSpecificFieldsResponse;
+        public Builder customerJurisdictionSpecificFieldsResponse(Optional<? extends CustomerJurisdictionSpecificFieldsResponse> customerJurisdictionSpecificFieldsResponse) {
+            Utils.checkNotNull(customerJurisdictionSpecificFieldsResponse, "customerJurisdictionSpecificFieldsResponse");
+            this.customerJurisdictionSpecificFieldsResponse = customerJurisdictionSpecificFieldsResponse;
             return this;
         }
 
@@ -246,7 +246,7 @@ public class GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFie
 
             return new GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGetResponse(
                 contentType, statusCode, rawResponse,
-                jurisdictionSpecificFieldsResponse);
+                customerJurisdictionSpecificFieldsResponse);
         }
 
     }

@@ -77,7 +77,12 @@ The Create Product API allows users to manually create a new product
     retrieve supported categories and subcategories from the
     [GET /products/categories endpoint](/reference/api/products/get-product-categories),
     or browse the full catalog with descriptions and examples in the
-    [Product Categories guide](/docs/guides/product-categories)
+    [Product Categories guide](/docs/guides/product-categories).
+
+    Idempotent on ``(organization_id, external_id, source)`` for connectionless
+    creates (CP-4726): a re-POST of an existing identity returns ``200``. A live
+    match is unchanged; a previously deleted match is revived (status returns to
+    ``PENDING``). Use PUT to update fields.
 
 ### Example Usage
 

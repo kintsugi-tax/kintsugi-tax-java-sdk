@@ -88,3 +88,4 @@ SourceEnum value = SourceEnum.BIGCOMMERCE;
 | `INTUIT_ENTERPRISE_SUITE` | INTUIT_ENTERPRISE_SUITE   |
 | `ACUMATICA`               | ACUMATICA                 |
 | `PLENTYONE`               | PLENTYONE                 |
+| `HYPERLINE`               | HYPERLINE                 |

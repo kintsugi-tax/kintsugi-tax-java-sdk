@@ -24,6 +24,23 @@ import org.openapitools.jackson.nullable.JsonNullable;
 
 
 public class FilingDetailsRead {
+    /**
+     * Input VAT recovery rate applied to this filing, as a percentage 0-100. Null when no rate exists for
+     * the filing's country and year, which means fully recoverable. Uses the definitive rate when set,
+     * otherwise the year's frozen provisional.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("input_vat_recovery_rate")
+    private JsonNullable<String> inputVatRecoveryRate;
+
+    /**
+     * True when input_vat_recovery_rate is this year's definitive rate. False when it is the provisional.
+     * Null when no rate exists.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("input_vat_recovery_rate_is_definitive")
+    private JsonNullable<Boolean> inputVatRecoveryRateIsDefinitive;
+
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("status")
@@ -171,9 +188,9 @@ public class FilingDetailsRead {
      * 
      * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
      * one return can cover both taxes, and each is stored as a single row.
-     * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
-     * separate obligations with their own met dates, period models, and liability
-     * accrual.
+     * Nexus rows are SALES_TAX, USE_TAX, or RETAIL_DELIVERY_FEE. Sales tax, use
+     * tax, and the retail delivery fee are separate obligations with their own
+     * met dates, period models, and liability accrual.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("tax_type")
@@ -216,6 +233,13 @@ public class FilingDetailsRead {
     private Optional<String> amountFees;
 
     /**
+     * Whether amount_fees is a penalty, interest, or other fee. Null when unknown (legacy rows).
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("fee_type")
+    private JsonNullable<? extends FeeTypeEnum> feeType;
+
+    /**
      * Penalties applied to the filing.
      */
     @JsonInclude(Include.NON_ABSENT)
@@ -240,20 +264,34 @@ public class FilingDetailsRead {
     private Optional<String> amountUseTax;
 
     /**
-     * Input VAT recovered on this filing's purchases. Subtracted from liability; always 0.00 outside EU/UK
-     * VAT AP filings.
+     * Input VAT this filing actually claimed. Subtracted from liability; always 0.00 outside EU/UK VAT
+     * filings.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("amount_input_vat_recoverable")
     private Optional<String> amountInputVatRecoverable;
 
     /**
-     * Prior-year input VAT pro-rata true-up on this filing. Positive claims more, negative repays. Always
+     * Prior-year input VAT pro-rata true-up on this filing. Negative claims more, positive repays. Always
      * 0.00 until posted.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("amount_input_vat_true_up")
     private Optional<String> amountInputVatTrueUp;
+
+    /**
+     * Input VAT this filing would have claimed at a 100% rate. Always 0.00 outside EU/UK VAT filings.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("amount_input_vat_recoverable_base")
+    private Optional<String> amountInputVatRecoverableBase;
+
+    /**
+     * Rate actually used on this filing's reclaim. Null when this filing is not EU/UK VAT.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("input_vat_recovery_rate_applied")
+    private JsonNullable<String> inputVatRecoveryRateApplied;
 
     /**
      * Total sales amount during the filing period.
@@ -464,23 +502,6 @@ public class FilingDetailsRead {
     private Optional<Long> deferredTransactionCount;
 
     /**
-     * Input VAT recovery rate applied to this filing, as a percentage 0-100. Null when no rate exists for
-     * the filing's country and year, which means fully recoverable. Uses the definitive rate when set,
-     * otherwise the year's frozen provisional.
-     */
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("input_vat_recovery_rate")
-    private JsonNullable<String> inputVatRecoveryRate;
-
-    /**
-     * True when input_vat_recovery_rate is this year's definitive rate. False when it is the provisional.
-     * Null when no rate exists.
-     */
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("input_vat_recovery_rate_is_definitive")
-    private JsonNullable<Boolean> inputVatRecoveryRateIsDefinitive;
-
-    /**
      * Get the filing website URL for this filing's jurisdiction
      */
     @JsonInclude(Include.ALWAYS)
@@ -489,6 +510,8 @@ public class FilingDetailsRead {
 
     @JsonCreator
     public FilingDetailsRead(
+            @JsonProperty("input_vat_recovery_rate") JsonNullable<String> inputVatRecoveryRate,
+            @JsonProperty("input_vat_recovery_rate_is_definitive") JsonNullable<Boolean> inputVatRecoveryRateIsDefinitive,
             @JsonProperty("status") Optional<? extends FilingStatusEnum> status,
             @JsonProperty("start_date") LocalDate startDate,
             @JsonProperty("end_date") LocalDate endDate,
@@ -515,11 +538,14 @@ public class FilingDetailsRead {
             @JsonProperty("amount_adjusted") Optional<String> amountAdjusted,
             @JsonProperty("amount_discounts") Optional<String> amountDiscounts,
             @JsonProperty("amount_fees") Optional<String> amountFees,
+            @JsonProperty("fee_type") JsonNullable<? extends FeeTypeEnum> feeType,
             @JsonProperty("amount_penalties") Optional<String> amountPenalties,
             @JsonProperty("amount_tax_collected") Optional<String> amountTaxCollected,
             @JsonProperty("amount_use_tax") Optional<String> amountUseTax,
             @JsonProperty("amount_input_vat_recoverable") Optional<String> amountInputVatRecoverable,
             @JsonProperty("amount_input_vat_true_up") Optional<String> amountInputVatTrueUp,
+            @JsonProperty("amount_input_vat_recoverable_base") Optional<String> amountInputVatRecoverableBase,
+            @JsonProperty("input_vat_recovery_rate_applied") JsonNullable<String> inputVatRecoveryRateApplied,
             @JsonProperty("amount_sales") Optional<String> amountSales,
             @JsonProperty("total_taxable_sales") JsonNullable<String> totalTaxableSales,
             @JsonProperty("amount") Optional<String> amount,
@@ -549,9 +575,9 @@ public class FilingDetailsRead {
             @JsonProperty("attachments") JsonNullable<? extends Map<String, String>> attachments,
             @JsonProperty("credits_utilized") Optional<String> creditsUtilized,
             @JsonProperty("deferred_transaction_count") Optional<Long> deferredTransactionCount,
-            @JsonProperty("input_vat_recovery_rate") JsonNullable<String> inputVatRecoveryRate,
-            @JsonProperty("input_vat_recovery_rate_is_definitive") JsonNullable<Boolean> inputVatRecoveryRateIsDefinitive,
             @JsonProperty("filing_website_url") Optional<String> filingWebsiteUrl) {
+        Utils.checkNotNull(inputVatRecoveryRate, "inputVatRecoveryRate");
+        Utils.checkNotNull(inputVatRecoveryRateIsDefinitive, "inputVatRecoveryRateIsDefinitive");
         Utils.checkNotNull(status, "status");
         Utils.checkNotNull(startDate, "startDate");
         Utils.checkNotNull(endDate, "endDate");
@@ -578,11 +604,14 @@ public class FilingDetailsRead {
         Utils.checkNotNull(amountAdjusted, "amountAdjusted");
         Utils.checkNotNull(amountDiscounts, "amountDiscounts");
         Utils.checkNotNull(amountFees, "amountFees");
+        Utils.checkNotNull(feeType, "feeType");
         Utils.checkNotNull(amountPenalties, "amountPenalties");
         Utils.checkNotNull(amountTaxCollected, "amountTaxCollected");
         Utils.checkNotNull(amountUseTax, "amountUseTax");
         Utils.checkNotNull(amountInputVatRecoverable, "amountInputVatRecoverable");
         Utils.checkNotNull(amountInputVatTrueUp, "amountInputVatTrueUp");
+        Utils.checkNotNull(amountInputVatRecoverableBase, "amountInputVatRecoverableBase");
+        Utils.checkNotNull(inputVatRecoveryRateApplied, "inputVatRecoveryRateApplied");
         Utils.checkNotNull(amountSales, "amountSales");
         Utils.checkNotNull(totalTaxableSales, "totalTaxableSales");
         Utils.checkNotNull(amount, "amount");
@@ -612,9 +641,9 @@ public class FilingDetailsRead {
         Utils.checkNotNull(attachments, "attachments");
         Utils.checkNotNull(creditsUtilized, "creditsUtilized");
         Utils.checkNotNull(deferredTransactionCount, "deferredTransactionCount");
-        Utils.checkNotNull(inputVatRecoveryRate, "inputVatRecoveryRate");
-        Utils.checkNotNull(inputVatRecoveryRateIsDefinitive, "inputVatRecoveryRateIsDefinitive");
         Utils.checkNotNull(filingWebsiteUrl, "filingWebsiteUrl");
+        this.inputVatRecoveryRate = inputVatRecoveryRate;
+        this.inputVatRecoveryRateIsDefinitive = inputVatRecoveryRateIsDefinitive;
         this.status = status;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -641,11 +670,14 @@ public class FilingDetailsRead {
         this.amountAdjusted = amountAdjusted;
         this.amountDiscounts = amountDiscounts;
         this.amountFees = amountFees;
+        this.feeType = feeType;
         this.amountPenalties = amountPenalties;
         this.amountTaxCollected = amountTaxCollected;
         this.amountUseTax = amountUseTax;
         this.amountInputVatRecoverable = amountInputVatRecoverable;
         this.amountInputVatTrueUp = amountInputVatTrueUp;
+        this.amountInputVatRecoverableBase = amountInputVatRecoverableBase;
+        this.inputVatRecoveryRateApplied = inputVatRecoveryRateApplied;
         this.amountSales = amountSales;
         this.totalTaxableSales = totalTaxableSales;
         this.amount = amount;
@@ -675,8 +707,6 @@ public class FilingDetailsRead {
         this.attachments = attachments;
         this.creditsUtilized = creditsUtilized;
         this.deferredTransactionCount = deferredTransactionCount;
-        this.inputVatRecoveryRate = inputVatRecoveryRate;
-        this.inputVatRecoveryRateIsDefinitive = inputVatRecoveryRateIsDefinitive;
         this.filingWebsiteUrl = filingWebsiteUrl;
     }
     
@@ -687,27 +717,47 @@ public class FilingDetailsRead {
             String id,
             String registrationId,
             String organizationId) {
-        this(Optional.empty(), startDate, endDate,
+        this(JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty(),
+            startDate, endDate, JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
-            JsonNullable.undefined(), JsonNullable.undefined(), countryCode,
-            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
-            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), countryCode, JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty(),
+            Optional.empty(), Optional.empty(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty(),
+            Optional.empty(), JsonNullable.undefined(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), JsonNullable.undefined(),
+            Optional.empty(), JsonNullable.undefined(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
             Optional.empty(), JsonNullable.undefined(), JsonNullable.undefined(),
-            JsonNullable.undefined(), Optional.empty(), JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), id,
+            registrationId, JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
-            id, registrationId, JsonNullable.undefined(),
-            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
-            JsonNullable.undefined(), JsonNullable.undefined(), organizationId,
-            JsonNullable.undefined(), Optional.empty(), Optional.empty(),
-            JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty());
+            JsonNullable.undefined(), organizationId, JsonNullable.undefined(),
+            Optional.empty(), Optional.empty(), Optional.empty());
+    }
+
+    /**
+     * Input VAT recovery rate applied to this filing, as a percentage 0-100. Null when no rate exists for
+     * the filing's country and year, which means fully recoverable. Uses the definitive rate when set,
+     * otherwise the year's frozen provisional.
+     */
+    @JsonIgnore
+    public JsonNullable<String> inputVatRecoveryRate() {
+        return inputVatRecoveryRate;
+    }
+
+    /**
+     * True when input_vat_recovery_rate is this year's definitive rate. False when it is the provisional.
+     * Null when no rate exists.
+     */
+    @JsonIgnore
+    public JsonNullable<Boolean> inputVatRecoveryRateIsDefinitive() {
+        return inputVatRecoveryRateIsDefinitive;
     }
 
     @SuppressWarnings("unchecked")
@@ -879,9 +929,9 @@ public class FilingDetailsRead {
      * 
      * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
      * one return can cover both taxes, and each is stored as a single row.
-     * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
-     * separate obligations with their own met dates, period models, and liability
-     * accrual.
+     * Nexus rows are SALES_TAX, USE_TAX, or RETAIL_DELIVERY_FEE. Sales tax, use
+     * tax, and the retail delivery fee are separate obligations with their own
+     * met dates, period models, and liability accrual.
      */
     @SuppressWarnings("unchecked")
     @JsonIgnore
@@ -931,6 +981,15 @@ public class FilingDetailsRead {
     }
 
     /**
+     * Whether amount_fees is a penalty, interest, or other fee. Null when unknown (legacy rows).
+     */
+    @SuppressWarnings("unchecked")
+    @JsonIgnore
+    public JsonNullable<FeeTypeEnum> feeType() {
+        return (JsonNullable<FeeTypeEnum>) feeType;
+    }
+
+    /**
      * Penalties applied to the filing.
      */
     @JsonIgnore
@@ -958,8 +1017,8 @@ public class FilingDetailsRead {
     }
 
     /**
-     * Input VAT recovered on this filing's purchases. Subtracted from liability; always 0.00 outside EU/UK
-     * VAT AP filings.
+     * Input VAT this filing actually claimed. Subtracted from liability; always 0.00 outside EU/UK VAT
+     * filings.
      */
     @JsonIgnore
     public Optional<String> amountInputVatRecoverable() {
@@ -967,12 +1026,28 @@ public class FilingDetailsRead {
     }
 
     /**
-     * Prior-year input VAT pro-rata true-up on this filing. Positive claims more, negative repays. Always
+     * Prior-year input VAT pro-rata true-up on this filing. Negative claims more, positive repays. Always
      * 0.00 until posted.
      */
     @JsonIgnore
     public Optional<String> amountInputVatTrueUp() {
         return amountInputVatTrueUp;
+    }
+
+    /**
+     * Input VAT this filing would have claimed at a 100% rate. Always 0.00 outside EU/UK VAT filings.
+     */
+    @JsonIgnore
+    public Optional<String> amountInputVatRecoverableBase() {
+        return amountInputVatRecoverableBase;
+    }
+
+    /**
+     * Rate actually used on this filing's reclaim. Null when this filing is not EU/UK VAT.
+     */
+    @JsonIgnore
+    public JsonNullable<String> inputVatRecoveryRateApplied() {
+        return inputVatRecoveryRateApplied;
     }
 
     /**
@@ -1219,25 +1294,6 @@ public class FilingDetailsRead {
     }
 
     /**
-     * Input VAT recovery rate applied to this filing, as a percentage 0-100. Null when no rate exists for
-     * the filing's country and year, which means fully recoverable. Uses the definitive rate when set,
-     * otherwise the year's frozen provisional.
-     */
-    @JsonIgnore
-    public JsonNullable<String> inputVatRecoveryRate() {
-        return inputVatRecoveryRate;
-    }
-
-    /**
-     * True when input_vat_recovery_rate is this year's definitive rate. False when it is the provisional.
-     * Null when no rate exists.
-     */
-    @JsonIgnore
-    public JsonNullable<Boolean> inputVatRecoveryRateIsDefinitive() {
-        return inputVatRecoveryRateIsDefinitive;
-    }
-
-    /**
      * Get the filing website URL for this filing's jurisdiction
      */
     @JsonIgnore
@@ -1249,6 +1305,48 @@ public class FilingDetailsRead {
         return new Builder();
     }
 
+
+    /**
+     * Input VAT recovery rate applied to this filing, as a percentage 0-100. Null when no rate exists for
+     * the filing's country and year, which means fully recoverable. Uses the definitive rate when set,
+     * otherwise the year's frozen provisional.
+     */
+    public FilingDetailsRead withInputVatRecoveryRate(String inputVatRecoveryRate) {
+        Utils.checkNotNull(inputVatRecoveryRate, "inputVatRecoveryRate");
+        this.inputVatRecoveryRate = JsonNullable.of(inputVatRecoveryRate);
+        return this;
+    }
+
+    /**
+     * Input VAT recovery rate applied to this filing, as a percentage 0-100. Null when no rate exists for
+     * the filing's country and year, which means fully recoverable. Uses the definitive rate when set,
+     * otherwise the year's frozen provisional.
+     */
+    public FilingDetailsRead withInputVatRecoveryRate(JsonNullable<String> inputVatRecoveryRate) {
+        Utils.checkNotNull(inputVatRecoveryRate, "inputVatRecoveryRate");
+        this.inputVatRecoveryRate = inputVatRecoveryRate;
+        return this;
+    }
+
+    /**
+     * True when input_vat_recovery_rate is this year's definitive rate. False when it is the provisional.
+     * Null when no rate exists.
+     */
+    public FilingDetailsRead withInputVatRecoveryRateIsDefinitive(boolean inputVatRecoveryRateIsDefinitive) {
+        Utils.checkNotNull(inputVatRecoveryRateIsDefinitive, "inputVatRecoveryRateIsDefinitive");
+        this.inputVatRecoveryRateIsDefinitive = JsonNullable.of(inputVatRecoveryRateIsDefinitive);
+        return this;
+    }
+
+    /**
+     * True when input_vat_recovery_rate is this year's definitive rate. False when it is the provisional.
+     * Null when no rate exists.
+     */
+    public FilingDetailsRead withInputVatRecoveryRateIsDefinitive(JsonNullable<Boolean> inputVatRecoveryRateIsDefinitive) {
+        Utils.checkNotNull(inputVatRecoveryRateIsDefinitive, "inputVatRecoveryRateIsDefinitive");
+        this.inputVatRecoveryRateIsDefinitive = inputVatRecoveryRateIsDefinitive;
+        return this;
+    }
 
     public FilingDetailsRead withStatus(FilingStatusEnum status) {
         Utils.checkNotNull(status, "status");
@@ -1601,9 +1699,9 @@ public class FilingDetailsRead {
      * 
      * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
      * one return can cover both taxes, and each is stored as a single row.
-     * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
-     * separate obligations with their own met dates, period models, and liability
-     * accrual.
+     * Nexus rows are SALES_TAX, USE_TAX, or RETAIL_DELIVERY_FEE. Sales tax, use
+     * tax, and the retail delivery fee are separate obligations with their own
+     * met dates, period models, and liability accrual.
      */
     public FilingDetailsRead withTaxType(TaxTypeEnum taxType) {
         Utils.checkNotNull(taxType, "taxType");
@@ -1617,9 +1715,9 @@ public class FilingDetailsRead {
      * 
      * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
      * one return can cover both taxes, and each is stored as a single row.
-     * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
-     * separate obligations with their own met dates, period models, and liability
-     * accrual.
+     * Nexus rows are SALES_TAX, USE_TAX, or RETAIL_DELIVERY_FEE. Sales tax, use
+     * tax, and the retail delivery fee are separate obligations with their own
+     * met dates, period models, and liability accrual.
      */
     public FilingDetailsRead withTaxType(Optional<? extends TaxTypeEnum> taxType) {
         Utils.checkNotNull(taxType, "taxType");
@@ -1725,6 +1823,24 @@ public class FilingDetailsRead {
     }
 
     /**
+     * Whether amount_fees is a penalty, interest, or other fee. Null when unknown (legacy rows).
+     */
+    public FilingDetailsRead withFeeType(FeeTypeEnum feeType) {
+        Utils.checkNotNull(feeType, "feeType");
+        this.feeType = JsonNullable.of(feeType);
+        return this;
+    }
+
+    /**
+     * Whether amount_fees is a penalty, interest, or other fee. Null when unknown (legacy rows).
+     */
+    public FilingDetailsRead withFeeType(JsonNullable<? extends FeeTypeEnum> feeType) {
+        Utils.checkNotNull(feeType, "feeType");
+        this.feeType = feeType;
+        return this;
+    }
+
+    /**
      * Penalties applied to the filing.
      */
     public FilingDetailsRead withAmountPenalties(String amountPenalties) {
@@ -1788,8 +1904,8 @@ public class FilingDetailsRead {
     }
 
     /**
-     * Input VAT recovered on this filing's purchases. Subtracted from liability; always 0.00 outside EU/UK
-     * VAT AP filings.
+     * Input VAT this filing actually claimed. Subtracted from liability; always 0.00 outside EU/UK VAT
+     * filings.
      */
     public FilingDetailsRead withAmountInputVatRecoverable(String amountInputVatRecoverable) {
         Utils.checkNotNull(amountInputVatRecoverable, "amountInputVatRecoverable");
@@ -1799,8 +1915,8 @@ public class FilingDetailsRead {
 
 
     /**
-     * Input VAT recovered on this filing's purchases. Subtracted from liability; always 0.00 outside EU/UK
-     * VAT AP filings.
+     * Input VAT this filing actually claimed. Subtracted from liability; always 0.00 outside EU/UK VAT
+     * filings.
      */
     public FilingDetailsRead withAmountInputVatRecoverable(Optional<String> amountInputVatRecoverable) {
         Utils.checkNotNull(amountInputVatRecoverable, "amountInputVatRecoverable");
@@ -1809,7 +1925,7 @@ public class FilingDetailsRead {
     }
 
     /**
-     * Prior-year input VAT pro-rata true-up on this filing. Positive claims more, negative repays. Always
+     * Prior-year input VAT pro-rata true-up on this filing. Negative claims more, positive repays. Always
      * 0.00 until posted.
      */
     public FilingDetailsRead withAmountInputVatTrueUp(String amountInputVatTrueUp) {
@@ -1820,12 +1936,49 @@ public class FilingDetailsRead {
 
 
     /**
-     * Prior-year input VAT pro-rata true-up on this filing. Positive claims more, negative repays. Always
+     * Prior-year input VAT pro-rata true-up on this filing. Negative claims more, positive repays. Always
      * 0.00 until posted.
      */
     public FilingDetailsRead withAmountInputVatTrueUp(Optional<String> amountInputVatTrueUp) {
         Utils.checkNotNull(amountInputVatTrueUp, "amountInputVatTrueUp");
         this.amountInputVatTrueUp = amountInputVatTrueUp;
+        return this;
+    }
+
+    /**
+     * Input VAT this filing would have claimed at a 100% rate. Always 0.00 outside EU/UK VAT filings.
+     */
+    public FilingDetailsRead withAmountInputVatRecoverableBase(String amountInputVatRecoverableBase) {
+        Utils.checkNotNull(amountInputVatRecoverableBase, "amountInputVatRecoverableBase");
+        this.amountInputVatRecoverableBase = Optional.ofNullable(amountInputVatRecoverableBase);
+        return this;
+    }
+
+
+    /**
+     * Input VAT this filing would have claimed at a 100% rate. Always 0.00 outside EU/UK VAT filings.
+     */
+    public FilingDetailsRead withAmountInputVatRecoverableBase(Optional<String> amountInputVatRecoverableBase) {
+        Utils.checkNotNull(amountInputVatRecoverableBase, "amountInputVatRecoverableBase");
+        this.amountInputVatRecoverableBase = amountInputVatRecoverableBase;
+        return this;
+    }
+
+    /**
+     * Rate actually used on this filing's reclaim. Null when this filing is not EU/UK VAT.
+     */
+    public FilingDetailsRead withInputVatRecoveryRateApplied(String inputVatRecoveryRateApplied) {
+        Utils.checkNotNull(inputVatRecoveryRateApplied, "inputVatRecoveryRateApplied");
+        this.inputVatRecoveryRateApplied = JsonNullable.of(inputVatRecoveryRateApplied);
+        return this;
+    }
+
+    /**
+     * Rate actually used on this filing's reclaim. Null when this filing is not EU/UK VAT.
+     */
+    public FilingDetailsRead withInputVatRecoveryRateApplied(JsonNullable<String> inputVatRecoveryRateApplied) {
+        Utils.checkNotNull(inputVatRecoveryRateApplied, "inputVatRecoveryRateApplied");
+        this.inputVatRecoveryRateApplied = inputVatRecoveryRateApplied;
         return this;
     }
 
@@ -2347,48 +2500,6 @@ public class FilingDetailsRead {
     }
 
     /**
-     * Input VAT recovery rate applied to this filing, as a percentage 0-100. Null when no rate exists for
-     * the filing's country and year, which means fully recoverable. Uses the definitive rate when set,
-     * otherwise the year's frozen provisional.
-     */
-    public FilingDetailsRead withInputVatRecoveryRate(String inputVatRecoveryRate) {
-        Utils.checkNotNull(inputVatRecoveryRate, "inputVatRecoveryRate");
-        this.inputVatRecoveryRate = JsonNullable.of(inputVatRecoveryRate);
-        return this;
-    }
-
-    /**
-     * Input VAT recovery rate applied to this filing, as a percentage 0-100. Null when no rate exists for
-     * the filing's country and year, which means fully recoverable. Uses the definitive rate when set,
-     * otherwise the year's frozen provisional.
-     */
-    public FilingDetailsRead withInputVatRecoveryRate(JsonNullable<String> inputVatRecoveryRate) {
-        Utils.checkNotNull(inputVatRecoveryRate, "inputVatRecoveryRate");
-        this.inputVatRecoveryRate = inputVatRecoveryRate;
-        return this;
-    }
-
-    /**
-     * True when input_vat_recovery_rate is this year's definitive rate. False when it is the provisional.
-     * Null when no rate exists.
-     */
-    public FilingDetailsRead withInputVatRecoveryRateIsDefinitive(boolean inputVatRecoveryRateIsDefinitive) {
-        Utils.checkNotNull(inputVatRecoveryRateIsDefinitive, "inputVatRecoveryRateIsDefinitive");
-        this.inputVatRecoveryRateIsDefinitive = JsonNullable.of(inputVatRecoveryRateIsDefinitive);
-        return this;
-    }
-
-    /**
-     * True when input_vat_recovery_rate is this year's definitive rate. False when it is the provisional.
-     * Null when no rate exists.
-     */
-    public FilingDetailsRead withInputVatRecoveryRateIsDefinitive(JsonNullable<Boolean> inputVatRecoveryRateIsDefinitive) {
-        Utils.checkNotNull(inputVatRecoveryRateIsDefinitive, "inputVatRecoveryRateIsDefinitive");
-        this.inputVatRecoveryRateIsDefinitive = inputVatRecoveryRateIsDefinitive;
-        return this;
-    }
-
-    /**
      * Get the filing website URL for this filing's jurisdiction
      */
     public FilingDetailsRead withFilingWebsiteUrl(String filingWebsiteUrl) {
@@ -2417,6 +2528,8 @@ public class FilingDetailsRead {
         }
         FilingDetailsRead other = (FilingDetailsRead) o;
         return 
+            Utils.enhancedDeepEquals(this.inputVatRecoveryRate, other.inputVatRecoveryRate) &&
+            Utils.enhancedDeepEquals(this.inputVatRecoveryRateIsDefinitive, other.inputVatRecoveryRateIsDefinitive) &&
             Utils.enhancedDeepEquals(this.status, other.status) &&
             Utils.enhancedDeepEquals(this.startDate, other.startDate) &&
             Utils.enhancedDeepEquals(this.endDate, other.endDate) &&
@@ -2443,11 +2556,14 @@ public class FilingDetailsRead {
             Utils.enhancedDeepEquals(this.amountAdjusted, other.amountAdjusted) &&
             Utils.enhancedDeepEquals(this.amountDiscounts, other.amountDiscounts) &&
             Utils.enhancedDeepEquals(this.amountFees, other.amountFees) &&
+            Utils.enhancedDeepEquals(this.feeType, other.feeType) &&
             Utils.enhancedDeepEquals(this.amountPenalties, other.amountPenalties) &&
             Utils.enhancedDeepEquals(this.amountTaxCollected, other.amountTaxCollected) &&
             Utils.enhancedDeepEquals(this.amountUseTax, other.amountUseTax) &&
             Utils.enhancedDeepEquals(this.amountInputVatRecoverable, other.amountInputVatRecoverable) &&
             Utils.enhancedDeepEquals(this.amountInputVatTrueUp, other.amountInputVatTrueUp) &&
+            Utils.enhancedDeepEquals(this.amountInputVatRecoverableBase, other.amountInputVatRecoverableBase) &&
+            Utils.enhancedDeepEquals(this.inputVatRecoveryRateApplied, other.inputVatRecoveryRateApplied) &&
             Utils.enhancedDeepEquals(this.amountSales, other.amountSales) &&
             Utils.enhancedDeepEquals(this.totalTaxableSales, other.totalTaxableSales) &&
             Utils.enhancedDeepEquals(this.amount, other.amount) &&
@@ -2477,40 +2593,41 @@ public class FilingDetailsRead {
             Utils.enhancedDeepEquals(this.attachments, other.attachments) &&
             Utils.enhancedDeepEquals(this.creditsUtilized, other.creditsUtilized) &&
             Utils.enhancedDeepEquals(this.deferredTransactionCount, other.deferredTransactionCount) &&
-            Utils.enhancedDeepEquals(this.inputVatRecoveryRate, other.inputVatRecoveryRate) &&
-            Utils.enhancedDeepEquals(this.inputVatRecoveryRateIsDefinitive, other.inputVatRecoveryRateIsDefinitive) &&
             Utils.enhancedDeepEquals(this.filingWebsiteUrl, other.filingWebsiteUrl);
     }
     
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
-            status, startDate, endDate,
-            dueDate, dateFiled, isManual,
-            stateCode, stateName, countryCode,
-            autoApproved, pausedUntilDate, assistanceTicketId,
-            filingCategory, isPrepayment, isFinal,
-            approvedBy, approvedAt, issueReason,
-            skipReason, cancelledReason, taxType,
-            isRdf, amountCalculated, amountAdjusted,
-            amountDiscounts, amountFees, amountPenalties,
+            inputVatRecoveryRate, inputVatRecoveryRateIsDefinitive, status,
+            startDate, endDate, dueDate,
+            dateFiled, isManual, stateCode,
+            stateName, countryCode, autoApproved,
+            pausedUntilDate, assistanceTicketId, filingCategory,
+            isPrepayment, isFinal, approvedBy,
+            approvedAt, issueReason, skipReason,
+            cancelledReason, taxType, isRdf,
+            amountCalculated, amountAdjusted, amountDiscounts,
+            amountFees, feeType, amountPenalties,
             amountTaxCollected, amountUseTax, amountInputVatRecoverable,
-            amountInputVatTrueUp, amountSales, totalTaxableSales,
-            amount, totalTaxLiability, transactionCount,
-            marketplaceTransactionCount, estimatedLineCount, internalNotes,
-            recentDetailsReportLink, taxRemitted, originalTaxRemitted,
-            returnConfirmationId, paymentConfirmationId, submittedReturnConfirmationId,
-            submittedPaymentConfirmationId, blockApproval, currency,
-            id, registrationId, filingFrequency,
-            ossType, quarterlyPrepayBalance, caMayPrepayment,
-            estimatedPenaltyInterest, penaltyInterestRemittanceTag, organizationId,
-            attachments, creditsUtilized, deferredTransactionCount,
-            inputVatRecoveryRate, inputVatRecoveryRateIsDefinitive, filingWebsiteUrl);
+            amountInputVatTrueUp, amountInputVatRecoverableBase, inputVatRecoveryRateApplied,
+            amountSales, totalTaxableSales, amount,
+            totalTaxLiability, transactionCount, marketplaceTransactionCount,
+            estimatedLineCount, internalNotes, recentDetailsReportLink,
+            taxRemitted, originalTaxRemitted, returnConfirmationId,
+            paymentConfirmationId, submittedReturnConfirmationId, submittedPaymentConfirmationId,
+            blockApproval, currency, id,
+            registrationId, filingFrequency, ossType,
+            quarterlyPrepayBalance, caMayPrepayment, estimatedPenaltyInterest,
+            penaltyInterestRemittanceTag, organizationId, attachments,
+            creditsUtilized, deferredTransactionCount, filingWebsiteUrl);
     }
     
     @Override
     public String toString() {
         return Utils.toString(FilingDetailsRead.class,
+                "inputVatRecoveryRate", inputVatRecoveryRate,
+                "inputVatRecoveryRateIsDefinitive", inputVatRecoveryRateIsDefinitive,
                 "status", status,
                 "startDate", startDate,
                 "endDate", endDate,
@@ -2537,11 +2654,14 @@ public class FilingDetailsRead {
                 "amountAdjusted", amountAdjusted,
                 "amountDiscounts", amountDiscounts,
                 "amountFees", amountFees,
+                "feeType", feeType,
                 "amountPenalties", amountPenalties,
                 "amountTaxCollected", amountTaxCollected,
                 "amountUseTax", amountUseTax,
                 "amountInputVatRecoverable", amountInputVatRecoverable,
                 "amountInputVatTrueUp", amountInputVatTrueUp,
+                "amountInputVatRecoverableBase", amountInputVatRecoverableBase,
+                "inputVatRecoveryRateApplied", inputVatRecoveryRateApplied,
                 "amountSales", amountSales,
                 "totalTaxableSales", totalTaxableSales,
                 "amount", amount,
@@ -2571,13 +2691,15 @@ public class FilingDetailsRead {
                 "attachments", attachments,
                 "creditsUtilized", creditsUtilized,
                 "deferredTransactionCount", deferredTransactionCount,
-                "inputVatRecoveryRate", inputVatRecoveryRate,
-                "inputVatRecoveryRateIsDefinitive", inputVatRecoveryRateIsDefinitive,
                 "filingWebsiteUrl", filingWebsiteUrl);
     }
 
     @SuppressWarnings("UnusedReturnValue")
     public final static class Builder {
+
+        private JsonNullable<String> inputVatRecoveryRate = JsonNullable.undefined();
+
+        private JsonNullable<Boolean> inputVatRecoveryRateIsDefinitive = JsonNullable.undefined();
 
         private Optional<? extends FilingStatusEnum> status = Optional.empty();
 
@@ -2631,6 +2753,8 @@ public class FilingDetailsRead {
 
         private Optional<String> amountFees;
 
+        private JsonNullable<? extends FeeTypeEnum> feeType = JsonNullable.undefined();
+
         private Optional<String> amountPenalties;
 
         private Optional<String> amountTaxCollected;
@@ -2640,6 +2764,10 @@ public class FilingDetailsRead {
         private Optional<String> amountInputVatRecoverable;
 
         private Optional<String> amountInputVatTrueUp;
+
+        private Optional<String> amountInputVatRecoverableBase;
+
+        private JsonNullable<String> inputVatRecoveryRateApplied = JsonNullable.undefined();
 
         private Optional<String> amountSales;
 
@@ -2699,14 +2827,54 @@ public class FilingDetailsRead {
 
         private Optional<Long> deferredTransactionCount;
 
-        private JsonNullable<String> inputVatRecoveryRate = JsonNullable.undefined();
-
-        private JsonNullable<Boolean> inputVatRecoveryRateIsDefinitive = JsonNullable.undefined();
-
         private Optional<String> filingWebsiteUrl = Optional.empty();
 
         private Builder() {
           // force use of static builder() method
+        }
+
+
+        /**
+         * Input VAT recovery rate applied to this filing, as a percentage 0-100. Null when no rate exists for
+         * the filing's country and year, which means fully recoverable. Uses the definitive rate when set,
+         * otherwise the year's frozen provisional.
+         */
+        public Builder inputVatRecoveryRate(String inputVatRecoveryRate) {
+            Utils.checkNotNull(inputVatRecoveryRate, "inputVatRecoveryRate");
+            this.inputVatRecoveryRate = JsonNullable.of(inputVatRecoveryRate);
+            return this;
+        }
+
+        /**
+         * Input VAT recovery rate applied to this filing, as a percentage 0-100. Null when no rate exists for
+         * the filing's country and year, which means fully recoverable. Uses the definitive rate when set,
+         * otherwise the year's frozen provisional.
+         */
+        public Builder inputVatRecoveryRate(JsonNullable<String> inputVatRecoveryRate) {
+            Utils.checkNotNull(inputVatRecoveryRate, "inputVatRecoveryRate");
+            this.inputVatRecoveryRate = inputVatRecoveryRate;
+            return this;
+        }
+
+
+        /**
+         * True when input_vat_recovery_rate is this year's definitive rate. False when it is the provisional.
+         * Null when no rate exists.
+         */
+        public Builder inputVatRecoveryRateIsDefinitive(boolean inputVatRecoveryRateIsDefinitive) {
+            Utils.checkNotNull(inputVatRecoveryRateIsDefinitive, "inputVatRecoveryRateIsDefinitive");
+            this.inputVatRecoveryRateIsDefinitive = JsonNullable.of(inputVatRecoveryRateIsDefinitive);
+            return this;
+        }
+
+        /**
+         * True when input_vat_recovery_rate is this year's definitive rate. False when it is the provisional.
+         * Null when no rate exists.
+         */
+        public Builder inputVatRecoveryRateIsDefinitive(JsonNullable<Boolean> inputVatRecoveryRateIsDefinitive) {
+            Utils.checkNotNull(inputVatRecoveryRateIsDefinitive, "inputVatRecoveryRateIsDefinitive");
+            this.inputVatRecoveryRateIsDefinitive = inputVatRecoveryRateIsDefinitive;
+            return this;
         }
 
 
@@ -3077,9 +3245,9 @@ public class FilingDetailsRead {
          * 
          * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
          * one return can cover both taxes, and each is stored as a single row.
-         * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
-         * separate obligations with their own met dates, period models, and liability
-         * accrual.
+         * Nexus rows are SALES_TAX, USE_TAX, or RETAIL_DELIVERY_FEE. Sales tax, use
+         * tax, and the retail delivery fee are separate obligations with their own
+         * met dates, period models, and liability accrual.
          */
         public Builder taxType(TaxTypeEnum taxType) {
             Utils.checkNotNull(taxType, "taxType");
@@ -3092,9 +3260,9 @@ public class FilingDetailsRead {
          * 
          * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
          * one return can cover both taxes, and each is stored as a single row.
-         * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
-         * separate obligations with their own met dates, period models, and liability
-         * accrual.
+         * Nexus rows are SALES_TAX, USE_TAX, or RETAIL_DELIVERY_FEE. Sales tax, use
+         * tax, and the retail delivery fee are separate obligations with their own
+         * met dates, period models, and liability accrual.
          */
         public Builder taxType(Optional<? extends TaxTypeEnum> taxType) {
             Utils.checkNotNull(taxType, "taxType");
@@ -3201,6 +3369,25 @@ public class FilingDetailsRead {
 
 
         /**
+         * Whether amount_fees is a penalty, interest, or other fee. Null when unknown (legacy rows).
+         */
+        public Builder feeType(FeeTypeEnum feeType) {
+            Utils.checkNotNull(feeType, "feeType");
+            this.feeType = JsonNullable.of(feeType);
+            return this;
+        }
+
+        /**
+         * Whether amount_fees is a penalty, interest, or other fee. Null when unknown (legacy rows).
+         */
+        public Builder feeType(JsonNullable<? extends FeeTypeEnum> feeType) {
+            Utils.checkNotNull(feeType, "feeType");
+            this.feeType = feeType;
+            return this;
+        }
+
+
+        /**
          * Penalties applied to the filing.
          */
         public Builder amountPenalties(String amountPenalties) {
@@ -3264,8 +3451,8 @@ public class FilingDetailsRead {
 
 
         /**
-         * Input VAT recovered on this filing's purchases. Subtracted from liability; always 0.00 outside EU/UK
-         * VAT AP filings.
+         * Input VAT this filing actually claimed. Subtracted from liability; always 0.00 outside EU/UK VAT
+         * filings.
          */
         public Builder amountInputVatRecoverable(String amountInputVatRecoverable) {
             Utils.checkNotNull(amountInputVatRecoverable, "amountInputVatRecoverable");
@@ -3274,8 +3461,8 @@ public class FilingDetailsRead {
         }
 
         /**
-         * Input VAT recovered on this filing's purchases. Subtracted from liability; always 0.00 outside EU/UK
-         * VAT AP filings.
+         * Input VAT this filing actually claimed. Subtracted from liability; always 0.00 outside EU/UK VAT
+         * filings.
          */
         public Builder amountInputVatRecoverable(Optional<String> amountInputVatRecoverable) {
             Utils.checkNotNull(amountInputVatRecoverable, "amountInputVatRecoverable");
@@ -3285,7 +3472,7 @@ public class FilingDetailsRead {
 
 
         /**
-         * Prior-year input VAT pro-rata true-up on this filing. Positive claims more, negative repays. Always
+         * Prior-year input VAT pro-rata true-up on this filing. Negative claims more, positive repays. Always
          * 0.00 until posted.
          */
         public Builder amountInputVatTrueUp(String amountInputVatTrueUp) {
@@ -3295,12 +3482,50 @@ public class FilingDetailsRead {
         }
 
         /**
-         * Prior-year input VAT pro-rata true-up on this filing. Positive claims more, negative repays. Always
+         * Prior-year input VAT pro-rata true-up on this filing. Negative claims more, positive repays. Always
          * 0.00 until posted.
          */
         public Builder amountInputVatTrueUp(Optional<String> amountInputVatTrueUp) {
             Utils.checkNotNull(amountInputVatTrueUp, "amountInputVatTrueUp");
             this.amountInputVatTrueUp = amountInputVatTrueUp;
+            return this;
+        }
+
+
+        /**
+         * Input VAT this filing would have claimed at a 100% rate. Always 0.00 outside EU/UK VAT filings.
+         */
+        public Builder amountInputVatRecoverableBase(String amountInputVatRecoverableBase) {
+            Utils.checkNotNull(amountInputVatRecoverableBase, "amountInputVatRecoverableBase");
+            this.amountInputVatRecoverableBase = Optional.ofNullable(amountInputVatRecoverableBase);
+            return this;
+        }
+
+        /**
+         * Input VAT this filing would have claimed at a 100% rate. Always 0.00 outside EU/UK VAT filings.
+         */
+        public Builder amountInputVatRecoverableBase(Optional<String> amountInputVatRecoverableBase) {
+            Utils.checkNotNull(amountInputVatRecoverableBase, "amountInputVatRecoverableBase");
+            this.amountInputVatRecoverableBase = amountInputVatRecoverableBase;
+            return this;
+        }
+
+
+        /**
+         * Rate actually used on this filing's reclaim. Null when this filing is not EU/UK VAT.
+         */
+        public Builder inputVatRecoveryRateApplied(String inputVatRecoveryRateApplied) {
+            Utils.checkNotNull(inputVatRecoveryRateApplied, "inputVatRecoveryRateApplied");
+            this.inputVatRecoveryRateApplied = JsonNullable.of(inputVatRecoveryRateApplied);
+            return this;
+        }
+
+        /**
+         * Rate actually used on this filing's reclaim. Null when this filing is not EU/UK VAT.
+         */
+        public Builder inputVatRecoveryRateApplied(JsonNullable<String> inputVatRecoveryRateApplied) {
+            Utils.checkNotNull(inputVatRecoveryRateApplied, "inputVatRecoveryRateApplied");
+            this.inputVatRecoveryRateApplied = inputVatRecoveryRateApplied;
             return this;
         }
 
@@ -3844,50 +4069,6 @@ public class FilingDetailsRead {
 
 
         /**
-         * Input VAT recovery rate applied to this filing, as a percentage 0-100. Null when no rate exists for
-         * the filing's country and year, which means fully recoverable. Uses the definitive rate when set,
-         * otherwise the year's frozen provisional.
-         */
-        public Builder inputVatRecoveryRate(String inputVatRecoveryRate) {
-            Utils.checkNotNull(inputVatRecoveryRate, "inputVatRecoveryRate");
-            this.inputVatRecoveryRate = JsonNullable.of(inputVatRecoveryRate);
-            return this;
-        }
-
-        /**
-         * Input VAT recovery rate applied to this filing, as a percentage 0-100. Null when no rate exists for
-         * the filing's country and year, which means fully recoverable. Uses the definitive rate when set,
-         * otherwise the year's frozen provisional.
-         */
-        public Builder inputVatRecoveryRate(JsonNullable<String> inputVatRecoveryRate) {
-            Utils.checkNotNull(inputVatRecoveryRate, "inputVatRecoveryRate");
-            this.inputVatRecoveryRate = inputVatRecoveryRate;
-            return this;
-        }
-
-
-        /**
-         * True when input_vat_recovery_rate is this year's definitive rate. False when it is the provisional.
-         * Null when no rate exists.
-         */
-        public Builder inputVatRecoveryRateIsDefinitive(boolean inputVatRecoveryRateIsDefinitive) {
-            Utils.checkNotNull(inputVatRecoveryRateIsDefinitive, "inputVatRecoveryRateIsDefinitive");
-            this.inputVatRecoveryRateIsDefinitive = JsonNullable.of(inputVatRecoveryRateIsDefinitive);
-            return this;
-        }
-
-        /**
-         * True when input_vat_recovery_rate is this year's definitive rate. False when it is the provisional.
-         * Null when no rate exists.
-         */
-        public Builder inputVatRecoveryRateIsDefinitive(JsonNullable<Boolean> inputVatRecoveryRateIsDefinitive) {
-            Utils.checkNotNull(inputVatRecoveryRateIsDefinitive, "inputVatRecoveryRateIsDefinitive");
-            this.inputVatRecoveryRateIsDefinitive = inputVatRecoveryRateIsDefinitive;
-            return this;
-        }
-
-
-        /**
          * Get the filing website URL for this filing's jurisdiction
          */
         public Builder filingWebsiteUrl(String filingWebsiteUrl) {
@@ -3945,6 +4126,9 @@ public class FilingDetailsRead {
             if (amountInputVatTrueUp == null) {
                 amountInputVatTrueUp = _SINGLETON_VALUE_AmountInputVatTrueUp.value();
             }
+            if (amountInputVatRecoverableBase == null) {
+                amountInputVatRecoverableBase = _SINGLETON_VALUE_AmountInputVatRecoverableBase.value();
+            }
             if (amountSales == null) {
                 amountSales = _SINGLETON_VALUE_AmountSales.value();
             }
@@ -3971,27 +4155,28 @@ public class FilingDetailsRead {
             }
 
             return new FilingDetailsRead(
-                status, startDate, endDate,
-                dueDate, dateFiled, isManual,
-                stateCode, stateName, countryCode,
-                autoApproved, pausedUntilDate, assistanceTicketId,
-                filingCategory, isPrepayment, isFinal,
-                approvedBy, approvedAt, issueReason,
-                skipReason, cancelledReason, taxType,
-                isRdf, amountCalculated, amountAdjusted,
-                amountDiscounts, amountFees, amountPenalties,
+                inputVatRecoveryRate, inputVatRecoveryRateIsDefinitive, status,
+                startDate, endDate, dueDate,
+                dateFiled, isManual, stateCode,
+                stateName, countryCode, autoApproved,
+                pausedUntilDate, assistanceTicketId, filingCategory,
+                isPrepayment, isFinal, approvedBy,
+                approvedAt, issueReason, skipReason,
+                cancelledReason, taxType, isRdf,
+                amountCalculated, amountAdjusted, amountDiscounts,
+                amountFees, feeType, amountPenalties,
                 amountTaxCollected, amountUseTax, amountInputVatRecoverable,
-                amountInputVatTrueUp, amountSales, totalTaxableSales,
-                amount, totalTaxLiability, transactionCount,
-                marketplaceTransactionCount, estimatedLineCount, internalNotes,
-                recentDetailsReportLink, taxRemitted, originalTaxRemitted,
-                returnConfirmationId, paymentConfirmationId, submittedReturnConfirmationId,
-                submittedPaymentConfirmationId, blockApproval, currency,
-                id, registrationId, filingFrequency,
-                ossType, quarterlyPrepayBalance, caMayPrepayment,
-                estimatedPenaltyInterest, penaltyInterestRemittanceTag, organizationId,
-                attachments, creditsUtilized, deferredTransactionCount,
-                inputVatRecoveryRate, inputVatRecoveryRateIsDefinitive, filingWebsiteUrl);
+                amountInputVatTrueUp, amountInputVatRecoverableBase, inputVatRecoveryRateApplied,
+                amountSales, totalTaxableSales, amount,
+                totalTaxLiability, transactionCount, marketplaceTransactionCount,
+                estimatedLineCount, internalNotes, recentDetailsReportLink,
+                taxRemitted, originalTaxRemitted, returnConfirmationId,
+                paymentConfirmationId, submittedReturnConfirmationId, submittedPaymentConfirmationId,
+                blockApproval, currency, id,
+                registrationId, filingFrequency, ossType,
+                quarterlyPrepayBalance, caMayPrepayment, estimatedPenaltyInterest,
+                penaltyInterestRemittanceTag, organizationId, attachments,
+                creditsUtilized, deferredTransactionCount, filingWebsiteUrl);
         }
 
 
@@ -4070,6 +4255,12 @@ public class FilingDetailsRead {
         private static final LazySingletonValue<Optional<String>> _SINGLETON_VALUE_AmountInputVatTrueUp =
                 new LazySingletonValue<>(
                         "amount_input_vat_true_up",
+                        "\"0.00\"",
+                        new TypeReference<Optional<String>>() {});
+
+        private static final LazySingletonValue<Optional<String>> _SINGLETON_VALUE_AmountInputVatRecoverableBase =
+                new LazySingletonValue<>(
+                        "amount_input_vat_recoverable_base",
                         "\"0.00\"",
                         new TypeReference<Optional<String>>() {});
 

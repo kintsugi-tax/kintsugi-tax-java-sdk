@@ -102,6 +102,15 @@ public class UtahRegistrationPayload {
     @JsonProperty("change_regime_status")
     private JsonNullable<? extends ChangeRegimeStatusEnum> changeRegimeStatus;
 
+    /**
+     * Set true to mark the organization as collecting tax in this jurisdiction ahead of registration
+     * details, instead of a normal import. Opens the registration in PROCESSING; filing frequency and
+     * credentials are not required.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("is_pre_collecting")
+    private Optional<Boolean> isPreCollecting;
+
 
     @JsonProperty("country_code")
     private CountryCodeEnum countryCode;
@@ -118,14 +127,20 @@ public class UtahRegistrationPayload {
     @JsonProperty("state_name")
     private String stateName;
 
-
+    /**
+     * Specifies how often tax filings should be made. Possible values: MONTHLY, QUARTERLY, ANNUALLY,
+     * UNKNOWN. Required unless isPreCollecting is set.
+     */
+    @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("filing_frequency")
-    private FilingFrequencyEnum filingFrequency;
+    private JsonNullable<? extends FilingFrequencyEnum> filingFrequency;
 
     /**
-     * Fiscal-year anchor month (1-12) on which each quarterly/semiannual
-     * period ends, for Hawaii (US-HI) filers whose periods are offset from the calendar.
-     * Null (default) keeps the standard calendar grid.
+     * Fiscal-year anchor month (1-12) on which each recurring period
+     * ends, for filers whose periods are offset from the calendar: Hawaii (US-HI)
+     * quarterly/semiannual, British Columbia (CA-BC) quarterly, and California (US-CA)
+     * and District of Columbia (US-DC) annual. Null (default) keeps the standard
+     * calendar grid.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("period_end_month")
@@ -236,6 +251,19 @@ public class UtahRegistrationPayload {
     private JsonNullable<String> requestId;
 
     /**
+     * Tax obligation on a nexus, registration, or filing row.
+     * 
+     * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
+     * one return can cover both taxes, and each is stored as a single row.
+     * Nexus rows are SALES_TAX, USE_TAX, or RETAIL_DELIVERY_FEE. Sales tax, use
+     * tax, and the retail delivery fee are separate obligations with their own
+     * met dates, period models, and liability accrual.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("tax_type")
+    private Optional<? extends TaxTypeEnum> taxType;
+
+    /**
      * 6-digit Sales Tax PIN from the Utah sales tax license or mailed separately. Encrypted into
      * pin_encrypted on save.
      */
@@ -255,10 +283,11 @@ public class UtahRegistrationPayload {
             @JsonProperty("do_not_file") Optional<Boolean> doNotFile,
             @JsonProperty("registrations_regime") JsonNullable<? extends RegistrationsRegimeEnum> registrationsRegime,
             @JsonProperty("change_regime_status") JsonNullable<? extends ChangeRegimeStatusEnum> changeRegimeStatus,
+            @JsonProperty("is_pre_collecting") Optional<Boolean> isPreCollecting,
             @JsonProperty("country_code") CountryCodeEnum countryCode,
             @JsonProperty("state_code") String stateCode,
             @JsonProperty("state_name") String stateName,
-            @JsonProperty("filing_frequency") FilingFrequencyEnum filingFrequency,
+            @JsonProperty("filing_frequency") JsonNullable<? extends FilingFrequencyEnum> filingFrequency,
             @JsonProperty("period_end_month") JsonNullable<Long> periodEndMonth,
             @JsonProperty("username") JsonNullable<String> username,
             @JsonProperty("comment") JsonNullable<String> comment,
@@ -275,6 +304,7 @@ public class UtahRegistrationPayload {
             @JsonProperty("password_metadata_plain_text") JsonNullable<String> passwordMetadataPlainText,
             @JsonProperty("jurisdiction_specific_fields") UtahFields jurisdictionSpecificFields,
             @JsonProperty("request_id") JsonNullable<String> requestId,
+            @JsonProperty("tax_type") Optional<? extends TaxTypeEnum> taxType,
             @JsonProperty("pin_plain_text") JsonNullable<String> pinPlainText) {
         Utils.checkNotNull(registrationDate, "registrationDate");
         Utils.checkNotNull(registrationEmail, "registrationEmail");
@@ -286,6 +316,7 @@ public class UtahRegistrationPayload {
         Utils.checkNotNull(doNotFile, "doNotFile");
         Utils.checkNotNull(registrationsRegime, "registrationsRegime");
         Utils.checkNotNull(changeRegimeStatus, "changeRegimeStatus");
+        Utils.checkNotNull(isPreCollecting, "isPreCollecting");
         Utils.checkNotNull(countryCode, "countryCode");
         Utils.checkNotNull(stateCode, "stateCode");
         Utils.checkNotNull(stateName, "stateName");
@@ -306,6 +337,7 @@ public class UtahRegistrationPayload {
         Utils.checkNotNull(passwordMetadataPlainText, "passwordMetadataPlainText");
         Utils.checkNotNull(jurisdictionSpecificFields, "jurisdictionSpecificFields");
         Utils.checkNotNull(requestId, "requestId");
+        Utils.checkNotNull(taxType, "taxType");
         Utils.checkNotNull(pinPlainText, "pinPlainText");
         this.registrationImportType = Builder._SINGLETON_VALUE_RegistrationImportType.value();
         this.registrationDate = registrationDate;
@@ -318,6 +350,7 @@ public class UtahRegistrationPayload {
         this.doNotFile = doNotFile;
         this.registrationsRegime = registrationsRegime;
         this.changeRegimeStatus = changeRegimeStatus;
+        this.isPreCollecting = isPreCollecting;
         this.countryCode = countryCode;
         this.stateCode = stateCode;
         this.stateName = stateName;
@@ -338,6 +371,7 @@ public class UtahRegistrationPayload {
         this.passwordMetadataPlainText = passwordMetadataPlainText;
         this.jurisdictionSpecificFields = jurisdictionSpecificFields;
         this.requestId = requestId;
+        this.taxType = taxType;
         this.pinPlainText = pinPlainText;
     }
     
@@ -345,19 +379,18 @@ public class UtahRegistrationPayload {
             CountryCodeEnum countryCode,
             String stateCode,
             String stateName,
-            FilingFrequencyEnum filingFrequency,
             UtahFields jurisdictionSpecificFields) {
         this(JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), Optional.empty(), JsonNullable.undefined(),
-            JsonNullable.undefined(), countryCode, stateCode,
-            stateName, filingFrequency, JsonNullable.undefined(),
+            JsonNullable.undefined(), Optional.empty(), countryCode,
+            stateCode, stateName, JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
-            JsonNullable.undefined(), Optional.empty(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty(),
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
-            JsonNullable.undefined(), jurisdictionSpecificFields, JsonNullable.undefined(),
-            JsonNullable.undefined());
+            JsonNullable.undefined(), JsonNullable.undefined(), jurisdictionSpecificFields,
+            JsonNullable.undefined(), Optional.empty(), JsonNullable.undefined());
     }
 
     /**
@@ -447,6 +480,16 @@ public class UtahRegistrationPayload {
         return (JsonNullable<ChangeRegimeStatusEnum>) changeRegimeStatus;
     }
 
+    /**
+     * Set true to mark the organization as collecting tax in this jurisdiction ahead of registration
+     * details, instead of a normal import. Opens the registration in PROCESSING; filing frequency and
+     * credentials are not required.
+     */
+    @JsonIgnore
+    public Optional<Boolean> isPreCollecting() {
+        return isPreCollecting;
+    }
+
     @JsonIgnore
     public CountryCodeEnum countryCode() {
         return countryCode;
@@ -468,15 +511,22 @@ public class UtahRegistrationPayload {
         return stateName;
     }
 
+    /**
+     * Specifies how often tax filings should be made. Possible values: MONTHLY, QUARTERLY, ANNUALLY,
+     * UNKNOWN. Required unless isPreCollecting is set.
+     */
+    @SuppressWarnings("unchecked")
     @JsonIgnore
-    public FilingFrequencyEnum filingFrequency() {
-        return filingFrequency;
+    public JsonNullable<FilingFrequencyEnum> filingFrequency() {
+        return (JsonNullable<FilingFrequencyEnum>) filingFrequency;
     }
 
     /**
-     * Fiscal-year anchor month (1-12) on which each quarterly/semiannual
-     * period ends, for Hawaii (US-HI) filers whose periods are offset from the calendar.
-     * Null (default) keeps the standard calendar grid.
+     * Fiscal-year anchor month (1-12) on which each recurring period
+     * ends, for filers whose periods are offset from the calendar: Hawaii (US-HI)
+     * quarterly/semiannual, British Columbia (CA-BC) quarterly, and California (US-CA)
+     * and District of Columbia (US-DC) annual. Null (default) keeps the standard
+     * calendar grid.
      */
     @JsonIgnore
     public JsonNullable<Long> periodEndMonth() {
@@ -602,6 +652,21 @@ public class UtahRegistrationPayload {
     @JsonIgnore
     public JsonNullable<String> requestId() {
         return requestId;
+    }
+
+    /**
+     * Tax obligation on a nexus, registration, or filing row.
+     * 
+     * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
+     * one return can cover both taxes, and each is stored as a single row.
+     * Nexus rows are SALES_TAX, USE_TAX, or RETAIL_DELIVERY_FEE. Sales tax, use
+     * tax, and the retail delivery fee are separate obligations with their own
+     * met dates, period models, and liability accrual.
+     */
+    @SuppressWarnings("unchecked")
+    @JsonIgnore
+    public Optional<TaxTypeEnum> taxType() {
+        return (Optional<TaxTypeEnum>) taxType;
     }
 
     /**
@@ -793,6 +858,29 @@ public class UtahRegistrationPayload {
         return this;
     }
 
+    /**
+     * Set true to mark the organization as collecting tax in this jurisdiction ahead of registration
+     * details, instead of a normal import. Opens the registration in PROCESSING; filing frequency and
+     * credentials are not required.
+     */
+    public UtahRegistrationPayload withIsPreCollecting(boolean isPreCollecting) {
+        Utils.checkNotNull(isPreCollecting, "isPreCollecting");
+        this.isPreCollecting = Optional.ofNullable(isPreCollecting);
+        return this;
+    }
+
+
+    /**
+     * Set true to mark the organization as collecting tax in this jurisdiction ahead of registration
+     * details, instead of a normal import. Opens the registration in PROCESSING; filing frequency and
+     * credentials are not required.
+     */
+    public UtahRegistrationPayload withIsPreCollecting(Optional<Boolean> isPreCollecting) {
+        Utils.checkNotNull(isPreCollecting, "isPreCollecting");
+        this.isPreCollecting = isPreCollecting;
+        return this;
+    }
+
     public UtahRegistrationPayload withCountryCode(CountryCodeEnum countryCode) {
         Utils.checkNotNull(countryCode, "countryCode");
         this.countryCode = countryCode;
@@ -817,16 +905,32 @@ public class UtahRegistrationPayload {
         return this;
     }
 
+    /**
+     * Specifies how often tax filings should be made. Possible values: MONTHLY, QUARTERLY, ANNUALLY,
+     * UNKNOWN. Required unless isPreCollecting is set.
+     */
     public UtahRegistrationPayload withFilingFrequency(FilingFrequencyEnum filingFrequency) {
+        Utils.checkNotNull(filingFrequency, "filingFrequency");
+        this.filingFrequency = JsonNullable.of(filingFrequency);
+        return this;
+    }
+
+    /**
+     * Specifies how often tax filings should be made. Possible values: MONTHLY, QUARTERLY, ANNUALLY,
+     * UNKNOWN. Required unless isPreCollecting is set.
+     */
+    public UtahRegistrationPayload withFilingFrequency(JsonNullable<? extends FilingFrequencyEnum> filingFrequency) {
         Utils.checkNotNull(filingFrequency, "filingFrequency");
         this.filingFrequency = filingFrequency;
         return this;
     }
 
     /**
-     * Fiscal-year anchor month (1-12) on which each quarterly/semiannual
-     * period ends, for Hawaii (US-HI) filers whose periods are offset from the calendar.
-     * Null (default) keeps the standard calendar grid.
+     * Fiscal-year anchor month (1-12) on which each recurring period
+     * ends, for filers whose periods are offset from the calendar: Hawaii (US-HI)
+     * quarterly/semiannual, British Columbia (CA-BC) quarterly, and California (US-CA)
+     * and District of Columbia (US-DC) annual. Null (default) keeps the standard
+     * calendar grid.
      */
     public UtahRegistrationPayload withPeriodEndMonth(long periodEndMonth) {
         Utils.checkNotNull(periodEndMonth, "periodEndMonth");
@@ -835,9 +939,11 @@ public class UtahRegistrationPayload {
     }
 
     /**
-     * Fiscal-year anchor month (1-12) on which each quarterly/semiannual
-     * period ends, for Hawaii (US-HI) filers whose periods are offset from the calendar.
-     * Null (default) keeps the standard calendar grid.
+     * Fiscal-year anchor month (1-12) on which each recurring period
+     * ends, for filers whose periods are offset from the calendar: Hawaii (US-HI)
+     * quarterly/semiannual, British Columbia (CA-BC) quarterly, and California (US-CA)
+     * and District of Columbia (US-DC) annual. Null (default) keeps the standard
+     * calendar grid.
      */
     public UtahRegistrationPayload withPeriodEndMonth(JsonNullable<Long> periodEndMonth) {
         Utils.checkNotNull(periodEndMonth, "periodEndMonth");
@@ -1108,6 +1214,37 @@ public class UtahRegistrationPayload {
     }
 
     /**
+     * Tax obligation on a nexus, registration, or filing row.
+     * 
+     * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
+     * one return can cover both taxes, and each is stored as a single row.
+     * Nexus rows are SALES_TAX, USE_TAX, or RETAIL_DELIVERY_FEE. Sales tax, use
+     * tax, and the retail delivery fee are separate obligations with their own
+     * met dates, period models, and liability accrual.
+     */
+    public UtahRegistrationPayload withTaxType(TaxTypeEnum taxType) {
+        Utils.checkNotNull(taxType, "taxType");
+        this.taxType = Optional.ofNullable(taxType);
+        return this;
+    }
+
+
+    /**
+     * Tax obligation on a nexus, registration, or filing row.
+     * 
+     * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
+     * one return can cover both taxes, and each is stored as a single row.
+     * Nexus rows are SALES_TAX, USE_TAX, or RETAIL_DELIVERY_FEE. Sales tax, use
+     * tax, and the retail delivery fee are separate obligations with their own
+     * met dates, period models, and liability accrual.
+     */
+    public UtahRegistrationPayload withTaxType(Optional<? extends TaxTypeEnum> taxType) {
+        Utils.checkNotNull(taxType, "taxType");
+        this.taxType = taxType;
+        return this;
+    }
+
+    /**
      * 6-digit Sales Tax PIN from the Utah sales tax license or mailed separately. Encrypted into
      * pin_encrypted on save.
      */
@@ -1148,6 +1285,7 @@ public class UtahRegistrationPayload {
             Utils.enhancedDeepEquals(this.doNotFile, other.doNotFile) &&
             Utils.enhancedDeepEquals(this.registrationsRegime, other.registrationsRegime) &&
             Utils.enhancedDeepEquals(this.changeRegimeStatus, other.changeRegimeStatus) &&
+            Utils.enhancedDeepEquals(this.isPreCollecting, other.isPreCollecting) &&
             Utils.enhancedDeepEquals(this.countryCode, other.countryCode) &&
             Utils.enhancedDeepEquals(this.stateCode, other.stateCode) &&
             Utils.enhancedDeepEquals(this.stateName, other.stateName) &&
@@ -1168,6 +1306,7 @@ public class UtahRegistrationPayload {
             Utils.enhancedDeepEquals(this.passwordMetadataPlainText, other.passwordMetadataPlainText) &&
             Utils.enhancedDeepEquals(this.jurisdictionSpecificFields, other.jurisdictionSpecificFields) &&
             Utils.enhancedDeepEquals(this.requestId, other.requestId) &&
+            Utils.enhancedDeepEquals(this.taxType, other.taxType) &&
             Utils.enhancedDeepEquals(this.pinPlainText, other.pinPlainText);
     }
     
@@ -1177,14 +1316,15 @@ public class UtahRegistrationPayload {
             registrationImportType, registrationDate, registrationEmail,
             registrationRequested, registrationCompleted, deregistrationRequested,
             deregistrationCompleted, autoRegistered, doNotFile,
-            registrationsRegime, changeRegimeStatus, countryCode,
-            stateCode, stateName, filingFrequency,
-            periodEndMonth, username, comment,
-            createFilingsFrom, initialSync, amountFees,
-            vda, imported, salesTaxId,
-            iorNumber, sstImport, taxId,
-            passwordPlainText, passwordMetadataPlainText, jurisdictionSpecificFields,
-            requestId, pinPlainText);
+            registrationsRegime, changeRegimeStatus, isPreCollecting,
+            countryCode, stateCode, stateName,
+            filingFrequency, periodEndMonth, username,
+            comment, createFilingsFrom, initialSync,
+            amountFees, vda, imported,
+            salesTaxId, iorNumber, sstImport,
+            taxId, passwordPlainText, passwordMetadataPlainText,
+            jurisdictionSpecificFields, requestId, taxType,
+            pinPlainText);
     }
     
     @Override
@@ -1201,6 +1341,7 @@ public class UtahRegistrationPayload {
                 "doNotFile", doNotFile,
                 "registrationsRegime", registrationsRegime,
                 "changeRegimeStatus", changeRegimeStatus,
+                "isPreCollecting", isPreCollecting,
                 "countryCode", countryCode,
                 "stateCode", stateCode,
                 "stateName", stateName,
@@ -1221,6 +1362,7 @@ public class UtahRegistrationPayload {
                 "passwordMetadataPlainText", passwordMetadataPlainText,
                 "jurisdictionSpecificFields", jurisdictionSpecificFields,
                 "requestId", requestId,
+                "taxType", taxType,
                 "pinPlainText", pinPlainText);
     }
 
@@ -1247,13 +1389,15 @@ public class UtahRegistrationPayload {
 
         private JsonNullable<? extends ChangeRegimeStatusEnum> changeRegimeStatus = JsonNullable.undefined();
 
+        private Optional<Boolean> isPreCollecting;
+
         private CountryCodeEnum countryCode;
 
         private String stateCode;
 
         private String stateName;
 
-        private FilingFrequencyEnum filingFrequency;
+        private JsonNullable<? extends FilingFrequencyEnum> filingFrequency = JsonNullable.undefined();
 
         private JsonNullable<Long> periodEndMonth = JsonNullable.undefined();
 
@@ -1286,6 +1430,8 @@ public class UtahRegistrationPayload {
         private UtahFields jurisdictionSpecificFields;
 
         private JsonNullable<String> requestId = JsonNullable.undefined();
+
+        private Optional<? extends TaxTypeEnum> taxType = Optional.empty();
 
         private JsonNullable<String> pinPlainText = JsonNullable.undefined();
 
@@ -1478,6 +1624,29 @@ public class UtahRegistrationPayload {
         }
 
 
+        /**
+         * Set true to mark the organization as collecting tax in this jurisdiction ahead of registration
+         * details, instead of a normal import. Opens the registration in PROCESSING; filing frequency and
+         * credentials are not required.
+         */
+        public Builder isPreCollecting(boolean isPreCollecting) {
+            Utils.checkNotNull(isPreCollecting, "isPreCollecting");
+            this.isPreCollecting = Optional.ofNullable(isPreCollecting);
+            return this;
+        }
+
+        /**
+         * Set true to mark the organization as collecting tax in this jurisdiction ahead of registration
+         * details, instead of a normal import. Opens the registration in PROCESSING; filing frequency and
+         * credentials are not required.
+         */
+        public Builder isPreCollecting(Optional<Boolean> isPreCollecting) {
+            Utils.checkNotNull(isPreCollecting, "isPreCollecting");
+            this.isPreCollecting = isPreCollecting;
+            return this;
+        }
+
+
         public Builder countryCode(CountryCodeEnum countryCode) {
             Utils.checkNotNull(countryCode, "countryCode");
             this.countryCode = countryCode;
@@ -1505,7 +1674,21 @@ public class UtahRegistrationPayload {
         }
 
 
+        /**
+         * Specifies how often tax filings should be made. Possible values: MONTHLY, QUARTERLY, ANNUALLY,
+         * UNKNOWN. Required unless isPreCollecting is set.
+         */
         public Builder filingFrequency(FilingFrequencyEnum filingFrequency) {
+            Utils.checkNotNull(filingFrequency, "filingFrequency");
+            this.filingFrequency = JsonNullable.of(filingFrequency);
+            return this;
+        }
+
+        /**
+         * Specifies how often tax filings should be made. Possible values: MONTHLY, QUARTERLY, ANNUALLY,
+         * UNKNOWN. Required unless isPreCollecting is set.
+         */
+        public Builder filingFrequency(JsonNullable<? extends FilingFrequencyEnum> filingFrequency) {
             Utils.checkNotNull(filingFrequency, "filingFrequency");
             this.filingFrequency = filingFrequency;
             return this;
@@ -1513,9 +1696,11 @@ public class UtahRegistrationPayload {
 
 
         /**
-         * Fiscal-year anchor month (1-12) on which each quarterly/semiannual
-         * period ends, for Hawaii (US-HI) filers whose periods are offset from the calendar.
-         * Null (default) keeps the standard calendar grid.
+         * Fiscal-year anchor month (1-12) on which each recurring period
+         * ends, for filers whose periods are offset from the calendar: Hawaii (US-HI)
+         * quarterly/semiannual, British Columbia (CA-BC) quarterly, and California (US-CA)
+         * and District of Columbia (US-DC) annual. Null (default) keeps the standard
+         * calendar grid.
          */
         public Builder periodEndMonth(long periodEndMonth) {
             Utils.checkNotNull(periodEndMonth, "periodEndMonth");
@@ -1524,9 +1709,11 @@ public class UtahRegistrationPayload {
         }
 
         /**
-         * Fiscal-year anchor month (1-12) on which each quarterly/semiannual
-         * period ends, for Hawaii (US-HI) filers whose periods are offset from the calendar.
-         * Null (default) keeps the standard calendar grid.
+         * Fiscal-year anchor month (1-12) on which each recurring period
+         * ends, for filers whose periods are offset from the calendar: Hawaii (US-HI)
+         * quarterly/semiannual, British Columbia (CA-BC) quarterly, and California (US-CA)
+         * and District of Columbia (US-DC) annual. Null (default) keeps the standard
+         * calendar grid.
          */
         public Builder periodEndMonth(JsonNullable<Long> periodEndMonth) {
             Utils.checkNotNull(periodEndMonth, "periodEndMonth");
@@ -1812,6 +1999,37 @@ public class UtahRegistrationPayload {
 
 
         /**
+         * Tax obligation on a nexus, registration, or filing row.
+         * 
+         * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
+         * one return can cover both taxes, and each is stored as a single row.
+         * Nexus rows are SALES_TAX, USE_TAX, or RETAIL_DELIVERY_FEE. Sales tax, use
+         * tax, and the retail delivery fee are separate obligations with their own
+         * met dates, period models, and liability accrual.
+         */
+        public Builder taxType(TaxTypeEnum taxType) {
+            Utils.checkNotNull(taxType, "taxType");
+            this.taxType = Optional.ofNullable(taxType);
+            return this;
+        }
+
+        /**
+         * Tax obligation on a nexus, registration, or filing row.
+         * 
+         * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
+         * one return can cover both taxes, and each is stored as a single row.
+         * Nexus rows are SALES_TAX, USE_TAX, or RETAIL_DELIVERY_FEE. Sales tax, use
+         * tax, and the retail delivery fee are separate obligations with their own
+         * met dates, period models, and liability accrual.
+         */
+        public Builder taxType(Optional<? extends TaxTypeEnum> taxType) {
+            Utils.checkNotNull(taxType, "taxType");
+            this.taxType = taxType;
+            return this;
+        }
+
+
+        /**
          * 6-digit Sales Tax PIN from the Utah sales tax license or mailed separately. Encrypted into
          * pin_encrypted on save.
          */
@@ -1835,19 +2053,22 @@ public class UtahRegistrationPayload {
             if (doNotFile == null) {
                 doNotFile = _SINGLETON_VALUE_DoNotFile.value();
             }
+            if (isPreCollecting == null) {
+                isPreCollecting = _SINGLETON_VALUE_IsPreCollecting.value();
+            }
 
             return new UtahRegistrationPayload(
                 registrationDate, registrationEmail, registrationRequested,
                 registrationCompleted, deregistrationRequested, deregistrationCompleted,
                 autoRegistered, doNotFile, registrationsRegime,
-                changeRegimeStatus, countryCode, stateCode,
-                stateName, filingFrequency, periodEndMonth,
-                username, comment, createFilingsFrom,
-                initialSync, amountFees, vda,
-                imported, salesTaxId, iorNumber,
-                sstImport, taxId, passwordPlainText,
-                passwordMetadataPlainText, jurisdictionSpecificFields, requestId,
-                pinPlainText);
+                changeRegimeStatus, isPreCollecting, countryCode,
+                stateCode, stateName, filingFrequency,
+                periodEndMonth, username, comment,
+                createFilingsFrom, initialSync, amountFees,
+                vda, imported, salesTaxId,
+                iorNumber, sstImport, taxId,
+                passwordPlainText, passwordMetadataPlainText, jurisdictionSpecificFields,
+                requestId, taxType, pinPlainText);
         }
 
 
@@ -1860,6 +2081,12 @@ public class UtahRegistrationPayload {
         private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_DoNotFile =
                 new LazySingletonValue<>(
                         "do_not_file",
+                        "false",
+                        new TypeReference<Optional<Boolean>>() {});
+
+        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_IsPreCollecting =
+                new LazySingletonValue<>(
+                        "is_pre_collecting",
                         "false",
                         new TypeReference<Optional<Boolean>>() {});
     }

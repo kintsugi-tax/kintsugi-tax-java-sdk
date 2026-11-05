@@ -1,9 +1,9 @@
-speakeasyVersion: 1.797.0
+speakeasyVersion: 1.798.0
 sources:
     kintsugi-overlay:
         sourceNamespace: kintsugi-overlay
-        sourceRevisionDigest: sha256:12f7d35b5e8d02a27df11703d1856ee1bae84cac7d1c0d401010a9c1333358f6
-        sourceBlobDigest: sha256:c5b5d16e44f54d1edb4771e6e04e10bcec75dee63b51cfadab06b3ab41465658
+        sourceRevisionDigest: sha256:3391c0df45a2c1455ae88593ddae13987cc03ac8bed95eaf7dd95f0402fd75ae
+        sourceBlobDigest: sha256:868f6438c5719cfd1a0f9f03c8afa9aeb85644036083dd6b30265eae171c7cb4
         tags:
             - latest
             - 1.0.0
@@ -11,10 +11,10 @@ targets:
     java:
         source: kintsugi-overlay
         sourceNamespace: kintsugi-overlay
-        sourceRevisionDigest: sha256:12f7d35b5e8d02a27df11703d1856ee1bae84cac7d1c0d401010a9c1333358f6
-        sourceBlobDigest: sha256:c5b5d16e44f54d1edb4771e6e04e10bcec75dee63b51cfadab06b3ab41465658
+        sourceRevisionDigest: sha256:3391c0df45a2c1455ae88593ddae13987cc03ac8bed95eaf7dd95f0402fd75ae
+        sourceBlobDigest: sha256:868f6438c5719cfd1a0f9f03c8afa9aeb85644036083dd6b30265eae171c7cb4
         codeSamplesNamespace: kintsugi-overlay-java-code-samples
-        codeSamplesRevisionDigest: sha256:c611a466c0e5c56ad8361538f09ad4ba820fbdb652e04a25ec3a392fe80795fe
+        codeSamplesRevisionDigest: sha256:e0745fa614af00b54ab3af5434bb83b9bc3deb72b6655a1ae2047e1d2426af73
 workflow:
     workflowVersion: 1.0.0
     speakeasyVersion: latest

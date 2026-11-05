@@ -28,6 +28,7 @@ import com.kintsugi.taxplatform.utils.Utils.JsonShape;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.io.InputStream;
 import java.lang.Exception;
+import java.lang.IllegalArgumentException;
 import java.lang.Object;
 import java.lang.String;
 import java.lang.Throwable;
@@ -100,7 +101,10 @@ public class DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPost {
                     convertedRequest,
                     "deregisterRegistrationRequest",
                     "json",
-                    true);
+                    false);
+            if (serializedRequestBody == null) {
+                throw new IllegalArgumentException("Request body is required");
+            }
             req.setBody(Optional.ofNullable(serializedRequestBody));
             req.addHeader("Accept", "application/json")
                     .addHeader("user-agent", SDKConfiguration.USER_AGENT);

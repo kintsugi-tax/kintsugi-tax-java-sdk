@@ -154,7 +154,8 @@ public class Registrations {
     /**
      * Get jurisdiction specific fields
      * 
-     * <p>Returns the JSON Schema and UI metadata for a state-specific registration form
+     * <p>Returns the JSON Schema and UI metadata for a state-specific registration form, and the tax types
+     * that can be imported there.
      * 
      * @return The call builder
      */
@@ -165,7 +166,8 @@ public class Registrations {
     /**
      * Get jurisdiction specific fields
      * 
-     * <p>Returns the JSON Schema and UI metadata for a state-specific registration form
+     * <p>Returns the JSON Schema and UI metadata for a state-specific registration form, and the tax types
+     * that can be imported there.
      * 
      * @param countryCode ISO 3166-1 alpha-2 country code (e.g., US).
      * @param stateCode State/province code (e.g., AL, LA).
@@ -179,7 +181,8 @@ public class Registrations {
     /**
      * Get jurisdiction specific fields
      * 
-     * <p>Returns the JSON Schema and UI metadata for a state-specific registration form
+     * <p>Returns the JSON Schema and UI metadata for a state-specific registration form, and the tax types
+     * that can be imported there.
      * 
      * @param countryCode ISO 3166-1 alpha-2 country code (e.g., US).
      * @param stateCode State/province code (e.g., AL, LA).
@@ -427,11 +430,12 @@ public class Registrations {
      * <p>Deregister an existing registration.
      * 
      * @param registrationId The unique identifier of the registration to deregister.
+     * @param deregisterRegistrationRequest Body for POST /registrations/{id}/deregister.
      * @return The response from the API call
      * @throws RuntimeException subclass if the API call fails
      */
-    public DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse deregister(String registrationId) {
-        return deregister(registrationId, Optional.empty(), JsonNullable.undefined());
+    public DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse deregister(String registrationId, DeregisterRegistrationRequest deregisterRegistrationRequest) {
+        return deregister(registrationId, Optional.empty(), deregisterRegistrationRequest);
     }
 
     /**
@@ -441,13 +445,13 @@ public class Registrations {
      * 
      * @param registrationId The unique identifier of the registration to deregister.
      * @param xOrganizationId The unique identifier for the organization making the request
-     * @param deregisterRegistrationRequest Optional body for POST /registrations/{id}/deregister (CP-4742).
+     * @param deregisterRegistrationRequest Body for POST /registrations/{id}/deregister.
      * @return The response from the API call
      * @throws RuntimeException subclass if the API call fails
      */
     public DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse deregister(
             String registrationId, Optional<String> xOrganizationId,
-            JsonNullable<? extends DeregisterRegistrationRequest> deregisterRegistrationRequest) {
+            DeregisterRegistrationRequest deregisterRegistrationRequest) {
         DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest request =
             DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest
                 .builder()

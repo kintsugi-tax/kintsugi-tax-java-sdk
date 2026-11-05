@@ -12,7 +12,8 @@ public enum RelatedEntityType {
     EXEMPTION("EXEMPTION"),
     REGISTRATION("REGISTRATION"),
     FILING("FILING"),
-    FILING_PAYMENT("FILING_PAYMENT");
+    FILING_PAYMENT("FILING_PAYMENT"),
+    TASK("TASK");
 
     @JsonValue
     private final String value;

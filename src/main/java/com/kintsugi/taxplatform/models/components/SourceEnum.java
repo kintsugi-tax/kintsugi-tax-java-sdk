@@ -47,6 +47,7 @@ public enum SourceEnum {
     RIPPLING("RIPPLING"),
     GUSTO("GUSTO"),
     FACEBOOK("FACEBOOK"),
+    FRESHBOOKS("FRESHBOOKS"),
     OTHER("OTHER"),
     ORDWAY("ORDWAY"),
     INSTAGRAM("INSTAGRAM"),
@@ -65,6 +66,7 @@ public enum SourceEnum {
     FAIRE("FAIRE"),
     SHOPWARE("SHOPWARE"),
     ZOHO("ZOHO"),
+    ZOHO_BOOKS("ZOHO_BOOKS"),
     SAGE_INTACCT("SAGE-INTACCT"),
     AIRWALLEX("AIRWALLEX"),
     ORB("ORB"),
@@ -83,7 +85,9 @@ public enum SourceEnum {
     BILL_COM("BILL_COM"),
     INTUIT_ENTERPRISE_SUITE("INTUIT_ENTERPRISE_SUITE"),
     ACUMATICA("ACUMATICA"),
-    PLENTYONE("PLENTYONE");
+    PLENTYONE("PLENTYONE"),
+    HYPERLINE("HYPERLINE"),
+    OPENMETER("OPENMETER");
 
     @JsonValue
     private final String value;

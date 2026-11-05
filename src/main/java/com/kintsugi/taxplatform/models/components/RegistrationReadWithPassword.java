@@ -122,6 +122,14 @@ public class RegistrationReadWithPassword {
     @JsonProperty("marked_collecting")
     private JsonNullable<Boolean> markedCollecting;
 
+    /**
+     * True when this PROCESSING registration marks the organization as collecting tax in the jurisdiction
+     * ahead of registration details. It skips the Tax Ops registration task until the flag is cleared.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("is_pre_collecting")
+    private Optional<Boolean> isPreCollecting;
+
 
     @JsonProperty("status")
     private RegistrationStatusEnum status;
@@ -304,9 +312,9 @@ public class RegistrationReadWithPassword {
      * 
      * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
      * one return can cover both taxes, and each is stored as a single row.
-     * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
-     * separate obligations with their own met dates, period models, and liability
-     * accrual.
+     * Nexus rows are SALES_TAX, USE_TAX, or RETAIL_DELIVERY_FEE. Sales tax, use
+     * tax, and the retail delivery fee are separate obligations with their own
+     * met dates, period models, and liability accrual.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("tax_type")
@@ -355,6 +363,27 @@ public class RegistrationReadWithPassword {
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("jurisdiction_specific_fields")
     private JsonNullable<? extends Map<String, Object>> jurisdictionSpecificFields;
+
+    /**
+     * Effective date the registration closes with the jurisdiction.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("deregistration_closure_date")
+    private JsonNullable<LocalDate> deregistrationClosureDate;
+
+    /**
+     * Reason the registration is being closed.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("deregistration_reason")
+    private JsonNullable<? extends DeregistrationReasonEnum> deregistrationReason;
+
+    /**
+     * When final-return acknowledgement was recorded.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("deregistration_acknowledged_at")
+    private JsonNullable<OffsetDateTime> deregistrationAcknowledgedAt;
 
     /**
      * Encrypted password for accessing the registration,
@@ -410,6 +439,7 @@ public class RegistrationReadWithPassword {
             @JsonProperty("do_not_file") Optional<Boolean> doNotFile,
             @JsonProperty("two_factor_enabled") JsonNullable<Boolean> twoFactorEnabled,
             @JsonProperty("marked_collecting") JsonNullable<Boolean> markedCollecting,
+            @JsonProperty("is_pre_collecting") Optional<Boolean> isPreCollecting,
             @JsonProperty("status") RegistrationStatusEnum status,
             @JsonProperty("country_code") CountryCodeEnum countryCode,
             @JsonProperty("state_code") String stateCode,
@@ -443,6 +473,9 @@ public class RegistrationReadWithPassword {
             @JsonProperty("credits_total_available") Optional<String> creditsTotalAvailable,
             @JsonProperty("registration_category") Optional<? extends RegistrationCategoryEnum> registrationCategory,
             @JsonProperty("jurisdiction_specific_fields") JsonNullable<? extends Map<String, Object>> jurisdictionSpecificFields,
+            @JsonProperty("deregistration_closure_date") JsonNullable<LocalDate> deregistrationClosureDate,
+            @JsonProperty("deregistration_reason") JsonNullable<? extends DeregistrationReasonEnum> deregistrationReason,
+            @JsonProperty("deregistration_acknowledged_at") JsonNullable<OffsetDateTime> deregistrationAcknowledgedAt,
             @JsonProperty("password_encrypted") JsonNullable<String> passwordEncrypted,
             @JsonProperty("pin_encrypted") JsonNullable<String> pinEncrypted,
             @JsonProperty("has_all_credentials") Optional<Boolean> hasAllCredentials,
@@ -462,6 +495,7 @@ public class RegistrationReadWithPassword {
         Utils.checkNotNull(doNotFile, "doNotFile");
         Utils.checkNotNull(twoFactorEnabled, "twoFactorEnabled");
         Utils.checkNotNull(markedCollecting, "markedCollecting");
+        Utils.checkNotNull(isPreCollecting, "isPreCollecting");
         Utils.checkNotNull(status, "status");
         Utils.checkNotNull(countryCode, "countryCode");
         Utils.checkNotNull(stateCode, "stateCode");
@@ -495,6 +529,9 @@ public class RegistrationReadWithPassword {
         Utils.checkNotNull(creditsTotalAvailable, "creditsTotalAvailable");
         Utils.checkNotNull(registrationCategory, "registrationCategory");
         Utils.checkNotNull(jurisdictionSpecificFields, "jurisdictionSpecificFields");
+        Utils.checkNotNull(deregistrationClosureDate, "deregistrationClosureDate");
+        Utils.checkNotNull(deregistrationReason, "deregistrationReason");
+        Utils.checkNotNull(deregistrationAcknowledgedAt, "deregistrationAcknowledgedAt");
         Utils.checkNotNull(passwordEncrypted, "passwordEncrypted");
         Utils.checkNotNull(pinEncrypted, "pinEncrypted");
         Utils.checkNotNull(hasAllCredentials, "hasAllCredentials");
@@ -514,6 +551,7 @@ public class RegistrationReadWithPassword {
         this.doNotFile = doNotFile;
         this.twoFactorEnabled = twoFactorEnabled;
         this.markedCollecting = markedCollecting;
+        this.isPreCollecting = isPreCollecting;
         this.status = status;
         this.countryCode = countryCode;
         this.stateCode = stateCode;
@@ -547,6 +585,9 @@ public class RegistrationReadWithPassword {
         this.creditsTotalAvailable = creditsTotalAvailable;
         this.registrationCategory = registrationCategory;
         this.jurisdictionSpecificFields = jurisdictionSpecificFields;
+        this.deregistrationClosureDate = deregistrationClosureDate;
+        this.deregistrationReason = deregistrationReason;
+        this.deregistrationAcknowledgedAt = deregistrationAcknowledgedAt;
         this.passwordEncrypted = passwordEncrypted;
         this.pinEncrypted = pinEncrypted;
         this.hasAllCredentials = hasAllCredentials;
@@ -568,20 +609,21 @@ public class RegistrationReadWithPassword {
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), Optional.empty(), JsonNullable.undefined(),
-            JsonNullable.undefined(), status, countryCode,
-            stateCode, stateName, filingFrequency,
-            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
-            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
-            JsonNullable.undefined(), Optional.empty(), Optional.empty(),
-            JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty(),
-            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), Optional.empty(), status,
+            countryCode, stateCode, stateName,
+            filingFrequency, JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty(),
-            JsonNullable.undefined(), JsonNullable.undefined(), id,
-            JsonNullable.undefined(), Optional.empty(), Optional.empty(),
+            Optional.empty(), JsonNullable.undefined(), JsonNullable.undefined(),
+            Optional.empty(), JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
-            Optional.empty(), filingDays, registrationType,
-            Optional.empty());
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            Optional.empty(), JsonNullable.undefined(), JsonNullable.undefined(),
+            id, JsonNullable.undefined(), Optional.empty(),
+            Optional.empty(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), Optional.empty(), filingDays,
+            registrationType, Optional.empty());
     }
 
     /**
@@ -685,6 +727,15 @@ public class RegistrationReadWithPassword {
     @JsonIgnore
     public JsonNullable<Boolean> markedCollecting() {
         return markedCollecting;
+    }
+
+    /**
+     * True when this PROCESSING registration marks the organization as collecting tax in the jurisdiction
+     * ahead of registration details. It skips the Tax Ops registration task until the flag is cleared.
+     */
+    @JsonIgnore
+    public Optional<Boolean> isPreCollecting() {
+        return isPreCollecting;
     }
 
     @JsonIgnore
@@ -900,9 +951,9 @@ public class RegistrationReadWithPassword {
      * 
      * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
      * one return can cover both taxes, and each is stored as a single row.
-     * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
-     * separate obligations with their own met dates, period models, and liability
-     * accrual.
+     * Nexus rows are SALES_TAX, USE_TAX, or RETAIL_DELIVERY_FEE. Sales tax, use
+     * tax, and the retail delivery fee are separate obligations with their own
+     * met dates, period models, and liability accrual.
      */
     @SuppressWarnings("unchecked")
     @JsonIgnore
@@ -960,6 +1011,31 @@ public class RegistrationReadWithPassword {
     @JsonIgnore
     public JsonNullable<Map<String, Object>> jurisdictionSpecificFields() {
         return (JsonNullable<Map<String, Object>>) jurisdictionSpecificFields;
+    }
+
+    /**
+     * Effective date the registration closes with the jurisdiction.
+     */
+    @JsonIgnore
+    public JsonNullable<LocalDate> deregistrationClosureDate() {
+        return deregistrationClosureDate;
+    }
+
+    /**
+     * Reason the registration is being closed.
+     */
+    @SuppressWarnings("unchecked")
+    @JsonIgnore
+    public JsonNullable<DeregistrationReasonEnum> deregistrationReason() {
+        return (JsonNullable<DeregistrationReasonEnum>) deregistrationReason;
+    }
+
+    /**
+     * When final-return acknowledgement was recorded.
+     */
+    @JsonIgnore
+    public JsonNullable<OffsetDateTime> deregistrationAcknowledgedAt() {
+        return deregistrationAcknowledgedAt;
     }
 
     /**
@@ -1238,6 +1314,27 @@ public class RegistrationReadWithPassword {
     public RegistrationReadWithPassword withMarkedCollecting(JsonNullable<Boolean> markedCollecting) {
         Utils.checkNotNull(markedCollecting, "markedCollecting");
         this.markedCollecting = markedCollecting;
+        return this;
+    }
+
+    /**
+     * True when this PROCESSING registration marks the organization as collecting tax in the jurisdiction
+     * ahead of registration details. It skips the Tax Ops registration task until the flag is cleared.
+     */
+    public RegistrationReadWithPassword withIsPreCollecting(boolean isPreCollecting) {
+        Utils.checkNotNull(isPreCollecting, "isPreCollecting");
+        this.isPreCollecting = Optional.ofNullable(isPreCollecting);
+        return this;
+    }
+
+
+    /**
+     * True when this PROCESSING registration marks the organization as collecting tax in the jurisdiction
+     * ahead of registration details. It skips the Tax Ops registration task until the flag is cleared.
+     */
+    public RegistrationReadWithPassword withIsPreCollecting(Optional<Boolean> isPreCollecting) {
+        Utils.checkNotNull(isPreCollecting, "isPreCollecting");
+        this.isPreCollecting = isPreCollecting;
         return this;
     }
 
@@ -1671,9 +1768,9 @@ public class RegistrationReadWithPassword {
      * 
      * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
      * one return can cover both taxes, and each is stored as a single row.
-     * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
-     * separate obligations with their own met dates, period models, and liability
-     * accrual.
+     * Nexus rows are SALES_TAX, USE_TAX, or RETAIL_DELIVERY_FEE. Sales tax, use
+     * tax, and the retail delivery fee are separate obligations with their own
+     * met dates, period models, and liability accrual.
      */
     public RegistrationReadWithPassword withTaxType(TaxTypeEnum taxType) {
         Utils.checkNotNull(taxType, "taxType");
@@ -1687,9 +1784,9 @@ public class RegistrationReadWithPassword {
      * 
      * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
      * one return can cover both taxes, and each is stored as a single row.
-     * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
-     * separate obligations with their own met dates, period models, and liability
-     * accrual.
+     * Nexus rows are SALES_TAX, USE_TAX, or RETAIL_DELIVERY_FEE. Sales tax, use
+     * tax, and the retail delivery fee are separate obligations with their own
+     * met dates, period models, and liability accrual.
      */
     public RegistrationReadWithPassword withTaxType(Optional<? extends TaxTypeEnum> taxType) {
         Utils.checkNotNull(taxType, "taxType");
@@ -1801,6 +1898,60 @@ public class RegistrationReadWithPassword {
     public RegistrationReadWithPassword withJurisdictionSpecificFields(JsonNullable<? extends Map<String, Object>> jurisdictionSpecificFields) {
         Utils.checkNotNull(jurisdictionSpecificFields, "jurisdictionSpecificFields");
         this.jurisdictionSpecificFields = jurisdictionSpecificFields;
+        return this;
+    }
+
+    /**
+     * Effective date the registration closes with the jurisdiction.
+     */
+    public RegistrationReadWithPassword withDeregistrationClosureDate(LocalDate deregistrationClosureDate) {
+        Utils.checkNotNull(deregistrationClosureDate, "deregistrationClosureDate");
+        this.deregistrationClosureDate = JsonNullable.of(deregistrationClosureDate);
+        return this;
+    }
+
+    /**
+     * Effective date the registration closes with the jurisdiction.
+     */
+    public RegistrationReadWithPassword withDeregistrationClosureDate(JsonNullable<LocalDate> deregistrationClosureDate) {
+        Utils.checkNotNull(deregistrationClosureDate, "deregistrationClosureDate");
+        this.deregistrationClosureDate = deregistrationClosureDate;
+        return this;
+    }
+
+    /**
+     * Reason the registration is being closed.
+     */
+    public RegistrationReadWithPassword withDeregistrationReason(DeregistrationReasonEnum deregistrationReason) {
+        Utils.checkNotNull(deregistrationReason, "deregistrationReason");
+        this.deregistrationReason = JsonNullable.of(deregistrationReason);
+        return this;
+    }
+
+    /**
+     * Reason the registration is being closed.
+     */
+    public RegistrationReadWithPassword withDeregistrationReason(JsonNullable<? extends DeregistrationReasonEnum> deregistrationReason) {
+        Utils.checkNotNull(deregistrationReason, "deregistrationReason");
+        this.deregistrationReason = deregistrationReason;
+        return this;
+    }
+
+    /**
+     * When final-return acknowledgement was recorded.
+     */
+    public RegistrationReadWithPassword withDeregistrationAcknowledgedAt(OffsetDateTime deregistrationAcknowledgedAt) {
+        Utils.checkNotNull(deregistrationAcknowledgedAt, "deregistrationAcknowledgedAt");
+        this.deregistrationAcknowledgedAt = JsonNullable.of(deregistrationAcknowledgedAt);
+        return this;
+    }
+
+    /**
+     * When final-return acknowledgement was recorded.
+     */
+    public RegistrationReadWithPassword withDeregistrationAcknowledgedAt(JsonNullable<OffsetDateTime> deregistrationAcknowledgedAt) {
+        Utils.checkNotNull(deregistrationAcknowledgedAt, "deregistrationAcknowledgedAt");
+        this.deregistrationAcknowledgedAt = deregistrationAcknowledgedAt;
         return this;
     }
 
@@ -1919,6 +2070,7 @@ public class RegistrationReadWithPassword {
             Utils.enhancedDeepEquals(this.doNotFile, other.doNotFile) &&
             Utils.enhancedDeepEquals(this.twoFactorEnabled, other.twoFactorEnabled) &&
             Utils.enhancedDeepEquals(this.markedCollecting, other.markedCollecting) &&
+            Utils.enhancedDeepEquals(this.isPreCollecting, other.isPreCollecting) &&
             Utils.enhancedDeepEquals(this.status, other.status) &&
             Utils.enhancedDeepEquals(this.countryCode, other.countryCode) &&
             Utils.enhancedDeepEquals(this.stateCode, other.stateCode) &&
@@ -1952,6 +2104,9 @@ public class RegistrationReadWithPassword {
             Utils.enhancedDeepEquals(this.creditsTotalAvailable, other.creditsTotalAvailable) &&
             Utils.enhancedDeepEquals(this.registrationCategory, other.registrationCategory) &&
             Utils.enhancedDeepEquals(this.jurisdictionSpecificFields, other.jurisdictionSpecificFields) &&
+            Utils.enhancedDeepEquals(this.deregistrationClosureDate, other.deregistrationClosureDate) &&
+            Utils.enhancedDeepEquals(this.deregistrationReason, other.deregistrationReason) &&
+            Utils.enhancedDeepEquals(this.deregistrationAcknowledgedAt, other.deregistrationAcknowledgedAt) &&
             Utils.enhancedDeepEquals(this.passwordEncrypted, other.passwordEncrypted) &&
             Utils.enhancedDeepEquals(this.pinEncrypted, other.pinEncrypted) &&
             Utils.enhancedDeepEquals(this.hasAllCredentials, other.hasAllCredentials) &&
@@ -1967,20 +2122,21 @@ public class RegistrationReadWithPassword {
             registrationCompleted, deregistrationRequested, deregistrationCompleted,
             autoRegistered, registrationsRegime, changeRegimeStatus,
             thirdPartyEnabled, doNotFile, twoFactorEnabled,
-            markedCollecting, status, countryCode,
-            stateCode, stateName, filingFrequency,
-            initialFilingFrequency, scheduledFilingFrequency, filingFrequencyEffectiveDate,
-            periodEndMonth, username, comment,
-            createFilingsFrom, createBackFiling, retailDeliveryFeeObligated,
-            retailDeliveryFeeEffectiveFrom, initialSync, amountFees,
-            vda, imported, salesTaxId,
-            iorNumber, iorDate, sstImport,
-            ossType, ossMemberStateOfIdentificationCode, taxType,
-            markedCollectingDate, needsMarkAsCollecting, id,
-            createdAt, creditsTotalAvailable, registrationCategory,
-            jurisdictionSpecificFields, passwordEncrypted, pinEncrypted,
-            hasAllCredentials, filingDays, registrationType,
-            filingWebsiteUrl);
+            markedCollecting, isPreCollecting, status,
+            countryCode, stateCode, stateName,
+            filingFrequency, initialFilingFrequency, scheduledFilingFrequency,
+            filingFrequencyEffectiveDate, periodEndMonth, username,
+            comment, createFilingsFrom, createBackFiling,
+            retailDeliveryFeeObligated, retailDeliveryFeeEffectiveFrom, initialSync,
+            amountFees, vda, imported,
+            salesTaxId, iorNumber, iorDate,
+            sstImport, ossType, ossMemberStateOfIdentificationCode,
+            taxType, markedCollectingDate, needsMarkAsCollecting,
+            id, createdAt, creditsTotalAvailable,
+            registrationCategory, jurisdictionSpecificFields, deregistrationClosureDate,
+            deregistrationReason, deregistrationAcknowledgedAt, passwordEncrypted,
+            pinEncrypted, hasAllCredentials, filingDays,
+            registrationType, filingWebsiteUrl);
     }
     
     @Override
@@ -1999,6 +2155,7 @@ public class RegistrationReadWithPassword {
                 "doNotFile", doNotFile,
                 "twoFactorEnabled", twoFactorEnabled,
                 "markedCollecting", markedCollecting,
+                "isPreCollecting", isPreCollecting,
                 "status", status,
                 "countryCode", countryCode,
                 "stateCode", stateCode,
@@ -2032,6 +2189,9 @@ public class RegistrationReadWithPassword {
                 "creditsTotalAvailable", creditsTotalAvailable,
                 "registrationCategory", registrationCategory,
                 "jurisdictionSpecificFields", jurisdictionSpecificFields,
+                "deregistrationClosureDate", deregistrationClosureDate,
+                "deregistrationReason", deregistrationReason,
+                "deregistrationAcknowledgedAt", deregistrationAcknowledgedAt,
                 "passwordEncrypted", passwordEncrypted,
                 "pinEncrypted", pinEncrypted,
                 "hasAllCredentials", hasAllCredentials,
@@ -2068,6 +2228,8 @@ public class RegistrationReadWithPassword {
         private JsonNullable<Boolean> twoFactorEnabled = JsonNullable.undefined();
 
         private JsonNullable<Boolean> markedCollecting = JsonNullable.undefined();
+
+        private Optional<Boolean> isPreCollecting;
 
         private RegistrationStatusEnum status;
 
@@ -2134,6 +2296,12 @@ public class RegistrationReadWithPassword {
         private Optional<? extends RegistrationCategoryEnum> registrationCategory = Optional.empty();
 
         private JsonNullable<? extends Map<String, Object>> jurisdictionSpecificFields = JsonNullable.undefined();
+
+        private JsonNullable<LocalDate> deregistrationClosureDate = JsonNullable.undefined();
+
+        private JsonNullable<? extends DeregistrationReasonEnum> deregistrationReason = JsonNullable.undefined();
+
+        private JsonNullable<OffsetDateTime> deregistrationAcknowledgedAt = JsonNullable.undefined();
 
         private JsonNullable<String> passwordEncrypted = JsonNullable.undefined();
 
@@ -2389,6 +2557,27 @@ public class RegistrationReadWithPassword {
         public Builder markedCollecting(JsonNullable<Boolean> markedCollecting) {
             Utils.checkNotNull(markedCollecting, "markedCollecting");
             this.markedCollecting = markedCollecting;
+            return this;
+        }
+
+
+        /**
+         * True when this PROCESSING registration marks the organization as collecting tax in the jurisdiction
+         * ahead of registration details. It skips the Tax Ops registration task until the flag is cleared.
+         */
+        public Builder isPreCollecting(boolean isPreCollecting) {
+            Utils.checkNotNull(isPreCollecting, "isPreCollecting");
+            this.isPreCollecting = Optional.ofNullable(isPreCollecting);
+            return this;
+        }
+
+        /**
+         * True when this PROCESSING registration marks the organization as collecting tax in the jurisdiction
+         * ahead of registration details. It skips the Tax Ops registration task until the flag is cleared.
+         */
+        public Builder isPreCollecting(Optional<Boolean> isPreCollecting) {
+            Utils.checkNotNull(isPreCollecting, "isPreCollecting");
+            this.isPreCollecting = isPreCollecting;
             return this;
         }
 
@@ -2845,9 +3034,9 @@ public class RegistrationReadWithPassword {
          * 
          * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
          * one return can cover both taxes, and each is stored as a single row.
-         * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
-         * separate obligations with their own met dates, period models, and liability
-         * accrual.
+         * Nexus rows are SALES_TAX, USE_TAX, or RETAIL_DELIVERY_FEE. Sales tax, use
+         * tax, and the retail delivery fee are separate obligations with their own
+         * met dates, period models, and liability accrual.
          */
         public Builder taxType(TaxTypeEnum taxType) {
             Utils.checkNotNull(taxType, "taxType");
@@ -2860,9 +3049,9 @@ public class RegistrationReadWithPassword {
          * 
          * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
          * one return can cover both taxes, and each is stored as a single row.
-         * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
-         * separate obligations with their own met dates, period models, and liability
-         * accrual.
+         * Nexus rows are SALES_TAX, USE_TAX, or RETAIL_DELIVERY_FEE. Sales tax, use
+         * tax, and the retail delivery fee are separate obligations with their own
+         * met dates, period models, and liability accrual.
          */
         public Builder taxType(Optional<? extends TaxTypeEnum> taxType) {
             Utils.checkNotNull(taxType, "taxType");
@@ -2984,6 +3173,63 @@ public class RegistrationReadWithPassword {
 
 
         /**
+         * Effective date the registration closes with the jurisdiction.
+         */
+        public Builder deregistrationClosureDate(LocalDate deregistrationClosureDate) {
+            Utils.checkNotNull(deregistrationClosureDate, "deregistrationClosureDate");
+            this.deregistrationClosureDate = JsonNullable.of(deregistrationClosureDate);
+            return this;
+        }
+
+        /**
+         * Effective date the registration closes with the jurisdiction.
+         */
+        public Builder deregistrationClosureDate(JsonNullable<LocalDate> deregistrationClosureDate) {
+            Utils.checkNotNull(deregistrationClosureDate, "deregistrationClosureDate");
+            this.deregistrationClosureDate = deregistrationClosureDate;
+            return this;
+        }
+
+
+        /**
+         * Reason the registration is being closed.
+         */
+        public Builder deregistrationReason(DeregistrationReasonEnum deregistrationReason) {
+            Utils.checkNotNull(deregistrationReason, "deregistrationReason");
+            this.deregistrationReason = JsonNullable.of(deregistrationReason);
+            return this;
+        }
+
+        /**
+         * Reason the registration is being closed.
+         */
+        public Builder deregistrationReason(JsonNullable<? extends DeregistrationReasonEnum> deregistrationReason) {
+            Utils.checkNotNull(deregistrationReason, "deregistrationReason");
+            this.deregistrationReason = deregistrationReason;
+            return this;
+        }
+
+
+        /**
+         * When final-return acknowledgement was recorded.
+         */
+        public Builder deregistrationAcknowledgedAt(OffsetDateTime deregistrationAcknowledgedAt) {
+            Utils.checkNotNull(deregistrationAcknowledgedAt, "deregistrationAcknowledgedAt");
+            this.deregistrationAcknowledgedAt = JsonNullable.of(deregistrationAcknowledgedAt);
+            return this;
+        }
+
+        /**
+         * When final-return acknowledgement was recorded.
+         */
+        public Builder deregistrationAcknowledgedAt(JsonNullable<OffsetDateTime> deregistrationAcknowledgedAt) {
+            Utils.checkNotNull(deregistrationAcknowledgedAt, "deregistrationAcknowledgedAt");
+            this.deregistrationAcknowledgedAt = deregistrationAcknowledgedAt;
+            return this;
+        }
+
+
+        /**
          * Encrypted password for accessing the registration,
          * if applicable.
          */
@@ -3082,6 +3328,9 @@ public class RegistrationReadWithPassword {
             if (doNotFile == null) {
                 doNotFile = _SINGLETON_VALUE_DoNotFile.value();
             }
+            if (isPreCollecting == null) {
+                isPreCollecting = _SINGLETON_VALUE_IsPreCollecting.value();
+            }
             if (createBackFiling == null) {
                 createBackFiling = _SINGLETON_VALUE_CreateBackFiling.value();
             }
@@ -3103,26 +3352,33 @@ public class RegistrationReadWithPassword {
                 registrationCompleted, deregistrationRequested, deregistrationCompleted,
                 autoRegistered, registrationsRegime, changeRegimeStatus,
                 thirdPartyEnabled, doNotFile, twoFactorEnabled,
-                markedCollecting, status, countryCode,
-                stateCode, stateName, filingFrequency,
-                initialFilingFrequency, scheduledFilingFrequency, filingFrequencyEffectiveDate,
-                periodEndMonth, username, comment,
-                createFilingsFrom, createBackFiling, retailDeliveryFeeObligated,
-                retailDeliveryFeeEffectiveFrom, initialSync, amountFees,
-                vda, imported, salesTaxId,
-                iorNumber, iorDate, sstImport,
-                ossType, ossMemberStateOfIdentificationCode, taxType,
-                markedCollectingDate, needsMarkAsCollecting, id,
-                createdAt, creditsTotalAvailable, registrationCategory,
-                jurisdictionSpecificFields, passwordEncrypted, pinEncrypted,
-                hasAllCredentials, filingDays, registrationType,
-                filingWebsiteUrl);
+                markedCollecting, isPreCollecting, status,
+                countryCode, stateCode, stateName,
+                filingFrequency, initialFilingFrequency, scheduledFilingFrequency,
+                filingFrequencyEffectiveDate, periodEndMonth, username,
+                comment, createFilingsFrom, createBackFiling,
+                retailDeliveryFeeObligated, retailDeliveryFeeEffectiveFrom, initialSync,
+                amountFees, vda, imported,
+                salesTaxId, iorNumber, iorDate,
+                sstImport, ossType, ossMemberStateOfIdentificationCode,
+                taxType, markedCollectingDate, needsMarkAsCollecting,
+                id, createdAt, creditsTotalAvailable,
+                registrationCategory, jurisdictionSpecificFields, deregistrationClosureDate,
+                deregistrationReason, deregistrationAcknowledgedAt, passwordEncrypted,
+                pinEncrypted, hasAllCredentials, filingDays,
+                registrationType, filingWebsiteUrl);
         }
 
 
         private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_DoNotFile =
                 new LazySingletonValue<>(
                         "do_not_file",
+                        "false",
+                        new TypeReference<Optional<Boolean>>() {});
+
+        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_IsPreCollecting =
+                new LazySingletonValue<>(
+                        "is_pre_collecting",
                         "false",
                         new TypeReference<Optional<Boolean>>() {});
 

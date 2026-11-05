@@ -17,7 +17,6 @@ import java.lang.Override;
 import java.lang.String;
 import java.lang.SuppressWarnings;
 import java.time.LocalDate;
-import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -51,7 +50,7 @@ public class TransactionRead {
      * Transaction date and time
      */
     @JsonProperty("date")
-    private OffsetDateTime date;
+    private String date;
 
     /**
      * Transaction date in the shop's local timezone
@@ -114,7 +113,7 @@ public class TransactionRead {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("exemptions")
-    private JsonNullable<? extends List<Exemption>> exemptions;
+    private JsonNullable<? extends List<TransactionEmbeddedExemption>> exemptions;
 
     /**
      * Related transaction identifier.
@@ -193,7 +192,9 @@ public class TransactionRead {
     @JsonProperty("taxable_amount")
     private Optional<String> taxableAmount;
 
-
+    /**
+     * ISO-4217 currency code. Pair with a monetary amount on the same object.
+     */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("currency")
     private Optional<? extends CurrencyEnum> currency;
@@ -408,6 +409,31 @@ public class TransactionRead {
     private List<TransactionItemRead> transactionItems;
 
     /**
+     * Recoverable input VAT across this transaction's lines, in the transaction's currency. 0.00 for sales
+     * and outside the EU and UK.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("total_recoverable_input_vat")
+    private Optional<String> totalRecoverableInputVat;
+
+    /**
+     * Recoverable input VAT across this transaction's lines in the destination currency. Null when the
+     * transaction is unconverted.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("converted_total_recoverable_input_vat")
+    private JsonNullable<String> convertedTotalRecoverableInputVat;
+
+    /**
+     * Pro-rata coefficient 0-100 used to scale recoverable input VAT on this purchase. Null for sales and
+     * outside the EU and UK. 100 when the organization has no partial exemption rate for the tax-point
+     * year.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("input_vat_recovery_rate")
+    private JsonNullable<String> inputVatRecoveryRate;
+
+    /**
      * Customer information associated with the transaction.
      */
     @JsonInclude(Include.NON_ABSENT)
@@ -451,7 +477,7 @@ public class TransactionRead {
             @JsonProperty("requires_exemption") JsonNullable<? extends ExemptionRequired> requiresExemption,
             @JsonProperty("organization_id") String organizationId,
             @JsonProperty("external_id") String externalId,
-            @JsonProperty("date") OffsetDateTime date,
+            @JsonProperty("date") String date,
             @JsonProperty("shop_date") JsonNullable<LocalDate> shopDate,
             @JsonProperty("shop_date_tz") JsonNullable<String> shopDateTz,
             @JsonProperty("description") JsonNullable<String> description,
@@ -460,7 +486,7 @@ public class TransactionRead {
             @JsonProperty("customer_id") JsonNullable<String> customerId,
             @JsonProperty("marketplace") JsonNullable<Boolean> marketplace,
             @JsonProperty("exempt") JsonNullable<? extends TransactionExemptStatusEnum> exempt,
-            @JsonProperty("exemptions") JsonNullable<? extends List<Exemption>> exemptions,
+            @JsonProperty("exemptions") JsonNullable<? extends List<TransactionEmbeddedExemption>> exemptions,
             @JsonProperty("related_to") JsonNullable<String> relatedTo,
             @JsonProperty("secondary_external_id") JsonNullable<String> secondaryExternalId,
             @JsonProperty("secondary_source") JsonNullable<String> secondarySource,
@@ -504,6 +530,9 @@ public class TransactionRead {
             @JsonProperty("direction") Optional<? extends TransactionDirectionEnum> direction,
             @JsonProperty("addresses") List<TransactionAddressReadOutput> addresses,
             @JsonProperty("transaction_items") List<TransactionItemRead> transactionItems,
+            @JsonProperty("total_recoverable_input_vat") Optional<String> totalRecoverableInputVat,
+            @JsonProperty("converted_total_recoverable_input_vat") JsonNullable<String> convertedTotalRecoverableInputVat,
+            @JsonProperty("input_vat_recovery_rate") JsonNullable<String> inputVatRecoveryRate,
             @JsonProperty("customer") JsonNullable<? extends CustomerRead> customer,
             @JsonProperty("type") TransactionTypeEnum type,
             @JsonProperty("total_discount") JsonNullable<String> totalDiscount,
@@ -566,6 +595,9 @@ public class TransactionRead {
         Utils.checkNotNull(direction, "direction");
         Utils.checkNotNull(addresses, "addresses");
         Utils.checkNotNull(transactionItems, "transactionItems");
+        Utils.checkNotNull(totalRecoverableInputVat, "totalRecoverableInputVat");
+        Utils.checkNotNull(convertedTotalRecoverableInputVat, "convertedTotalRecoverableInputVat");
+        Utils.checkNotNull(inputVatRecoveryRate, "inputVatRecoveryRate");
         Utils.checkNotNull(customer, "customer");
         Utils.checkNotNull(type, "type");
         Utils.checkNotNull(totalDiscount, "totalDiscount");
@@ -628,6 +660,9 @@ public class TransactionRead {
         this.direction = direction;
         this.addresses = addresses;
         this.transactionItems = transactionItems;
+        this.totalRecoverableInputVat = totalRecoverableInputVat;
+        this.convertedTotalRecoverableInputVat = convertedTotalRecoverableInputVat;
+        this.inputVatRecoveryRate = inputVatRecoveryRate;
         this.customer = customer;
         this.type = type;
         this.totalDiscount = totalDiscount;
@@ -639,7 +674,7 @@ public class TransactionRead {
     public TransactionRead(
             String organizationId,
             String externalId,
-            OffsetDateTime date,
+            String date,
             String id,
             List<TransactionAddressReadOutput> addresses,
             List<TransactionItemRead> transactionItems,
@@ -662,7 +697,8 @@ public class TransactionRead {
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), id,
             JsonNullable.undefined(), Optional.empty(), Optional.empty(),
-            addresses, transactionItems, JsonNullable.undefined(),
+            addresses, transactionItems, Optional.empty(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
             type, JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined());
     }
@@ -700,7 +736,7 @@ public class TransactionRead {
      * Transaction date and time
      */
     @JsonIgnore
-    public OffsetDateTime date() {
+    public String date() {
         return date;
     }
 
@@ -775,8 +811,8 @@ public class TransactionRead {
      */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public JsonNullable<List<Exemption>> exemptions() {
-        return (JsonNullable<List<Exemption>>) exemptions;
+    public JsonNullable<List<TransactionEmbeddedExemption>> exemptions() {
+        return (JsonNullable<List<TransactionEmbeddedExemption>>) exemptions;
     }
 
     /**
@@ -868,6 +904,9 @@ public class TransactionRead {
         return taxableAmount;
     }
 
+    /**
+     * ISO-4217 currency code. Pair with a monetary amount on the same object.
+     */
     @SuppressWarnings("unchecked")
     @JsonIgnore
     public Optional<CurrencyEnum> currency() {
@@ -1121,6 +1160,34 @@ public class TransactionRead {
     }
 
     /**
+     * Recoverable input VAT across this transaction's lines, in the transaction's currency. 0.00 for sales
+     * and outside the EU and UK.
+     */
+    @JsonIgnore
+    public Optional<String> totalRecoverableInputVat() {
+        return totalRecoverableInputVat;
+    }
+
+    /**
+     * Recoverable input VAT across this transaction's lines in the destination currency. Null when the
+     * transaction is unconverted.
+     */
+    @JsonIgnore
+    public JsonNullable<String> convertedTotalRecoverableInputVat() {
+        return convertedTotalRecoverableInputVat;
+    }
+
+    /**
+     * Pro-rata coefficient 0-100 used to scale recoverable input VAT on this purchase. Null for sales and
+     * outside the EU and UK. 100 when the organization has no partial exemption rate for the tax-point
+     * year.
+     */
+    @JsonIgnore
+    public JsonNullable<String> inputVatRecoveryRate() {
+        return inputVatRecoveryRate;
+    }
+
+    /**
      * Customer information associated with the transaction.
      */
     @SuppressWarnings("unchecked")
@@ -1214,7 +1281,7 @@ public class TransactionRead {
     /**
      * Transaction date and time
      */
-    public TransactionRead withDate(OffsetDateTime date) {
+    public TransactionRead withDate(String date) {
         Utils.checkNotNull(date, "date");
         this.date = date;
         return this;
@@ -1368,7 +1435,7 @@ public class TransactionRead {
     /**
      * List of exemptions applied (if any).
      */
-    public TransactionRead withExemptions(List<Exemption> exemptions) {
+    public TransactionRead withExemptions(List<TransactionEmbeddedExemption> exemptions) {
         Utils.checkNotNull(exemptions, "exemptions");
         this.exemptions = JsonNullable.of(exemptions);
         return this;
@@ -1377,7 +1444,7 @@ public class TransactionRead {
     /**
      * List of exemptions applied (if any).
      */
-    public TransactionRead withExemptions(JsonNullable<? extends List<Exemption>> exemptions) {
+    public TransactionRead withExemptions(JsonNullable<? extends List<TransactionEmbeddedExemption>> exemptions) {
         Utils.checkNotNull(exemptions, "exemptions");
         this.exemptions = exemptions;
         return this;
@@ -1587,6 +1654,9 @@ public class TransactionRead {
         return this;
     }
 
+    /**
+     * ISO-4217 currency code. Pair with a monetary amount on the same object.
+     */
     public TransactionRead withCurrency(CurrencyEnum currency) {
         Utils.checkNotNull(currency, "currency");
         this.currency = Optional.ofNullable(currency);
@@ -1594,6 +1664,9 @@ public class TransactionRead {
     }
 
 
+    /**
+     * ISO-4217 currency code. Pair with a monetary amount on the same object.
+     */
     public TransactionRead withCurrency(Optional<? extends CurrencyEnum> currency) {
         Utils.checkNotNull(currency, "currency");
         this.currency = currency;
@@ -2120,6 +2193,69 @@ public class TransactionRead {
     }
 
     /**
+     * Recoverable input VAT across this transaction's lines, in the transaction's currency. 0.00 for sales
+     * and outside the EU and UK.
+     */
+    public TransactionRead withTotalRecoverableInputVat(String totalRecoverableInputVat) {
+        Utils.checkNotNull(totalRecoverableInputVat, "totalRecoverableInputVat");
+        this.totalRecoverableInputVat = Optional.ofNullable(totalRecoverableInputVat);
+        return this;
+    }
+
+
+    /**
+     * Recoverable input VAT across this transaction's lines, in the transaction's currency. 0.00 for sales
+     * and outside the EU and UK.
+     */
+    public TransactionRead withTotalRecoverableInputVat(Optional<String> totalRecoverableInputVat) {
+        Utils.checkNotNull(totalRecoverableInputVat, "totalRecoverableInputVat");
+        this.totalRecoverableInputVat = totalRecoverableInputVat;
+        return this;
+    }
+
+    /**
+     * Recoverable input VAT across this transaction's lines in the destination currency. Null when the
+     * transaction is unconverted.
+     */
+    public TransactionRead withConvertedTotalRecoverableInputVat(String convertedTotalRecoverableInputVat) {
+        Utils.checkNotNull(convertedTotalRecoverableInputVat, "convertedTotalRecoverableInputVat");
+        this.convertedTotalRecoverableInputVat = JsonNullable.of(convertedTotalRecoverableInputVat);
+        return this;
+    }
+
+    /**
+     * Recoverable input VAT across this transaction's lines in the destination currency. Null when the
+     * transaction is unconverted.
+     */
+    public TransactionRead withConvertedTotalRecoverableInputVat(JsonNullable<String> convertedTotalRecoverableInputVat) {
+        Utils.checkNotNull(convertedTotalRecoverableInputVat, "convertedTotalRecoverableInputVat");
+        this.convertedTotalRecoverableInputVat = convertedTotalRecoverableInputVat;
+        return this;
+    }
+
+    /**
+     * Pro-rata coefficient 0-100 used to scale recoverable input VAT on this purchase. Null for sales and
+     * outside the EU and UK. 100 when the organization has no partial exemption rate for the tax-point
+     * year.
+     */
+    public TransactionRead withInputVatRecoveryRate(String inputVatRecoveryRate) {
+        Utils.checkNotNull(inputVatRecoveryRate, "inputVatRecoveryRate");
+        this.inputVatRecoveryRate = JsonNullable.of(inputVatRecoveryRate);
+        return this;
+    }
+
+    /**
+     * Pro-rata coefficient 0-100 used to scale recoverable input VAT on this purchase. Null for sales and
+     * outside the EU and UK. 100 when the organization has no partial exemption rate for the tax-point
+     * year.
+     */
+    public TransactionRead withInputVatRecoveryRate(JsonNullable<String> inputVatRecoveryRate) {
+        Utils.checkNotNull(inputVatRecoveryRate, "inputVatRecoveryRate");
+        this.inputVatRecoveryRate = inputVatRecoveryRate;
+        return this;
+    }
+
+    /**
      * Customer information associated with the transaction.
      */
     public TransactionRead withCustomer(CustomerRead customer) {
@@ -2281,6 +2417,9 @@ public class TransactionRead {
             Utils.enhancedDeepEquals(this.direction, other.direction) &&
             Utils.enhancedDeepEquals(this.addresses, other.addresses) &&
             Utils.enhancedDeepEquals(this.transactionItems, other.transactionItems) &&
+            Utils.enhancedDeepEquals(this.totalRecoverableInputVat, other.totalRecoverableInputVat) &&
+            Utils.enhancedDeepEquals(this.convertedTotalRecoverableInputVat, other.convertedTotalRecoverableInputVat) &&
+            Utils.enhancedDeepEquals(this.inputVatRecoveryRate, other.inputVatRecoveryRate) &&
             Utils.enhancedDeepEquals(this.customer, other.customer) &&
             Utils.enhancedDeepEquals(this.type, other.type) &&
             Utils.enhancedDeepEquals(this.totalDiscount, other.totalDiscount) &&
@@ -2310,7 +2449,8 @@ public class TransactionRead {
             conversionRate, convertedTaxableAmount, convertedTotalDiscount,
             convertedSubtotal, convertedTotalTaxLiabilityAmount, id,
             storeName, isDeferredTransaction, direction,
-            addresses, transactionItems, customer,
+            addresses, transactionItems, totalRecoverableInputVat,
+            convertedTotalRecoverableInputVat, inputVatRecoveryRate, customer,
             type, totalDiscount, subtotal,
             finalTotalAmount, convertedFinalTotalAmount);
     }
@@ -2374,6 +2514,9 @@ public class TransactionRead {
                 "direction", direction,
                 "addresses", addresses,
                 "transactionItems", transactionItems,
+                "totalRecoverableInputVat", totalRecoverableInputVat,
+                "convertedTotalRecoverableInputVat", convertedTotalRecoverableInputVat,
+                "inputVatRecoveryRate", inputVatRecoveryRate,
                 "customer", customer,
                 "type", type,
                 "totalDiscount", totalDiscount,
@@ -2392,7 +2535,7 @@ public class TransactionRead {
 
         private String externalId;
 
-        private OffsetDateTime date;
+        private String date;
 
         private JsonNullable<LocalDate> shopDate = JsonNullable.undefined();
 
@@ -2410,7 +2553,7 @@ public class TransactionRead {
 
         private JsonNullable<? extends TransactionExemptStatusEnum> exempt = JsonNullable.undefined();
 
-        private JsonNullable<? extends List<Exemption>> exemptions = JsonNullable.undefined();
+        private JsonNullable<? extends List<TransactionEmbeddedExemption>> exemptions = JsonNullable.undefined();
 
         private JsonNullable<String> relatedTo = JsonNullable.undefined();
 
@@ -2499,6 +2642,12 @@ public class TransactionRead {
 
         private List<TransactionItemRead> transactionItems;
 
+        private Optional<String> totalRecoverableInputVat;
+
+        private JsonNullable<String> convertedTotalRecoverableInputVat = JsonNullable.undefined();
+
+        private JsonNullable<String> inputVatRecoveryRate = JsonNullable.undefined();
+
         private JsonNullable<? extends CustomerRead> customer = JsonNullable.undefined();
 
         private TransactionTypeEnum type;
@@ -2562,7 +2711,7 @@ public class TransactionRead {
         /**
          * Transaction date and time
          */
-        public Builder date(OffsetDateTime date) {
+        public Builder date(String date) {
             Utils.checkNotNull(date, "date");
             this.date = date;
             return this;
@@ -2724,7 +2873,7 @@ public class TransactionRead {
         /**
          * List of exemptions applied (if any).
          */
-        public Builder exemptions(List<Exemption> exemptions) {
+        public Builder exemptions(List<TransactionEmbeddedExemption> exemptions) {
             Utils.checkNotNull(exemptions, "exemptions");
             this.exemptions = JsonNullable.of(exemptions);
             return this;
@@ -2733,7 +2882,7 @@ public class TransactionRead {
         /**
          * List of exemptions applied (if any).
          */
-        public Builder exemptions(JsonNullable<? extends List<Exemption>> exemptions) {
+        public Builder exemptions(JsonNullable<? extends List<TransactionEmbeddedExemption>> exemptions) {
             Utils.checkNotNull(exemptions, "exemptions");
             this.exemptions = exemptions;
             return this;
@@ -2949,12 +3098,18 @@ public class TransactionRead {
         }
 
 
+        /**
+         * ISO-4217 currency code. Pair with a monetary amount on the same object.
+         */
         public Builder currency(CurrencyEnum currency) {
             Utils.checkNotNull(currency, "currency");
             this.currency = Optional.ofNullable(currency);
             return this;
         }
 
+        /**
+         * ISO-4217 currency code. Pair with a monetary amount on the same object.
+         */
         public Builder currency(Optional<? extends CurrencyEnum> currency) {
             Utils.checkNotNull(currency, "currency");
             this.currency = currency;
@@ -3505,6 +3660,71 @@ public class TransactionRead {
 
 
         /**
+         * Recoverable input VAT across this transaction's lines, in the transaction's currency. 0.00 for sales
+         * and outside the EU and UK.
+         */
+        public Builder totalRecoverableInputVat(String totalRecoverableInputVat) {
+            Utils.checkNotNull(totalRecoverableInputVat, "totalRecoverableInputVat");
+            this.totalRecoverableInputVat = Optional.ofNullable(totalRecoverableInputVat);
+            return this;
+        }
+
+        /**
+         * Recoverable input VAT across this transaction's lines, in the transaction's currency. 0.00 for sales
+         * and outside the EU and UK.
+         */
+        public Builder totalRecoverableInputVat(Optional<String> totalRecoverableInputVat) {
+            Utils.checkNotNull(totalRecoverableInputVat, "totalRecoverableInputVat");
+            this.totalRecoverableInputVat = totalRecoverableInputVat;
+            return this;
+        }
+
+
+        /**
+         * Recoverable input VAT across this transaction's lines in the destination currency. Null when the
+         * transaction is unconverted.
+         */
+        public Builder convertedTotalRecoverableInputVat(String convertedTotalRecoverableInputVat) {
+            Utils.checkNotNull(convertedTotalRecoverableInputVat, "convertedTotalRecoverableInputVat");
+            this.convertedTotalRecoverableInputVat = JsonNullable.of(convertedTotalRecoverableInputVat);
+            return this;
+        }
+
+        /**
+         * Recoverable input VAT across this transaction's lines in the destination currency. Null when the
+         * transaction is unconverted.
+         */
+        public Builder convertedTotalRecoverableInputVat(JsonNullable<String> convertedTotalRecoverableInputVat) {
+            Utils.checkNotNull(convertedTotalRecoverableInputVat, "convertedTotalRecoverableInputVat");
+            this.convertedTotalRecoverableInputVat = convertedTotalRecoverableInputVat;
+            return this;
+        }
+
+
+        /**
+         * Pro-rata coefficient 0-100 used to scale recoverable input VAT on this purchase. Null for sales and
+         * outside the EU and UK. 100 when the organization has no partial exemption rate for the tax-point
+         * year.
+         */
+        public Builder inputVatRecoveryRate(String inputVatRecoveryRate) {
+            Utils.checkNotNull(inputVatRecoveryRate, "inputVatRecoveryRate");
+            this.inputVatRecoveryRate = JsonNullable.of(inputVatRecoveryRate);
+            return this;
+        }
+
+        /**
+         * Pro-rata coefficient 0-100 used to scale recoverable input VAT on this purchase. Null for sales and
+         * outside the EU and UK. 100 when the organization has no partial exemption rate for the tax-point
+         * year.
+         */
+        public Builder inputVatRecoveryRate(JsonNullable<String> inputVatRecoveryRate) {
+            Utils.checkNotNull(inputVatRecoveryRate, "inputVatRecoveryRate");
+            this.inputVatRecoveryRate = inputVatRecoveryRate;
+            return this;
+        }
+
+
+        /**
          * Customer information associated with the transaction.
          */
         public Builder customer(CustomerRead customer) {
@@ -3636,6 +3856,9 @@ public class TransactionRead {
             if (isDeferredTransaction == null) {
                 isDeferredTransaction = _SINGLETON_VALUE_IsDeferredTransaction.value();
             }
+            if (totalRecoverableInputVat == null) {
+                totalRecoverableInputVat = _SINGLETON_VALUE_TotalRecoverableInputVat.value();
+            }
 
             return new TransactionRead(
                 requiresExemption, organizationId, externalId,
@@ -3656,7 +3879,8 @@ public class TransactionRead {
                 conversionRate, convertedTaxableAmount, convertedTotalDiscount,
                 convertedSubtotal, convertedTotalTaxLiabilityAmount, id,
                 storeName, isDeferredTransaction, direction,
-                addresses, transactionItems, customer,
+                addresses, transactionItems, totalRecoverableInputVat,
+                convertedTotalRecoverableInputVat, inputVatRecoveryRate, customer,
                 type, totalDiscount, subtotal,
                 finalTotalAmount, convertedFinalTotalAmount);
         }
@@ -3721,5 +3945,11 @@ public class TransactionRead {
                         "is_deferred_transaction",
                         "false",
                         new TypeReference<Optional<Boolean>>() {});
+
+        private static final LazySingletonValue<Optional<String>> _SINGLETON_VALUE_TotalRecoverableInputVat =
+                new LazySingletonValue<>(
+                        "total_recoverable_input_vat",
+                        "\"0.00\"",
+                        new TypeReference<Optional<String>>() {});
     }
 }

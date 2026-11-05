@@ -5,6 +5,9 @@
 ### Available Operations
 
 * [get](#get) - Get filings
+* [createBackFilingRequestV1FilingsBackFilingRequestPost](#createbackfilingrequestv1filingsbackfilingrequestpost) - Create back filing request
+* [getBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGet](#getbackfilingrequestoptionsv1filingsbackfilingrequestoptionsget) - Get back filing request options
+* [getCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGet](#getcurrentbackfilingtermsv1filingsbackfilingtermscurrentget) - Get current back filing terms
 * [getByRegistrationId](#getbyregistrationid) - Get filings by registration id
 * [getById](#getbyid) - Get filing by id
 * [approveFilingV1FilingsFilingIdApprovePut](#approvefilingv1filingsfilingidapproveput) - Approve filing
@@ -82,6 +85,174 @@ public class Application {
 | models/errors/BackendSrcFilingsResponsesValidationErrorResponse | 422                                                             | application/json                                                |
 | models/errors/ErrorResponse                                     | 500                                                             | application/json                                                |
 | models/errors/APIException                                      | 4XX, 5XX                                                        | \*/\*                                                           |
+
+## createBackFilingRequestV1FilingsBackFilingRequestPost
+
+Create unapproved BACK_FILING rows for requested in-bounds periods.
+
+### Example Usage
+
+<!-- UsageSnippet language="java" operationID="create_back_filing_request_v1_filings_back_filing_request_post" method="post" path="/v1/filings/back-filing-request" -->
+```java
+package hello.world;
+
+import com.kintsugi.taxplatform.SDK;
+import com.kintsugi.taxplatform.models.components.*;
+import com.kintsugi.taxplatform.models.errors.HTTPValidationError;
+import com.kintsugi.taxplatform.models.operations.CreateBackFilingRequestV1FilingsBackFilingRequestPostResponse;
+import java.lang.Exception;
+import java.time.LocalDate;
+import java.util.List;
+
+public class Application {
+
+    public static void main(String[] args) throws HTTPValidationError, Exception {
+
+        SDK sdk = SDK.builder()
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
+            .build();
+
+        CreateBackFilingRequestV1FilingsBackFilingRequestPostResponse res = sdk.filings().createBackFilingRequestV1FilingsBackFilingRequestPost()
+                .xOrganizationId("<id>")
+                .backFilingRequestCreate(BackFilingRequestCreate.builder()
+                    .requests(List.of(
+                        BackFilingRequestRegistrationInput.builder()
+                            .registrationId("<id>")
+                            .periods(List.of(
+                                BackFilingRequestPeriodInput.builder()
+                                    .startDate(LocalDate.parse("2026-03-03"))
+                                    .endDate(LocalDate.parse("2026-08-19"))
+                                    .build()))
+                            .build()))
+                    .build())
+                .call();
+
+        if (res.backFilingRequestCreateResponse().isPresent()) {
+            System.out.println(res.backFilingRequestCreateResponse().get());
+        }
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                                     | Type                                                                          | Required                                                                      | Description                                                                   |
+| ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| `xOrganizationId`                                                             | *Optional\<String>*                                                           | :heavy_check_mark:                                                            | N/A                                                                           |
+| `backFilingRequestCreate`                                                     | [BackFilingRequestCreate](../../models/components/BackFilingRequestCreate.md) | :heavy_check_mark:                                                            | N/A                                                                           |
+
+### Response
+
+**[CreateBackFilingRequestV1FilingsBackFilingRequestPostResponse](../../models/operations/CreateBackFilingRequestV1FilingsBackFilingRequestPostResponse.md)**
+
+### Errors
+
+| Error Type                        | Status Code                       | Content Type                      |
+| --------------------------------- | --------------------------------- | --------------------------------- |
+| models/errors/HTTPValidationError | 422                               | application/json                  |
+| models/errors/APIException        | 4XX, 5XX                          | \*/\*                             |
+
+## getBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGet
+
+Eligible US registrations and periods for a customer back-filing request.
+
+### Example Usage
+
+<!-- UsageSnippet language="java" operationID="get_back_filing_request_options_v1_filings_back_filing_request_options_get" method="get" path="/v1/filings/back-filing-request/options" -->
+```java
+package hello.world;
+
+import com.kintsugi.taxplatform.SDK;
+import com.kintsugi.taxplatform.models.errors.HTTPValidationError;
+import com.kintsugi.taxplatform.models.operations.GetBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGetResponse;
+import java.lang.Exception;
+
+public class Application {
+
+    public static void main(String[] args) throws HTTPValidationError, Exception {
+
+        SDK sdk = SDK.builder()
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
+            .build();
+
+        GetBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGetResponse res = sdk.filings().getBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGet()
+                .xOrganizationId("org_12345")
+                .call();
+
+        if (res.backFilingRequestOptionsResponse().isPresent()) {
+            System.out.println(res.backFilingRequestOptionsResponse().get());
+        }
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                     | Type                                                          | Required                                                      | Description                                                   | Example                                                       |
+| ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- |
+| `xOrganizationId`                                             | *Optional\<String>*                                           | :heavy_check_mark:                                            | The unique identifier for the organization making the request | org_12345                                                     |
+
+### Response
+
+**[GetBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGetResponse](../../models/operations/GetBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGetResponse.md)**
+
+### Errors
+
+| Error Type                        | Status Code                       | Content Type                      |
+| --------------------------------- | --------------------------------- | --------------------------------- |
+| models/errors/HTTPValidationError | 422                               | application/json                  |
+| models/errors/APIException        | 4XX, 5XX                          | \*/\*                             |
+
+## getCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGet
+
+Current back filing terms shown before BACK_FILING approval.
+
+### Example Usage
+
+<!-- UsageSnippet language="java" operationID="get_current_back_filing_terms_v1_filings_back_filing_terms_current_get" method="get" path="/v1/filings/back-filing-terms/current" -->
+```java
+package hello.world;
+
+import com.kintsugi.taxplatform.SDK;
+import com.kintsugi.taxplatform.models.errors.HTTPValidationError;
+import com.kintsugi.taxplatform.models.operations.GetCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGetResponse;
+import java.lang.Exception;
+
+public class Application {
+
+    public static void main(String[] args) throws HTTPValidationError, Exception {
+
+        SDK sdk = SDK.builder()
+                .apiKeyHeader(System.getenv().getOrDefault("API_KEY_HEADER", ""))
+            .build();
+
+        GetCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGetResponse res = sdk.filings().getCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGet()
+                .xOrganizationId("org_12345")
+                .call();
+
+        if (res.backFilingTermsRead().isPresent()) {
+            System.out.println(res.backFilingTermsRead().get());
+        }
+    }
+}
+```
+
+### Parameters
+
+| Parameter                                                     | Type                                                          | Required                                                      | Description                                                   | Example                                                       |
+| ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------- |
+| `xOrganizationId`                                             | *Optional\<String>*                                           | :heavy_check_mark:                                            | The unique identifier for the organization making the request | org_12345                                                     |
+
+### Response
+
+**[GetCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGetResponse](../../models/operations/GetCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGetResponse.md)**
+
+### Errors
+
+| Error Type                        | Status Code                       | Content Type                      |
+| --------------------------------- | --------------------------------- | --------------------------------- |
+| models/errors/HTTPValidationError | 422                               | application/json                  |
+| models/errors/APIException        | 4XX, 5XX                          | \*/\*                             |
 
 ## getByRegistrationId
 

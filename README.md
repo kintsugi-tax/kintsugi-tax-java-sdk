@@ -50,7 +50,7 @@ The samples below show how a published SDK artifact is used:
 
 Gradle:
 ```groovy
-implementation 'com.trykintsugi:kintsugi-tax-java-sdk:0.16.0'
+implementation 'com.trykintsugi:kintsugi-tax-java-sdk:0.16.1'
 ```
 
 Maven:
@@ -58,7 +58,7 @@ Maven:
 <dependency>
     <groupId>com.trykintsugi</groupId>
     <artifactId>kintsugi-tax-java-sdk</artifactId>
-    <version>0.16.0</version>
+    <version>0.16.1</version>
 </dependency>
 ```
 
@@ -334,6 +334,7 @@ public class Application {
 
 * [get](docs/sdks/exemptions/README.md#get) - Get exemptions
 * [create](docs/sdks/exemptions/README.md#create) - Create exemption
+* [listPartialCertificateTypesV1ExemptionsPartialCertificateTypesGet](docs/sdks/exemptions/README.md#listpartialcertificatetypesv1exemptionspartialcertificatetypesget) - List partial certificate types
 * [getById](docs/sdks/exemptions/README.md#getbyid) - Get exemption by id
 * [getAttachments](docs/sdks/exemptions/README.md#getattachments) - Get attachments for exemption
 * [uploadCertificate](docs/sdks/exemptions/README.md#uploadcertificate) - Upload exemption certificate
@@ -341,6 +342,9 @@ public class Application {
 ### [Filings](docs/sdks/filings/README.md)
 
 * [get](docs/sdks/filings/README.md#get) - Get filings
+* [createBackFilingRequestV1FilingsBackFilingRequestPost](docs/sdks/filings/README.md#createbackfilingrequestv1filingsbackfilingrequestpost) - Create back filing request
+* [getBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGet](docs/sdks/filings/README.md#getbackfilingrequestoptionsv1filingsbackfilingrequestoptionsget) - Get back filing request options
+* [getCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGet](docs/sdks/filings/README.md#getcurrentbackfilingtermsv1filingsbackfilingtermscurrentget) - Get current back filing terms
 * [getByRegistrationId](docs/sdks/filings/README.md#getbyregistrationid) - Get filings by registration id
 * [getById](docs/sdks/filings/README.md#getbyid) - Get filing by id
 * [approveFilingV1FilingsFilingIdApprovePut](docs/sdks/filings/README.md#approvefilingv1filingsfilingidapproveput) - Approve filing
@@ -506,17 +510,17 @@ public class Application {
 many more subclasses in the JDK platform).
 
 **Inherit from [`SDKError`](./src/main/java/models/errors/SDKError.java)**:
-* [`com.kintsugi.taxplatform.models.errors.ErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.ErrorResponse.java): Applicable to 33 of 51 methods.*
-* [`com.kintsugi.taxplatform.models.errors.HTTPValidationError`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.HTTPValidationError.java): Validation Error. Status code `422`. Applicable to 18 of 51 methods.*
-* [`com.kintsugi.taxplatform.models.errors.BackendSrcExemptionsResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcExemptionsResponsesValidationErrorResponse.java): Validation issues, such as missing required fields or invalid field values. Status code `422`. Applicable to 5 of 51 methods.*
-* [`com.kintsugi.taxplatform.models.errors.BackendSrcProductsSchemasResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcProductsSchemasResponsesValidationErrorResponse.java): Validation error. Status code `422`. Applicable to 5 of 51 methods.*
-* [`com.kintsugi.taxplatform.models.errors.BackendSrcRegistrationsResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcRegistrationsResponsesValidationErrorResponse.java): Validation error. Status code `422`. Applicable to 5 of 51 methods.*
-* [`com.kintsugi.taxplatform.models.errors.BackendSrcTransactionsResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcTransactionsResponsesValidationErrorResponse.java): Status code `422`. Applicable to 5 of 51 methods.*
-* [`com.kintsugi.taxplatform.models.errors.BackendSrcNexusResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcNexusResponsesValidationErrorResponse.java): Validation error. Status code `422`. Applicable to 4 of 51 methods.*
-* [`com.kintsugi.taxplatform.models.errors.BackendSrcCustomersResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcCustomersResponsesValidationErrorResponse.java): Query parameters failed validation, such as an out-of-range page number. Status code `422`. Applicable to 3 of 51 methods.*
-* [`com.kintsugi.taxplatform.models.errors.BackendSrcFilingsResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcFilingsResponsesValidationErrorResponse.java): Validation error. Status code `422`. Applicable to 3 of 51 methods.*
-* [`com.kintsugi.taxplatform.models.errors.BackendSrcAddressValidationResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcAddressValidationResponsesValidationErrorResponse.java): Validation error - Address fields failed validation or are incomplete. Status code `422`. Applicable to 2 of 51 methods.*
-* [`com.kintsugi.taxplatform.models.errors.BackendSrcTaxEstimationResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcTaxEstimationResponsesValidationErrorResponse.java): Validation Error. Status code `422`. Applicable to 1 of 51 methods.*
+* [`com.kintsugi.taxplatform.models.errors.ErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.ErrorResponse.java): Applicable to 33 of 55 methods.*
+* [`com.kintsugi.taxplatform.models.errors.HTTPValidationError`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.HTTPValidationError.java): Validation Error. Status code `422`. Applicable to 22 of 55 methods.*
+* [`com.kintsugi.taxplatform.models.errors.BackendSrcExemptionsResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcExemptionsResponsesValidationErrorResponse.java): Validation issues, such as missing required fields or invalid field values. Status code `422`. Applicable to 5 of 55 methods.*
+* [`com.kintsugi.taxplatform.models.errors.BackendSrcProductsSchemasResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcProductsSchemasResponsesValidationErrorResponse.java): Validation error. Status code `422`. Applicable to 5 of 55 methods.*
+* [`com.kintsugi.taxplatform.models.errors.BackendSrcRegistrationsResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcRegistrationsResponsesValidationErrorResponse.java): Validation error. Status code `422`. Applicable to 5 of 55 methods.*
+* [`com.kintsugi.taxplatform.models.errors.BackendSrcTransactionsResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcTransactionsResponsesValidationErrorResponse.java): Status code `422`. Applicable to 5 of 55 methods.*
+* [`com.kintsugi.taxplatform.models.errors.BackendSrcNexusResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcNexusResponsesValidationErrorResponse.java): Validation error. Status code `422`. Applicable to 4 of 55 methods.*
+* [`com.kintsugi.taxplatform.models.errors.BackendSrcCustomersResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcCustomersResponsesValidationErrorResponse.java): Query parameters failed validation, such as an out-of-range page number. Status code `422`. Applicable to 3 of 55 methods.*
+* [`com.kintsugi.taxplatform.models.errors.BackendSrcFilingsResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcFilingsResponsesValidationErrorResponse.java): Validation error. Status code `422`. Applicable to 3 of 55 methods.*
+* [`com.kintsugi.taxplatform.models.errors.BackendSrcAddressValidationResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcAddressValidationResponsesValidationErrorResponse.java): Validation error - Address fields failed validation or are incomplete. Status code `422`. Applicable to 2 of 55 methods.*
+* [`com.kintsugi.taxplatform.models.errors.BackendSrcTaxEstimationResponsesValidationErrorResponse`](./src/main/java/models/errors/com.kintsugi.taxplatform.models.errors.BackendSrcTaxEstimationResponsesValidationErrorResponse.java): Validation Error. Status code `422`. Applicable to 1 of 55 methods.*
 
 
 </details>

@@ -430,10 +430,11 @@ public class AsyncRegistrations {
      * <p>Deregister an existing registration.
      * 
      * @param registrationId The unique identifier of the registration to deregister.
+     * @param deregisterRegistrationRequest Body for POST /registrations/{id}/deregister.
      * @return {@code CompletableFuture<DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse>} - The async response
      */
-    public CompletableFuture<DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse> deregister(String registrationId) {
-        return deregister(registrationId, Optional.empty(), JsonNullable.undefined());
+    public CompletableFuture<DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse> deregister(String registrationId, DeregisterRegistrationRequest deregisterRegistrationRequest) {
+        return deregister(registrationId, Optional.empty(), deregisterRegistrationRequest);
     }
 
     /**
@@ -443,12 +444,12 @@ public class AsyncRegistrations {
      * 
      * @param registrationId The unique identifier of the registration to deregister.
      * @param xOrganizationId The unique identifier for the organization making the request
-     * @param deregisterRegistrationRequest Optional body for POST /registrations/{id}/deregister (CP-4742).
+     * @param deregisterRegistrationRequest Body for POST /registrations/{id}/deregister.
      * @return {@code CompletableFuture<DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse>} - The async response
      */
     public CompletableFuture<DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse> deregister(
             String registrationId, Optional<String> xOrganizationId,
-            JsonNullable<? extends DeregisterRegistrationRequest> deregisterRegistrationRequest) {
+            DeregisterRegistrationRequest deregisterRegistrationRequest) {
         DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest request =
             DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest
                 .builder()

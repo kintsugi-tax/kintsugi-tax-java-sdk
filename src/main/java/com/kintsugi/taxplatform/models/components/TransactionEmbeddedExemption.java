@@ -20,8 +20,20 @@ import java.time.OffsetDateTime;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 
-
-public class Exemption {
+/**
+ * TransactionEmbeddedExemption
+ * 
+ * <p>Public read schema mirroring the ORM ``Exemption`` for /v1 transaction embedding.
+ * 
+ * <p>A non-table twin of ``exemptions.models.Exemption``: it re-declares the exact fields
+ * the ORM adds on top of ``ExemptionBase``/``TableBase`` (id, organization_id,
+ * certificate_import_id, source) so ``TransactionSerializerBase.exemptions`` can be
+ * typed without importing the private ORM model (CP-4895). Its serialized shape is
+ * byte-identical to the ORM's — ``from_attributes`` reads the same attributes off each
+ * ORM row — so the /v1 response payload is unchanged. Keep it in lockstep with
+ * ``Exemption`` if the ORM's public columns change (a JSON-schema parity test guards it).
+ */
+public class TransactionEmbeddedExemption {
     /**
      * Unique identifier for the exemption
      */
@@ -139,7 +151,7 @@ public class Exemption {
     private JsonNullable<? extends ExemptionSourceEnum> source;
 
     @JsonCreator
-    public Exemption(
+    public TransactionEmbeddedExemption(
             @JsonProperty("id") Optional<String> id,
             @JsonProperty("created_at") Optional<OffsetDateTime> createdAt,
             @JsonProperty("updated_at") JsonNullable<OffsetDateTime> updatedAt,
@@ -193,7 +205,7 @@ public class Exemption {
         this.source = source;
     }
     
-    public Exemption(
+    public TransactionEmbeddedExemption(
             ExemptionType exemptionType,
             LocalDate startDate) {
         this(Optional.empty(), Optional.empty(), JsonNullable.undefined(),
@@ -348,7 +360,7 @@ public class Exemption {
     /**
      * Unique identifier for the exemption
      */
-    public Exemption withId(String id) {
+    public TransactionEmbeddedExemption withId(String id) {
         Utils.checkNotNull(id, "id");
         this.id = Optional.ofNullable(id);
         return this;
@@ -358,7 +370,7 @@ public class Exemption {
     /**
      * Unique identifier for the exemption
      */
-    public Exemption withId(Optional<String> id) {
+    public TransactionEmbeddedExemption withId(Optional<String> id) {
         Utils.checkNotNull(id, "id");
         this.id = id;
         return this;
@@ -367,7 +379,7 @@ public class Exemption {
     /**
      * Timestamp when transaction was created in Kintsugi.
      */
-    public Exemption withCreatedAt(OffsetDateTime createdAt) {
+    public TransactionEmbeddedExemption withCreatedAt(OffsetDateTime createdAt) {
         Utils.checkNotNull(createdAt, "createdAt");
         this.createdAt = Optional.ofNullable(createdAt);
         return this;
@@ -377,7 +389,7 @@ public class Exemption {
     /**
      * Timestamp when transaction was created in Kintsugi.
      */
-    public Exemption withCreatedAt(Optional<OffsetDateTime> createdAt) {
+    public TransactionEmbeddedExemption withCreatedAt(Optional<OffsetDateTime> createdAt) {
         Utils.checkNotNull(createdAt, "createdAt");
         this.createdAt = createdAt;
         return this;
@@ -386,7 +398,7 @@ public class Exemption {
     /**
      * Timestamp when transaction was last updated.
      */
-    public Exemption withUpdatedAt(OffsetDateTime updatedAt) {
+    public TransactionEmbeddedExemption withUpdatedAt(OffsetDateTime updatedAt) {
         Utils.checkNotNull(updatedAt, "updatedAt");
         this.updatedAt = JsonNullable.of(updatedAt);
         return this;
@@ -395,13 +407,13 @@ public class Exemption {
     /**
      * Timestamp when transaction was last updated.
      */
-    public Exemption withUpdatedAt(JsonNullable<OffsetDateTime> updatedAt) {
+    public TransactionEmbeddedExemption withUpdatedAt(JsonNullable<OffsetDateTime> updatedAt) {
         Utils.checkNotNull(updatedAt, "updatedAt");
         this.updatedAt = updatedAt;
         return this;
     }
 
-    public Exemption withExemptionType(ExemptionType exemptionType) {
+    public TransactionEmbeddedExemption withExemptionType(ExemptionType exemptionType) {
         Utils.checkNotNull(exemptionType, "exemptionType");
         this.exemptionType = exemptionType;
         return this;
@@ -410,7 +422,7 @@ public class Exemption {
     /**
      * The jurisdiction identifier for the exemption
      */
-    public Exemption withJurisdiction(String jurisdiction) {
+    public TransactionEmbeddedExemption withJurisdiction(String jurisdiction) {
         Utils.checkNotNull(jurisdiction, "jurisdiction");
         this.jurisdiction = JsonNullable.of(jurisdiction);
         return this;
@@ -419,7 +431,7 @@ public class Exemption {
     /**
      * The jurisdiction identifier for the exemption
      */
-    public Exemption withJurisdiction(JsonNullable<String> jurisdiction) {
+    public TransactionEmbeddedExemption withJurisdiction(JsonNullable<String> jurisdiction) {
         Utils.checkNotNull(jurisdiction, "jurisdiction");
         this.jurisdiction = jurisdiction;
         return this;
@@ -428,7 +440,7 @@ public class Exemption {
     /**
      * Country code in ISO 3166-1 alpha-2 format (e.g., 'US')
      */
-    public Exemption withCountryCode(CountryCodeEnum countryCode) {
+    public TransactionEmbeddedExemption withCountryCode(CountryCodeEnum countryCode) {
         Utils.checkNotNull(countryCode, "countryCode");
         this.countryCode = JsonNullable.of(countryCode);
         return this;
@@ -437,7 +449,7 @@ public class Exemption {
     /**
      * Country code in ISO 3166-1 alpha-2 format (e.g., 'US')
      */
-    public Exemption withCountryCode(JsonNullable<? extends CountryCodeEnum> countryCode) {
+    public TransactionEmbeddedExemption withCountryCode(JsonNullable<? extends CountryCodeEnum> countryCode) {
         Utils.checkNotNull(countryCode, "countryCode");
         this.countryCode = countryCode;
         return this;
@@ -446,7 +458,7 @@ public class Exemption {
     /**
      * Start date for the exemption validity period (YYYY-MM-DD format)
      */
-    public Exemption withStartDate(LocalDate startDate) {
+    public TransactionEmbeddedExemption withStartDate(LocalDate startDate) {
         Utils.checkNotNull(startDate, "startDate");
         this.startDate = startDate;
         return this;
@@ -455,7 +467,7 @@ public class Exemption {
     /**
      * End date for the exemption validity period (YYYY-MM-DD format)
      */
-    public Exemption withEndDate(LocalDate endDate) {
+    public TransactionEmbeddedExemption withEndDate(LocalDate endDate) {
         Utils.checkNotNull(endDate, "endDate");
         this.endDate = JsonNullable.of(endDate);
         return this;
@@ -464,7 +476,7 @@ public class Exemption {
     /**
      * End date for the exemption validity period (YYYY-MM-DD format)
      */
-    public Exemption withEndDate(JsonNullable<LocalDate> endDate) {
+    public TransactionEmbeddedExemption withEndDate(JsonNullable<LocalDate> endDate) {
         Utils.checkNotNull(endDate, "endDate");
         this.endDate = endDate;
         return this;
@@ -473,7 +485,7 @@ public class Exemption {
     /**
      * Unique identifier for the customer associated with the exemption
      */
-    public Exemption withCustomerId(String customerId) {
+    public TransactionEmbeddedExemption withCustomerId(String customerId) {
         Utils.checkNotNull(customerId, "customerId");
         this.customerId = JsonNullable.of(customerId);
         return this;
@@ -482,7 +494,7 @@ public class Exemption {
     /**
      * Unique identifier for the customer associated with the exemption
      */
-    public Exemption withCustomerId(JsonNullable<String> customerId) {
+    public TransactionEmbeddedExemption withCustomerId(JsonNullable<String> customerId) {
         Utils.checkNotNull(customerId, "customerId");
         this.customerId = customerId;
         return this;
@@ -492,7 +504,7 @@ public class Exemption {
      * Unique identifier for the transaction
      * associated with the exemption, if applicable.
      */
-    public Exemption withTransactionId(String transactionId) {
+    public TransactionEmbeddedExemption withTransactionId(String transactionId) {
         Utils.checkNotNull(transactionId, "transactionId");
         this.transactionId = JsonNullable.of(transactionId);
         return this;
@@ -502,7 +514,7 @@ public class Exemption {
      * Unique identifier for the transaction
      * associated with the exemption, if applicable.
      */
-    public Exemption withTransactionId(JsonNullable<String> transactionId) {
+    public TransactionEmbeddedExemption withTransactionId(JsonNullable<String> transactionId) {
         Utils.checkNotNull(transactionId, "transactionId");
         this.transactionId = transactionId;
         return this;
@@ -511,7 +523,7 @@ public class Exemption {
     /**
      * Indicates whether the exemption is for a reseller
      */
-    public Exemption withReseller(boolean reseller) {
+    public TransactionEmbeddedExemption withReseller(boolean reseller) {
         Utils.checkNotNull(reseller, "reseller");
         this.reseller = Optional.ofNullable(reseller);
         return this;
@@ -521,7 +533,7 @@ public class Exemption {
     /**
      * Indicates whether the exemption is for a reseller
      */
-    public Exemption withReseller(Optional<Boolean> reseller) {
+    public TransactionEmbeddedExemption withReseller(Optional<Boolean> reseller) {
         Utils.checkNotNull(reseller, "reseller");
         this.reseller = reseller;
         return this;
@@ -531,7 +543,7 @@ public class Exemption {
      * Federal Employer Identification Number
      * associated with the exemption.
      */
-    public Exemption withFein(String fein) {
+    public TransactionEmbeddedExemption withFein(String fein) {
         Utils.checkNotNull(fein, "fein");
         this.fein = JsonNullable.of(fein);
         return this;
@@ -541,7 +553,7 @@ public class Exemption {
      * Federal Employer Identification Number
      * associated with the exemption.
      */
-    public Exemption withFein(JsonNullable<String> fein) {
+    public TransactionEmbeddedExemption withFein(JsonNullable<String> fein) {
         Utils.checkNotNull(fein, "fein");
         this.fein = fein;
         return this;
@@ -550,7 +562,7 @@ public class Exemption {
     /**
      * Sales tax ID for the exemption
      */
-    public Exemption withSalesTaxId(String salesTaxId) {
+    public TransactionEmbeddedExemption withSalesTaxId(String salesTaxId) {
         Utils.checkNotNull(salesTaxId, "salesTaxId");
         this.salesTaxId = JsonNullable.of(salesTaxId);
         return this;
@@ -559,7 +571,7 @@ public class Exemption {
     /**
      * Sales tax ID for the exemption
      */
-    public Exemption withSalesTaxId(JsonNullable<String> salesTaxId) {
+    public TransactionEmbeddedExemption withSalesTaxId(JsonNullable<String> salesTaxId) {
         Utils.checkNotNull(salesTaxId, "salesTaxId");
         this.salesTaxId = salesTaxId;
         return this;
@@ -569,7 +581,7 @@ public class Exemption {
      * The status of the exemption.
      * Defaults to ACTIVE if not provided.
      */
-    public Exemption withStatus(ExemptionStatus status) {
+    public TransactionEmbeddedExemption withStatus(ExemptionStatus status) {
         Utils.checkNotNull(status, "status");
         this.status = JsonNullable.of(status);
         return this;
@@ -579,20 +591,20 @@ public class Exemption {
      * The status of the exemption.
      * Defaults to ACTIVE if not provided.
      */
-    public Exemption withStatus(JsonNullable<? extends ExemptionStatus> status) {
+    public TransactionEmbeddedExemption withStatus(JsonNullable<? extends ExemptionStatus> status) {
         Utils.checkNotNull(status, "status");
         this.status = status;
         return this;
     }
 
-    public Exemption withOrganizationId(String organizationId) {
+    public TransactionEmbeddedExemption withOrganizationId(String organizationId) {
         Utils.checkNotNull(organizationId, "organizationId");
         this.organizationId = Optional.ofNullable(organizationId);
         return this;
     }
 
 
-    public Exemption withOrganizationId(Optional<String> organizationId) {
+    public TransactionEmbeddedExemption withOrganizationId(Optional<String> organizationId) {
         Utils.checkNotNull(organizationId, "organizationId");
         this.organizationId = organizationId;
         return this;
@@ -601,7 +613,7 @@ public class Exemption {
     /**
      * FK to bulk-imported certificate; NULL for manually-created exemptions
      */
-    public Exemption withCertificateImportId(String certificateImportId) {
+    public TransactionEmbeddedExemption withCertificateImportId(String certificateImportId) {
         Utils.checkNotNull(certificateImportId, "certificateImportId");
         this.certificateImportId = JsonNullable.of(certificateImportId);
         return this;
@@ -610,7 +622,7 @@ public class Exemption {
     /**
      * FK to bulk-imported certificate; NULL for manually-created exemptions
      */
-    public Exemption withCertificateImportId(JsonNullable<String> certificateImportId) {
+    public TransactionEmbeddedExemption withCertificateImportId(JsonNullable<String> certificateImportId) {
         Utils.checkNotNull(certificateImportId, "certificateImportId");
         this.certificateImportId = certificateImportId;
         return this;
@@ -619,7 +631,7 @@ public class Exemption {
     /**
      * Source of exemption.
      */
-    public Exemption withSource(ExemptionSourceEnum source) {
+    public TransactionEmbeddedExemption withSource(ExemptionSourceEnum source) {
         Utils.checkNotNull(source, "source");
         this.source = JsonNullable.of(source);
         return this;
@@ -628,7 +640,7 @@ public class Exemption {
     /**
      * Source of exemption.
      */
-    public Exemption withSource(JsonNullable<? extends ExemptionSourceEnum> source) {
+    public TransactionEmbeddedExemption withSource(JsonNullable<? extends ExemptionSourceEnum> source) {
         Utils.checkNotNull(source, "source");
         this.source = source;
         return this;
@@ -642,7 +654,7 @@ public class Exemption {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Exemption other = (Exemption) o;
+        TransactionEmbeddedExemption other = (TransactionEmbeddedExemption) o;
         return 
             Utils.enhancedDeepEquals(this.id, other.id) &&
             Utils.enhancedDeepEquals(this.createdAt, other.createdAt) &&
@@ -676,7 +688,7 @@ public class Exemption {
     
     @Override
     public String toString() {
-        return Utils.toString(Exemption.class,
+        return Utils.toString(TransactionEmbeddedExemption.class,
                 "id", id,
                 "createdAt", createdAt,
                 "updatedAt", updatedAt,
@@ -1039,12 +1051,12 @@ public class Exemption {
             return this;
         }
 
-        public Exemption build() {
+        public TransactionEmbeddedExemption build() {
             if (reseller == null) {
                 reseller = _SINGLETON_VALUE_Reseller.value();
             }
 
-            return new Exemption(
+            return new TransactionEmbeddedExemption(
                 id, createdAt, updatedAt,
                 exemptionType, jurisdiction, countryCode,
                 startDate, endDate, customerId,

@@ -76,6 +76,34 @@ public class RegistrationReadWithPassword {
     private JsonNullable<OffsetDateTime> deregistrationCompleted;
 
     /**
+     * Effective date the registration closes with the jurisdiction.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("deregistration_closure_date")
+    private JsonNullable<LocalDate> deregistrationClosureDate;
+
+    /**
+     * Reason the registration is being closed.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("deregistration_reason")
+    private JsonNullable<? extends DeregistrationReasonEnum> deregistrationReason;
+
+    /**
+     * When final-return acknowledgement was recorded.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("deregistration_acknowledged_at")
+    private JsonNullable<OffsetDateTime> deregistrationAcknowledgedAt;
+
+    /**
+     * User id that acknowledged a final return is still owed.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("deregistration_acknowledged_by")
+    private JsonNullable<String> deregistrationAcknowledgedBy;
+
+    /**
      * Indicates whether the registration was completed automatically.
      */
     @JsonInclude(Include.NON_ABSENT)
@@ -403,6 +431,10 @@ public class RegistrationReadWithPassword {
             @JsonProperty("registration_completed") JsonNullable<OffsetDateTime> registrationCompleted,
             @JsonProperty("deregistration_requested") JsonNullable<OffsetDateTime> deregistrationRequested,
             @JsonProperty("deregistration_completed") JsonNullable<OffsetDateTime> deregistrationCompleted,
+            @JsonProperty("deregistration_closure_date") JsonNullable<LocalDate> deregistrationClosureDate,
+            @JsonProperty("deregistration_reason") JsonNullable<? extends DeregistrationReasonEnum> deregistrationReason,
+            @JsonProperty("deregistration_acknowledged_at") JsonNullable<OffsetDateTime> deregistrationAcknowledgedAt,
+            @JsonProperty("deregistration_acknowledged_by") JsonNullable<String> deregistrationAcknowledgedBy,
             @JsonProperty("auto_registered") JsonNullable<Boolean> autoRegistered,
             @JsonProperty("registrations_regime") JsonNullable<? extends RegistrationsRegimeEnum> registrationsRegime,
             @JsonProperty("change_regime_status") JsonNullable<? extends ChangeRegimeStatusEnum> changeRegimeStatus,
@@ -455,6 +487,10 @@ public class RegistrationReadWithPassword {
         Utils.checkNotNull(registrationCompleted, "registrationCompleted");
         Utils.checkNotNull(deregistrationRequested, "deregistrationRequested");
         Utils.checkNotNull(deregistrationCompleted, "deregistrationCompleted");
+        Utils.checkNotNull(deregistrationClosureDate, "deregistrationClosureDate");
+        Utils.checkNotNull(deregistrationReason, "deregistrationReason");
+        Utils.checkNotNull(deregistrationAcknowledgedAt, "deregistrationAcknowledgedAt");
+        Utils.checkNotNull(deregistrationAcknowledgedBy, "deregistrationAcknowledgedBy");
         Utils.checkNotNull(autoRegistered, "autoRegistered");
         Utils.checkNotNull(registrationsRegime, "registrationsRegime");
         Utils.checkNotNull(changeRegimeStatus, "changeRegimeStatus");
@@ -507,6 +543,10 @@ public class RegistrationReadWithPassword {
         this.registrationCompleted = registrationCompleted;
         this.deregistrationRequested = deregistrationRequested;
         this.deregistrationCompleted = deregistrationCompleted;
+        this.deregistrationClosureDate = deregistrationClosureDate;
+        this.deregistrationReason = deregistrationReason;
+        this.deregistrationAcknowledgedAt = deregistrationAcknowledgedAt;
+        this.deregistrationAcknowledgedBy = deregistrationAcknowledgedBy;
         this.autoRegistered = autoRegistered;
         this.registrationsRegime = registrationsRegime;
         this.changeRegimeStatus = changeRegimeStatus;
@@ -567,21 +607,22 @@ public class RegistrationReadWithPassword {
         this(JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
-            JsonNullable.undefined(), Optional.empty(), JsonNullable.undefined(),
-            JsonNullable.undefined(), status, countryCode,
-            stateCode, stateName, filingFrequency,
-            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
-            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
-            JsonNullable.undefined(), Optional.empty(), Optional.empty(),
-            JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty(),
-            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty(),
-            JsonNullable.undefined(), JsonNullable.undefined(), id,
-            JsonNullable.undefined(), Optional.empty(), Optional.empty(),
+            JsonNullable.undefined(), JsonNullable.undefined(), status,
+            countryCode, stateCode, stateName,
+            filingFrequency, JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
-            Optional.empty(), filingDays, registrationType,
-            Optional.empty());
+            JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty(),
+            Optional.empty(), JsonNullable.undefined(), JsonNullable.undefined(),
+            Optional.empty(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
+            Optional.empty(), JsonNullable.undefined(), JsonNullable.undefined(),
+            id, JsonNullable.undefined(), Optional.empty(),
+            Optional.empty(), JsonNullable.undefined(), JsonNullable.undefined(),
+            JsonNullable.undefined(), Optional.empty(), filingDays,
+            registrationType, Optional.empty());
     }
 
     /**
@@ -630,6 +671,39 @@ public class RegistrationReadWithPassword {
     @JsonIgnore
     public JsonNullable<OffsetDateTime> deregistrationCompleted() {
         return deregistrationCompleted;
+    }
+
+    /**
+     * Effective date the registration closes with the jurisdiction.
+     */
+    @JsonIgnore
+    public JsonNullable<LocalDate> deregistrationClosureDate() {
+        return deregistrationClosureDate;
+    }
+
+    /**
+     * Reason the registration is being closed.
+     */
+    @SuppressWarnings("unchecked")
+    @JsonIgnore
+    public JsonNullable<DeregistrationReasonEnum> deregistrationReason() {
+        return (JsonNullable<DeregistrationReasonEnum>) deregistrationReason;
+    }
+
+    /**
+     * When final-return acknowledgement was recorded.
+     */
+    @JsonIgnore
+    public JsonNullable<OffsetDateTime> deregistrationAcknowledgedAt() {
+        return deregistrationAcknowledgedAt;
+    }
+
+    /**
+     * User id that acknowledged a final return is still owed.
+     */
+    @JsonIgnore
+    public JsonNullable<String> deregistrationAcknowledgedBy() {
+        return deregistrationAcknowledgedBy;
     }
 
     /**
@@ -1117,6 +1191,78 @@ public class RegistrationReadWithPassword {
     public RegistrationReadWithPassword withDeregistrationCompleted(JsonNullable<OffsetDateTime> deregistrationCompleted) {
         Utils.checkNotNull(deregistrationCompleted, "deregistrationCompleted");
         this.deregistrationCompleted = deregistrationCompleted;
+        return this;
+    }
+
+    /**
+     * Effective date the registration closes with the jurisdiction.
+     */
+    public RegistrationReadWithPassword withDeregistrationClosureDate(LocalDate deregistrationClosureDate) {
+        Utils.checkNotNull(deregistrationClosureDate, "deregistrationClosureDate");
+        this.deregistrationClosureDate = JsonNullable.of(deregistrationClosureDate);
+        return this;
+    }
+
+    /**
+     * Effective date the registration closes with the jurisdiction.
+     */
+    public RegistrationReadWithPassword withDeregistrationClosureDate(JsonNullable<LocalDate> deregistrationClosureDate) {
+        Utils.checkNotNull(deregistrationClosureDate, "deregistrationClosureDate");
+        this.deregistrationClosureDate = deregistrationClosureDate;
+        return this;
+    }
+
+    /**
+     * Reason the registration is being closed.
+     */
+    public RegistrationReadWithPassword withDeregistrationReason(DeregistrationReasonEnum deregistrationReason) {
+        Utils.checkNotNull(deregistrationReason, "deregistrationReason");
+        this.deregistrationReason = JsonNullable.of(deregistrationReason);
+        return this;
+    }
+
+    /**
+     * Reason the registration is being closed.
+     */
+    public RegistrationReadWithPassword withDeregistrationReason(JsonNullable<? extends DeregistrationReasonEnum> deregistrationReason) {
+        Utils.checkNotNull(deregistrationReason, "deregistrationReason");
+        this.deregistrationReason = deregistrationReason;
+        return this;
+    }
+
+    /**
+     * When final-return acknowledgement was recorded.
+     */
+    public RegistrationReadWithPassword withDeregistrationAcknowledgedAt(OffsetDateTime deregistrationAcknowledgedAt) {
+        Utils.checkNotNull(deregistrationAcknowledgedAt, "deregistrationAcknowledgedAt");
+        this.deregistrationAcknowledgedAt = JsonNullable.of(deregistrationAcknowledgedAt);
+        return this;
+    }
+
+    /**
+     * When final-return acknowledgement was recorded.
+     */
+    public RegistrationReadWithPassword withDeregistrationAcknowledgedAt(JsonNullable<OffsetDateTime> deregistrationAcknowledgedAt) {
+        Utils.checkNotNull(deregistrationAcknowledgedAt, "deregistrationAcknowledgedAt");
+        this.deregistrationAcknowledgedAt = deregistrationAcknowledgedAt;
+        return this;
+    }
+
+    /**
+     * User id that acknowledged a final return is still owed.
+     */
+    public RegistrationReadWithPassword withDeregistrationAcknowledgedBy(String deregistrationAcknowledgedBy) {
+        Utils.checkNotNull(deregistrationAcknowledgedBy, "deregistrationAcknowledgedBy");
+        this.deregistrationAcknowledgedBy = JsonNullable.of(deregistrationAcknowledgedBy);
+        return this;
+    }
+
+    /**
+     * User id that acknowledged a final return is still owed.
+     */
+    public RegistrationReadWithPassword withDeregistrationAcknowledgedBy(JsonNullable<String> deregistrationAcknowledgedBy) {
+        Utils.checkNotNull(deregistrationAcknowledgedBy, "deregistrationAcknowledgedBy");
+        this.deregistrationAcknowledgedBy = deregistrationAcknowledgedBy;
         return this;
     }
 
@@ -1912,6 +2058,10 @@ public class RegistrationReadWithPassword {
             Utils.enhancedDeepEquals(this.registrationCompleted, other.registrationCompleted) &&
             Utils.enhancedDeepEquals(this.deregistrationRequested, other.deregistrationRequested) &&
             Utils.enhancedDeepEquals(this.deregistrationCompleted, other.deregistrationCompleted) &&
+            Utils.enhancedDeepEquals(this.deregistrationClosureDate, other.deregistrationClosureDate) &&
+            Utils.enhancedDeepEquals(this.deregistrationReason, other.deregistrationReason) &&
+            Utils.enhancedDeepEquals(this.deregistrationAcknowledgedAt, other.deregistrationAcknowledgedAt) &&
+            Utils.enhancedDeepEquals(this.deregistrationAcknowledgedBy, other.deregistrationAcknowledgedBy) &&
             Utils.enhancedDeepEquals(this.autoRegistered, other.autoRegistered) &&
             Utils.enhancedDeepEquals(this.registrationsRegime, other.registrationsRegime) &&
             Utils.enhancedDeepEquals(this.changeRegimeStatus, other.changeRegimeStatus) &&
@@ -1965,22 +2115,23 @@ public class RegistrationReadWithPassword {
         return Utils.enhancedHash(
             registrationDate, registrationEmail, registrationRequested,
             registrationCompleted, deregistrationRequested, deregistrationCompleted,
-            autoRegistered, registrationsRegime, changeRegimeStatus,
-            thirdPartyEnabled, doNotFile, twoFactorEnabled,
-            markedCollecting, status, countryCode,
-            stateCode, stateName, filingFrequency,
-            initialFilingFrequency, scheduledFilingFrequency, filingFrequencyEffectiveDate,
-            periodEndMonth, username, comment,
-            createFilingsFrom, createBackFiling, retailDeliveryFeeObligated,
-            retailDeliveryFeeEffectiveFrom, initialSync, amountFees,
-            vda, imported, salesTaxId,
-            iorNumber, iorDate, sstImport,
-            ossType, ossMemberStateOfIdentificationCode, taxType,
-            markedCollectingDate, needsMarkAsCollecting, id,
-            createdAt, creditsTotalAvailable, registrationCategory,
-            jurisdictionSpecificFields, passwordEncrypted, pinEncrypted,
-            hasAllCredentials, filingDays, registrationType,
-            filingWebsiteUrl);
+            deregistrationClosureDate, deregistrationReason, deregistrationAcknowledgedAt,
+            deregistrationAcknowledgedBy, autoRegistered, registrationsRegime,
+            changeRegimeStatus, thirdPartyEnabled, doNotFile,
+            twoFactorEnabled, markedCollecting, status,
+            countryCode, stateCode, stateName,
+            filingFrequency, initialFilingFrequency, scheduledFilingFrequency,
+            filingFrequencyEffectiveDate, periodEndMonth, username,
+            comment, createFilingsFrom, createBackFiling,
+            retailDeliveryFeeObligated, retailDeliveryFeeEffectiveFrom, initialSync,
+            amountFees, vda, imported,
+            salesTaxId, iorNumber, iorDate,
+            sstImport, ossType, ossMemberStateOfIdentificationCode,
+            taxType, markedCollectingDate, needsMarkAsCollecting,
+            id, createdAt, creditsTotalAvailable,
+            registrationCategory, jurisdictionSpecificFields, passwordEncrypted,
+            pinEncrypted, hasAllCredentials, filingDays,
+            registrationType, filingWebsiteUrl);
     }
     
     @Override
@@ -1992,6 +2143,10 @@ public class RegistrationReadWithPassword {
                 "registrationCompleted", registrationCompleted,
                 "deregistrationRequested", deregistrationRequested,
                 "deregistrationCompleted", deregistrationCompleted,
+                "deregistrationClosureDate", deregistrationClosureDate,
+                "deregistrationReason", deregistrationReason,
+                "deregistrationAcknowledgedAt", deregistrationAcknowledgedAt,
+                "deregistrationAcknowledgedBy", deregistrationAcknowledgedBy,
                 "autoRegistered", autoRegistered,
                 "registrationsRegime", registrationsRegime,
                 "changeRegimeStatus", changeRegimeStatus,
@@ -2054,6 +2209,14 @@ public class RegistrationReadWithPassword {
         private JsonNullable<OffsetDateTime> deregistrationRequested = JsonNullable.undefined();
 
         private JsonNullable<OffsetDateTime> deregistrationCompleted = JsonNullable.undefined();
+
+        private JsonNullable<LocalDate> deregistrationClosureDate = JsonNullable.undefined();
+
+        private JsonNullable<? extends DeregistrationReasonEnum> deregistrationReason = JsonNullable.undefined();
+
+        private JsonNullable<OffsetDateTime> deregistrationAcknowledgedAt = JsonNullable.undefined();
+
+        private JsonNullable<String> deregistrationAcknowledgedBy = JsonNullable.undefined();
 
         private JsonNullable<Boolean> autoRegistered = JsonNullable.undefined();
 
@@ -2262,6 +2425,82 @@ public class RegistrationReadWithPassword {
         public Builder deregistrationCompleted(JsonNullable<OffsetDateTime> deregistrationCompleted) {
             Utils.checkNotNull(deregistrationCompleted, "deregistrationCompleted");
             this.deregistrationCompleted = deregistrationCompleted;
+            return this;
+        }
+
+
+        /**
+         * Effective date the registration closes with the jurisdiction.
+         */
+        public Builder deregistrationClosureDate(LocalDate deregistrationClosureDate) {
+            Utils.checkNotNull(deregistrationClosureDate, "deregistrationClosureDate");
+            this.deregistrationClosureDate = JsonNullable.of(deregistrationClosureDate);
+            return this;
+        }
+
+        /**
+         * Effective date the registration closes with the jurisdiction.
+         */
+        public Builder deregistrationClosureDate(JsonNullable<LocalDate> deregistrationClosureDate) {
+            Utils.checkNotNull(deregistrationClosureDate, "deregistrationClosureDate");
+            this.deregistrationClosureDate = deregistrationClosureDate;
+            return this;
+        }
+
+
+        /**
+         * Reason the registration is being closed.
+         */
+        public Builder deregistrationReason(DeregistrationReasonEnum deregistrationReason) {
+            Utils.checkNotNull(deregistrationReason, "deregistrationReason");
+            this.deregistrationReason = JsonNullable.of(deregistrationReason);
+            return this;
+        }
+
+        /**
+         * Reason the registration is being closed.
+         */
+        public Builder deregistrationReason(JsonNullable<? extends DeregistrationReasonEnum> deregistrationReason) {
+            Utils.checkNotNull(deregistrationReason, "deregistrationReason");
+            this.deregistrationReason = deregistrationReason;
+            return this;
+        }
+
+
+        /**
+         * When final-return acknowledgement was recorded.
+         */
+        public Builder deregistrationAcknowledgedAt(OffsetDateTime deregistrationAcknowledgedAt) {
+            Utils.checkNotNull(deregistrationAcknowledgedAt, "deregistrationAcknowledgedAt");
+            this.deregistrationAcknowledgedAt = JsonNullable.of(deregistrationAcknowledgedAt);
+            return this;
+        }
+
+        /**
+         * When final-return acknowledgement was recorded.
+         */
+        public Builder deregistrationAcknowledgedAt(JsonNullable<OffsetDateTime> deregistrationAcknowledgedAt) {
+            Utils.checkNotNull(deregistrationAcknowledgedAt, "deregistrationAcknowledgedAt");
+            this.deregistrationAcknowledgedAt = deregistrationAcknowledgedAt;
+            return this;
+        }
+
+
+        /**
+         * User id that acknowledged a final return is still owed.
+         */
+        public Builder deregistrationAcknowledgedBy(String deregistrationAcknowledgedBy) {
+            Utils.checkNotNull(deregistrationAcknowledgedBy, "deregistrationAcknowledgedBy");
+            this.deregistrationAcknowledgedBy = JsonNullable.of(deregistrationAcknowledgedBy);
+            return this;
+        }
+
+        /**
+         * User id that acknowledged a final return is still owed.
+         */
+        public Builder deregistrationAcknowledgedBy(JsonNullable<String> deregistrationAcknowledgedBy) {
+            Utils.checkNotNull(deregistrationAcknowledgedBy, "deregistrationAcknowledgedBy");
+            this.deregistrationAcknowledgedBy = deregistrationAcknowledgedBy;
             return this;
         }
 
@@ -3101,22 +3340,23 @@ public class RegistrationReadWithPassword {
             return new RegistrationReadWithPassword(
                 registrationDate, registrationEmail, registrationRequested,
                 registrationCompleted, deregistrationRequested, deregistrationCompleted,
-                autoRegistered, registrationsRegime, changeRegimeStatus,
-                thirdPartyEnabled, doNotFile, twoFactorEnabled,
-                markedCollecting, status, countryCode,
-                stateCode, stateName, filingFrequency,
-                initialFilingFrequency, scheduledFilingFrequency, filingFrequencyEffectiveDate,
-                periodEndMonth, username, comment,
-                createFilingsFrom, createBackFiling, retailDeliveryFeeObligated,
-                retailDeliveryFeeEffectiveFrom, initialSync, amountFees,
-                vda, imported, salesTaxId,
-                iorNumber, iorDate, sstImport,
-                ossType, ossMemberStateOfIdentificationCode, taxType,
-                markedCollectingDate, needsMarkAsCollecting, id,
-                createdAt, creditsTotalAvailable, registrationCategory,
-                jurisdictionSpecificFields, passwordEncrypted, pinEncrypted,
-                hasAllCredentials, filingDays, registrationType,
-                filingWebsiteUrl);
+                deregistrationClosureDate, deregistrationReason, deregistrationAcknowledgedAt,
+                deregistrationAcknowledgedBy, autoRegistered, registrationsRegime,
+                changeRegimeStatus, thirdPartyEnabled, doNotFile,
+                twoFactorEnabled, markedCollecting, status,
+                countryCode, stateCode, stateName,
+                filingFrequency, initialFilingFrequency, scheduledFilingFrequency,
+                filingFrequencyEffectiveDate, periodEndMonth, username,
+                comment, createFilingsFrom, createBackFiling,
+                retailDeliveryFeeObligated, retailDeliveryFeeEffectiveFrom, initialSync,
+                amountFees, vda, imported,
+                salesTaxId, iorNumber, iorDate,
+                sstImport, ossType, ossMemberStateOfIdentificationCode,
+                taxType, markedCollectingDate, needsMarkAsCollecting,
+                id, createdAt, creditsTotalAvailable,
+                registrationCategory, jurisdictionSpecificFields, passwordEncrypted,
+                pinEncrypted, hasAllCredentials, filingDays,
+                registrationType, filingWebsiteUrl);
         }
 
 

@@ -357,6 +357,27 @@ public class RegistrationReadWithPassword {
     private JsonNullable<? extends Map<String, Object>> jurisdictionSpecificFields;
 
     /**
+     * Effective date the registration closes with the jurisdiction.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("deregistration_closure_date")
+    private JsonNullable<LocalDate> deregistrationClosureDate;
+
+    /**
+     * Reason the registration is being closed.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("deregistration_reason")
+    private JsonNullable<? extends DeregistrationReasonEnum> deregistrationReason;
+
+    /**
+     * When final-return acknowledgement was recorded.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("deregistration_acknowledged_at")
+    private JsonNullable<OffsetDateTime> deregistrationAcknowledgedAt;
+
+    /**
      * Encrypted password for accessing the registration,
      * if applicable.
      */
@@ -443,6 +464,9 @@ public class RegistrationReadWithPassword {
             @JsonProperty("credits_total_available") Optional<String> creditsTotalAvailable,
             @JsonProperty("registration_category") Optional<? extends RegistrationCategoryEnum> registrationCategory,
             @JsonProperty("jurisdiction_specific_fields") JsonNullable<? extends Map<String, Object>> jurisdictionSpecificFields,
+            @JsonProperty("deregistration_closure_date") JsonNullable<LocalDate> deregistrationClosureDate,
+            @JsonProperty("deregistration_reason") JsonNullable<? extends DeregistrationReasonEnum> deregistrationReason,
+            @JsonProperty("deregistration_acknowledged_at") JsonNullable<OffsetDateTime> deregistrationAcknowledgedAt,
             @JsonProperty("password_encrypted") JsonNullable<String> passwordEncrypted,
             @JsonProperty("pin_encrypted") JsonNullable<String> pinEncrypted,
             @JsonProperty("has_all_credentials") Optional<Boolean> hasAllCredentials,
@@ -495,6 +519,9 @@ public class RegistrationReadWithPassword {
         Utils.checkNotNull(creditsTotalAvailable, "creditsTotalAvailable");
         Utils.checkNotNull(registrationCategory, "registrationCategory");
         Utils.checkNotNull(jurisdictionSpecificFields, "jurisdictionSpecificFields");
+        Utils.checkNotNull(deregistrationClosureDate, "deregistrationClosureDate");
+        Utils.checkNotNull(deregistrationReason, "deregistrationReason");
+        Utils.checkNotNull(deregistrationAcknowledgedAt, "deregistrationAcknowledgedAt");
         Utils.checkNotNull(passwordEncrypted, "passwordEncrypted");
         Utils.checkNotNull(pinEncrypted, "pinEncrypted");
         Utils.checkNotNull(hasAllCredentials, "hasAllCredentials");
@@ -547,6 +574,9 @@ public class RegistrationReadWithPassword {
         this.creditsTotalAvailable = creditsTotalAvailable;
         this.registrationCategory = registrationCategory;
         this.jurisdictionSpecificFields = jurisdictionSpecificFields;
+        this.deregistrationClosureDate = deregistrationClosureDate;
+        this.deregistrationReason = deregistrationReason;
+        this.deregistrationAcknowledgedAt = deregistrationAcknowledgedAt;
         this.passwordEncrypted = passwordEncrypted;
         this.pinEncrypted = pinEncrypted;
         this.hasAllCredentials = hasAllCredentials;
@@ -579,6 +609,7 @@ public class RegistrationReadWithPassword {
             JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty(),
             JsonNullable.undefined(), JsonNullable.undefined(), id,
             JsonNullable.undefined(), Optional.empty(), Optional.empty(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
             Optional.empty(), filingDays, registrationType,
             Optional.empty());
@@ -960,6 +991,31 @@ public class RegistrationReadWithPassword {
     @JsonIgnore
     public JsonNullable<Map<String, Object>> jurisdictionSpecificFields() {
         return (JsonNullable<Map<String, Object>>) jurisdictionSpecificFields;
+    }
+
+    /**
+     * Effective date the registration closes with the jurisdiction.
+     */
+    @JsonIgnore
+    public JsonNullable<LocalDate> deregistrationClosureDate() {
+        return deregistrationClosureDate;
+    }
+
+    /**
+     * Reason the registration is being closed.
+     */
+    @SuppressWarnings("unchecked")
+    @JsonIgnore
+    public JsonNullable<DeregistrationReasonEnum> deregistrationReason() {
+        return (JsonNullable<DeregistrationReasonEnum>) deregistrationReason;
+    }
+
+    /**
+     * When final-return acknowledgement was recorded.
+     */
+    @JsonIgnore
+    public JsonNullable<OffsetDateTime> deregistrationAcknowledgedAt() {
+        return deregistrationAcknowledgedAt;
     }
 
     /**
@@ -1805,6 +1861,60 @@ public class RegistrationReadWithPassword {
     }
 
     /**
+     * Effective date the registration closes with the jurisdiction.
+     */
+    public RegistrationReadWithPassword withDeregistrationClosureDate(LocalDate deregistrationClosureDate) {
+        Utils.checkNotNull(deregistrationClosureDate, "deregistrationClosureDate");
+        this.deregistrationClosureDate = JsonNullable.of(deregistrationClosureDate);
+        return this;
+    }
+
+    /**
+     * Effective date the registration closes with the jurisdiction.
+     */
+    public RegistrationReadWithPassword withDeregistrationClosureDate(JsonNullable<LocalDate> deregistrationClosureDate) {
+        Utils.checkNotNull(deregistrationClosureDate, "deregistrationClosureDate");
+        this.deregistrationClosureDate = deregistrationClosureDate;
+        return this;
+    }
+
+    /**
+     * Reason the registration is being closed.
+     */
+    public RegistrationReadWithPassword withDeregistrationReason(DeregistrationReasonEnum deregistrationReason) {
+        Utils.checkNotNull(deregistrationReason, "deregistrationReason");
+        this.deregistrationReason = JsonNullable.of(deregistrationReason);
+        return this;
+    }
+
+    /**
+     * Reason the registration is being closed.
+     */
+    public RegistrationReadWithPassword withDeregistrationReason(JsonNullable<? extends DeregistrationReasonEnum> deregistrationReason) {
+        Utils.checkNotNull(deregistrationReason, "deregistrationReason");
+        this.deregistrationReason = deregistrationReason;
+        return this;
+    }
+
+    /**
+     * When final-return acknowledgement was recorded.
+     */
+    public RegistrationReadWithPassword withDeregistrationAcknowledgedAt(OffsetDateTime deregistrationAcknowledgedAt) {
+        Utils.checkNotNull(deregistrationAcknowledgedAt, "deregistrationAcknowledgedAt");
+        this.deregistrationAcknowledgedAt = JsonNullable.of(deregistrationAcknowledgedAt);
+        return this;
+    }
+
+    /**
+     * When final-return acknowledgement was recorded.
+     */
+    public RegistrationReadWithPassword withDeregistrationAcknowledgedAt(JsonNullable<OffsetDateTime> deregistrationAcknowledgedAt) {
+        Utils.checkNotNull(deregistrationAcknowledgedAt, "deregistrationAcknowledgedAt");
+        this.deregistrationAcknowledgedAt = deregistrationAcknowledgedAt;
+        return this;
+    }
+
+    /**
      * Encrypted password for accessing the registration,
      * if applicable.
      */
@@ -1952,6 +2062,9 @@ public class RegistrationReadWithPassword {
             Utils.enhancedDeepEquals(this.creditsTotalAvailable, other.creditsTotalAvailable) &&
             Utils.enhancedDeepEquals(this.registrationCategory, other.registrationCategory) &&
             Utils.enhancedDeepEquals(this.jurisdictionSpecificFields, other.jurisdictionSpecificFields) &&
+            Utils.enhancedDeepEquals(this.deregistrationClosureDate, other.deregistrationClosureDate) &&
+            Utils.enhancedDeepEquals(this.deregistrationReason, other.deregistrationReason) &&
+            Utils.enhancedDeepEquals(this.deregistrationAcknowledgedAt, other.deregistrationAcknowledgedAt) &&
             Utils.enhancedDeepEquals(this.passwordEncrypted, other.passwordEncrypted) &&
             Utils.enhancedDeepEquals(this.pinEncrypted, other.pinEncrypted) &&
             Utils.enhancedDeepEquals(this.hasAllCredentials, other.hasAllCredentials) &&
@@ -1978,7 +2091,8 @@ public class RegistrationReadWithPassword {
             ossType, ossMemberStateOfIdentificationCode, taxType,
             markedCollectingDate, needsMarkAsCollecting, id,
             createdAt, creditsTotalAvailable, registrationCategory,
-            jurisdictionSpecificFields, passwordEncrypted, pinEncrypted,
+            jurisdictionSpecificFields, deregistrationClosureDate, deregistrationReason,
+            deregistrationAcknowledgedAt, passwordEncrypted, pinEncrypted,
             hasAllCredentials, filingDays, registrationType,
             filingWebsiteUrl);
     }
@@ -2032,6 +2146,9 @@ public class RegistrationReadWithPassword {
                 "creditsTotalAvailable", creditsTotalAvailable,
                 "registrationCategory", registrationCategory,
                 "jurisdictionSpecificFields", jurisdictionSpecificFields,
+                "deregistrationClosureDate", deregistrationClosureDate,
+                "deregistrationReason", deregistrationReason,
+                "deregistrationAcknowledgedAt", deregistrationAcknowledgedAt,
                 "passwordEncrypted", passwordEncrypted,
                 "pinEncrypted", pinEncrypted,
                 "hasAllCredentials", hasAllCredentials,
@@ -2134,6 +2251,12 @@ public class RegistrationReadWithPassword {
         private Optional<? extends RegistrationCategoryEnum> registrationCategory = Optional.empty();
 
         private JsonNullable<? extends Map<String, Object>> jurisdictionSpecificFields = JsonNullable.undefined();
+
+        private JsonNullable<LocalDate> deregistrationClosureDate = JsonNullable.undefined();
+
+        private JsonNullable<? extends DeregistrationReasonEnum> deregistrationReason = JsonNullable.undefined();
+
+        private JsonNullable<OffsetDateTime> deregistrationAcknowledgedAt = JsonNullable.undefined();
 
         private JsonNullable<String> passwordEncrypted = JsonNullable.undefined();
 
@@ -2984,6 +3107,63 @@ public class RegistrationReadWithPassword {
 
 
         /**
+         * Effective date the registration closes with the jurisdiction.
+         */
+        public Builder deregistrationClosureDate(LocalDate deregistrationClosureDate) {
+            Utils.checkNotNull(deregistrationClosureDate, "deregistrationClosureDate");
+            this.deregistrationClosureDate = JsonNullable.of(deregistrationClosureDate);
+            return this;
+        }
+
+        /**
+         * Effective date the registration closes with the jurisdiction.
+         */
+        public Builder deregistrationClosureDate(JsonNullable<LocalDate> deregistrationClosureDate) {
+            Utils.checkNotNull(deregistrationClosureDate, "deregistrationClosureDate");
+            this.deregistrationClosureDate = deregistrationClosureDate;
+            return this;
+        }
+
+
+        /**
+         * Reason the registration is being closed.
+         */
+        public Builder deregistrationReason(DeregistrationReasonEnum deregistrationReason) {
+            Utils.checkNotNull(deregistrationReason, "deregistrationReason");
+            this.deregistrationReason = JsonNullable.of(deregistrationReason);
+            return this;
+        }
+
+        /**
+         * Reason the registration is being closed.
+         */
+        public Builder deregistrationReason(JsonNullable<? extends DeregistrationReasonEnum> deregistrationReason) {
+            Utils.checkNotNull(deregistrationReason, "deregistrationReason");
+            this.deregistrationReason = deregistrationReason;
+            return this;
+        }
+
+
+        /**
+         * When final-return acknowledgement was recorded.
+         */
+        public Builder deregistrationAcknowledgedAt(OffsetDateTime deregistrationAcknowledgedAt) {
+            Utils.checkNotNull(deregistrationAcknowledgedAt, "deregistrationAcknowledgedAt");
+            this.deregistrationAcknowledgedAt = JsonNullable.of(deregistrationAcknowledgedAt);
+            return this;
+        }
+
+        /**
+         * When final-return acknowledgement was recorded.
+         */
+        public Builder deregistrationAcknowledgedAt(JsonNullable<OffsetDateTime> deregistrationAcknowledgedAt) {
+            Utils.checkNotNull(deregistrationAcknowledgedAt, "deregistrationAcknowledgedAt");
+            this.deregistrationAcknowledgedAt = deregistrationAcknowledgedAt;
+            return this;
+        }
+
+
+        /**
          * Encrypted password for accessing the registration,
          * if applicable.
          */
@@ -3114,7 +3294,8 @@ public class RegistrationReadWithPassword {
                 ossType, ossMemberStateOfIdentificationCode, taxType,
                 markedCollectingDate, needsMarkAsCollecting, id,
                 createdAt, creditsTotalAvailable, registrationCategory,
-                jurisdictionSpecificFields, passwordEncrypted, pinEncrypted,
+                jurisdictionSpecificFields, deregistrationClosureDate, deregistrationReason,
+                deregistrationAcknowledgedAt, passwordEncrypted, pinEncrypted,
                 hasAllCredentials, filingDays, registrationType,
                 filingWebsiteUrl);
         }

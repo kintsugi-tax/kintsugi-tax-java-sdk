@@ -114,7 +114,7 @@ public class TransactionCreate {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("exemptions")
-    private JsonNullable<? extends List<Exemption>> exemptions;
+    private JsonNullable<? extends List<TransactionEmbeddedExemption>> exemptions;
 
     /**
      * Related transaction identifier.
@@ -193,7 +193,9 @@ public class TransactionCreate {
     @JsonProperty("taxable_amount")
     private Optional<? extends TransactionCreateTaxableAmount> taxableAmount;
 
-
+    /**
+     * ISO-4217 currency code. Pair with a monetary amount on the same object.
+     */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("currency")
     private Optional<? extends CurrencyEnum> currency;
@@ -397,7 +399,7 @@ public class TransactionCreate {
             @JsonProperty("customer_id") JsonNullable<String> customerId,
             @JsonProperty("marketplace") JsonNullable<Boolean> marketplace,
             @JsonProperty("exempt") JsonNullable<? extends TransactionExemptStatusEnum> exempt,
-            @JsonProperty("exemptions") JsonNullable<? extends List<Exemption>> exemptions,
+            @JsonProperty("exemptions") JsonNullable<? extends List<TransactionEmbeddedExemption>> exemptions,
             @JsonProperty("related_to") JsonNullable<String> relatedTo,
             @JsonProperty("secondary_external_id") JsonNullable<String> secondaryExternalId,
             @JsonProperty("secondary_source") JsonNullable<String> secondarySource,
@@ -681,8 +683,8 @@ public class TransactionCreate {
      */
     @SuppressWarnings("unchecked")
     @JsonIgnore
-    public JsonNullable<List<Exemption>> exemptions() {
-        return (JsonNullable<List<Exemption>>) exemptions;
+    public JsonNullable<List<TransactionEmbeddedExemption>> exemptions() {
+        return (JsonNullable<List<TransactionEmbeddedExemption>>) exemptions;
     }
 
     /**
@@ -780,6 +782,9 @@ public class TransactionCreate {
         return (Optional<TransactionCreateTaxableAmount>) taxableAmount;
     }
 
+    /**
+     * ISO-4217 currency code. Pair with a monetary amount on the same object.
+     */
     @SuppressWarnings("unchecked")
     @JsonIgnore
     public Optional<CurrencyEnum> currency() {
@@ -1212,7 +1217,7 @@ public class TransactionCreate {
     /**
      * List of exemptions applied (if any).
      */
-    public TransactionCreate withExemptions(List<Exemption> exemptions) {
+    public TransactionCreate withExemptions(List<TransactionEmbeddedExemption> exemptions) {
         Utils.checkNotNull(exemptions, "exemptions");
         this.exemptions = JsonNullable.of(exemptions);
         return this;
@@ -1221,7 +1226,7 @@ public class TransactionCreate {
     /**
      * List of exemptions applied (if any).
      */
-    public TransactionCreate withExemptions(JsonNullable<? extends List<Exemption>> exemptions) {
+    public TransactionCreate withExemptions(JsonNullable<? extends List<TransactionEmbeddedExemption>> exemptions) {
         Utils.checkNotNull(exemptions, "exemptions");
         this.exemptions = exemptions;
         return this;
@@ -1431,6 +1436,9 @@ public class TransactionCreate {
         return this;
     }
 
+    /**
+     * ISO-4217 currency code. Pair with a monetary amount on the same object.
+     */
     public TransactionCreate withCurrency(CurrencyEnum currency) {
         Utils.checkNotNull(currency, "currency");
         this.currency = Optional.ofNullable(currency);
@@ -1438,6 +1446,9 @@ public class TransactionCreate {
     }
 
 
+    /**
+     * ISO-4217 currency code. Pair with a monetary amount on the same object.
+     */
     public TransactionCreate withCurrency(Optional<? extends CurrencyEnum> currency) {
         Utils.checkNotNull(currency, "currency");
         this.currency = currency;
@@ -2084,7 +2095,7 @@ public class TransactionCreate {
 
         private JsonNullable<? extends TransactionExemptStatusEnum> exempt = JsonNullable.undefined();
 
-        private JsonNullable<? extends List<Exemption>> exemptions = JsonNullable.undefined();
+        private JsonNullable<? extends List<TransactionEmbeddedExemption>> exemptions = JsonNullable.undefined();
 
         private JsonNullable<String> relatedTo = JsonNullable.undefined();
 
@@ -2380,7 +2391,7 @@ public class TransactionCreate {
         /**
          * List of exemptions applied (if any).
          */
-        public Builder exemptions(List<Exemption> exemptions) {
+        public Builder exemptions(List<TransactionEmbeddedExemption> exemptions) {
             Utils.checkNotNull(exemptions, "exemptions");
             this.exemptions = JsonNullable.of(exemptions);
             return this;
@@ -2389,7 +2400,7 @@ public class TransactionCreate {
         /**
          * List of exemptions applied (if any).
          */
-        public Builder exemptions(JsonNullable<? extends List<Exemption>> exemptions) {
+        public Builder exemptions(JsonNullable<? extends List<TransactionEmbeddedExemption>> exemptions) {
             Utils.checkNotNull(exemptions, "exemptions");
             this.exemptions = exemptions;
             return this;
@@ -2605,12 +2616,18 @@ public class TransactionCreate {
         }
 
 
+        /**
+         * ISO-4217 currency code. Pair with a monetary amount on the same object.
+         */
         public Builder currency(CurrencyEnum currency) {
             Utils.checkNotNull(currency, "currency");
             this.currency = Optional.ofNullable(currency);
             return this;
         }
 
+        /**
+         * ISO-4217 currency code. Pair with a monetary amount on the same object.
+         */
         public Builder currency(Optional<? extends CurrencyEnum> currency) {
             Utils.checkNotNull(currency, "currency");
             this.currency = currency;

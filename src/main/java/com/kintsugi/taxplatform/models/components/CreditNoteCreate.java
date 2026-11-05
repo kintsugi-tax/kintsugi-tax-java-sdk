@@ -93,7 +93,9 @@ public class CreditNoteCreate {
     @JsonProperty("taxable_amount")
     private JsonNullable<? extends CreditNoteCreateTaxableAmount> taxableAmount;
 
-
+    /**
+     * ISO-4217 currency code. Pair with a monetary amount on the same object.
+     */
     @JsonProperty("currency")
     private CurrencyEnum currency;
 
@@ -263,6 +265,9 @@ public class CreditNoteCreate {
         return (JsonNullable<CreditNoteCreateTaxableAmount>) taxableAmount;
     }
 
+    /**
+     * ISO-4217 currency code. Pair with a monetary amount on the same object.
+     */
     @JsonIgnore
     public CurrencyEnum currency() {
         return currency;
@@ -455,6 +460,9 @@ public class CreditNoteCreate {
         return this;
     }
 
+    /**
+     * ISO-4217 currency code. Pair with a monetary amount on the same object.
+     */
     public CreditNoteCreate withCurrency(CurrencyEnum currency) {
         Utils.checkNotNull(currency, "currency");
         this.currency = currency;
@@ -756,6 +764,9 @@ public class CreditNoteCreate {
         }
 
 
+        /**
+         * ISO-4217 currency code. Pair with a monetary amount on the same object.
+         */
         public Builder currency(CurrencyEnum currency) {
             Utils.checkNotNull(currency, "currency");
             this.currency = currency;

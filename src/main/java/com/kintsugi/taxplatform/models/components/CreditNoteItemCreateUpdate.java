@@ -91,6 +91,13 @@ public class CreditNoteItemCreateUpdate {
     @JsonProperty("tax_items")
     private Optional<? extends List<TaxItemBuilder>> taxItems;
 
+    /**
+     * Line-level discount for this credit note item, if any.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("discount_builder")
+    private JsonNullable<? extends DiscountBuilder> discountBuilder;
+
     @JsonCreator
     public CreditNoteItemCreateUpdate(
             @JsonProperty("external_id") String externalId,
@@ -103,7 +110,8 @@ public class CreditNoteItemCreateUpdate {
             @JsonProperty("tax_rate_imported") JsonNullable<? extends CreditNoteItemCreateUpdateTaxRateImported> taxRateImported,
             @JsonProperty("taxable_amount") JsonNullable<? extends CreditNoteItemCreateUpdateTaxableAmount> taxableAmount,
             @JsonProperty("tax_exemption") JsonNullable<? extends TaxExemptionEnum> taxExemption,
-            @JsonProperty("tax_items") Optional<? extends List<TaxItemBuilder>> taxItems) {
+            @JsonProperty("tax_items") Optional<? extends List<TaxItemBuilder>> taxItems,
+            @JsonProperty("discount_builder") JsonNullable<? extends DiscountBuilder> discountBuilder) {
         Utils.checkNotNull(externalId, "externalId");
         Utils.checkNotNull(date, "date");
         Utils.checkNotNull(description, "description");
@@ -115,6 +123,7 @@ public class CreditNoteItemCreateUpdate {
         Utils.checkNotNull(taxableAmount, "taxableAmount");
         Utils.checkNotNull(taxExemption, "taxExemption");
         Utils.checkNotNull(taxItems, "taxItems");
+        Utils.checkNotNull(discountBuilder, "discountBuilder");
         this.externalId = externalId;
         this.date = date;
         this.description = description;
@@ -126,6 +135,7 @@ public class CreditNoteItemCreateUpdate {
         this.taxableAmount = taxableAmount;
         this.taxExemption = taxExemption;
         this.taxItems = taxItems;
+        this.discountBuilder = discountBuilder;
     }
     
     public CreditNoteItemCreateUpdate(
@@ -137,7 +147,7 @@ public class CreditNoteItemCreateUpdate {
         this(externalId, date, JsonNullable.undefined(),
             externalProductId, quantity, amount,
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
-            JsonNullable.undefined(), Optional.empty());
+            JsonNullable.undefined(), Optional.empty(), JsonNullable.undefined());
     }
 
     /**
@@ -231,6 +241,15 @@ public class CreditNoteItemCreateUpdate {
     @JsonIgnore
     public Optional<List<TaxItemBuilder>> taxItems() {
         return (Optional<List<TaxItemBuilder>>) taxItems;
+    }
+
+    /**
+     * Line-level discount for this credit note item, if any.
+     */
+    @SuppressWarnings("unchecked")
+    @JsonIgnore
+    public JsonNullable<DiscountBuilder> discountBuilder() {
+        return (JsonNullable<DiscountBuilder>) discountBuilder;
     }
 
     public static Builder builder() {
@@ -392,6 +411,24 @@ public class CreditNoteItemCreateUpdate {
         return this;
     }
 
+    /**
+     * Line-level discount for this credit note item, if any.
+     */
+    public CreditNoteItemCreateUpdate withDiscountBuilder(DiscountBuilder discountBuilder) {
+        Utils.checkNotNull(discountBuilder, "discountBuilder");
+        this.discountBuilder = JsonNullable.of(discountBuilder);
+        return this;
+    }
+
+    /**
+     * Line-level discount for this credit note item, if any.
+     */
+    public CreditNoteItemCreateUpdate withDiscountBuilder(JsonNullable<? extends DiscountBuilder> discountBuilder) {
+        Utils.checkNotNull(discountBuilder, "discountBuilder");
+        this.discountBuilder = discountBuilder;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -412,7 +449,8 @@ public class CreditNoteItemCreateUpdate {
             Utils.enhancedDeepEquals(this.taxRateImported, other.taxRateImported) &&
             Utils.enhancedDeepEquals(this.taxableAmount, other.taxableAmount) &&
             Utils.enhancedDeepEquals(this.taxExemption, other.taxExemption) &&
-            Utils.enhancedDeepEquals(this.taxItems, other.taxItems);
+            Utils.enhancedDeepEquals(this.taxItems, other.taxItems) &&
+            Utils.enhancedDeepEquals(this.discountBuilder, other.discountBuilder);
     }
     
     @Override
@@ -421,7 +459,7 @@ public class CreditNoteItemCreateUpdate {
             externalId, date, description,
             externalProductId, quantity, amount,
             taxAmountImported, taxRateImported, taxableAmount,
-            taxExemption, taxItems);
+            taxExemption, taxItems, discountBuilder);
     }
     
     @Override
@@ -437,7 +475,8 @@ public class CreditNoteItemCreateUpdate {
                 "taxRateImported", taxRateImported,
                 "taxableAmount", taxableAmount,
                 "taxExemption", taxExemption,
-                "taxItems", taxItems);
+                "taxItems", taxItems,
+                "discountBuilder", discountBuilder);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -464,6 +503,8 @@ public class CreditNoteItemCreateUpdate {
         private JsonNullable<? extends TaxExemptionEnum> taxExemption = JsonNullable.undefined();
 
         private Optional<? extends List<TaxItemBuilder>> taxItems = Optional.empty();
+
+        private JsonNullable<? extends DiscountBuilder> discountBuilder = JsonNullable.undefined();
 
         private Builder() {
           // force use of static builder() method
@@ -633,13 +674,32 @@ public class CreditNoteItemCreateUpdate {
             return this;
         }
 
+
+        /**
+         * Line-level discount for this credit note item, if any.
+         */
+        public Builder discountBuilder(DiscountBuilder discountBuilder) {
+            Utils.checkNotNull(discountBuilder, "discountBuilder");
+            this.discountBuilder = JsonNullable.of(discountBuilder);
+            return this;
+        }
+
+        /**
+         * Line-level discount for this credit note item, if any.
+         */
+        public Builder discountBuilder(JsonNullable<? extends DiscountBuilder> discountBuilder) {
+            Utils.checkNotNull(discountBuilder, "discountBuilder");
+            this.discountBuilder = discountBuilder;
+            return this;
+        }
+
         public CreditNoteItemCreateUpdate build() {
 
             return new CreditNoteItemCreateUpdate(
                 externalId, date, description,
                 externalProductId, quantity, amount,
                 taxAmountImported, taxRateImported, taxableAmount,
-                taxExemption, taxItems);
+                taxExemption, taxItems, discountBuilder);
         }
 
     }

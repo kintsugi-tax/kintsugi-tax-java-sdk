@@ -19,7 +19,8 @@
 The Get Registrations API retrieves a
     paginated list of registrations.
     This API helps in tracking and managing registrations efficiently across multiple
-    jurisdictions.
+    jurisdictions. Stored credential fields come back masked; use the reveal parameter
+    of the Get Registration By ID API to read them.
 
 ### Example Usage
 
@@ -149,7 +150,6 @@ public class Application {
                     .countryCode(CountryCodeEnum.US)
                     .stateCode("AL")
                     .stateName("Alabama")
-                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .jurisdictionSpecificFields(AlabamaFields.builder()
                         .registrationType(AlabamaRegistrationType.SALES_TAX)
                         .businessName("Acme Corp")
@@ -162,6 +162,7 @@ public class Application {
                     .registrationDate(LocalDate.parse("2025-02-01"))
                     .registrationEmail("example@domain.com")
                     .autoRegistered(true)
+                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .username("alabama_user")
                     .amountFees(AlabamaRegistrationPayloadAmountFees.of(100d))
                     .build()))
@@ -202,7 +203,6 @@ public class Application {
                     .countryCode(CountryCodeEnum.TD)
                     .stateCode("<value>")
                     .stateName("<value>")
-                    .filingFrequency(FilingFrequencyEnum.FOUR_MONTHLY)
                     .jurisdictionSpecificFields(MississippiFields.builder()
                         .registrationType(MississippiRegistrationType.SALES_AND_USE_TAX)
                         .businessName("<value>")
@@ -210,6 +210,7 @@ public class Application {
                         .msAccountType(MississippiAccountType.USE_TAX_LICENSE)
                         .letterId("<id>")
                         .build())
+                    .filingFrequency(FilingFrequencyEnum.FOUR_MONTHLY)
                     .build()))
                 .call();
 
@@ -248,7 +249,6 @@ public class Application {
                     .countryCode(CountryCodeEnum.US)
                     .stateCode("AR")
                     .stateName("Arkansas")
-                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .jurisdictionSpecificFields(ArkansasFields.builder()
                         .registrationType(ArkansasRegistrationType.REMOTE_SELLER)
                         .businessName("Acme Corp")
@@ -260,6 +260,7 @@ public class Application {
                     .registrationDate(LocalDate.parse("2025-02-01"))
                     .registrationEmail("example@domain.com")
                     .autoRegistered(true)
+                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .username("atap_user")
                     .amountFees(ArkansasRegistrationPayloadAmountFees.of(100d))
                     .passwordPlainText("atap_password")
@@ -301,7 +302,6 @@ public class Application {
                     .countryCode(CountryCodeEnum.US)
                     .stateCode("CA")
                     .stateName("California")
-                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .jurisdictionSpecificFields(CaliforniaFields.builder()
                         .registrationType(CaliforniaRegistrationType.REMOTE_SELLER)
                         .businessName("Acme Corp")
@@ -312,6 +312,7 @@ public class Application {
                     .registrationDate(LocalDate.parse("2025-02-01"))
                     .registrationEmail("example@domain.com")
                     .autoRegistered(true)
+                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .username("cdtfa_user")
                     .amountFees(CaliforniaRegistrationPayloadAmountFees.of(100d))
                     .passwordPlainText("cdtfa_password")
@@ -353,7 +354,6 @@ public class Application {
                     .countryCode(CountryCodeEnum.US)
                     .stateCode("CT")
                     .stateName("Connecticut")
-                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .jurisdictionSpecificFields(ConnecticutFields.builder()
                         .registrationType(ConnecticutRegistrationType.SALES_TAX)
                         .businessName("Test Connecticut Biz")
@@ -365,6 +365,7 @@ public class Application {
                     .registrationDate(LocalDate.parse("2025-02-01"))
                     .registrationEmail("example@domain.com")
                     .autoRegistered(true)
+                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .username("ct_user")
                     .amountFees(ConnecticutRegistrationPayloadAmountFees.of(100d))
                     .passwordPlainText("ct_password")
@@ -406,7 +407,6 @@ public class Application {
                     .countryCode(CountryCodeEnum.US)
                     .stateCode("DC")
                     .stateName("District of Columbia")
-                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .jurisdictionSpecificFields(DistrictOfColumbiaFields.builder()
                         .registrationType(DistrictOfColumbiaRegistrationType.SALES_AND_USE_TAX)
                         .businessName("Acme Corp District of Columbia")
@@ -417,6 +417,7 @@ public class Application {
                     .registrationDate(LocalDate.parse("2025-02-01"))
                     .registrationEmail("example@domain.com")
                     .autoRegistered(true)
+                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .username("mytax_dc_user")
                     .amountFees(DistrictOfColumbiaRegistrationPayloadAmountFees.of(100d))
                     .passwordPlainText("mytax_dc_password")
@@ -459,10 +460,10 @@ public class Application {
                     .countryCode(CountryCodeEnum.US)
                     .stateCode("FL")
                     .stateName("Florida")
-                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .registrationDate(LocalDate.parse("2025-02-01"))
                     .registrationEmail("example@domain.com")
                     .autoRegistered(true)
+                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .username("florida_user")
                     .amountFees(RegistrationCreatePayloadAmountFees.of(100d))
                     .passwordPlainText("florida_password")
@@ -509,7 +510,6 @@ public class Application {
                     .countryCode(CountryCodeEnum.US)
                     .stateCode("GA")
                     .stateName("Georgia")
-                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .jurisdictionSpecificFields(GeorgiaFields.builder()
                         .registrationType(GeorgiaRegistrationType.SALES_TAX)
                         .businessName("Acme Corp Georgia")
@@ -521,6 +521,7 @@ public class Application {
                     .registrationDate(LocalDate.parse("2025-02-01"))
                     .registrationEmail("example@domain.com")
                     .autoRegistered(true)
+                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .username("gtc_user")
                     .amountFees(GeorgiaRegistrationPayloadAmountFees.of(100d))
                     .passwordPlainText("gtc_password")
@@ -563,10 +564,10 @@ public class Application {
                     .countryCode(CountryCodeEnum.US)
                     .stateCode("HI")
                     .stateName("Hawaii")
-                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .registrationDate(LocalDate.parse("2025-02-01"))
                     .registrationEmail("example@domain.com")
                     .autoRegistered(true)
+                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .username("hawaii_user")
                     .amountFees(RegistrationCreatePayloadAmountFees.of(100d))
                     .passwordPlainText("hawaii_password")
@@ -616,7 +617,6 @@ public class Application {
                     .countryCode(CountryCodeEnum.US)
                     .stateCode("ID")
                     .stateName("Idaho")
-                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .jurisdictionSpecificFields(IdahoFields.builder()
                         .registrationType(IdahoRegistrationType.SALES_TAX)
                         .businessName("Acme Corp Idaho")
@@ -627,6 +627,7 @@ public class Application {
                     .registrationDate(LocalDate.parse("2025-02-01"))
                     .registrationEmail("example@domain.com")
                     .autoRegistered(true)
+                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .username("idaho_user")
                     .amountFees(IdahoRegistrationPayloadAmountFees.of(100d))
                     .passwordPlainText("idaho_password")
@@ -668,7 +669,6 @@ public class Application {
                     .countryCode(CountryCodeEnum.US)
                     .stateCode("IL")
                     .stateName("Illinois")
-                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .jurisdictionSpecificFields(IllinoisFields.builder()
                         .registrationType(IllinoisRegistrationType.SALES_AND_USE_TAX)
                         .businessName("Acme Corp Illinois")
@@ -683,6 +683,7 @@ public class Application {
                     .registrationDate(LocalDate.parse("2025-02-01"))
                     .registrationEmail("example@domain.com")
                     .autoRegistered(true)
+                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .username("illinois_user")
                     .amountFees(IllinoisRegistrationPayloadAmountFees.of(100d))
                     .passwordPlainText("illinois_password")
@@ -724,7 +725,6 @@ public class Application {
                     .countryCode(CountryCodeEnum.US)
                     .stateCode("IN")
                     .stateName("Indiana")
-                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .jurisdictionSpecificFields(IndianaFields.builder()
                         .businessName("Acme Corp Indiana")
                         .inStateTaxId("1234567890")
@@ -736,6 +736,7 @@ public class Application {
                     .registrationDate(LocalDate.parse("2025-02-01"))
                     .registrationEmail("example@domain.com")
                     .autoRegistered(true)
+                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .username("indiana_user")
                     .amountFees(IndianaRegistrationPayloadAmountFees.of(100d))
                     .passwordPlainText("indiana_password")
@@ -777,7 +778,6 @@ public class Application {
                     .countryCode(CountryCodeEnum.US)
                     .stateCode("IA")
                     .stateName("Iowa")
-                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .jurisdictionSpecificFields(IowaFields.builder()
                         .registrationType(IowaRegistrationType.SALES_TAX)
                         .businessName("Acme Corp Iowa")
@@ -789,6 +789,7 @@ public class Application {
                     .registrationDate(LocalDate.parse("2025-02-01"))
                     .registrationEmail("example@domain.com")
                     .autoRegistered(true)
+                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .username("iowa_user")
                     .amountFees(IowaRegistrationPayloadAmountFees.of(100d))
                     .passwordPlainText("iowa_password")
@@ -830,7 +831,6 @@ public class Application {
                     .countryCode(CountryCodeEnum.US)
                     .stateCode("KS")
                     .stateName("Kansas")
-                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .jurisdictionSpecificFields(KansasFields.builder()
                         .registrationType(KansasRegistrationType.RETAILERS_SALES_TAX)
                         .businessName("Acme Corp Kansas")
@@ -840,6 +840,7 @@ public class Application {
                     .registrationDate(LocalDate.parse("2025-02-01"))
                     .registrationEmail("example@domain.com")
                     .autoRegistered(true)
+                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .username("kansas_user")
                     .amountFees(KansasRegistrationPayloadAmountFees.of(100d))
                     .passwordPlainText("kansas_password")
@@ -882,10 +883,10 @@ public class Application {
                     .countryCode(CountryCodeEnum.US)
                     .stateCode("KY")
                     .stateName("Kentucky")
-                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .registrationDate(LocalDate.parse("2025-02-01"))
                     .registrationEmail("example@domain.com")
                     .autoRegistered(true)
+                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .username("kentucky_user")
                     .amountFees(RegistrationCreatePayloadAmountFees.of(100d))
                     .passwordPlainText("kentucky_password")
@@ -934,10 +935,10 @@ public class Application {
                     .countryCode(CountryCodeEnum.US)
                     .stateCode("TX")
                     .stateName("Texas")
-                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .registrationDate(LocalDate.parse("2025-02-01"))
                     .registrationEmail("example@domain.com")
                     .autoRegistered(true)
+                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .comment("Registering for monthly sales tax filings")
                     .initialSync(false)
                     .amountFees(RegistrationCreatePayloadAmountFees.of(100d))
@@ -980,10 +981,10 @@ public class Application {
                     .countryCode(CountryCodeEnum.US)
                     .stateCode("LA")
                     .stateName("Louisiana")
-                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .registrationDate(LocalDate.parse("2025-02-01"))
                     .registrationEmail("example@domain.com")
                     .autoRegistered(true)
+                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .username("louisiana_user")
                     .amountFees(RegistrationCreatePayloadAmountFees.of(100d))
                     .passwordPlainText("louisiana_password")
@@ -1035,7 +1036,6 @@ public class Application {
                     .countryCode(CountryCodeEnum.US)
                     .stateCode("ME")
                     .stateName("Maine")
-                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .jurisdictionSpecificFields(MaineFields.builder()
                         .businessName("Acme Corp Maine")
                         .meStateTaxId("12345678")
@@ -1044,6 +1044,7 @@ public class Application {
                     .registrationDate(LocalDate.parse("2025-02-01"))
                     .registrationEmail("example@domain.com")
                     .autoRegistered(true)
+                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .username("maine_user")
                     .amountFees(MaineRegistrationPayloadAmountFees.of(100d))
                     .passwordPlainText("maine_password")
@@ -1086,10 +1087,10 @@ public class Application {
                     .countryCode(CountryCodeEnum.US)
                     .stateCode("MD")
                     .stateName("Maryland")
-                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .registrationDate(LocalDate.parse("2025-02-01"))
                     .registrationEmail("example@domain.com")
                     .autoRegistered(true)
+                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .username("maryland_user")
                     .amountFees(RegistrationCreatePayloadAmountFees.of(100d))
                     .passwordPlainText("maryland_password")
@@ -1137,7 +1138,6 @@ public class Application {
                     .countryCode(CountryCodeEnum.US)
                     .stateCode("MA")
                     .stateName("Massachusetts")
-                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .jurisdictionSpecificFields(MassachusettsFields.builder()
                         .registrationType(MassachusettsRegistrationType.SALES_TAX)
                         .businessName("Acme Corp Massachusetts")
@@ -1148,6 +1148,7 @@ public class Application {
                     .registrationDate(LocalDate.parse("2025-02-01"))
                     .registrationEmail("example@domain.com")
                     .autoRegistered(true)
+                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .username("massachusetts_user")
                     .amountFees(MassachusettsRegistrationPayloadAmountFees.of(100d))
                     .passwordPlainText("massachusetts_password")
@@ -1190,7 +1191,6 @@ public class Application {
                     .countryCode(CountryCodeEnum.US)
                     .stateCode("MI")
                     .stateName("Michigan")
-                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .jurisdictionSpecificFields(MichiganFields.builder()
                         .registrationType(MichiganRegistrationType.SALES_TAX)
                         .businessName("Acme Corp Michigan")
@@ -1200,6 +1200,7 @@ public class Application {
                     .registrationDate(LocalDate.parse("2025-02-01"))
                     .registrationEmail("example@domain.com")
                     .autoRegistered(true)
+                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .username("michigan_user")
                     .amountFees(MichiganRegistrationPayloadAmountFees.of(100d))
                     .passwordPlainText("michigan_password")
@@ -1241,7 +1242,6 @@ public class Application {
                     .countryCode(CountryCodeEnum.US)
                     .stateCode("MN")
                     .stateName("Minnesota")
-                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .jurisdictionSpecificFields(MinnesotaFields.builder()
                         .businessName("Acme Corp Minnesota")
                         .mnStateTaxId("1234567")
@@ -1250,6 +1250,7 @@ public class Application {
                     .registrationDate(LocalDate.parse("2025-02-01"))
                     .registrationEmail("example@domain.com")
                     .autoRegistered(true)
+                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .username("minnesota_user")
                     .amountFees(MinnesotaRegistrationPayloadAmountFees.of(100d))
                     .passwordPlainText("minnesota_password")
@@ -1291,7 +1292,6 @@ public class Application {
                     .countryCode(CountryCodeEnum.US)
                     .stateCode("MS")
                     .stateName("Mississippi")
-                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .jurisdictionSpecificFields(MississippiFields.builder()
                         .registrationType(MississippiRegistrationType.SALES_AND_USE_TAX)
                         .businessName("Acme Corp Mississippi")
@@ -1303,6 +1303,7 @@ public class Application {
                     .registrationDate(LocalDate.parse("2025-02-01"))
                     .registrationEmail("example@domain.com")
                     .autoRegistered(true)
+                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .username("mississippi_user")
                     .amountFees(MississippiRegistrationPayloadAmountFees.of(100d))
                     .passwordPlainText("mississippi_password")
@@ -1344,7 +1345,6 @@ public class Application {
                     .countryCode(CountryCodeEnum.US)
                     .stateCode("MO")
                     .stateName("Missouri")
-                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .jurisdictionSpecificFields(MissouriFields.builder()
                         .registrationType(MissouriRegistrationType.SALES_TAX)
                         .businessName("Acme Corp Missouri")
@@ -1354,6 +1354,7 @@ public class Application {
                     .registrationDate(LocalDate.parse("2025-02-01"))
                     .registrationEmail("example@domain.com")
                     .autoRegistered(true)
+                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .username("missouri_user")
                     .amountFees(MissouriRegistrationPayloadAmountFees.of(100d))
                     .passwordPlainText("missouri_password")
@@ -1396,7 +1397,6 @@ public class Application {
                     .countryCode(CountryCodeEnum.US)
                     .stateCode("NE")
                     .stateName("Nebraska")
-                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .jurisdictionSpecificFields(NebraskaFields.builder()
                         .registrationType(NebraskaRegistrationType.SALES_TAX)
                         .businessName("Acme Corp Nebraska")
@@ -1406,6 +1406,7 @@ public class Application {
                     .registrationDate(LocalDate.parse("2025-02-01"))
                     .registrationEmail("example@domain.com")
                     .autoRegistered(true)
+                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .username("nebraska_user")
                     .amountFees(NebraskaRegistrationPayloadAmountFees.of(100d))
                     .passwordPlainText("nebraska_password")
@@ -1449,10 +1450,10 @@ public class Application {
                     .countryCode(CountryCodeEnum.US)
                     .stateCode("NV")
                     .stateName("Nevada")
-                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .registrationDate(LocalDate.parse("2025-02-01"))
                     .registrationEmail("example@domain.com")
                     .autoRegistered(true)
+                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .username("nevada_user")
                     .amountFees(RegistrationCreatePayloadAmountFees.of(100d))
                     .passwordPlainText("nevada_password")
@@ -1500,10 +1501,10 @@ public class Application {
                     .countryCode(CountryCodeEnum.US)
                     .stateCode("TX")
                     .stateName("Texas")
-                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .registrationDate(LocalDate.parse("2025-02-01"))
                     .registrationEmail("example@domain.com")
                     .autoRegistered(true)
+                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .comment("Registering for monthly sales tax filings")
                     .initialSync(false)
                     .amountFees(RegistrationCreatePayloadAmountFees.of(100d))
@@ -1544,7 +1545,6 @@ public class Application {
                     .countryCode(CountryCodeEnum.SZ)
                     .stateCode("<value>")
                     .stateName("<value>")
-                    .filingFrequency(FilingFrequencyEnum.SEMI_MONTHLY)
                     .jurisdictionSpecificFields(TennesseeFields.builder()
                         .registrationType(TennesseeRegistrationType.USE_TAX)
                         .businessName("<value>")
@@ -1552,6 +1552,7 @@ public class Application {
                         .zipCode("43158-4492")
                         .letterId("<id>")
                         .build())
+                    .filingFrequency(FilingFrequencyEnum.SEMI_MONTHLY)
                     .build()))
                 .call();
 
@@ -1591,10 +1592,10 @@ public class Application {
                     .countryCode(CountryCodeEnum.US)
                     .stateCode("NM")
                     .stateName("New Mexico")
-                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .registrationDate(LocalDate.parse("2025-02-01"))
                     .registrationEmail("example@domain.com")
                     .autoRegistered(true)
+                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .username("new_mexico_user")
                     .amountFees(RegistrationCreatePayloadAmountFees.of(100d))
                     .passwordPlainText("new_mexico_password")
@@ -1642,10 +1643,10 @@ public class Application {
                     .countryCode(CountryCodeEnum.US)
                     .stateCode("NY")
                     .stateName("New York")
-                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .registrationDate(LocalDate.parse("2025-02-01"))
                     .registrationEmail("example@domain.com")
                     .autoRegistered(true)
+                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .username("new_york_user")
                     .amountFees(RegistrationCreatePayloadAmountFees.of(100d))
                     .passwordPlainText("new_york_password")
@@ -1692,10 +1693,10 @@ public class Application {
                     .countryCode(CountryCodeEnum.US)
                     .stateCode("NC")
                     .stateName("North Carolina")
-                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .registrationDate(LocalDate.parse("2025-02-01"))
                     .registrationEmail("example@domain.com")
                     .autoRegistered(true)
+                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .username("north_carolina_user")
                     .amountFees(RegistrationCreatePayloadAmountFees.of(100d))
                     .passwordPlainText("north_carolina_password")
@@ -1745,10 +1746,10 @@ public class Application {
                     .countryCode(CountryCodeEnum.US)
                     .stateCode("ND")
                     .stateName("North Dakota")
-                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .registrationDate(LocalDate.parse("2025-02-01"))
                     .registrationEmail("example@domain.com")
                     .autoRegistered(true)
+                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .username("north_dakota_user")
                     .amountFees(RegistrationCreatePayloadAmountFees.of(100d))
                     .passwordPlainText("north_dakota_password")
@@ -1797,10 +1798,10 @@ public class Application {
                     .countryCode(CountryCodeEnum.US)
                     .stateCode("OH")
                     .stateName("Ohio")
-                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .registrationDate(LocalDate.parse("2025-02-01"))
                     .registrationEmail("example@domain.com")
                     .autoRegistered(true)
+                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .username("ohio_user")
                     .amountFees(RegistrationCreatePayloadAmountFees.of(100d))
                     .passwordPlainText("ohio_password")
@@ -1849,10 +1850,10 @@ public class Application {
                     .countryCode(CountryCodeEnum.US)
                     .stateCode("OK")
                     .stateName("Oklahoma")
-                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .registrationDate(LocalDate.parse("2025-02-01"))
                     .registrationEmail("example@domain.com")
                     .autoRegistered(true)
+                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .username("oklahoma_user")
                     .amountFees(RegistrationCreatePayloadAmountFees.of(100d))
                     .passwordPlainText("oklahoma_password")
@@ -1901,10 +1902,10 @@ public class Application {
                     .countryCode(CountryCodeEnum.US)
                     .stateCode("PA")
                     .stateName("Pennsylvania")
-                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .registrationDate(LocalDate.parse("2025-02-01"))
                     .registrationEmail("example@domain.com")
                     .autoRegistered(true)
+                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .username("pennsylvania_user")
                     .amountFees(RegistrationCreatePayloadAmountFees.of(100d))
                     .passwordPlainText("pennsylvania_password")
@@ -1959,10 +1960,10 @@ public class Application {
                     .countryCode(CountryCodeEnum.US)
                     .stateCode("RI")
                     .stateName("Rhode Island")
-                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .registrationDate(LocalDate.parse("2025-02-01"))
                     .registrationEmail("example@domain.com")
                     .autoRegistered(true)
+                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .username("rhode_island_user")
                     .amountFees(RegistrationCreatePayloadAmountFees.of(100d))
                     .passwordPlainText("rhode_island_password")
@@ -2012,10 +2013,10 @@ public class Application {
                     .countryCode(CountryCodeEnum.US)
                     .stateCode("SC")
                     .stateName("South Carolina")
-                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .registrationDate(LocalDate.parse("2025-02-01"))
                     .registrationEmail("example@domain.com")
                     .autoRegistered(true)
+                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .username("south_carolina_user")
                     .amountFees(RegistrationCreatePayloadAmountFees.of(100d))
                     .passwordPlainText("south_carolina_password")
@@ -2065,10 +2066,10 @@ public class Application {
                     .countryCode(CountryCodeEnum.US)
                     .stateCode("SD")
                     .stateName("South Dakota")
-                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .registrationDate(LocalDate.parse("2025-02-01"))
                     .registrationEmail("example@domain.com")
                     .autoRegistered(true)
+                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .username("south_dakota_user")
                     .amountFees(RegistrationCreatePayloadAmountFees.of(100d))
                     .passwordPlainText("south_dakota_password")
@@ -2114,7 +2115,6 @@ public class Application {
                     .countryCode(CountryCodeEnum.US)
                     .stateCode("TN")
                     .stateName("Tennessee")
-                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .jurisdictionSpecificFields(TennesseeFields.builder()
                         .registrationType(TennesseeRegistrationType.SALES_TAX)
                         .businessName("Acme Corp Tennessee")
@@ -2126,6 +2126,7 @@ public class Application {
                     .registrationDate(LocalDate.parse("2025-02-01"))
                     .registrationEmail("example@domain.com")
                     .autoRegistered(true)
+                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .username("tennessee_user")
                     .amountFees(TennesseeRegistrationPayloadAmountFees.of(100d))
                     .passwordPlainText("tennessee_password")
@@ -2167,7 +2168,6 @@ public class Application {
                     .countryCode(CountryCodeEnum.US)
                     .stateCode("TX")
                     .stateName("Texas")
-                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .jurisdictionSpecificFields(TexasFields.builder()
                         .registrationType(TexasRegistrationType.SALES_TAX)
                         .businessName("Acme Corp Texas")
@@ -2180,6 +2180,7 @@ public class Application {
                     .registrationDate(LocalDate.parse("2025-02-01"))
                     .registrationEmail("example@domain.com")
                     .autoRegistered(true)
+                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .username("texas_user")
                     .amountFees(TexasRegistrationPayloadAmountFees.of(100d))
                     .passwordPlainText("texas_password")
@@ -2222,7 +2223,6 @@ public class Application {
                     .countryCode(CountryCodeEnum.US)
                     .stateCode("UT")
                     .stateName("Utah")
-                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .jurisdictionSpecificFields(UtahFields.builder()
                         .registrationType(UtahRegistrationType.SALES_TAX)
                         .businessName("Acme Corp Utah")
@@ -2232,6 +2232,7 @@ public class Application {
                     .registrationDate(LocalDate.parse("2025-02-01"))
                     .registrationEmail("example@domain.com")
                     .autoRegistered(true)
+                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .username("utah_user")
                     .amountFees(UtahRegistrationPayloadAmountFees.of(100d))
                     .passwordPlainText("utah_password")
@@ -2274,7 +2275,6 @@ public class Application {
                     .countryCode(CountryCodeEnum.US)
                     .stateCode("VT")
                     .stateName("Vermont")
-                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .jurisdictionSpecificFields(VermontFields.builder()
                         .registrationType(VermontRegistrationType.SALES_TAX)
                         .businessName("Acme Corp Vermont")
@@ -2285,6 +2285,7 @@ public class Application {
                     .registrationDate(LocalDate.parse("2025-02-01"))
                     .registrationEmail("example@domain.com")
                     .autoRegistered(true)
+                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .username("vermont_user")
                     .amountFees(VermontRegistrationPayloadAmountFees.of(100d))
                     .passwordPlainText("vermont_password")
@@ -2326,7 +2327,6 @@ public class Application {
                     .countryCode(CountryCodeEnum.US)
                     .stateCode("VA")
                     .stateName("Virginia")
-                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .jurisdictionSpecificFields(VirginiaFields.builder()
                         .registrationType(VirginiaRegistrationType.RETAIL_SALES_TAX)
                         .businessName("Acme Corp Virginia")
@@ -2336,6 +2336,7 @@ public class Application {
                     .registrationDate(LocalDate.parse("2025-02-01"))
                     .registrationEmail("example@domain.com")
                     .autoRegistered(true)
+                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .username("virginia_user")
                     .amountFees(VirginiaRegistrationPayloadAmountFees.of(100d))
                     .passwordPlainText("virginia_password")
@@ -2377,7 +2378,6 @@ public class Application {
                     .countryCode(CountryCodeEnum.US)
                     .stateCode("WA")
                     .stateName("Washington")
-                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .jurisdictionSpecificFields(WashingtonFields.builder()
                         .businessName("Acme Corp Washington")
                         .waStateTaxId("600123456")
@@ -2388,6 +2388,7 @@ public class Application {
                     .registrationDate(LocalDate.parse("2025-02-01"))
                     .registrationEmail("example@domain.com")
                     .autoRegistered(true)
+                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .username("washington_user")
                     .amountFees(WashingtonRegistrationPayloadAmountFees.of(100d))
                     .passwordPlainText("washington_password")
@@ -2429,7 +2430,6 @@ public class Application {
                     .countryCode(CountryCodeEnum.US)
                     .stateCode("WV")
                     .stateName("West Virginia")
-                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .jurisdictionSpecificFields(WestVirginiaFields.builder()
                         .registrationType(WestVirginiaRegistrationType.SALES_AND_USE_TAX)
                         .businessName("Acme Corp West Virginia")
@@ -2440,6 +2440,7 @@ public class Application {
                     .registrationDate(LocalDate.parse("2025-02-01"))
                     .registrationEmail("example@domain.com")
                     .autoRegistered(true)
+                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .username("west_virginia_user")
                     .amountFees(WestVirginiaRegistrationPayloadAmountFees.of(100d))
                     .passwordPlainText("west_virginia_password")
@@ -2481,7 +2482,6 @@ public class Application {
                     .countryCode(CountryCodeEnum.US)
                     .stateCode("WI")
                     .stateName("Wisconsin")
-                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .jurisdictionSpecificFields(WisconsinFields.builder()
                         .registrationType(WisconsinRegistrationType.SALES_AND_USE_TAX)
                         .businessName("Acme Corp Wisconsin")
@@ -2492,6 +2492,7 @@ public class Application {
                     .registrationDate(LocalDate.parse("2025-02-01"))
                     .registrationEmail("example@domain.com")
                     .autoRegistered(true)
+                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .username("wisconsin_user")
                     .amountFees(WisconsinRegistrationPayloadAmountFees.of(100d))
                     .passwordPlainText("wisconsin_password")
@@ -2533,7 +2534,6 @@ public class Application {
                     .countryCode(CountryCodeEnum.US)
                     .stateCode("WY")
                     .stateName("Wyoming")
-                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .jurisdictionSpecificFields(WyomingFields.builder()
                         .businessName("Acme Corp Wyoming")
                         .wyStateTaxId("WY-ACCT-001")
@@ -2541,6 +2541,7 @@ public class Application {
                     .registrationDate(LocalDate.parse("2025-02-01"))
                     .registrationEmail("example@domain.com")
                     .autoRegistered(true)
+                    .filingFrequency(FilingFrequencyEnum.MONTHLY)
                     .username("wyoming_user")
                     .amountFees(WyomingRegistrationPayloadAmountFees.of(100d))
                     .passwordPlainText("wyoming_password")
@@ -2614,7 +2615,7 @@ public class Application {
 
 ## getJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGet
 
-Returns the JSON Schema and UI metadata for a state-specific registration form
+Returns the JSON Schema and UI metadata for a state-specific registration form, and the tax types that can be imported there.
 
 ### Example Usage
 
@@ -2641,8 +2642,8 @@ public class Application {
                 .xOrganizationId("org_12345")
                 .call();
 
-        if (res.jurisdictionSpecificFieldsResponse().isPresent()) {
-            System.out.println(res.jurisdictionSpecificFieldsResponse().get());
+        if (res.customerJurisdictionSpecificFieldsResponse().isPresent()) {
+            System.out.println(res.customerJurisdictionSpecificFieldsResponse().get());
         }
     }
 }
@@ -2759,11 +2760,11 @@ public class Application {
 
 ### Parameters
 
-| Parameter                                                                              | Type                                                                                   | Required                                                                               | Description                                                                            | Example                                                                                |
-| -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| `registrationId`                                                                       | *String*                                                                               | :heavy_check_mark:                                                                     | The unique identifier of the<br/>                                registration to retrieve. |                                                                                        |
-| `reveal`                                                                               | *JsonNullable\<String>*                                                                | :heavy_minus_sign:                                                                     | Name of field to reveal                                                                |                                                                                        |
-| `xOrganizationId`                                                                      | *Optional\<String>*                                                                    | :heavy_check_mark:                                                                     | The unique identifier for the organization making the request                          | org_12345                                                                              |
+| Parameter                                                                                                                                                                                                                                                                                                                                                              | Type                                                                                                                                                                                                                                                                                                                                                                   | Required                                                                                                                                                                                                                                                                                                                                                               | Description                                                                                                                                                                                                                                                                                                                                                            | Example                                                                                                                                                                                                                                                                                                                                                                |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `registrationId`                                                                                                                                                                                                                                                                                                                                                       | *String*                                                                                                                                                                                                                                                                                                                                                               | :heavy_check_mark:                                                                                                                                                                                                                                                                                                                                                     | The unique identifier of the<br/>                                registration to retrieve.                                                                                                                                                                                                                                                                             |                                                                                                                                                                                                                                                                                                                                                                        |
+| `reveal`                                                                                                                                                                                                                                                                                                                                                               | *JsonNullable\<String>*                                                                                                                                                                                                                                                                                                                                                | :heavy_minus_sign:                                                                                                                                                                                                                                                                                                                                                     | Comma-separated credential fields to return decrypted. Only an Owner of the organization or a Kintsugi Portfolio user who can open it may use it. An API key counts as the user it belongs to, and a service key as the user who created it. Other callers, and automated assistant integrations, get 403. Without this parameter, credential fields come back masked. |                                                                                                                                                                                                                                                                                                                                                                        |
+| `xOrganizationId`                                                                                                                                                                                                                                                                                                                                                      | *Optional\<String>*                                                                                                                                                                                                                                                                                                                                                    | :heavy_check_mark:                                                                                                                                                                                                                                                                                                                                                     | The unique identifier for the organization making the request                                                                                                                                                                                                                                                                                                          | org_12345                                                                                                                                                                                                                                                                                                                                                              |
 
 ### Response
 
@@ -2773,7 +2774,7 @@ public class Application {
 
 | Error Type                                                            | Status Code                                                           | Content Type                                                          |
 | --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- |
-| models/errors/ErrorResponse                                           | 401                                                                   | application/json                                                      |
+| models/errors/ErrorResponse                                           | 401, 403                                                              | application/json                                                      |
 | models/errors/BackendSrcRegistrationsResponsesValidationErrorResponse | 422                                                                   | application/json                                                      |
 | models/errors/ErrorResponse                                           | 500                                                                   | application/json                                                      |
 | models/errors/APIException                                            | 4XX, 5XX                                                              | \*/\*                                                                 |
@@ -2781,7 +2782,17 @@ public class Application {
 ## update
 
 The Update Registration API allows you to modify
-    an existing registration using its unique registration_id.
+    an existing registration using its unique registration_id. Sending a value for,
+    or clearing, a credential that is already stored (username, password, security
+    questions or a portal access code) needs an Owner of the organization or a
+    Kintsugi Portfolio user who can open it. An API key counts as the user it belongs
+    to, and a service key as the user who created it. Other callers, and automated
+    assistant integrations, get 403, even when the value matches the stored one.
+    Any caller who can edit the registration may fill a credential that has no
+    stored value, except that a stored password also guards the username and security
+    questions. A masked username sent back unchanged is ignored. A password made
+    only of asterisks, the mask a read shows, gets 400. Stored credential fields in the
+    response come back masked.
 
 ### Example Usage
 
@@ -2848,7 +2859,7 @@ public class Application {
 
 | Error Type                                                            | Status Code                                                           | Content Type                                                          |
 | --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- |
-| models/errors/ErrorResponse                                           | 401                                                                   | application/json                                                      |
+| models/errors/ErrorResponse                                           | 401, 403                                                              | application/json                                                      |
 | models/errors/BackendSrcRegistrationsResponsesValidationErrorResponse | 422                                                                   | application/json                                                      |
 | models/errors/ErrorResponse                                           | 500                                                                   | application/json                                                      |
 | models/errors/APIException                                            | 4XX, 5XX                                                              | \*/\*                                                                 |
@@ -2913,7 +2924,8 @@ public class Application {
 
 ## deregister
 
-Deregister an existing registration.
+Deregister an existing registration. Stored credential fields in the
+    response come back masked.
 
 ### Example Usage
 
@@ -2922,10 +2934,13 @@ Deregister an existing registration.
 package hello.world;
 
 import com.kintsugi.taxplatform.SDK;
+import com.kintsugi.taxplatform.models.components.DeregisterRegistrationRequest;
+import com.kintsugi.taxplatform.models.components.DeregistrationReasonEnum;
 import com.kintsugi.taxplatform.models.errors.BackendSrcRegistrationsResponsesValidationErrorResponse;
 import com.kintsugi.taxplatform.models.errors.ErrorResponse;
 import com.kintsugi.taxplatform.models.operations.DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse;
 import java.lang.Exception;
+import java.time.LocalDate;
 
 public class Application {
 
@@ -2938,6 +2953,10 @@ public class Application {
         DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse res = sdk.registrations().deregister()
                 .registrationId("regs_123456")
                 .xOrganizationId("org_12345")
+                .deregisterRegistrationRequest(DeregisterRegistrationRequest.builder()
+                    .closureDate(LocalDate.parse("2026-01-04"))
+                    .reason(DeregistrationReasonEnum.CLOSING_NEXUS_IN_STATE)
+                    .build())
                 .call();
 
         if (res.registrationRead().isPresent()) {
@@ -2949,11 +2968,11 @@ public class Application {
 
 ### Parameters
 
-| Parameter                                                                                                | Type                                                                                                     | Required                                                                                                 | Description                                                                                              | Example                                                                                                  |
-| -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| `registrationId`                                                                                         | *String*                                                                                                 | :heavy_check_mark:                                                                                       | The unique identifier of the registration to deregister.                                                 | regs_123456                                                                                              |
-| `xOrganizationId`                                                                                        | *Optional\<String>*                                                                                      | :heavy_check_mark:                                                                                       | The unique identifier for the organization making the request                                            | org_12345                                                                                                |
-| `deregisterRegistrationRequest`                                                                          | [JsonNullable\<DeregisterRegistrationRequest>](../../models/components/DeregisterRegistrationRequest.md) | :heavy_minus_sign:                                                                                       | N/A                                                                                                      |                                                                                                          |
+| Parameter                                                                                 | Type                                                                                      | Required                                                                                  | Description                                                                               | Example                                                                                   |
+| ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| `registrationId`                                                                          | *String*                                                                                  | :heavy_check_mark:                                                                        | The unique identifier of the registration to deregister.                                  | regs_123456                                                                               |
+| `xOrganizationId`                                                                         | *Optional\<String>*                                                                       | :heavy_check_mark:                                                                        | The unique identifier for the organization making the request                             | org_12345                                                                                 |
+| `deregisterRegistrationRequest`                                                           | [DeregisterRegistrationRequest](../../models/components/DeregisterRegistrationRequest.md) | :heavy_check_mark:                                                                        | N/A                                                                                       |                                                                                           |
 
 ### Response
 

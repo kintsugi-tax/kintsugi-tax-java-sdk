@@ -179,7 +179,7 @@ public class UpdateRegistrationV1RegistrationsRegistrationIdPut {
                     throw APIException.from("Unexpected content-type received: " + contentType, response);
                 }
             }
-            if (Utils.statusCodeMatches(response.statusCode(), "401")) {
+            if (Utils.statusCodeMatches(response.statusCode(), "401", "403")) {
                 if (Utils.contentTypeMatches(contentType, "application/json")) {
                     throw ErrorResponse.from(response);
                 } else {
@@ -271,7 +271,7 @@ public class UpdateRegistrationV1RegistrationsRegistrationIdPut {
                     return Utils.createAsyncApiError(response, "Unexpected content-type received: " + contentType);
                 }
             }
-            if (Utils.statusCodeMatches(response.statusCode(), "401")) {
+            if (Utils.statusCodeMatches(response.statusCode(), "401", "403")) {
                 if (Utils.contentTypeMatches(contentType, "application/json")) {
                     return ErrorResponse.fromAsync(response)
                             .thenCompose(CompletableFuture::failedFuture);

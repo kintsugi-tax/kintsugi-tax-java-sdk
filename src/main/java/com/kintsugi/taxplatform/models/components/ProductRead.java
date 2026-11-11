@@ -61,10 +61,8 @@ public class ProductRead {
     private String productCategory;
 
     /**
-     * Subcategory of the product.
-     * For example, General Clothing, UNKNOWN, etc. You can
-     * retrieve supported subcategories from [GET /products/categories
-     * endpoint](/reference/api/products/get-product-categories)
+     * Tax subcategory display label of the product (e.g. 'General Clothing'). List supported values from
+     * [GET /products/categories](/reference/api/products/get-product-categories).
      */
     @JsonProperty("product_subcategory")
     private String productSubcategory;
@@ -253,10 +251,8 @@ public class ProductRead {
     }
 
     /**
-     * Subcategory of the product.
-     * For example, General Clothing, UNKNOWN, etc. You can
-     * retrieve supported subcategories from [GET /products/categories
-     * endpoint](/reference/api/products/get-product-categories)
+     * Tax subcategory display label of the product (e.g. 'General Clothing'). List supported values from
+     * [GET /products/categories](/reference/api/products/get-product-categories).
      */
     @JsonIgnore
     public String productSubcategory() {
@@ -394,10 +390,8 @@ public class ProductRead {
     }
 
     /**
-     * Subcategory of the product.
-     * For example, General Clothing, UNKNOWN, etc. You can
-     * retrieve supported subcategories from [GET /products/categories
-     * endpoint](/reference/api/products/get-product-categories)
+     * Tax subcategory display label of the product (e.g. 'General Clothing'). List supported values from
+     * [GET /products/categories](/reference/api/products/get-product-categories).
      */
     public ProductRead withProductSubcategory(String productSubcategory) {
         Utils.checkNotNull(productSubcategory, "productSubcategory");
@@ -719,10 +713,8 @@ public class ProductRead {
 
 
         /**
-         * Subcategory of the product.
-         * For example, General Clothing, UNKNOWN, etc. You can
-         * retrieve supported subcategories from [GET /products/categories
-         * endpoint](/reference/api/products/get-product-categories)
+         * Tax subcategory display label of the product (e.g. 'General Clothing'). List supported values from
+         * [GET /products/categories](/reference/api/products/get-product-categories).
          */
         public Builder productSubcategory(String productSubcategory) {
             Utils.checkNotNull(productSubcategory, "productSubcategory");

@@ -1,0 +1,9 @@
+# BackFilingRequestRegistrationInput
+
+
+## Fields
+
+| Field                                                                                          | Type                                                                                           | Required                                                                                       | Description                                                                                    |
+| ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| `registrationId`                                                                               | *String*                                                                                       | :heavy_check_mark:                                                                             | N/A                                                                                            |
+| `periods`                                                                                      | List\<[BackFilingRequestPeriodInput](../../models/components/BackFilingRequestPeriodInput.md)> | :heavy_check_mark:                                                                             | N/A                                                                                            |

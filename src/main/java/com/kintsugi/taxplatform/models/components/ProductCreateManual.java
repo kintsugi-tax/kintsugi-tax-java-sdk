@@ -49,10 +49,15 @@ public class ProductCreateManual {
     private PublicProductCategoryEnum productCategory;
 
     /**
-     * The subcategory of the product.
+     * Tax subcategory display label within the category (e.g. 'General Clothing'). Together with
+     * product_category it resolves to a product tax code; an unrecognized pair on a new product returns
+     * 400.
+     * 
+     * <p>List supported values from [GET
+     * /products/categories](/reference/api/products/get-product-categories).
      */
     @JsonProperty("product_subcategory")
-    private ProductSubcategoryUnion productSubcategory;
+    private String productSubcategory;
 
     /**
      * Specifies whether the product is tax-exempt.
@@ -72,7 +77,7 @@ public class ProductCreateManual {
             @JsonProperty("description") JsonNullable<String> description,
             @JsonProperty("status") Optional<? extends ProductStatusEnum> status,
             @JsonProperty("product_category") PublicProductCategoryEnum productCategory,
-            @JsonProperty("product_subcategory") ProductSubcategoryUnion productSubcategory,
+            @JsonProperty("product_subcategory") String productSubcategory,
             @JsonProperty("tax_exempt") boolean taxExempt,
             @JsonProperty("source") Optional<? extends SourceEnum> source) {
         Utils.checkNotNull(externalId, "externalId");
@@ -97,7 +102,7 @@ public class ProductCreateManual {
             String externalId,
             String name,
             PublicProductCategoryEnum productCategory,
-            ProductSubcategoryUnion productSubcategory,
+            String productSubcategory,
             boolean taxExempt) {
         this(externalId, name, JsonNullable.undefined(),
             Optional.empty(), productCategory, productSubcategory,
@@ -143,10 +148,15 @@ public class ProductCreateManual {
     }
 
     /**
-     * The subcategory of the product.
+     * Tax subcategory display label within the category (e.g. 'General Clothing'). Together with
+     * product_category it resolves to a product tax code; an unrecognized pair on a new product returns
+     * 400.
+     * 
+     * <p>List supported values from [GET
+     * /products/categories](/reference/api/products/get-product-categories).
      */
     @JsonIgnore
-    public ProductSubcategoryUnion productSubcategory() {
+    public String productSubcategory() {
         return productSubcategory;
     }
 
@@ -228,9 +238,14 @@ public class ProductCreateManual {
     }
 
     /**
-     * The subcategory of the product.
+     * Tax subcategory display label within the category (e.g. 'General Clothing'). Together with
+     * product_category it resolves to a product tax code; an unrecognized pair on a new product returns
+     * 400.
+     * 
+     * <p>List supported values from [GET
+     * /products/categories](/reference/api/products/get-product-categories).
      */
-    public ProductCreateManual withProductSubcategory(ProductSubcategoryUnion productSubcategory) {
+    public ProductCreateManual withProductSubcategory(String productSubcategory) {
         Utils.checkNotNull(productSubcategory, "productSubcategory");
         this.productSubcategory = productSubcategory;
         return this;
@@ -312,7 +327,7 @@ public class ProductCreateManual {
 
         private PublicProductCategoryEnum productCategory;
 
-        private ProductSubcategoryUnion productSubcategory;
+        private String productSubcategory;
 
         private Boolean taxExempt;
 
@@ -386,9 +401,14 @@ public class ProductCreateManual {
 
 
         /**
-         * The subcategory of the product.
+         * Tax subcategory display label within the category (e.g. 'General Clothing'). Together with
+         * product_category it resolves to a product tax code; an unrecognized pair on a new product returns
+         * 400.
+         * 
+         * <p>List supported values from [GET
+         * /products/categories](/reference/api/products/get-product-categories).
          */
-        public Builder productSubcategory(ProductSubcategoryUnion productSubcategory) {
+        public Builder productSubcategory(String productSubcategory) {
             Utils.checkNotNull(productSubcategory, "productSubcategory");
             this.productSubcategory = productSubcategory;
             return this;

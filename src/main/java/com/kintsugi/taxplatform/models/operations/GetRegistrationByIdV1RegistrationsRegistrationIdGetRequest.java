@@ -22,7 +22,12 @@ public class GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest {
     private String registrationId;
 
     /**
-     * Name of field to reveal
+     * Comma-separated credential fields to return decrypted. Only an Owner of the organization or a
+     * Kintsugi Portfolio user who can open it may use it. An API key counts as the user it belongs to, and
+     * a service key as the user who created it.
+     * 
+     * <p>Other callers, and automated assistant integrations, get 403. Without this parameter, credential
+     * fields come back masked.
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=reveal")
     private JsonNullable<String> reveal;
@@ -61,7 +66,12 @@ public class GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest {
     }
 
     /**
-     * Name of field to reveal
+     * Comma-separated credential fields to return decrypted. Only an Owner of the organization or a
+     * Kintsugi Portfolio user who can open it may use it. An API key counts as the user it belongs to, and
+     * a service key as the user who created it.
+     * 
+     * <p>Other callers, and automated assistant integrations, get 403. Without this parameter, credential
+     * fields come back masked.
      */
     @JsonIgnore
     public JsonNullable<String> reveal() {
@@ -92,7 +102,12 @@ public class GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest {
     }
 
     /**
-     * Name of field to reveal
+     * Comma-separated credential fields to return decrypted. Only an Owner of the organization or a
+     * Kintsugi Portfolio user who can open it may use it. An API key counts as the user it belongs to, and
+     * a service key as the user who created it.
+     * 
+     * <p>Other callers, and automated assistant integrations, get 403. Without this parameter, credential
+     * fields come back masked.
      */
     public GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest withReveal(String reveal) {
         Utils.checkNotNull(reveal, "reveal");
@@ -101,7 +116,12 @@ public class GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest {
     }
 
     /**
-     * Name of field to reveal
+     * Comma-separated credential fields to return decrypted. Only an Owner of the organization or a
+     * Kintsugi Portfolio user who can open it may use it. An API key counts as the user it belongs to, and
+     * a service key as the user who created it.
+     * 
+     * <p>Other callers, and automated assistant integrations, get 403. Without this parameter, credential
+     * fields come back masked.
      */
     public GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest withReveal(JsonNullable<String> reveal) {
         Utils.checkNotNull(reveal, "reveal");
@@ -183,7 +203,12 @@ public class GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest {
 
 
         /**
-         * Name of field to reveal
+         * Comma-separated credential fields to return decrypted. Only an Owner of the organization or a
+         * Kintsugi Portfolio user who can open it may use it. An API key counts as the user it belongs to, and
+         * a service key as the user who created it.
+         * 
+         * <p>Other callers, and automated assistant integrations, get 403. Without this parameter, credential
+         * fields come back masked.
          */
         public Builder reveal(String reveal) {
             Utils.checkNotNull(reveal, "reveal");
@@ -192,7 +217,12 @@ public class GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest {
         }
 
         /**
-         * Name of field to reveal
+         * Comma-separated credential fields to return decrypted. Only an Owner of the organization or a
+         * Kintsugi Portfolio user who can open it may use it. An API key counts as the user it belongs to, and
+         * a service key as the user who created it.
+         * 
+         * <p>Other callers, and automated assistant integrations, get 403. Without this parameter, credential
+         * fields come back masked.
          */
         public Builder reveal(JsonNullable<String> reveal) {
             Utils.checkNotNull(reveal, "reveal");

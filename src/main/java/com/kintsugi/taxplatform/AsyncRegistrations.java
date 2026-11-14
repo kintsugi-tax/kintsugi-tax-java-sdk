@@ -78,7 +78,8 @@ public class AsyncRegistrations {
      * <p>The Get Registrations API retrieves a
      * paginated list of registrations.
      * This API helps in tracking and managing registrations efficiently across multiple
-     * jurisdictions.
+     * jurisdictions. Stored credential fields come back masked; use the reveal parameter
+     * of the Get Registration By ID API to read them.
      * 
      * @return The async call builder
      */
@@ -92,7 +93,8 @@ public class AsyncRegistrations {
      * <p>The Get Registrations API retrieves a
      * paginated list of registrations.
      * This API helps in tracking and managing registrations efficiently across multiple
-     * jurisdictions.
+     * jurisdictions. Stored credential fields come back masked; use the reveal parameter
+     * of the Get Registration By ID API to read them.
      * 
      * @param request The request object containing all the parameters for the API call.
      * @return {@code CompletableFuture<GetRegistrationsV1RegistrationsGetResponse>} - The async response
@@ -157,7 +159,8 @@ public class AsyncRegistrations {
     /**
      * Get jurisdiction specific fields
      * 
-     * <p>Returns the JSON Schema and UI metadata for a state-specific registration form
+     * <p>Returns the JSON Schema and UI metadata for a state-specific registration form, and the tax types
+     * that can be imported there.
      * 
      * @return The async call builder
      */
@@ -168,7 +171,8 @@ public class AsyncRegistrations {
     /**
      * Get jurisdiction specific fields
      * 
-     * <p>Returns the JSON Schema and UI metadata for a state-specific registration form
+     * <p>Returns the JSON Schema and UI metadata for a state-specific registration form, and the tax types
+     * that can be imported there.
      * 
      * @param countryCode ISO 3166-1 alpha-2 country code (e.g., US).
      * @param stateCode State/province code (e.g., AL, LA).
@@ -181,7 +185,8 @@ public class AsyncRegistrations {
     /**
      * Get jurisdiction specific fields
      * 
-     * <p>Returns the JSON Schema and UI metadata for a state-specific registration form
+     * <p>Returns the JSON Schema and UI metadata for a state-specific registration form, and the tax types
+     * that can be imported there.
      * 
      * @param countryCode ISO 3166-1 alpha-2 country code (e.g., US).
      * @param stateCode State/province code (e.g., AL, LA).
@@ -287,7 +292,7 @@ public class AsyncRegistrations {
      * 
      * @param registrationId The unique identifier of the
      *                                         registration to retrieve.
-     * @param reveal Name of field to reveal
+     * @param reveal Comma-separated credential fields to return decrypted. Only an Owner of the organization or a Kintsugi Portfolio user who can open it may use it. An API key counts as the user it belongs to, and a service key as the user who created it. Other callers, and automated assistant integrations, get 403. Without this parameter, credential fields come back masked.
      * @param xOrganizationId The unique identifier for the organization making the request
      * @return {@code CompletableFuture<GetRegistrationByIdV1RegistrationsRegistrationIdGetResponse>} - The async response
      */
@@ -312,7 +317,17 @@ public class AsyncRegistrations {
      * Update registration
      * 
      * <p>The Update Registration API allows you to modify
-     * an existing registration using its unique registration_id.
+     * an existing registration using its unique registration_id. Sending a value for,
+     * or clearing, a credential that is already stored (username, password, security
+     * questions or a portal access code) needs an Owner of the organization or a
+     * Kintsugi Portfolio user who can open it. An API key counts as the user it belongs
+     * to, and a service key as the user who created it. Other callers, and automated
+     * assistant integrations, get 403, even when the value matches the stored one.
+     * Any caller who can edit the registration may fill a credential that has no
+     * stored value, except that a stored password also guards the username and security
+     * questions. A masked username sent back unchanged is ignored. A password made
+     * only of asterisks, the mask a read shows, gets 400. Stored credential fields in the
+     * response come back masked.
      * 
      * @return The async call builder
      */
@@ -324,7 +339,17 @@ public class AsyncRegistrations {
      * Update registration
      * 
      * <p>The Update Registration API allows you to modify
-     * an existing registration using its unique registration_id.
+     * an existing registration using its unique registration_id. Sending a value for,
+     * or clearing, a credential that is already stored (username, password, security
+     * questions or a portal access code) needs an Owner of the organization or a
+     * Kintsugi Portfolio user who can open it. An API key counts as the user it belongs
+     * to, and a service key as the user who created it. Other callers, and automated
+     * assistant integrations, get 403, even when the value matches the stored one.
+     * Any caller who can edit the registration may fill a credential that has no
+     * stored value, except that a stored password also guards the username and security
+     * questions. A masked username sent back unchanged is ignored. A password made
+     * only of asterisks, the mask a read shows, gets 400. Stored credential fields in the
+     * response come back masked.
      * 
      * @param registrationId The unique identifier of the registration to be updated.
      * @param registrationUpdateAPI 
@@ -338,7 +363,17 @@ public class AsyncRegistrations {
      * Update registration
      * 
      * <p>The Update Registration API allows you to modify
-     * an existing registration using its unique registration_id.
+     * an existing registration using its unique registration_id. Sending a value for,
+     * or clearing, a credential that is already stored (username, password, security
+     * questions or a portal access code) needs an Owner of the organization or a
+     * Kintsugi Portfolio user who can open it. An API key counts as the user it belongs
+     * to, and a service key as the user who created it. Other callers, and automated
+     * assistant integrations, get 403, even when the value matches the stored one.
+     * Any caller who can edit the registration may fill a credential that has no
+     * stored value, except that a stored password also guards the username and security
+     * questions. A masked username sent back unchanged is ignored. A password made
+     * only of asterisks, the mask a read shows, gets 400. Stored credential fields in the
+     * response come back masked.
      * 
      * @param registrationId The unique identifier of the registration to be updated.
      * @param xOrganizationId The unique identifier for the organization making the request
@@ -416,7 +451,8 @@ public class AsyncRegistrations {
     /**
      * Deregister registration
      * 
-     * <p>Deregister an existing registration.
+     * <p>Deregister an existing registration. Stored credential fields in the
+     * response come back masked.
      * 
      * @return The async call builder
      */
@@ -427,28 +463,31 @@ public class AsyncRegistrations {
     /**
      * Deregister registration
      * 
-     * <p>Deregister an existing registration.
+     * <p>Deregister an existing registration. Stored credential fields in the
+     * response come back masked.
      * 
      * @param registrationId The unique identifier of the registration to deregister.
+     * @param deregisterRegistrationRequest Body for POST /registrations/{id}/deregister.
      * @return {@code CompletableFuture<DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse>} - The async response
      */
-    public CompletableFuture<DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse> deregister(String registrationId) {
-        return deregister(registrationId, Optional.empty(), JsonNullable.undefined());
+    public CompletableFuture<DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse> deregister(String registrationId, DeregisterRegistrationRequest deregisterRegistrationRequest) {
+        return deregister(registrationId, Optional.empty(), deregisterRegistrationRequest);
     }
 
     /**
      * Deregister registration
      * 
-     * <p>Deregister an existing registration.
+     * <p>Deregister an existing registration. Stored credential fields in the
+     * response come back masked.
      * 
      * @param registrationId The unique identifier of the registration to deregister.
      * @param xOrganizationId The unique identifier for the organization making the request
-     * @param deregisterRegistrationRequest Optional body for POST /registrations/{id}/deregister (CP-4742).
+     * @param deregisterRegistrationRequest Body for POST /registrations/{id}/deregister.
      * @return {@code CompletableFuture<DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse>} - The async response
      */
     public CompletableFuture<DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse> deregister(
             String registrationId, Optional<String> xOrganizationId,
-            JsonNullable<? extends DeregisterRegistrationRequest> deregisterRegistrationRequest) {
+            DeregisterRegistrationRequest deregisterRegistrationRequest) {
         DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest request =
             DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest
                 .builder()

@@ -14,8 +14,7 @@ import java.util.List;
 
 public class ProductCategoryRead {
     /**
-     * Name of the product category
-     * (e.g., PHYSICAL, SERVICE, DIGITAL, MISCELLANEOUS)
+     * Tax category display label (e.g. 'Physical', 'Services', 'Digital', 'Misc').
      */
     @JsonProperty("name")
     private String name;
@@ -37,8 +36,7 @@ public class ProductCategoryRead {
     }
 
     /**
-     * Name of the product category
-     * (e.g., PHYSICAL, SERVICE, DIGITAL, MISCELLANEOUS)
+     * Tax category display label (e.g. 'Physical', 'Services', 'Digital', 'Misc').
      */
     @JsonIgnore
     public String name() {
@@ -59,8 +57,7 @@ public class ProductCategoryRead {
 
 
     /**
-     * Name of the product category
-     * (e.g., PHYSICAL, SERVICE, DIGITAL, MISCELLANEOUS)
+     * Tax category display label (e.g. 'Physical', 'Services', 'Digital', 'Misc').
      */
     public ProductCategoryRead withName(String name) {
         Utils.checkNotNull(name, "name");
@@ -117,8 +114,7 @@ public class ProductCategoryRead {
 
 
         /**
-         * Name of the product category
-         * (e.g., PHYSICAL, SERVICE, DIGITAL, MISCELLANEOUS)
+         * Tax category display label (e.g. 'Physical', 'Services', 'Digital', 'Misc').
          */
         public Builder name(String name) {
             Utils.checkNotNull(name, "name");

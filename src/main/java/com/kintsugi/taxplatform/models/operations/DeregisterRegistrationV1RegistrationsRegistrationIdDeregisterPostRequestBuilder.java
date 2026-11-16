@@ -12,13 +12,12 @@ import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
 import java.util.Optional;
-import org.openapitools.jackson.nullable.JsonNullable;
 
 public class DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequestBuilder {
 
     private String registrationId;
     private Optional<String> xOrganizationId = Optional.empty();
-    private JsonNullable<? extends DeregisterRegistrationRequest> deregisterRegistrationRequest = JsonNullable.undefined();
+    private DeregisterRegistrationRequest deregisterRegistrationRequest;
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -45,12 +44,6 @@ public class DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRe
     }
 
     public DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequestBuilder deregisterRegistrationRequest(DeregisterRegistrationRequest deregisterRegistrationRequest) {
-        Utils.checkNotNull(deregisterRegistrationRequest, "deregisterRegistrationRequest");
-        this.deregisterRegistrationRequest = JsonNullable.of(deregisterRegistrationRequest);
-        return this;
-    }
-
-    public DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequestBuilder deregisterRegistrationRequest(JsonNullable<? extends DeregisterRegistrationRequest> deregisterRegistrationRequest) {
         Utils.checkNotNull(deregisterRegistrationRequest, "deregisterRegistrationRequest");
         this.deregisterRegistrationRequest = deregisterRegistrationRequest;
         return this;

@@ -19,6 +19,9 @@ import com.kintsugi.taxplatform.models.operations.GetExemptionByIdV1ExemptionsEx
 import com.kintsugi.taxplatform.models.operations.GetExemptionsV1ExemptionsGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetExemptionsV1ExemptionsGetRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.GetExemptionsV1ExemptionsGetResponse;
+import com.kintsugi.taxplatform.models.operations.ListPartialCertificateTypesV1ExemptionsPartialCertificateTypesGetRequest;
+import com.kintsugi.taxplatform.models.operations.ListPartialCertificateTypesV1ExemptionsPartialCertificateTypesGetRequestBuilder;
+import com.kintsugi.taxplatform.models.operations.ListPartialCertificateTypesV1ExemptionsPartialCertificateTypesGetResponse;
 import com.kintsugi.taxplatform.models.operations.UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest;
 import com.kintsugi.taxplatform.models.operations.UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse;
@@ -26,10 +29,12 @@ import com.kintsugi.taxplatform.operations.CreateExemptionV1ExemptionsPost;
 import com.kintsugi.taxplatform.operations.GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGet;
 import com.kintsugi.taxplatform.operations.GetExemptionByIdV1ExemptionsExemptionIdGet;
 import com.kintsugi.taxplatform.operations.GetExemptionsV1ExemptionsGet;
+import com.kintsugi.taxplatform.operations.ListPartialCertificateTypesV1ExemptionsPartialCertificateTypesGet;
 import com.kintsugi.taxplatform.operations.UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost;
 import com.kintsugi.taxplatform.utils.Headers;
 import java.lang.String;
 import java.util.Optional;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 public class Exemptions {
@@ -126,6 +131,51 @@ public class Exemptions {
                 .build();
         RequestOperation<CreateExemptionV1ExemptionsPostRequest, CreateExemptionV1ExemptionsPostResponse> operation
               = new CreateExemptionV1ExemptionsPost.Sync(sdkConfiguration, _headers);
+        return operation.handleResponse(operation.doRequest(request));
+    }
+
+    /**
+     * List partial certificate types
+     * 
+     * <p>Certificate forms a partial exemption may use. Pass jurisdiction to limit the list to that state.
+     * 
+     * @return The call builder
+     */
+    public ListPartialCertificateTypesV1ExemptionsPartialCertificateTypesGetRequestBuilder listPartialCertificateTypesV1ExemptionsPartialCertificateTypesGet() {
+        return new ListPartialCertificateTypesV1ExemptionsPartialCertificateTypesGetRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * List partial certificate types
+     * 
+     * <p>Certificate forms a partial exemption may use. Pass jurisdiction to limit the list to that state.
+     * 
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public ListPartialCertificateTypesV1ExemptionsPartialCertificateTypesGetResponse listPartialCertificateTypesV1ExemptionsPartialCertificateTypesGetDirect() {
+        return listPartialCertificateTypesV1ExemptionsPartialCertificateTypesGet(JsonNullable.undefined(), Optional.empty());
+    }
+
+    /**
+     * List partial certificate types
+     * 
+     * <p>Certificate forms a partial exemption may use. Pass jurisdiction to limit the list to that state.
+     * 
+     * @param jurisdiction Jurisdiction code. Only forms for this jurisdiction are returned.
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public ListPartialCertificateTypesV1ExemptionsPartialCertificateTypesGetResponse listPartialCertificateTypesV1ExemptionsPartialCertificateTypesGet(JsonNullable<String> jurisdiction, Optional<String> xOrganizationId) {
+        ListPartialCertificateTypesV1ExemptionsPartialCertificateTypesGetRequest request =
+            ListPartialCertificateTypesV1ExemptionsPartialCertificateTypesGetRequest
+                .builder()
+                .jurisdiction(jurisdiction)
+                .xOrganizationId(xOrganizationId)
+                .build();
+        RequestOperation<ListPartialCertificateTypesV1ExemptionsPartialCertificateTypesGetRequest, ListPartialCertificateTypesV1ExemptionsPartialCertificateTypesGetResponse> operation
+              = new ListPartialCertificateTypesV1ExemptionsPartialCertificateTypesGet.Sync(sdkConfiguration, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 

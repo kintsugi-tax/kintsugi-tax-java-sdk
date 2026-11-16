@@ -16,6 +16,7 @@ FilingStatusEnum value = FilingStatusEnum.UNFILED;
 | `UNFILED`   | UNFILED     |
 | `FILED`     | FILED       |
 | `FILING`    | FILING      |
+| `SUBMITTED` | SUBMITTED   |
 | `PAUSED`    | PAUSED      |
 | `SKIPPED`   | SKIPPED     |
 | `CANCELLED` | CANCELLED   |

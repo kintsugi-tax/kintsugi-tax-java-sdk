@@ -10,9 +10,7 @@ import com.kintsugi.taxplatform.utils.SpeakeasyMetadata;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Override;
 import java.lang.String;
-import java.lang.SuppressWarnings;
 import java.util.Optional;
-import org.openapitools.jackson.nullable.JsonNullable;
 
 
 public class DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest {
@@ -30,13 +28,13 @@ public class DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRe
 
 
     @SpeakeasyMetadata("request:mediaType=application/json")
-    private JsonNullable<? extends DeregisterRegistrationRequest> deregisterRegistrationRequest;
+    private DeregisterRegistrationRequest deregisterRegistrationRequest;
 
     @JsonCreator
     public DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest(
             String registrationId,
             Optional<String> xOrganizationId,
-            JsonNullable<? extends DeregisterRegistrationRequest> deregisterRegistrationRequest) {
+            DeregisterRegistrationRequest deregisterRegistrationRequest) {
         Utils.checkNotNull(registrationId, "registrationId");
         Utils.checkNotNull(xOrganizationId, "xOrganizationId");
         Utils.checkNotNull(deregisterRegistrationRequest, "deregisterRegistrationRequest");
@@ -46,8 +44,9 @@ public class DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRe
     }
     
     public DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest(
-            String registrationId) {
-        this(registrationId, Optional.empty(), JsonNullable.undefined());
+            String registrationId,
+            DeregisterRegistrationRequest deregisterRegistrationRequest) {
+        this(registrationId, Optional.empty(), deregisterRegistrationRequest);
     }
 
     /**
@@ -66,10 +65,9 @@ public class DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRe
         return xOrganizationId;
     }
 
-    @SuppressWarnings("unchecked")
     @JsonIgnore
-    public JsonNullable<DeregisterRegistrationRequest> deregisterRegistrationRequest() {
-        return (JsonNullable<DeregisterRegistrationRequest>) deregisterRegistrationRequest;
+    public DeregisterRegistrationRequest deregisterRegistrationRequest() {
+        return deregisterRegistrationRequest;
     }
 
     public static Builder builder() {
@@ -106,12 +104,6 @@ public class DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRe
     }
 
     public DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest withDeregisterRegistrationRequest(DeregisterRegistrationRequest deregisterRegistrationRequest) {
-        Utils.checkNotNull(deregisterRegistrationRequest, "deregisterRegistrationRequest");
-        this.deregisterRegistrationRequest = JsonNullable.of(deregisterRegistrationRequest);
-        return this;
-    }
-
-    public DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest withDeregisterRegistrationRequest(JsonNullable<? extends DeregisterRegistrationRequest> deregisterRegistrationRequest) {
         Utils.checkNotNull(deregisterRegistrationRequest, "deregisterRegistrationRequest");
         this.deregisterRegistrationRequest = deregisterRegistrationRequest;
         return this;
@@ -153,7 +145,7 @@ public class DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRe
 
         private Optional<String> xOrganizationId = Optional.empty();
 
-        private JsonNullable<? extends DeregisterRegistrationRequest> deregisterRegistrationRequest = JsonNullable.undefined();
+        private DeregisterRegistrationRequest deregisterRegistrationRequest;
 
         private Builder() {
           // force use of static builder() method
@@ -190,12 +182,6 @@ public class DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRe
 
 
         public Builder deregisterRegistrationRequest(DeregisterRegistrationRequest deregisterRegistrationRequest) {
-            Utils.checkNotNull(deregisterRegistrationRequest, "deregisterRegistrationRequest");
-            this.deregisterRegistrationRequest = JsonNullable.of(deregisterRegistrationRequest);
-            return this;
-        }
-
-        public Builder deregisterRegistrationRequest(JsonNullable<? extends DeregisterRegistrationRequest> deregisterRegistrationRequest) {
             Utils.checkNotNull(deregisterRegistrationRequest, "deregisterRegistrationRequest");
             this.deregisterRegistrationRequest = deregisterRegistrationRequest;
             return this;

@@ -170,7 +170,7 @@ public class CreateProductV1ProductsPost {
 
             CreateProductV1ProductsPostResponse res = resBuilder.build();
             
-            if (Utils.statusCodeMatches(response.statusCode(), "200")) {
+            if (Utils.statusCodeMatches(response.statusCode(), "200", "201")) {
                 if (Utils.contentTypeMatches(contentType, "application/json")) {
                     return res.withProductRead(Utils.unmarshal(response, new TypeReference<ProductRead>() {}));
                 } else {
@@ -261,7 +261,7 @@ public class CreateProductV1ProductsPost {
 
             com.kintsugi.taxplatform.models.operations.async.CreateProductV1ProductsPostResponse res = resBuilder.build();
             
-            if (Utils.statusCodeMatches(response.statusCode(), "200")) {
+            if (Utils.statusCodeMatches(response.statusCode(), "200", "201")) {
                 if (Utils.contentTypeMatches(contentType, "application/json")) {
                     return Utils.unmarshalAsync(response, new TypeReference<ProductRead>() {})
                             .thenApply(res::withProductRead);

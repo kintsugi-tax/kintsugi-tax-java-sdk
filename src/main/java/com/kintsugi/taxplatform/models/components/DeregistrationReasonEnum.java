@@ -8,15 +8,19 @@ import java.lang.String;
 import java.util.Objects;
 import java.util.Optional;
 
-public enum TexasSltrElection {
-    YES("YES"),
-    NO("NO"),
-    UNSURE("UNSURE");
+/**
+ * DeregistrationReasonEnum
+ * 
+ * <p>Reason a registration is being closed.
+ */
+public enum DeregistrationReasonEnum {
+    FULL_BUSINESS_CLOSURE("FULL_BUSINESS_CLOSURE"),
+    CLOSING_NEXUS_IN_STATE("CLOSING_NEXUS_IN_STATE");
 
     @JsonValue
     private final String value;
 
-    TexasSltrElection(String value) {
+    DeregistrationReasonEnum(String value) {
         this.value = value;
     }
     
@@ -24,8 +28,8 @@ public enum TexasSltrElection {
         return value;
     }
     
-    public static Optional<TexasSltrElection> fromValue(String value) {
-        for (TexasSltrElection o: TexasSltrElection.values()) {
+    public static Optional<DeregistrationReasonEnum> fromValue(String value) {
+        for (DeregistrationReasonEnum o: DeregistrationReasonEnum.values()) {
             if (Objects.deepEquals(o.value, value)) {
                 return Optional.of(o);
             }

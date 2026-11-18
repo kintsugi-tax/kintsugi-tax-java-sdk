@@ -35,7 +35,9 @@ public class TransactionEstimateResponse {
     @JsonProperty("external_id")
     private String externalId;
 
-
+    /**
+     * ISO-4217 currency code. Pair with a monetary amount on the same object.
+     */
     @JsonProperty("currency")
     private CurrencyEnum currency;
 
@@ -201,6 +203,9 @@ public class TransactionEstimateResponse {
         return externalId;
     }
 
+    /**
+     * ISO-4217 currency code. Pair with a monetary amount on the same object.
+     */
     @JsonIgnore
     public CurrencyEnum currency() {
         return currency;
@@ -330,6 +335,9 @@ public class TransactionEstimateResponse {
         return this;
     }
 
+    /**
+     * ISO-4217 currency code. Pair with a monetary amount on the same object.
+     */
     public TransactionEstimateResponse withCurrency(CurrencyEnum currency) {
         Utils.checkNotNull(currency, "currency");
         this.currency = currency;
@@ -653,6 +661,9 @@ public class TransactionEstimateResponse {
         }
 
 
+        /**
+         * ISO-4217 currency code. Pair with a monetary amount on the same object.
+         */
         public Builder currency(CurrencyEnum currency) {
             Utils.checkNotNull(currency, "currency");
             this.currency = currency;

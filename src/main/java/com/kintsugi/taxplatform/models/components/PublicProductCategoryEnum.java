@@ -14,9 +14,9 @@ import java.util.Optional;
  * <p>Top-level tax category for a product.
  */
 public enum PublicProductCategoryEnum {
+    PHYSICAL("Physical"),
     DIGITAL("Digital"),
     MISC("Misc"),
-    PHYSICAL("Physical"),
     SERVICES("Services");
 
     @JsonValue

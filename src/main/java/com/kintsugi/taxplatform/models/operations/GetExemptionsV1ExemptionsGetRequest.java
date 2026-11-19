@@ -45,13 +45,14 @@ public class GetExemptionsV1ExemptionsGetRequest {
     private JsonNullable<String> jurisdiction;
 
     /**
-     * Start date for filtering exemptions
+     * Include exemptions whose validity start date is on or after this date (YYYY-MM-DD)
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=start_date")
     private JsonNullable<LocalDate> startDate;
 
     /**
-     * End date for filtering exemptions
+     * Include exemptions whose validity end date is on or before this date (YYYY-MM-DD). Open-ended
+     * exemptions (null end date) are excluded when this filter is set.
      */
     @SpeakeasyMetadata("queryParam:style=form,explode=true,name=end_date")
     private JsonNullable<LocalDate> endDate;
@@ -183,7 +184,7 @@ public class GetExemptionsV1ExemptionsGetRequest {
     }
 
     /**
-     * Start date for filtering exemptions
+     * Include exemptions whose validity start date is on or after this date (YYYY-MM-DD)
      */
     @JsonIgnore
     public JsonNullable<LocalDate> startDate() {
@@ -191,7 +192,8 @@ public class GetExemptionsV1ExemptionsGetRequest {
     }
 
     /**
-     * End date for filtering exemptions
+     * Include exemptions whose validity end date is on or before this date (YYYY-MM-DD). Open-ended
+     * exemptions (null end date) are excluded when this filter is set.
      */
     @JsonIgnore
     public JsonNullable<LocalDate> endDate() {
@@ -332,7 +334,7 @@ public class GetExemptionsV1ExemptionsGetRequest {
     }
 
     /**
-     * Start date for filtering exemptions
+     * Include exemptions whose validity start date is on or after this date (YYYY-MM-DD)
      */
     public GetExemptionsV1ExemptionsGetRequest withStartDate(LocalDate startDate) {
         Utils.checkNotNull(startDate, "startDate");
@@ -341,7 +343,7 @@ public class GetExemptionsV1ExemptionsGetRequest {
     }
 
     /**
-     * Start date for filtering exemptions
+     * Include exemptions whose validity start date is on or after this date (YYYY-MM-DD)
      */
     public GetExemptionsV1ExemptionsGetRequest withStartDate(JsonNullable<LocalDate> startDate) {
         Utils.checkNotNull(startDate, "startDate");
@@ -350,7 +352,8 @@ public class GetExemptionsV1ExemptionsGetRequest {
     }
 
     /**
-     * End date for filtering exemptions
+     * Include exemptions whose validity end date is on or before this date (YYYY-MM-DD). Open-ended
+     * exemptions (null end date) are excluded when this filter is set.
      */
     public GetExemptionsV1ExemptionsGetRequest withEndDate(LocalDate endDate) {
         Utils.checkNotNull(endDate, "endDate");
@@ -359,7 +362,8 @@ public class GetExemptionsV1ExemptionsGetRequest {
     }
 
     /**
-     * End date for filtering exemptions
+     * Include exemptions whose validity end date is on or before this date (YYYY-MM-DD). Open-ended
+     * exemptions (null end date) are excluded when this filter is set.
      */
     public GetExemptionsV1ExemptionsGetRequest withEndDate(JsonNullable<LocalDate> endDate) {
         Utils.checkNotNull(endDate, "endDate");
@@ -660,7 +664,7 @@ public class GetExemptionsV1ExemptionsGetRequest {
 
 
         /**
-         * Start date for filtering exemptions
+         * Include exemptions whose validity start date is on or after this date (YYYY-MM-DD)
          */
         public Builder startDate(LocalDate startDate) {
             Utils.checkNotNull(startDate, "startDate");
@@ -669,7 +673,7 @@ public class GetExemptionsV1ExemptionsGetRequest {
         }
 
         /**
-         * Start date for filtering exemptions
+         * Include exemptions whose validity start date is on or after this date (YYYY-MM-DD)
          */
         public Builder startDate(JsonNullable<LocalDate> startDate) {
             Utils.checkNotNull(startDate, "startDate");
@@ -679,7 +683,8 @@ public class GetExemptionsV1ExemptionsGetRequest {
 
 
         /**
-         * End date for filtering exemptions
+         * Include exemptions whose validity end date is on or before this date (YYYY-MM-DD). Open-ended
+         * exemptions (null end date) are excluded when this filter is set.
          */
         public Builder endDate(LocalDate endDate) {
             Utils.checkNotNull(endDate, "endDate");
@@ -688,7 +693,8 @@ public class GetExemptionsV1ExemptionsGetRequest {
         }
 
         /**
-         * End date for filtering exemptions
+         * Include exemptions whose validity end date is on or before this date (YYYY-MM-DD). Open-ended
+         * exemptions (null end date) are excluded when this filter is set.
          */
         public Builder endDate(JsonNullable<LocalDate> endDate) {
             Utils.checkNotNull(endDate, "endDate");

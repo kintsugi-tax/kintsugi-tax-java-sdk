@@ -111,6 +111,11 @@ public class BackendSrcExemptionsSchemasExemptionExemptionRead {
     @JsonProperty("attachment_id")
     private JsonNullable<String> attachmentId;
 
+
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("certificate_type")
+    private JsonNullable<String> certificateType;
+
     @JsonCreator
     public BackendSrcExemptionsSchemasExemptionExemptionRead(
             @JsonProperty("exemption_type") ExemptionType exemptionType,
@@ -126,7 +131,8 @@ public class BackendSrcExemptionsSchemasExemptionExemptionRead {
             @JsonProperty("status") JsonNullable<? extends ExemptionStatus> status,
             @JsonProperty("id") String id,
             @JsonProperty("customer_name") JsonNullable<String> customerName,
-            @JsonProperty("attachment_id") JsonNullable<String> attachmentId) {
+            @JsonProperty("attachment_id") JsonNullable<String> attachmentId,
+            @JsonProperty("certificate_type") JsonNullable<String> certificateType) {
         Utils.checkNotNull(exemptionType, "exemptionType");
         Utils.checkNotNull(jurisdiction, "jurisdiction");
         Utils.checkNotNull(countryCode, "countryCode");
@@ -141,6 +147,7 @@ public class BackendSrcExemptionsSchemasExemptionExemptionRead {
         Utils.checkNotNull(id, "id");
         Utils.checkNotNull(customerName, "customerName");
         Utils.checkNotNull(attachmentId, "attachmentId");
+        Utils.checkNotNull(certificateType, "certificateType");
         this.exemptionType = exemptionType;
         this.jurisdiction = jurisdiction;
         this.countryCode = countryCode;
@@ -155,6 +162,7 @@ public class BackendSrcExemptionsSchemasExemptionExemptionRead {
         this.id = id;
         this.customerName = customerName;
         this.attachmentId = attachmentId;
+        this.certificateType = certificateType;
     }
     
     public BackendSrcExemptionsSchemasExemptionExemptionRead(
@@ -165,7 +173,7 @@ public class BackendSrcExemptionsSchemasExemptionExemptionRead {
             startDate, JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), Optional.empty(), JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), id,
-            JsonNullable.undefined(), JsonNullable.undefined());
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined());
     }
 
     @JsonIgnore
@@ -271,6 +279,11 @@ public class BackendSrcExemptionsSchemasExemptionExemptionRead {
     @JsonIgnore
     public JsonNullable<String> attachmentId() {
         return attachmentId;
+    }
+
+    @JsonIgnore
+    public JsonNullable<String> certificateType() {
+        return certificateType;
     }
 
     public static Builder builder() {
@@ -492,6 +505,18 @@ public class BackendSrcExemptionsSchemasExemptionExemptionRead {
         return this;
     }
 
+    public BackendSrcExemptionsSchemasExemptionExemptionRead withCertificateType(String certificateType) {
+        Utils.checkNotNull(certificateType, "certificateType");
+        this.certificateType = JsonNullable.of(certificateType);
+        return this;
+    }
+
+    public BackendSrcExemptionsSchemasExemptionExemptionRead withCertificateType(JsonNullable<String> certificateType) {
+        Utils.checkNotNull(certificateType, "certificateType");
+        this.certificateType = certificateType;
+        return this;
+    }
+
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -515,7 +540,8 @@ public class BackendSrcExemptionsSchemasExemptionExemptionRead {
             Utils.enhancedDeepEquals(this.status, other.status) &&
             Utils.enhancedDeepEquals(this.id, other.id) &&
             Utils.enhancedDeepEquals(this.customerName, other.customerName) &&
-            Utils.enhancedDeepEquals(this.attachmentId, other.attachmentId);
+            Utils.enhancedDeepEquals(this.attachmentId, other.attachmentId) &&
+            Utils.enhancedDeepEquals(this.certificateType, other.certificateType);
     }
     
     @Override
@@ -525,7 +551,7 @@ public class BackendSrcExemptionsSchemasExemptionExemptionRead {
             startDate, endDate, customerId,
             transactionId, reseller, fein,
             salesTaxId, status, id,
-            customerName, attachmentId);
+            customerName, attachmentId, certificateType);
     }
     
     @Override
@@ -544,7 +570,8 @@ public class BackendSrcExemptionsSchemasExemptionExemptionRead {
                 "status", status,
                 "id", id,
                 "customerName", customerName,
-                "attachmentId", attachmentId);
+                "attachmentId", attachmentId,
+                "certificateType", certificateType);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -577,6 +604,8 @@ public class BackendSrcExemptionsSchemasExemptionExemptionRead {
         private JsonNullable<String> customerName = JsonNullable.undefined();
 
         private JsonNullable<String> attachmentId = JsonNullable.undefined();
+
+        private JsonNullable<String> certificateType = JsonNullable.undefined();
 
         private Builder() {
           // force use of static builder() method
@@ -809,6 +838,19 @@ public class BackendSrcExemptionsSchemasExemptionExemptionRead {
             return this;
         }
 
+
+        public Builder certificateType(String certificateType) {
+            Utils.checkNotNull(certificateType, "certificateType");
+            this.certificateType = JsonNullable.of(certificateType);
+            return this;
+        }
+
+        public Builder certificateType(JsonNullable<String> certificateType) {
+            Utils.checkNotNull(certificateType, "certificateType");
+            this.certificateType = certificateType;
+            return this;
+        }
+
         public BackendSrcExemptionsSchemasExemptionExemptionRead build() {
             if (reseller == null) {
                 reseller = _SINGLETON_VALUE_Reseller.value();
@@ -819,7 +861,7 @@ public class BackendSrcExemptionsSchemasExemptionExemptionRead {
                 startDate, endDate, customerId,
                 transactionId, reseller, fein,
                 salesTaxId, status, id,
-                customerName, attachmentId);
+                customerName, attachmentId, certificateType);
         }
 
 

@@ -14,7 +14,6 @@ import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Boolean;
 import java.lang.Override;
 import java.lang.String;
-import java.lang.SuppressWarnings;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 
@@ -67,20 +66,6 @@ public class TexasFields {
     @JsonProperty("registered_address")
     private JsonNullable<String> registeredAddress;
 
-    /**
-     * Whether the remote seller elected the Single Local Tax Rate (SLTR) option: Yes, No, or Unsure.
-     */
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("sltr_elected")
-    private JsonNullable<? extends TexasSltrElection> sltrElected;
-
-    /**
-     * Optional Single Local Tax Rate (SLTR) for remote sellers; can change year to year.
-     */
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("single_local_tax_rate")
-    private JsonNullable<String> singleLocalTaxRate;
-
     @JsonCreator
     public TexasFields(
             @JsonProperty("registration_type") TexasRegistrationType registrationType,
@@ -89,9 +74,7 @@ public class TexasFields {
             @JsonProperty("texas_taxpayer_number") String texasTaxpayerNumber,
             @JsonProperty("webfile_number") String webfileNumber,
             @JsonProperty("registered_location_number") JsonNullable<String> registeredLocationNumber,
-            @JsonProperty("registered_address") JsonNullable<String> registeredAddress,
-            @JsonProperty("sltr_elected") JsonNullable<? extends TexasSltrElection> sltrElected,
-            @JsonProperty("single_local_tax_rate") JsonNullable<String> singleLocalTaxRate) {
+            @JsonProperty("registered_address") JsonNullable<String> registeredAddress) {
         Utils.checkNotNull(registrationType, "registrationType");
         Utils.checkNotNull(mfaCompleted, "mfaCompleted");
         Utils.checkNotNull(businessName, "businessName");
@@ -99,8 +82,6 @@ public class TexasFields {
         Utils.checkNotNull(webfileNumber, "webfileNumber");
         Utils.checkNotNull(registeredLocationNumber, "registeredLocationNumber");
         Utils.checkNotNull(registeredAddress, "registeredAddress");
-        Utils.checkNotNull(sltrElected, "sltrElected");
-        Utils.checkNotNull(singleLocalTaxRate, "singleLocalTaxRate");
         this.registrationType = registrationType;
         this.mfaCompleted = mfaCompleted;
         this.businessName = businessName;
@@ -108,8 +89,6 @@ public class TexasFields {
         this.webfileNumber = webfileNumber;
         this.registeredLocationNumber = registeredLocationNumber;
         this.registeredAddress = registeredAddress;
-        this.sltrElected = sltrElected;
-        this.singleLocalTaxRate = singleLocalTaxRate;
     }
     
     public TexasFields(
@@ -119,7 +98,7 @@ public class TexasFields {
             String webfileNumber) {
         this(registrationType, Optional.empty(), businessName,
             texasTaxpayerNumber, webfileNumber, JsonNullable.undefined(),
-            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined());
+            JsonNullable.undefined());
     }
 
     @JsonIgnore
@@ -173,23 +152,6 @@ public class TexasFields {
     @JsonIgnore
     public JsonNullable<String> registeredAddress() {
         return registeredAddress;
-    }
-
-    /**
-     * Whether the remote seller elected the Single Local Tax Rate (SLTR) option: Yes, No, or Unsure.
-     */
-    @SuppressWarnings("unchecked")
-    @JsonIgnore
-    public JsonNullable<TexasSltrElection> sltrElected() {
-        return (JsonNullable<TexasSltrElection>) sltrElected;
-    }
-
-    /**
-     * Optional Single Local Tax Rate (SLTR) for remote sellers; can change year to year.
-     */
-    @JsonIgnore
-    public JsonNullable<String> singleLocalTaxRate() {
-        return singleLocalTaxRate;
     }
 
     public static Builder builder() {
@@ -285,42 +247,6 @@ public class TexasFields {
         return this;
     }
 
-    /**
-     * Whether the remote seller elected the Single Local Tax Rate (SLTR) option: Yes, No, or Unsure.
-     */
-    public TexasFields withSltrElected(TexasSltrElection sltrElected) {
-        Utils.checkNotNull(sltrElected, "sltrElected");
-        this.sltrElected = JsonNullable.of(sltrElected);
-        return this;
-    }
-
-    /**
-     * Whether the remote seller elected the Single Local Tax Rate (SLTR) option: Yes, No, or Unsure.
-     */
-    public TexasFields withSltrElected(JsonNullable<? extends TexasSltrElection> sltrElected) {
-        Utils.checkNotNull(sltrElected, "sltrElected");
-        this.sltrElected = sltrElected;
-        return this;
-    }
-
-    /**
-     * Optional Single Local Tax Rate (SLTR) for remote sellers; can change year to year.
-     */
-    public TexasFields withSingleLocalTaxRate(String singleLocalTaxRate) {
-        Utils.checkNotNull(singleLocalTaxRate, "singleLocalTaxRate");
-        this.singleLocalTaxRate = JsonNullable.of(singleLocalTaxRate);
-        return this;
-    }
-
-    /**
-     * Optional Single Local Tax Rate (SLTR) for remote sellers; can change year to year.
-     */
-    public TexasFields withSingleLocalTaxRate(JsonNullable<String> singleLocalTaxRate) {
-        Utils.checkNotNull(singleLocalTaxRate, "singleLocalTaxRate");
-        this.singleLocalTaxRate = singleLocalTaxRate;
-        return this;
-    }
-
     @Override
     public boolean equals(java.lang.Object o) {
         if (this == o) {
@@ -337,9 +263,7 @@ public class TexasFields {
             Utils.enhancedDeepEquals(this.texasTaxpayerNumber, other.texasTaxpayerNumber) &&
             Utils.enhancedDeepEquals(this.webfileNumber, other.webfileNumber) &&
             Utils.enhancedDeepEquals(this.registeredLocationNumber, other.registeredLocationNumber) &&
-            Utils.enhancedDeepEquals(this.registeredAddress, other.registeredAddress) &&
-            Utils.enhancedDeepEquals(this.sltrElected, other.sltrElected) &&
-            Utils.enhancedDeepEquals(this.singleLocalTaxRate, other.singleLocalTaxRate);
+            Utils.enhancedDeepEquals(this.registeredAddress, other.registeredAddress);
     }
     
     @Override
@@ -347,7 +271,7 @@ public class TexasFields {
         return Utils.enhancedHash(
             registrationType, mfaCompleted, businessName,
             texasTaxpayerNumber, webfileNumber, registeredLocationNumber,
-            registeredAddress, sltrElected, singleLocalTaxRate);
+            registeredAddress);
     }
     
     @Override
@@ -359,9 +283,7 @@ public class TexasFields {
                 "texasTaxpayerNumber", texasTaxpayerNumber,
                 "webfileNumber", webfileNumber,
                 "registeredLocationNumber", registeredLocationNumber,
-                "registeredAddress", registeredAddress,
-                "sltrElected", sltrElected,
-                "singleLocalTaxRate", singleLocalTaxRate);
+                "registeredAddress", registeredAddress);
     }
 
     @SuppressWarnings("UnusedReturnValue")
@@ -380,10 +302,6 @@ public class TexasFields {
         private JsonNullable<String> registeredLocationNumber = JsonNullable.undefined();
 
         private JsonNullable<String> registeredAddress = JsonNullable.undefined();
-
-        private JsonNullable<? extends TexasSltrElection> sltrElected = JsonNullable.undefined();
-
-        private JsonNullable<String> singleLocalTaxRate = JsonNullable.undefined();
 
         private Builder() {
           // force use of static builder() method
@@ -483,44 +401,6 @@ public class TexasFields {
             return this;
         }
 
-
-        /**
-         * Whether the remote seller elected the Single Local Tax Rate (SLTR) option: Yes, No, or Unsure.
-         */
-        public Builder sltrElected(TexasSltrElection sltrElected) {
-            Utils.checkNotNull(sltrElected, "sltrElected");
-            this.sltrElected = JsonNullable.of(sltrElected);
-            return this;
-        }
-
-        /**
-         * Whether the remote seller elected the Single Local Tax Rate (SLTR) option: Yes, No, or Unsure.
-         */
-        public Builder sltrElected(JsonNullable<? extends TexasSltrElection> sltrElected) {
-            Utils.checkNotNull(sltrElected, "sltrElected");
-            this.sltrElected = sltrElected;
-            return this;
-        }
-
-
-        /**
-         * Optional Single Local Tax Rate (SLTR) for remote sellers; can change year to year.
-         */
-        public Builder singleLocalTaxRate(String singleLocalTaxRate) {
-            Utils.checkNotNull(singleLocalTaxRate, "singleLocalTaxRate");
-            this.singleLocalTaxRate = JsonNullable.of(singleLocalTaxRate);
-            return this;
-        }
-
-        /**
-         * Optional Single Local Tax Rate (SLTR) for remote sellers; can change year to year.
-         */
-        public Builder singleLocalTaxRate(JsonNullable<String> singleLocalTaxRate) {
-            Utils.checkNotNull(singleLocalTaxRate, "singleLocalTaxRate");
-            this.singleLocalTaxRate = singleLocalTaxRate;
-            return this;
-        }
-
         public TexasFields build() {
             if (mfaCompleted == null) {
                 mfaCompleted = _SINGLETON_VALUE_MfaCompleted.value();
@@ -529,7 +409,7 @@ public class TexasFields {
             return new TexasFields(
                 registrationType, mfaCompleted, businessName,
                 texasTaxpayerNumber, webfileNumber, registeredLocationNumber,
-                registeredAddress, sltrElected, singleLocalTaxRate);
+                registeredAddress);
         }
 
 

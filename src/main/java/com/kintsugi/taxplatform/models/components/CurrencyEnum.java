@@ -8,6 +8,11 @@ import java.lang.String;
 import java.util.Objects;
 import java.util.Optional;
 
+/**
+ * CurrencyEnum
+ * 
+ * <p>ISO-4217 currency code. Pair with a monetary amount on the same object.
+ */
 public enum CurrencyEnum {
     AED("AED"),
     AFN("AFN"),

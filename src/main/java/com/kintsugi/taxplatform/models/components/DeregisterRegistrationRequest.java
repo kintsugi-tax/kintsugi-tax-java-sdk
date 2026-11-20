@@ -8,33 +8,95 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.kintsugi.taxplatform.utils.LazySingletonValue;
 import com.kintsugi.taxplatform.utils.Utils;
+import java.lang.Boolean;
 import java.lang.Override;
 import java.lang.String;
+import java.time.LocalDate;
 import org.openapitools.jackson.nullable.JsonNullable;
 
 /**
  * DeregisterRegistrationRequest
  * 
- * <p>Optional body for POST /registrations/{id}/deregister (CP-4742).
+ * <p>Body for POST /registrations/{id}/deregister.
  */
 public class DeregisterRegistrationRequest {
+    /**
+     * Effective date the permit closes with the jurisdiction (YYYY-MM-DD). Past and future dates are
+     * accepted.
+     */
+    @JsonProperty("closure_date")
+    private LocalDate closureDate;
 
+    /**
+     * Reason a registration is being closed.
+     */
+    @JsonProperty("reason")
+    private DeregistrationReasonEnum reason;
+
+    /**
+     * Must be true: the actor confirms a final return is still owed.
+     */
+    @JsonProperty("final_return_acknowledged")
+    private boolean finalReturnAcknowledged;
+
+    /**
+     * Optional client-minted id for this confirm attempt.
+     */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("request_id")
     private JsonNullable<String> requestId;
 
     @JsonCreator
     public DeregisterRegistrationRequest(
+            @JsonProperty("closure_date") LocalDate closureDate,
+            @JsonProperty("reason") DeregistrationReasonEnum reason,
             @JsonProperty("request_id") JsonNullable<String> requestId) {
+        Utils.checkNotNull(closureDate, "closureDate");
+        Utils.checkNotNull(reason, "reason");
         Utils.checkNotNull(requestId, "requestId");
+        this.closureDate = closureDate;
+        this.reason = reason;
+        this.finalReturnAcknowledged = Builder._SINGLETON_VALUE_FinalReturnAcknowledged.value();
         this.requestId = requestId;
     }
     
-    public DeregisterRegistrationRequest() {
-        this(JsonNullable.undefined());
+    public DeregisterRegistrationRequest(
+            LocalDate closureDate,
+            DeregistrationReasonEnum reason) {
+        this(closureDate, reason, JsonNullable.undefined());
     }
 
+    /**
+     * Effective date the permit closes with the jurisdiction (YYYY-MM-DD). Past and future dates are
+     * accepted.
+     */
+    @JsonIgnore
+    public LocalDate closureDate() {
+        return closureDate;
+    }
+
+    /**
+     * Reason a registration is being closed.
+     */
+    @JsonIgnore
+    public DeregistrationReasonEnum reason() {
+        return reason;
+    }
+
+    /**
+     * Must be true: the actor confirms a final return is still owed.
+     */
+    @JsonIgnore
+    public boolean finalReturnAcknowledged() {
+        return finalReturnAcknowledged;
+    }
+
+    /**
+     * Optional client-minted id for this confirm attempt.
+     */
     @JsonIgnore
     public JsonNullable<String> requestId() {
         return requestId;
@@ -45,12 +107,37 @@ public class DeregisterRegistrationRequest {
     }
 
 
+    /**
+     * Effective date the permit closes with the jurisdiction (YYYY-MM-DD). Past and future dates are
+     * accepted.
+     */
+    public DeregisterRegistrationRequest withClosureDate(LocalDate closureDate) {
+        Utils.checkNotNull(closureDate, "closureDate");
+        this.closureDate = closureDate;
+        return this;
+    }
+
+    /**
+     * Reason a registration is being closed.
+     */
+    public DeregisterRegistrationRequest withReason(DeregistrationReasonEnum reason) {
+        Utils.checkNotNull(reason, "reason");
+        this.reason = reason;
+        return this;
+    }
+
+    /**
+     * Optional client-minted id for this confirm attempt.
+     */
     public DeregisterRegistrationRequest withRequestId(String requestId) {
         Utils.checkNotNull(requestId, "requestId");
         this.requestId = JsonNullable.of(requestId);
         return this;
     }
 
+    /**
+     * Optional client-minted id for this confirm attempt.
+     */
     public DeregisterRegistrationRequest withRequestId(JsonNullable<String> requestId) {
         Utils.checkNotNull(requestId, "requestId");
         this.requestId = requestId;
@@ -67,23 +154,34 @@ public class DeregisterRegistrationRequest {
         }
         DeregisterRegistrationRequest other = (DeregisterRegistrationRequest) o;
         return 
+            Utils.enhancedDeepEquals(this.closureDate, other.closureDate) &&
+            Utils.enhancedDeepEquals(this.reason, other.reason) &&
+            Utils.enhancedDeepEquals(this.finalReturnAcknowledged, other.finalReturnAcknowledged) &&
             Utils.enhancedDeepEquals(this.requestId, other.requestId);
     }
     
     @Override
     public int hashCode() {
         return Utils.enhancedHash(
+            closureDate, reason, finalReturnAcknowledged,
             requestId);
     }
     
     @Override
     public String toString() {
         return Utils.toString(DeregisterRegistrationRequest.class,
+                "closureDate", closureDate,
+                "reason", reason,
+                "finalReturnAcknowledged", finalReturnAcknowledged,
                 "requestId", requestId);
     }
 
     @SuppressWarnings("UnusedReturnValue")
     public final static class Builder {
+
+        private LocalDate closureDate;
+
+        private DeregistrationReasonEnum reason;
 
         private JsonNullable<String> requestId = JsonNullable.undefined();
 
@@ -92,12 +190,39 @@ public class DeregisterRegistrationRequest {
         }
 
 
+        /**
+         * Effective date the permit closes with the jurisdiction (YYYY-MM-DD). Past and future dates are
+         * accepted.
+         */
+        public Builder closureDate(LocalDate closureDate) {
+            Utils.checkNotNull(closureDate, "closureDate");
+            this.closureDate = closureDate;
+            return this;
+        }
+
+
+        /**
+         * Reason a registration is being closed.
+         */
+        public Builder reason(DeregistrationReasonEnum reason) {
+            Utils.checkNotNull(reason, "reason");
+            this.reason = reason;
+            return this;
+        }
+
+
+        /**
+         * Optional client-minted id for this confirm attempt.
+         */
         public Builder requestId(String requestId) {
             Utils.checkNotNull(requestId, "requestId");
             this.requestId = JsonNullable.of(requestId);
             return this;
         }
 
+        /**
+         * Optional client-minted id for this confirm attempt.
+         */
         public Builder requestId(JsonNullable<String> requestId) {
             Utils.checkNotNull(requestId, "requestId");
             this.requestId = requestId;
@@ -107,8 +232,14 @@ public class DeregisterRegistrationRequest {
         public DeregisterRegistrationRequest build() {
 
             return new DeregisterRegistrationRequest(
-                requestId);
+                closureDate, reason, requestId);
         }
 
+
+        private static final LazySingletonValue<Boolean> _SINGLETON_VALUE_FinalReturnAcknowledged =
+                new LazySingletonValue<>(
+                        "final_return_acknowledged",
+                        "true",
+                        new TypeReference<Boolean>() {});
     }
 }

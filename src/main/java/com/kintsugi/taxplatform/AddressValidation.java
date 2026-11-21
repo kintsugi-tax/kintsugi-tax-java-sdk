@@ -15,6 +15,7 @@ import com.kintsugi.taxplatform.models.operations.SuggestionsV1AddressValidation
 import com.kintsugi.taxplatform.operations.SearchV1AddressValidationSearchPost;
 import com.kintsugi.taxplatform.operations.SuggestionsV1AddressValidationSuggestionsPost;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import java.lang.String;
 import java.util.Optional;
 
@@ -65,8 +66,25 @@ public class AddressValidation {
      * @throws RuntimeException subclass if the API call fails
      */
     public SearchV1AddressValidationSearchPostResponse search(AddressBase request) {
+        return search(request, Optional.empty());
+    }
+
+    /**
+     * Search
+     * 
+     * <p>This API validates and enriches address information
+     * submitted by the user. It ensures that the address is standardized, accurate,
+     * and compliant with geographical and postal standards.
+     * The API also adds additional fields, such as county, when possible.
+     * 
+     * @param request The request object containing all the parameters for the API call.
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public SearchV1AddressValidationSearchPostResponse search(AddressBase request, Optional<Options> options) {
         RequestOperation<AddressBase, SearchV1AddressValidationSearchPostResponse> operation
-              = new SearchV1AddressValidationSearchPost.Sync(sdkConfiguration, _headers);
+              = new SearchV1AddressValidationSearchPost.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -99,7 +117,7 @@ public class AddressValidation {
      * @throws RuntimeException subclass if the API call fails
      */
     public SuggestionsV1AddressValidationSuggestionsPostResponse suggest(ValidationAddress validationAddress) {
-        return suggest(Optional.empty(), validationAddress);
+        return suggest(Optional.empty(), validationAddress, Optional.empty());
     }
 
     /**
@@ -117,6 +135,27 @@ public class AddressValidation {
      * @throws RuntimeException subclass if the API call fails
      */
     public SuggestionsV1AddressValidationSuggestionsPostResponse suggest(Optional<String> xOrganizationId, ValidationAddress validationAddress) {
+        return suggest(xOrganizationId, validationAddress, Optional.empty());
+    }
+
+    /**
+     * Suggestions
+     * 
+     * <p>This API endpoint provides address suggestions based on
+     * partial input data. It helps users auto-complete and validate addresses efficiently
+     * by returning a list of suggested addresses that match the input criteria.
+     * This improves accuracy, increases speed, reduces errors,
+     * and streamlines the data entry process.
+     * 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param validationAddress 
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public SuggestionsV1AddressValidationSuggestionsPostResponse suggest(
+            Optional<String> xOrganizationId, ValidationAddress validationAddress,
+            Optional<Options> options) {
         SuggestionsV1AddressValidationSuggestionsPostRequest request =
             SuggestionsV1AddressValidationSuggestionsPostRequest
                 .builder()
@@ -124,7 +163,7 @@ public class AddressValidation {
                 .validationAddress(validationAddress)
                 .build();
         RequestOperation<SuggestionsV1AddressValidationSuggestionsPostRequest, SuggestionsV1AddressValidationSuggestionsPostResponse> operation
-              = new SuggestionsV1AddressValidationSuggestionsPost.Sync(sdkConfiguration, _headers);
+              = new SuggestionsV1AddressValidationSuggestionsPost.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 

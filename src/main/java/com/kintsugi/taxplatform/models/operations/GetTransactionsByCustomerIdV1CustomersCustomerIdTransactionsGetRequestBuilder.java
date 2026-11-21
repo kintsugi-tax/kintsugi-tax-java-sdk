@@ -8,9 +8,11 @@ import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.operations.GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Long;
 import java.lang.String;
+import java.time.Duration;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
 
@@ -20,6 +22,7 @@ public class GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequ
     private JsonNullable<Long> page = JsonNullable.undefined();
     private JsonNullable<Long> size = JsonNullable.undefined();
     private Optional<String> xOrganizationId = Optional.empty();
+    private Optional<Duration> timeout = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -68,6 +71,18 @@ public class GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequ
         this.xOrganizationId = xOrganizationId;
         return this;
     }
+                
+    public GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequestBuilder timeout(Duration timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = Optional.of(timeout);
+        return this;
+    }
+
+    public GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequestBuilder timeout(Optional<Duration> timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = timeout;
+        return this;
+    }
 
 
     private GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest buildRequest() {
@@ -81,9 +96,12 @@ public class GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequ
     }
 
     public GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse call() {
-        
+        Optional<Options> options = Optional.of(Options.builder()
+            .timeout(timeout)
+            .build());
+
         RequestOperation<GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest, GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse> operation
-              = new GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet.Sync(sdkConfiguration, _headers);
+              = new GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet.Sync(sdkConfiguration, options, _headers);
         GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

@@ -9,8 +9,10 @@ import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.operations.GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest;
 import com.kintsugi.taxplatform.operations.GetRegistrationByIdV1RegistrationsRegistrationIdGet;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.time.Duration;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -20,6 +22,7 @@ public class GetRegistrationByIdV1RegistrationsRegistrationIdGetRequestBuilder {
     private String registrationId;
     private JsonNullable<String> reveal = JsonNullable.undefined();
     private Optional<String> xOrganizationId = Optional.empty();
+    private Optional<Duration> timeout = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -56,6 +59,18 @@ public class GetRegistrationByIdV1RegistrationsRegistrationIdGetRequestBuilder {
         this.xOrganizationId = xOrganizationId;
         return this;
     }
+                
+    public GetRegistrationByIdV1RegistrationsRegistrationIdGetRequestBuilder timeout(Duration timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = Optional.of(timeout);
+        return this;
+    }
+
+    public GetRegistrationByIdV1RegistrationsRegistrationIdGetRequestBuilder timeout(Optional<Duration> timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = timeout;
+        return this;
+    }
 
 
     private GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest buildRequest() {
@@ -68,9 +83,12 @@ public class GetRegistrationByIdV1RegistrationsRegistrationIdGetRequestBuilder {
     }
 
     public CompletableFuture<GetRegistrationByIdV1RegistrationsRegistrationIdGetResponse> call() {
-        
+        Optional<Options> options = Optional.of(Options.builder()
+            .timeout(timeout)
+            .build());
+
         AsyncRequestOperation<GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest, GetRegistrationByIdV1RegistrationsRegistrationIdGetResponse> operation
-              = new GetRegistrationByIdV1RegistrationsRegistrationIdGet.Async(sdkConfiguration, _headers);
+              = new GetRegistrationByIdV1RegistrationsRegistrationIdGet.Async(sdkConfiguration, options, _headers);
         GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest request = buildRequest();
 
         return operation.doRequest(request)

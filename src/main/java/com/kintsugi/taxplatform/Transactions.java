@@ -46,6 +46,7 @@ import com.kintsugi.taxplatform.operations.PUTUpdateCreditNoteByTransactionId;
 import com.kintsugi.taxplatform.operations.SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPost;
 import com.kintsugi.taxplatform.operations.UpdateTransactionV1TransactionsTransactionIdPut;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import java.lang.String;
 import java.util.Optional;
 
@@ -98,8 +99,23 @@ public class Transactions {
      * @throws RuntimeException subclass if the API call fails
      */
     public GetTransactionsV1TransactionsGetResponse get(GetTransactionsV1TransactionsGetRequest request) {
+        return get(request, Optional.empty());
+    }
+
+    /**
+     * Get transactions
+     * 
+     * <p>The Get Transactions API retrieves a list of transactions with
+     * optional filtering, sorting, and pagination.
+     * 
+     * @param request The request object containing all the parameters for the API call.
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public GetTransactionsV1TransactionsGetResponse get(GetTransactionsV1TransactionsGetRequest request, Optional<Options> options) {
         RequestOperation<GetTransactionsV1TransactionsGetRequest, GetTransactionsV1TransactionsGetResponse> operation
-              = new GetTransactionsV1TransactionsGet.Sync(sdkConfiguration, _headers);
+              = new GetTransactionsV1TransactionsGet.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -126,7 +142,7 @@ public class Transactions {
      * @throws RuntimeException subclass if the API call fails
      */
     public CreateTransactionV1TransactionsPostResponse create(TransactionPublicRequest transactionPublicRequest) {
-        return create(Optional.empty(), transactionPublicRequest);
+        return create(Optional.empty(), transactionPublicRequest, Optional.empty());
     }
 
     /**
@@ -141,6 +157,24 @@ public class Transactions {
      * @throws RuntimeException subclass if the API call fails
      */
     public CreateTransactionV1TransactionsPostResponse create(Optional<String> xOrganizationId, TransactionPublicRequest transactionPublicRequest) {
+        return create(xOrganizationId, transactionPublicRequest, Optional.empty());
+    }
+
+    /**
+     * Create transaction
+     * 
+     * <p>Create a transaction. Set `marketplace: true` for reseller or marketplace orders where tax was
+     * remitted externally; gross sales still count toward nexus, but tax liability is excluded.
+     * 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param transactionPublicRequest 
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public CreateTransactionV1TransactionsPostResponse create(
+            Optional<String> xOrganizationId, TransactionPublicRequest transactionPublicRequest,
+            Optional<Options> options) {
         CreateTransactionV1TransactionsPostRequest request =
             CreateTransactionV1TransactionsPostRequest
                 .builder()
@@ -148,7 +182,7 @@ public class Transactions {
                 .transactionPublicRequest(transactionPublicRequest)
                 .build();
         RequestOperation<CreateTransactionV1TransactionsPostRequest, CreateTransactionV1TransactionsPostResponse> operation
-              = new CreateTransactionV1TransactionsPost.Sync(sdkConfiguration, _headers);
+              = new CreateTransactionV1TransactionsPost.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -173,7 +207,7 @@ public class Transactions {
      * @throws RuntimeException subclass if the API call fails
      */
     public ArchiveTransactionByIdV1TransactionsArchivePostResponse archiveTransactionByIdV1TransactionsArchivePost(String transactionId) {
-        return archiveTransactionByIdV1TransactionsArchivePost(transactionId, Optional.empty());
+        return archiveTransactionByIdV1TransactionsArchivePost(transactionId, Optional.empty(), Optional.empty());
     }
 
     /**
@@ -187,6 +221,23 @@ public class Transactions {
      * @throws RuntimeException subclass if the API call fails
      */
     public ArchiveTransactionByIdV1TransactionsArchivePostResponse archiveTransactionByIdV1TransactionsArchivePost(String transactionId, Optional<String> xOrganizationId) {
+        return archiveTransactionByIdV1TransactionsArchivePost(transactionId, xOrganizationId, Optional.empty());
+    }
+
+    /**
+     * Archive transaction by id
+     * 
+     * <p>Archive transactions by transaction id
+     * 
+     * @param transactionId 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public ArchiveTransactionByIdV1TransactionsArchivePostResponse archiveTransactionByIdV1TransactionsArchivePost(
+            String transactionId, Optional<String> xOrganizationId,
+            Optional<Options> options) {
         ArchiveTransactionByIdV1TransactionsArchivePostRequest request =
             ArchiveTransactionByIdV1TransactionsArchivePostRequest
                 .builder()
@@ -194,7 +245,7 @@ public class Transactions {
                 .xOrganizationId(xOrganizationId)
                 .build();
         RequestOperation<ArchiveTransactionByIdV1TransactionsArchivePostRequest, ArchiveTransactionByIdV1TransactionsArchivePostResponse> operation
-              = new ArchiveTransactionByIdV1TransactionsArchivePost.Sync(sdkConfiguration, _headers);
+              = new ArchiveTransactionByIdV1TransactionsArchivePost.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -221,7 +272,7 @@ public class Transactions {
      * @throws RuntimeException subclass if the API call fails
      */
     public GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse getByExternalId(String externalId) {
-        return getByExternalId(externalId, Optional.empty());
+        return getByExternalId(externalId, Optional.empty(), Optional.empty());
     }
 
     /**
@@ -236,6 +287,24 @@ public class Transactions {
      * @throws RuntimeException subclass if the API call fails
      */
     public GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse getByExternalId(String externalId, Optional<String> xOrganizationId) {
+        return getByExternalId(externalId, xOrganizationId, Optional.empty());
+    }
+
+    /**
+     * Get transaction by external id
+     * 
+     * <p>Retrieves a specific transaction based on its external ID.
+     * This allows users to fetch transaction details using an identifier from an external system.
+     * 
+     * @param externalId The unique external identifier of the transaction.
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse getByExternalId(
+            String externalId, Optional<String> xOrganizationId,
+            Optional<Options> options) {
         GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest request =
             GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest
                 .builder()
@@ -243,7 +312,7 @@ public class Transactions {
                 .xOrganizationId(xOrganizationId)
                 .build();
         RequestOperation<GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest, GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse> operation
-              = new GetTransactionByExternalIdV1TransactionsExternalExternalIdGet.Sync(sdkConfiguration, _headers);
+              = new GetTransactionByExternalIdV1TransactionsExternalExternalIdGet.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -270,7 +339,7 @@ public class Transactions {
      * @throws RuntimeException subclass if the API call fails
      */
     public GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetResponse getByFilingId(String filingId) {
-        return getByFilingId(filingId, Optional.empty());
+        return getByFilingId(filingId, Optional.empty(), Optional.empty());
     }
 
     /**
@@ -286,6 +355,25 @@ public class Transactions {
      * @throws RuntimeException subclass if the API call fails
      */
     public GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetResponse getByFilingId(String filingId, Optional<String> xOrganizationId) {
+        return getByFilingId(filingId, xOrganizationId, Optional.empty());
+    }
+
+    /**
+     * Get transactions by filing id
+     * 
+     * <p>Retrieve transactions by filing ID.
+     * 
+     * @param filingId The unique identifier of the filing
+     *                 whose transactions you wish to retrieve.
+     *                 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetResponse getByFilingId(
+            String filingId, Optional<String> xOrganizationId,
+            Optional<Options> options) {
         GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest request =
             GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest
                 .builder()
@@ -293,7 +381,7 @@ public class Transactions {
                 .xOrganizationId(xOrganizationId)
                 .build();
         RequestOperation<GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest, GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetResponse> operation
-              = new GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGet.Sync(sdkConfiguration, _headers);
+              = new GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGet.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -323,7 +411,7 @@ public class Transactions {
             String originalTransactionId, String creditNoteId,
             CreditNoteCreate creditNoteCreate) {
         return updateCreditNote(originalTransactionId, creditNoteId, Optional.empty(),
-            creditNoteCreate);
+            creditNoteCreate, Optional.empty());
     }
 
     /**
@@ -341,6 +429,27 @@ public class Transactions {
     public PUTUpdateCreditNoteByTransactionIdResponse updateCreditNote(
             String originalTransactionId, String creditNoteId,
             Optional<String> xOrganizationId, CreditNoteCreate creditNoteCreate) {
+        return updateCreditNote(originalTransactionId, creditNoteId, xOrganizationId,
+            creditNoteCreate, Optional.empty());
+    }
+
+    /**
+     * Update credit note by transaction id
+     * 
+     * <p>Update an existing credit note for a specific transaction.
+     * 
+     * @param originalTransactionId 
+     * @param creditNoteId 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param creditNoteCreate 
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public PUTUpdateCreditNoteByTransactionIdResponse updateCreditNote(
+            String originalTransactionId, String creditNoteId,
+            Optional<String> xOrganizationId, CreditNoteCreate creditNoteCreate,
+            Optional<Options> options) {
         PUTUpdateCreditNoteByTransactionIdRequest request =
             PUTUpdateCreditNoteByTransactionIdRequest
                 .builder()
@@ -350,7 +459,7 @@ public class Transactions {
                 .creditNoteCreate(creditNoteCreate)
                 .build();
         RequestOperation<PUTUpdateCreditNoteByTransactionIdRequest, PUTUpdateCreditNoteByTransactionIdResponse> operation
-              = new PUTUpdateCreditNoteByTransactionId.Sync(sdkConfiguration, _headers);
+              = new PUTUpdateCreditNoteByTransactionId.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -377,7 +486,7 @@ public class Transactions {
      * @throws RuntimeException subclass if the API call fails
      */
     public GetTransactionByIdV1TransactionsTransactionIdGetResponse getById(String transactionId) {
-        return getById(transactionId, Optional.empty());
+        return getById(transactionId, Optional.empty(), Optional.empty());
     }
 
     /**
@@ -392,6 +501,24 @@ public class Transactions {
      * @throws RuntimeException subclass if the API call fails
      */
     public GetTransactionByIdV1TransactionsTransactionIdGetResponse getById(String transactionId, Optional<String> xOrganizationId) {
+        return getById(transactionId, xOrganizationId, Optional.empty());
+    }
+
+    /**
+     * Get transaction by id
+     * 
+     * <p>The Get Transaction By Id API retrieves detailed information
+     * about a specific transaction by providing its unique transaction ID.
+     * 
+     * @param transactionId The unique identifier of the transaction to retrieve.
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public GetTransactionByIdV1TransactionsTransactionIdGetResponse getById(
+            String transactionId, Optional<String> xOrganizationId,
+            Optional<Options> options) {
         GetTransactionByIdV1TransactionsTransactionIdGetRequest request =
             GetTransactionByIdV1TransactionsTransactionIdGetRequest
                 .builder()
@@ -399,7 +526,7 @@ public class Transactions {
                 .xOrganizationId(xOrganizationId)
                 .build();
         RequestOperation<GetTransactionByIdV1TransactionsTransactionIdGetRequest, GetTransactionByIdV1TransactionsTransactionIdGetResponse> operation
-              = new GetTransactionByIdV1TransactionsTransactionIdGet.Sync(sdkConfiguration, _headers);
+              = new GetTransactionByIdV1TransactionsTransactionIdGet.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -425,7 +552,8 @@ public class Transactions {
      * @throws RuntimeException subclass if the API call fails
      */
     public UpdateTransactionV1TransactionsTransactionIdPutResponse update(String transactionId, TransactionUpdate transactionUpdate) {
-        return update(transactionId, Optional.empty(), transactionUpdate);
+        return update(transactionId, Optional.empty(), transactionUpdate,
+            Optional.empty());
     }
 
     /**
@@ -442,6 +570,25 @@ public class Transactions {
     public UpdateTransactionV1TransactionsTransactionIdPutResponse update(
             String transactionId, Optional<String> xOrganizationId,
             TransactionUpdate transactionUpdate) {
+        return update(transactionId, xOrganizationId, transactionUpdate,
+            Optional.empty());
+    }
+
+    /**
+     * Update transaction
+     * 
+     * <p>Update a specific transaction by its ID.
+     * 
+     * @param transactionId 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param transactionUpdate 
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public UpdateTransactionV1TransactionsTransactionIdPutResponse update(
+            String transactionId, Optional<String> xOrganizationId,
+            TransactionUpdate transactionUpdate, Optional<Options> options) {
         UpdateTransactionV1TransactionsTransactionIdPutRequest request =
             UpdateTransactionV1TransactionsTransactionIdPutRequest
                 .builder()
@@ -450,7 +597,7 @@ public class Transactions {
                 .transactionUpdate(transactionUpdate)
                 .build();
         RequestOperation<UpdateTransactionV1TransactionsTransactionIdPutRequest, UpdateTransactionV1TransactionsTransactionIdPutResponse> operation
-              = new UpdateTransactionV1TransactionsTransactionIdPut.Sync(sdkConfiguration, _headers);
+              = new UpdateTransactionV1TransactionsTransactionIdPut.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -482,7 +629,8 @@ public class Transactions {
      * @throws RuntimeException subclass if the API call fails
      */
     public SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostResponse setTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPost(String transactionId, TaxOnlyUpdate taxOnlyUpdate) {
-        return setTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPost(transactionId, Optional.empty(), taxOnlyUpdate);
+        return setTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPost(transactionId, Optional.empty(), taxOnlyUpdate,
+            Optional.empty());
     }
 
     /**
@@ -502,6 +650,28 @@ public class Transactions {
     public SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostResponse setTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPost(
             String transactionId, Optional<String> xOrganizationId,
             TaxOnlyUpdate taxOnlyUpdate) {
+        return setTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPost(transactionId, xOrganizationId, taxOnlyUpdate,
+            Optional.empty());
+    }
+
+    /**
+     * Set transaction tax only
+     * 
+     * <p>Mark or unmark a transaction as tax-only. SALE becomes TAX_COLLECTION; credit notes become
+     * TAX_REFUND. Unmark restores SALE or re-derives FULL/PARTIAL credit note.
+     * 
+     * <p>Only the type is changed; amounts are preserved.
+     * 
+     * @param transactionId 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param taxOnlyUpdate 
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostResponse setTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPost(
+            String transactionId, Optional<String> xOrganizationId,
+            TaxOnlyUpdate taxOnlyUpdate, Optional<Options> options) {
         SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostRequest request =
             SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostRequest
                 .builder()
@@ -510,7 +680,7 @@ public class Transactions {
                 .taxOnlyUpdate(taxOnlyUpdate)
                 .build();
         RequestOperation<SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostRequest, SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostResponse> operation
-              = new SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPost.Sync(sdkConfiguration, _headers);
+              = new SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPost.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 

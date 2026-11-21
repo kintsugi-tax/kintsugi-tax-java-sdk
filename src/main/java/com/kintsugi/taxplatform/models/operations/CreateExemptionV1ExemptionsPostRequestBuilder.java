@@ -9,14 +9,17 @@ import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.components.ExemptionCreate;
 import com.kintsugi.taxplatform.operations.CreateExemptionV1ExemptionsPost;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.time.Duration;
 import java.util.Optional;
 
 public class CreateExemptionV1ExemptionsPostRequestBuilder {
 
     private Optional<String> xOrganizationId = Optional.empty();
     private ExemptionCreate exemptionCreate;
+    private Optional<Duration> timeout = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -41,6 +44,18 @@ public class CreateExemptionV1ExemptionsPostRequestBuilder {
         this.exemptionCreate = exemptionCreate;
         return this;
     }
+                
+    public CreateExemptionV1ExemptionsPostRequestBuilder timeout(Duration timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = Optional.of(timeout);
+        return this;
+    }
+
+    public CreateExemptionV1ExemptionsPostRequestBuilder timeout(Optional<Duration> timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = timeout;
+        return this;
+    }
 
 
     private CreateExemptionV1ExemptionsPostRequest buildRequest() {
@@ -52,9 +67,12 @@ public class CreateExemptionV1ExemptionsPostRequestBuilder {
     }
 
     public CreateExemptionV1ExemptionsPostResponse call() {
-        
+        Optional<Options> options = Optional.of(Options.builder()
+            .timeout(timeout)
+            .build());
+
         RequestOperation<CreateExemptionV1ExemptionsPostRequest, CreateExemptionV1ExemptionsPostResponse> operation
-              = new CreateExemptionV1ExemptionsPost.Sync(sdkConfiguration, _headers);
+              = new CreateExemptionV1ExemptionsPost.Sync(sdkConfiguration, options, _headers);
         CreateExemptionV1ExemptionsPostRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

@@ -10,8 +10,10 @@ import com.kintsugi.taxplatform.models.components.CreditNoteCreate;
 import com.kintsugi.taxplatform.models.operations.PUTUpdateCreditNoteByTransactionIdRequest;
 import com.kintsugi.taxplatform.operations.PUTUpdateCreditNoteByTransactionId;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.time.Duration;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
@@ -21,6 +23,7 @@ public class PUTUpdateCreditNoteByTransactionIdRequestBuilder {
     private String creditNoteId;
     private Optional<String> xOrganizationId = Optional.empty();
     private CreditNoteCreate creditNoteCreate;
+    private Optional<Duration> timeout = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -57,6 +60,18 @@ public class PUTUpdateCreditNoteByTransactionIdRequestBuilder {
         this.creditNoteCreate = creditNoteCreate;
         return this;
     }
+                
+    public PUTUpdateCreditNoteByTransactionIdRequestBuilder timeout(Duration timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = Optional.of(timeout);
+        return this;
+    }
+
+    public PUTUpdateCreditNoteByTransactionIdRequestBuilder timeout(Optional<Duration> timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = timeout;
+        return this;
+    }
 
 
     private PUTUpdateCreditNoteByTransactionIdRequest buildRequest() {
@@ -70,9 +85,12 @@ public class PUTUpdateCreditNoteByTransactionIdRequestBuilder {
     }
 
     public CompletableFuture<PUTUpdateCreditNoteByTransactionIdResponse> call() {
-        
+        Optional<Options> options = Optional.of(Options.builder()
+            .timeout(timeout)
+            .build());
+
         AsyncRequestOperation<PUTUpdateCreditNoteByTransactionIdRequest, PUTUpdateCreditNoteByTransactionIdResponse> operation
-              = new PUTUpdateCreditNoteByTransactionId.Async(sdkConfiguration, _headers);
+              = new PUTUpdateCreditNoteByTransactionId.Async(sdkConfiguration, options, _headers);
         PUTUpdateCreditNoteByTransactionIdRequest request = buildRequest();
 
         return operation.doRequest(request)

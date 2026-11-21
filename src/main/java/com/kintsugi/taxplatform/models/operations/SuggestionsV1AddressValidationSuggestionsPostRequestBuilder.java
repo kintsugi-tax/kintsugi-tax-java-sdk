@@ -9,14 +9,17 @@ import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.components.ValidationAddress;
 import com.kintsugi.taxplatform.operations.SuggestionsV1AddressValidationSuggestionsPost;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.time.Duration;
 import java.util.Optional;
 
 public class SuggestionsV1AddressValidationSuggestionsPostRequestBuilder {
 
     private Optional<String> xOrganizationId = Optional.empty();
     private ValidationAddress validationAddress;
+    private Optional<Duration> timeout = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -41,6 +44,18 @@ public class SuggestionsV1AddressValidationSuggestionsPostRequestBuilder {
         this.validationAddress = validationAddress;
         return this;
     }
+                
+    public SuggestionsV1AddressValidationSuggestionsPostRequestBuilder timeout(Duration timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = Optional.of(timeout);
+        return this;
+    }
+
+    public SuggestionsV1AddressValidationSuggestionsPostRequestBuilder timeout(Optional<Duration> timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = timeout;
+        return this;
+    }
 
 
     private SuggestionsV1AddressValidationSuggestionsPostRequest buildRequest() {
@@ -52,9 +67,12 @@ public class SuggestionsV1AddressValidationSuggestionsPostRequestBuilder {
     }
 
     public SuggestionsV1AddressValidationSuggestionsPostResponse call() {
-        
+        Optional<Options> options = Optional.of(Options.builder()
+            .timeout(timeout)
+            .build());
+
         RequestOperation<SuggestionsV1AddressValidationSuggestionsPostRequest, SuggestionsV1AddressValidationSuggestionsPostResponse> operation
-              = new SuggestionsV1AddressValidationSuggestionsPost.Sync(sdkConfiguration, _headers);
+              = new SuggestionsV1AddressValidationSuggestionsPost.Sync(sdkConfiguration, options, _headers);
         SuggestionsV1AddressValidationSuggestionsPostRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

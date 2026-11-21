@@ -10,8 +10,10 @@ import com.kintsugi.taxplatform.models.components.BodyUploadExemptionCertificate
 import com.kintsugi.taxplatform.models.operations.UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest;
 import com.kintsugi.taxplatform.operations.UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.time.Duration;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
@@ -20,6 +22,7 @@ public class UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostReq
     private String exemptionId;
     private Optional<String> xOrganizationId = Optional.empty();
     private BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost;
+    private Optional<Duration> timeout = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -50,6 +53,18 @@ public class UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostReq
         this.bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost = bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost;
         return this;
     }
+                
+    public UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequestBuilder timeout(Duration timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = Optional.of(timeout);
+        return this;
+    }
+
+    public UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequestBuilder timeout(Optional<Duration> timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = timeout;
+        return this;
+    }
 
 
     private UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest buildRequest() {
@@ -62,9 +77,12 @@ public class UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostReq
     }
 
     public CompletableFuture<UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse> call() {
-        
+        Optional<Options> options = Optional.of(Options.builder()
+            .timeout(timeout)
+            .build());
+
         AsyncRequestOperation<UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest, UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse> operation
-              = new UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost.Async(sdkConfiguration, _headers);
+              = new UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost.Async(sdkConfiguration, options, _headers);
         UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest request = buildRequest();
 
         return operation.doRequest(request)

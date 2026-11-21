@@ -9,8 +9,10 @@ import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.components.TransactionCreate;
 import com.kintsugi.taxplatform.operations.CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPost;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.time.Duration;
 import java.util.Optional;
 
 public class CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequestBuilder {
@@ -18,6 +20,7 @@ public class CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostR
     private String customerId;
     private Optional<String> xOrganizationId = Optional.empty();
     private TransactionCreate transactionCreate;
+    private Optional<Duration> timeout = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -48,6 +51,18 @@ public class CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostR
         this.transactionCreate = transactionCreate;
         return this;
     }
+                
+    public CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequestBuilder timeout(Duration timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = Optional.of(timeout);
+        return this;
+    }
+
+    public CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequestBuilder timeout(Optional<Duration> timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = timeout;
+        return this;
+    }
 
 
     private CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest buildRequest() {
@@ -60,9 +75,12 @@ public class CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostR
     }
 
     public CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostResponse call() {
-        
+        Optional<Options> options = Optional.of(Options.builder()
+            .timeout(timeout)
+            .build());
+
         RequestOperation<CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest, CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostResponse> operation
-              = new CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPost.Sync(sdkConfiguration, _headers);
+              = new CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPost.Sync(sdkConfiguration, options, _headers);
         CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

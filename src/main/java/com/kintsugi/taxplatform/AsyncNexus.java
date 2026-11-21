@@ -37,6 +37,7 @@ import com.kintsugi.taxplatform.operations.GetPhysicalNexusCategoriesV1NexusPhys
 import com.kintsugi.taxplatform.operations.GetPhysicalNexusV1NexusPhysicalNexusGet;
 import com.kintsugi.taxplatform.operations.UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPut;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import java.lang.String;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -83,8 +84,21 @@ public class AsyncNexus {
      * @return {@code CompletableFuture<GetNexusForOrgV1NexusGetResponse>} - The async response
      */
     public CompletableFuture<GetNexusForOrgV1NexusGetResponse> get(GetNexusForOrgV1NexusGetRequest request) {
+        return get(request, Optional.empty());
+    }
+
+    /**
+     * Get nexus for org
+     * 
+     * <p>Get a list of all nexuses for the organization.
+     * 
+     * @param request The request object containing all the parameters for the API call.
+     * @param options additional options
+     * @return {@code CompletableFuture<GetNexusForOrgV1NexusGetResponse>} - The async response
+     */
+    public CompletableFuture<GetNexusForOrgV1NexusGetResponse> get(GetNexusForOrgV1NexusGetRequest request, Optional<Options> options) {
         AsyncRequestOperation<GetNexusForOrgV1NexusGetRequest, GetNexusForOrgV1NexusGetResponse> operation
-              = new GetNexusForOrgV1NexusGet.Async(sdkConfiguration, _headers);
+              = new GetNexusForOrgV1NexusGet.Async(sdkConfiguration, options, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -112,8 +126,22 @@ public class AsyncNexus {
      * @return {@code CompletableFuture<GetPhysicalNexusV1NexusPhysicalNexusGetResponse>} - The async response
      */
     public CompletableFuture<GetPhysicalNexusV1NexusPhysicalNexusGetResponse> getPhysical(GetPhysicalNexusV1NexusPhysicalNexusGetRequest request) {
+        return getPhysical(request, Optional.empty());
+    }
+
+    /**
+     * Get physical nexus
+     * 
+     * <p>Retrieve a paginated list of
+     * physical nexuses for a specific organization.
+     * 
+     * @param request The request object containing all the parameters for the API call.
+     * @param options additional options
+     * @return {@code CompletableFuture<GetPhysicalNexusV1NexusPhysicalNexusGetResponse>} - The async response
+     */
+    public CompletableFuture<GetPhysicalNexusV1NexusPhysicalNexusGetResponse> getPhysical(GetPhysicalNexusV1NexusPhysicalNexusGetRequest request, Optional<Options> options) {
         AsyncRequestOperation<GetPhysicalNexusV1NexusPhysicalNexusGetRequest, GetPhysicalNexusV1NexusPhysicalNexusGetResponse> operation
-              = new GetPhysicalNexusV1NexusPhysicalNexusGet.Async(sdkConfiguration, _headers);
+              = new GetPhysicalNexusV1NexusPhysicalNexusGet.Async(sdkConfiguration, options, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -143,7 +171,7 @@ public class AsyncNexus {
      * @return {@code CompletableFuture<CreatePhysicalNexusV1NexusPhysicalNexusPostResponse>} - The async response
      */
     public CompletableFuture<CreatePhysicalNexusV1NexusPhysicalNexusPostResponse> createPhysical(PhysicalNexusCreate physicalNexusCreate) {
-        return createPhysical(Optional.empty(), physicalNexusCreate);
+        return createPhysical(Optional.empty(), physicalNexusCreate, Optional.empty());
     }
 
     /**
@@ -158,6 +186,24 @@ public class AsyncNexus {
      * @return {@code CompletableFuture<CreatePhysicalNexusV1NexusPhysicalNexusPostResponse>} - The async response
      */
     public CompletableFuture<CreatePhysicalNexusV1NexusPhysicalNexusPostResponse> createPhysical(Optional<String> xOrganizationId, PhysicalNexusCreate physicalNexusCreate) {
+        return createPhysical(xOrganizationId, physicalNexusCreate, Optional.empty());
+    }
+
+    /**
+     * Create physical nexus
+     * 
+     * <p>The Create Physical Nexus API allows you to create a new physical
+     * nexus by specifying its attributes, including the location,
+     * start date, end date, etc.
+     * 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param physicalNexusCreate 
+     * @param options additional options
+     * @return {@code CompletableFuture<CreatePhysicalNexusV1NexusPhysicalNexusPostResponse>} - The async response
+     */
+    public CompletableFuture<CreatePhysicalNexusV1NexusPhysicalNexusPostResponse> createPhysical(
+            Optional<String> xOrganizationId, PhysicalNexusCreate physicalNexusCreate,
+            Optional<Options> options) {
         CreatePhysicalNexusV1NexusPhysicalNexusPostRequest request =
             CreatePhysicalNexusV1NexusPhysicalNexusPostRequest
                 .builder()
@@ -165,7 +211,7 @@ public class AsyncNexus {
                 .physicalNexusCreate(physicalNexusCreate)
                 .build();
         AsyncRequestOperation<CreatePhysicalNexusV1NexusPhysicalNexusPostRequest, CreatePhysicalNexusV1NexusPhysicalNexusPostResponse> operation
-              = new CreatePhysicalNexusV1NexusPhysicalNexusPost.Async(sdkConfiguration, _headers);
+              = new CreatePhysicalNexusV1NexusPhysicalNexusPost.Async(sdkConfiguration, options, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -190,7 +236,9 @@ public class AsyncNexus {
      * @return {@code CompletableFuture<GetPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGetResponse>} - The async response
      */
     public CompletableFuture<GetPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGetResponse> getPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGetDirect() {
-        return getPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGet(JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty());
+        return getPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGet(
+                JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty(),
+                Optional.empty());
     }
 
     /**
@@ -206,6 +254,25 @@ public class AsyncNexus {
     public CompletableFuture<GetPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGetResponse> getPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGet(
             JsonNullable<? extends CountryCodeEnum> countryCode, JsonNullable<String> stateCode,
             Optional<String> xOrganizationId) {
+        return getPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGet(
+                countryCode, stateCode, xOrganizationId,
+                Optional.empty());
+    }
+
+    /**
+     * Get physical nexus categories
+     * 
+     * <p>Get physical nexus categories
+     * 
+     * @param countryCode 
+     * @param stateCode 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param options additional options
+     * @return {@code CompletableFuture<GetPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGetResponse>} - The async response
+     */
+    public CompletableFuture<GetPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGetResponse> getPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGet(
+            JsonNullable<? extends CountryCodeEnum> countryCode, JsonNullable<String> stateCode,
+            Optional<String> xOrganizationId, Optional<Options> options) {
         GetPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGetRequest request =
             GetPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGetRequest
                 .builder()
@@ -214,7 +281,7 @@ public class AsyncNexus {
                 .xOrganizationId(xOrganizationId)
                 .build();
         AsyncRequestOperation<GetPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGetRequest, GetPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGetResponse> operation
-              = new GetPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGet.Async(sdkConfiguration, _headers);
+              = new GetPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGet.Async(sdkConfiguration, options, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -243,7 +310,7 @@ public class AsyncNexus {
      * @return {@code CompletableFuture<DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteResponse>} - The async response
      */
     public CompletableFuture<DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteResponse> deletePhysical(String physicalNexusId) {
-        return deletePhysical(physicalNexusId, Optional.empty());
+        return deletePhysical(physicalNexusId, Optional.empty(), Optional.empty());
     }
 
     /**
@@ -258,6 +325,24 @@ public class AsyncNexus {
      * @return {@code CompletableFuture<DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteResponse>} - The async response
      */
     public CompletableFuture<DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteResponse> deletePhysical(String physicalNexusId, Optional<String> xOrganizationId) {
+        return deletePhysical(physicalNexusId, xOrganizationId, Optional.empty());
+    }
+
+    /**
+     * Delete physical nexus
+     * 
+     * <p>The Delete Physical Nexus API allows you to remove an existing
+     * physical nexus by its unique ID.
+     * 
+     * @param physicalNexusId The unique identifier of the physical
+     *                                         nexus to delete.
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param options additional options
+     * @return {@code CompletableFuture<DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteResponse>} - The async response
+     */
+    public CompletableFuture<DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteResponse> deletePhysical(
+            String physicalNexusId, Optional<String> xOrganizationId,
+            Optional<Options> options) {
         DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest request =
             DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest
                 .builder()
@@ -265,7 +350,7 @@ public class AsyncNexus {
                 .xOrganizationId(xOrganizationId)
                 .build();
         AsyncRequestOperation<DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest, DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteResponse> operation
-              = new DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDelete.Async(sdkConfiguration, _headers);
+              = new DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDelete.Async(sdkConfiguration, options, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -295,7 +380,9 @@ public class AsyncNexus {
      * @return {@code CompletableFuture<UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutResponse>} - The async response
      */
     public CompletableFuture<UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutResponse> updatePhysical(String physicalNexusId, PhysicalNexusUpdate physicalNexusUpdate) {
-        return updatePhysical(physicalNexusId, Optional.empty(), physicalNexusUpdate);
+        return updatePhysical(
+                physicalNexusId, Optional.empty(), physicalNexusUpdate,
+                Optional.empty());
     }
 
     /**
@@ -313,6 +400,27 @@ public class AsyncNexus {
     public CompletableFuture<UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutResponse> updatePhysical(
             String physicalNexusId, Optional<String> xOrganizationId,
             PhysicalNexusUpdate physicalNexusUpdate) {
+        return updatePhysical(
+                physicalNexusId, xOrganizationId, physicalNexusUpdate,
+                Optional.empty());
+    }
+
+    /**
+     * Update physical nexus
+     * 
+     * <p>The Update Physical Nexus API allows you to modify the details of
+     * an existing physical nexus by its unique ID.
+     * 
+     * @param physicalNexusId The unique identifier of the physical
+     *                                         nexus to update.
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param physicalNexusUpdate 
+     * @param options additional options
+     * @return {@code CompletableFuture<UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutResponse>} - The async response
+     */
+    public CompletableFuture<UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutResponse> updatePhysical(
+            String physicalNexusId, Optional<String> xOrganizationId,
+            PhysicalNexusUpdate physicalNexusUpdate, Optional<Options> options) {
         UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest request =
             UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest
                 .builder()
@@ -321,7 +429,7 @@ public class AsyncNexus {
                 .physicalNexusUpdate(physicalNexusUpdate)
                 .build();
         AsyncRequestOperation<UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest, UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutResponse> operation
-              = new UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPut.Async(sdkConfiguration, _headers);
+              = new UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPut.Async(sdkConfiguration, options, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -347,7 +455,7 @@ public class AsyncNexus {
      * @return {@code CompletableFuture<GetNexusDetailsForIdV1NexusNexusIdGetResponse>} - The async response
      */
     public CompletableFuture<GetNexusDetailsForIdV1NexusNexusIdGetResponse> getNexusDetailsForIdV1NexusNexusIdGet(String nexusId) {
-        return getNexusDetailsForIdV1NexusNexusIdGet(nexusId, Optional.empty());
+        return getNexusDetailsForIdV1NexusNexusIdGet(nexusId, Optional.empty(), Optional.empty());
     }
 
     /**
@@ -360,6 +468,22 @@ public class AsyncNexus {
      * @return {@code CompletableFuture<GetNexusDetailsForIdV1NexusNexusIdGetResponse>} - The async response
      */
     public CompletableFuture<GetNexusDetailsForIdV1NexusNexusIdGetResponse> getNexusDetailsForIdV1NexusNexusIdGet(String nexusId, Optional<String> xOrganizationId) {
+        return getNexusDetailsForIdV1NexusNexusIdGet(nexusId, xOrganizationId, Optional.empty());
+    }
+
+    /**
+     * Get nexus details for id
+     * 
+     * <p>Get details for a specific nexus by its ID.
+     * 
+     * @param nexusId The unique identifier of the nexus.
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param options additional options
+     * @return {@code CompletableFuture<GetNexusDetailsForIdV1NexusNexusIdGetResponse>} - The async response
+     */
+    public CompletableFuture<GetNexusDetailsForIdV1NexusNexusIdGetResponse> getNexusDetailsForIdV1NexusNexusIdGet(
+            String nexusId, Optional<String> xOrganizationId,
+            Optional<Options> options) {
         GetNexusDetailsForIdV1NexusNexusIdGetRequest request =
             GetNexusDetailsForIdV1NexusNexusIdGetRequest
                 .builder()
@@ -367,7 +491,7 @@ public class AsyncNexus {
                 .xOrganizationId(xOrganizationId)
                 .build();
         AsyncRequestOperation<GetNexusDetailsForIdV1NexusNexusIdGetRequest, GetNexusDetailsForIdV1NexusNexusIdGetResponse> operation
-              = new GetNexusDetailsForIdV1NexusNexusIdGet.Async(sdkConfiguration, _headers);
+              = new GetNexusDetailsForIdV1NexusNexusIdGet.Async(sdkConfiguration, options, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }

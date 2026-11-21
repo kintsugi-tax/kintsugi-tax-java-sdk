@@ -8,14 +8,17 @@ import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.operations.GetNexusDetailsForIdV1NexusNexusIdGet;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.time.Duration;
 import java.util.Optional;
 
 public class GetNexusDetailsForIdV1NexusNexusIdGetRequestBuilder {
 
     private String nexusId;
     private Optional<String> xOrganizationId = Optional.empty();
+    private Optional<Duration> timeout = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -40,6 +43,18 @@ public class GetNexusDetailsForIdV1NexusNexusIdGetRequestBuilder {
         this.xOrganizationId = xOrganizationId;
         return this;
     }
+                
+    public GetNexusDetailsForIdV1NexusNexusIdGetRequestBuilder timeout(Duration timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = Optional.of(timeout);
+        return this;
+    }
+
+    public GetNexusDetailsForIdV1NexusNexusIdGetRequestBuilder timeout(Optional<Duration> timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = timeout;
+        return this;
+    }
 
 
     private GetNexusDetailsForIdV1NexusNexusIdGetRequest buildRequest() {
@@ -51,9 +66,12 @@ public class GetNexusDetailsForIdV1NexusNexusIdGetRequestBuilder {
     }
 
     public GetNexusDetailsForIdV1NexusNexusIdGetResponse call() {
-        
+        Optional<Options> options = Optional.of(Options.builder()
+            .timeout(timeout)
+            .build());
+
         RequestOperation<GetNexusDetailsForIdV1NexusNexusIdGetRequest, GetNexusDetailsForIdV1NexusNexusIdGetResponse> operation
-              = new GetNexusDetailsForIdV1NexusNexusIdGet.Sync(sdkConfiguration, _headers);
+              = new GetNexusDetailsForIdV1NexusNexusIdGet.Sync(sdkConfiguration, options, _headers);
         GetNexusDetailsForIdV1NexusNexusIdGetRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

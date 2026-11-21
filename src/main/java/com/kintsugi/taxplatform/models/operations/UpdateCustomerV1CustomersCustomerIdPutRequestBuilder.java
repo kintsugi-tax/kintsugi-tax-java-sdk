@@ -9,8 +9,10 @@ import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.components.CustomerUpdate;
 import com.kintsugi.taxplatform.operations.UpdateCustomerV1CustomersCustomerIdPut;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.time.Duration;
 import java.util.Optional;
 
 public class UpdateCustomerV1CustomersCustomerIdPutRequestBuilder {
@@ -18,6 +20,7 @@ public class UpdateCustomerV1CustomersCustomerIdPutRequestBuilder {
     private String customerId;
     private Optional<String> xOrganizationId = Optional.empty();
     private CustomerUpdate customerUpdate;
+    private Optional<Duration> timeout = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -48,6 +51,18 @@ public class UpdateCustomerV1CustomersCustomerIdPutRequestBuilder {
         this.customerUpdate = customerUpdate;
         return this;
     }
+                
+    public UpdateCustomerV1CustomersCustomerIdPutRequestBuilder timeout(Duration timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = Optional.of(timeout);
+        return this;
+    }
+
+    public UpdateCustomerV1CustomersCustomerIdPutRequestBuilder timeout(Optional<Duration> timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = timeout;
+        return this;
+    }
 
 
     private UpdateCustomerV1CustomersCustomerIdPutRequest buildRequest() {
@@ -60,9 +75,12 @@ public class UpdateCustomerV1CustomersCustomerIdPutRequestBuilder {
     }
 
     public UpdateCustomerV1CustomersCustomerIdPutResponse call() {
-        
+        Optional<Options> options = Optional.of(Options.builder()
+            .timeout(timeout)
+            .build());
+
         RequestOperation<UpdateCustomerV1CustomersCustomerIdPutRequest, UpdateCustomerV1CustomersCustomerIdPutResponse> operation
-              = new UpdateCustomerV1CustomersCustomerIdPut.Sync(sdkConfiguration, _headers);
+              = new UpdateCustomerV1CustomersCustomerIdPut.Sync(sdkConfiguration, options, _headers);
         UpdateCustomerV1CustomersCustomerIdPutRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

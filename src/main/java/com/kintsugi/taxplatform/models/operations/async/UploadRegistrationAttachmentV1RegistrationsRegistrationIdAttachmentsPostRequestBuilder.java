@@ -10,8 +10,10 @@ import com.kintsugi.taxplatform.models.components.BodyUploadRegistrationAttachme
 import com.kintsugi.taxplatform.models.operations.UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPostRequest;
 import com.kintsugi.taxplatform.operations.UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.time.Duration;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
@@ -20,6 +22,7 @@ public class UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachment
     private String registrationId;
     private Optional<String> xOrganizationId = Optional.empty();
     private BodyUploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost bodyUploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost;
+    private Optional<Duration> timeout = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -50,6 +53,18 @@ public class UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachment
         this.bodyUploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost = bodyUploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost;
         return this;
     }
+                
+    public UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPostRequestBuilder timeout(Duration timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = Optional.of(timeout);
+        return this;
+    }
+
+    public UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPostRequestBuilder timeout(Optional<Duration> timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = timeout;
+        return this;
+    }
 
 
     private UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPostRequest buildRequest() {
@@ -62,9 +77,12 @@ public class UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachment
     }
 
     public CompletableFuture<UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPostResponse> call() {
-        
+        Optional<Options> options = Optional.of(Options.builder()
+            .timeout(timeout)
+            .build());
+
         AsyncRequestOperation<UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPostRequest, UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPostResponse> operation
-              = new UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost.Async(sdkConfiguration, _headers);
+              = new UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost.Async(sdkConfiguration, options, _headers);
         UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPostRequest request = buildRequest();
 
         return operation.doRequest(request)

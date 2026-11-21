@@ -10,8 +10,10 @@ import com.kintsugi.taxplatform.models.components.CountryCodeEnum;
 import com.kintsugi.taxplatform.models.operations.GetPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGetRequest;
 import com.kintsugi.taxplatform.operations.GetPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGet;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.time.Duration;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -21,6 +23,7 @@ public class GetPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGetRequestB
     private JsonNullable<? extends CountryCodeEnum> countryCode = JsonNullable.undefined();
     private JsonNullable<String> stateCode = JsonNullable.undefined();
     private Optional<String> xOrganizationId = Optional.empty();
+    private Optional<Duration> timeout = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -63,6 +66,18 @@ public class GetPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGetRequestB
         this.xOrganizationId = xOrganizationId;
         return this;
     }
+                
+    public GetPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGetRequestBuilder timeout(Duration timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = Optional.of(timeout);
+        return this;
+    }
+
+    public GetPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGetRequestBuilder timeout(Optional<Duration> timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = timeout;
+        return this;
+    }
 
 
     private GetPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGetRequest buildRequest() {
@@ -75,9 +90,12 @@ public class GetPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGetRequestB
     }
 
     public CompletableFuture<GetPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGetResponse> call() {
-        
+        Optional<Options> options = Optional.of(Options.builder()
+            .timeout(timeout)
+            .build());
+
         AsyncRequestOperation<GetPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGetRequest, GetPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGetResponse> operation
-              = new GetPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGet.Async(sdkConfiguration, _headers);
+              = new GetPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGet.Async(sdkConfiguration, options, _headers);
         GetPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGetRequest request = buildRequest();
 
         return operation.doRequest(request)

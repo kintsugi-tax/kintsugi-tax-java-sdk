@@ -10,8 +10,10 @@ import com.kintsugi.taxplatform.models.components.ProductCreateManual;
 import com.kintsugi.taxplatform.models.operations.CreateProductV1ProductsPostRequest;
 import com.kintsugi.taxplatform.operations.CreateProductV1ProductsPost;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.time.Duration;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
@@ -19,6 +21,7 @@ public class CreateProductV1ProductsPostRequestBuilder {
 
     private Optional<String> xOrganizationId = Optional.empty();
     private ProductCreateManual productCreateManual;
+    private Optional<Duration> timeout = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -43,6 +46,18 @@ public class CreateProductV1ProductsPostRequestBuilder {
         this.productCreateManual = productCreateManual;
         return this;
     }
+                
+    public CreateProductV1ProductsPostRequestBuilder timeout(Duration timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = Optional.of(timeout);
+        return this;
+    }
+
+    public CreateProductV1ProductsPostRequestBuilder timeout(Optional<Duration> timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = timeout;
+        return this;
+    }
 
 
     private CreateProductV1ProductsPostRequest buildRequest() {
@@ -54,9 +69,12 @@ public class CreateProductV1ProductsPostRequestBuilder {
     }
 
     public CompletableFuture<CreateProductV1ProductsPostResponse> call() {
-        
+        Optional<Options> options = Optional.of(Options.builder()
+            .timeout(timeout)
+            .build());
+
         AsyncRequestOperation<CreateProductV1ProductsPostRequest, CreateProductV1ProductsPostResponse> operation
-              = new CreateProductV1ProductsPost.Async(sdkConfiguration, _headers);
+              = new CreateProductV1ProductsPost.Async(sdkConfiguration, options, _headers);
         CreateProductV1ProductsPostRequest request = buildRequest();
 
         return operation.doRequest(request)

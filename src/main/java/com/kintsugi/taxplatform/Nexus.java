@@ -37,6 +37,7 @@ import com.kintsugi.taxplatform.operations.GetPhysicalNexusCategoriesV1NexusPhys
 import com.kintsugi.taxplatform.operations.GetPhysicalNexusV1NexusPhysicalNexusGet;
 import com.kintsugi.taxplatform.operations.UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPut;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import java.lang.String;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -82,8 +83,22 @@ public class Nexus {
      * @throws RuntimeException subclass if the API call fails
      */
     public GetNexusForOrgV1NexusGetResponse get(GetNexusForOrgV1NexusGetRequest request) {
+        return get(request, Optional.empty());
+    }
+
+    /**
+     * Get nexus for org
+     * 
+     * <p>Get a list of all nexuses for the organization.
+     * 
+     * @param request The request object containing all the parameters for the API call.
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public GetNexusForOrgV1NexusGetResponse get(GetNexusForOrgV1NexusGetRequest request, Optional<Options> options) {
         RequestOperation<GetNexusForOrgV1NexusGetRequest, GetNexusForOrgV1NexusGetResponse> operation
-              = new GetNexusForOrgV1NexusGet.Sync(sdkConfiguration, _headers);
+              = new GetNexusForOrgV1NexusGet.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -110,8 +125,23 @@ public class Nexus {
      * @throws RuntimeException subclass if the API call fails
      */
     public GetPhysicalNexusV1NexusPhysicalNexusGetResponse getPhysical(GetPhysicalNexusV1NexusPhysicalNexusGetRequest request) {
+        return getPhysical(request, Optional.empty());
+    }
+
+    /**
+     * Get physical nexus
+     * 
+     * <p>Retrieve a paginated list of
+     * physical nexuses for a specific organization.
+     * 
+     * @param request The request object containing all the parameters for the API call.
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public GetPhysicalNexusV1NexusPhysicalNexusGetResponse getPhysical(GetPhysicalNexusV1NexusPhysicalNexusGetRequest request, Optional<Options> options) {
         RequestOperation<GetPhysicalNexusV1NexusPhysicalNexusGetRequest, GetPhysicalNexusV1NexusPhysicalNexusGetResponse> operation
-              = new GetPhysicalNexusV1NexusPhysicalNexusGet.Sync(sdkConfiguration, _headers);
+              = new GetPhysicalNexusV1NexusPhysicalNexusGet.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -140,7 +170,7 @@ public class Nexus {
      * @throws RuntimeException subclass if the API call fails
      */
     public CreatePhysicalNexusV1NexusPhysicalNexusPostResponse createPhysical(PhysicalNexusCreate physicalNexusCreate) {
-        return createPhysical(Optional.empty(), physicalNexusCreate);
+        return createPhysical(Optional.empty(), physicalNexusCreate, Optional.empty());
     }
 
     /**
@@ -156,6 +186,25 @@ public class Nexus {
      * @throws RuntimeException subclass if the API call fails
      */
     public CreatePhysicalNexusV1NexusPhysicalNexusPostResponse createPhysical(Optional<String> xOrganizationId, PhysicalNexusCreate physicalNexusCreate) {
+        return createPhysical(xOrganizationId, physicalNexusCreate, Optional.empty());
+    }
+
+    /**
+     * Create physical nexus
+     * 
+     * <p>The Create Physical Nexus API allows you to create a new physical
+     * nexus by specifying its attributes, including the location,
+     * start date, end date, etc.
+     * 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param physicalNexusCreate 
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public CreatePhysicalNexusV1NexusPhysicalNexusPostResponse createPhysical(
+            Optional<String> xOrganizationId, PhysicalNexusCreate physicalNexusCreate,
+            Optional<Options> options) {
         CreatePhysicalNexusV1NexusPhysicalNexusPostRequest request =
             CreatePhysicalNexusV1NexusPhysicalNexusPostRequest
                 .builder()
@@ -163,7 +212,7 @@ public class Nexus {
                 .physicalNexusCreate(physicalNexusCreate)
                 .build();
         RequestOperation<CreatePhysicalNexusV1NexusPhysicalNexusPostRequest, CreatePhysicalNexusV1NexusPhysicalNexusPostResponse> operation
-              = new CreatePhysicalNexusV1NexusPhysicalNexusPost.Sync(sdkConfiguration, _headers);
+              = new CreatePhysicalNexusV1NexusPhysicalNexusPost.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -187,7 +236,8 @@ public class Nexus {
      * @throws RuntimeException subclass if the API call fails
      */
     public GetPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGetResponse getPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGetDirect() {
-        return getPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGet(JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty());
+        return getPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGet(JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty(),
+            Optional.empty());
     }
 
     /**
@@ -204,6 +254,25 @@ public class Nexus {
     public GetPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGetResponse getPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGet(
             JsonNullable<? extends CountryCodeEnum> countryCode, JsonNullable<String> stateCode,
             Optional<String> xOrganizationId) {
+        return getPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGet(countryCode, stateCode, xOrganizationId,
+            Optional.empty());
+    }
+
+    /**
+     * Get physical nexus categories
+     * 
+     * <p>Get physical nexus categories
+     * 
+     * @param countryCode 
+     * @param stateCode 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public GetPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGetResponse getPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGet(
+            JsonNullable<? extends CountryCodeEnum> countryCode, JsonNullable<String> stateCode,
+            Optional<String> xOrganizationId, Optional<Options> options) {
         GetPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGetRequest request =
             GetPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGetRequest
                 .builder()
@@ -212,7 +281,7 @@ public class Nexus {
                 .xOrganizationId(xOrganizationId)
                 .build();
         RequestOperation<GetPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGetRequest, GetPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGetResponse> operation
-              = new GetPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGet.Sync(sdkConfiguration, _headers);
+              = new GetPhysicalNexusCategoriesV1NexusPhysicalNexusCategoriesGet.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -240,7 +309,7 @@ public class Nexus {
      * @throws RuntimeException subclass if the API call fails
      */
     public DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteResponse deletePhysical(String physicalNexusId) {
-        return deletePhysical(physicalNexusId, Optional.empty());
+        return deletePhysical(physicalNexusId, Optional.empty(), Optional.empty());
     }
 
     /**
@@ -256,6 +325,25 @@ public class Nexus {
      * @throws RuntimeException subclass if the API call fails
      */
     public DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteResponse deletePhysical(String physicalNexusId, Optional<String> xOrganizationId) {
+        return deletePhysical(physicalNexusId, xOrganizationId, Optional.empty());
+    }
+
+    /**
+     * Delete physical nexus
+     * 
+     * <p>The Delete Physical Nexus API allows you to remove an existing
+     * physical nexus by its unique ID.
+     * 
+     * @param physicalNexusId The unique identifier of the physical
+     *                                         nexus to delete.
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteResponse deletePhysical(
+            String physicalNexusId, Optional<String> xOrganizationId,
+            Optional<Options> options) {
         DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest request =
             DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest
                 .builder()
@@ -263,7 +351,7 @@ public class Nexus {
                 .xOrganizationId(xOrganizationId)
                 .build();
         RequestOperation<DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest, DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteResponse> operation
-              = new DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDelete.Sync(sdkConfiguration, _headers);
+              = new DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDelete.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -292,7 +380,8 @@ public class Nexus {
      * @throws RuntimeException subclass if the API call fails
      */
     public UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutResponse updatePhysical(String physicalNexusId, PhysicalNexusUpdate physicalNexusUpdate) {
-        return updatePhysical(physicalNexusId, Optional.empty(), physicalNexusUpdate);
+        return updatePhysical(physicalNexusId, Optional.empty(), physicalNexusUpdate,
+            Optional.empty());
     }
 
     /**
@@ -311,6 +400,27 @@ public class Nexus {
     public UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutResponse updatePhysical(
             String physicalNexusId, Optional<String> xOrganizationId,
             PhysicalNexusUpdate physicalNexusUpdate) {
+        return updatePhysical(physicalNexusId, xOrganizationId, physicalNexusUpdate,
+            Optional.empty());
+    }
+
+    /**
+     * Update physical nexus
+     * 
+     * <p>The Update Physical Nexus API allows you to modify the details of
+     * an existing physical nexus by its unique ID.
+     * 
+     * @param physicalNexusId The unique identifier of the physical
+     *                                         nexus to update.
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param physicalNexusUpdate 
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutResponse updatePhysical(
+            String physicalNexusId, Optional<String> xOrganizationId,
+            PhysicalNexusUpdate physicalNexusUpdate, Optional<Options> options) {
         UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest request =
             UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest
                 .builder()
@@ -319,7 +429,7 @@ public class Nexus {
                 .physicalNexusUpdate(physicalNexusUpdate)
                 .build();
         RequestOperation<UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest, UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutResponse> operation
-              = new UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPut.Sync(sdkConfiguration, _headers);
+              = new UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPut.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -344,7 +454,7 @@ public class Nexus {
      * @throws RuntimeException subclass if the API call fails
      */
     public GetNexusDetailsForIdV1NexusNexusIdGetResponse getNexusDetailsForIdV1NexusNexusIdGet(String nexusId) {
-        return getNexusDetailsForIdV1NexusNexusIdGet(nexusId, Optional.empty());
+        return getNexusDetailsForIdV1NexusNexusIdGet(nexusId, Optional.empty(), Optional.empty());
     }
 
     /**
@@ -358,6 +468,23 @@ public class Nexus {
      * @throws RuntimeException subclass if the API call fails
      */
     public GetNexusDetailsForIdV1NexusNexusIdGetResponse getNexusDetailsForIdV1NexusNexusIdGet(String nexusId, Optional<String> xOrganizationId) {
+        return getNexusDetailsForIdV1NexusNexusIdGet(nexusId, xOrganizationId, Optional.empty());
+    }
+
+    /**
+     * Get nexus details for id
+     * 
+     * <p>Get details for a specific nexus by its ID.
+     * 
+     * @param nexusId The unique identifier of the nexus.
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public GetNexusDetailsForIdV1NexusNexusIdGetResponse getNexusDetailsForIdV1NexusNexusIdGet(
+            String nexusId, Optional<String> xOrganizationId,
+            Optional<Options> options) {
         GetNexusDetailsForIdV1NexusNexusIdGetRequest request =
             GetNexusDetailsForIdV1NexusNexusIdGetRequest
                 .builder()
@@ -365,7 +492,7 @@ public class Nexus {
                 .xOrganizationId(xOrganizationId)
                 .build();
         RequestOperation<GetNexusDetailsForIdV1NexusNexusIdGetRequest, GetNexusDetailsForIdV1NexusNexusIdGetResponse> operation
-              = new GetNexusDetailsForIdV1NexusNexusIdGet.Sync(sdkConfiguration, _headers);
+              = new GetNexusDetailsForIdV1NexusNexusIdGet.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 

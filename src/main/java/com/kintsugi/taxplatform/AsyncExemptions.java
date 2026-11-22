@@ -11,6 +11,7 @@ import com.kintsugi.taxplatform.models.operations.CreateExemptionV1ExemptionsPos
 import com.kintsugi.taxplatform.models.operations.GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetExemptionByIdV1ExemptionsExemptionIdGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetExemptionsV1ExemptionsGetRequest;
+import com.kintsugi.taxplatform.models.operations.ListPartialCertificateTypesV1ExemptionsPartialCertificateTypesGetRequest;
 import com.kintsugi.taxplatform.models.operations.UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest;
 import com.kintsugi.taxplatform.models.operations.async.CreateExemptionV1ExemptionsPostRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.async.CreateExemptionV1ExemptionsPostResponse;
@@ -20,17 +21,22 @@ import com.kintsugi.taxplatform.models.operations.async.GetExemptionByIdV1Exempt
 import com.kintsugi.taxplatform.models.operations.async.GetExemptionByIdV1ExemptionsExemptionIdGetResponse;
 import com.kintsugi.taxplatform.models.operations.async.GetExemptionsV1ExemptionsGetRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.async.GetExemptionsV1ExemptionsGetResponse;
+import com.kintsugi.taxplatform.models.operations.async.ListPartialCertificateTypesV1ExemptionsPartialCertificateTypesGetRequestBuilder;
+import com.kintsugi.taxplatform.models.operations.async.ListPartialCertificateTypesV1ExemptionsPartialCertificateTypesGetResponse;
 import com.kintsugi.taxplatform.models.operations.async.UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.async.UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse;
 import com.kintsugi.taxplatform.operations.CreateExemptionV1ExemptionsPost;
 import com.kintsugi.taxplatform.operations.GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGet;
 import com.kintsugi.taxplatform.operations.GetExemptionByIdV1ExemptionsExemptionIdGet;
 import com.kintsugi.taxplatform.operations.GetExemptionsV1ExemptionsGet;
+import com.kintsugi.taxplatform.operations.ListPartialCertificateTypesV1ExemptionsPartialCertificateTypesGet;
 import com.kintsugi.taxplatform.operations.UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import java.lang.String;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
+import org.openapitools.jackson.nullable.JsonNullable;
 
 
 public class AsyncExemptions {
@@ -73,8 +79,21 @@ public class AsyncExemptions {
      * @return {@code CompletableFuture<GetExemptionsV1ExemptionsGetResponse>} - The async response
      */
     public CompletableFuture<GetExemptionsV1ExemptionsGetResponse> get(GetExemptionsV1ExemptionsGetRequest request) {
+        return get(request, Optional.empty());
+    }
+
+    /**
+     * Get exemptions
+     * 
+     * <p>Retrieve a list of exemptions based on filters.
+     * 
+     * @param request The request object containing all the parameters for the API call.
+     * @param options additional options
+     * @return {@code CompletableFuture<GetExemptionsV1ExemptionsGetResponse>} - The async response
+     */
+    public CompletableFuture<GetExemptionsV1ExemptionsGetResponse> get(GetExemptionsV1ExemptionsGetRequest request, Optional<Options> options) {
         AsyncRequestOperation<GetExemptionsV1ExemptionsGetRequest, GetExemptionsV1ExemptionsGetResponse> operation
-              = new GetExemptionsV1ExemptionsGet.Async(sdkConfiguration, _headers);
+              = new GetExemptionsV1ExemptionsGet.Async(sdkConfiguration, options, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -104,7 +123,7 @@ public class AsyncExemptions {
      * @return {@code CompletableFuture<CreateExemptionV1ExemptionsPostResponse>} - The async response
      */
     public CompletableFuture<CreateExemptionV1ExemptionsPostResponse> create(ExemptionCreate exemptionCreate) {
-        return create(Optional.empty(), exemptionCreate);
+        return create(Optional.empty(), exemptionCreate, Optional.empty());
     }
 
     /**
@@ -119,6 +138,24 @@ public class AsyncExemptions {
      * @return {@code CompletableFuture<CreateExemptionV1ExemptionsPostResponse>} - The async response
      */
     public CompletableFuture<CreateExemptionV1ExemptionsPostResponse> create(Optional<String> xOrganizationId, ExemptionCreate exemptionCreate) {
+        return create(xOrganizationId, exemptionCreate, Optional.empty());
+    }
+
+    /**
+     * Create exemption
+     * 
+     * <p>The Create Exemption API allows you to create a new exemption record.
+     * This includes defining details such as exemption type, jurisdiction,
+     * Country, State, validity dates, etc.
+     * 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param exemptionCreate 
+     * @param options additional options
+     * @return {@code CompletableFuture<CreateExemptionV1ExemptionsPostResponse>} - The async response
+     */
+    public CompletableFuture<CreateExemptionV1ExemptionsPostResponse> create(
+            Optional<String> xOrganizationId, ExemptionCreate exemptionCreate,
+            Optional<Options> options) {
         CreateExemptionV1ExemptionsPostRequest request =
             CreateExemptionV1ExemptionsPostRequest
                 .builder()
@@ -126,7 +163,68 @@ public class AsyncExemptions {
                 .exemptionCreate(exemptionCreate)
                 .build();
         AsyncRequestOperation<CreateExemptionV1ExemptionsPostRequest, CreateExemptionV1ExemptionsPostResponse> operation
-              = new CreateExemptionV1ExemptionsPost.Async(sdkConfiguration, _headers);
+              = new CreateExemptionV1ExemptionsPost.Async(sdkConfiguration, options, _headers);
+        return operation.doRequest(request)
+            .thenCompose(operation::handleResponse);
+    }
+
+
+    /**
+     * List partial certificate types
+     * 
+     * <p>Certificate forms a partial exemption may use. Pass jurisdiction to limit the list to that state.
+     * 
+     * @return The async call builder
+     */
+    public ListPartialCertificateTypesV1ExemptionsPartialCertificateTypesGetRequestBuilder listPartialCertificateTypesV1ExemptionsPartialCertificateTypesGet() {
+        return new ListPartialCertificateTypesV1ExemptionsPartialCertificateTypesGetRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * List partial certificate types
+     * 
+     * <p>Certificate forms a partial exemption may use. Pass jurisdiction to limit the list to that state.
+     * 
+     * @return {@code CompletableFuture<ListPartialCertificateTypesV1ExemptionsPartialCertificateTypesGetResponse>} - The async response
+     */
+    public CompletableFuture<ListPartialCertificateTypesV1ExemptionsPartialCertificateTypesGetResponse> listPartialCertificateTypesV1ExemptionsPartialCertificateTypesGetDirect() {
+        return listPartialCertificateTypesV1ExemptionsPartialCertificateTypesGet(JsonNullable.undefined(), Optional.empty(), Optional.empty());
+    }
+
+    /**
+     * List partial certificate types
+     * 
+     * <p>Certificate forms a partial exemption may use. Pass jurisdiction to limit the list to that state.
+     * 
+     * @param jurisdiction Jurisdiction code. Only forms for this jurisdiction are returned.
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @return {@code CompletableFuture<ListPartialCertificateTypesV1ExemptionsPartialCertificateTypesGetResponse>} - The async response
+     */
+    public CompletableFuture<ListPartialCertificateTypesV1ExemptionsPartialCertificateTypesGetResponse> listPartialCertificateTypesV1ExemptionsPartialCertificateTypesGet(JsonNullable<String> jurisdiction, Optional<String> xOrganizationId) {
+        return listPartialCertificateTypesV1ExemptionsPartialCertificateTypesGet(jurisdiction, xOrganizationId, Optional.empty());
+    }
+
+    /**
+     * List partial certificate types
+     * 
+     * <p>Certificate forms a partial exemption may use. Pass jurisdiction to limit the list to that state.
+     * 
+     * @param jurisdiction Jurisdiction code. Only forms for this jurisdiction are returned.
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param options additional options
+     * @return {@code CompletableFuture<ListPartialCertificateTypesV1ExemptionsPartialCertificateTypesGetResponse>} - The async response
+     */
+    public CompletableFuture<ListPartialCertificateTypesV1ExemptionsPartialCertificateTypesGetResponse> listPartialCertificateTypesV1ExemptionsPartialCertificateTypesGet(
+            JsonNullable<String> jurisdiction, Optional<String> xOrganizationId,
+            Optional<Options> options) {
+        ListPartialCertificateTypesV1ExemptionsPartialCertificateTypesGetRequest request =
+            ListPartialCertificateTypesV1ExemptionsPartialCertificateTypesGetRequest
+                .builder()
+                .jurisdiction(jurisdiction)
+                .xOrganizationId(xOrganizationId)
+                .build();
+        AsyncRequestOperation<ListPartialCertificateTypesV1ExemptionsPartialCertificateTypesGetRequest, ListPartialCertificateTypesV1ExemptionsPartialCertificateTypesGetResponse> operation
+              = new ListPartialCertificateTypesV1ExemptionsPartialCertificateTypesGet.Async(sdkConfiguration, options, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -158,7 +256,7 @@ public class AsyncExemptions {
      * @return {@code CompletableFuture<GetExemptionByIdV1ExemptionsExemptionIdGetResponse>} - The async response
      */
     public CompletableFuture<GetExemptionByIdV1ExemptionsExemptionIdGetResponse> getById(String exemptionId) {
-        return getById(exemptionId, Optional.empty());
+        return getById(exemptionId, Optional.empty(), Optional.empty());
     }
 
     /**
@@ -174,6 +272,25 @@ public class AsyncExemptions {
      * @return {@code CompletableFuture<GetExemptionByIdV1ExemptionsExemptionIdGetResponse>} - The async response
      */
     public CompletableFuture<GetExemptionByIdV1ExemptionsExemptionIdGetResponse> getById(String exemptionId, Optional<String> xOrganizationId) {
+        return getById(exemptionId, xOrganizationId, Optional.empty());
+    }
+
+    /**
+     * Get exemption by id
+     * 
+     * <p>The Get Exemption By ID API retrieves a specific exemption record by
+     * its unique ID. This API is useful for retrieving detailed information
+     * about a particular exemption, including its associated
+     * customer, organisation id, status, etc.
+     * 
+     * @param exemptionId The unique identifier for the exemption being retrieved.
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param options additional options
+     * @return {@code CompletableFuture<GetExemptionByIdV1ExemptionsExemptionIdGetResponse>} - The async response
+     */
+    public CompletableFuture<GetExemptionByIdV1ExemptionsExemptionIdGetResponse> getById(
+            String exemptionId, Optional<String> xOrganizationId,
+            Optional<Options> options) {
         GetExemptionByIdV1ExemptionsExemptionIdGetRequest request =
             GetExemptionByIdV1ExemptionsExemptionIdGetRequest
                 .builder()
@@ -181,7 +298,7 @@ public class AsyncExemptions {
                 .xOrganizationId(xOrganizationId)
                 .build();
         AsyncRequestOperation<GetExemptionByIdV1ExemptionsExemptionIdGetRequest, GetExemptionByIdV1ExemptionsExemptionIdGetResponse> operation
-              = new GetExemptionByIdV1ExemptionsExemptionIdGet.Async(sdkConfiguration, _headers);
+              = new GetExemptionByIdV1ExemptionsExemptionIdGet.Async(sdkConfiguration, options, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -214,7 +331,7 @@ public class AsyncExemptions {
      * @return {@code CompletableFuture<GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetResponse>} - The async response
      */
     public CompletableFuture<GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetResponse> getAttachments(String exemptionId) {
-        return getAttachments(exemptionId, Optional.empty());
+        return getAttachments(exemptionId, Optional.empty(), Optional.empty());
     }
 
     /**
@@ -231,6 +348,26 @@ public class AsyncExemptions {
      * @return {@code CompletableFuture<GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetResponse>} - The async response
      */
     public CompletableFuture<GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetResponse> getAttachments(String exemptionId, Optional<String> xOrganizationId) {
+        return getAttachments(exemptionId, xOrganizationId, Optional.empty());
+    }
+
+    /**
+     * Get attachments for exemption
+     * 
+     * <p>The Get Attachments for Exemption API retrieves all
+     * attachments associated with a specific exemption.
+     * This is used to view and manage supporting documents
+     * like exemption certificates uploaded for a particular exemption record.
+     * 
+     * @param exemptionId The unique identifier for the exemption
+     *                 whose attachments are being retrieved.
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param options additional options
+     * @return {@code CompletableFuture<GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetResponse>} - The async response
+     */
+    public CompletableFuture<GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetResponse> getAttachments(
+            String exemptionId, Optional<String> xOrganizationId,
+            Optional<Options> options) {
         GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest request =
             GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest
                 .builder()
@@ -238,7 +375,7 @@ public class AsyncExemptions {
                 .xOrganizationId(xOrganizationId)
                 .build();
         AsyncRequestOperation<GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest, GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetResponse> operation
-              = new GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGet.Async(sdkConfiguration, _headers);
+              = new GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGet.Async(sdkConfiguration, options, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -271,7 +408,9 @@ public class AsyncExemptions {
      * @return {@code CompletableFuture<UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse>} - The async response
      */
     public CompletableFuture<UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse> uploadCertificate(String exemptionId, BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost) {
-        return uploadCertificate(exemptionId, Optional.empty(), bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost);
+        return uploadCertificate(
+                exemptionId, Optional.empty(), bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost,
+                Optional.empty());
     }
 
     /**
@@ -290,6 +429,28 @@ public class AsyncExemptions {
     public CompletableFuture<UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse> uploadCertificate(
             String exemptionId, Optional<String> xOrganizationId,
             BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost) {
+        return uploadCertificate(
+                exemptionId, xOrganizationId, bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost,
+                Optional.empty());
+    }
+
+    /**
+     * Upload exemption certificate
+     * 
+     * <p>The Upload Exemption Certificate API allows you
+     * to upload a file attachment (e.g., exemption certificate) for a specific exemption.
+     * This is primarily used to associate supporting documents with an exemption record
+     * to ensure compliance and facilitate verification.
+     * 
+     * @param exemptionId The unique identifier for the exemption to which the attachment will be associated.
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost 
+     * @param options additional options
+     * @return {@code CompletableFuture<UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse>} - The async response
+     */
+    public CompletableFuture<UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse> uploadCertificate(
+            String exemptionId, Optional<String> xOrganizationId,
+            BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost, Optional<Options> options) {
         UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest request =
             UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest
                 .builder()
@@ -298,7 +459,7 @@ public class AsyncExemptions {
                 .bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost(bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost)
                 .build();
         AsyncRequestOperation<UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest, UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse> operation
-              = new UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost.Async(sdkConfiguration, _headers);
+              = new UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost.Async(sdkConfiguration, options, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }

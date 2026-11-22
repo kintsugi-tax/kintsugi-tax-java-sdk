@@ -11,6 +11,7 @@ import com.kintsugi.taxplatform.models.operations.POSTCreateCreditNoteByTransact
 import com.kintsugi.taxplatform.models.operations.POSTCreateCreditNoteByTransactionIdResponse;
 import com.kintsugi.taxplatform.operations.POSTCreateCreditNoteByTransactionId;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import java.lang.String;
 import java.util.Optional;
 
@@ -37,7 +38,11 @@ public class CreditNotes {
     /**
      * Create credit note by transaction id
      * 
-     * <p>Create a new credit note for a specific transaction.
+     * <p>Create a new credit note for a specific transaction. Idempotent on ``(organization_id,
+     * connection_id, source, external_id)`` for the same parent: a re-POST returns ``200`` with the stored
+     * credit note unchanged. The same external id against a different parent still conflicts.
+     * 
+     * <p>Use PUT to update fields.
      * 
      * @return The call builder
      */
@@ -48,7 +53,11 @@ public class CreditNotes {
     /**
      * Create credit note by transaction id
      * 
-     * <p>Create a new credit note for a specific transaction.
+     * <p>Create a new credit note for a specific transaction. Idempotent on ``(organization_id,
+     * connection_id, source, external_id)`` for the same parent: a re-POST returns ``200`` with the stored
+     * credit note unchanged. The same external id against a different parent still conflicts.
+     * 
+     * <p>Use PUT to update fields.
      * 
      * @param originalTransactionId 
      * @param creditNoteCreate 
@@ -56,13 +65,18 @@ public class CreditNotes {
      * @throws RuntimeException subclass if the API call fails
      */
     public POSTCreateCreditNoteByTransactionIdResponse create(String originalTransactionId, CreditNoteCreate creditNoteCreate) {
-        return create(originalTransactionId, Optional.empty(), creditNoteCreate);
+        return create(originalTransactionId, Optional.empty(), creditNoteCreate,
+            Optional.empty());
     }
 
     /**
      * Create credit note by transaction id
      * 
-     * <p>Create a new credit note for a specific transaction.
+     * <p>Create a new credit note for a specific transaction. Idempotent on ``(organization_id,
+     * connection_id, source, external_id)`` for the same parent: a re-POST returns ``200`` with the stored
+     * credit note unchanged. The same external id against a different parent still conflicts.
+     * 
+     * <p>Use PUT to update fields.
      * 
      * @param originalTransactionId 
      * @param xOrganizationId The unique identifier for the organization making the request
@@ -73,6 +87,29 @@ public class CreditNotes {
     public POSTCreateCreditNoteByTransactionIdResponse create(
             String originalTransactionId, Optional<String> xOrganizationId,
             CreditNoteCreate creditNoteCreate) {
+        return create(originalTransactionId, xOrganizationId, creditNoteCreate,
+            Optional.empty());
+    }
+
+    /**
+     * Create credit note by transaction id
+     * 
+     * <p>Create a new credit note for a specific transaction. Idempotent on ``(organization_id,
+     * connection_id, source, external_id)`` for the same parent: a re-POST returns ``200`` with the stored
+     * credit note unchanged. The same external id against a different parent still conflicts.
+     * 
+     * <p>Use PUT to update fields.
+     * 
+     * @param originalTransactionId 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param creditNoteCreate 
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public POSTCreateCreditNoteByTransactionIdResponse create(
+            String originalTransactionId, Optional<String> xOrganizationId,
+            CreditNoteCreate creditNoteCreate, Optional<Options> options) {
         POSTCreateCreditNoteByTransactionIdRequest request =
             POSTCreateCreditNoteByTransactionIdRequest
                 .builder()
@@ -81,7 +118,7 @@ public class CreditNotes {
                 .creditNoteCreate(creditNoteCreate)
                 .build();
         RequestOperation<POSTCreateCreditNoteByTransactionIdRequest, POSTCreateCreditNoteByTransactionIdResponse> operation
-              = new POSTCreateCreditNoteByTransactionId.Sync(sdkConfiguration, _headers);
+              = new POSTCreateCreditNoteByTransactionId.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 

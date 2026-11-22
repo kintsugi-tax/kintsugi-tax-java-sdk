@@ -8,14 +8,17 @@ import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.operations.GetTransactionByIdV1TransactionsTransactionIdGet;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.time.Duration;
 import java.util.Optional;
 
 public class GetTransactionByIdV1TransactionsTransactionIdGetRequestBuilder {
 
     private String transactionId;
     private Optional<String> xOrganizationId = Optional.empty();
+    private Optional<Duration> timeout = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -40,6 +43,18 @@ public class GetTransactionByIdV1TransactionsTransactionIdGetRequestBuilder {
         this.xOrganizationId = xOrganizationId;
         return this;
     }
+                
+    public GetTransactionByIdV1TransactionsTransactionIdGetRequestBuilder timeout(Duration timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = Optional.of(timeout);
+        return this;
+    }
+
+    public GetTransactionByIdV1TransactionsTransactionIdGetRequestBuilder timeout(Optional<Duration> timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = timeout;
+        return this;
+    }
 
 
     private GetTransactionByIdV1TransactionsTransactionIdGetRequest buildRequest() {
@@ -51,9 +66,12 @@ public class GetTransactionByIdV1TransactionsTransactionIdGetRequestBuilder {
     }
 
     public GetTransactionByIdV1TransactionsTransactionIdGetResponse call() {
-        
+        Optional<Options> options = Optional.of(Options.builder()
+            .timeout(timeout)
+            .build());
+
         RequestOperation<GetTransactionByIdV1TransactionsTransactionIdGetRequest, GetTransactionByIdV1TransactionsTransactionIdGetResponse> operation
-              = new GetTransactionByIdV1TransactionsTransactionIdGet.Sync(sdkConfiguration, _headers);
+              = new GetTransactionByIdV1TransactionsTransactionIdGet.Sync(sdkConfiguration, options, _headers);
         GetTransactionByIdV1TransactionsTransactionIdGetRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

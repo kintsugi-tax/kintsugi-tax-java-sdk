@@ -8,11 +8,15 @@ import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.operations.GetTransactionsV1TransactionsGet;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.Utils;
+import java.time.Duration;
+import java.util.Optional;
 
 public class GetTransactionsV1TransactionsGetRequestBuilder {
 
     private GetTransactionsV1TransactionsGetRequest request;
+    private Optional<Duration> timeout = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -25,11 +29,26 @@ public class GetTransactionsV1TransactionsGetRequestBuilder {
         this.request = request;
         return this;
     }
+                
+    public GetTransactionsV1TransactionsGetRequestBuilder timeout(Duration timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = Optional.of(timeout);
+        return this;
+    }
+
+    public GetTransactionsV1TransactionsGetRequestBuilder timeout(Optional<Duration> timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = timeout;
+        return this;
+    }
 
     public GetTransactionsV1TransactionsGetResponse call() {
-        
+        Optional<Options> options = Optional.of(Options.builder()
+            .timeout(timeout)
+            .build());
+
         RequestOperation<GetTransactionsV1TransactionsGetRequest, GetTransactionsV1TransactionsGetResponse> operation
-              = new GetTransactionsV1TransactionsGet.Sync(sdkConfiguration, _headers);
+              = new GetTransactionsV1TransactionsGet.Sync(sdkConfiguration, options, _headers);
 
         return operation.handleResponse(operation.doRequest(request));
     }

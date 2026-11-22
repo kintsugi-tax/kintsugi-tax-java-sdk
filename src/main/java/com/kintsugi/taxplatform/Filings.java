@@ -5,10 +5,20 @@ package com.kintsugi.taxplatform;
 
 import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 
+import com.kintsugi.taxplatform.models.components.BackFilingRequestCreate;
 import com.kintsugi.taxplatform.models.components.FilingApproveRequest;
 import com.kintsugi.taxplatform.models.operations.ApproveFilingV1FilingsFilingIdApprovePutRequest;
 import com.kintsugi.taxplatform.models.operations.ApproveFilingV1FilingsFilingIdApprovePutRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.ApproveFilingV1FilingsFilingIdApprovePutResponse;
+import com.kintsugi.taxplatform.models.operations.CreateBackFilingRequestV1FilingsBackFilingRequestPostRequest;
+import com.kintsugi.taxplatform.models.operations.CreateBackFilingRequestV1FilingsBackFilingRequestPostRequestBuilder;
+import com.kintsugi.taxplatform.models.operations.CreateBackFilingRequestV1FilingsBackFilingRequestPostResponse;
+import com.kintsugi.taxplatform.models.operations.GetBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGetRequest;
+import com.kintsugi.taxplatform.models.operations.GetBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGetRequestBuilder;
+import com.kintsugi.taxplatform.models.operations.GetBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGetResponse;
+import com.kintsugi.taxplatform.models.operations.GetCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGetRequest;
+import com.kintsugi.taxplatform.models.operations.GetCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGetRequestBuilder;
+import com.kintsugi.taxplatform.models.operations.GetCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGetResponse;
 import com.kintsugi.taxplatform.models.operations.GetFilingByIdV1FilingsFilingIdGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetFilingByIdV1FilingsFilingIdGetRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.GetFilingByIdV1FilingsFilingIdGetResponse;
@@ -19,10 +29,14 @@ import com.kintsugi.taxplatform.models.operations.GetFilingsV1FilingsGetRequest;
 import com.kintsugi.taxplatform.models.operations.GetFilingsV1FilingsGetRequestBuilder;
 import com.kintsugi.taxplatform.models.operations.GetFilingsV1FilingsGetResponse;
 import com.kintsugi.taxplatform.operations.ApproveFilingV1FilingsFilingIdApprovePut;
+import com.kintsugi.taxplatform.operations.CreateBackFilingRequestV1FilingsBackFilingRequestPost;
+import com.kintsugi.taxplatform.operations.GetBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGet;
+import com.kintsugi.taxplatform.operations.GetCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGet;
 import com.kintsugi.taxplatform.operations.GetFilingByIdV1FilingsFilingIdGet;
 import com.kintsugi.taxplatform.operations.GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGet;
 import com.kintsugi.taxplatform.operations.GetFilingsV1FilingsGet;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import java.lang.Long;
 import java.lang.String;
 import java.util.Optional;
@@ -73,8 +87,201 @@ public class Filings {
      * @throws RuntimeException subclass if the API call fails
      */
     public GetFilingsV1FilingsGetResponse get(GetFilingsV1FilingsGetRequest request) {
+        return get(request, Optional.empty());
+    }
+
+    /**
+     * Get filings
+     * 
+     * <p>The Get Filings API retrieves a paginated list of filings based on
+     * filters such as dates, jurisdiction, Country, status, etc. This helps track
+     * and manage tax filings efficiently across multiple jurisdictions.
+     * 
+     * @param request The request object containing all the parameters for the API call.
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public GetFilingsV1FilingsGetResponse get(GetFilingsV1FilingsGetRequest request, Optional<Options> options) {
         RequestOperation<GetFilingsV1FilingsGetRequest, GetFilingsV1FilingsGetResponse> operation
-              = new GetFilingsV1FilingsGet.Sync(sdkConfiguration, _headers);
+              = new GetFilingsV1FilingsGet.Sync(sdkConfiguration, options, _headers);
+        return operation.handleResponse(operation.doRequest(request));
+    }
+
+    /**
+     * Create back filing request
+     * 
+     * <p>Create unapproved BACK_FILING rows for requested in-bounds periods.
+     * 
+     * @return The call builder
+     */
+    public CreateBackFilingRequestV1FilingsBackFilingRequestPostRequestBuilder createBackFilingRequestV1FilingsBackFilingRequestPost() {
+        return new CreateBackFilingRequestV1FilingsBackFilingRequestPostRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Create back filing request
+     * 
+     * <p>Create unapproved BACK_FILING rows for requested in-bounds periods.
+     * 
+     * @param backFilingRequestCreate 
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public CreateBackFilingRequestV1FilingsBackFilingRequestPostResponse createBackFilingRequestV1FilingsBackFilingRequestPost(BackFilingRequestCreate backFilingRequestCreate) {
+        return createBackFilingRequestV1FilingsBackFilingRequestPost(Optional.empty(), backFilingRequestCreate, Optional.empty());
+    }
+
+    /**
+     * Create back filing request
+     * 
+     * <p>Create unapproved BACK_FILING rows for requested in-bounds periods.
+     * 
+     * @param xOrganizationId 
+     * @param backFilingRequestCreate 
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public CreateBackFilingRequestV1FilingsBackFilingRequestPostResponse createBackFilingRequestV1FilingsBackFilingRequestPost(Optional<String> xOrganizationId, BackFilingRequestCreate backFilingRequestCreate) {
+        return createBackFilingRequestV1FilingsBackFilingRequestPost(xOrganizationId, backFilingRequestCreate, Optional.empty());
+    }
+
+    /**
+     * Create back filing request
+     * 
+     * <p>Create unapproved BACK_FILING rows for requested in-bounds periods.
+     * 
+     * @param xOrganizationId 
+     * @param backFilingRequestCreate 
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public CreateBackFilingRequestV1FilingsBackFilingRequestPostResponse createBackFilingRequestV1FilingsBackFilingRequestPost(
+            Optional<String> xOrganizationId, BackFilingRequestCreate backFilingRequestCreate,
+            Optional<Options> options) {
+        CreateBackFilingRequestV1FilingsBackFilingRequestPostRequest request =
+            CreateBackFilingRequestV1FilingsBackFilingRequestPostRequest
+                .builder()
+                .xOrganizationId(xOrganizationId)
+                .backFilingRequestCreate(backFilingRequestCreate)
+                .build();
+        RequestOperation<CreateBackFilingRequestV1FilingsBackFilingRequestPostRequest, CreateBackFilingRequestV1FilingsBackFilingRequestPostResponse> operation
+              = new CreateBackFilingRequestV1FilingsBackFilingRequestPost.Sync(sdkConfiguration, options, _headers);
+        return operation.handleResponse(operation.doRequest(request));
+    }
+
+    /**
+     * Get back filing request options
+     * 
+     * <p>Eligible US registrations and periods for a customer back-filing request.
+     * 
+     * @return The call builder
+     */
+    public GetBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGetRequestBuilder getBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGet() {
+        return new GetBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGetRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Get back filing request options
+     * 
+     * <p>Eligible US registrations and periods for a customer back-filing request.
+     * 
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public GetBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGetResponse getBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGetDirect() {
+        return getBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGet(Optional.empty(), Optional.empty());
+    }
+
+    /**
+     * Get back filing request options
+     * 
+     * <p>Eligible US registrations and periods for a customer back-filing request.
+     * 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public GetBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGetResponse getBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGet(Optional<String> xOrganizationId) {
+        return getBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGet(xOrganizationId, Optional.empty());
+    }
+
+    /**
+     * Get back filing request options
+     * 
+     * <p>Eligible US registrations and periods for a customer back-filing request.
+     * 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public GetBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGetResponse getBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGet(Optional<String> xOrganizationId, Optional<Options> options) {
+        GetBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGetRequest request =
+            GetBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGetRequest
+                .builder()
+                .xOrganizationId(xOrganizationId)
+                .build();
+        RequestOperation<GetBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGetRequest, GetBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGetResponse> operation
+              = new GetBackFilingRequestOptionsV1FilingsBackFilingRequestOptionsGet.Sync(sdkConfiguration, options, _headers);
+        return operation.handleResponse(operation.doRequest(request));
+    }
+
+    /**
+     * Get current back filing terms
+     * 
+     * <p>Current back filing terms shown before BACK_FILING approval.
+     * 
+     * @return The call builder
+     */
+    public GetCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGetRequestBuilder getCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGet() {
+        return new GetCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGetRequestBuilder(sdkConfiguration);
+    }
+
+    /**
+     * Get current back filing terms
+     * 
+     * <p>Current back filing terms shown before BACK_FILING approval.
+     * 
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public GetCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGetResponse getCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGetDirect() {
+        return getCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGet(Optional.empty(), Optional.empty());
+    }
+
+    /**
+     * Get current back filing terms
+     * 
+     * <p>Current back filing terms shown before BACK_FILING approval.
+     * 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public GetCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGetResponse getCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGet(Optional<String> xOrganizationId) {
+        return getCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGet(xOrganizationId, Optional.empty());
+    }
+
+    /**
+     * Get current back filing terms
+     * 
+     * <p>Current back filing terms shown before BACK_FILING approval.
+     * 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public GetCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGetResponse getCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGet(Optional<String> xOrganizationId, Optional<Options> options) {
+        GetCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGetRequest request =
+            GetCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGetRequest
+                .builder()
+                .xOrganizationId(xOrganizationId)
+                .build();
+        RequestOperation<GetCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGetRequest, GetCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGetResponse> operation
+              = new GetCurrentBackFilingTermsV1FilingsBackFilingTermsCurrentGet.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -109,7 +316,7 @@ public class Filings {
      */
     public GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetResponse getByRegistrationId(String registrationId) {
         return getByRegistrationId(registrationId, Optional.empty(), Optional.empty(),
-            Optional.empty());
+            Optional.empty(), Optional.empty());
     }
 
     /**
@@ -132,6 +339,32 @@ public class Filings {
     public GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetResponse getByRegistrationId(
             String registrationId, Optional<Long> page,
             Optional<Long> size, Optional<String> xOrganizationId) {
+        return getByRegistrationId(registrationId, page, size,
+            xOrganizationId, Optional.empty());
+    }
+
+    /**
+     * Get filings by registration id
+     * 
+     * <p>The Get Filings By Registration ID API
+     * retrieves all filings
+     * associated with a specific registration ID. This allows users to query detailed
+     * filing information tied to
+     * a specific registration record.
+     * 
+     * @param registrationId Unique identifier for the registration
+     *                 associated with the filings.
+     * @param page Page number
+     * @param size Page size
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetResponse getByRegistrationId(
+            String registrationId, Optional<Long> page,
+            Optional<Long> size, Optional<String> xOrganizationId,
+            Optional<Options> options) {
         GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequest request =
             GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequest
                 .builder()
@@ -141,7 +374,7 @@ public class Filings {
                 .xOrganizationId(xOrganizationId)
                 .build();
         RequestOperation<GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequest, GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetResponse> operation
-              = new GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGet.Sync(sdkConfiguration, _headers);
+              = new GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGet.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -168,7 +401,7 @@ public class Filings {
      * @throws RuntimeException subclass if the API call fails
      */
     public GetFilingByIdV1FilingsFilingIdGetResponse getById(String filingId) {
-        return getById(filingId, Optional.empty());
+        return getById(filingId, Optional.empty(), Optional.empty());
     }
 
     /**
@@ -183,6 +416,24 @@ public class Filings {
      * @throws RuntimeException subclass if the API call fails
      */
     public GetFilingByIdV1FilingsFilingIdGetResponse getById(String filingId, Optional<String> xOrganizationId) {
+        return getById(filingId, xOrganizationId, Optional.empty());
+    }
+
+    /**
+     * Get filing by id
+     * 
+     * <p>This API retrieves detailed information about a specific
+     * filing using its unique identifier (filing_id).
+     * 
+     * @param filingId Unique identifier for the filing to retrieve.
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public GetFilingByIdV1FilingsFilingIdGetResponse getById(
+            String filingId, Optional<String> xOrganizationId,
+            Optional<Options> options) {
         GetFilingByIdV1FilingsFilingIdGetRequest request =
             GetFilingByIdV1FilingsFilingIdGetRequest
                 .builder()
@@ -190,14 +441,15 @@ public class Filings {
                 .xOrganizationId(xOrganizationId)
                 .build();
         RequestOperation<GetFilingByIdV1FilingsFilingIdGetRequest, GetFilingByIdV1FilingsFilingIdGetResponse> operation
-              = new GetFilingByIdV1FilingsFilingIdGet.Sync(sdkConfiguration, _headers);
+              = new GetFilingByIdV1FilingsFilingIdGet.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
     /**
      * Approve filing
      * 
-     * <p>Approve a specific filing by its ID.
+     * <p>Approve a specific filing by its ID. Returns 409 while the filing is being recalculated; retry the
+     * request.
      * 
      * @return The call builder
      */
@@ -208,20 +460,23 @@ public class Filings {
     /**
      * Approve filing
      * 
-     * <p>Approve a specific filing by its ID.
+     * <p>Approve a specific filing by its ID. Returns 409 while the filing is being recalculated; retry the
+     * request.
      * 
      * @param filingId 
      * @return The response from the API call
      * @throws RuntimeException subclass if the API call fails
      */
     public ApproveFilingV1FilingsFilingIdApprovePutResponse approveFilingV1FilingsFilingIdApprovePut(String filingId) {
-        return approveFilingV1FilingsFilingIdApprovePut(filingId, Optional.empty(), JsonNullable.undefined());
+        return approveFilingV1FilingsFilingIdApprovePut(filingId, Optional.empty(), JsonNullable.undefined(),
+            Optional.empty());
     }
 
     /**
      * Approve filing
      * 
-     * <p>Approve a specific filing by its ID.
+     * <p>Approve a specific filing by its ID. Returns 409 while the filing is being recalculated; retry the
+     * request.
      * 
      * @param filingId 
      * @param xOrganizationId The unique identifier for the organization making the request
@@ -232,6 +487,26 @@ public class Filings {
     public ApproveFilingV1FilingsFilingIdApprovePutResponse approveFilingV1FilingsFilingIdApprovePut(
             String filingId, Optional<String> xOrganizationId,
             JsonNullable<? extends FilingApproveRequest> filingApproveRequest) {
+        return approveFilingV1FilingsFilingIdApprovePut(filingId, xOrganizationId, filingApproveRequest,
+            Optional.empty());
+    }
+
+    /**
+     * Approve filing
+     * 
+     * <p>Approve a specific filing by its ID. Returns 409 while the filing is being recalculated; retry the
+     * request.
+     * 
+     * @param filingId 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param filingApproveRequest 
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public ApproveFilingV1FilingsFilingIdApprovePutResponse approveFilingV1FilingsFilingIdApprovePut(
+            String filingId, Optional<String> xOrganizationId,
+            JsonNullable<? extends FilingApproveRequest> filingApproveRequest, Optional<Options> options) {
         ApproveFilingV1FilingsFilingIdApprovePutRequest request =
             ApproveFilingV1FilingsFilingIdApprovePutRequest
                 .builder()
@@ -240,7 +515,7 @@ public class Filings {
                 .filingApproveRequest(filingApproveRequest)
                 .build();
         RequestOperation<ApproveFilingV1FilingsFilingIdApprovePutRequest, ApproveFilingV1FilingsFilingIdApprovePutResponse> operation
-              = new ApproveFilingV1FilingsFilingIdApprovePut.Sync(sdkConfiguration, _headers);
+              = new ApproveFilingV1FilingsFilingIdApprovePut.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 

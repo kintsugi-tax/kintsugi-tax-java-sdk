@@ -9,8 +9,10 @@ import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.operations.ArchiveTransactionByIdV1TransactionsArchivePostRequest;
 import com.kintsugi.taxplatform.operations.ArchiveTransactionByIdV1TransactionsArchivePost;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.time.Duration;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
@@ -18,6 +20,7 @@ public class ArchiveTransactionByIdV1TransactionsArchivePostRequestBuilder {
 
     private String transactionId;
     private Optional<String> xOrganizationId = Optional.empty();
+    private Optional<Duration> timeout = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -42,6 +45,18 @@ public class ArchiveTransactionByIdV1TransactionsArchivePostRequestBuilder {
         this.xOrganizationId = xOrganizationId;
         return this;
     }
+                
+    public ArchiveTransactionByIdV1TransactionsArchivePostRequestBuilder timeout(Duration timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = Optional.of(timeout);
+        return this;
+    }
+
+    public ArchiveTransactionByIdV1TransactionsArchivePostRequestBuilder timeout(Optional<Duration> timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = timeout;
+        return this;
+    }
 
 
     private ArchiveTransactionByIdV1TransactionsArchivePostRequest buildRequest() {
@@ -53,9 +68,12 @@ public class ArchiveTransactionByIdV1TransactionsArchivePostRequestBuilder {
     }
 
     public CompletableFuture<ArchiveTransactionByIdV1TransactionsArchivePostResponse> call() {
-        
+        Optional<Options> options = Optional.of(Options.builder()
+            .timeout(timeout)
+            .build());
+
         AsyncRequestOperation<ArchiveTransactionByIdV1TransactionsArchivePostRequest, ArchiveTransactionByIdV1TransactionsArchivePostResponse> operation
-              = new ArchiveTransactionByIdV1TransactionsArchivePost.Async(sdkConfiguration, _headers);
+              = new ArchiveTransactionByIdV1TransactionsArchivePost.Async(sdkConfiguration, options, _headers);
         ArchiveTransactionByIdV1TransactionsArchivePostRequest request = buildRequest();
 
         return operation.doRequest(request)

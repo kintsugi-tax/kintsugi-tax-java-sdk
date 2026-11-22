@@ -10,8 +10,10 @@ import com.kintsugi.taxplatform.models.components.FilingApproveRequest;
 import com.kintsugi.taxplatform.models.operations.ApproveFilingV1FilingsFilingIdApprovePutRequest;
 import com.kintsugi.taxplatform.operations.ApproveFilingV1FilingsFilingIdApprovePut;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.time.Duration;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -21,6 +23,7 @@ public class ApproveFilingV1FilingsFilingIdApprovePutRequestBuilder {
     private String filingId;
     private Optional<String> xOrganizationId = Optional.empty();
     private JsonNullable<? extends FilingApproveRequest> filingApproveRequest = JsonNullable.undefined();
+    private Optional<Duration> timeout = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -57,6 +60,18 @@ public class ApproveFilingV1FilingsFilingIdApprovePutRequestBuilder {
         this.filingApproveRequest = filingApproveRequest;
         return this;
     }
+                
+    public ApproveFilingV1FilingsFilingIdApprovePutRequestBuilder timeout(Duration timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = Optional.of(timeout);
+        return this;
+    }
+
+    public ApproveFilingV1FilingsFilingIdApprovePutRequestBuilder timeout(Optional<Duration> timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = timeout;
+        return this;
+    }
 
 
     private ApproveFilingV1FilingsFilingIdApprovePutRequest buildRequest() {
@@ -69,9 +84,12 @@ public class ApproveFilingV1FilingsFilingIdApprovePutRequestBuilder {
     }
 
     public CompletableFuture<ApproveFilingV1FilingsFilingIdApprovePutResponse> call() {
-        
+        Optional<Options> options = Optional.of(Options.builder()
+            .timeout(timeout)
+            .build());
+
         AsyncRequestOperation<ApproveFilingV1FilingsFilingIdApprovePutRequest, ApproveFilingV1FilingsFilingIdApprovePutResponse> operation
-              = new ApproveFilingV1FilingsFilingIdApprovePut.Async(sdkConfiguration, _headers);
+              = new ApproveFilingV1FilingsFilingIdApprovePut.Async(sdkConfiguration, options, _headers);
         ApproveFilingV1FilingsFilingIdApprovePutRequest request = buildRequest();
 
         return operation.doRequest(request)

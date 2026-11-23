@@ -8,11 +8,15 @@ import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.operations.GetExemptionsV1ExemptionsGet;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.Utils;
+import java.time.Duration;
+import java.util.Optional;
 
 public class GetExemptionsV1ExemptionsGetRequestBuilder {
 
     private GetExemptionsV1ExemptionsGetRequest request;
+    private Optional<Duration> timeout = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -25,11 +29,26 @@ public class GetExemptionsV1ExemptionsGetRequestBuilder {
         this.request = request;
         return this;
     }
+                
+    public GetExemptionsV1ExemptionsGetRequestBuilder timeout(Duration timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = Optional.of(timeout);
+        return this;
+    }
+
+    public GetExemptionsV1ExemptionsGetRequestBuilder timeout(Optional<Duration> timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = timeout;
+        return this;
+    }
 
     public GetExemptionsV1ExemptionsGetResponse call() {
-        
+        Optional<Options> options = Optional.of(Options.builder()
+            .timeout(timeout)
+            .build());
+
         RequestOperation<GetExemptionsV1ExemptionsGetRequest, GetExemptionsV1ExemptionsGetResponse> operation
-              = new GetExemptionsV1ExemptionsGet.Sync(sdkConfiguration, _headers);
+              = new GetExemptionsV1ExemptionsGet.Sync(sdkConfiguration, options, _headers);
 
         return operation.handleResponse(operation.doRequest(request));
     }

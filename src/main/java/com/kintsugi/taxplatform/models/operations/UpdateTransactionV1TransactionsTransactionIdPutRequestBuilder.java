@@ -9,8 +9,10 @@ import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.components.TransactionUpdate;
 import com.kintsugi.taxplatform.operations.UpdateTransactionV1TransactionsTransactionIdPut;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.time.Duration;
 import java.util.Optional;
 
 public class UpdateTransactionV1TransactionsTransactionIdPutRequestBuilder {
@@ -18,6 +20,7 @@ public class UpdateTransactionV1TransactionsTransactionIdPutRequestBuilder {
     private String transactionId;
     private Optional<String> xOrganizationId = Optional.empty();
     private TransactionUpdate transactionUpdate;
+    private Optional<Duration> timeout = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -48,6 +51,18 @@ public class UpdateTransactionV1TransactionsTransactionIdPutRequestBuilder {
         this.transactionUpdate = transactionUpdate;
         return this;
     }
+                
+    public UpdateTransactionV1TransactionsTransactionIdPutRequestBuilder timeout(Duration timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = Optional.of(timeout);
+        return this;
+    }
+
+    public UpdateTransactionV1TransactionsTransactionIdPutRequestBuilder timeout(Optional<Duration> timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = timeout;
+        return this;
+    }
 
 
     private UpdateTransactionV1TransactionsTransactionIdPutRequest buildRequest() {
@@ -60,9 +75,12 @@ public class UpdateTransactionV1TransactionsTransactionIdPutRequestBuilder {
     }
 
     public UpdateTransactionV1TransactionsTransactionIdPutResponse call() {
-        
+        Optional<Options> options = Optional.of(Options.builder()
+            .timeout(timeout)
+            .build());
+
         RequestOperation<UpdateTransactionV1TransactionsTransactionIdPutRequest, UpdateTransactionV1TransactionsTransactionIdPutResponse> operation
-              = new UpdateTransactionV1TransactionsTransactionIdPut.Sync(sdkConfiguration, _headers);
+              = new UpdateTransactionV1TransactionsTransactionIdPut.Sync(sdkConfiguration, options, _headers);
         UpdateTransactionV1TransactionsTransactionIdPutRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

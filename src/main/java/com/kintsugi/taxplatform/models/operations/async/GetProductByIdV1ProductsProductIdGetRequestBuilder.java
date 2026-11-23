@@ -9,8 +9,10 @@ import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.operations.GetProductByIdV1ProductsProductIdGetRequest;
 import com.kintsugi.taxplatform.operations.GetProductByIdV1ProductsProductIdGet;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.time.Duration;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
@@ -18,6 +20,7 @@ public class GetProductByIdV1ProductsProductIdGetRequestBuilder {
 
     private String productId;
     private Optional<String> xOrganizationId = Optional.empty();
+    private Optional<Duration> timeout = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -42,6 +45,18 @@ public class GetProductByIdV1ProductsProductIdGetRequestBuilder {
         this.xOrganizationId = xOrganizationId;
         return this;
     }
+                
+    public GetProductByIdV1ProductsProductIdGetRequestBuilder timeout(Duration timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = Optional.of(timeout);
+        return this;
+    }
+
+    public GetProductByIdV1ProductsProductIdGetRequestBuilder timeout(Optional<Duration> timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = timeout;
+        return this;
+    }
 
 
     private GetProductByIdV1ProductsProductIdGetRequest buildRequest() {
@@ -53,9 +68,12 @@ public class GetProductByIdV1ProductsProductIdGetRequestBuilder {
     }
 
     public CompletableFuture<GetProductByIdV1ProductsProductIdGetResponse> call() {
-        
+        Optional<Options> options = Optional.of(Options.builder()
+            .timeout(timeout)
+            .build());
+
         AsyncRequestOperation<GetProductByIdV1ProductsProductIdGetRequest, GetProductByIdV1ProductsProductIdGetResponse> operation
-              = new GetProductByIdV1ProductsProductIdGet.Async(sdkConfiguration, _headers);
+              = new GetProductByIdV1ProductsProductIdGet.Async(sdkConfiguration, options, _headers);
         GetProductByIdV1ProductsProductIdGetRequest request = buildRequest();
 
         return operation.doRequest(request)

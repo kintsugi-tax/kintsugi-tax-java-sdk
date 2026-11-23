@@ -9,8 +9,10 @@ import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.operations.GetOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGetRequest;
 import com.kintsugi.taxplatform.operations.GetOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGet;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.time.Duration;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
@@ -18,6 +20,7 @@ public class GetOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCount
 
     private String registrationId;
     private Optional<String> xOrganizationId = Optional.empty();
+    private Optional<Duration> timeout = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -42,6 +45,18 @@ public class GetOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCount
         this.xOrganizationId = xOrganizationId;
         return this;
     }
+                
+    public GetOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGetRequestBuilder timeout(Duration timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = Optional.of(timeout);
+        return this;
+    }
+
+    public GetOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGetRequestBuilder timeout(Optional<Duration> timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = timeout;
+        return this;
+    }
 
 
     private GetOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGetRequest buildRequest() {
@@ -53,9 +68,12 @@ public class GetOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCount
     }
 
     public CompletableFuture<GetOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGetResponse> call() {
-        
+        Optional<Options> options = Optional.of(Options.builder()
+            .timeout(timeout)
+            .build());
+
         AsyncRequestOperation<GetOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGetRequest, GetOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGetResponse> operation
-              = new GetOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGet.Async(sdkConfiguration, _headers);
+              = new GetOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGet.Async(sdkConfiguration, options, _headers);
         GetOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGetRequest request = buildRequest();
 
         return operation.doRequest(request)

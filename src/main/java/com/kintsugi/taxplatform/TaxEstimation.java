@@ -11,6 +11,7 @@ import com.kintsugi.taxplatform.models.operations.EstimateTaxV1TaxEstimatePostRe
 import com.kintsugi.taxplatform.models.operations.EstimateTaxV1TaxEstimatePostResponse;
 import com.kintsugi.taxplatform.operations.EstimateTaxV1TaxEstimatePost;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import java.lang.Boolean;
 import java.lang.String;
 import java.util.Optional;
@@ -65,7 +66,8 @@ public class TaxEstimation {
      * @throws RuntimeException subclass if the API call fails
      */
     public EstimateTaxV1TaxEstimatePostResponse estimate(TransactionEstimatePublicRequest transactionEstimatePublicRequest) {
-        return estimate(Optional.empty(), Optional.empty(), transactionEstimatePublicRequest);
+        return estimate(Optional.empty(), Optional.empty(), transactionEstimatePublicRequest,
+            Optional.empty());
     }
 
     /**
@@ -87,6 +89,30 @@ public class TaxEstimation {
     public EstimateTaxV1TaxEstimatePostResponse estimate(
             Optional<Boolean> simulateNexusMet, Optional<String> xOrganizationId,
             TransactionEstimatePublicRequest transactionEstimatePublicRequest) {
+        return estimate(simulateNexusMet, xOrganizationId, transactionEstimatePublicRequest,
+            Optional.empty());
+    }
+
+    /**
+     * Estimate tax
+     * 
+     * <p>The Estimate Tax API calculates the estimated tax for a specific
+     * transaction based on the provided details, including organization nexus,
+     * transaction details, customer details, and addresses. Optionally simulates nexus being met for tax
+     * calculation purposes. The `simulate_nexus_met` parameter is deprecated and will be removed in future
+     * releases.
+     * 
+     * @param simulateNexusMet **Deprecated:** Use `simulate_active_registration` in the request body instead.
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param transactionEstimatePublicRequest Public request model for tax estimation API documentation.
+     *         This model excludes internal fields like enriched_fields and total_amount that should not be exposed in API docs.
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public EstimateTaxV1TaxEstimatePostResponse estimate(
+            Optional<Boolean> simulateNexusMet, Optional<String> xOrganizationId,
+            TransactionEstimatePublicRequest transactionEstimatePublicRequest, Optional<Options> options) {
         EstimateTaxV1TaxEstimatePostRequest request =
             EstimateTaxV1TaxEstimatePostRequest
                 .builder()
@@ -95,7 +121,7 @@ public class TaxEstimation {
                 .transactionEstimatePublicRequest(transactionEstimatePublicRequest)
                 .build();
         RequestOperation<EstimateTaxV1TaxEstimatePostRequest, EstimateTaxV1TaxEstimatePostResponse> operation
-              = new EstimateTaxV1TaxEstimatePost.Sync(sdkConfiguration, _headers);
+              = new EstimateTaxV1TaxEstimatePost.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 

@@ -22,6 +22,7 @@ import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Hook.AfterErrorContextImpl;
 import com.kintsugi.taxplatform.utils.Hook.AfterSuccessContextImpl;
 import com.kintsugi.taxplatform.utils.Hook.BeforeRequestContextImpl;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.SerializedBody;
 import com.kintsugi.taxplatform.utils.Utils.JsonShape;
 import com.kintsugi.taxplatform.utils.Utils;
@@ -33,6 +34,8 @@ import java.lang.String;
 import java.lang.Throwable;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.Duration;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
@@ -44,14 +47,20 @@ public class SuggestionsV1AddressValidationSuggestionsPost {
         final SDKConfiguration sdkConfiguration;
         final String baseUrl;
         final SecuritySource securitySource;
+        final Optional<Duration> timeout;
         final HTTPClient client;
         final Headers _headers;
 
-        public Base(SDKConfiguration sdkConfiguration, Headers _headers) {
+        public Base(
+                SDKConfiguration sdkConfiguration, Optional<Options> options,
+                Headers _headers) {
             this.sdkConfiguration = sdkConfiguration;
             this._headers =_headers;
             this.baseUrl = this.sdkConfiguration.serverUrl();
             this.securitySource = this.sdkConfiguration.securitySource();
+            options
+                    .ifPresent(o -> o.validate(List.of(Options.Option.TIMEOUT)));
+            this.timeout = options.flatMap(Options::timeout).or(sdkConfiguration::timeout);
             this.client = this.sdkConfiguration.client();
         }
 
@@ -89,7 +98,8 @@ public class SuggestionsV1AddressValidationSuggestionsPost {
             String url = Utils.generateURL(
                     this.baseUrl,
                     "/v1/address_validation/suggestions");
-            HTTPRequest req = new HTTPRequest(url, "POST");
+            HTTPRequest req = new HTTPRequest(url, "POST")
+                    .timeout(this.timeout);
             Object convertedRequest = Utils.convertToShape(
                     request,
                     JsonShape.DEFAULT,
@@ -116,7 +126,16 @@ public class SuggestionsV1AddressValidationSuggestionsPost {
     public static class Sync extends Base
             implements RequestOperation<SuggestionsV1AddressValidationSuggestionsPostRequest, SuggestionsV1AddressValidationSuggestionsPostResponse> {
         public Sync(SDKConfiguration sdkConfiguration, Headers _headers) {
-            super(sdkConfiguration, _headers);
+            this(sdkConfiguration, Optional.empty(),
+                    _headers);
+        }
+
+        public Sync(
+                SDKConfiguration sdkConfiguration, Optional<Options> options,
+                Headers _headers) {
+            super(
+                  sdkConfiguration, options,
+                  _headers);
         }
 
         private HttpRequest onBuildRequest(SuggestionsV1AddressValidationSuggestionsPostRequest request) throws Exception {
@@ -210,9 +229,17 @@ public class SuggestionsV1AddressValidationSuggestionsPost {
     }
     public static class Async extends Base
             implements AsyncRequestOperation<SuggestionsV1AddressValidationSuggestionsPostRequest, com.kintsugi.taxplatform.models.operations.async.SuggestionsV1AddressValidationSuggestionsPostResponse> {
-
         public Async(SDKConfiguration sdkConfiguration, Headers _headers) {
-            super(sdkConfiguration, _headers);
+            this(sdkConfiguration, Optional.empty(),
+                    _headers);
+        }
+
+        public Async(
+                SDKConfiguration sdkConfiguration, Optional<Options> options,
+                Headers _headers) {
+            super(
+                  sdkConfiguration, options,
+                  _headers);
         }
 
         private CompletableFuture<HttpRequest> onBuildRequest(SuggestionsV1AddressValidationSuggestionsPostRequest request) throws Exception {

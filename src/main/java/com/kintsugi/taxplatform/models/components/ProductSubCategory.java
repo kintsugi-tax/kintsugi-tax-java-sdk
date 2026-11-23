@@ -19,8 +19,7 @@ import java.util.Optional;
 
 public class ProductSubCategory {
     /**
-     * Name of the product subcategory
-     * (e.g., ORAL_HYGIENE, MEDICAL_DEVICES, etc.)
+     * Tax subcategory display label (e.g. 'Oral Hygiene', 'Medical Devices').
      */
     @JsonProperty("name")
     private String name;
@@ -70,8 +69,7 @@ public class ProductSubCategory {
     }
 
     /**
-     * Name of the product subcategory
-     * (e.g., ORAL_HYGIENE, MEDICAL_DEVICES, etc.)
+     * Tax subcategory display label (e.g. 'Oral Hygiene', 'Medical Devices').
      */
     @JsonIgnore
     public String name() {
@@ -109,8 +107,7 @@ public class ProductSubCategory {
 
 
     /**
-     * Name of the product subcategory
-     * (e.g., ORAL_HYGIENE, MEDICAL_DEVICES, etc.)
+     * Tax subcategory display label (e.g. 'Oral Hygiene', 'Medical Devices').
      */
     public ProductSubCategory withName(String name) {
         Utils.checkNotNull(name, "name");
@@ -206,8 +203,7 @@ public class ProductSubCategory {
 
 
         /**
-         * Name of the product subcategory
-         * (e.g., ORAL_HYGIENE, MEDICAL_DEVICES, etc.)
+         * Tax subcategory display label (e.g. 'Oral Hygiene', 'Medical Devices').
          */
         public Builder name(String name) {
             Utils.checkNotNull(name, "name");

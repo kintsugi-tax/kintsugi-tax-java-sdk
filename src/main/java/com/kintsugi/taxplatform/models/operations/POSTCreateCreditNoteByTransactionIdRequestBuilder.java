@@ -9,8 +9,10 @@ import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.components.CreditNoteCreate;
 import com.kintsugi.taxplatform.operations.POSTCreateCreditNoteByTransactionId;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.time.Duration;
 import java.util.Optional;
 
 public class POSTCreateCreditNoteByTransactionIdRequestBuilder {
@@ -18,6 +20,7 @@ public class POSTCreateCreditNoteByTransactionIdRequestBuilder {
     private String originalTransactionId;
     private Optional<String> xOrganizationId = Optional.empty();
     private CreditNoteCreate creditNoteCreate;
+    private Optional<Duration> timeout = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -48,6 +51,18 @@ public class POSTCreateCreditNoteByTransactionIdRequestBuilder {
         this.creditNoteCreate = creditNoteCreate;
         return this;
     }
+                
+    public POSTCreateCreditNoteByTransactionIdRequestBuilder timeout(Duration timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = Optional.of(timeout);
+        return this;
+    }
+
+    public POSTCreateCreditNoteByTransactionIdRequestBuilder timeout(Optional<Duration> timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = timeout;
+        return this;
+    }
 
 
     private POSTCreateCreditNoteByTransactionIdRequest buildRequest() {
@@ -60,9 +75,12 @@ public class POSTCreateCreditNoteByTransactionIdRequestBuilder {
     }
 
     public POSTCreateCreditNoteByTransactionIdResponse call() {
-        
+        Optional<Options> options = Optional.of(Options.builder()
+            .timeout(timeout)
+            .build());
+
         RequestOperation<POSTCreateCreditNoteByTransactionIdRequest, POSTCreateCreditNoteByTransactionIdResponse> operation
-              = new POSTCreateCreditNoteByTransactionId.Sync(sdkConfiguration, _headers);
+              = new POSTCreateCreditNoteByTransactionId.Sync(sdkConfiguration, options, _headers);
         POSTCreateCreditNoteByTransactionIdRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

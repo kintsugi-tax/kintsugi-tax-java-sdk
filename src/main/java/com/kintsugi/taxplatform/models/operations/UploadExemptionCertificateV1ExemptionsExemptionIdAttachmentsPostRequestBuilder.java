@@ -9,8 +9,10 @@ import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.components.BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost;
 import com.kintsugi.taxplatform.operations.UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.time.Duration;
 import java.util.Optional;
 
 public class UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequestBuilder {
@@ -18,6 +20,7 @@ public class UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostReq
     private String exemptionId;
     private Optional<String> xOrganizationId = Optional.empty();
     private BodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost;
+    private Optional<Duration> timeout = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -48,6 +51,18 @@ public class UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostReq
         this.bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost = bodyUploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost;
         return this;
     }
+                
+    public UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequestBuilder timeout(Duration timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = Optional.of(timeout);
+        return this;
+    }
+
+    public UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequestBuilder timeout(Optional<Duration> timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = timeout;
+        return this;
+    }
 
 
     private UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest buildRequest() {
@@ -60,9 +75,12 @@ public class UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostReq
     }
 
     public UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse call() {
-        
+        Optional<Options> options = Optional.of(Options.builder()
+            .timeout(timeout)
+            .build());
+
         RequestOperation<UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest, UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostResponse> operation
-              = new UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost.Sync(sdkConfiguration, _headers);
+              = new UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPost.Sync(sdkConfiguration, options, _headers);
         UploadExemptionCertificateV1ExemptionsExemptionIdAttachmentsPostRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

@@ -9,8 +9,10 @@ import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.components.BodyUploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost;
 import com.kintsugi.taxplatform.operations.UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.time.Duration;
 import java.util.Optional;
 
 public class UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPostRequestBuilder {
@@ -18,6 +20,7 @@ public class UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachment
     private String registrationId;
     private Optional<String> xOrganizationId = Optional.empty();
     private BodyUploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost bodyUploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost;
+    private Optional<Duration> timeout = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -48,6 +51,18 @@ public class UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachment
         this.bodyUploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost = bodyUploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost;
         return this;
     }
+                
+    public UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPostRequestBuilder timeout(Duration timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = Optional.of(timeout);
+        return this;
+    }
+
+    public UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPostRequestBuilder timeout(Optional<Duration> timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = timeout;
+        return this;
+    }
 
 
     private UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPostRequest buildRequest() {
@@ -60,9 +75,12 @@ public class UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachment
     }
 
     public UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPostResponse call() {
-        
+        Optional<Options> options = Optional.of(Options.builder()
+            .timeout(timeout)
+            .build());
+
         RequestOperation<UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPostRequest, UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPostResponse> operation
-              = new UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost.Sync(sdkConfiguration, _headers);
+              = new UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost.Sync(sdkConfiguration, options, _headers);
         UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPostRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

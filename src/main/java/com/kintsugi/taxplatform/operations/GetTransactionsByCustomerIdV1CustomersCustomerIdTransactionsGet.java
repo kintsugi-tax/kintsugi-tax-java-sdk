@@ -22,6 +22,7 @@ import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Hook.AfterErrorContextImpl;
 import com.kintsugi.taxplatform.utils.Hook.AfterSuccessContextImpl;
 import com.kintsugi.taxplatform.utils.Hook.BeforeRequestContextImpl;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.io.InputStream;
 import java.lang.Exception;
@@ -29,6 +30,8 @@ import java.lang.String;
 import java.lang.Throwable;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.Duration;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
@@ -40,14 +43,20 @@ public class GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet {
         final SDKConfiguration sdkConfiguration;
         final String baseUrl;
         final SecuritySource securitySource;
+        final Optional<Duration> timeout;
         final HTTPClient client;
         final Headers _headers;
 
-        public Base(SDKConfiguration sdkConfiguration, Headers _headers) {
+        public Base(
+                SDKConfiguration sdkConfiguration, Optional<Options> options,
+                Headers _headers) {
             this.sdkConfiguration = sdkConfiguration;
             this._headers =_headers;
             this.baseUrl = this.sdkConfiguration.serverUrl();
             this.securitySource = this.sdkConfiguration.securitySource();
+            options
+                    .ifPresent(o -> o.validate(List.of(Options.Option.TIMEOUT)));
+            this.timeout = options.flatMap(Options::timeout).or(sdkConfiguration::timeout);
             this.client = this.sdkConfiguration.client();
         }
 
@@ -87,7 +96,8 @@ public class GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet {
                     this.baseUrl,
                     "/v1/customers/{customer_id}/transactions",
                     request, null);
-            HTTPRequest req = new HTTPRequest(url, "GET");
+            HTTPRequest req = new HTTPRequest(url, "GET")
+                    .timeout(this.timeout);
             req.addHeader("Accept", "application/json")
                     .addHeader("user-agent", SDKConfiguration.USER_AGENT);
             _headers.forEach((k, list) -> list.forEach(v -> req.addHeader(k, v)));
@@ -106,7 +116,16 @@ public class GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet {
     public static class Sync extends Base
             implements RequestOperation<GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest, GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse> {
         public Sync(SDKConfiguration sdkConfiguration, Headers _headers) {
-            super(sdkConfiguration, _headers);
+            this(sdkConfiguration, Optional.empty(),
+                    _headers);
+        }
+
+        public Sync(
+                SDKConfiguration sdkConfiguration, Optional<Options> options,
+                Headers _headers) {
+            super(
+                  sdkConfiguration, options,
+                  _headers);
         }
 
         private HttpRequest onBuildRequest(GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest request) throws Exception {
@@ -186,9 +205,17 @@ public class GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet {
     }
     public static class Async extends Base
             implements AsyncRequestOperation<GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest, com.kintsugi.taxplatform.models.operations.async.GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse> {
-
         public Async(SDKConfiguration sdkConfiguration, Headers _headers) {
-            super(sdkConfiguration, _headers);
+            this(sdkConfiguration, Optional.empty(),
+                    _headers);
+        }
+
+        public Async(
+                SDKConfiguration sdkConfiguration, Optional<Options> options,
+                Headers _headers) {
+            super(
+                  sdkConfiguration, options,
+                  _headers);
         }
 
         private CompletableFuture<HttpRequest> onBuildRequest(GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest request) throws Exception {

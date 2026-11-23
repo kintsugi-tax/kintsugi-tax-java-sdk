@@ -10,6 +10,7 @@ import com.kintsugi.taxplatform.models.operations.GetTransactionsByCustomerIdV1C
 import com.kintsugi.taxplatform.models.operations.GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse;
 import com.kintsugi.taxplatform.operations.GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import java.lang.Long;
 import java.lang.String;
 import java.util.Optional;
@@ -61,7 +62,7 @@ public class CustomersTransactions {
      */
     public GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse getByCustomerId(String customerId) {
         return getByCustomerId(customerId, JsonNullable.undefined(), JsonNullable.undefined(),
-            Optional.empty());
+            Optional.empty(), Optional.empty());
     }
 
     /**
@@ -81,6 +82,29 @@ public class CustomersTransactions {
     public GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse getByCustomerId(
             String customerId, JsonNullable<Long> page,
             JsonNullable<Long> size, Optional<String> xOrganizationId) {
+        return getByCustomerId(customerId, page, size,
+            xOrganizationId, Optional.empty());
+    }
+
+    /**
+     * Get transactions by customer id
+     * 
+     * <p>Get a list of transactions for a customer by their unique ID. When pagination params are provided,
+     * this endpoint returns a paginated response. When omitted, it returns the legacy list response format
+     * (deprecated).
+     * 
+     * @param customerId 
+     * @param page 
+     * @param size 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse getByCustomerId(
+            String customerId, JsonNullable<Long> page,
+            JsonNullable<Long> size, Optional<String> xOrganizationId,
+            Optional<Options> options) {
         GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest request =
             GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest
                 .builder()
@@ -90,7 +114,7 @@ public class CustomersTransactions {
                 .xOrganizationId(xOrganizationId)
                 .build();
         RequestOperation<GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetRequest, GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGetResponse> operation
-              = new GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet.Sync(sdkConfiguration, _headers);
+              = new GetTransactionsByCustomerIdV1CustomersCustomerIdTransactionsGet.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 

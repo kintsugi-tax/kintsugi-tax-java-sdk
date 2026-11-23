@@ -8,13 +8,16 @@ import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.operations.GetProductCategoriesV1ProductsCategoriesGet;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.time.Duration;
 import java.util.Optional;
 
 public class GetProductCategoriesV1ProductsCategoriesGetRequestBuilder {
 
     private Optional<String> xOrganizationId = Optional.empty();
+    private Optional<Duration> timeout = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -33,6 +36,18 @@ public class GetProductCategoriesV1ProductsCategoriesGetRequestBuilder {
         this.xOrganizationId = xOrganizationId;
         return this;
     }
+                
+    public GetProductCategoriesV1ProductsCategoriesGetRequestBuilder timeout(Duration timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = Optional.of(timeout);
+        return this;
+    }
+
+    public GetProductCategoriesV1ProductsCategoriesGetRequestBuilder timeout(Optional<Duration> timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = timeout;
+        return this;
+    }
 
 
     private GetProductCategoriesV1ProductsCategoriesGetRequest buildRequest() {
@@ -43,9 +58,12 @@ public class GetProductCategoriesV1ProductsCategoriesGetRequestBuilder {
     }
 
     public GetProductCategoriesV1ProductsCategoriesGetResponse call() {
-        
+        Optional<Options> options = Optional.of(Options.builder()
+            .timeout(timeout)
+            .build());
+
         RequestOperation<GetProductCategoriesV1ProductsCategoriesGetRequest, GetProductCategoriesV1ProductsCategoriesGetResponse> operation
-              = new GetProductCategoriesV1ProductsCategoriesGet.Sync(sdkConfiguration, _headers);
+              = new GetProductCategoriesV1ProductsCategoriesGet.Sync(sdkConfiguration, options, _headers);
         GetProductCategoriesV1ProductsCategoriesGetRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

@@ -9,8 +9,10 @@ import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.operations.GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest;
 import com.kintsugi.taxplatform.operations.GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGet;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.time.Duration;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
@@ -18,6 +20,7 @@ public class GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequestBui
 
     private String filingId;
     private Optional<String> xOrganizationId = Optional.empty();
+    private Optional<Duration> timeout = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -42,6 +45,18 @@ public class GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequestBui
         this.xOrganizationId = xOrganizationId;
         return this;
     }
+                
+    public GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequestBuilder timeout(Duration timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = Optional.of(timeout);
+        return this;
+    }
+
+    public GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequestBuilder timeout(Optional<Duration> timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = timeout;
+        return this;
+    }
 
 
     private GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest buildRequest() {
@@ -53,9 +68,12 @@ public class GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequestBui
     }
 
     public CompletableFuture<GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetResponse> call() {
-        
+        Optional<Options> options = Optional.of(Options.builder()
+            .timeout(timeout)
+            .build());
+
         AsyncRequestOperation<GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest, GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetResponse> operation
-              = new GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGet.Async(sdkConfiguration, _headers);
+              = new GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGet.Async(sdkConfiguration, options, _headers);
         GetTransactionsByFilingIdV1TransactionsFilingsFilingIdGetRequest request = buildRequest();
 
         return operation.doRequest(request)

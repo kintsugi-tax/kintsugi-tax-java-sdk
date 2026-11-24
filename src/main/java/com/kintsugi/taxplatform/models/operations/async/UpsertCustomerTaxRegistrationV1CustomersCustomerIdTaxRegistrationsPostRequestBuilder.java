@@ -10,8 +10,10 @@ import com.kintsugi.taxplatform.models.components.CustomerTaxRegistrationCreateU
 import com.kintsugi.taxplatform.models.operations.UpsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPostRequest;
 import com.kintsugi.taxplatform.operations.UpsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPost;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.time.Duration;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
@@ -20,6 +22,7 @@ public class UpsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsP
     private String customerId;
     private Optional<String> xOrganizationId = Optional.empty();
     private CustomerTaxRegistrationCreateUpdate customerTaxRegistrationCreateUpdate;
+    private Optional<Duration> timeout = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -50,6 +53,18 @@ public class UpsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsP
         this.customerTaxRegistrationCreateUpdate = customerTaxRegistrationCreateUpdate;
         return this;
     }
+                
+    public UpsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPostRequestBuilder timeout(Duration timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = Optional.of(timeout);
+        return this;
+    }
+
+    public UpsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPostRequestBuilder timeout(Optional<Duration> timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = timeout;
+        return this;
+    }
 
 
     private UpsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPostRequest buildRequest() {
@@ -62,9 +77,12 @@ public class UpsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsP
     }
 
     public CompletableFuture<UpsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPostResponse> call() {
-        
+        Optional<Options> options = Optional.of(Options.builder()
+            .timeout(timeout)
+            .build());
+
         AsyncRequestOperation<UpsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPostRequest, UpsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPostResponse> operation
-              = new UpsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPost.Async(sdkConfiguration, _headers);
+              = new UpsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPost.Async(sdkConfiguration, options, _headers);
         UpsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPostRequest request = buildRequest();
 
         return operation.doRequest(request)

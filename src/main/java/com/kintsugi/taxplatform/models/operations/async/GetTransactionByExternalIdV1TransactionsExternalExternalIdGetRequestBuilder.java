@@ -9,8 +9,10 @@ import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.operations.GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest;
 import com.kintsugi.taxplatform.operations.GetTransactionByExternalIdV1TransactionsExternalExternalIdGet;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.time.Duration;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
@@ -18,6 +20,7 @@ public class GetTransactionByExternalIdV1TransactionsExternalExternalIdGetReques
 
     private String externalId;
     private Optional<String> xOrganizationId = Optional.empty();
+    private Optional<Duration> timeout = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -42,6 +45,18 @@ public class GetTransactionByExternalIdV1TransactionsExternalExternalIdGetReques
         this.xOrganizationId = xOrganizationId;
         return this;
     }
+                
+    public GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequestBuilder timeout(Duration timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = Optional.of(timeout);
+        return this;
+    }
+
+    public GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequestBuilder timeout(Optional<Duration> timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = timeout;
+        return this;
+    }
 
 
     private GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest buildRequest() {
@@ -53,9 +68,12 @@ public class GetTransactionByExternalIdV1TransactionsExternalExternalIdGetReques
     }
 
     public CompletableFuture<GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse> call() {
-        
+        Optional<Options> options = Optional.of(Options.builder()
+            .timeout(timeout)
+            .build());
+
         AsyncRequestOperation<GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest, GetTransactionByExternalIdV1TransactionsExternalExternalIdGetResponse> operation
-              = new GetTransactionByExternalIdV1TransactionsExternalExternalIdGet.Async(sdkConfiguration, _headers);
+              = new GetTransactionByExternalIdV1TransactionsExternalExternalIdGet.Async(sdkConfiguration, options, _headers);
         GetTransactionByExternalIdV1TransactionsExternalExternalIdGetRequest request = buildRequest();
 
         return operation.doRequest(request)

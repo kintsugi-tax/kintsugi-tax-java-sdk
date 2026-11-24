@@ -11,6 +11,7 @@ import com.kintsugi.taxplatform.models.operations.async.UpsertCustomerTaxRegistr
 import com.kintsugi.taxplatform.models.operations.async.UpsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPostResponse;
 import com.kintsugi.taxplatform.operations.UpsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPost;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import java.lang.String;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -59,7 +60,9 @@ public class AsyncCustomerTaxRegistration {
      * @return {@code CompletableFuture<UpsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPostResponse>} - The async response
      */
     public CompletableFuture<UpsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPostResponse> upsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPost(String customerId, CustomerTaxRegistrationCreateUpdate customerTaxRegistrationCreateUpdate) {
-        return upsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPost(customerId, Optional.empty(), customerTaxRegistrationCreateUpdate);
+        return upsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPost(
+                customerId, Optional.empty(), customerTaxRegistrationCreateUpdate,
+                Optional.empty());
     }
 
     /**
@@ -76,6 +79,26 @@ public class AsyncCustomerTaxRegistration {
     public CompletableFuture<UpsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPostResponse> upsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPost(
             String customerId, Optional<String> xOrganizationId,
             CustomerTaxRegistrationCreateUpdate customerTaxRegistrationCreateUpdate) {
+        return upsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPost(
+                customerId, xOrganizationId, customerTaxRegistrationCreateUpdate,
+                Optional.empty());
+    }
+
+    /**
+     * Upsert customer tax registration
+     * 
+     * <p>Creates or updates a customer tax registration record. If a registration already exists
+     * for this customer with the same tax type and country code, it will be updated.
+     * 
+     * @param customerId 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param customerTaxRegistrationCreateUpdate 
+     * @param options additional options
+     * @return {@code CompletableFuture<UpsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPostResponse>} - The async response
+     */
+    public CompletableFuture<UpsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPostResponse> upsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPost(
+            String customerId, Optional<String> xOrganizationId,
+            CustomerTaxRegistrationCreateUpdate customerTaxRegistrationCreateUpdate, Optional<Options> options) {
         UpsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPostRequest request =
             UpsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPostRequest
                 .builder()
@@ -84,7 +107,7 @@ public class AsyncCustomerTaxRegistration {
                 .customerTaxRegistrationCreateUpdate(customerTaxRegistrationCreateUpdate)
                 .build();
         AsyncRequestOperation<UpsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPostRequest, UpsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPostResponse> operation
-              = new UpsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPost.Async(sdkConfiguration, _headers);
+              = new UpsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPost.Async(sdkConfiguration, options, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }

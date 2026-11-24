@@ -11,6 +11,7 @@ import com.kintsugi.taxplatform.models.operations.async.POSTCreateCreditNoteByTr
 import com.kintsugi.taxplatform.models.operations.async.POSTCreateCreditNoteByTransactionIdResponse;
 import com.kintsugi.taxplatform.operations.POSTCreateCreditNoteByTransactionId;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import java.lang.String;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -39,7 +40,11 @@ public class AsyncCreditNotes {
     /**
      * Create credit note by transaction id
      * 
-     * <p>Create a new credit note for a specific transaction.
+     * <p>Create a new credit note for a specific transaction. Idempotent on ``(organization_id,
+     * connection_id, source, external_id)`` for the same parent: a re-POST returns ``200`` with the stored
+     * credit note unchanged. The same external id against a different parent still conflicts.
+     * 
+     * <p>Use PUT to update fields.
      * 
      * @return The async call builder
      */
@@ -50,20 +55,30 @@ public class AsyncCreditNotes {
     /**
      * Create credit note by transaction id
      * 
-     * <p>Create a new credit note for a specific transaction.
+     * <p>Create a new credit note for a specific transaction. Idempotent on ``(organization_id,
+     * connection_id, source, external_id)`` for the same parent: a re-POST returns ``200`` with the stored
+     * credit note unchanged. The same external id against a different parent still conflicts.
+     * 
+     * <p>Use PUT to update fields.
      * 
      * @param originalTransactionId 
      * @param creditNoteCreate 
      * @return {@code CompletableFuture<POSTCreateCreditNoteByTransactionIdResponse>} - The async response
      */
     public CompletableFuture<POSTCreateCreditNoteByTransactionIdResponse> create(String originalTransactionId, CreditNoteCreate creditNoteCreate) {
-        return create(originalTransactionId, Optional.empty(), creditNoteCreate);
+        return create(
+                originalTransactionId, Optional.empty(), creditNoteCreate,
+                Optional.empty());
     }
 
     /**
      * Create credit note by transaction id
      * 
-     * <p>Create a new credit note for a specific transaction.
+     * <p>Create a new credit note for a specific transaction. Idempotent on ``(organization_id,
+     * connection_id, source, external_id)`` for the same parent: a re-POST returns ``200`` with the stored
+     * credit note unchanged. The same external id against a different parent still conflicts.
+     * 
+     * <p>Use PUT to update fields.
      * 
      * @param originalTransactionId 
      * @param xOrganizationId The unique identifier for the organization making the request
@@ -73,6 +88,29 @@ public class AsyncCreditNotes {
     public CompletableFuture<POSTCreateCreditNoteByTransactionIdResponse> create(
             String originalTransactionId, Optional<String> xOrganizationId,
             CreditNoteCreate creditNoteCreate) {
+        return create(
+                originalTransactionId, xOrganizationId, creditNoteCreate,
+                Optional.empty());
+    }
+
+    /**
+     * Create credit note by transaction id
+     * 
+     * <p>Create a new credit note for a specific transaction. Idempotent on ``(organization_id,
+     * connection_id, source, external_id)`` for the same parent: a re-POST returns ``200`` with the stored
+     * credit note unchanged. The same external id against a different parent still conflicts.
+     * 
+     * <p>Use PUT to update fields.
+     * 
+     * @param originalTransactionId 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param creditNoteCreate 
+     * @param options additional options
+     * @return {@code CompletableFuture<POSTCreateCreditNoteByTransactionIdResponse>} - The async response
+     */
+    public CompletableFuture<POSTCreateCreditNoteByTransactionIdResponse> create(
+            String originalTransactionId, Optional<String> xOrganizationId,
+            CreditNoteCreate creditNoteCreate, Optional<Options> options) {
         POSTCreateCreditNoteByTransactionIdRequest request =
             POSTCreateCreditNoteByTransactionIdRequest
                 .builder()
@@ -81,7 +119,7 @@ public class AsyncCreditNotes {
                 .creditNoteCreate(creditNoteCreate)
                 .build();
         AsyncRequestOperation<POSTCreateCreditNoteByTransactionIdRequest, POSTCreateCreditNoteByTransactionIdResponse> operation
-              = new POSTCreateCreditNoteByTransactionId.Async(sdkConfiguration, _headers);
+              = new POSTCreateCreditNoteByTransactionId.Async(sdkConfiguration, options, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }

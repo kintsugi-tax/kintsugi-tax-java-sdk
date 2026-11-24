@@ -10,8 +10,10 @@ import com.kintsugi.taxplatform.models.components.CustomerCreate;
 import com.kintsugi.taxplatform.models.operations.CreateCustomerV1CustomersPostRequest;
 import com.kintsugi.taxplatform.operations.CreateCustomerV1CustomersPost;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.time.Duration;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
@@ -19,6 +21,7 @@ public class CreateCustomerV1CustomersPostRequestBuilder {
 
     private Optional<String> xOrganizationId = Optional.empty();
     private CustomerCreate customerCreate;
+    private Optional<Duration> timeout = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -43,6 +46,18 @@ public class CreateCustomerV1CustomersPostRequestBuilder {
         this.customerCreate = customerCreate;
         return this;
     }
+                
+    public CreateCustomerV1CustomersPostRequestBuilder timeout(Duration timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = Optional.of(timeout);
+        return this;
+    }
+
+    public CreateCustomerV1CustomersPostRequestBuilder timeout(Optional<Duration> timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = timeout;
+        return this;
+    }
 
 
     private CreateCustomerV1CustomersPostRequest buildRequest() {
@@ -54,9 +69,12 @@ public class CreateCustomerV1CustomersPostRequestBuilder {
     }
 
     public CompletableFuture<CreateCustomerV1CustomersPostResponse> call() {
-        
+        Optional<Options> options = Optional.of(Options.builder()
+            .timeout(timeout)
+            .build());
+
         AsyncRequestOperation<CreateCustomerV1CustomersPostRequest, CreateCustomerV1CustomersPostResponse> operation
-              = new CreateCustomerV1CustomersPost.Async(sdkConfiguration, _headers);
+              = new CreateCustomerV1CustomersPost.Async(sdkConfiguration, options, _headers);
         CreateCustomerV1CustomersPostRequest request = buildRequest();
 
         return operation.doRequest(request)

@@ -9,8 +9,10 @@ import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.operations.GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGetRequest;
 import com.kintsugi.taxplatform.operations.GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGet;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.time.Duration;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
@@ -19,6 +21,7 @@ public class GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFie
     private String countryCode;
     private String stateCode;
     private Optional<String> xOrganizationId = Optional.empty();
+    private Optional<Duration> timeout = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -49,6 +52,18 @@ public class GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFie
         this.xOrganizationId = xOrganizationId;
         return this;
     }
+                
+    public GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGetRequestBuilder timeout(Duration timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = Optional.of(timeout);
+        return this;
+    }
+
+    public GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGetRequestBuilder timeout(Optional<Duration> timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = timeout;
+        return this;
+    }
 
 
     private GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGetRequest buildRequest() {
@@ -61,9 +76,12 @@ public class GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFie
     }
 
     public CompletableFuture<GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGetResponse> call() {
-        
+        Optional<Options> options = Optional.of(Options.builder()
+            .timeout(timeout)
+            .build());
+
         AsyncRequestOperation<GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGetRequest, GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGetResponse> operation
-              = new GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGet.Async(sdkConfiguration, _headers);
+              = new GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGet.Async(sdkConfiguration, options, _headers);
         GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGetRequest request = buildRequest();
 
         return operation.doRequest(request)

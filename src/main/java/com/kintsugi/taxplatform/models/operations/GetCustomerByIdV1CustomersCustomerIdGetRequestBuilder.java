@@ -8,14 +8,17 @@ import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.operations.GetCustomerByIdV1CustomersCustomerIdGet;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.time.Duration;
 import java.util.Optional;
 
 public class GetCustomerByIdV1CustomersCustomerIdGetRequestBuilder {
 
     private String customerId;
     private Optional<String> xOrganizationId = Optional.empty();
+    private Optional<Duration> timeout = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -40,6 +43,18 @@ public class GetCustomerByIdV1CustomersCustomerIdGetRequestBuilder {
         this.xOrganizationId = xOrganizationId;
         return this;
     }
+                
+    public GetCustomerByIdV1CustomersCustomerIdGetRequestBuilder timeout(Duration timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = Optional.of(timeout);
+        return this;
+    }
+
+    public GetCustomerByIdV1CustomersCustomerIdGetRequestBuilder timeout(Optional<Duration> timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = timeout;
+        return this;
+    }
 
 
     private GetCustomerByIdV1CustomersCustomerIdGetRequest buildRequest() {
@@ -51,9 +66,12 @@ public class GetCustomerByIdV1CustomersCustomerIdGetRequestBuilder {
     }
 
     public GetCustomerByIdV1CustomersCustomerIdGetResponse call() {
-        
+        Optional<Options> options = Optional.of(Options.builder()
+            .timeout(timeout)
+            .build());
+
         RequestOperation<GetCustomerByIdV1CustomersCustomerIdGetRequest, GetCustomerByIdV1CustomersCustomerIdGetResponse> operation
-              = new GetCustomerByIdV1CustomersCustomerIdGet.Sync(sdkConfiguration, _headers);
+              = new GetCustomerByIdV1CustomersCustomerIdGet.Sync(sdkConfiguration, options, _headers);
         GetCustomerByIdV1CustomersCustomerIdGetRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

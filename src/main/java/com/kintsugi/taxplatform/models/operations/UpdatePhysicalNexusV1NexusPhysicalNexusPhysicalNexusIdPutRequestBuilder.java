@@ -9,8 +9,10 @@ import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.components.PhysicalNexusUpdate;
 import com.kintsugi.taxplatform.operations.UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPut;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.time.Duration;
 import java.util.Optional;
 
 public class UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequestBuilder {
@@ -18,6 +20,7 @@ public class UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequestBui
     private String physicalNexusId;
     private Optional<String> xOrganizationId = Optional.empty();
     private PhysicalNexusUpdate physicalNexusUpdate;
+    private Optional<Duration> timeout = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -48,6 +51,18 @@ public class UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequestBui
         this.physicalNexusUpdate = physicalNexusUpdate;
         return this;
     }
+                
+    public UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequestBuilder timeout(Duration timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = Optional.of(timeout);
+        return this;
+    }
+
+    public UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequestBuilder timeout(Optional<Duration> timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = timeout;
+        return this;
+    }
 
 
     private UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest buildRequest() {
@@ -60,9 +75,12 @@ public class UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequestBui
     }
 
     public UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutResponse call() {
-        
+        Optional<Options> options = Optional.of(Options.builder()
+            .timeout(timeout)
+            .build());
+
         RequestOperation<UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest, UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutResponse> operation
-              = new UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPut.Sync(sdkConfiguration, _headers);
+              = new UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPut.Sync(sdkConfiguration, options, _headers);
         UpdatePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdPutRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

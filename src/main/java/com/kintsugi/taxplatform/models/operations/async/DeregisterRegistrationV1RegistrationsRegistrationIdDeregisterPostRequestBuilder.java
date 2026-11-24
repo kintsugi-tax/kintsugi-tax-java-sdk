@@ -10,17 +10,19 @@ import com.kintsugi.taxplatform.models.components.DeregisterRegistrationRequest;
 import com.kintsugi.taxplatform.models.operations.DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest;
 import com.kintsugi.taxplatform.operations.DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPost;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.time.Duration;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
-import org.openapitools.jackson.nullable.JsonNullable;
 
 public class DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequestBuilder {
 
     private String registrationId;
     private Optional<String> xOrganizationId = Optional.empty();
-    private JsonNullable<? extends DeregisterRegistrationRequest> deregisterRegistrationRequest = JsonNullable.undefined();
+    private DeregisterRegistrationRequest deregisterRegistrationRequest;
+    private Optional<Duration> timeout = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -48,13 +50,19 @@ public class DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRe
 
     public DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequestBuilder deregisterRegistrationRequest(DeregisterRegistrationRequest deregisterRegistrationRequest) {
         Utils.checkNotNull(deregisterRegistrationRequest, "deregisterRegistrationRequest");
-        this.deregisterRegistrationRequest = JsonNullable.of(deregisterRegistrationRequest);
+        this.deregisterRegistrationRequest = deregisterRegistrationRequest;
+        return this;
+    }
+                
+    public DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequestBuilder timeout(Duration timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = Optional.of(timeout);
         return this;
     }
 
-    public DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequestBuilder deregisterRegistrationRequest(JsonNullable<? extends DeregisterRegistrationRequest> deregisterRegistrationRequest) {
-        Utils.checkNotNull(deregisterRegistrationRequest, "deregisterRegistrationRequest");
-        this.deregisterRegistrationRequest = deregisterRegistrationRequest;
+    public DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequestBuilder timeout(Optional<Duration> timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = timeout;
         return this;
     }
 
@@ -69,9 +77,12 @@ public class DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRe
     }
 
     public CompletableFuture<DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse> call() {
-        
+        Optional<Options> options = Optional.of(Options.builder()
+            .timeout(timeout)
+            .build());
+
         AsyncRequestOperation<DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest, DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse> operation
-              = new DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPost.Async(sdkConfiguration, _headers);
+              = new DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPost.Async(sdkConfiguration, options, _headers);
         DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest request = buildRequest();
 
         return operation.doRequest(request)

@@ -10,8 +10,10 @@ import com.kintsugi.taxplatform.models.components.TransactionPublicRequest;
 import com.kintsugi.taxplatform.models.operations.CreateTransactionV1TransactionsPostRequest;
 import com.kintsugi.taxplatform.operations.CreateTransactionV1TransactionsPost;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.time.Duration;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
@@ -19,6 +21,7 @@ public class CreateTransactionV1TransactionsPostRequestBuilder {
 
     private Optional<String> xOrganizationId = Optional.empty();
     private TransactionPublicRequest transactionPublicRequest;
+    private Optional<Duration> timeout = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -43,6 +46,18 @@ public class CreateTransactionV1TransactionsPostRequestBuilder {
         this.transactionPublicRequest = transactionPublicRequest;
         return this;
     }
+                
+    public CreateTransactionV1TransactionsPostRequestBuilder timeout(Duration timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = Optional.of(timeout);
+        return this;
+    }
+
+    public CreateTransactionV1TransactionsPostRequestBuilder timeout(Optional<Duration> timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = timeout;
+        return this;
+    }
 
 
     private CreateTransactionV1TransactionsPostRequest buildRequest() {
@@ -54,9 +69,12 @@ public class CreateTransactionV1TransactionsPostRequestBuilder {
     }
 
     public CompletableFuture<CreateTransactionV1TransactionsPostResponse> call() {
-        
+        Optional<Options> options = Optional.of(Options.builder()
+            .timeout(timeout)
+            .build());
+
         AsyncRequestOperation<CreateTransactionV1TransactionsPostRequest, CreateTransactionV1TransactionsPostResponse> operation
-              = new CreateTransactionV1TransactionsPost.Async(sdkConfiguration, _headers);
+              = new CreateTransactionV1TransactionsPost.Async(sdkConfiguration, options, _headers);
         CreateTransactionV1TransactionsPostRequest request = buildRequest();
 
         return operation.doRequest(request)

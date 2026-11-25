@@ -10,8 +10,10 @@ import com.kintsugi.taxplatform.models.operations.Product;
 import com.kintsugi.taxplatform.models.operations.UpdateProductV1ProductsProductIdPutRequest;
 import com.kintsugi.taxplatform.operations.UpdateProductV1ProductsProductIdPut;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.time.Duration;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
@@ -20,6 +22,7 @@ public class UpdateProductV1ProductsProductIdPutRequestBuilder {
     private String productId;
     private Optional<String> xOrganizationId = Optional.empty();
     private Product requestBody;
+    private Optional<Duration> timeout = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -50,6 +53,18 @@ public class UpdateProductV1ProductsProductIdPutRequestBuilder {
         this.requestBody = requestBody;
         return this;
     }
+                
+    public UpdateProductV1ProductsProductIdPutRequestBuilder timeout(Duration timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = Optional.of(timeout);
+        return this;
+    }
+
+    public UpdateProductV1ProductsProductIdPutRequestBuilder timeout(Optional<Duration> timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = timeout;
+        return this;
+    }
 
 
     private UpdateProductV1ProductsProductIdPutRequest buildRequest() {
@@ -62,9 +77,12 @@ public class UpdateProductV1ProductsProductIdPutRequestBuilder {
     }
 
     public CompletableFuture<UpdateProductV1ProductsProductIdPutResponse> call() {
-        
+        Optional<Options> options = Optional.of(Options.builder()
+            .timeout(timeout)
+            .build());
+
         AsyncRequestOperation<UpdateProductV1ProductsProductIdPutRequest, UpdateProductV1ProductsProductIdPutResponse> operation
-              = new UpdateProductV1ProductsProductIdPut.Async(sdkConfiguration, _headers);
+              = new UpdateProductV1ProductsProductIdPut.Async(sdkConfiguration, options, _headers);
         UpdateProductV1ProductsProductIdPutRequest request = buildRequest();
 
         return operation.doRequest(request)

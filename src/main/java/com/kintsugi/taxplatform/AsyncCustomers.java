@@ -33,6 +33,7 @@ import com.kintsugi.taxplatform.operations.GetCustomerByIdV1CustomersCustomerIdG
 import com.kintsugi.taxplatform.operations.GetCustomersV1;
 import com.kintsugi.taxplatform.operations.UpdateCustomerV1CustomersCustomerIdPut;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import java.lang.String;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -88,8 +89,23 @@ public class AsyncCustomers {
      * @return {@code CompletableFuture<GetCustomersV1Response>} - The async response
      */
     public CompletableFuture<GetCustomersV1Response> get(GetCustomersV1Request request) {
+        return get(request, Optional.empty());
+    }
+
+    /**
+     * Get customers
+     * 
+     * <p>The Get Customers API retrieves
+     * a paginated list of customers based on specified filters.
+     * This API allows searching, filtering by country and state, and sorting the results.
+     * 
+     * @param request The request object containing all the parameters for the API call.
+     * @param options additional options
+     * @return {@code CompletableFuture<GetCustomersV1Response>} - The async response
+     */
+    public CompletableFuture<GetCustomersV1Response> get(GetCustomersV1Request request, Optional<Options> options) {
         AsyncRequestOperation<GetCustomersV1Request, GetCustomersV1Response> operation
-              = new GetCustomersV1.Async(sdkConfiguration, _headers);
+              = new GetCustomersV1.Async(sdkConfiguration, options, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -117,7 +133,7 @@ public class AsyncCustomers {
      * @return {@code CompletableFuture<CreateCustomerV1CustomersPostResponse>} - The async response
      */
     public CompletableFuture<CreateCustomerV1CustomersPostResponse> create(CustomerCreate customerCreate) {
-        return create(Optional.empty(), customerCreate);
+        return create(Optional.empty(), customerCreate, Optional.empty());
     }
 
     /**
@@ -131,6 +147,23 @@ public class AsyncCustomers {
      * @return {@code CompletableFuture<CreateCustomerV1CustomersPostResponse>} - The async response
      */
     public CompletableFuture<CreateCustomerV1CustomersPostResponse> create(Optional<String> xOrganizationId, CustomerCreate customerCreate) {
+        return create(xOrganizationId, customerCreate, Optional.empty());
+    }
+
+    /**
+     * Create customer
+     * 
+     * <p>The Create Customer API enables the creation of a new customer record with essential
+     * details like name, contact information, and address, along with optional metadata.
+     * 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param customerCreate 
+     * @param options additional options
+     * @return {@code CompletableFuture<CreateCustomerV1CustomersPostResponse>} - The async response
+     */
+    public CompletableFuture<CreateCustomerV1CustomersPostResponse> create(
+            Optional<String> xOrganizationId, CustomerCreate customerCreate,
+            Optional<Options> options) {
         CreateCustomerV1CustomersPostRequest request =
             CreateCustomerV1CustomersPostRequest
                 .builder()
@@ -138,7 +171,7 @@ public class AsyncCustomers {
                 .customerCreate(customerCreate)
                 .build();
         AsyncRequestOperation<CreateCustomerV1CustomersPostRequest, CreateCustomerV1CustomersPostResponse> operation
-              = new CreateCustomerV1CustomersPost.Async(sdkConfiguration, _headers);
+              = new CreateCustomerV1CustomersPost.Async(sdkConfiguration, options, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -168,7 +201,7 @@ public class AsyncCustomers {
      * @return {@code CompletableFuture<GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse>} - The async response
      */
     public CompletableFuture<GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse> getByExternalId(String externalId) {
-        return getByExternalId(externalId, Optional.empty());
+        return getByExternalId(externalId, Optional.empty(), Optional.empty());
     }
 
     /**
@@ -183,6 +216,24 @@ public class AsyncCustomers {
      * @return {@code CompletableFuture<GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse>} - The async response
      */
     public CompletableFuture<GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse> getByExternalId(String externalId, Optional<String> xOrganizationId) {
+        return getByExternalId(externalId, xOrganizationId, Optional.empty());
+    }
+
+    /**
+     * Get customer by external id
+     * 
+     * <p>The Get Customer By External ID API retrieves the details of a single customer using
+     * their external identifier. This endpoint is useful for accessing customer data when only
+     * an external ID is available.
+     * 
+     * @param externalId The external identifier of the customer to retrieve.
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param options additional options
+     * @return {@code CompletableFuture<GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse>} - The async response
+     */
+    public CompletableFuture<GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse> getByExternalId(
+            String externalId, Optional<String> xOrganizationId,
+            Optional<Options> options) {
         GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest request =
             GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest
                 .builder()
@@ -190,7 +241,7 @@ public class AsyncCustomers {
                 .xOrganizationId(xOrganizationId)
                 .build();
         AsyncRequestOperation<GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest, GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse> operation
-              = new GetCustomerByExternalIdV1CustomersExternalExternalIdGet.Async(sdkConfiguration, _headers);
+              = new GetCustomerByExternalIdV1CustomersExternalExternalIdGet.Async(sdkConfiguration, options, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -220,7 +271,7 @@ public class AsyncCustomers {
      * @return {@code CompletableFuture<GetCustomerByIdV1CustomersCustomerIdGetResponse>} - The async response
      */
     public CompletableFuture<GetCustomerByIdV1CustomersCustomerIdGetResponse> getById(String customerId) {
-        return getById(customerId, Optional.empty());
+        return getById(customerId, Optional.empty(), Optional.empty());
     }
 
     /**
@@ -235,6 +286,24 @@ public class AsyncCustomers {
      * @return {@code CompletableFuture<GetCustomerByIdV1CustomersCustomerIdGetResponse>} - The async response
      */
     public CompletableFuture<GetCustomerByIdV1CustomersCustomerIdGetResponse> getById(String customerId, Optional<String> xOrganizationId) {
+        return getById(customerId, xOrganizationId, Optional.empty());
+    }
+
+    /**
+     * Get customer by id
+     * 
+     * <p>The Get Customer By ID API retrieves the details of a single customer
+     * using their unique identifier. It returns customer-specific data,
+     * including contact information, address, name and metadata, etc.
+     * 
+     * @param customerId Unique identifier of the customer
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param options additional options
+     * @return {@code CompletableFuture<GetCustomerByIdV1CustomersCustomerIdGetResponse>} - The async response
+     */
+    public CompletableFuture<GetCustomerByIdV1CustomersCustomerIdGetResponse> getById(
+            String customerId, Optional<String> xOrganizationId,
+            Optional<Options> options) {
         GetCustomerByIdV1CustomersCustomerIdGetRequest request =
             GetCustomerByIdV1CustomersCustomerIdGetRequest
                 .builder()
@@ -242,7 +311,7 @@ public class AsyncCustomers {
                 .xOrganizationId(xOrganizationId)
                 .build();
         AsyncRequestOperation<GetCustomerByIdV1CustomersCustomerIdGetRequest, GetCustomerByIdV1CustomersCustomerIdGetResponse> operation
-              = new GetCustomerByIdV1CustomersCustomerIdGet.Async(sdkConfiguration, _headers);
+              = new GetCustomerByIdV1CustomersCustomerIdGet.Async(sdkConfiguration, options, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -273,7 +342,9 @@ public class AsyncCustomers {
      * @return {@code CompletableFuture<UpdateCustomerV1CustomersCustomerIdPutResponse>} - The async response
      */
     public CompletableFuture<UpdateCustomerV1CustomersCustomerIdPutResponse> update(String customerId, CustomerUpdate customerUpdate) {
-        return update(customerId, Optional.empty(), customerUpdate);
+        return update(
+                customerId, Optional.empty(), customerUpdate,
+                Optional.empty());
     }
 
     /**
@@ -291,6 +362,27 @@ public class AsyncCustomers {
     public CompletableFuture<UpdateCustomerV1CustomersCustomerIdPutResponse> update(
             String customerId, Optional<String> xOrganizationId,
             CustomerUpdate customerUpdate) {
+        return update(
+                customerId, xOrganizationId, customerUpdate,
+                Optional.empty());
+    }
+
+    /**
+     * Update customer
+     * 
+     * <p>The Update Customer API allows you to modify an existing customer's
+     * information using their unique identifier,
+     * enabling updates to their details as needed.
+     * 
+     * @param customerId Unique identifier of the customer to be retrieved.
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param customerUpdate 
+     * @param options additional options
+     * @return {@code CompletableFuture<UpdateCustomerV1CustomersCustomerIdPutResponse>} - The async response
+     */
+    public CompletableFuture<UpdateCustomerV1CustomersCustomerIdPutResponse> update(
+            String customerId, Optional<String> xOrganizationId,
+            CustomerUpdate customerUpdate, Optional<Options> options) {
         UpdateCustomerV1CustomersCustomerIdPutRequest request =
             UpdateCustomerV1CustomersCustomerIdPutRequest
                 .builder()
@@ -299,7 +391,7 @@ public class AsyncCustomers {
                 .customerUpdate(customerUpdate)
                 .build();
         AsyncRequestOperation<UpdateCustomerV1CustomersCustomerIdPutRequest, UpdateCustomerV1CustomersCustomerIdPutResponse> operation
-              = new UpdateCustomerV1CustomersCustomerIdPut.Async(sdkConfiguration, _headers);
+              = new UpdateCustomerV1CustomersCustomerIdPut.Async(sdkConfiguration, options, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -326,7 +418,9 @@ public class AsyncCustomers {
      * @return {@code CompletableFuture<CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostResponse>} - The async response
      */
     public CompletableFuture<CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostResponse> createTransaction(String customerId, TransactionCreate transactionCreate) {
-        return createTransaction(customerId, Optional.empty(), transactionCreate);
+        return createTransaction(
+                customerId, Optional.empty(), transactionCreate,
+                Optional.empty());
     }
 
     /**
@@ -342,6 +436,25 @@ public class AsyncCustomers {
     public CompletableFuture<CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostResponse> createTransaction(
             String customerId, Optional<String> xOrganizationId,
             TransactionCreate transactionCreate) {
+        return createTransaction(
+                customerId, xOrganizationId, transactionCreate,
+                Optional.empty());
+    }
+
+    /**
+     * Create transaction by customer id
+     * 
+     * <p>Create a new transaction for a specific customer.
+     * 
+     * @param customerId 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param transactionCreate 
+     * @param options additional options
+     * @return {@code CompletableFuture<CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostResponse>} - The async response
+     */
+    public CompletableFuture<CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostResponse> createTransaction(
+            String customerId, Optional<String> xOrganizationId,
+            TransactionCreate transactionCreate, Optional<Options> options) {
         CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest request =
             CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest
                 .builder()
@@ -350,7 +463,7 @@ public class AsyncCustomers {
                 .transactionCreate(transactionCreate)
                 .build();
         AsyncRequestOperation<CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostRequest, CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPostResponse> operation
-              = new CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPost.Async(sdkConfiguration, _headers);
+              = new CreateTransactionByCustomerIdV1CustomersCustomerIdTransactionsPost.Async(sdkConfiguration, options, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }

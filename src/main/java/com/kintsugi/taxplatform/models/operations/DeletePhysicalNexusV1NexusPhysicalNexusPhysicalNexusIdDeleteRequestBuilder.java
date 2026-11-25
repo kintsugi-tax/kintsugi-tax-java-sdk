@@ -8,14 +8,17 @@ import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.operations.DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDelete;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.time.Duration;
 import java.util.Optional;
 
 public class DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequestBuilder {
 
     private String physicalNexusId;
     private Optional<String> xOrganizationId = Optional.empty();
+    private Optional<Duration> timeout = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -40,6 +43,18 @@ public class DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest
         this.xOrganizationId = xOrganizationId;
         return this;
     }
+                
+    public DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequestBuilder timeout(Duration timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = Optional.of(timeout);
+        return this;
+    }
+
+    public DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequestBuilder timeout(Optional<Duration> timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = timeout;
+        return this;
+    }
 
 
     private DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest buildRequest() {
@@ -51,9 +66,12 @@ public class DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest
     }
 
     public DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteResponse call() {
-        
+        Optional<Options> options = Optional.of(Options.builder()
+            .timeout(timeout)
+            .build());
+
         RequestOperation<DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest, DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteResponse> operation
-              = new DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDelete.Sync(sdkConfiguration, _headers);
+              = new DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDelete.Sync(sdkConfiguration, options, _headers);
         DeletePhysicalNexusV1NexusPhysicalNexusPhysicalNexusIdDeleteRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

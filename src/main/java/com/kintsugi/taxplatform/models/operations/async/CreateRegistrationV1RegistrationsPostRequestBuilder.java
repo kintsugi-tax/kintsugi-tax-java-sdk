@@ -10,8 +10,10 @@ import com.kintsugi.taxplatform.models.operations.CreateRegistration;
 import com.kintsugi.taxplatform.models.operations.CreateRegistrationV1RegistrationsPostRequest;
 import com.kintsugi.taxplatform.operations.CreateRegistrationV1RegistrationsPost;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.time.Duration;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
@@ -19,6 +21,7 @@ public class CreateRegistrationV1RegistrationsPostRequestBuilder {
 
     private Optional<String> xOrganizationId = Optional.empty();
     private CreateRegistration requestBody;
+    private Optional<Duration> timeout = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -43,6 +46,18 @@ public class CreateRegistrationV1RegistrationsPostRequestBuilder {
         this.requestBody = requestBody;
         return this;
     }
+                
+    public CreateRegistrationV1RegistrationsPostRequestBuilder timeout(Duration timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = Optional.of(timeout);
+        return this;
+    }
+
+    public CreateRegistrationV1RegistrationsPostRequestBuilder timeout(Optional<Duration> timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = timeout;
+        return this;
+    }
 
 
     private CreateRegistrationV1RegistrationsPostRequest buildRequest() {
@@ -54,9 +69,12 @@ public class CreateRegistrationV1RegistrationsPostRequestBuilder {
     }
 
     public CompletableFuture<CreateRegistrationV1RegistrationsPostResponse> call() {
-        
+        Optional<Options> options = Optional.of(Options.builder()
+            .timeout(timeout)
+            .build());
+
         AsyncRequestOperation<CreateRegistrationV1RegistrationsPostRequest, CreateRegistrationV1RegistrationsPostResponse> operation
-              = new CreateRegistrationV1RegistrationsPost.Async(sdkConfiguration, _headers);
+              = new CreateRegistrationV1RegistrationsPost.Async(sdkConfiguration, options, _headers);
         CreateRegistrationV1RegistrationsPostRequest request = buildRequest();
 
         return operation.doRequest(request)

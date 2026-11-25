@@ -11,6 +11,7 @@ import com.kintsugi.taxplatform.models.operations.UpsertCustomerTaxRegistrationV
 import com.kintsugi.taxplatform.models.operations.UpsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPostResponse;
 import com.kintsugi.taxplatform.operations.UpsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPost;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import java.lang.String;
 import java.util.Optional;
 
@@ -58,7 +59,8 @@ public class CustomerTaxRegistration {
      * @throws RuntimeException subclass if the API call fails
      */
     public UpsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPostResponse upsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPost(String customerId, CustomerTaxRegistrationCreateUpdate customerTaxRegistrationCreateUpdate) {
-        return upsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPost(customerId, Optional.empty(), customerTaxRegistrationCreateUpdate);
+        return upsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPost(customerId, Optional.empty(), customerTaxRegistrationCreateUpdate,
+            Optional.empty());
     }
 
     /**
@@ -76,6 +78,26 @@ public class CustomerTaxRegistration {
     public UpsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPostResponse upsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPost(
             String customerId, Optional<String> xOrganizationId,
             CustomerTaxRegistrationCreateUpdate customerTaxRegistrationCreateUpdate) {
+        return upsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPost(customerId, xOrganizationId, customerTaxRegistrationCreateUpdate,
+            Optional.empty());
+    }
+
+    /**
+     * Upsert customer tax registration
+     * 
+     * <p>Creates or updates a customer tax registration record. If a registration already exists
+     * for this customer with the same tax type and country code, it will be updated.
+     * 
+     * @param customerId 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param customerTaxRegistrationCreateUpdate 
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public UpsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPostResponse upsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPost(
+            String customerId, Optional<String> xOrganizationId,
+            CustomerTaxRegistrationCreateUpdate customerTaxRegistrationCreateUpdate, Optional<Options> options) {
         UpsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPostRequest request =
             UpsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPostRequest
                 .builder()
@@ -84,7 +106,7 @@ public class CustomerTaxRegistration {
                 .customerTaxRegistrationCreateUpdate(customerTaxRegistrationCreateUpdate)
                 .build();
         RequestOperation<UpsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPostRequest, UpsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPostResponse> operation
-              = new UpsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPost.Sync(sdkConfiguration, _headers);
+              = new UpsertCustomerTaxRegistrationV1CustomersCustomerIdTaxRegistrationsPost.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 

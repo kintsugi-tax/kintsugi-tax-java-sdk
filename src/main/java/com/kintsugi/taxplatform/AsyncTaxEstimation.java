@@ -11,6 +11,7 @@ import com.kintsugi.taxplatform.models.operations.async.EstimateTaxV1TaxEstimate
 import com.kintsugi.taxplatform.models.operations.async.EstimateTaxV1TaxEstimatePostResponse;
 import com.kintsugi.taxplatform.operations.EstimateTaxV1TaxEstimatePost;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import java.lang.Boolean;
 import java.lang.String;
 import java.util.Optional;
@@ -66,7 +67,9 @@ public class AsyncTaxEstimation {
      * @return {@code CompletableFuture<EstimateTaxV1TaxEstimatePostResponse>} - The async response
      */
     public CompletableFuture<EstimateTaxV1TaxEstimatePostResponse> estimate(TransactionEstimatePublicRequest transactionEstimatePublicRequest) {
-        return estimate(Optional.empty(), Optional.empty(), transactionEstimatePublicRequest);
+        return estimate(
+                Optional.empty(), Optional.empty(), transactionEstimatePublicRequest,
+                Optional.empty());
     }
 
     /**
@@ -87,6 +90,30 @@ public class AsyncTaxEstimation {
     public CompletableFuture<EstimateTaxV1TaxEstimatePostResponse> estimate(
             Optional<Boolean> simulateNexusMet, Optional<String> xOrganizationId,
             TransactionEstimatePublicRequest transactionEstimatePublicRequest) {
+        return estimate(
+                simulateNexusMet, xOrganizationId, transactionEstimatePublicRequest,
+                Optional.empty());
+    }
+
+    /**
+     * Estimate tax
+     * 
+     * <p>The Estimate Tax API calculates the estimated tax for a specific
+     * transaction based on the provided details, including organization nexus,
+     * transaction details, customer details, and addresses. Optionally simulates nexus being met for tax
+     * calculation purposes. The `simulate_nexus_met` parameter is deprecated and will be removed in future
+     * releases.
+     * 
+     * @param simulateNexusMet **Deprecated:** Use `simulate_active_registration` in the request body instead.
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param transactionEstimatePublicRequest Public request model for tax estimation API documentation.
+     *         This model excludes internal fields like enriched_fields and total_amount that should not be exposed in API docs.
+     * @param options additional options
+     * @return {@code CompletableFuture<EstimateTaxV1TaxEstimatePostResponse>} - The async response
+     */
+    public CompletableFuture<EstimateTaxV1TaxEstimatePostResponse> estimate(
+            Optional<Boolean> simulateNexusMet, Optional<String> xOrganizationId,
+            TransactionEstimatePublicRequest transactionEstimatePublicRequest, Optional<Options> options) {
         EstimateTaxV1TaxEstimatePostRequest request =
             EstimateTaxV1TaxEstimatePostRequest
                 .builder()
@@ -95,7 +122,7 @@ public class AsyncTaxEstimation {
                 .transactionEstimatePublicRequest(transactionEstimatePublicRequest)
                 .build();
         AsyncRequestOperation<EstimateTaxV1TaxEstimatePostRequest, EstimateTaxV1TaxEstimatePostResponse> operation
-              = new EstimateTaxV1TaxEstimatePost.Async(sdkConfiguration, _headers);
+              = new EstimateTaxV1TaxEstimatePost.Async(sdkConfiguration, options, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }

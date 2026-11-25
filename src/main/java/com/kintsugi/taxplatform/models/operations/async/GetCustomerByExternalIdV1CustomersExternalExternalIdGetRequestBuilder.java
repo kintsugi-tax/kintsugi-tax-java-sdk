@@ -9,8 +9,10 @@ import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.operations.GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest;
 import com.kintsugi.taxplatform.operations.GetCustomerByExternalIdV1CustomersExternalExternalIdGet;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.time.Duration;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
@@ -18,6 +20,7 @@ public class GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequestBuild
 
     private String externalId;
     private Optional<String> xOrganizationId = Optional.empty();
+    private Optional<Duration> timeout = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -42,6 +45,18 @@ public class GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequestBuild
         this.xOrganizationId = xOrganizationId;
         return this;
     }
+                
+    public GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequestBuilder timeout(Duration timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = Optional.of(timeout);
+        return this;
+    }
+
+    public GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequestBuilder timeout(Optional<Duration> timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = timeout;
+        return this;
+    }
 
 
     private GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest buildRequest() {
@@ -53,9 +68,12 @@ public class GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequestBuild
     }
 
     public CompletableFuture<GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse> call() {
-        
+        Optional<Options> options = Optional.of(Options.builder()
+            .timeout(timeout)
+            .build());
+
         AsyncRequestOperation<GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest, GetCustomerByExternalIdV1CustomersExternalExternalIdGetResponse> operation
-              = new GetCustomerByExternalIdV1CustomersExternalExternalIdGet.Async(sdkConfiguration, _headers);
+              = new GetCustomerByExternalIdV1CustomersExternalExternalIdGet.Async(sdkConfiguration, options, _headers);
         GetCustomerByExternalIdV1CustomersExternalExternalIdGetRequest request = buildRequest();
 
         return operation.doRequest(request)

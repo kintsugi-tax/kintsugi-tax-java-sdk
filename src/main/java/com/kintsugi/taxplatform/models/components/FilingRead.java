@@ -95,8 +95,8 @@ public class FilingRead {
     private JsonNullable<LocalDate> pausedUntilDate;
 
     /**
-     * DevRev ticket DON for the active assistance-pause episode. Cleared when the filing is approved from
-     * PAUSED.
+     * Opaque identifier of the support ticket for the active assistance-pause episode. Cleared when the
+     * filing is approved from PAUSED.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("assistance_ticket_id")
@@ -170,21 +170,15 @@ public class FilingRead {
      * 
      * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
      * one return can cover both taxes, and each is stored as a single row.
-     * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
-     * separate obligations with their own met dates, period models, and liability
-     * accrual.
+     * Nexus rows are SALES_TAX, USE_TAX, RETAIL_DELIVERY_FEE, or
+     * SMALL_PARCEL_VAT. Sales tax, use tax, the retail delivery fee, and the
+     * Swiss small-parcel threshold are separate obligations with their own met
+     * dates and period models. SMALL_PARCEL_VAT is a threshold only. A sales
+     * tax registration covers it, and it has no account and no return of its own.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("tax_type")
     private Optional<? extends TaxTypeEnum> taxType;
-
-    /**
-     * True when this filing is a state Retail Delivery Fee return, a separate filing from the state's
-     * sales tax return.
-     */
-    @JsonInclude(Include.NON_ABSENT)
-    @JsonProperty("is_rdf")
-    private Optional<Boolean> isRdf;
 
     /**
      * The calculated amount for the filing. Defaults to 0.00.
@@ -215,6 +209,13 @@ public class FilingRead {
     private Optional<String> amountFees;
 
     /**
+     * Whether amount_fees is a penalty, interest, or other fee. Null when unknown (legacy rows).
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("fee_type")
+    private JsonNullable<? extends FeeTypeEnum> feeType;
+
+    /**
      * Penalties applied to the filing.
      */
     @JsonInclude(Include.NON_ABSENT)
@@ -239,20 +240,63 @@ public class FilingRead {
     private Optional<String> amountUseTax;
 
     /**
-     * Input VAT recovered on this filing's purchases. Subtracted from liability; always 0.00 outside EU/UK
-     * VAT AP filings.
+     * Input VAT this filing actually claimed. Subtracted from liability; always 0.00 outside EU/UK VAT
+     * filings.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("amount_input_vat_recoverable")
     private Optional<String> amountInputVatRecoverable;
 
     /**
-     * Prior-year input VAT pro-rata true-up on this filing. Positive claims more, negative repays. Always
+     * Prior-year input VAT pro-rata true-up on this filing. Negative claims more, positive repays. Always
      * 0.00 until posted.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("amount_input_vat_true_up")
     private Optional<String> amountInputVatTrueUp;
+
+    /**
+     * Input VAT this filing would have claimed at a 100% rate. Always 0.00 outside EU/UK VAT filings.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("amount_input_vat_recoverable_base")
+    private Optional<String> amountInputVatRecoverableBase;
+
+    /**
+     * Rate actually used on this filing's reclaim. Null when this filing is not EU/UK VAT.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("input_vat_recovery_rate_applied")
+    private JsonNullable<String> inputVatRecoveryRateApplied;
+
+    /**
+     * Estimated purchase tax this return leaves out because the org does not have Use Tax or Input
+     * VAT/GST. 0.00 when nothing is left out.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("excluded_purchase_tax_estimate")
+    private Optional<String> excludedPurchaseTaxEstimate;
+
+    /**
+     * Number of purchases a sales and use tax return covers.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("purchase_count")
+    private Optional<Long> purchaseCount;
+
+    /**
+     * Gross purchases a sales and use tax return covers.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("amount_purchases")
+    private Optional<String> amountPurchases;
+
+    /**
+     * Taxable purchases a sales and use tax return covers.
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("total_taxable_purchases")
+    private Optional<String> totalTaxablePurchases;
 
     /**
      * Total sales amount during the filing period.
@@ -419,9 +463,10 @@ public class FilingRead {
 
     /**
      * Display-only estimated penalties and interest for BACK_FILING rows. Null means unknown
-     * (placeholder). Zero is a genuine not-yet-late or zero-tax outcome.
+     * (placeholder). Zero means the estimate found nothing owed.
      * 
-     * <p>Never persisted on the filing or used for billing.
+     * <p>Some states charge a flat late penalty even when the tax is zero. For a filed return, the estimate
+     * stops at the filing date. Never persisted on the filing or used for billing.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("estimated_penalty_interest")
@@ -465,16 +510,22 @@ public class FilingRead {
             @JsonProperty("skip_reason") JsonNullable<String> skipReason,
             @JsonProperty("cancelled_reason") JsonNullable<String> cancelledReason,
             @JsonProperty("tax_type") Optional<? extends TaxTypeEnum> taxType,
-            @JsonProperty("is_rdf") Optional<Boolean> isRdf,
             @JsonProperty("amount_calculated") Optional<String> amountCalculated,
             @JsonProperty("amount_adjusted") Optional<String> amountAdjusted,
             @JsonProperty("amount_discounts") Optional<String> amountDiscounts,
             @JsonProperty("amount_fees") Optional<String> amountFees,
+            @JsonProperty("fee_type") JsonNullable<? extends FeeTypeEnum> feeType,
             @JsonProperty("amount_penalties") Optional<String> amountPenalties,
             @JsonProperty("amount_tax_collected") Optional<String> amountTaxCollected,
             @JsonProperty("amount_use_tax") Optional<String> amountUseTax,
             @JsonProperty("amount_input_vat_recoverable") Optional<String> amountInputVatRecoverable,
             @JsonProperty("amount_input_vat_true_up") Optional<String> amountInputVatTrueUp,
+            @JsonProperty("amount_input_vat_recoverable_base") Optional<String> amountInputVatRecoverableBase,
+            @JsonProperty("input_vat_recovery_rate_applied") JsonNullable<String> inputVatRecoveryRateApplied,
+            @JsonProperty("excluded_purchase_tax_estimate") Optional<String> excludedPurchaseTaxEstimate,
+            @JsonProperty("purchase_count") Optional<Long> purchaseCount,
+            @JsonProperty("amount_purchases") Optional<String> amountPurchases,
+            @JsonProperty("total_taxable_purchases") Optional<String> totalTaxablePurchases,
             @JsonProperty("amount_sales") Optional<String> amountSales,
             @JsonProperty("total_taxable_sales") JsonNullable<String> totalTaxableSales,
             @JsonProperty("amount") Optional<String> amount,
@@ -522,16 +573,22 @@ public class FilingRead {
         Utils.checkNotNull(skipReason, "skipReason");
         Utils.checkNotNull(cancelledReason, "cancelledReason");
         Utils.checkNotNull(taxType, "taxType");
-        Utils.checkNotNull(isRdf, "isRdf");
         Utils.checkNotNull(amountCalculated, "amountCalculated");
         Utils.checkNotNull(amountAdjusted, "amountAdjusted");
         Utils.checkNotNull(amountDiscounts, "amountDiscounts");
         Utils.checkNotNull(amountFees, "amountFees");
+        Utils.checkNotNull(feeType, "feeType");
         Utils.checkNotNull(amountPenalties, "amountPenalties");
         Utils.checkNotNull(amountTaxCollected, "amountTaxCollected");
         Utils.checkNotNull(amountUseTax, "amountUseTax");
         Utils.checkNotNull(amountInputVatRecoverable, "amountInputVatRecoverable");
         Utils.checkNotNull(amountInputVatTrueUp, "amountInputVatTrueUp");
+        Utils.checkNotNull(amountInputVatRecoverableBase, "amountInputVatRecoverableBase");
+        Utils.checkNotNull(inputVatRecoveryRateApplied, "inputVatRecoveryRateApplied");
+        Utils.checkNotNull(excludedPurchaseTaxEstimate, "excludedPurchaseTaxEstimate");
+        Utils.checkNotNull(purchaseCount, "purchaseCount");
+        Utils.checkNotNull(amountPurchases, "amountPurchases");
+        Utils.checkNotNull(totalTaxablePurchases, "totalTaxablePurchases");
         Utils.checkNotNull(amountSales, "amountSales");
         Utils.checkNotNull(totalTaxableSales, "totalTaxableSales");
         Utils.checkNotNull(amount, "amount");
@@ -579,16 +636,22 @@ public class FilingRead {
         this.skipReason = skipReason;
         this.cancelledReason = cancelledReason;
         this.taxType = taxType;
-        this.isRdf = isRdf;
         this.amountCalculated = amountCalculated;
         this.amountAdjusted = amountAdjusted;
         this.amountDiscounts = amountDiscounts;
         this.amountFees = amountFees;
+        this.feeType = feeType;
         this.amountPenalties = amountPenalties;
         this.amountTaxCollected = amountTaxCollected;
         this.amountUseTax = amountUseTax;
         this.amountInputVatRecoverable = amountInputVatRecoverable;
         this.amountInputVatTrueUp = amountInputVatTrueUp;
+        this.amountInputVatRecoverableBase = amountInputVatRecoverableBase;
+        this.inputVatRecoveryRateApplied = inputVatRecoveryRateApplied;
+        this.excludedPurchaseTaxEstimate = excludedPurchaseTaxEstimate;
+        this.purchaseCount = purchaseCount;
+        this.amountPurchases = amountPurchases;
+        this.totalTaxablePurchases = totalTaxablePurchases;
         this.amountSales = amountSales;
         this.totalTaxableSales = totalTaxableSales;
         this.amount = amount;
@@ -631,7 +694,9 @@ public class FilingRead {
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
+            Optional.empty(), JsonNullable.undefined(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
+            Optional.empty(), Optional.empty(), JsonNullable.undefined(),
             Optional.empty(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), JsonNullable.undefined(),
             Optional.empty(), Optional.empty(), Optional.empty(),
@@ -729,8 +794,8 @@ public class FilingRead {
     }
 
     /**
-     * DevRev ticket DON for the active assistance-pause episode. Cleared when the filing is approved from
-     * PAUSED.
+     * Opaque identifier of the support ticket for the active assistance-pause episode. Cleared when the
+     * filing is approved from PAUSED.
      */
     @JsonIgnore
     public JsonNullable<String> assistanceTicketId() {
@@ -813,23 +878,16 @@ public class FilingRead {
      * 
      * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
      * one return can cover both taxes, and each is stored as a single row.
-     * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
-     * separate obligations with their own met dates, period models, and liability
-     * accrual.
+     * Nexus rows are SALES_TAX, USE_TAX, RETAIL_DELIVERY_FEE, or
+     * SMALL_PARCEL_VAT. Sales tax, use tax, the retail delivery fee, and the
+     * Swiss small-parcel threshold are separate obligations with their own met
+     * dates and period models. SMALL_PARCEL_VAT is a threshold only. A sales
+     * tax registration covers it, and it has no account and no return of its own.
      */
     @SuppressWarnings("unchecked")
     @JsonIgnore
     public Optional<TaxTypeEnum> taxType() {
         return (Optional<TaxTypeEnum>) taxType;
-    }
-
-    /**
-     * True when this filing is a state Retail Delivery Fee return, a separate filing from the state's
-     * sales tax return.
-     */
-    @JsonIgnore
-    public Optional<Boolean> isRdf() {
-        return isRdf;
     }
 
     /**
@@ -865,6 +923,15 @@ public class FilingRead {
     }
 
     /**
+     * Whether amount_fees is a penalty, interest, or other fee. Null when unknown (legacy rows).
+     */
+    @SuppressWarnings("unchecked")
+    @JsonIgnore
+    public JsonNullable<FeeTypeEnum> feeType() {
+        return (JsonNullable<FeeTypeEnum>) feeType;
+    }
+
+    /**
      * Penalties applied to the filing.
      */
     @JsonIgnore
@@ -892,8 +959,8 @@ public class FilingRead {
     }
 
     /**
-     * Input VAT recovered on this filing's purchases. Subtracted from liability; always 0.00 outside EU/UK
-     * VAT AP filings.
+     * Input VAT this filing actually claimed. Subtracted from liability; always 0.00 outside EU/UK VAT
+     * filings.
      */
     @JsonIgnore
     public Optional<String> amountInputVatRecoverable() {
@@ -901,12 +968,61 @@ public class FilingRead {
     }
 
     /**
-     * Prior-year input VAT pro-rata true-up on this filing. Positive claims more, negative repays. Always
+     * Prior-year input VAT pro-rata true-up on this filing. Negative claims more, positive repays. Always
      * 0.00 until posted.
      */
     @JsonIgnore
     public Optional<String> amountInputVatTrueUp() {
         return amountInputVatTrueUp;
+    }
+
+    /**
+     * Input VAT this filing would have claimed at a 100% rate. Always 0.00 outside EU/UK VAT filings.
+     */
+    @JsonIgnore
+    public Optional<String> amountInputVatRecoverableBase() {
+        return amountInputVatRecoverableBase;
+    }
+
+    /**
+     * Rate actually used on this filing's reclaim. Null when this filing is not EU/UK VAT.
+     */
+    @JsonIgnore
+    public JsonNullable<String> inputVatRecoveryRateApplied() {
+        return inputVatRecoveryRateApplied;
+    }
+
+    /**
+     * Estimated purchase tax this return leaves out because the org does not have Use Tax or Input
+     * VAT/GST. 0.00 when nothing is left out.
+     */
+    @JsonIgnore
+    public Optional<String> excludedPurchaseTaxEstimate() {
+        return excludedPurchaseTaxEstimate;
+    }
+
+    /**
+     * Number of purchases a sales and use tax return covers.
+     */
+    @JsonIgnore
+    public Optional<Long> purchaseCount() {
+        return purchaseCount;
+    }
+
+    /**
+     * Gross purchases a sales and use tax return covers.
+     */
+    @JsonIgnore
+    public Optional<String> amountPurchases() {
+        return amountPurchases;
+    }
+
+    /**
+     * Taxable purchases a sales and use tax return covers.
+     */
+    @JsonIgnore
+    public Optional<String> totalTaxablePurchases() {
+        return totalTaxablePurchases;
     }
 
     /**
@@ -1101,9 +1217,10 @@ public class FilingRead {
 
     /**
      * Display-only estimated penalties and interest for BACK_FILING rows. Null means unknown
-     * (placeholder). Zero is a genuine not-yet-late or zero-tax outcome.
+     * (placeholder). Zero means the estimate found nothing owed.
      * 
-     * <p>Never persisted on the filing or used for billing.
+     * <p>Some states charge a flat late penalty even when the tax is zero. For a filed return, the estimate
+     * stops at the filing date. Never persisted on the filing or used for billing.
      */
     @JsonIgnore
     public JsonNullable<String> estimatedPenaltyInterest() {
@@ -1298,8 +1415,8 @@ public class FilingRead {
     }
 
     /**
-     * DevRev ticket DON for the active assistance-pause episode. Cleared when the filing is approved from
-     * PAUSED.
+     * Opaque identifier of the support ticket for the active assistance-pause episode. Cleared when the
+     * filing is approved from PAUSED.
      */
     public FilingRead withAssistanceTicketId(String assistanceTicketId) {
         Utils.checkNotNull(assistanceTicketId, "assistanceTicketId");
@@ -1308,8 +1425,8 @@ public class FilingRead {
     }
 
     /**
-     * DevRev ticket DON for the active assistance-pause episode. Cleared when the filing is approved from
-     * PAUSED.
+     * Opaque identifier of the support ticket for the active assistance-pause episode. Cleared when the
+     * filing is approved from PAUSED.
      */
     public FilingRead withAssistanceTicketId(JsonNullable<String> assistanceTicketId) {
         Utils.checkNotNull(assistanceTicketId, "assistanceTicketId");
@@ -1483,9 +1600,11 @@ public class FilingRead {
      * 
      * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
      * one return can cover both taxes, and each is stored as a single row.
-     * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
-     * separate obligations with their own met dates, period models, and liability
-     * accrual.
+     * Nexus rows are SALES_TAX, USE_TAX, RETAIL_DELIVERY_FEE, or
+     * SMALL_PARCEL_VAT. Sales tax, use tax, the retail delivery fee, and the
+     * Swiss small-parcel threshold are separate obligations with their own met
+     * dates and period models. SMALL_PARCEL_VAT is a threshold only. A sales
+     * tax registration covers it, and it has no account and no return of its own.
      */
     public FilingRead withTaxType(TaxTypeEnum taxType) {
         Utils.checkNotNull(taxType, "taxType");
@@ -1499,34 +1618,15 @@ public class FilingRead {
      * 
      * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
      * one return can cover both taxes, and each is stored as a single row.
-     * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
-     * separate obligations with their own met dates, period models, and liability
-     * accrual.
+     * Nexus rows are SALES_TAX, USE_TAX, RETAIL_DELIVERY_FEE, or
+     * SMALL_PARCEL_VAT. Sales tax, use tax, the retail delivery fee, and the
+     * Swiss small-parcel threshold are separate obligations with their own met
+     * dates and period models. SMALL_PARCEL_VAT is a threshold only. A sales
+     * tax registration covers it, and it has no account and no return of its own.
      */
     public FilingRead withTaxType(Optional<? extends TaxTypeEnum> taxType) {
         Utils.checkNotNull(taxType, "taxType");
         this.taxType = taxType;
-        return this;
-    }
-
-    /**
-     * True when this filing is a state Retail Delivery Fee return, a separate filing from the state's
-     * sales tax return.
-     */
-    public FilingRead withIsRdf(boolean isRdf) {
-        Utils.checkNotNull(isRdf, "isRdf");
-        this.isRdf = Optional.ofNullable(isRdf);
-        return this;
-    }
-
-
-    /**
-     * True when this filing is a state Retail Delivery Fee return, a separate filing from the state's
-     * sales tax return.
-     */
-    public FilingRead withIsRdf(Optional<Boolean> isRdf) {
-        Utils.checkNotNull(isRdf, "isRdf");
-        this.isRdf = isRdf;
         return this;
     }
 
@@ -1607,6 +1707,24 @@ public class FilingRead {
     }
 
     /**
+     * Whether amount_fees is a penalty, interest, or other fee. Null when unknown (legacy rows).
+     */
+    public FilingRead withFeeType(FeeTypeEnum feeType) {
+        Utils.checkNotNull(feeType, "feeType");
+        this.feeType = JsonNullable.of(feeType);
+        return this;
+    }
+
+    /**
+     * Whether amount_fees is a penalty, interest, or other fee. Null when unknown (legacy rows).
+     */
+    public FilingRead withFeeType(JsonNullable<? extends FeeTypeEnum> feeType) {
+        Utils.checkNotNull(feeType, "feeType");
+        this.feeType = feeType;
+        return this;
+    }
+
+    /**
      * Penalties applied to the filing.
      */
     public FilingRead withAmountPenalties(String amountPenalties) {
@@ -1670,8 +1788,8 @@ public class FilingRead {
     }
 
     /**
-     * Input VAT recovered on this filing's purchases. Subtracted from liability; always 0.00 outside EU/UK
-     * VAT AP filings.
+     * Input VAT this filing actually claimed. Subtracted from liability; always 0.00 outside EU/UK VAT
+     * filings.
      */
     public FilingRead withAmountInputVatRecoverable(String amountInputVatRecoverable) {
         Utils.checkNotNull(amountInputVatRecoverable, "amountInputVatRecoverable");
@@ -1681,8 +1799,8 @@ public class FilingRead {
 
 
     /**
-     * Input VAT recovered on this filing's purchases. Subtracted from liability; always 0.00 outside EU/UK
-     * VAT AP filings.
+     * Input VAT this filing actually claimed. Subtracted from liability; always 0.00 outside EU/UK VAT
+     * filings.
      */
     public FilingRead withAmountInputVatRecoverable(Optional<String> amountInputVatRecoverable) {
         Utils.checkNotNull(amountInputVatRecoverable, "amountInputVatRecoverable");
@@ -1691,7 +1809,7 @@ public class FilingRead {
     }
 
     /**
-     * Prior-year input VAT pro-rata true-up on this filing. Positive claims more, negative repays. Always
+     * Prior-year input VAT pro-rata true-up on this filing. Negative claims more, positive repays. Always
      * 0.00 until posted.
      */
     public FilingRead withAmountInputVatTrueUp(String amountInputVatTrueUp) {
@@ -1702,12 +1820,127 @@ public class FilingRead {
 
 
     /**
-     * Prior-year input VAT pro-rata true-up on this filing. Positive claims more, negative repays. Always
+     * Prior-year input VAT pro-rata true-up on this filing. Negative claims more, positive repays. Always
      * 0.00 until posted.
      */
     public FilingRead withAmountInputVatTrueUp(Optional<String> amountInputVatTrueUp) {
         Utils.checkNotNull(amountInputVatTrueUp, "amountInputVatTrueUp");
         this.amountInputVatTrueUp = amountInputVatTrueUp;
+        return this;
+    }
+
+    /**
+     * Input VAT this filing would have claimed at a 100% rate. Always 0.00 outside EU/UK VAT filings.
+     */
+    public FilingRead withAmountInputVatRecoverableBase(String amountInputVatRecoverableBase) {
+        Utils.checkNotNull(amountInputVatRecoverableBase, "amountInputVatRecoverableBase");
+        this.amountInputVatRecoverableBase = Optional.ofNullable(amountInputVatRecoverableBase);
+        return this;
+    }
+
+
+    /**
+     * Input VAT this filing would have claimed at a 100% rate. Always 0.00 outside EU/UK VAT filings.
+     */
+    public FilingRead withAmountInputVatRecoverableBase(Optional<String> amountInputVatRecoverableBase) {
+        Utils.checkNotNull(amountInputVatRecoverableBase, "amountInputVatRecoverableBase");
+        this.amountInputVatRecoverableBase = amountInputVatRecoverableBase;
+        return this;
+    }
+
+    /**
+     * Rate actually used on this filing's reclaim. Null when this filing is not EU/UK VAT.
+     */
+    public FilingRead withInputVatRecoveryRateApplied(String inputVatRecoveryRateApplied) {
+        Utils.checkNotNull(inputVatRecoveryRateApplied, "inputVatRecoveryRateApplied");
+        this.inputVatRecoveryRateApplied = JsonNullable.of(inputVatRecoveryRateApplied);
+        return this;
+    }
+
+    /**
+     * Rate actually used on this filing's reclaim. Null when this filing is not EU/UK VAT.
+     */
+    public FilingRead withInputVatRecoveryRateApplied(JsonNullable<String> inputVatRecoveryRateApplied) {
+        Utils.checkNotNull(inputVatRecoveryRateApplied, "inputVatRecoveryRateApplied");
+        this.inputVatRecoveryRateApplied = inputVatRecoveryRateApplied;
+        return this;
+    }
+
+    /**
+     * Estimated purchase tax this return leaves out because the org does not have Use Tax or Input
+     * VAT/GST. 0.00 when nothing is left out.
+     */
+    public FilingRead withExcludedPurchaseTaxEstimate(String excludedPurchaseTaxEstimate) {
+        Utils.checkNotNull(excludedPurchaseTaxEstimate, "excludedPurchaseTaxEstimate");
+        this.excludedPurchaseTaxEstimate = Optional.ofNullable(excludedPurchaseTaxEstimate);
+        return this;
+    }
+
+
+    /**
+     * Estimated purchase tax this return leaves out because the org does not have Use Tax or Input
+     * VAT/GST. 0.00 when nothing is left out.
+     */
+    public FilingRead withExcludedPurchaseTaxEstimate(Optional<String> excludedPurchaseTaxEstimate) {
+        Utils.checkNotNull(excludedPurchaseTaxEstimate, "excludedPurchaseTaxEstimate");
+        this.excludedPurchaseTaxEstimate = excludedPurchaseTaxEstimate;
+        return this;
+    }
+
+    /**
+     * Number of purchases a sales and use tax return covers.
+     */
+    public FilingRead withPurchaseCount(long purchaseCount) {
+        Utils.checkNotNull(purchaseCount, "purchaseCount");
+        this.purchaseCount = Optional.ofNullable(purchaseCount);
+        return this;
+    }
+
+
+    /**
+     * Number of purchases a sales and use tax return covers.
+     */
+    public FilingRead withPurchaseCount(Optional<Long> purchaseCount) {
+        Utils.checkNotNull(purchaseCount, "purchaseCount");
+        this.purchaseCount = purchaseCount;
+        return this;
+    }
+
+    /**
+     * Gross purchases a sales and use tax return covers.
+     */
+    public FilingRead withAmountPurchases(String amountPurchases) {
+        Utils.checkNotNull(amountPurchases, "amountPurchases");
+        this.amountPurchases = Optional.ofNullable(amountPurchases);
+        return this;
+    }
+
+
+    /**
+     * Gross purchases a sales and use tax return covers.
+     */
+    public FilingRead withAmountPurchases(Optional<String> amountPurchases) {
+        Utils.checkNotNull(amountPurchases, "amountPurchases");
+        this.amountPurchases = amountPurchases;
+        return this;
+    }
+
+    /**
+     * Taxable purchases a sales and use tax return covers.
+     */
+    public FilingRead withTotalTaxablePurchases(String totalTaxablePurchases) {
+        Utils.checkNotNull(totalTaxablePurchases, "totalTaxablePurchases");
+        this.totalTaxablePurchases = Optional.ofNullable(totalTaxablePurchases);
+        return this;
+    }
+
+
+    /**
+     * Taxable purchases a sales and use tax return covers.
+     */
+    public FilingRead withTotalTaxablePurchases(Optional<String> totalTaxablePurchases) {
+        Utils.checkNotNull(totalTaxablePurchases, "totalTaxablePurchases");
+        this.totalTaxablePurchases = totalTaxablePurchases;
         return this;
     }
 
@@ -2121,9 +2354,10 @@ public class FilingRead {
 
     /**
      * Display-only estimated penalties and interest for BACK_FILING rows. Null means unknown
-     * (placeholder). Zero is a genuine not-yet-late or zero-tax outcome.
+     * (placeholder). Zero means the estimate found nothing owed.
      * 
-     * <p>Never persisted on the filing or used for billing.
+     * <p>Some states charge a flat late penalty even when the tax is zero. For a filed return, the estimate
+     * stops at the filing date. Never persisted on the filing or used for billing.
      */
     public FilingRead withEstimatedPenaltyInterest(String estimatedPenaltyInterest) {
         Utils.checkNotNull(estimatedPenaltyInterest, "estimatedPenaltyInterest");
@@ -2133,9 +2367,10 @@ public class FilingRead {
 
     /**
      * Display-only estimated penalties and interest for BACK_FILING rows. Null means unknown
-     * (placeholder). Zero is a genuine not-yet-late or zero-tax outcome.
+     * (placeholder). Zero means the estimate found nothing owed.
      * 
-     * <p>Never persisted on the filing or used for billing.
+     * <p>Some states charge a flat late penalty even when the tax is zero. For a filed return, the estimate
+     * stops at the filing date. Never persisted on the filing or used for billing.
      */
     public FilingRead withEstimatedPenaltyInterest(JsonNullable<String> estimatedPenaltyInterest) {
         Utils.checkNotNull(estimatedPenaltyInterest, "estimatedPenaltyInterest");
@@ -2213,16 +2448,22 @@ public class FilingRead {
             Utils.enhancedDeepEquals(this.skipReason, other.skipReason) &&
             Utils.enhancedDeepEquals(this.cancelledReason, other.cancelledReason) &&
             Utils.enhancedDeepEquals(this.taxType, other.taxType) &&
-            Utils.enhancedDeepEquals(this.isRdf, other.isRdf) &&
             Utils.enhancedDeepEquals(this.amountCalculated, other.amountCalculated) &&
             Utils.enhancedDeepEquals(this.amountAdjusted, other.amountAdjusted) &&
             Utils.enhancedDeepEquals(this.amountDiscounts, other.amountDiscounts) &&
             Utils.enhancedDeepEquals(this.amountFees, other.amountFees) &&
+            Utils.enhancedDeepEquals(this.feeType, other.feeType) &&
             Utils.enhancedDeepEquals(this.amountPenalties, other.amountPenalties) &&
             Utils.enhancedDeepEquals(this.amountTaxCollected, other.amountTaxCollected) &&
             Utils.enhancedDeepEquals(this.amountUseTax, other.amountUseTax) &&
             Utils.enhancedDeepEquals(this.amountInputVatRecoverable, other.amountInputVatRecoverable) &&
             Utils.enhancedDeepEquals(this.amountInputVatTrueUp, other.amountInputVatTrueUp) &&
+            Utils.enhancedDeepEquals(this.amountInputVatRecoverableBase, other.amountInputVatRecoverableBase) &&
+            Utils.enhancedDeepEquals(this.inputVatRecoveryRateApplied, other.inputVatRecoveryRateApplied) &&
+            Utils.enhancedDeepEquals(this.excludedPurchaseTaxEstimate, other.excludedPurchaseTaxEstimate) &&
+            Utils.enhancedDeepEquals(this.purchaseCount, other.purchaseCount) &&
+            Utils.enhancedDeepEquals(this.amountPurchases, other.amountPurchases) &&
+            Utils.enhancedDeepEquals(this.totalTaxablePurchases, other.totalTaxablePurchases) &&
             Utils.enhancedDeepEquals(this.amountSales, other.amountSales) &&
             Utils.enhancedDeepEquals(this.totalTaxableSales, other.totalTaxableSales) &&
             Utils.enhancedDeepEquals(this.amount, other.amount) &&
@@ -2261,10 +2502,12 @@ public class FilingRead {
             filingCategory, isPrepayment, isFinal,
             approvedBy, approvedAt, issueReason,
             skipReason, cancelledReason, taxType,
-            isRdf, amountCalculated, amountAdjusted,
-            amountDiscounts, amountFees, amountPenalties,
+            amountCalculated, amountAdjusted, amountDiscounts,
+            amountFees, feeType, amountPenalties,
             amountTaxCollected, amountUseTax, amountInputVatRecoverable,
-            amountInputVatTrueUp, amountSales, totalTaxableSales,
+            amountInputVatTrueUp, amountInputVatRecoverableBase, inputVatRecoveryRateApplied,
+            excludedPurchaseTaxEstimate, purchaseCount, amountPurchases,
+            totalTaxablePurchases, amountSales, totalTaxableSales,
             amount, totalTaxLiability, transactionCount,
             marketplaceTransactionCount, estimatedLineCount, internalNotes,
             recentDetailsReportLink, taxRemitted, originalTaxRemitted,
@@ -2299,16 +2542,22 @@ public class FilingRead {
                 "skipReason", skipReason,
                 "cancelledReason", cancelledReason,
                 "taxType", taxType,
-                "isRdf", isRdf,
                 "amountCalculated", amountCalculated,
                 "amountAdjusted", amountAdjusted,
                 "amountDiscounts", amountDiscounts,
                 "amountFees", amountFees,
+                "feeType", feeType,
                 "amountPenalties", amountPenalties,
                 "amountTaxCollected", amountTaxCollected,
                 "amountUseTax", amountUseTax,
                 "amountInputVatRecoverable", amountInputVatRecoverable,
                 "amountInputVatTrueUp", amountInputVatTrueUp,
+                "amountInputVatRecoverableBase", amountInputVatRecoverableBase,
+                "inputVatRecoveryRateApplied", inputVatRecoveryRateApplied,
+                "excludedPurchaseTaxEstimate", excludedPurchaseTaxEstimate,
+                "purchaseCount", purchaseCount,
+                "amountPurchases", amountPurchases,
+                "totalTaxablePurchases", totalTaxablePurchases,
                 "amountSales", amountSales,
                 "totalTaxableSales", totalTaxableSales,
                 "amount", amount,
@@ -2382,8 +2631,6 @@ public class FilingRead {
 
         private Optional<? extends TaxTypeEnum> taxType = Optional.empty();
 
-        private Optional<Boolean> isRdf;
-
         private Optional<String> amountCalculated;
 
         private Optional<String> amountAdjusted;
@@ -2391,6 +2638,8 @@ public class FilingRead {
         private Optional<String> amountDiscounts;
 
         private Optional<String> amountFees;
+
+        private JsonNullable<? extends FeeTypeEnum> feeType = JsonNullable.undefined();
 
         private Optional<String> amountPenalties;
 
@@ -2401,6 +2650,18 @@ public class FilingRead {
         private Optional<String> amountInputVatRecoverable;
 
         private Optional<String> amountInputVatTrueUp;
+
+        private Optional<String> amountInputVatRecoverableBase;
+
+        private JsonNullable<String> inputVatRecoveryRateApplied = JsonNullable.undefined();
+
+        private Optional<String> excludedPurchaseTaxEstimate;
+
+        private Optional<Long> purchaseCount;
+
+        private Optional<String> amountPurchases;
+
+        private Optional<String> totalTaxablePurchases;
 
         private Optional<String> amountSales;
 
@@ -2635,8 +2896,8 @@ public class FilingRead {
 
 
         /**
-         * DevRev ticket DON for the active assistance-pause episode. Cleared when the filing is approved from
-         * PAUSED.
+         * Opaque identifier of the support ticket for the active assistance-pause episode. Cleared when the
+         * filing is approved from PAUSED.
          */
         public Builder assistanceTicketId(String assistanceTicketId) {
             Utils.checkNotNull(assistanceTicketId, "assistanceTicketId");
@@ -2645,8 +2906,8 @@ public class FilingRead {
         }
 
         /**
-         * DevRev ticket DON for the active assistance-pause episode. Cleared when the filing is approved from
-         * PAUSED.
+         * Opaque identifier of the support ticket for the active assistance-pause episode. Cleared when the
+         * filing is approved from PAUSED.
          */
         public Builder assistanceTicketId(JsonNullable<String> assistanceTicketId) {
             Utils.checkNotNull(assistanceTicketId, "assistanceTicketId");
@@ -2826,9 +3087,11 @@ public class FilingRead {
          * 
          * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
          * one return can cover both taxes, and each is stored as a single row.
-         * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
-         * separate obligations with their own met dates, period models, and liability
-         * accrual.
+         * Nexus rows are SALES_TAX, USE_TAX, RETAIL_DELIVERY_FEE, or
+         * SMALL_PARCEL_VAT. Sales tax, use tax, the retail delivery fee, and the
+         * Swiss small-parcel threshold are separate obligations with their own met
+         * dates and period models. SMALL_PARCEL_VAT is a threshold only. A sales
+         * tax registration covers it, and it has no account and no return of its own.
          */
         public Builder taxType(TaxTypeEnum taxType) {
             Utils.checkNotNull(taxType, "taxType");
@@ -2841,34 +3104,15 @@ public class FilingRead {
          * 
          * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
          * one return can cover both taxes, and each is stored as a single row.
-         * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
-         * separate obligations with their own met dates, period models, and liability
-         * accrual.
+         * Nexus rows are SALES_TAX, USE_TAX, RETAIL_DELIVERY_FEE, or
+         * SMALL_PARCEL_VAT. Sales tax, use tax, the retail delivery fee, and the
+         * Swiss small-parcel threshold are separate obligations with their own met
+         * dates and period models. SMALL_PARCEL_VAT is a threshold only. A sales
+         * tax registration covers it, and it has no account and no return of its own.
          */
         public Builder taxType(Optional<? extends TaxTypeEnum> taxType) {
             Utils.checkNotNull(taxType, "taxType");
             this.taxType = taxType;
-            return this;
-        }
-
-
-        /**
-         * True when this filing is a state Retail Delivery Fee return, a separate filing from the state's
-         * sales tax return.
-         */
-        public Builder isRdf(boolean isRdf) {
-            Utils.checkNotNull(isRdf, "isRdf");
-            this.isRdf = Optional.ofNullable(isRdf);
-            return this;
-        }
-
-        /**
-         * True when this filing is a state Retail Delivery Fee return, a separate filing from the state's
-         * sales tax return.
-         */
-        public Builder isRdf(Optional<Boolean> isRdf) {
-            Utils.checkNotNull(isRdf, "isRdf");
-            this.isRdf = isRdf;
             return this;
         }
 
@@ -2950,6 +3194,25 @@ public class FilingRead {
 
 
         /**
+         * Whether amount_fees is a penalty, interest, or other fee. Null when unknown (legacy rows).
+         */
+        public Builder feeType(FeeTypeEnum feeType) {
+            Utils.checkNotNull(feeType, "feeType");
+            this.feeType = JsonNullable.of(feeType);
+            return this;
+        }
+
+        /**
+         * Whether amount_fees is a penalty, interest, or other fee. Null when unknown (legacy rows).
+         */
+        public Builder feeType(JsonNullable<? extends FeeTypeEnum> feeType) {
+            Utils.checkNotNull(feeType, "feeType");
+            this.feeType = feeType;
+            return this;
+        }
+
+
+        /**
          * Penalties applied to the filing.
          */
         public Builder amountPenalties(String amountPenalties) {
@@ -3013,8 +3276,8 @@ public class FilingRead {
 
 
         /**
-         * Input VAT recovered on this filing's purchases. Subtracted from liability; always 0.00 outside EU/UK
-         * VAT AP filings.
+         * Input VAT this filing actually claimed. Subtracted from liability; always 0.00 outside EU/UK VAT
+         * filings.
          */
         public Builder amountInputVatRecoverable(String amountInputVatRecoverable) {
             Utils.checkNotNull(amountInputVatRecoverable, "amountInputVatRecoverable");
@@ -3023,8 +3286,8 @@ public class FilingRead {
         }
 
         /**
-         * Input VAT recovered on this filing's purchases. Subtracted from liability; always 0.00 outside EU/UK
-         * VAT AP filings.
+         * Input VAT this filing actually claimed. Subtracted from liability; always 0.00 outside EU/UK VAT
+         * filings.
          */
         public Builder amountInputVatRecoverable(Optional<String> amountInputVatRecoverable) {
             Utils.checkNotNull(amountInputVatRecoverable, "amountInputVatRecoverable");
@@ -3034,7 +3297,7 @@ public class FilingRead {
 
 
         /**
-         * Prior-year input VAT pro-rata true-up on this filing. Positive claims more, negative repays. Always
+         * Prior-year input VAT pro-rata true-up on this filing. Negative claims more, positive repays. Always
          * 0.00 until posted.
          */
         public Builder amountInputVatTrueUp(String amountInputVatTrueUp) {
@@ -3044,12 +3307,128 @@ public class FilingRead {
         }
 
         /**
-         * Prior-year input VAT pro-rata true-up on this filing. Positive claims more, negative repays. Always
+         * Prior-year input VAT pro-rata true-up on this filing. Negative claims more, positive repays. Always
          * 0.00 until posted.
          */
         public Builder amountInputVatTrueUp(Optional<String> amountInputVatTrueUp) {
             Utils.checkNotNull(amountInputVatTrueUp, "amountInputVatTrueUp");
             this.amountInputVatTrueUp = amountInputVatTrueUp;
+            return this;
+        }
+
+
+        /**
+         * Input VAT this filing would have claimed at a 100% rate. Always 0.00 outside EU/UK VAT filings.
+         */
+        public Builder amountInputVatRecoverableBase(String amountInputVatRecoverableBase) {
+            Utils.checkNotNull(amountInputVatRecoverableBase, "amountInputVatRecoverableBase");
+            this.amountInputVatRecoverableBase = Optional.ofNullable(amountInputVatRecoverableBase);
+            return this;
+        }
+
+        /**
+         * Input VAT this filing would have claimed at a 100% rate. Always 0.00 outside EU/UK VAT filings.
+         */
+        public Builder amountInputVatRecoverableBase(Optional<String> amountInputVatRecoverableBase) {
+            Utils.checkNotNull(amountInputVatRecoverableBase, "amountInputVatRecoverableBase");
+            this.amountInputVatRecoverableBase = amountInputVatRecoverableBase;
+            return this;
+        }
+
+
+        /**
+         * Rate actually used on this filing's reclaim. Null when this filing is not EU/UK VAT.
+         */
+        public Builder inputVatRecoveryRateApplied(String inputVatRecoveryRateApplied) {
+            Utils.checkNotNull(inputVatRecoveryRateApplied, "inputVatRecoveryRateApplied");
+            this.inputVatRecoveryRateApplied = JsonNullable.of(inputVatRecoveryRateApplied);
+            return this;
+        }
+
+        /**
+         * Rate actually used on this filing's reclaim. Null when this filing is not EU/UK VAT.
+         */
+        public Builder inputVatRecoveryRateApplied(JsonNullable<String> inputVatRecoveryRateApplied) {
+            Utils.checkNotNull(inputVatRecoveryRateApplied, "inputVatRecoveryRateApplied");
+            this.inputVatRecoveryRateApplied = inputVatRecoveryRateApplied;
+            return this;
+        }
+
+
+        /**
+         * Estimated purchase tax this return leaves out because the org does not have Use Tax or Input
+         * VAT/GST. 0.00 when nothing is left out.
+         */
+        public Builder excludedPurchaseTaxEstimate(String excludedPurchaseTaxEstimate) {
+            Utils.checkNotNull(excludedPurchaseTaxEstimate, "excludedPurchaseTaxEstimate");
+            this.excludedPurchaseTaxEstimate = Optional.ofNullable(excludedPurchaseTaxEstimate);
+            return this;
+        }
+
+        /**
+         * Estimated purchase tax this return leaves out because the org does not have Use Tax or Input
+         * VAT/GST. 0.00 when nothing is left out.
+         */
+        public Builder excludedPurchaseTaxEstimate(Optional<String> excludedPurchaseTaxEstimate) {
+            Utils.checkNotNull(excludedPurchaseTaxEstimate, "excludedPurchaseTaxEstimate");
+            this.excludedPurchaseTaxEstimate = excludedPurchaseTaxEstimate;
+            return this;
+        }
+
+
+        /**
+         * Number of purchases a sales and use tax return covers.
+         */
+        public Builder purchaseCount(long purchaseCount) {
+            Utils.checkNotNull(purchaseCount, "purchaseCount");
+            this.purchaseCount = Optional.ofNullable(purchaseCount);
+            return this;
+        }
+
+        /**
+         * Number of purchases a sales and use tax return covers.
+         */
+        public Builder purchaseCount(Optional<Long> purchaseCount) {
+            Utils.checkNotNull(purchaseCount, "purchaseCount");
+            this.purchaseCount = purchaseCount;
+            return this;
+        }
+
+
+        /**
+         * Gross purchases a sales and use tax return covers.
+         */
+        public Builder amountPurchases(String amountPurchases) {
+            Utils.checkNotNull(amountPurchases, "amountPurchases");
+            this.amountPurchases = Optional.ofNullable(amountPurchases);
+            return this;
+        }
+
+        /**
+         * Gross purchases a sales and use tax return covers.
+         */
+        public Builder amountPurchases(Optional<String> amountPurchases) {
+            Utils.checkNotNull(amountPurchases, "amountPurchases");
+            this.amountPurchases = amountPurchases;
+            return this;
+        }
+
+
+        /**
+         * Taxable purchases a sales and use tax return covers.
+         */
+        public Builder totalTaxablePurchases(String totalTaxablePurchases) {
+            Utils.checkNotNull(totalTaxablePurchases, "totalTaxablePurchases");
+            this.totalTaxablePurchases = Optional.ofNullable(totalTaxablePurchases);
+            return this;
+        }
+
+        /**
+         * Taxable purchases a sales and use tax return covers.
+         */
+        public Builder totalTaxablePurchases(Optional<String> totalTaxablePurchases) {
+            Utils.checkNotNull(totalTaxablePurchases, "totalTaxablePurchases");
+            this.totalTaxablePurchases = totalTaxablePurchases;
             return this;
         }
 
@@ -3481,9 +3860,10 @@ public class FilingRead {
 
         /**
          * Display-only estimated penalties and interest for BACK_FILING rows. Null means unknown
-         * (placeholder). Zero is a genuine not-yet-late or zero-tax outcome.
+         * (placeholder). Zero means the estimate found nothing owed.
          * 
-         * <p>Never persisted on the filing or used for billing.
+         * <p>Some states charge a flat late penalty even when the tax is zero. For a filed return, the estimate
+         * stops at the filing date. Never persisted on the filing or used for billing.
          */
         public Builder estimatedPenaltyInterest(String estimatedPenaltyInterest) {
             Utils.checkNotNull(estimatedPenaltyInterest, "estimatedPenaltyInterest");
@@ -3493,9 +3873,10 @@ public class FilingRead {
 
         /**
          * Display-only estimated penalties and interest for BACK_FILING rows. Null means unknown
-         * (placeholder). Zero is a genuine not-yet-late or zero-tax outcome.
+         * (placeholder). Zero means the estimate found nothing owed.
          * 
-         * <p>Never persisted on the filing or used for billing.
+         * <p>Some states charge a flat late penalty even when the tax is zero. For a filed return, the estimate
+         * stops at the filing date. Never persisted on the filing or used for billing.
          */
         public Builder estimatedPenaltyInterest(JsonNullable<String> estimatedPenaltyInterest) {
             Utils.checkNotNull(estimatedPenaltyInterest, "estimatedPenaltyInterest");
@@ -3553,9 +3934,6 @@ public class FilingRead {
             if (isFinal == null) {
                 isFinal = _SINGLETON_VALUE_IsFinal.value();
             }
-            if (isRdf == null) {
-                isRdf = _SINGLETON_VALUE_IsRdf.value();
-            }
             if (amountCalculated == null) {
                 amountCalculated = _SINGLETON_VALUE_AmountCalculated.value();
             }
@@ -3582,6 +3960,21 @@ public class FilingRead {
             }
             if (amountInputVatTrueUp == null) {
                 amountInputVatTrueUp = _SINGLETON_VALUE_AmountInputVatTrueUp.value();
+            }
+            if (amountInputVatRecoverableBase == null) {
+                amountInputVatRecoverableBase = _SINGLETON_VALUE_AmountInputVatRecoverableBase.value();
+            }
+            if (excludedPurchaseTaxEstimate == null) {
+                excludedPurchaseTaxEstimate = _SINGLETON_VALUE_ExcludedPurchaseTaxEstimate.value();
+            }
+            if (purchaseCount == null) {
+                purchaseCount = _SINGLETON_VALUE_PurchaseCount.value();
+            }
+            if (amountPurchases == null) {
+                amountPurchases = _SINGLETON_VALUE_AmountPurchases.value();
+            }
+            if (totalTaxablePurchases == null) {
+                totalTaxablePurchases = _SINGLETON_VALUE_TotalTaxablePurchases.value();
             }
             if (amountSales == null) {
                 amountSales = _SINGLETON_VALUE_AmountSales.value();
@@ -3610,10 +4003,12 @@ public class FilingRead {
                 filingCategory, isPrepayment, isFinal,
                 approvedBy, approvedAt, issueReason,
                 skipReason, cancelledReason, taxType,
-                isRdf, amountCalculated, amountAdjusted,
-                amountDiscounts, amountFees, amountPenalties,
+                amountCalculated, amountAdjusted, amountDiscounts,
+                amountFees, feeType, amountPenalties,
                 amountTaxCollected, amountUseTax, amountInputVatRecoverable,
-                amountInputVatTrueUp, amountSales, totalTaxableSales,
+                amountInputVatTrueUp, amountInputVatRecoverableBase, inputVatRecoveryRateApplied,
+                excludedPurchaseTaxEstimate, purchaseCount, amountPurchases,
+                totalTaxablePurchases, amountSales, totalTaxableSales,
                 amount, totalTaxLiability, transactionCount,
                 marketplaceTransactionCount, estimatedLineCount, internalNotes,
                 recentDetailsReportLink, taxRemitted, originalTaxRemitted,
@@ -3640,12 +4035,6 @@ public class FilingRead {
         private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_IsFinal =
                 new LazySingletonValue<>(
                         "is_final",
-                        "false",
-                        new TypeReference<Optional<Boolean>>() {});
-
-        private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_IsRdf =
-                new LazySingletonValue<>(
-                        "is_rdf",
                         "false",
                         new TypeReference<Optional<Boolean>>() {});
 
@@ -3700,6 +4089,36 @@ public class FilingRead {
         private static final LazySingletonValue<Optional<String>> _SINGLETON_VALUE_AmountInputVatTrueUp =
                 new LazySingletonValue<>(
                         "amount_input_vat_true_up",
+                        "\"0.00\"",
+                        new TypeReference<Optional<String>>() {});
+
+        private static final LazySingletonValue<Optional<String>> _SINGLETON_VALUE_AmountInputVatRecoverableBase =
+                new LazySingletonValue<>(
+                        "amount_input_vat_recoverable_base",
+                        "\"0.00\"",
+                        new TypeReference<Optional<String>>() {});
+
+        private static final LazySingletonValue<Optional<String>> _SINGLETON_VALUE_ExcludedPurchaseTaxEstimate =
+                new LazySingletonValue<>(
+                        "excluded_purchase_tax_estimate",
+                        "\"0.00\"",
+                        new TypeReference<Optional<String>>() {});
+
+        private static final LazySingletonValue<Optional<Long>> _SINGLETON_VALUE_PurchaseCount =
+                new LazySingletonValue<>(
+                        "purchase_count",
+                        "0",
+                        new TypeReference<Optional<Long>>() {});
+
+        private static final LazySingletonValue<Optional<String>> _SINGLETON_VALUE_AmountPurchases =
+                new LazySingletonValue<>(
+                        "amount_purchases",
+                        "\"0.00\"",
+                        new TypeReference<Optional<String>>() {});
+
+        private static final LazySingletonValue<Optional<String>> _SINGLETON_VALUE_TotalTaxablePurchases =
+                new LazySingletonValue<>(
+                        "total_taxable_purchases",
                         "\"0.00\"",
                         new TypeReference<Optional<String>>() {});
 

@@ -8,14 +8,17 @@ import static com.kintsugi.taxplatform.operations.Operations.RequestOperation;
 import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.operations.GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGet;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.time.Duration;
 import java.util.Optional;
 
 public class GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequestBuilder {
 
     private String exemptionId;
     private Optional<String> xOrganizationId = Optional.empty();
+    private Optional<Duration> timeout = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -40,6 +43,18 @@ public class GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequ
         this.xOrganizationId = xOrganizationId;
         return this;
     }
+                
+    public GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequestBuilder timeout(Duration timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = Optional.of(timeout);
+        return this;
+    }
+
+    public GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequestBuilder timeout(Optional<Duration> timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = timeout;
+        return this;
+    }
 
 
     private GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest buildRequest() {
@@ -51,9 +66,12 @@ public class GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequ
     }
 
     public GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetResponse call() {
-        
+        Optional<Options> options = Optional.of(Options.builder()
+            .timeout(timeout)
+            .build());
+
         RequestOperation<GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest, GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetResponse> operation
-              = new GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGet.Sync(sdkConfiguration, _headers);
+              = new GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGet.Sync(sdkConfiguration, options, _headers);
         GetAttachmentsForExemptionV1ExemptionsExemptionIdAttachmentsGetRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

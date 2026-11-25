@@ -10,9 +10,11 @@ import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.operations.GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGet;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.LazySingletonValue;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Long;
 import java.lang.String;
+import java.time.Duration;
 import java.util.Optional;
 
 public class GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequestBuilder {
@@ -27,6 +29,7 @@ public class GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetReq
                             "50",
                             new TypeReference<Optional<Long>>() {});
     private Optional<String> xOrganizationId = Optional.empty();
+    private Optional<Duration> timeout = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -75,6 +78,18 @@ public class GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetReq
         this.xOrganizationId = xOrganizationId;
         return this;
     }
+                
+    public GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequestBuilder timeout(Duration timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = Optional.of(timeout);
+        return this;
+    }
+
+    public GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequestBuilder timeout(Optional<Duration> timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = timeout;
+        return this;
+    }
 
 
     private GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequest buildRequest() {
@@ -94,9 +109,12 @@ public class GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetReq
     }
 
     public GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetResponse call() {
-        
+        Optional<Options> options = Optional.of(Options.builder()
+            .timeout(timeout)
+            .build());
+
         RequestOperation<GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequest, GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetResponse> operation
-              = new GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGet.Sync(sdkConfiguration, _headers);
+              = new GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGet.Sync(sdkConfiguration, options, _headers);
         GetFilingsByRegistrationIdV1FilingsRegistrationRegistrationIdGetRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

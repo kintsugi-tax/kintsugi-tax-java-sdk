@@ -10,7 +10,6 @@ import com.kintsugi.taxplatform.models.components.AlabamaRegistrationPayload;
 import com.kintsugi.taxplatform.models.components.ArizonaRegistrationPayload;
 import com.kintsugi.taxplatform.models.components.ArkansasRegistrationPayload;
 import com.kintsugi.taxplatform.models.components.CaliforniaRegistrationPayload;
-import com.kintsugi.taxplatform.models.components.ColoradoRegistrationPayload;
 import com.kintsugi.taxplatform.models.components.ConnecticutRegistrationPayload;
 import com.kintsugi.taxplatform.models.components.DistrictOfColumbiaRegistrationPayload;
 import com.kintsugi.taxplatform.models.components.FloridaRegistrationPayload;
@@ -95,11 +94,6 @@ public class CreateRegistration {
     }
 
     public static CreateRegistration of(ConnecticutRegistrationPayload value) {
-        Utils.checkNotNull(value, "value");
-        return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
-    }
-
-    public static CreateRegistration of(ColoradoRegistrationPayload value) {
         Utils.checkNotNull(value, "value");
         return new CreateRegistration(TypedObject.of(value, JsonShape.DEFAULT, new TypeReference<>(){}));
     }
@@ -327,7 +321,6 @@ public class CreateRegistration {
      * <li>{@code com.kintsugi.taxplatform.models.components.ArkansasRegistrationPayload}</li>
      * <li>{@code com.kintsugi.taxplatform.models.components.CaliforniaRegistrationPayload}</li>
      * <li>{@code com.kintsugi.taxplatform.models.components.ConnecticutRegistrationPayload}</li>
-     * <li>{@code com.kintsugi.taxplatform.models.components.ColoradoRegistrationPayload}</li>
      * <li>{@code com.kintsugi.taxplatform.models.components.DistrictOfColumbiaRegistrationPayload}</li>
      * <li>{@code com.kintsugi.taxplatform.models.components.GeorgiaRegistrationPayload}</li>
      * <li>{@code com.kintsugi.taxplatform.models.components.HawaiiRegistrationPayload}</li>
@@ -415,7 +408,6 @@ public class CreateRegistration {
                   TypeReferenceWithShape.of(new TypeReference<ArkansasRegistrationPayload>() {}, JsonShape.DEFAULT),
                   TypeReferenceWithShape.of(new TypeReference<CaliforniaRegistrationPayload>() {}, JsonShape.DEFAULT),
                   TypeReferenceWithShape.of(new TypeReference<ConnecticutRegistrationPayload>() {}, JsonShape.DEFAULT),
-                  TypeReferenceWithShape.of(new TypeReference<ColoradoRegistrationPayload>() {}, JsonShape.DEFAULT),
                   TypeReferenceWithShape.of(new TypeReference<DistrictOfColumbiaRegistrationPayload>() {}, JsonShape.DEFAULT),
                   TypeReferenceWithShape.of(new TypeReference<GeorgiaRegistrationPayload>() {}, JsonShape.DEFAULT),
                   TypeReferenceWithShape.of(new TypeReference<HawaiiRegistrationPayload>() {}, JsonShape.DEFAULT),

@@ -46,6 +46,7 @@ import com.kintsugi.taxplatform.operations.ListRegistrationJurisdictionsV1Regist
 import com.kintsugi.taxplatform.operations.UpdateRegistrationV1RegistrationsRegistrationIdPut;
 import com.kintsugi.taxplatform.operations.UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import java.lang.String;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -76,7 +77,8 @@ public class Registrations {
      * <p>The Get Registrations API retrieves a
      * paginated list of registrations.
      * This API helps in tracking and managing registrations efficiently across multiple
-     * jurisdictions.
+     * jurisdictions. Stored credential fields come back masked; use the reveal parameter
+     * of the Get Registration By ID API to read them.
      * 
      * @return The call builder
      */
@@ -90,15 +92,34 @@ public class Registrations {
      * <p>The Get Registrations API retrieves a
      * paginated list of registrations.
      * This API helps in tracking and managing registrations efficiently across multiple
-     * jurisdictions.
+     * jurisdictions. Stored credential fields come back masked; use the reveal parameter
+     * of the Get Registration By ID API to read them.
      * 
      * @param request The request object containing all the parameters for the API call.
      * @return The response from the API call
      * @throws RuntimeException subclass if the API call fails
      */
     public GetRegistrationsV1RegistrationsGetResponse get(GetRegistrationsV1RegistrationsGetRequest request) {
+        return get(request, Optional.empty());
+    }
+
+    /**
+     * Get registrations
+     * 
+     * <p>The Get Registrations API retrieves a
+     * paginated list of registrations.
+     * This API helps in tracking and managing registrations efficiently across multiple
+     * jurisdictions. Stored credential fields come back masked; use the reveal parameter
+     * of the Get Registration By ID API to read them.
+     * 
+     * @param request The request object containing all the parameters for the API call.
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public GetRegistrationsV1RegistrationsGetResponse get(GetRegistrationsV1RegistrationsGetRequest request, Optional<Options> options) {
         RequestOperation<GetRegistrationsV1RegistrationsGetRequest, GetRegistrationsV1RegistrationsGetResponse> operation
-              = new GetRegistrationsV1RegistrationsGet.Sync(sdkConfiguration, _headers);
+              = new GetRegistrationsV1RegistrationsGet.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -125,7 +146,7 @@ public class Registrations {
      * @throws RuntimeException subclass if the API call fails
      */
     public CreateRegistrationV1RegistrationsPostResponse create(CreateRegistration requestBody) {
-        return create(Optional.empty(), requestBody);
+        return create(Optional.empty(), requestBody, Optional.empty());
     }
 
     /**
@@ -140,6 +161,24 @@ public class Registrations {
      * @throws RuntimeException subclass if the API call fails
      */
     public CreateRegistrationV1RegistrationsPostResponse create(Optional<String> xOrganizationId, CreateRegistration requestBody) {
+        return create(xOrganizationId, requestBody, Optional.empty());
+    }
+
+    /**
+     * Create registration
+     * 
+     * <p>The Create Registration API allows users to create a new registration
+     * for tracking and managing tax filings efficiently across multiple jurisdictions.
+     * 
+     * @param xOrganizationId 
+     * @param requestBody 
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public CreateRegistrationV1RegistrationsPostResponse create(
+            Optional<String> xOrganizationId, CreateRegistration requestBody,
+            Optional<Options> options) {
         CreateRegistrationV1RegistrationsPostRequest request =
             CreateRegistrationV1RegistrationsPostRequest
                 .builder()
@@ -147,14 +186,15 @@ public class Registrations {
                 .requestBody(requestBody)
                 .build();
         RequestOperation<CreateRegistrationV1RegistrationsPostRequest, CreateRegistrationV1RegistrationsPostResponse> operation
-              = new CreateRegistrationV1RegistrationsPost.Sync(sdkConfiguration, _headers);
+              = new CreateRegistrationV1RegistrationsPost.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
     /**
      * Get jurisdiction specific fields
      * 
-     * <p>Returns the JSON Schema and UI metadata for a state-specific registration form
+     * <p>Returns the JSON Schema and UI metadata for a state-specific registration form, and the tax types
+     * that can be imported there.
      * 
      * @return The call builder
      */
@@ -165,7 +205,8 @@ public class Registrations {
     /**
      * Get jurisdiction specific fields
      * 
-     * <p>Returns the JSON Schema and UI metadata for a state-specific registration form
+     * <p>Returns the JSON Schema and UI metadata for a state-specific registration form, and the tax types
+     * that can be imported there.
      * 
      * @param countryCode ISO 3166-1 alpha-2 country code (e.g., US).
      * @param stateCode State/province code (e.g., AL, LA).
@@ -173,13 +214,15 @@ public class Registrations {
      * @throws RuntimeException subclass if the API call fails
      */
     public GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGetResponse getJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGet(String countryCode, String stateCode) {
-        return getJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGet(countryCode, stateCode, Optional.empty());
+        return getJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGet(countryCode, stateCode, Optional.empty(),
+            Optional.empty());
     }
 
     /**
      * Get jurisdiction specific fields
      * 
-     * <p>Returns the JSON Schema and UI metadata for a state-specific registration form
+     * <p>Returns the JSON Schema and UI metadata for a state-specific registration form, and the tax types
+     * that can be imported there.
      * 
      * @param countryCode ISO 3166-1 alpha-2 country code (e.g., US).
      * @param stateCode State/province code (e.g., AL, LA).
@@ -190,6 +233,26 @@ public class Registrations {
     public GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGetResponse getJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGet(
             String countryCode, String stateCode,
             Optional<String> xOrganizationId) {
+        return getJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGet(countryCode, stateCode, xOrganizationId,
+            Optional.empty());
+    }
+
+    /**
+     * Get jurisdiction specific fields
+     * 
+     * <p>Returns the JSON Schema and UI metadata for a state-specific registration form, and the tax types
+     * that can be imported there.
+     * 
+     * @param countryCode ISO 3166-1 alpha-2 country code (e.g., US).
+     * @param stateCode State/province code (e.g., AL, LA).
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGetResponse getJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGet(
+            String countryCode, String stateCode,
+            Optional<String> xOrganizationId, Optional<Options> options) {
         GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGetRequest request =
             GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGetRequest
                 .builder()
@@ -198,7 +261,7 @@ public class Registrations {
                 .xOrganizationId(xOrganizationId)
                 .build();
         RequestOperation<GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGetRequest, GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGetResponse> operation
-              = new GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGet.Sync(sdkConfiguration, _headers);
+              = new GetJurisdictionSpecificFieldsV1RegistrationsJurisdictionSpecificFieldsGet.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -224,7 +287,7 @@ public class Registrations {
      * @throws RuntimeException subclass if the API call fails
      */
     public ListRegistrationJurisdictionsV1RegistrationsJurisdictionsGetResponse listRegistrationJurisdictionsV1RegistrationsJurisdictionsGetDirect() {
-        return listRegistrationJurisdictionsV1RegistrationsJurisdictionsGet(Optional.empty(), Optional.empty());
+        return listRegistrationJurisdictionsV1RegistrationsJurisdictionsGet(Optional.empty(), Optional.empty(), Optional.empty());
     }
 
     /**
@@ -239,6 +302,24 @@ public class Registrations {
      * @throws RuntimeException subclass if the API call fails
      */
     public ListRegistrationJurisdictionsV1RegistrationsJurisdictionsGetResponse listRegistrationJurisdictionsV1RegistrationsJurisdictionsGet(Optional<String> statusIn, Optional<String> xOrganizationId) {
+        return listRegistrationJurisdictionsV1RegistrationsJurisdictionsGet(statusIn, xOrganizationId, Optional.empty());
+    }
+
+    /**
+     * List registration jurisdictions
+     * 
+     * <p>Distinct registration jurisdictions (country + state) for filter dropdowns. Non-SST only. Default
+     * status__in matches GET /registrations (all statuses).
+     * 
+     * @param statusIn Filter by registration status (comma-separated); same as GET /registrations.
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public ListRegistrationJurisdictionsV1RegistrationsJurisdictionsGetResponse listRegistrationJurisdictionsV1RegistrationsJurisdictionsGet(
+            Optional<String> statusIn, Optional<String> xOrganizationId,
+            Optional<Options> options) {
         ListRegistrationJurisdictionsV1RegistrationsJurisdictionsGetRequest request =
             ListRegistrationJurisdictionsV1RegistrationsJurisdictionsGetRequest
                 .builder()
@@ -246,7 +327,7 @@ public class Registrations {
                 .xOrganizationId(xOrganizationId)
                 .build();
         RequestOperation<ListRegistrationJurisdictionsV1RegistrationsJurisdictionsGetRequest, ListRegistrationJurisdictionsV1RegistrationsJurisdictionsGetResponse> operation
-              = new ListRegistrationJurisdictionsV1RegistrationsJurisdictionsGet.Sync(sdkConfiguration, _headers);
+              = new ListRegistrationJurisdictionsV1RegistrationsJurisdictionsGet.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -274,7 +355,8 @@ public class Registrations {
      * @throws RuntimeException subclass if the API call fails
      */
     public GetRegistrationByIdV1RegistrationsRegistrationIdGetResponse getById(String registrationId) {
-        return getById(registrationId, JsonNullable.undefined(), Optional.empty());
+        return getById(registrationId, JsonNullable.undefined(), Optional.empty(),
+            Optional.empty());
     }
 
     /**
@@ -285,7 +367,7 @@ public class Registrations {
      * 
      * @param registrationId The unique identifier of the
      *                                         registration to retrieve.
-     * @param reveal Name of field to reveal
+     * @param reveal Comma-separated credential fields to return decrypted. Only an Owner of the organization or a Kintsugi Portfolio user who can open it may use it. An API key counts as the user it belongs to, and a service key as the user who created it. Other callers, and automated assistant integrations, get 403. Without this parameter, credential fields come back masked.
      * @param xOrganizationId The unique identifier for the organization making the request
      * @return The response from the API call
      * @throws RuntimeException subclass if the API call fails
@@ -293,6 +375,27 @@ public class Registrations {
     public GetRegistrationByIdV1RegistrationsRegistrationIdGetResponse getById(
             String registrationId, JsonNullable<String> reveal,
             Optional<String> xOrganizationId) {
+        return getById(registrationId, reveal, xOrganizationId,
+            Optional.empty());
+    }
+
+    /**
+     * Get registration by id
+     * 
+     * <p>The Get Registration By ID API retrieves a single registration record
+     * based on its unique identifier.
+     * 
+     * @param registrationId The unique identifier of the
+     *                                         registration to retrieve.
+     * @param reveal Comma-separated credential fields to return decrypted. Only an Owner of the organization or a Kintsugi Portfolio user who can open it may use it. An API key counts as the user it belongs to, and a service key as the user who created it. Other callers, and automated assistant integrations, get 403. Without this parameter, credential fields come back masked.
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public GetRegistrationByIdV1RegistrationsRegistrationIdGetResponse getById(
+            String registrationId, JsonNullable<String> reveal,
+            Optional<String> xOrganizationId, Optional<Options> options) {
         GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest request =
             GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest
                 .builder()
@@ -301,7 +404,7 @@ public class Registrations {
                 .xOrganizationId(xOrganizationId)
                 .build();
         RequestOperation<GetRegistrationByIdV1RegistrationsRegistrationIdGetRequest, GetRegistrationByIdV1RegistrationsRegistrationIdGetResponse> operation
-              = new GetRegistrationByIdV1RegistrationsRegistrationIdGet.Sync(sdkConfiguration, _headers);
+              = new GetRegistrationByIdV1RegistrationsRegistrationIdGet.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -309,7 +412,17 @@ public class Registrations {
      * Update registration
      * 
      * <p>The Update Registration API allows you to modify
-     * an existing registration using its unique registration_id.
+     * an existing registration using its unique registration_id. Sending a value for,
+     * or clearing, a credential that is already stored (username, password, security
+     * questions or a portal access code) needs an Owner of the organization or a
+     * Kintsugi Portfolio user who can open it. An API key counts as the user it belongs
+     * to, and a service key as the user who created it. Other callers, and automated
+     * assistant integrations, get 403, even when the value matches the stored one.
+     * Any caller who can edit the registration may fill a credential that has no
+     * stored value, except that a stored password also guards the username and security
+     * questions. A masked username sent back unchanged is ignored. A password made
+     * only of asterisks, the mask a read shows, gets 400. Stored credential fields in the
+     * response come back masked.
      * 
      * @return The call builder
      */
@@ -321,7 +434,17 @@ public class Registrations {
      * Update registration
      * 
      * <p>The Update Registration API allows you to modify
-     * an existing registration using its unique registration_id.
+     * an existing registration using its unique registration_id. Sending a value for,
+     * or clearing, a credential that is already stored (username, password, security
+     * questions or a portal access code) needs an Owner of the organization or a
+     * Kintsugi Portfolio user who can open it. An API key counts as the user it belongs
+     * to, and a service key as the user who created it. Other callers, and automated
+     * assistant integrations, get 403, even when the value matches the stored one.
+     * Any caller who can edit the registration may fill a credential that has no
+     * stored value, except that a stored password also guards the username and security
+     * questions. A masked username sent back unchanged is ignored. A password made
+     * only of asterisks, the mask a read shows, gets 400. Stored credential fields in the
+     * response come back masked.
      * 
      * @param registrationId The unique identifier of the registration to be updated.
      * @param registrationUpdateAPI 
@@ -329,14 +452,25 @@ public class Registrations {
      * @throws RuntimeException subclass if the API call fails
      */
     public UpdateRegistrationV1RegistrationsRegistrationIdPutResponse update(String registrationId, RegistrationUpdateAPI registrationUpdateAPI) {
-        return update(registrationId, Optional.empty(), registrationUpdateAPI);
+        return update(registrationId, Optional.empty(), registrationUpdateAPI,
+            Optional.empty());
     }
 
     /**
      * Update registration
      * 
      * <p>The Update Registration API allows you to modify
-     * an existing registration using its unique registration_id.
+     * an existing registration using its unique registration_id. Sending a value for,
+     * or clearing, a credential that is already stored (username, password, security
+     * questions or a portal access code) needs an Owner of the organization or a
+     * Kintsugi Portfolio user who can open it. An API key counts as the user it belongs
+     * to, and a service key as the user who created it. Other callers, and automated
+     * assistant integrations, get 403, even when the value matches the stored one.
+     * Any caller who can edit the registration may fill a credential that has no
+     * stored value, except that a stored password also guards the username and security
+     * questions. A masked username sent back unchanged is ignored. A password made
+     * only of asterisks, the mask a read shows, gets 400. Stored credential fields in the
+     * response come back masked.
      * 
      * @param registrationId The unique identifier of the registration to be updated.
      * @param xOrganizationId The unique identifier for the organization making the request
@@ -347,6 +481,36 @@ public class Registrations {
     public UpdateRegistrationV1RegistrationsRegistrationIdPutResponse update(
             String registrationId, Optional<String> xOrganizationId,
             RegistrationUpdateAPI registrationUpdateAPI) {
+        return update(registrationId, xOrganizationId, registrationUpdateAPI,
+            Optional.empty());
+    }
+
+    /**
+     * Update registration
+     * 
+     * <p>The Update Registration API allows you to modify
+     * an existing registration using its unique registration_id. Sending a value for,
+     * or clearing, a credential that is already stored (username, password, security
+     * questions or a portal access code) needs an Owner of the organization or a
+     * Kintsugi Portfolio user who can open it. An API key counts as the user it belongs
+     * to, and a service key as the user who created it. Other callers, and automated
+     * assistant integrations, get 403, even when the value matches the stored one.
+     * Any caller who can edit the registration may fill a credential that has no
+     * stored value, except that a stored password also guards the username and security
+     * questions. A masked username sent back unchanged is ignored. A password made
+     * only of asterisks, the mask a read shows, gets 400. Stored credential fields in the
+     * response come back masked.
+     * 
+     * @param registrationId The unique identifier of the registration to be updated.
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param registrationUpdateAPI 
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public UpdateRegistrationV1RegistrationsRegistrationIdPutResponse update(
+            String registrationId, Optional<String> xOrganizationId,
+            RegistrationUpdateAPI registrationUpdateAPI, Optional<Options> options) {
         UpdateRegistrationV1RegistrationsRegistrationIdPutRequest request =
             UpdateRegistrationV1RegistrationsRegistrationIdPutRequest
                 .builder()
@@ -355,7 +519,7 @@ public class Registrations {
                 .registrationUpdateAPI(registrationUpdateAPI)
                 .build();
         RequestOperation<UpdateRegistrationV1RegistrationsRegistrationIdPutRequest, UpdateRegistrationV1RegistrationsRegistrationIdPutResponse> operation
-              = new UpdateRegistrationV1RegistrationsRegistrationIdPut.Sync(sdkConfiguration, _headers);
+              = new UpdateRegistrationV1RegistrationsRegistrationIdPut.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -381,7 +545,8 @@ public class Registrations {
      * @throws RuntimeException subclass if the API call fails
      */
     public UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPostResponse uploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost(String registrationId, BodyUploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost bodyUploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost) {
-        return uploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost(registrationId, Optional.empty(), bodyUploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost);
+        return uploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost(registrationId, Optional.empty(), bodyUploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost,
+            Optional.empty());
     }
 
     /**
@@ -398,6 +563,25 @@ public class Registrations {
     public UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPostResponse uploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost(
             String registrationId, Optional<String> xOrganizationId,
             BodyUploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost bodyUploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost) {
+        return uploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost(registrationId, xOrganizationId, bodyUploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost,
+            Optional.empty());
+    }
+
+    /**
+     * Upload registration attachment
+     * 
+     * <p>Upload an attachment for a specific registration.
+     * 
+     * @param registrationId 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param bodyUploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost 
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPostResponse uploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost(
+            String registrationId, Optional<String> xOrganizationId,
+            BodyUploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost bodyUploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost, Optional<Options> options) {
         UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPostRequest request =
             UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPostRequest
                 .builder()
@@ -406,14 +590,15 @@ public class Registrations {
                 .bodyUploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost(bodyUploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost)
                 .build();
         RequestOperation<UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPostRequest, UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPostResponse> operation
-              = new UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost.Sync(sdkConfiguration, _headers);
+              = new UploadRegistrationAttachmentV1RegistrationsRegistrationIdAttachmentsPost.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
     /**
      * Deregister registration
      * 
-     * <p>Deregister an existing registration.
+     * <p>Deregister an existing registration. Stored credential fields in the
+     * response come back masked.
      * 
      * @return The call builder
      */
@@ -424,30 +609,54 @@ public class Registrations {
     /**
      * Deregister registration
      * 
-     * <p>Deregister an existing registration.
+     * <p>Deregister an existing registration. Stored credential fields in the
+     * response come back masked.
      * 
      * @param registrationId The unique identifier of the registration to deregister.
+     * @param deregisterRegistrationRequest Body for POST /registrations/{id}/deregister.
      * @return The response from the API call
      * @throws RuntimeException subclass if the API call fails
      */
-    public DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse deregister(String registrationId) {
-        return deregister(registrationId, Optional.empty(), JsonNullable.undefined());
+    public DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse deregister(String registrationId, DeregisterRegistrationRequest deregisterRegistrationRequest) {
+        return deregister(registrationId, Optional.empty(), deregisterRegistrationRequest,
+            Optional.empty());
     }
 
     /**
      * Deregister registration
      * 
-     * <p>Deregister an existing registration.
+     * <p>Deregister an existing registration. Stored credential fields in the
+     * response come back masked.
      * 
      * @param registrationId The unique identifier of the registration to deregister.
      * @param xOrganizationId The unique identifier for the organization making the request
-     * @param deregisterRegistrationRequest Optional body for POST /registrations/{id}/deregister (CP-4742).
+     * @param deregisterRegistrationRequest Body for POST /registrations/{id}/deregister.
      * @return The response from the API call
      * @throws RuntimeException subclass if the API call fails
      */
     public DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse deregister(
             String registrationId, Optional<String> xOrganizationId,
-            JsonNullable<? extends DeregisterRegistrationRequest> deregisterRegistrationRequest) {
+            DeregisterRegistrationRequest deregisterRegistrationRequest) {
+        return deregister(registrationId, xOrganizationId, deregisterRegistrationRequest,
+            Optional.empty());
+    }
+
+    /**
+     * Deregister registration
+     * 
+     * <p>Deregister an existing registration. Stored credential fields in the
+     * response come back masked.
+     * 
+     * @param registrationId The unique identifier of the registration to deregister.
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param deregisterRegistrationRequest Body for POST /registrations/{id}/deregister.
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse deregister(
+            String registrationId, Optional<String> xOrganizationId,
+            DeregisterRegistrationRequest deregisterRegistrationRequest, Optional<Options> options) {
         DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest request =
             DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest
                 .builder()
@@ -456,7 +665,7 @@ public class Registrations {
                 .deregisterRegistrationRequest(deregisterRegistrationRequest)
                 .build();
         RequestOperation<DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostRequest, DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPostResponse> operation
-              = new DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPost.Sync(sdkConfiguration, _headers);
+              = new DeregisterRegistrationV1RegistrationsRegistrationIdDeregisterPost.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 
@@ -483,7 +692,7 @@ public class Registrations {
      * @throws RuntimeException subclass if the API call fails
      */
     public GetOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGetResponse getOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGet(String registrationId) {
-        return getOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGet(registrationId, Optional.empty());
+        return getOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGet(registrationId, Optional.empty(), Optional.empty());
     }
 
     /**
@@ -498,6 +707,24 @@ public class Registrations {
      * @throws RuntimeException subclass if the API call fails
      */
     public GetOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGetResponse getOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGet(String registrationId, Optional<String> xOrganizationId) {
+        return getOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGet(registrationId, xOrganizationId, Optional.empty());
+    }
+
+    /**
+     * Get oss countries for registration
+     * 
+     * <p>Get all OSS countries for a specific registration. This endpoint returns
+     * a list of EU countries that are covered by the OSS registration.
+     * 
+     * @param registrationId The unique identifier of the registration.
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param options additional options
+     * @return The response from the API call
+     * @throws RuntimeException subclass if the API call fails
+     */
+    public GetOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGetResponse getOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGet(
+            String registrationId, Optional<String> xOrganizationId,
+            Optional<Options> options) {
         GetOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGetRequest request =
             GetOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGetRequest
                 .builder()
@@ -505,7 +732,7 @@ public class Registrations {
                 .xOrganizationId(xOrganizationId)
                 .build();
         RequestOperation<GetOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGetRequest, GetOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGetResponse> operation
-              = new GetOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGet.Sync(sdkConfiguration, _headers);
+              = new GetOssCountriesForRegistrationV1RegistrationsRegistrationIdOssCountriesGet.Sync(sdkConfiguration, options, _headers);
         return operation.handleResponse(operation.doRequest(request));
     }
 

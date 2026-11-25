@@ -10,8 +10,10 @@ import com.kintsugi.taxplatform.models.components.RegistrationUpdateAPI;
 import com.kintsugi.taxplatform.models.operations.UpdateRegistrationV1RegistrationsRegistrationIdPutRequest;
 import com.kintsugi.taxplatform.operations.UpdateRegistrationV1RegistrationsRegistrationIdPut;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.time.Duration;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
@@ -20,6 +22,7 @@ public class UpdateRegistrationV1RegistrationsRegistrationIdPutRequestBuilder {
     private String registrationId;
     private Optional<String> xOrganizationId = Optional.empty();
     private RegistrationUpdateAPI registrationUpdateAPI;
+    private Optional<Duration> timeout = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -50,6 +53,18 @@ public class UpdateRegistrationV1RegistrationsRegistrationIdPutRequestBuilder {
         this.registrationUpdateAPI = registrationUpdateAPI;
         return this;
     }
+                
+    public UpdateRegistrationV1RegistrationsRegistrationIdPutRequestBuilder timeout(Duration timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = Optional.of(timeout);
+        return this;
+    }
+
+    public UpdateRegistrationV1RegistrationsRegistrationIdPutRequestBuilder timeout(Optional<Duration> timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = timeout;
+        return this;
+    }
 
 
     private UpdateRegistrationV1RegistrationsRegistrationIdPutRequest buildRequest() {
@@ -62,9 +77,12 @@ public class UpdateRegistrationV1RegistrationsRegistrationIdPutRequestBuilder {
     }
 
     public CompletableFuture<UpdateRegistrationV1RegistrationsRegistrationIdPutResponse> call() {
-        
+        Optional<Options> options = Optional.of(Options.builder()
+            .timeout(timeout)
+            .build());
+
         AsyncRequestOperation<UpdateRegistrationV1RegistrationsRegistrationIdPutRequest, UpdateRegistrationV1RegistrationsRegistrationIdPutResponse> operation
-              = new UpdateRegistrationV1RegistrationsRegistrationIdPut.Async(sdkConfiguration, _headers);
+              = new UpdateRegistrationV1RegistrationsRegistrationIdPut.Async(sdkConfiguration, options, _headers);
         UpdateRegistrationV1RegistrationsRegistrationIdPutRequest request = buildRequest();
 
         return operation.doRequest(request)

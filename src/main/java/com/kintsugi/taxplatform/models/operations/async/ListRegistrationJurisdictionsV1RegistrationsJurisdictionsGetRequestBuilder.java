@@ -11,8 +11,10 @@ import com.kintsugi.taxplatform.models.operations.ListRegistrationJurisdictionsV
 import com.kintsugi.taxplatform.operations.ListRegistrationJurisdictionsV1RegistrationsJurisdictionsGet;
 import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.LazySingletonValue;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.time.Duration;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
@@ -23,6 +25,7 @@ public class ListRegistrationJurisdictionsV1RegistrationsJurisdictionsGetRequest
                             "\"REGISTERED,PROCESSING,UNREGISTERED,DEREGISTERING,DEREGISTERED,CANCELLED,VALIDATING,AWAITING_CLARIFICATION,SELF_MANAGED\"",
                             new TypeReference<Optional<String>>() {});
     private Optional<String> xOrganizationId = Optional.empty();
+    private Optional<Duration> timeout = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -53,6 +56,18 @@ public class ListRegistrationJurisdictionsV1RegistrationsJurisdictionsGetRequest
         this.xOrganizationId = xOrganizationId;
         return this;
     }
+                
+    public ListRegistrationJurisdictionsV1RegistrationsJurisdictionsGetRequestBuilder timeout(Duration timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = Optional.of(timeout);
+        return this;
+    }
+
+    public ListRegistrationJurisdictionsV1RegistrationsJurisdictionsGetRequestBuilder timeout(Optional<Duration> timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = timeout;
+        return this;
+    }
 
 
     private ListRegistrationJurisdictionsV1RegistrationsJurisdictionsGetRequest buildRequest() {
@@ -67,9 +82,12 @@ public class ListRegistrationJurisdictionsV1RegistrationsJurisdictionsGetRequest
     }
 
     public CompletableFuture<ListRegistrationJurisdictionsV1RegistrationsJurisdictionsGetResponse> call() {
-        
+        Optional<Options> options = Optional.of(Options.builder()
+            .timeout(timeout)
+            .build());
+
         AsyncRequestOperation<ListRegistrationJurisdictionsV1RegistrationsJurisdictionsGetRequest, ListRegistrationJurisdictionsV1RegistrationsJurisdictionsGetResponse> operation
-              = new ListRegistrationJurisdictionsV1RegistrationsJurisdictionsGet.Async(sdkConfiguration, _headers);
+              = new ListRegistrationJurisdictionsV1RegistrationsJurisdictionsGet.Async(sdkConfiguration, options, _headers);
         ListRegistrationJurisdictionsV1RegistrationsJurisdictionsGetRequest request = buildRequest();
 
         return operation.doRequest(request)

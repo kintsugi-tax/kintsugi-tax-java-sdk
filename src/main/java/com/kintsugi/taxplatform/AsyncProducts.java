@@ -28,6 +28,7 @@ import com.kintsugi.taxplatform.operations.GetProductCategoriesV1ProductsCategor
 import com.kintsugi.taxplatform.operations.GetProductsV1ProductsGet;
 import com.kintsugi.taxplatform.operations.UpdateProductV1ProductsProductIdPut;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import java.lang.String;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -73,8 +74,21 @@ public class AsyncProducts {
      * @return {@code CompletableFuture<GetProductsV1ProductsGetResponse>} - The async response
      */
     public CompletableFuture<GetProductsV1ProductsGetResponse> getProductsV1ProductsGet(GetProductsV1ProductsGetRequest request) {
+        return getProductsV1ProductsGet(request, Optional.empty());
+    }
+
+    /**
+     * Get products
+     * 
+     * <p>Retrieve a paginated list of products based on filters and search query.
+     * 
+     * @param request The request object containing all the parameters for the API call.
+     * @param options additional options
+     * @return {@code CompletableFuture<GetProductsV1ProductsGetResponse>} - The async response
+     */
+    public CompletableFuture<GetProductsV1ProductsGetResponse> getProductsV1ProductsGet(GetProductsV1ProductsGetRequest request, Optional<Options> options) {
         AsyncRequestOperation<GetProductsV1ProductsGetRequest, GetProductsV1ProductsGetResponse> operation
-              = new GetProductsV1ProductsGet.Async(sdkConfiguration, _headers);
+              = new GetProductsV1ProductsGet.Async(sdkConfiguration, options, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -89,7 +103,12 @@ public class AsyncProducts {
      * retrieve supported categories and subcategories from the
      * [GET /products/categories endpoint](/reference/api/products/get-product-categories),
      * or browse the full catalog with descriptions and examples in the
-     * [Product Categories guide](/docs/guides/product-categories)
+     * [Product Categories guide](/docs/guides/product-categories).
+     * 
+     * <p>Idempotent on ``(organization_id, external_id, source)`` for connectionless
+     * creates (CP-4726): a re-POST of an existing identity returns ``200``. A live
+     * match is unchanged; a previously deleted match is revived (status returns to
+     * ``PENDING``). Use PUT to update fields.
      * 
      * @return The async call builder
      */
@@ -106,13 +125,18 @@ public class AsyncProducts {
      * retrieve supported categories and subcategories from the
      * [GET /products/categories endpoint](/reference/api/products/get-product-categories),
      * or browse the full catalog with descriptions and examples in the
-     * [Product Categories guide](/docs/guides/product-categories)
+     * [Product Categories guide](/docs/guides/product-categories).
+     * 
+     * <p>Idempotent on ``(organization_id, external_id, source)`` for connectionless
+     * creates (CP-4726): a re-POST of an existing identity returns ``200``. A live
+     * match is unchanged; a previously deleted match is revived (status returns to
+     * ``PENDING``). Use PUT to update fields.
      * 
      * @param productCreateManual 
      * @return {@code CompletableFuture<CreateProductV1ProductsPostResponse>} - The async response
      */
     public CompletableFuture<CreateProductV1ProductsPostResponse> createProductV1ProductsPost(ProductCreateManual productCreateManual) {
-        return createProductV1ProductsPost(Optional.empty(), productCreateManual);
+        return createProductV1ProductsPost(Optional.empty(), productCreateManual, Optional.empty());
     }
 
     /**
@@ -124,13 +148,45 @@ public class AsyncProducts {
      * retrieve supported categories and subcategories from the
      * [GET /products/categories endpoint](/reference/api/products/get-product-categories),
      * or browse the full catalog with descriptions and examples in the
-     * [Product Categories guide](/docs/guides/product-categories)
+     * [Product Categories guide](/docs/guides/product-categories).
+     * 
+     * <p>Idempotent on ``(organization_id, external_id, source)`` for connectionless
+     * creates (CP-4726): a re-POST of an existing identity returns ``200``. A live
+     * match is unchanged; a previously deleted match is revived (status returns to
+     * ``PENDING``). Use PUT to update fields.
      * 
      * @param xOrganizationId The unique identifier for the organization making the request
      * @param productCreateManual 
      * @return {@code CompletableFuture<CreateProductV1ProductsPostResponse>} - The async response
      */
     public CompletableFuture<CreateProductV1ProductsPostResponse> createProductV1ProductsPost(Optional<String> xOrganizationId, ProductCreateManual productCreateManual) {
+        return createProductV1ProductsPost(xOrganizationId, productCreateManual, Optional.empty());
+    }
+
+    /**
+     * Create product
+     * 
+     * <p>The Create Product API allows users to manually create a new product
+     * in the system. This includes specifying product details such as category,
+     * subcategory, and tax exemption status, etc. You can
+     * retrieve supported categories and subcategories from the
+     * [GET /products/categories endpoint](/reference/api/products/get-product-categories),
+     * or browse the full catalog with descriptions and examples in the
+     * [Product Categories guide](/docs/guides/product-categories).
+     * 
+     * <p>Idempotent on ``(organization_id, external_id, source)`` for connectionless
+     * creates (CP-4726): a re-POST of an existing identity returns ``200``. A live
+     * match is unchanged; a previously deleted match is revived (status returns to
+     * ``PENDING``). Use PUT to update fields.
+     * 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param productCreateManual 
+     * @param options additional options
+     * @return {@code CompletableFuture<CreateProductV1ProductsPostResponse>} - The async response
+     */
+    public CompletableFuture<CreateProductV1ProductsPostResponse> createProductV1ProductsPost(
+            Optional<String> xOrganizationId, ProductCreateManual productCreateManual,
+            Optional<Options> options) {
         CreateProductV1ProductsPostRequest request =
             CreateProductV1ProductsPostRequest
                 .builder()
@@ -138,7 +194,7 @@ public class AsyncProducts {
                 .productCreateManual(productCreateManual)
                 .build();
         AsyncRequestOperation<CreateProductV1ProductsPostRequest, CreateProductV1ProductsPostResponse> operation
-              = new CreateProductV1ProductsPost.Async(sdkConfiguration, _headers);
+              = new CreateProductV1ProductsPost.Async(sdkConfiguration, options, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -167,7 +223,7 @@ public class AsyncProducts {
      * @return {@code CompletableFuture<GetProductCategoriesV1ProductsCategoriesGetResponse>} - The async response
      */
     public CompletableFuture<GetProductCategoriesV1ProductsCategoriesGetResponse> getProductCategoriesV1ProductsCategoriesGetDirect() {
-        return getProductCategoriesV1ProductsCategoriesGet(Optional.empty());
+        return getProductCategoriesV1ProductsCategoriesGet(Optional.empty(), Optional.empty());
     }
 
     /**
@@ -181,13 +237,28 @@ public class AsyncProducts {
      * @return {@code CompletableFuture<GetProductCategoriesV1ProductsCategoriesGetResponse>} - The async response
      */
     public CompletableFuture<GetProductCategoriesV1ProductsCategoriesGetResponse> getProductCategoriesV1ProductsCategoriesGet(Optional<String> xOrganizationId) {
+        return getProductCategoriesV1ProductsCategoriesGet(xOrganizationId, Optional.empty());
+    }
+
+    /**
+     * Get product categories
+     * 
+     * <p>The Get Product Categories API retrieves all
+     * product categories. This endpoint helps users understand and select the
+     * appropriate categories for their products.
+     * 
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param options additional options
+     * @return {@code CompletableFuture<GetProductCategoriesV1ProductsCategoriesGetResponse>} - The async response
+     */
+    public CompletableFuture<GetProductCategoriesV1ProductsCategoriesGetResponse> getProductCategoriesV1ProductsCategoriesGet(Optional<String> xOrganizationId, Optional<Options> options) {
         GetProductCategoriesV1ProductsCategoriesGetRequest request =
             GetProductCategoriesV1ProductsCategoriesGetRequest
                 .builder()
                 .xOrganizationId(xOrganizationId)
                 .build();
         AsyncRequestOperation<GetProductCategoriesV1ProductsCategoriesGetRequest, GetProductCategoriesV1ProductsCategoriesGetResponse> operation
-              = new GetProductCategoriesV1ProductsCategoriesGet.Async(sdkConfiguration, _headers);
+              = new GetProductCategoriesV1ProductsCategoriesGet.Async(sdkConfiguration, options, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -217,7 +288,7 @@ public class AsyncProducts {
      * @return {@code CompletableFuture<GetProductByIdV1ProductsProductIdGetResponse>} - The async response
      */
     public CompletableFuture<GetProductByIdV1ProductsProductIdGetResponse> getById(String productId) {
-        return getById(productId, Optional.empty());
+        return getById(productId, Optional.empty(), Optional.empty());
     }
 
     /**
@@ -232,6 +303,24 @@ public class AsyncProducts {
      * @return {@code CompletableFuture<GetProductByIdV1ProductsProductIdGetResponse>} - The async response
      */
     public CompletableFuture<GetProductByIdV1ProductsProductIdGetResponse> getById(String productId, Optional<String> xOrganizationId) {
+        return getById(productId, xOrganizationId, Optional.empty());
+    }
+
+    /**
+     * Get product by id
+     * 
+     * <p>The Get Product By ID API retrieves detailed information about
+     * a single product by its unique ID. This API helps in viewing the specific details
+     * of a product, including its attributes, status, and categorization.
+     * 
+     * @param productId The unique identifier for the product you want to retrieve.
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param options additional options
+     * @return {@code CompletableFuture<GetProductByIdV1ProductsProductIdGetResponse>} - The async response
+     */
+    public CompletableFuture<GetProductByIdV1ProductsProductIdGetResponse> getById(
+            String productId, Optional<String> xOrganizationId,
+            Optional<Options> options) {
         GetProductByIdV1ProductsProductIdGetRequest request =
             GetProductByIdV1ProductsProductIdGetRequest
                 .builder()
@@ -239,7 +328,7 @@ public class AsyncProducts {
                 .xOrganizationId(xOrganizationId)
                 .build();
         AsyncRequestOperation<GetProductByIdV1ProductsProductIdGetRequest, GetProductByIdV1ProductsProductIdGetResponse> operation
-              = new GetProductByIdV1ProductsProductIdGet.Async(sdkConfiguration, _headers);
+              = new GetProductByIdV1ProductsProductIdGet.Async(sdkConfiguration, options, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }
@@ -276,7 +365,9 @@ public class AsyncProducts {
      * @return {@code CompletableFuture<UpdateProductV1ProductsProductIdPutResponse>} - The async response
      */
     public CompletableFuture<UpdateProductV1ProductsProductIdPutResponse> update(String productId, Product requestBody) {
-        return update(productId, Optional.empty(), requestBody);
+        return update(
+                productId, Optional.empty(), requestBody,
+                Optional.empty());
     }
 
     /**
@@ -297,6 +388,30 @@ public class AsyncProducts {
     public CompletableFuture<UpdateProductV1ProductsProductIdPutResponse> update(
             String productId, Optional<String> xOrganizationId,
             Product requestBody) {
+        return update(
+                productId, xOrganizationId, requestBody,
+                Optional.empty());
+    }
+
+    /**
+     * Update product
+     * 
+     * <p>The Update Product API allows users to modify the details of
+     * an existing product identified by its unique product_id. You can
+     * retrieve supported categories and subcategories from the
+     * [GET /products/categories endpoint](/reference/api/products/get-product-categories),
+     * or browse the full catalog with descriptions and examples in the
+     * [Product Categories guide](/docs/guides/product-categories)
+     * 
+     * @param productId Unique identifier of the product to be updated.
+     * @param xOrganizationId The unique identifier for the organization making the request
+     * @param requestBody 
+     * @param options additional options
+     * @return {@code CompletableFuture<UpdateProductV1ProductsProductIdPutResponse>} - The async response
+     */
+    public CompletableFuture<UpdateProductV1ProductsProductIdPutResponse> update(
+            String productId, Optional<String> xOrganizationId,
+            Product requestBody, Optional<Options> options) {
         UpdateProductV1ProductsProductIdPutRequest request =
             UpdateProductV1ProductsProductIdPutRequest
                 .builder()
@@ -305,7 +420,7 @@ public class AsyncProducts {
                 .requestBody(requestBody)
                 .build();
         AsyncRequestOperation<UpdateProductV1ProductsProductIdPutRequest, UpdateProductV1ProductsProductIdPutResponse> operation
-              = new UpdateProductV1ProductsProductIdPut.Async(sdkConfiguration, _headers);
+              = new UpdateProductV1ProductsProductIdPut.Async(sdkConfiguration, options, _headers);
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);
     }

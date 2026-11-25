@@ -10,8 +10,10 @@ import com.kintsugi.taxplatform.models.components.PhysicalNexusCreate;
 import com.kintsugi.taxplatform.models.operations.CreatePhysicalNexusV1NexusPhysicalNexusPostRequest;
 import com.kintsugi.taxplatform.operations.CreatePhysicalNexusV1NexusPhysicalNexusPost;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.time.Duration;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
@@ -19,6 +21,7 @@ public class CreatePhysicalNexusV1NexusPhysicalNexusPostRequestBuilder {
 
     private Optional<String> xOrganizationId = Optional.empty();
     private PhysicalNexusCreate physicalNexusCreate;
+    private Optional<Duration> timeout = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -43,6 +46,18 @@ public class CreatePhysicalNexusV1NexusPhysicalNexusPostRequestBuilder {
         this.physicalNexusCreate = physicalNexusCreate;
         return this;
     }
+                
+    public CreatePhysicalNexusV1NexusPhysicalNexusPostRequestBuilder timeout(Duration timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = Optional.of(timeout);
+        return this;
+    }
+
+    public CreatePhysicalNexusV1NexusPhysicalNexusPostRequestBuilder timeout(Optional<Duration> timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = timeout;
+        return this;
+    }
 
 
     private CreatePhysicalNexusV1NexusPhysicalNexusPostRequest buildRequest() {
@@ -54,9 +69,12 @@ public class CreatePhysicalNexusV1NexusPhysicalNexusPostRequestBuilder {
     }
 
     public CompletableFuture<CreatePhysicalNexusV1NexusPhysicalNexusPostResponse> call() {
-        
+        Optional<Options> options = Optional.of(Options.builder()
+            .timeout(timeout)
+            .build());
+
         AsyncRequestOperation<CreatePhysicalNexusV1NexusPhysicalNexusPostRequest, CreatePhysicalNexusV1NexusPhysicalNexusPostResponse> operation
-              = new CreatePhysicalNexusV1NexusPhysicalNexusPost.Async(sdkConfiguration, _headers);
+              = new CreatePhysicalNexusV1NexusPhysicalNexusPost.Async(sdkConfiguration, options, _headers);
         CreatePhysicalNexusV1NexusPhysicalNexusPostRequest request = buildRequest();
 
         return operation.doRequest(request)

@@ -10,8 +10,10 @@ import com.kintsugi.taxplatform.models.components.TaxOnlyUpdate;
 import com.kintsugi.taxplatform.models.operations.SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostRequest;
 import com.kintsugi.taxplatform.operations.SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPost;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.String;
+import java.time.Duration;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
@@ -20,6 +22,7 @@ public class SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostRequestB
     private String transactionId;
     private Optional<String> xOrganizationId = Optional.empty();
     private TaxOnlyUpdate taxOnlyUpdate;
+    private Optional<Duration> timeout = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -50,6 +53,18 @@ public class SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostRequestB
         this.taxOnlyUpdate = taxOnlyUpdate;
         return this;
     }
+                
+    public SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostRequestBuilder timeout(Duration timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = Optional.of(timeout);
+        return this;
+    }
+
+    public SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostRequestBuilder timeout(Optional<Duration> timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = timeout;
+        return this;
+    }
 
 
     private SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostRequest buildRequest() {
@@ -62,9 +77,12 @@ public class SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostRequestB
     }
 
     public CompletableFuture<SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostResponse> call() {
-        
+        Optional<Options> options = Optional.of(Options.builder()
+            .timeout(timeout)
+            .build());
+
         AsyncRequestOperation<SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostRequest, SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostResponse> operation
-              = new SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPost.Async(sdkConfiguration, _headers);
+              = new SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPost.Async(sdkConfiguration, options, _headers);
         SetTransactionTaxOnlyV1TransactionsTransactionIdTaxOnlyPostRequest request = buildRequest();
 
         return operation.doRequest(request)

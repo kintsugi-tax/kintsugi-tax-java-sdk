@@ -12,6 +12,7 @@ import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.SecuritySource;
 import com.kintsugi.taxplatform.models.components.FilingRead;
 import com.kintsugi.taxplatform.models.errors.APIException;
+import com.kintsugi.taxplatform.models.errors.ErrorResponse;
 import com.kintsugi.taxplatform.models.errors.HTTPValidationError;
 import com.kintsugi.taxplatform.models.operations.ApproveFilingV1FilingsFilingIdApprovePutRequest;
 import com.kintsugi.taxplatform.models.operations.ApproveFilingV1FilingsFilingIdApprovePutResponse;
@@ -22,6 +23,7 @@ import com.kintsugi.taxplatform.utils.Headers;
 import com.kintsugi.taxplatform.utils.Hook.AfterErrorContextImpl;
 import com.kintsugi.taxplatform.utils.Hook.AfterSuccessContextImpl;
 import com.kintsugi.taxplatform.utils.Hook.BeforeRequestContextImpl;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.SerializedBody;
 import com.kintsugi.taxplatform.utils.Utils.JsonShape;
 import com.kintsugi.taxplatform.utils.Utils;
@@ -32,6 +34,8 @@ import java.lang.String;
 import java.lang.Throwable;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.Duration;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
@@ -43,14 +47,20 @@ public class ApproveFilingV1FilingsFilingIdApprovePut {
         final SDKConfiguration sdkConfiguration;
         final String baseUrl;
         final SecuritySource securitySource;
+        final Optional<Duration> timeout;
         final HTTPClient client;
         final Headers _headers;
 
-        public Base(SDKConfiguration sdkConfiguration, Headers _headers) {
+        public Base(
+                SDKConfiguration sdkConfiguration, Optional<Options> options,
+                Headers _headers) {
             this.sdkConfiguration = sdkConfiguration;
             this._headers =_headers;
             this.baseUrl = this.sdkConfiguration.serverUrl();
             this.securitySource = this.sdkConfiguration.securitySource();
+            options
+                    .ifPresent(o -> o.validate(List.of(Options.Option.TIMEOUT)));
+            this.timeout = options.flatMap(Options::timeout).or(sdkConfiguration::timeout);
             this.client = this.sdkConfiguration.client();
         }
 
@@ -90,7 +100,8 @@ public class ApproveFilingV1FilingsFilingIdApprovePut {
                     this.baseUrl,
                     "/v1/filings/{filing_id}/approve",
                     request, null);
-            HTTPRequest req = new HTTPRequest(url, "PUT");
+            HTTPRequest req = new HTTPRequest(url, "PUT")
+                    .timeout(this.timeout);
             Object convertedRequest = Utils.convertToShape(
                     request,
                     JsonShape.DEFAULT,
@@ -114,7 +125,16 @@ public class ApproveFilingV1FilingsFilingIdApprovePut {
     public static class Sync extends Base
             implements RequestOperation<ApproveFilingV1FilingsFilingIdApprovePutRequest, ApproveFilingV1FilingsFilingIdApprovePutResponse> {
         public Sync(SDKConfiguration sdkConfiguration, Headers _headers) {
-            super(sdkConfiguration, _headers);
+            this(sdkConfiguration, Optional.empty(),
+                    _headers);
+        }
+
+        public Sync(
+                SDKConfiguration sdkConfiguration, Optional<Options> options,
+                Headers _headers) {
+            super(
+                  sdkConfiguration, options,
+                  _headers);
         }
 
         private HttpRequest onBuildRequest(ApproveFilingV1FilingsFilingIdApprovePutRequest request) throws Exception {
@@ -174,6 +194,13 @@ public class ApproveFilingV1FilingsFilingIdApprovePut {
                     throw APIException.from("Unexpected content-type received: " + contentType, response);
                 }
             }
+            if (Utils.statusCodeMatches(response.statusCode(), "409")) {
+                if (Utils.contentTypeMatches(contentType, "application/json")) {
+                    throw ErrorResponse.from(response);
+                } else {
+                    throw APIException.from("Unexpected content-type received: " + contentType, response);
+                }
+            }
             if (Utils.statusCodeMatches(response.statusCode(), "422")) {
                 if (Utils.contentTypeMatches(contentType, "application/json")) {
                     throw HTTPValidationError.from(response);
@@ -194,9 +221,17 @@ public class ApproveFilingV1FilingsFilingIdApprovePut {
     }
     public static class Async extends Base
             implements AsyncRequestOperation<ApproveFilingV1FilingsFilingIdApprovePutRequest, com.kintsugi.taxplatform.models.operations.async.ApproveFilingV1FilingsFilingIdApprovePutResponse> {
-
         public Async(SDKConfiguration sdkConfiguration, Headers _headers) {
-            super(sdkConfiguration, _headers);
+            this(sdkConfiguration, Optional.empty(),
+                    _headers);
+        }
+
+        public Async(
+                SDKConfiguration sdkConfiguration, Optional<Options> options,
+                Headers _headers) {
+            super(
+                  sdkConfiguration, options,
+                  _headers);
         }
 
         private CompletableFuture<HttpRequest> onBuildRequest(ApproveFilingV1FilingsFilingIdApprovePutRequest request) throws Exception {
@@ -248,6 +283,14 @@ public class ApproveFilingV1FilingsFilingIdApprovePut {
                 if (Utils.contentTypeMatches(contentType, "application/json")) {
                     return Utils.unmarshalAsync(response, new TypeReference<FilingRead>() {})
                             .thenApply(res::withFilingRead);
+                } else {
+                    return Utils.createAsyncApiError(response, "Unexpected content-type received: " + contentType);
+                }
+            }
+            if (Utils.statusCodeMatches(response.statusCode(), "409")) {
+                if (Utils.contentTypeMatches(contentType, "application/json")) {
+                    return ErrorResponse.fromAsync(response)
+                            .thenCompose(CompletableFuture::failedFuture);
                 } else {
                     return Utils.createAsyncApiError(response, "Unexpected content-type received: " + contentType);
                 }

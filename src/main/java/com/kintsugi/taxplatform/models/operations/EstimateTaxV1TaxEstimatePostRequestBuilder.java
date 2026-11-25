@@ -9,9 +9,11 @@ import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.components.TransactionEstimatePublicRequest;
 import com.kintsugi.taxplatform.operations.EstimateTaxV1TaxEstimatePost;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.Utils;
 import java.lang.Boolean;
 import java.lang.String;
+import java.time.Duration;
 import java.util.Optional;
 
 public class EstimateTaxV1TaxEstimatePostRequestBuilder {
@@ -19,6 +21,7 @@ public class EstimateTaxV1TaxEstimatePostRequestBuilder {
     private Optional<Boolean> simulateNexusMet = Optional.empty();
     private Optional<String> xOrganizationId = Optional.empty();
     private TransactionEstimatePublicRequest transactionEstimatePublicRequest;
+    private Optional<Duration> timeout = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -55,6 +58,18 @@ public class EstimateTaxV1TaxEstimatePostRequestBuilder {
         this.transactionEstimatePublicRequest = transactionEstimatePublicRequest;
         return this;
     }
+                
+    public EstimateTaxV1TaxEstimatePostRequestBuilder timeout(Duration timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = Optional.of(timeout);
+        return this;
+    }
+
+    public EstimateTaxV1TaxEstimatePostRequestBuilder timeout(Optional<Duration> timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = timeout;
+        return this;
+    }
 
 
     private EstimateTaxV1TaxEstimatePostRequest buildRequest() {
@@ -67,9 +82,12 @@ public class EstimateTaxV1TaxEstimatePostRequestBuilder {
     }
 
     public EstimateTaxV1TaxEstimatePostResponse call() {
-        
+        Optional<Options> options = Optional.of(Options.builder()
+            .timeout(timeout)
+            .build());
+
         RequestOperation<EstimateTaxV1TaxEstimatePostRequest, EstimateTaxV1TaxEstimatePostResponse> operation
-              = new EstimateTaxV1TaxEstimatePost.Sync(sdkConfiguration, _headers);
+              = new EstimateTaxV1TaxEstimatePost.Sync(sdkConfiguration, options, _headers);
         EstimateTaxV1TaxEstimatePostRequest request = buildRequest();
 
         return operation.handleResponse(operation.doRequest(request));

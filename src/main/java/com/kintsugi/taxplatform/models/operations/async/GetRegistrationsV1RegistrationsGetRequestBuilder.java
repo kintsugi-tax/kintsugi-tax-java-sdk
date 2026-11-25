@@ -9,12 +9,16 @@ import com.kintsugi.taxplatform.SDKConfiguration;
 import com.kintsugi.taxplatform.models.operations.GetRegistrationsV1RegistrationsGetRequest;
 import com.kintsugi.taxplatform.operations.GetRegistrationsV1RegistrationsGet;
 import com.kintsugi.taxplatform.utils.Headers;
+import com.kintsugi.taxplatform.utils.Options;
 import com.kintsugi.taxplatform.utils.Utils;
+import java.time.Duration;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
 public class GetRegistrationsV1RegistrationsGetRequestBuilder {
 
     private GetRegistrationsV1RegistrationsGetRequest request;
+    private Optional<Duration> timeout = Optional.empty();
     private final SDKConfiguration sdkConfiguration;
     private final Headers _headers = new Headers(); 
 
@@ -27,11 +31,26 @@ public class GetRegistrationsV1RegistrationsGetRequestBuilder {
         this.request = request;
         return this;
     }
+                
+    public GetRegistrationsV1RegistrationsGetRequestBuilder timeout(Duration timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = Optional.of(timeout);
+        return this;
+    }
+
+    public GetRegistrationsV1RegistrationsGetRequestBuilder timeout(Optional<Duration> timeout) {
+        Utils.checkNotNull(timeout, "timeout");
+        this.timeout = timeout;
+        return this;
+    }
 
     public CompletableFuture<GetRegistrationsV1RegistrationsGetResponse> call() {
-        
+        Optional<Options> options = Optional.of(Options.builder()
+            .timeout(timeout)
+            .build());
+
         AsyncRequestOperation<GetRegistrationsV1RegistrationsGetRequest, GetRegistrationsV1RegistrationsGetResponse> operation
-              = new GetRegistrationsV1RegistrationsGet.Async(sdkConfiguration, _headers);
+              = new GetRegistrationsV1RegistrationsGet.Async(sdkConfiguration, options, _headers);
 
         return operation.doRequest(request)
             .thenCompose(operation::handleResponse);

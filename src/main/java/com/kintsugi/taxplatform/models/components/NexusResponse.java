@@ -20,7 +20,6 @@ import java.lang.Override;
 import java.lang.String;
 import java.lang.SuppressWarnings;
 import java.time.LocalDate;
-import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -138,9 +137,11 @@ public class NexusResponse {
      * 
      * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
      * one return can cover both taxes, and each is stored as a single row.
-     * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
-     * separate obligations with their own met dates, period models, and liability
-     * accrual.
+     * Nexus rows are SALES_TAX, USE_TAX, RETAIL_DELIVERY_FEE, or
+     * SMALL_PARCEL_VAT. Sales tax, use tax, the retail delivery fee, and the
+     * Swiss small-parcel threshold are separate obligations with their own met
+     * dates and period models. SMALL_PARCEL_VAT is a threshold only. A sales
+     * tax registration covers it, and it has no account and no return of its own.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("tax_type")
@@ -201,12 +202,12 @@ public class NexusResponse {
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("earliest_transaction_date")
-    private JsonNullable<OffsetDateTime> earliestTransactionDate;
+    private JsonNullable<String> earliestTransactionDate;
 
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("most_recent_transaction_date")
-    private JsonNullable<OffsetDateTime> mostRecentTransactionDate;
+    private JsonNullable<String> mostRecentTransactionDate;
 
 
     @JsonInclude(Include.NON_ABSENT)
@@ -216,7 +217,7 @@ public class NexusResponse {
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("earliest_collected_date")
-    private Optional<OffsetDateTime> earliestCollectedDate;
+    private JsonNullable<String> earliestCollectedDate;
 
 
     @JsonInclude(Include.NON_ABSENT)
@@ -236,12 +237,12 @@ public class NexusResponse {
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("last_processed_at")
-    private JsonNullable<OffsetDateTime> lastProcessedAt;
+    private JsonNullable<String> lastProcessedAt;
 
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("last_tax_liability_processed_at")
-    private JsonNullable<OffsetDateTime> lastTaxLiabilityProcessedAt;
+    private JsonNullable<String> lastTaxLiabilityProcessedAt;
 
 
     @JsonInclude(Include.NON_ABSENT)
@@ -260,12 +261,14 @@ public class NexusResponse {
     private String id;
 
 
+    @JsonInclude(Include.ALWAYS)
     @JsonProperty("created_at")
-    private OffsetDateTime createdAt;
+    private Optional<String> createdAt;
 
 
+    @JsonInclude(Include.ALWAYS)
     @JsonProperty("updated_at")
-    private OffsetDateTime updatedAt;
+    private Optional<String> updatedAt;
 
 
     @JsonProperty("organization_id")
@@ -284,7 +287,7 @@ public class NexusResponse {
 
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("disregarded_at")
-    private JsonNullable<OffsetDateTime> disregardedAt;
+    private JsonNullable<String> disregardedAt;
 
 
     @JsonInclude(Include.NON_ABSENT)
@@ -320,6 +323,17 @@ public class NexusResponse {
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("requires_ior_number_to_register")
     private Optional<Boolean> requiresIorNumberToRegister;
+
+    /**
+     * What Register does with a use tax row, as the nexus response reports it.
+     * 
+     * <p>- ABSORBED: Register folds the row into the org's live sales tax registration
+     * - SEPARATE: the state always keeps use tax on its own registration
+     * - NONE: everything else, and always NONE on a row that is not use tax
+     */
+    @JsonInclude(Include.NON_ABSENT)
+    @JsonProperty("use_tax_registration_path")
+    private Optional<? extends UseTaxRegistrationPath> useTaxRegistrationPath;
 
 
     @JsonProperty("threshold_sales")
@@ -388,24 +402,24 @@ public class NexusResponse {
             @JsonProperty("period_end_date") LocalDate periodEndDate,
             @JsonProperty("previous_period_start_date") Optional<LocalDate> previousPeriodStartDate,
             @JsonProperty("previous_period_end_date") Optional<LocalDate> previousPeriodEndDate,
-            @JsonProperty("earliest_transaction_date") JsonNullable<OffsetDateTime> earliestTransactionDate,
-            @JsonProperty("most_recent_transaction_date") JsonNullable<OffsetDateTime> mostRecentTransactionDate,
+            @JsonProperty("earliest_transaction_date") JsonNullable<String> earliestTransactionDate,
+            @JsonProperty("most_recent_transaction_date") JsonNullable<String> mostRecentTransactionDate,
             @JsonProperty("find_threshold_crossing_transaction_state") JsonNullable<? extends FindThresholdCrossingTransactionState> findThresholdCrossingTransactionState,
-            @JsonProperty("earliest_collected_date") Optional<OffsetDateTime> earliestCollectedDate,
+            @JsonProperty("earliest_collected_date") JsonNullable<String> earliestCollectedDate,
             @JsonProperty("predicted_month_from_today") JsonNullable<Long> predictedMonthFromToday,
             @JsonProperty("vda_eligible") JsonNullable<Boolean> vdaEligible,
             @JsonProperty("confidence_level") JsonNullable<Double> confidenceLevel,
-            @JsonProperty("last_processed_at") JsonNullable<OffsetDateTime> lastProcessedAt,
-            @JsonProperty("last_tax_liability_processed_at") JsonNullable<OffsetDateTime> lastTaxLiabilityProcessedAt,
+            @JsonProperty("last_processed_at") JsonNullable<String> lastProcessedAt,
+            @JsonProperty("last_tax_liability_processed_at") JsonNullable<String> lastTaxLiabilityProcessedAt,
             @JsonProperty("periods") Optional<? extends List<Map<String, Object>>> periods,
             @JsonProperty("currency") JsonNullable<? extends CurrencyEnum> currency,
             @JsonProperty("id") String id,
-            @JsonProperty("created_at") OffsetDateTime createdAt,
-            @JsonProperty("updated_at") OffsetDateTime updatedAt,
+            @JsonProperty("created_at") Optional<String> createdAt,
+            @JsonProperty("updated_at") Optional<String> updatedAt,
             @JsonProperty("organization_id") String organizationId,
             @JsonProperty("registration") JsonNullable<? extends Map<String, Object>> registration,
             @JsonProperty("registration_regime") JsonNullable<? extends RegistrationsRegimeEnum> registrationRegime,
-            @JsonProperty("disregarded_at") JsonNullable<OffsetDateTime> disregardedAt,
+            @JsonProperty("disregarded_at") JsonNullable<String> disregardedAt,
             @JsonProperty("disregarded_by") JsonNullable<String> disregardedBy,
             @JsonProperty("disregarded_type") JsonNullable<? extends DisregardedTypeEnum> disregardedType,
             @JsonProperty("disregarded_nexus_types") Optional<? extends List<String>> disregardedNexusTypes,
@@ -413,6 +427,7 @@ public class NexusResponse {
             @JsonProperty("ior_opt_out_eligible") Optional<Boolean> iorOptOutEligible,
             @JsonProperty("ior_eligible_at_registration") Optional<Boolean> iorEligibleAtRegistration,
             @JsonProperty("requires_ior_number_to_register") Optional<Boolean> requiresIorNumberToRegister,
+            @JsonProperty("use_tax_registration_path") Optional<? extends UseTaxRegistrationPath> useTaxRegistrationPath,
             @JsonProperty("threshold_sales") long thresholdSales,
             @JsonProperty("is_vda_eligible") boolean isVdaEligible,
             @JsonProperty("nexus_type") NexusTypeEnum nexusType,
@@ -478,6 +493,7 @@ public class NexusResponse {
         Utils.checkNotNull(iorOptOutEligible, "iorOptOutEligible");
         Utils.checkNotNull(iorEligibleAtRegistration, "iorEligibleAtRegistration");
         Utils.checkNotNull(requiresIorNumberToRegister, "requiresIorNumberToRegister");
+        Utils.checkNotNull(useTaxRegistrationPath, "useTaxRegistrationPath");
         Utils.checkNotNull(thresholdSales, "thresholdSales");
         Utils.checkNotNull(isVdaEligible, "isVdaEligible");
         Utils.checkNotNull(nexusType, "nexusType");
@@ -543,6 +559,7 @@ public class NexusResponse {
         this.iorOptOutEligible = iorOptOutEligible;
         this.iorEligibleAtRegistration = iorEligibleAtRegistration;
         this.requiresIorNumberToRegister = requiresIorNumberToRegister;
+        this.useTaxRegistrationPath = useTaxRegistrationPath;
         this.thresholdSales = thresholdSales;
         this.isVdaEligible = isVdaEligible;
         this.nexusType = nexusType;
@@ -565,8 +582,6 @@ public class NexusResponse {
             LocalDate periodStartDate,
             LocalDate periodEndDate,
             String id,
-            OffsetDateTime createdAt,
-            OffsetDateTime updatedAt,
             String organizationId,
             long thresholdSales,
             boolean isVdaEligible,
@@ -586,17 +601,17 @@ public class NexusResponse {
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
             periodModel, periodStartDate, periodEndDate,
             Optional.empty(), Optional.empty(), JsonNullable.undefined(),
-            JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty(),
+            JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), Optional.empty(),
-            JsonNullable.undefined(), id, createdAt,
-            updatedAt, organizationId, JsonNullable.undefined(),
+            JsonNullable.undefined(), id, Optional.empty(),
+            Optional.empty(), organizationId, JsonNullable.undefined(),
             JsonNullable.undefined(), JsonNullable.undefined(), JsonNullable.undefined(),
             JsonNullable.undefined(), Optional.empty(), Optional.empty(),
             Optional.empty(), Optional.empty(), Optional.empty(),
-            thresholdSales, isVdaEligible, nexusType,
-            totalTransactions, totalTransactionsIncluded, totalTransactionsExempted,
-            totalTransactionsMarketplace, Optional.empty());
+            Optional.empty(), thresholdSales, isVdaEligible,
+            nexusType, totalTransactions, totalTransactionsIncluded,
+            totalTransactionsExempted, totalTransactionsMarketplace, Optional.empty());
     }
 
     @SuppressWarnings("unchecked")
@@ -720,9 +735,11 @@ public class NexusResponse {
      * 
      * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
      * one return can cover both taxes, and each is stored as a single row.
-     * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
-     * separate obligations with their own met dates, period models, and liability
-     * accrual.
+     * Nexus rows are SALES_TAX, USE_TAX, RETAIL_DELIVERY_FEE, or
+     * SMALL_PARCEL_VAT. Sales tax, use tax, the retail delivery fee, and the
+     * Swiss small-parcel threshold are separate obligations with their own met
+     * dates and period models. SMALL_PARCEL_VAT is a threshold only. A sales
+     * tax registration covers it, and it has no account and no return of its own.
      */
     @SuppressWarnings("unchecked")
     @JsonIgnore
@@ -786,12 +803,12 @@ public class NexusResponse {
     }
 
     @JsonIgnore
-    public JsonNullable<OffsetDateTime> earliestTransactionDate() {
+    public JsonNullable<String> earliestTransactionDate() {
         return earliestTransactionDate;
     }
 
     @JsonIgnore
-    public JsonNullable<OffsetDateTime> mostRecentTransactionDate() {
+    public JsonNullable<String> mostRecentTransactionDate() {
         return mostRecentTransactionDate;
     }
 
@@ -802,7 +819,7 @@ public class NexusResponse {
     }
 
     @JsonIgnore
-    public Optional<OffsetDateTime> earliestCollectedDate() {
+    public JsonNullable<String> earliestCollectedDate() {
         return earliestCollectedDate;
     }
 
@@ -822,12 +839,12 @@ public class NexusResponse {
     }
 
     @JsonIgnore
-    public JsonNullable<OffsetDateTime> lastProcessedAt() {
+    public JsonNullable<String> lastProcessedAt() {
         return lastProcessedAt;
     }
 
     @JsonIgnore
-    public JsonNullable<OffsetDateTime> lastTaxLiabilityProcessedAt() {
+    public JsonNullable<String> lastTaxLiabilityProcessedAt() {
         return lastTaxLiabilityProcessedAt;
     }
 
@@ -852,12 +869,12 @@ public class NexusResponse {
     }
 
     @JsonIgnore
-    public OffsetDateTime createdAt() {
+    public Optional<String> createdAt() {
         return createdAt;
     }
 
     @JsonIgnore
-    public OffsetDateTime updatedAt() {
+    public Optional<String> updatedAt() {
         return updatedAt;
     }
 
@@ -879,7 +896,7 @@ public class NexusResponse {
     }
 
     @JsonIgnore
-    public JsonNullable<OffsetDateTime> disregardedAt() {
+    public JsonNullable<String> disregardedAt() {
         return disregardedAt;
     }
 
@@ -918,6 +935,19 @@ public class NexusResponse {
     @JsonIgnore
     public Optional<Boolean> requiresIorNumberToRegister() {
         return requiresIorNumberToRegister;
+    }
+
+    /**
+     * What Register does with a use tax row, as the nexus response reports it.
+     * 
+     * <p>- ABSORBED: Register folds the row into the org's live sales tax registration
+     * - SEPARATE: the state always keeps use tax on its own registration
+     * - NONE: everything else, and always NONE on a row that is not use tax
+     */
+    @SuppressWarnings("unchecked")
+    @JsonIgnore
+    public Optional<UseTaxRegistrationPath> useTaxRegistrationPath() {
+        return (Optional<UseTaxRegistrationPath>) useTaxRegistrationPath;
     }
 
     @JsonIgnore
@@ -1206,9 +1236,11 @@ public class NexusResponse {
      * 
      * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
      * one return can cover both taxes, and each is stored as a single row.
-     * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
-     * separate obligations with their own met dates, period models, and liability
-     * accrual.
+     * Nexus rows are SALES_TAX, USE_TAX, RETAIL_DELIVERY_FEE, or
+     * SMALL_PARCEL_VAT. Sales tax, use tax, the retail delivery fee, and the
+     * Swiss small-parcel threshold are separate obligations with their own met
+     * dates and period models. SMALL_PARCEL_VAT is a threshold only. A sales
+     * tax registration covers it, and it has no account and no return of its own.
      */
     public NexusResponse withTaxType(TaxTypeEnum taxType) {
         Utils.checkNotNull(taxType, "taxType");
@@ -1222,9 +1254,11 @@ public class NexusResponse {
      * 
      * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
      * one return can cover both taxes, and each is stored as a single row.
-     * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
-     * separate obligations with their own met dates, period models, and liability
-     * accrual.
+     * Nexus rows are SALES_TAX, USE_TAX, RETAIL_DELIVERY_FEE, or
+     * SMALL_PARCEL_VAT. Sales tax, use tax, the retail delivery fee, and the
+     * Swiss small-parcel threshold are separate obligations with their own met
+     * dates and period models. SMALL_PARCEL_VAT is a threshold only. A sales
+     * tax registration covers it, and it has no account and no return of its own.
      */
     public NexusResponse withTaxType(Optional<? extends TaxTypeEnum> taxType) {
         Utils.checkNotNull(taxType, "taxType");
@@ -1350,25 +1384,25 @@ public class NexusResponse {
         return this;
     }
 
-    public NexusResponse withEarliestTransactionDate(OffsetDateTime earliestTransactionDate) {
+    public NexusResponse withEarliestTransactionDate(String earliestTransactionDate) {
         Utils.checkNotNull(earliestTransactionDate, "earliestTransactionDate");
         this.earliestTransactionDate = JsonNullable.of(earliestTransactionDate);
         return this;
     }
 
-    public NexusResponse withEarliestTransactionDate(JsonNullable<OffsetDateTime> earliestTransactionDate) {
+    public NexusResponse withEarliestTransactionDate(JsonNullable<String> earliestTransactionDate) {
         Utils.checkNotNull(earliestTransactionDate, "earliestTransactionDate");
         this.earliestTransactionDate = earliestTransactionDate;
         return this;
     }
 
-    public NexusResponse withMostRecentTransactionDate(OffsetDateTime mostRecentTransactionDate) {
+    public NexusResponse withMostRecentTransactionDate(String mostRecentTransactionDate) {
         Utils.checkNotNull(mostRecentTransactionDate, "mostRecentTransactionDate");
         this.mostRecentTransactionDate = JsonNullable.of(mostRecentTransactionDate);
         return this;
     }
 
-    public NexusResponse withMostRecentTransactionDate(JsonNullable<OffsetDateTime> mostRecentTransactionDate) {
+    public NexusResponse withMostRecentTransactionDate(JsonNullable<String> mostRecentTransactionDate) {
         Utils.checkNotNull(mostRecentTransactionDate, "mostRecentTransactionDate");
         this.mostRecentTransactionDate = mostRecentTransactionDate;
         return this;
@@ -1386,14 +1420,13 @@ public class NexusResponse {
         return this;
     }
 
-    public NexusResponse withEarliestCollectedDate(OffsetDateTime earliestCollectedDate) {
+    public NexusResponse withEarliestCollectedDate(String earliestCollectedDate) {
         Utils.checkNotNull(earliestCollectedDate, "earliestCollectedDate");
-        this.earliestCollectedDate = Optional.ofNullable(earliestCollectedDate);
+        this.earliestCollectedDate = JsonNullable.of(earliestCollectedDate);
         return this;
     }
 
-
-    public NexusResponse withEarliestCollectedDate(Optional<OffsetDateTime> earliestCollectedDate) {
+    public NexusResponse withEarliestCollectedDate(JsonNullable<String> earliestCollectedDate) {
         Utils.checkNotNull(earliestCollectedDate, "earliestCollectedDate");
         this.earliestCollectedDate = earliestCollectedDate;
         return this;
@@ -1435,25 +1468,25 @@ public class NexusResponse {
         return this;
     }
 
-    public NexusResponse withLastProcessedAt(OffsetDateTime lastProcessedAt) {
+    public NexusResponse withLastProcessedAt(String lastProcessedAt) {
         Utils.checkNotNull(lastProcessedAt, "lastProcessedAt");
         this.lastProcessedAt = JsonNullable.of(lastProcessedAt);
         return this;
     }
 
-    public NexusResponse withLastProcessedAt(JsonNullable<OffsetDateTime> lastProcessedAt) {
+    public NexusResponse withLastProcessedAt(JsonNullable<String> lastProcessedAt) {
         Utils.checkNotNull(lastProcessedAt, "lastProcessedAt");
         this.lastProcessedAt = lastProcessedAt;
         return this;
     }
 
-    public NexusResponse withLastTaxLiabilityProcessedAt(OffsetDateTime lastTaxLiabilityProcessedAt) {
+    public NexusResponse withLastTaxLiabilityProcessedAt(String lastTaxLiabilityProcessedAt) {
         Utils.checkNotNull(lastTaxLiabilityProcessedAt, "lastTaxLiabilityProcessedAt");
         this.lastTaxLiabilityProcessedAt = JsonNullable.of(lastTaxLiabilityProcessedAt);
         return this;
     }
 
-    public NexusResponse withLastTaxLiabilityProcessedAt(JsonNullable<OffsetDateTime> lastTaxLiabilityProcessedAt) {
+    public NexusResponse withLastTaxLiabilityProcessedAt(JsonNullable<String> lastTaxLiabilityProcessedAt) {
         Utils.checkNotNull(lastTaxLiabilityProcessedAt, "lastTaxLiabilityProcessedAt");
         this.lastTaxLiabilityProcessedAt = lastTaxLiabilityProcessedAt;
         return this;
@@ -1496,13 +1529,27 @@ public class NexusResponse {
         return this;
     }
 
-    public NexusResponse withCreatedAt(OffsetDateTime createdAt) {
+    public NexusResponse withCreatedAt(String createdAt) {
+        Utils.checkNotNull(createdAt, "createdAt");
+        this.createdAt = Optional.ofNullable(createdAt);
+        return this;
+    }
+
+
+    public NexusResponse withCreatedAt(Optional<String> createdAt) {
         Utils.checkNotNull(createdAt, "createdAt");
         this.createdAt = createdAt;
         return this;
     }
 
-    public NexusResponse withUpdatedAt(OffsetDateTime updatedAt) {
+    public NexusResponse withUpdatedAt(String updatedAt) {
+        Utils.checkNotNull(updatedAt, "updatedAt");
+        this.updatedAt = Optional.ofNullable(updatedAt);
+        return this;
+    }
+
+
+    public NexusResponse withUpdatedAt(Optional<String> updatedAt) {
         Utils.checkNotNull(updatedAt, "updatedAt");
         this.updatedAt = updatedAt;
         return this;
@@ -1538,13 +1585,13 @@ public class NexusResponse {
         return this;
     }
 
-    public NexusResponse withDisregardedAt(OffsetDateTime disregardedAt) {
+    public NexusResponse withDisregardedAt(String disregardedAt) {
         Utils.checkNotNull(disregardedAt, "disregardedAt");
         this.disregardedAt = JsonNullable.of(disregardedAt);
         return this;
     }
 
-    public NexusResponse withDisregardedAt(JsonNullable<OffsetDateTime> disregardedAt) {
+    public NexusResponse withDisregardedAt(JsonNullable<String> disregardedAt) {
         Utils.checkNotNull(disregardedAt, "disregardedAt");
         this.disregardedAt = disregardedAt;
         return this;
@@ -1636,6 +1683,33 @@ public class NexusResponse {
     public NexusResponse withRequiresIorNumberToRegister(Optional<Boolean> requiresIorNumberToRegister) {
         Utils.checkNotNull(requiresIorNumberToRegister, "requiresIorNumberToRegister");
         this.requiresIorNumberToRegister = requiresIorNumberToRegister;
+        return this;
+    }
+
+    /**
+     * What Register does with a use tax row, as the nexus response reports it.
+     * 
+     * <p>- ABSORBED: Register folds the row into the org's live sales tax registration
+     * - SEPARATE: the state always keeps use tax on its own registration
+     * - NONE: everything else, and always NONE on a row that is not use tax
+     */
+    public NexusResponse withUseTaxRegistrationPath(UseTaxRegistrationPath useTaxRegistrationPath) {
+        Utils.checkNotNull(useTaxRegistrationPath, "useTaxRegistrationPath");
+        this.useTaxRegistrationPath = Optional.ofNullable(useTaxRegistrationPath);
+        return this;
+    }
+
+
+    /**
+     * What Register does with a use tax row, as the nexus response reports it.
+     * 
+     * <p>- ABSORBED: Register folds the row into the org's live sales tax registration
+     * - SEPARATE: the state always keeps use tax on its own registration
+     * - NONE: everything else, and always NONE on a row that is not use tax
+     */
+    public NexusResponse withUseTaxRegistrationPath(Optional<? extends UseTaxRegistrationPath> useTaxRegistrationPath) {
+        Utils.checkNotNull(useTaxRegistrationPath, "useTaxRegistrationPath");
+        this.useTaxRegistrationPath = useTaxRegistrationPath;
         return this;
     }
 
@@ -1761,6 +1835,7 @@ public class NexusResponse {
             Utils.enhancedDeepEquals(this.iorOptOutEligible, other.iorOptOutEligible) &&
             Utils.enhancedDeepEquals(this.iorEligibleAtRegistration, other.iorEligibleAtRegistration) &&
             Utils.enhancedDeepEquals(this.requiresIorNumberToRegister, other.requiresIorNumberToRegister) &&
+            Utils.enhancedDeepEquals(this.useTaxRegistrationPath, other.useTaxRegistrationPath) &&
             Utils.enhancedDeepEquals(this.thresholdSales, other.thresholdSales) &&
             Utils.enhancedDeepEquals(this.isVdaEligible, other.isVdaEligible) &&
             Utils.enhancedDeepEquals(this.nexusType, other.nexusType) &&
@@ -1793,9 +1868,9 @@ public class NexusResponse {
             registrationRegime, disregardedAt, disregardedBy,
             disregardedType, disregardedNexusTypes, isCurrentlyDisregarded,
             iorOptOutEligible, iorEligibleAtRegistration, requiresIorNumberToRegister,
-            thresholdSales, isVdaEligible, nexusType,
-            totalTransactions, totalTransactionsIncluded, totalTransactionsExempted,
-            totalTransactionsMarketplace, marketplaceIncluded);
+            useTaxRegistrationPath, thresholdSales, isVdaEligible,
+            nexusType, totalTransactions, totalTransactionsIncluded,
+            totalTransactionsExempted, totalTransactionsMarketplace, marketplaceIncluded);
     }
     
     @Override
@@ -1858,6 +1933,7 @@ public class NexusResponse {
                 "iorOptOutEligible", iorOptOutEligible,
                 "iorEligibleAtRegistration", iorEligibleAtRegistration,
                 "requiresIorNumberToRegister", requiresIorNumberToRegister,
+                "useTaxRegistrationPath", useTaxRegistrationPath,
                 "thresholdSales", thresholdSales,
                 "isVdaEligible", isVdaEligible,
                 "nexusType", nexusType,
@@ -1937,13 +2013,13 @@ public class NexusResponse {
 
         private Optional<LocalDate> previousPeriodEndDate = Optional.empty();
 
-        private JsonNullable<OffsetDateTime> earliestTransactionDate = JsonNullable.undefined();
+        private JsonNullable<String> earliestTransactionDate = JsonNullable.undefined();
 
-        private JsonNullable<OffsetDateTime> mostRecentTransactionDate = JsonNullable.undefined();
+        private JsonNullable<String> mostRecentTransactionDate = JsonNullable.undefined();
 
         private JsonNullable<? extends FindThresholdCrossingTransactionState> findThresholdCrossingTransactionState = JsonNullable.undefined();
 
-        private Optional<OffsetDateTime> earliestCollectedDate;
+        private JsonNullable<String> earliestCollectedDate = JsonNullable.undefined();
 
         private JsonNullable<Long> predictedMonthFromToday = JsonNullable.undefined();
 
@@ -1951,9 +2027,9 @@ public class NexusResponse {
 
         private JsonNullable<Double> confidenceLevel = JsonNullable.undefined();
 
-        private JsonNullable<OffsetDateTime> lastProcessedAt = JsonNullable.undefined();
+        private JsonNullable<String> lastProcessedAt = JsonNullable.undefined();
 
-        private JsonNullable<OffsetDateTime> lastTaxLiabilityProcessedAt = JsonNullable.undefined();
+        private JsonNullable<String> lastTaxLiabilityProcessedAt = JsonNullable.undefined();
 
         private Optional<? extends List<Map<String, Object>>> periods = Optional.empty();
 
@@ -1961,9 +2037,9 @@ public class NexusResponse {
 
         private String id;
 
-        private OffsetDateTime createdAt;
+        private Optional<String> createdAt = Optional.empty();
 
-        private OffsetDateTime updatedAt;
+        private Optional<String> updatedAt = Optional.empty();
 
         private String organizationId;
 
@@ -1971,7 +2047,7 @@ public class NexusResponse {
 
         private JsonNullable<? extends RegistrationsRegimeEnum> registrationRegime = JsonNullable.undefined();
 
-        private JsonNullable<OffsetDateTime> disregardedAt = JsonNullable.undefined();
+        private JsonNullable<String> disregardedAt = JsonNullable.undefined();
 
         private JsonNullable<String> disregardedBy = JsonNullable.undefined();
 
@@ -1986,6 +2062,8 @@ public class NexusResponse {
         private Optional<Boolean> iorEligibleAtRegistration;
 
         private Optional<Boolean> requiresIorNumberToRegister;
+
+        private Optional<? extends UseTaxRegistrationPath> useTaxRegistrationPath = Optional.empty();
 
         private Long thresholdSales;
 
@@ -2259,9 +2337,11 @@ public class NexusResponse {
          * 
          * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
          * one return can cover both taxes, and each is stored as a single row.
-         * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
-         * separate obligations with their own met dates, period models, and liability
-         * accrual.
+         * Nexus rows are SALES_TAX, USE_TAX, RETAIL_DELIVERY_FEE, or
+         * SMALL_PARCEL_VAT. Sales tax, use tax, the retail delivery fee, and the
+         * Swiss small-parcel threshold are separate obligations with their own met
+         * dates and period models. SMALL_PARCEL_VAT is a threshold only. A sales
+         * tax registration covers it, and it has no account and no return of its own.
          */
         public Builder taxType(TaxTypeEnum taxType) {
             Utils.checkNotNull(taxType, "taxType");
@@ -2274,9 +2354,11 @@ public class NexusResponse {
          * 
          * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
          * one return can cover both taxes, and each is stored as a single row.
-         * Nexus rows are only SALES_TAX or USE_TAX. Sales and use tax exposure are
-         * separate obligations with their own met dates, period models, and liability
-         * accrual.
+         * Nexus rows are SALES_TAX, USE_TAX, RETAIL_DELIVERY_FEE, or
+         * SMALL_PARCEL_VAT. Sales tax, use tax, the retail delivery fee, and the
+         * Swiss small-parcel threshold are separate obligations with their own met
+         * dates and period models. SMALL_PARCEL_VAT is a threshold only. A sales
+         * tax registration covers it, and it has no account and no return of its own.
          */
         public Builder taxType(Optional<? extends TaxTypeEnum> taxType) {
             Utils.checkNotNull(taxType, "taxType");
@@ -2410,26 +2492,26 @@ public class NexusResponse {
         }
 
 
-        public Builder earliestTransactionDate(OffsetDateTime earliestTransactionDate) {
+        public Builder earliestTransactionDate(String earliestTransactionDate) {
             Utils.checkNotNull(earliestTransactionDate, "earliestTransactionDate");
             this.earliestTransactionDate = JsonNullable.of(earliestTransactionDate);
             return this;
         }
 
-        public Builder earliestTransactionDate(JsonNullable<OffsetDateTime> earliestTransactionDate) {
+        public Builder earliestTransactionDate(JsonNullable<String> earliestTransactionDate) {
             Utils.checkNotNull(earliestTransactionDate, "earliestTransactionDate");
             this.earliestTransactionDate = earliestTransactionDate;
             return this;
         }
 
 
-        public Builder mostRecentTransactionDate(OffsetDateTime mostRecentTransactionDate) {
+        public Builder mostRecentTransactionDate(String mostRecentTransactionDate) {
             Utils.checkNotNull(mostRecentTransactionDate, "mostRecentTransactionDate");
             this.mostRecentTransactionDate = JsonNullable.of(mostRecentTransactionDate);
             return this;
         }
 
-        public Builder mostRecentTransactionDate(JsonNullable<OffsetDateTime> mostRecentTransactionDate) {
+        public Builder mostRecentTransactionDate(JsonNullable<String> mostRecentTransactionDate) {
             Utils.checkNotNull(mostRecentTransactionDate, "mostRecentTransactionDate");
             this.mostRecentTransactionDate = mostRecentTransactionDate;
             return this;
@@ -2449,13 +2531,13 @@ public class NexusResponse {
         }
 
 
-        public Builder earliestCollectedDate(OffsetDateTime earliestCollectedDate) {
+        public Builder earliestCollectedDate(String earliestCollectedDate) {
             Utils.checkNotNull(earliestCollectedDate, "earliestCollectedDate");
-            this.earliestCollectedDate = Optional.ofNullable(earliestCollectedDate);
+            this.earliestCollectedDate = JsonNullable.of(earliestCollectedDate);
             return this;
         }
 
-        public Builder earliestCollectedDate(Optional<OffsetDateTime> earliestCollectedDate) {
+        public Builder earliestCollectedDate(JsonNullable<String> earliestCollectedDate) {
             Utils.checkNotNull(earliestCollectedDate, "earliestCollectedDate");
             this.earliestCollectedDate = earliestCollectedDate;
             return this;
@@ -2501,26 +2583,26 @@ public class NexusResponse {
         }
 
 
-        public Builder lastProcessedAt(OffsetDateTime lastProcessedAt) {
+        public Builder lastProcessedAt(String lastProcessedAt) {
             Utils.checkNotNull(lastProcessedAt, "lastProcessedAt");
             this.lastProcessedAt = JsonNullable.of(lastProcessedAt);
             return this;
         }
 
-        public Builder lastProcessedAt(JsonNullable<OffsetDateTime> lastProcessedAt) {
+        public Builder lastProcessedAt(JsonNullable<String> lastProcessedAt) {
             Utils.checkNotNull(lastProcessedAt, "lastProcessedAt");
             this.lastProcessedAt = lastProcessedAt;
             return this;
         }
 
 
-        public Builder lastTaxLiabilityProcessedAt(OffsetDateTime lastTaxLiabilityProcessedAt) {
+        public Builder lastTaxLiabilityProcessedAt(String lastTaxLiabilityProcessedAt) {
             Utils.checkNotNull(lastTaxLiabilityProcessedAt, "lastTaxLiabilityProcessedAt");
             this.lastTaxLiabilityProcessedAt = JsonNullable.of(lastTaxLiabilityProcessedAt);
             return this;
         }
 
-        public Builder lastTaxLiabilityProcessedAt(JsonNullable<OffsetDateTime> lastTaxLiabilityProcessedAt) {
+        public Builder lastTaxLiabilityProcessedAt(JsonNullable<String> lastTaxLiabilityProcessedAt) {
             Utils.checkNotNull(lastTaxLiabilityProcessedAt, "lastTaxLiabilityProcessedAt");
             this.lastTaxLiabilityProcessedAt = lastTaxLiabilityProcessedAt;
             return this;
@@ -2566,14 +2648,26 @@ public class NexusResponse {
         }
 
 
-        public Builder createdAt(OffsetDateTime createdAt) {
+        public Builder createdAt(String createdAt) {
+            Utils.checkNotNull(createdAt, "createdAt");
+            this.createdAt = Optional.ofNullable(createdAt);
+            return this;
+        }
+
+        public Builder createdAt(Optional<String> createdAt) {
             Utils.checkNotNull(createdAt, "createdAt");
             this.createdAt = createdAt;
             return this;
         }
 
 
-        public Builder updatedAt(OffsetDateTime updatedAt) {
+        public Builder updatedAt(String updatedAt) {
+            Utils.checkNotNull(updatedAt, "updatedAt");
+            this.updatedAt = Optional.ofNullable(updatedAt);
+            return this;
+        }
+
+        public Builder updatedAt(Optional<String> updatedAt) {
             Utils.checkNotNull(updatedAt, "updatedAt");
             this.updatedAt = updatedAt;
             return this;
@@ -2613,13 +2707,13 @@ public class NexusResponse {
         }
 
 
-        public Builder disregardedAt(OffsetDateTime disregardedAt) {
+        public Builder disregardedAt(String disregardedAt) {
             Utils.checkNotNull(disregardedAt, "disregardedAt");
             this.disregardedAt = JsonNullable.of(disregardedAt);
             return this;
         }
 
-        public Builder disregardedAt(JsonNullable<OffsetDateTime> disregardedAt) {
+        public Builder disregardedAt(JsonNullable<String> disregardedAt) {
             Utils.checkNotNull(disregardedAt, "disregardedAt");
             this.disregardedAt = disregardedAt;
             return this;
@@ -2717,6 +2811,33 @@ public class NexusResponse {
         }
 
 
+        /**
+         * What Register does with a use tax row, as the nexus response reports it.
+         * 
+         * <p>- ABSORBED: Register folds the row into the org's live sales tax registration
+         * - SEPARATE: the state always keeps use tax on its own registration
+         * - NONE: everything else, and always NONE on a row that is not use tax
+         */
+        public Builder useTaxRegistrationPath(UseTaxRegistrationPath useTaxRegistrationPath) {
+            Utils.checkNotNull(useTaxRegistrationPath, "useTaxRegistrationPath");
+            this.useTaxRegistrationPath = Optional.ofNullable(useTaxRegistrationPath);
+            return this;
+        }
+
+        /**
+         * What Register does with a use tax row, as the nexus response reports it.
+         * 
+         * <p>- ABSORBED: Register folds the row into the org's live sales tax registration
+         * - SEPARATE: the state always keeps use tax on its own registration
+         * - NONE: everything else, and always NONE on a row that is not use tax
+         */
+        public Builder useTaxRegistrationPath(Optional<? extends UseTaxRegistrationPath> useTaxRegistrationPath) {
+            Utils.checkNotNull(useTaxRegistrationPath, "useTaxRegistrationPath");
+            this.useTaxRegistrationPath = useTaxRegistrationPath;
+            return this;
+        }
+
+
         public Builder thresholdSales(long thresholdSales) {
             Utils.checkNotNull(thresholdSales, "thresholdSales");
             this.thresholdSales = thresholdSales;
@@ -2806,9 +2927,6 @@ public class NexusResponse {
             if (physicalNexusMet == null) {
                 physicalNexusMet = _SINGLETON_VALUE_PhysicalNexusMet.value();
             }
-            if (earliestCollectedDate == null) {
-                earliestCollectedDate = _SINGLETON_VALUE_EarliestCollectedDate.value();
-            }
             if (isCurrentlyDisregarded == null) {
                 isCurrentlyDisregarded = _SINGLETON_VALUE_IsCurrentlyDisregarded.value();
             }
@@ -2842,9 +2960,9 @@ public class NexusResponse {
                 registrationRegime, disregardedAt, disregardedBy,
                 disregardedType, disregardedNexusTypes, isCurrentlyDisregarded,
                 iorOptOutEligible, iorEligibleAtRegistration, requiresIorNumberToRegister,
-                thresholdSales, isVdaEligible, nexusType,
-                totalTransactions, totalTransactionsIncluded, totalTransactionsExempted,
-                totalTransactionsMarketplace, marketplaceIncluded);
+                useTaxRegistrationPath, thresholdSales, isVdaEligible,
+                nexusType, totalTransactions, totalTransactionsIncluded,
+                totalTransactionsExempted, totalTransactionsMarketplace, marketplaceIncluded);
         }
 
 
@@ -2901,12 +3019,6 @@ public class NexusResponse {
                         "physical_nexus_met",
                         "false",
                         new TypeReference<Optional<Boolean>>() {});
-
-        private static final LazySingletonValue<Optional<OffsetDateTime>> _SINGLETON_VALUE_EarliestCollectedDate =
-                new LazySingletonValue<>(
-                        "earliest_collected_date",
-                        "\"2018-01-01T00:00:00\"",
-                        new TypeReference<Optional<OffsetDateTime>>() {});
 
         private static final LazySingletonValue<Optional<Boolean>> _SINGLETON_VALUE_IsCurrentlyDisregarded =
                 new LazySingletonValue<>(

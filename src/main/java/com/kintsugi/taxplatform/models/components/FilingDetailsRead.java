@@ -17,7 +17,6 @@ import java.lang.Override;
 import java.lang.String;
 import java.lang.SuppressWarnings;
 import java.time.LocalDate;
-import java.time.OffsetDateTime;
 import java.util.Map;
 import java.util.Optional;
 import org.openapitools.jackson.nullable.JsonNullable;
@@ -160,7 +159,7 @@ public class FilingDetailsRead {
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("approved_at")
-    private JsonNullable<OffsetDateTime> approvedAt;
+    private JsonNullable<String> approvedAt;
 
     /**
      * Reason why the filing has an issue, if applicable.
@@ -188,11 +187,12 @@ public class FilingDetailsRead {
      * 
      * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
      * one return can cover both taxes, and each is stored as a single row.
-     * Nexus rows are SALES_TAX, USE_TAX, RETAIL_DELIVERY_FEE, or
-     * SMALL_PARCEL_VAT. Sales tax, use tax, the retail delivery fee, and the
-     * Swiss small-parcel threshold are separate obligations with their own met
-     * dates and period models. SMALL_PARCEL_VAT is a threshold only. A sales
-     * tax registration covers it, and it has no account and no return of its own.
+     * Nexus rows are SALES_TAX, USE_TAX, RETAIL_DELIVERY_FEE, SMALL_PARCEL_VAT,
+     * or LEASE_TAX. Each of these is a separate obligation. Each has its own met
+     * dates and period models. SMALL_PARCEL_VAT is a threshold only. A sales tax
+     * registration covers it, and it has no account and no return of its own.
+     * LEASE_TAX is a city tax on leased goods, such as the
+     * Chicago lease tax. It has its own account and return.
      */
     @JsonInclude(Include.NON_ABSENT)
     @JsonProperty("tax_type")
@@ -552,7 +552,7 @@ public class FilingDetailsRead {
             @JsonProperty("is_prepayment") Optional<Boolean> isPrepayment,
             @JsonProperty("is_final") Optional<Boolean> isFinal,
             @JsonProperty("approved_by") JsonNullable<String> approvedBy,
-            @JsonProperty("approved_at") JsonNullable<OffsetDateTime> approvedAt,
+            @JsonProperty("approved_at") JsonNullable<String> approvedAt,
             @JsonProperty("issue_reason") JsonNullable<String> issueReason,
             @JsonProperty("skip_reason") JsonNullable<String> skipReason,
             @JsonProperty("cancelled_reason") JsonNullable<String> cancelledReason,
@@ -930,7 +930,7 @@ public class FilingDetailsRead {
      * Timestamp when the filing was approved.
      */
     @JsonIgnore
-    public JsonNullable<OffsetDateTime> approvedAt() {
+    public JsonNullable<String> approvedAt() {
         return approvedAt;
     }
 
@@ -963,11 +963,12 @@ public class FilingDetailsRead {
      * 
      * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
      * one return can cover both taxes, and each is stored as a single row.
-     * Nexus rows are SALES_TAX, USE_TAX, RETAIL_DELIVERY_FEE, or
-     * SMALL_PARCEL_VAT. Sales tax, use tax, the retail delivery fee, and the
-     * Swiss small-parcel threshold are separate obligations with their own met
-     * dates and period models. SMALL_PARCEL_VAT is a threshold only. A sales
-     * tax registration covers it, and it has no account and no return of its own.
+     * Nexus rows are SALES_TAX, USE_TAX, RETAIL_DELIVERY_FEE, SMALL_PARCEL_VAT,
+     * or LEASE_TAX. Each of these is a separate obligation. Each has its own met
+     * dates and period models. SMALL_PARCEL_VAT is a threshold only. A sales tax
+     * registration covers it, and it has no account and no return of its own.
+     * LEASE_TAX is a city tax on leased goods, such as the
+     * Chicago lease tax. It has its own account and return.
      */
     @SuppressWarnings("unchecked")
     @JsonIgnore
@@ -1686,7 +1687,7 @@ public class FilingDetailsRead {
     /**
      * Timestamp when the filing was approved.
      */
-    public FilingDetailsRead withApprovedAt(OffsetDateTime approvedAt) {
+    public FilingDetailsRead withApprovedAt(String approvedAt) {
         Utils.checkNotNull(approvedAt, "approvedAt");
         this.approvedAt = JsonNullable.of(approvedAt);
         return this;
@@ -1695,7 +1696,7 @@ public class FilingDetailsRead {
     /**
      * Timestamp when the filing was approved.
      */
-    public FilingDetailsRead withApprovedAt(JsonNullable<OffsetDateTime> approvedAt) {
+    public FilingDetailsRead withApprovedAt(JsonNullable<String> approvedAt) {
         Utils.checkNotNull(approvedAt, "approvedAt");
         this.approvedAt = approvedAt;
         return this;
@@ -1760,11 +1761,12 @@ public class FilingDetailsRead {
      * 
      * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
      * one return can cover both taxes, and each is stored as a single row.
-     * Nexus rows are SALES_TAX, USE_TAX, RETAIL_DELIVERY_FEE, or
-     * SMALL_PARCEL_VAT. Sales tax, use tax, the retail delivery fee, and the
-     * Swiss small-parcel threshold are separate obligations with their own met
-     * dates and period models. SMALL_PARCEL_VAT is a threshold only. A sales
-     * tax registration covers it, and it has no account and no return of its own.
+     * Nexus rows are SALES_TAX, USE_TAX, RETAIL_DELIVERY_FEE, SMALL_PARCEL_VAT,
+     * or LEASE_TAX. Each of these is a separate obligation. Each has its own met
+     * dates and period models. SMALL_PARCEL_VAT is a threshold only. A sales tax
+     * registration covers it, and it has no account and no return of its own.
+     * LEASE_TAX is a city tax on leased goods, such as the
+     * Chicago lease tax. It has its own account and return.
      */
     public FilingDetailsRead withTaxType(TaxTypeEnum taxType) {
         Utils.checkNotNull(taxType, "taxType");
@@ -1778,11 +1780,12 @@ public class FilingDetailsRead {
      * 
      * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
      * one return can cover both taxes, and each is stored as a single row.
-     * Nexus rows are SALES_TAX, USE_TAX, RETAIL_DELIVERY_FEE, or
-     * SMALL_PARCEL_VAT. Sales tax, use tax, the retail delivery fee, and the
-     * Swiss small-parcel threshold are separate obligations with their own met
-     * dates and period models. SMALL_PARCEL_VAT is a threshold only. A sales
-     * tax registration covers it, and it has no account and no return of its own.
+     * Nexus rows are SALES_TAX, USE_TAX, RETAIL_DELIVERY_FEE, SMALL_PARCEL_VAT,
+     * or LEASE_TAX. Each of these is a separate obligation. Each has its own met
+     * dates and period models. SMALL_PARCEL_VAT is a threshold only. A sales tax
+     * registration covers it, and it has no account and no return of its own.
+     * LEASE_TAX is a city tax on leased goods, such as the
+     * Chicago lease tax. It has its own account and return.
      */
     public FilingDetailsRead withTaxType(Optional<? extends TaxTypeEnum> taxType) {
         Utils.checkNotNull(taxType, "taxType");
@@ -2864,7 +2867,7 @@ public class FilingDetailsRead {
 
         private JsonNullable<String> approvedBy = JsonNullable.undefined();
 
-        private JsonNullable<OffsetDateTime> approvedAt = JsonNullable.undefined();
+        private JsonNullable<String> approvedAt = JsonNullable.undefined();
 
         private JsonNullable<String> issueReason = JsonNullable.undefined();
 
@@ -3304,7 +3307,7 @@ public class FilingDetailsRead {
         /**
          * Timestamp when the filing was approved.
          */
-        public Builder approvedAt(OffsetDateTime approvedAt) {
+        public Builder approvedAt(String approvedAt) {
             Utils.checkNotNull(approvedAt, "approvedAt");
             this.approvedAt = JsonNullable.of(approvedAt);
             return this;
@@ -3313,7 +3316,7 @@ public class FilingDetailsRead {
         /**
          * Timestamp when the filing was approved.
          */
-        public Builder approvedAt(JsonNullable<OffsetDateTime> approvedAt) {
+        public Builder approvedAt(JsonNullable<String> approvedAt) {
             Utils.checkNotNull(approvedAt, "approvedAt");
             this.approvedAt = approvedAt;
             return this;
@@ -3382,11 +3385,12 @@ public class FilingDetailsRead {
          * 
          * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
          * one return can cover both taxes, and each is stored as a single row.
-         * Nexus rows are SALES_TAX, USE_TAX, RETAIL_DELIVERY_FEE, or
-         * SMALL_PARCEL_VAT. Sales tax, use tax, the retail delivery fee, and the
-         * Swiss small-parcel threshold are separate obligations with their own met
-         * dates and period models. SMALL_PARCEL_VAT is a threshold only. A sales
-         * tax registration covers it, and it has no account and no return of its own.
+         * Nexus rows are SALES_TAX, USE_TAX, RETAIL_DELIVERY_FEE, SMALL_PARCEL_VAT,
+         * or LEASE_TAX. Each of these is a separate obligation. Each has its own met
+         * dates and period models. SMALL_PARCEL_VAT is a threshold only. A sales tax
+         * registration covers it, and it has no account and no return of its own.
+         * LEASE_TAX is a city tax on leased goods, such as the
+         * Chicago lease tax. It has its own account and return.
          */
         public Builder taxType(TaxTypeEnum taxType) {
             Utils.checkNotNull(taxType, "taxType");
@@ -3399,11 +3403,12 @@ public class FilingDetailsRead {
          * 
          * <p>Registrations and filings may be SALES_AND_USE_TAX: one state account and
          * one return can cover both taxes, and each is stored as a single row.
-         * Nexus rows are SALES_TAX, USE_TAX, RETAIL_DELIVERY_FEE, or
-         * SMALL_PARCEL_VAT. Sales tax, use tax, the retail delivery fee, and the
-         * Swiss small-parcel threshold are separate obligations with their own met
-         * dates and period models. SMALL_PARCEL_VAT is a threshold only. A sales
-         * tax registration covers it, and it has no account and no return of its own.
+         * Nexus rows are SALES_TAX, USE_TAX, RETAIL_DELIVERY_FEE, SMALL_PARCEL_VAT,
+         * or LEASE_TAX. Each of these is a separate obligation. Each has its own met
+         * dates and period models. SMALL_PARCEL_VAT is a threshold only. A sales tax
+         * registration covers it, and it has no account and no return of its own.
+         * LEASE_TAX is a city tax on leased goods, such as the
+         * Chicago lease tax. It has its own account and return.
          */
         public Builder taxType(Optional<? extends TaxTypeEnum> taxType) {
             Utils.checkNotNull(taxType, "taxType");
